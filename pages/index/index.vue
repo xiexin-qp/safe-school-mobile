@@ -1,6 +1,6 @@
 <template>
 	<view class="qui-page">
-		<view class="header">云平台移动端</view>
+		<view class="header">平安校园移动端</view>
 		<scroll-view scroll-y="true" class="scroll-h">
 			<view v-for="(module, index) in moduleList" :key="index">
 				<view class="module-title">{{ module.title }}</view>
