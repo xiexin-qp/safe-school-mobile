@@ -1,0 +1,141 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+			}
+		},
+		// 主页模块
+		{
+			"path": "pages/protal/index",
+			"style": {
+			}
+		},
+		// 新闻公告
+		{
+			"path": "pages/news/news-t/classBulletin/index",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/news/news-t/newsBulletin/index",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/news/news-t/schoolBulletin/index",
+			"style": {
+			}
+		},
+		// 门禁模块
+		{
+			"path": "pages/door/door-p/doorRecord/index",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/door/door-t/doorManage/index",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/door/door-t/doorManage/detail",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/door/door-t/doorManage/add",
+			"style": {
+			}
+		},
+		// 访客管理
+		{
+			"path": "pages/visitor/visitor-t/visitorLog/index",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/visitor/visitor-t/comeLog/index",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/visitor/visitor-t/appointment/index",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/visitor/visitor-t/invite/index",
+			"style": {
+			}
+		},
+		// 教师考勤模块
+		{
+		  "path": "pages/attendance/attendance-t/attendance/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/attendance/attendance-t/statistics/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/attendance/attendance-t/leave/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/attendance/attendance-t/studentAttendance/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/attendance/attendance-t/studentStatistics/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/attendance/attendance-t/leave/detail",
+		  "style": {}
+		},
+		{
+		  "path": "pages/attendance/attendance-t/leave/add",
+		  "style": {}
+		},
+		// 家长考勤模块
+		{
+		  "path": "pages/attendance/attendance-p/attendance/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/attendance/attendance-p/statistics/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/attendance/attendance-p/leave/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/attendance/attendance-p/leave/detail",
+		  "style": {}
+		},
+		{
+		  "path": "pages/attendance/attendance-p/leave/add",
+		  "style": {}
+		}
+	],
+	"globalStyle": {
+	  // 禁用头部导航栏
+		"h5": {
+			"titleNView": false
+		},
+	  //#ifdef H5
+	  "pullToRefresh": {
+	  	"style": "circle",
+	  	"color": "#FC3F78",
+	  	"offset": "0px"
+	  },
+	  //#endif
+	  "onReachBottomDistance": 200,
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "平安校园",
+		"navigationBarBackgroundColor": "#007aff",
+		"backgroundColor": "#F8F8F8"
+	}
+}
