@@ -43,7 +43,7 @@
   .detail {
     padding: 0 20rpx;
     .scroll-h {
-      height: 64vh;
+      height: calc(100vh - 480rpx);
     }
     .top{
         width:100%;

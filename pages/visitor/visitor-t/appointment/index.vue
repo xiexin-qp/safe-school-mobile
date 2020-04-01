@@ -31,7 +31,7 @@
      </uni-popup>
      <no-data v-if="false" msg="暂无数据"></no-data>
      <scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
-       <view class="approve-list" v-for="(list,i) in 10" :key="list.id" >
+       <view class="approve-list" v-for="(list,i) in 20" :key="list.id" >
          <view class="detail qui-fx">
            <view class="process-type" style="right: 20rpx">
              <view class="wait" @click="open(i)">···</view>
@@ -151,19 +151,10 @@
         console.log(val)
       },
     },
-    onLoad(options) {
-      console.log(options)
-    },
-    onPullDownRefresh() {
-      /* this.showList() */
-    },
     mounted() {
       /* this.showList() */
-      eventBus.$on('change', () => {
-        alert(4)
-      })
     },
-		methods: {
+	methods: {
       async showList (tag = false) {
         const res = await actions.getIndex()
         if (tag) {
@@ -259,7 +250,7 @@
     }
   }
   .scroll-h {
-    height: 100vh;
+    height: calc(100vh - 190rpx);
   }
   .dropdown{
     padding: 4rpx 18rpx 18rpx 18rpx;

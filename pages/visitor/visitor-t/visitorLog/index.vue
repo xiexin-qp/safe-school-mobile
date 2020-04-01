@@ -29,7 +29,7 @@
          <text class="right">来访总次数</text>
        </view>
        <scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
-         <view @click="goDetail(list.id)" v-for="list in 10" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
+         <view @click="goDetail(list.id)" v-for="list in 20" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
            <text class="left">李毅</text>
            <text class="md"> 2020-04-05 </text>
            <text class="right">5</text>
@@ -46,7 +46,6 @@
   import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue'
   import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue'
   import noData from '@/components/no-data/no-data.vue'
-  import eventBus from '@u/eventBus.js'
   import { actions } from '../store/index.js'
 	export default {
     components: {
@@ -105,19 +104,10 @@
         console.log(val)
       },
     },
-    onLoad(options) {
-      console.log(options)
-    },
-    onPullDownRefresh() {
-      this.showList()
-    },
     mounted() {
       this.showList()
-      eventBus.$on('change', () => {
-        alert(4)
-      })
     },
-		methods: {
+	methods: {
       async showList (tag = false) {
         const res = await actions.getIndex()
         if (tag) {
@@ -176,7 +166,7 @@
     }
   }
   .scroll-h {
-    height: 100vh;
+    height: calc(100vh - 330rpx);
   }
   .dropdown{
     padding: 4rpx 18rpx 18rpx 18rpx;
