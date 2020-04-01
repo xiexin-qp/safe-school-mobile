@@ -71,9 +71,6 @@
         console.log(options.id)
     },
     methods: {
-      goBack () {
-        this.$tools.goBack()
-      },
       clickCancel(){
         this.showTag=false
       },
