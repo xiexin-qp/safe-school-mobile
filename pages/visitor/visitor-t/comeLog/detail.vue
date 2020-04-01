@@ -59,9 +59,6 @@
         console.log(options.id)
     },
     methods: {
-      goBack () {
-        this.$tools.goBack()
-      }
     }
   }
 </script>

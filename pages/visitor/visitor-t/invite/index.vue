@@ -1,5 +1,5 @@
 <template>
-  <view class="qui-page">
+  <view class="invite qui-page">
     <uni-search-bar placeholder="输入姓名搜索" @confirm="search"></uni-search-bar>
     <view class="dropDown qui-fx">
       <ms-dropdown-menu>
@@ -54,7 +54,9 @@
          </view>
        </view>
      </scroll-view>
-     
+     <view class="add" @click="add">
+     	+
+     </view>
   </view>
 </template>
 
@@ -62,7 +64,6 @@
   import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue'
   import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue'
   import noData from '@/components/no-data/no-data.vue'
-  import eventBus from '@u/eventBus.js'
   import { actions } from '../store/index.js'
 	export default {
     components: {
@@ -144,17 +145,8 @@
         console.log(val)
       },
     },
-    onLoad(options) {
-      console.log(options)
-    },
-    onPullDownRefresh() {
-      this.showList()
-    },
     mounted() {
       this.showList()
-      eventBus.$on('change', () => {
-        alert(4)
-      })
     },
 		methods: {
       async showList (tag = false) {
@@ -174,6 +166,11 @@
           url: './detail?id=' + id
         })
       },
+	  add () {
+	    uni.navigateTo({
+	      url: './form'
+	    })
+	  },
       open(id){
          console.log(id)
          this.$refs.popup.open()
@@ -187,6 +184,23 @@
 </script>
 
 <style lang="scss" scoped>
+	.invite{
+		position: relative;
+		.add{
+			position: absolute;
+			bottom:40rpx;
+			left: calc(50% - 40rpx);
+			z-index: 999;
+			width: 100rpx;
+			height:100rpx;
+			line-height: 80rpx;
+			border-radius: 100%;
+			background: #0079FF;
+			color:#fff;
+			font-size: 100rpx;
+			text-align: center;
+		}
+	}
   .approve-list {
     background-color:#fff;
     border-radius: 16rpx;
@@ -245,7 +259,7 @@
     }
   }
   .scroll-h {
-    height: 100vh;
+    height: calc(100vh - 190rpx);
   }
   .dropdown{
     padding: 4rpx 18rpx 18rpx 18rpx;

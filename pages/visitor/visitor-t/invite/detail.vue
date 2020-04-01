@@ -1,12 +1,5 @@
 <template>
   <view class="qui-page">
-    <xy-dialog 
-        :show="showTag" 
-        title="提示" 
-        content="哈哈，还是被你看到了..."
-        @cancel="clickCancel()" 
-        @confirm="clickConfirm()">
-    </xy-dialog>
     <view class="detail">
       <view class="top qui-fx-jsb">
         <view class="info qui-fx-ac">
@@ -64,8 +57,7 @@
     },
     data(){
       return{
-        errorImg: require('@s/img/person.png'),
-        showTag: false
+        errorImg: require('@s/img/person.png')
       }
     },
     onLoad(options) {
@@ -88,9 +80,6 @@
 <style lang="scss" scoped>
   .detail {
     padding: 0 20rpx;
-    .scroll-h {
-      height: 64vh;
-    }
     .top{
       width:100%;
       height:362rpx;
