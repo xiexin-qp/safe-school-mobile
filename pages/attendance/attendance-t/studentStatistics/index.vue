@@ -42,17 +42,10 @@
 import steps from './steps.vue'
 import person from '@s/img/person.png'
 import normal from '@s/img/normal.png'
-import eventBus from '@u/eventBus.js'
-// import { store, actions } from './store/index.js'
+import { store, actions } from '../store/index.js'
 export default {
   components: {
     steps
-  },
-  onLoad(options) {
-    console.log(options)
-  },
-  onPullDownRefresh() {
-    this.showList()
   },
   data () {
     return {
@@ -112,16 +105,8 @@ export default {
       }]
     }
   },
-  computed: {
-    // ...mapState('home', [
-    //   'userCode'
-    // ])
-  },
   mounted() {
     this.showList()
-    eventBus.$on('change', () => {
-      alert(4)
-    })
   },
   methods: {
     async showList (tag = false) {
@@ -193,7 +178,7 @@ export default {
     }
   }
   .scroll {
-    height: 55vh;
+    height: 50vh;
     background-color: #fff;
     margin-top: 15rpx;
   }

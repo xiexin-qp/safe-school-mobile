@@ -3,8 +3,19 @@
     <view class="nav-tab">
       <view class="nav-item" v-for="item in navs" :key="item.id">{{item.name}}</view>
     </view>
-    <view class="select-box">
-      <xfl-select 
+    <view class="dropDown qui-fx">
+      <ms-dropdown-menu>
+        <ms-dropdown-item v-model="value0" :list="casueList"></ms-dropdown-item>
+      </ms-dropdown-menu>
+      <ms-dropdown-menu>
+        <ms-dropdown-item v-model="value1" :list="dateList"></ms-dropdown-item>
+      </ms-dropdown-menu>
+        <ms-dropdown-menu>
+        <ms-dropdown-item v-model="value2" :list="dataList"></ms-dropdown-item>
+      </ms-dropdown-menu>
+    </view>
+    <!-- <view class="select-box"> -->
+      <!-- <xfl-select 
         :list="list"
         placeholder = "请假类型"
         :style_Container="'height: 70rpx;'"
@@ -25,22 +36,22 @@
         placeholder = "全部时间"
         class="select"
       >
-      </xfl-select>
-    </view>
+      </xfl-select> -->
+    <!-- </view> -->
     <scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
       <view class="content">
         <view class="record-box">
-          <no-data msg="暂无考勤记录~" v-if="dayInfo.length === 0"></no-data>
-          <view class="leave-box" v-for="item in infoList" :key="item.id">
+          <!-- <no-data msg="暂无考勤记录~" v-if="dayInfo.length === 0"></no-data> -->
+          <view class="leave-box" v-for="(item,index) in 10" :key="index">
             <view class="leave-top qui-fx-jsb">
               <view class="leave-title">事假 </view>
               <view class="leave-icon" @click="detail(item)"> ...</view>
             </view>
             <view class="leave-info"> 
-              <view class="leave-pur">开始时间：{{item.startTime}}</view>
-              <view class="leave-pur">结束时间：{{item.endTime}}</view>
-              <view class="leave-pur">描述：{{item.remark}}</view>
-              <view class="leave-pur">状态：{{item.state}}</view>
+              <view class="leave-pur">开始时间：2020年3月20日 12:00</view>
+              <view class="leave-pur">结束时间：2020年3月21日 12:00</view>
+              <view class="leave-pur">描述：家里有急事</view>
+              <view class="leave-pur">状态：待审批</view>
             </view>
             <view class="leave-bottom qui-fx-jsb">
               <view class="leave-time">2020年3月20日 10:00 </view>
@@ -57,71 +68,22 @@
 </template>
 
 <script>
+import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue'
+import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue'
 import person from '@s/img/person.png'
 import add from '@s/img/add.png'
-import eventBus from '@u/eventBus.js'
-// import { store, actions } from './store/index.js'
+import { store, actions } from '../store/index.js'
 export default {
   components: {
-  },
-  onLoad(options) {
-    console.log(options)
-  },
-  onPullDownRefresh() {
-    this.showList()
+    msDropdownMenu,
+    msDropdownItem
   },
   data () {
     return {
       add,
       person,
-      infoList:[{
-        id: 1,
-        startTime: '2020年3月20日 12:00',
-        endTime: '2020年3月21日 12:00',
-        remark: '家里有急事',
-        state: '待审批'
-      },
-      {
-        id: 2,
-        startTime: '2020年3月20日 12:00',
-        endTime: '2020年3月21日 12:00',
-        remark: '家里有急事',
-        state: '待审批'
-      },
-      {
-        id: 3,
-        startTime: '2020年3月20日 12:00',
-        endTime: '2020年3月21日 12:00',
-        remark: '家里有急事',
-        state: '待审批'
-      },
-      {
-        id: 4,
-        startTime: '2020年3月20日 12:00',
-        endTime: '2020年3月21日 12:00',
-        remark: '家里有急事',
-        state: '待审批'
-      },
-      {
-        id: 5,
-        startTime: '2020年3月20日 12:00',
-        endTime: '2020年3月21日 12:00',
-        remark: '家里有急事',
-        state: '待审批'
-      }],
-      dayInfo: [
-        {
-          id:1,
-          workOnTime:'2020-03-30',
-          recordOnTime:'2020-03-30',
-          stateOn:1
-        }
-      ],
+      dayInfo: [],
       leaveList: [],
-      exceptionList: [],
-      zcList: [],
-      currentDay: '',
-      isOther: false,
       dataList: [],
       navs:[{
         id: '1',
@@ -139,29 +101,66 @@ export default {
         {value: '事假', id: 1},
         {value: '病假', id: 2}
       ],
+      casueList: [
+          {
+              text: '请假类型',
+              value: '0'
+          },
+          {
+              text: '年假',
+              value: '1'
+          },
+          {
+              text: '事假',
+              value: '2'
+          },
+          {
+              text: '产假',
+              value: '3'
+          }
+        ],
+        dateList: [
+          {
+              text: '审批状态',
+              value: '0'
+          },
+          {
+              text: '待审批',
+              value: '1'
+          },
+          {
+              text: '审批通过',
+              value: '2'
+          },
+          {
+              text: '审批未通过',
+              value: '3'
+          }
+        ],
+        dataList: [
+          {
+              text: '全部时间',
+              value: '0'
+          },
+          {
+              text: '一周内',
+              value: '1'
+          },
+          {
+              text: '一个月内',
+              value: '2'
+          },
+          {
+              text: '六个月内',
+              value: '3'
+          }
+        ],
+      value0: '0',
+      value1: '0',
+      value2: '0',
     }
   },
-  computed: {
-    // ...mapState('home', [
-    //   'userCode'
-    // ])
-  },
-  mounted() {
-    this.showList()
-    eventBus.$on('change', () => {
-      alert(4)
-    })
-  },
   methods: {
-    async showList (tag = false) {
-      const res = await actions.getIndex()
-      if (tag) {
-        this.dataList = this.dataList.concat(res.data)
-      } else {
-        this.dataList = res.data
-        uni.stopPullDownRefresh()
-      }
-    },
     select(){
 
     },
@@ -183,8 +182,7 @@ export default {
         }
       })
     }
-  },
-  
+  }
 }
 </script>
 
@@ -197,6 +195,7 @@ export default {
     line-height: 80rpx;
     text-align: center;
     background-color: #fff;
+    margin-bottom: 15rpx;
     .nav-item{
       width: 30%;
       float: left;
@@ -272,6 +271,37 @@ export default {
     }
   }
 }
-
-
+.dropdown{
+    padding: 4rpx 18rpx 18rpx 18rpx;
+    background: #fff;
+    font-size: 12px;
+  }
+  .dropdown-menu{
+    width: 50%;
+    padding: 2rpx 0;
+    border: 1rpx solid #ddd;
+    border-radius: 8rpx;
+    margin-bottom: 10rpx;
+  }
+  .dropdown-menu:first-child{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+  }
+  .dropdown-menu:last-child{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .dropdown-item__selected{
+    padding: 10rpx;
+  }
+  @font-face {
+    font-family: 'iconfont';  /* project id 1564327 */
+    src: url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.eot');
+    src: url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.eot?#iefix') format('embedded-opentype'),
+    url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.woff2') format('woff2'),
+    url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.woff') format('woff'),
+    url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.ttf') format('truetype'),
+    url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.svg#iconfont') format('svg');
+  }
 </style>

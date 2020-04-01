@@ -53,17 +53,8 @@
 <script>
 import person from '@s/img/person.png'
 import normal from '@s/img/normal.png'
-import eventBus from '@u/eventBus.js'
 // import { store, actions } from './store/index.js'
 export default {
-  components: {
-  },
-  onLoad(options) {
-    console.log(options)
-  },
-  onPullDownRefresh() {
-    this.showList()
-  },
   data () {
     return {
       person,
@@ -78,27 +69,7 @@ export default {
       ],
     }
   },
-  computed: {
-    // ...mapState('home', [
-    //   'userCode'
-    // ])
-  },
-  mounted() {
-    this.showList()
-    eventBus.$on('change', () => {
-      alert(4)
-    })
-  },
   methods: {
-    async showList (tag = false) {
-      const res = await actions.getIndex()
-      if (tag) {
-        this.dataList = this.dataList.concat(res.data)
-      } else {
-        this.dataList = res.data
-        uni.stopPullDownRefresh()
-      }
-    },
     detail(item){
       console.log('item',item)
       this.$refs.popup.open()
