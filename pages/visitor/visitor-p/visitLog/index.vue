@@ -23,7 +23,7 @@
 				<view @click="goDetail(list.id)" v-for="list in 20" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
 					<text class="left">李毅</text>
 					<text class="md">2020-04-05 11:00</text>
-					<text class="right">5</text>
+					<text class="right">在访</text>
 					<view class="icon"><text class="iconfont">&#xe851;</text></view>
 				</view>
 			</scroll-view>

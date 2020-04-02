@@ -1,26 +1,33 @@
 <template>
-	<view class="student-attendance qui-page qui-fx qui-fx-ver">
-		<view>
-			<view><uni-calendar @change="getDate"></uni-calendar></view>
-			<view class="record-box">
-				<view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
-				<view class="attandence-box">
-					<view class="attandence-info qui-fx-ac-jc" v-for="item in attandenceInfo" :key="item.id" @click="detail(item)">
-						<view>{{ item.title }}</view>
-						<view class="attandence-num">{{ item.num }}人</view>
-					</view>
-				</view>
-			</view>
-		</view>
-		<uni-popup ref="popup" type="center">
-			<scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
-				<view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
-					<text>{{ list.name }}</text>
-					<image :src="person" mode=""></image>
-				</view>
-			</scroll-view>
-		</uni-popup>
-	</view>
+  <view class="student-attendance qui-page qui-fx qui-fx-ver">
+    <view>
+      <view>
+        <uni-calendar @change="getDate"></uni-calendar>
+      </view>
+      <view class="record-box">
+        <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
+        <view class="attandence-box">
+          <view 
+            class="attandence-info qui-fx-ac-jc" 
+            v-for="item in attandenceInfo" 
+            :key="item.id"
+            @click="detail(item)"
+          >
+            <view> {{item.title}}</view>
+            <view class="attandence-num"> {{item.num}}人</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <uni-popup ref="popup" type="center">
+     	<scroll-view scroll-y="true" class="scroll-h">
+        <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
+          <text>{{ list.name }}</text>
+          <image :src="person" mode=""></image>
+        </view>
+      </scroll-view>
+    </uni-popup>
+  </view>
 </template>
 
 <script>
@@ -95,47 +102,47 @@ export default {
 
 <style lang="less" scoped>
 .student-attendance {
-	.record-box {
-		padding-top: 20rpx;
-		background-color: #f2f8fe;
-		.attandence-title {
-			height: 60rpx;
-			line-height: 60rpx;
-			font-size: 36rpx;
-		}
-		.attandence-box {
-			height: 320rpx;
-			.attandence-info {
-				width: 31%;
-				float: left;
-				margin-bottom: 30rpx;
-				background-color: #fff;
-				margin: 15rpx 0 5rpx 15rpx;
-				padding: 20rpx 0;
-				border-radius: 15rpx;
-				image {
-					width: 60rpx;
-					margin-bottom: 10rpx;
-				}
-			}
-			:nth-child(3n) {
-				border-right: none;
-			}
-			.attandence-num {
-				color: #ccc;
-				font-size: 28rpx;
-			}
-		}
-	}
-	.scroll-h {
-		height: 70vh;
-		.list {
-			padding: 15rpx;
-			image {
-				width: 60rpx;
-				height: 60rpx;
-			}
-		}
-	}
+  .record-box {
+    padding-top: 20rpx;
+    background-color: #f2f8fe;
+    .attandence-title {
+      height: 60rpx;
+      line-height: 60rpx;
+      font-size: 36rpx;
+    }
+    .attandence-box {
+      height: 320rpx;
+      .attandence-info {
+        width: 31%;
+        float: left;  
+        margin-bottom: 30rpx;
+        background-color: #fff;
+        margin: 15rpx 0 5rpx 15rpx;
+        padding: 20rpx 0;
+        border-radius: 15rpx;
+        image {
+          width: 60rpx;
+          margin-bottom: 10rpx;
+        }
+      }
+      :nth-child(3n) {
+        border-right: none;
+      }
+      .attandence-num {
+        color: #ccc;
+        font-size: 28rpx;
+      }
+    }
+  }
+  .scroll-h {
+    height: 70vh;
+    .list {
+      padding: 15rpx;
+      image {
+        width: 60rpx;
+        height: 60rpx;
+      }
+    }
+  }
 }
 </style>

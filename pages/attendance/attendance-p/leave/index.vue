@@ -38,7 +38,7 @@
       >
       </xfl-select> -->
     <!-- </view> -->
-    <scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+    <scroll-view scroll-y="true" class="scroll-h">
       <view class="content">
         <view class="record-box">
           <!-- <no-data msg="暂无考勤记录~" v-if="dayInfo.length === 0"></no-data> -->
@@ -61,7 +61,7 @@
         </view>
       </view>
      </scroll-view>
-     <view class="float-add-btn">
+     <view class="float-add-btn" @click="addLeave">
      </view>
   </view>
 </template>
@@ -161,8 +161,13 @@ export default {
   },
   methods: {
     select(){
-
     },
+		addLeave () {
+			this.$tools.navTo({
+				url: './add',
+				title: '新增请假单'
+			})
+		},
     detail(){
       const arr1 = ['修改', '撤回']
       const arr2 = ['审批通过', '审批不通过']

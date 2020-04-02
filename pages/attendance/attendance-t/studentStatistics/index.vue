@@ -1,40 +1,40 @@
 <template>
   <view class="stundent-statistics qui-page qui-fx qui-fx-ver">
-      <view>
-        <view class="title qui-fx-ac">
-          <image :src="person" mode=""></image>
-          <view>学生D 2月考勤统计</view>
-        </view>
-        <view class="record-box">
-          <view class="attandence-box">
-            <view 
-              class="attandence-info qui-fx-ac-jc" 
-              v-for="item in attandenceInfo" 
-              :key="item.id"
-              @click="detail(item)"
-            >
-              <image :src="normal" mode=""></image>
-              <view> {{item.title}}</view>
-              <view class="attandence-num"> {{item.num}}人</view>
-            </view>
-          </view>
-        </view>
-        <view class="title qui-fx-ac">
-          <image :src="person" mode=""></image>
-          <view>学生D 2月考勤记录</view>
-        </view>
-        <scroll-view scroll-y="true" class="scroll">
-          <steps></steps>
-        </scroll-view>
+    <view>
+      <view class="title qui-fx-ac">
+        <image :src="person" mode=""></image>
+        <view>学生D 2月考勤统计</view>
       </view>
-     <uni-popup ref="popup" type="center">
-       	<scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
-          <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
-            <text>{{ list.name }}</text>
-            <image :src="person" mode=""></image>
+      <view class="record-box">
+        <view class="attandence-box">
+          <view 
+            class="attandence-info qui-fx-ac-jc" 
+            v-for="item in attandenceInfo" 
+            :key="item.id"
+            @click="detail(item)"
+          >
+            <image :src="normal" mode=""></image>
+            <view> {{item.title}}</view>
+            <view class="attandence-num"> {{item.num}}人</view>
           </view>
-        </scroll-view>
-     </uni-popup>
+        </view>
+      </view>
+      <view class="title qui-fx-ac">
+        <image :src="person" mode=""></image>
+        <view>学生D 2月考勤记录</view>
+      </view>
+      <scroll-view scroll-y="true" class="scroll">
+        <steps></steps>
+      </scroll-view>
+      </view>
+    <uni-popup ref="popup" type="center">
+     	<scroll-view scroll-y="true" class="scroll-h">
+        <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
+          <text>{{ list.name }}</text>
+          <image :src="person" mode=""></image>
+        </view>
+      </scroll-view>
+    </uni-popup>
   </view>
 </template>
 
@@ -128,24 +128,24 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.stundent-statistics{
+.stundent-statistics {
     background-color: #f1f8ff;
-    .title{
+    .title {
       height: 80rpx;
       background-color: #fff;
       justify-content: center;
-      image{
+      image {
         width: 50rpx;
         height: 50rpx;
         margin-right: 10rpx;
         border-radius: 50%;
       }
     }
-    .record-box{
+    .record-box {
       background-color:#f2f8fe;
-      .attandence-box{
+      .attandence-box {
         height: 425rpx;
-        .attandence-info{
+        .attandence-info {
           width: 29.8%;
           float: left;  
           background-color: #fff;
@@ -157,12 +157,12 @@ export default {
             height: 60rpx;
             margin-bottom: 10rpx;
           }
-          .attandence-num{
+          .attandence-num {
             color: #ccc;
             font-size: 28rpx;
           }
         }
-        :nth-child(3n){
+        :nth-child(3n) {
           border-right: none;
         }
       }

@@ -1,34 +1,34 @@
 <template>
   <view class="statistics qui-page qui-fx qui-fx-ver">
-      <view>
-        <view class="calendar">
-          <view class="year qui-fx-ac-jc">2020年</view>
-          <view class="month qui-fx-ac-jc" v-for="item in monthList" :key="item.id">{{item.month}}月</view>
-        </view>
-        <view class="record-box">
-          <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
-          <view class="attandence-box">
-            <view 
-              class="attandence-info qui-fx-ac-jc" 
-              v-for="item in attandenceInfo" 
-              :key="item.id"
-              @click="detail(item)"
-            >
-              <image :src="normal" mode=""></image>
-              <view> {{item.title}}</view>
-              <view class="attandence-num"> {{item.num}}人</view>
-            </view>
+    <view>
+      <view class="calendar">
+        <view class="year qui-fx-ac-jc">2020年</view>
+        <view class="month qui-fx-ac-jc" v-for="item in monthList" :key="item.id">{{item.month}}月</view>
+      </view>
+      <view class="record-box">
+        <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
+        <view class="attandence-box">
+          <view 
+            class="attandence-info qui-fx-ac-jc" 
+            v-for="item in attandenceInfo" 
+            :key="item.id"
+            @click="detail(item)"
+          >
+            <image :src="normal" mode=""></image>
+            <view> {{item.title}}</view>
+            <view class="attandence-num"> {{item.num}}人</view>
           </view>
         </view>
       </view>
-     <uni-popup ref="popup" type="center">
-       	<scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
-          <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
-            <text>{{ list.name }}</text>
-            <image :src="person" mode=""></image>
-          </view>
-        </scroll-view>
-     </uni-popup>
+    </view>
+    <uni-popup ref="popup" type="center">
+      <scroll-view scroll-y="true" class="scroll-h">
+        <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
+          <text>{{ list.name }}</text>
+          <image :src="person" mode=""></image>
+        </view>
+      </scroll-view>
+    </uni-popup>
   </view>
 </template>
 

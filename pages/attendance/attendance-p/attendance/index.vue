@@ -1,27 +1,27 @@
 <template>
   <view class="attendance qui-page qui-fx qui-fx-ver">
     <view>
-        <view class="calendar">
-          <uni-calendar @change="getDate"></uni-calendar>
+      <view class="calendar">
+        <uni-calendar @change="getDate"></uni-calendar>
+      </view>
+      <view class="record-box">
+        <no-data msg="暂无考勤记录~" v-if="dayInfo.length === 0"></no-data>
+        <view class="work-box qui-fx-jsb">
+          <view>
+            <view> 上班打卡  08:00 </view>
+            <view class="work-title normal-title" style=""> 正常</view>
+          </view>
+          <view> <image :src="person" mode=""></image> </view>
         </view>
-        <view class="record-box">
-          <no-data msg="暂无考勤记录~" v-if="dayInfo.length === 0"></no-data>
-          <view class="work-box qui-fx-jsb">
-            <view>
-              <view> 上班打卡  08:00 </view>
-              <view class="work-title normal-title" style=""> 正常</view>
-            </view>
-            <view> <image :src="person" mode=""></image> </view>
+        <view class="work-box qui-fx-jsb">
+          <view class="work-title">
+            <view> 下班打卡  --:-- </view>
+            <view class="work-title unnormal-title"> 异常</view> 
           </view>
-          <view class="work-box qui-fx-jsb">
-            <view class="work-title">
-              <view> 下班打卡  --:-- </view>
-              <view class="work-title unnormal-title"> 异常</view> 
-            </view>
-            <view> <image :src="person" mode=""></image> </view>
-          </view>
+          <view> <image :src="person" mode=""></image> </view>
         </view>
       </view>
+    </view>
   </view>
 </template>
 

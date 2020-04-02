@@ -9,7 +9,8 @@
 		<uni-popup ref="popup" type="bottom">
 			<view class="pop qui-fx-ver">
 				<text @click="appoint(1)">修改</text>
-				<text @click="appoint(2)">再次发起邀约</text>
+				<text @click="appoint(2)">撤回</text>
+				<text @click="appoint(3)">再次发起预约</text>
 				<text @click="appoint(0)">取消</text>
 			</view>
 		</uni-popup>
@@ -21,7 +22,10 @@
 					<view class="info qui-fx-ac">
 						<view class="img"><image :src="errorImg" alt="" /></view>
 						<view class="list qui-fx-f1">
-							<view class="name">李煜</view>
+							<view class="name">
+								李煜
+								<text class="school">武汉第一中学</text>
+							</view>
 							<view>开始时间：2020年2月1日 12:00</view>
 							<view>结束时间：2020年2月1日 12:00</view>
 							<view>来访事由：家长会</view>
@@ -161,8 +165,14 @@ export default {
 			this.$refs.popup.open();
 		},
 		appoint(type) {
-			// 1.通过 2.不通过 3.取消
+			// 1.修改 2.撤回 3.再次预约 4.取消
 			console.log(type);
+			if (type === 1) {
+				this.add();
+			}
+			if (type === 3) {
+				this.add();
+			}
 			this.$refs.popup.close();
 		}
 	}
@@ -240,6 +250,12 @@ export default {
 				padding-bottom: 10rpx;
 				font-size: 28rpx;
 				font-weight: bold;
+				.school {
+					margin-left: 30rpx;
+					color: #999;
+					font-size: 24rpx;
+					font-weight: normal;
+				}
 			}
 		}
 	}
