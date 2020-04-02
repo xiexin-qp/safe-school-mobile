@@ -1,6 +1,5 @@
 <template>
 	<view class="qui-page">
-	
 		<view class="list">
 			<view class="th qui-fx-jsa qui-fx-ac qui-fx-jc">
 				<text class="left">姓名</text>
@@ -12,8 +11,8 @@
 				<text class="right">手机号</text>
 				<text class="right">操作</text>
 			</view>
-			<scroll-view  scroll-y="true" class="scroll-h">
-				<view  v-for="list in 20" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
+			<scroll-view scroll-y="true" class="scroll-h">
+				<view v-for="list in 20" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
 					<text class="left">张三</text>
 					<text class="md">女</text>
 					<text class="right">全品文教</text>
@@ -22,18 +21,16 @@
 				</view>
 			</scroll-view>
 		</view>
-			<view class="foot"><view class="add foot" @click="add">+</view></view>
+		<view class="foot"><view class="add foot" @click="add">+</view></view>
 	</view>
 </template>
 <script>
 import noData from '@/components/no-data/no-data.vue';
 import eventBus from '@u/eventBus.js';
 export default {
-	components: {
-	},
+	components: {},
 	data() {
-		return {
-		};
+		return {};
 	},
 	watch: {},
 
@@ -41,7 +38,7 @@ export default {
 	methods: {
 		//删除
 		actionsheet() {
-		this.$tools.confirm('确定删除吗', () => {});
+			this.$tools.confirm('确定删除吗', () => {});
 		},
 		add() {
 			this.$tools.navTo({

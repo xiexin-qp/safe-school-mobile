@@ -42,8 +42,7 @@ export default {
 		tTd
 	},
 	data() {
-		return {
-		}
+		return {};
 	},
 	methods: {
 		change(e) {
@@ -61,10 +60,10 @@ export default {
 .scroll-h {
 	height: calc(100vh - 100rpx - 100rpx);
 }
-.head{
+.head {
 	height: 100rpx;
 }
-.foot{
+.foot {
 	height: 100rpx;
 	text-align: center;
 	button {

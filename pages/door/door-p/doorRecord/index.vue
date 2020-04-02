@@ -23,8 +23,8 @@
 				</view>
 				<text class="right">地点</text>
 			</view>
-			<scroll-view  scroll-y="true" class="scroll-h">
-				<view  v-for="list in 20" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
+			<scroll-view scroll-y="true" class="scroll-h">
+				<view v-for="list in 20" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
 					<text class="left">张三</text>
 					<text class="md">女</text>
 					<text class="right">全品文教</text>
@@ -38,7 +38,7 @@ import MxDatePicker from '@/components/mx-datepicker/mx-datepicker.vue';
 import eventBus from '@u/eventBus.js';
 export default {
 	components: {
-		MxDatePicker,
+		MxDatePicker
 	},
 	data() {
 		return {
@@ -49,7 +49,7 @@ export default {
 			range: ['2019/01/01', '2019/01/06'],
 			rangetime: ['2019/01/08 14:00', '2019/01/16 13:59'],
 			type: 'rangetime',
-			value: '',
+			value: ''
 		};
 	},
 	methods: {

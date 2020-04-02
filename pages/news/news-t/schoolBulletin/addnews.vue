@@ -17,7 +17,7 @@
 				<view class="qui-fx-f1"><an-upload-img total="3" v-model="imgList" style="margin: 20rpx"></an-upload-img></view>
 			</view>
 		</scroll-view>
-	<view class="submit-box"><view class="btn" @click="confirm">提交</view></view>
+		<view class="submit-box"><view class="btn" @click="confirm">提交</view></view>
 	</view>
 </template>
 
@@ -29,7 +29,7 @@ export default {
 	},
 	data() {
 		return {
-			imgList:[]
+			imgList: []
 		};
 	},
 	computed: {},

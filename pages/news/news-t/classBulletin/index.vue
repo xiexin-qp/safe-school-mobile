@@ -17,7 +17,7 @@
 				</view>
 			</view>
 		</scroll-view>
-		<view class="foot"><view class="add foot" @click="add">+</view></view>
+		<view class="foot"><view class="add" @click="add">+</view></view>
 	</view>
 </template>
 <script>
@@ -27,8 +27,7 @@ export default {
 	components: {},
 	data() {
 		return {
-			newsList: [
-			],
+			newsList: [],
 			approveImg: ''
 		};
 	},
@@ -36,8 +35,7 @@ export default {
 		uniSearchBar
 	},
 	filters: {},
-	mounted() {
-	},
+	mounted() {},
 	methods: {
 		actionsheet() {
 			const arr = ['编辑', '删除'];
@@ -47,23 +45,23 @@ export default {
 					uni.navigateTo({
 						url: './addnews'
 					});
-				} else if  (index == 1) {
+				} else if (index == 1) {
 					this.$tools.confirm('确定删除吗', () => {});
 				}
 			});
 		},
 		goDetail() {
 			this.$tools.navTo({
-			  url: './detail',
-			title: '查看列表'
+				url: './detail',
+				title: '查看列表'
 			});
 		},
 		add() {
 			this.$tools.navTo({
-			url: './addnews',
-		   title: '添加新闻'
+				url: './addnews',
+				title: '添加新闻'
 			});
-		},
+		}
 	}
 };
 </script>
