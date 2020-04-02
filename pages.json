@@ -68,7 +68,7 @@
 			"path": "pages/door/door-t/doorManage/add",
 			"style": {}
 		},
-		// 访客管理
+		// 教师访客管理
 		{
 			"path": "pages/visitor/visitor-t/visitorLog/index",
 			"style": {}
@@ -107,6 +107,40 @@
 		},
 		{
 			"path": "pages/visitor/visitor-t/invite/form",
+			"style": {
+			}
+		},
+		// 家长访客管理
+		{
+			"path": "pages/visitor/visitor-p/appointment/index",
+			"style": {}
+		},
+		{
+			"path": "pages/visitor/visitor-p/appointment/detail",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/visitor/visitor-p/appointment/form",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/visitor/visitor-p/invite/index",
+			"style": {}
+		},
+		{
+			"path": "pages/visitor/visitor-p/invite/detail",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/visitor/visitor-p/visitLog/index",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/visitor/visitor-p/visitLog/detail",
 			"style": {
 			}
 		},
