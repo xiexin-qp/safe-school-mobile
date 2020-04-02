@@ -61,8 +61,7 @@
         </view>
       </view>
      </scroll-view>
-     <view class="add-icon">
-      <image :src="add" mode=""></image>
+     <view class="float-add-btn">
      </view>
   </view>
 </template>

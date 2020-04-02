@@ -5,7 +5,6 @@
         <!-- <text class="text_">小学部教师组</text> -->
         <view class="btn" @click="add">
           <button type="primary" size="mini">添加成员</button>
-          
           </view>
      </view>
      <no-data v-if="false" msg="暂无数据"></no-data>
