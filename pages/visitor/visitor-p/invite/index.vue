@@ -1,5 +1,5 @@
 <template>
-	<view class="invite qui-page">
+	<view class="qui-page">
 		<uni-search-bar placeholder="输入姓名搜索" @confirm="search"></uni-search-bar>
 		<view class="dropDown qui-fx">
 			<ms-dropdown-menu><ms-dropdown-item v-model="value0" :list="casueList"></ms-dropdown-item></ms-dropdown-menu>
@@ -8,20 +8,30 @@
 		</view>
 		<uni-popup ref="popup" type="bottom">
 			<view class="pop qui-fx-ver">
-				<text @click="appoint(1)">修改</text>
-				<text @click="appoint(2)">再次发起邀约</text>
+				<text @click="appoint(1)">同意</text>
+				<text @click="appoint(2)">拒绝</text>
 				<text @click="appoint(0)">取消</text>
+			</view>
+		</uni-popup>
+		<uni-popup ref="refuse" type="center">
+			<view class="pop qui-fx-ver">
+				<view class="title">请输入拒绝原因</view>
+				<input focus placeholder="" />
+				<view class="btn" @click="sure(0)">确定</view>
 			</view>
 		</uni-popup>
 		<no-data v-if="false" msg="暂无数据"></no-data>
 		<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
-			<view class="approve-list" v-for="(list, i) in 10" :key="list.id">
+			<view class="approve-list" v-for="(list, i) in 20" :key="list.id">
 				<view class="detail qui-fx">
 					<view class="process-type" style="right: 20rpx"><view class="wait" @click="open(i)">···</view></view>
 					<view class="info qui-fx-ac">
 						<view class="img"><image :src="errorImg" alt="" /></view>
 						<view class="list qui-fx-f1">
-							<view class="name">李煜</view>
+							<view class="name">
+								李煜
+								<text class="school">武汉第一中学</text>
+							</view>
 							<view>开始时间：2020年2月1日 12:00</view>
 							<view>结束时间：2020年2月1日 12:00</view>
 							<view>来访事由：家长会</view>
@@ -39,7 +49,6 @@
 				</view>
 			</view>
 		</scroll-view>
-		<view class="add" @click="add">+</view>
 	</view>
 </template>
 
@@ -128,9 +137,7 @@ export default {
 			console.log(val);
 		}
 	},
-	mounted() {
-		this.showList();
-	},
+	mounted() {},
 	methods: {
 		async showList(tag = false) {
 			const res = await actions.getIndex();
@@ -141,6 +148,22 @@ export default {
 				uni.stopPullDownRefresh();
 			}
 		},
+		open(id) {
+			console.log(id);
+			this.$refs.popup.open();
+		},
+		appoint(type) {
+			// 1.同意 2.拒绝 3.取消
+			console.log(type);
+			if (type === 2) {
+				this.$refs.refuse.open();
+			}
+			this.$refs.popup.close();
+		},
+		sure() {
+			this.$refs.refuse.close();
+			this.$refs.popup.close();
+		},
 		search(value) {
 			console.log(value);
 		},
@@ -149,44 +172,12 @@ export default {
 				url: './detail?id=' + id,
 				title: '查看详情'
 			});
-		},
-		add() {
-			this.$tools.navTo({
-				url: './form',
-				title: '发起邀约'
-			});
-		},
-		open(id) {
-			console.log(id);
-			this.$refs.popup.open();
-		},
-		appoint(type) {
-			// 1.通过 2.不通过 3.取消
-			console.log(type);
-			this.$refs.popup.close();
 		}
 	}
 };
 </script>
 
 <style lang="scss" scoped>
-.invite {
-	position: relative;
-	.add {
-		position: absolute;
-		bottom: 40rpx;
-		left: calc(50% - 40rpx);
-		z-index: 1;
-		width: 100rpx;
-		height: 100rpx;
-		line-height: 80rpx;
-		border-radius: 100%;
-		background: #0079ff;
-		color: #fff;
-		font-size: 100rpx;
-		text-align: center;
-	}
-}
 .approve-list {
 	background-color: #fff;
 	border-radius: 16rpx;
@@ -240,6 +231,12 @@ export default {
 				padding-bottom: 10rpx;
 				font-size: 28rpx;
 				font-weight: bold;
+				.school {
+					margin-left: 30rpx;
+					color: #999;
+					font-size: 24rpx;
+					font-weight: normal;
+				}
 			}
 		}
 	}

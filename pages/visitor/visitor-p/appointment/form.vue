@@ -2,11 +2,18 @@
 	<view>
 		<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
 			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>访客姓名：</view>
+				<view>被访人学校：</view>
+				<view class="qui-fx-f1 qui-fx-je">
+					<picker mode="selector" :value="formData.school" :range="schoolList" @change="chooseSchool">{{ schoolList[formData.school] || '请选择' }}</picker>
+				</view>
+				<view>></view>
+			</view>
+			<view class="qui-fx-ac qui-bd-b item-list">
+				<view>被访人姓名：</view>
 				<view class="qui-fx-f1"><input class="item-input" v-model="formData.userName" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>访客手机：</view>
+				<view>被访人手机号：</view>
 				<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
@@ -39,14 +46,10 @@
 				<view>></view>
 			</view>
 			<view class="log">
-				<text>邀请函</text>
-				<view class="qui-fx-ac">
-					<icon type="email" size="24" />
-					<view class="qui-fx-ver">
-						<text>访客,您好！</text>
-						<text>学校邀约人姓名邀请你于开始时间至结束时间来访进行来访事由，地址：手动填写。</text>
-						<text>请准时到达，如有问题请联系邀约人姓名邀约人手机号。</text>
-					</view>
+				<view class="item-list">
+					<view>我的照片：</view>
+					<view class="qui-fx-f1"><an-upload-img total="1" v-model="imgList" style="margin: 20rpx"></an-upload-img></view>
+					<view class="sub-title">请上传1张本人正脸清晰照片用于来访识别。</view>
 				</view>
 			</view>
 		</scroll-view>
@@ -55,13 +58,20 @@
 </template>
 
 <script>
+import anUploadImg from '@/components/an-uploadImg/an-uploadImg';
 export default {
+	components: {
+		anUploadImg
+	},
 	data() {
 		return {
 			cause: ['家长会', '拜访老师', '看望学生'],
+			schoolList: ['武汉一中', '武汉二中', '武汉三中'],
 			formInfo: {},
+			imgList: [],
 			formData: {
 				userName: '',
+				school: '',
 				phone: '',
 				isMarry: false,
 				startTime: '请选择',
@@ -74,8 +84,7 @@ export default {
 	computed: {},
 	async mounted() {},
 	methods: {
-		confirm() {
-		},
+		confirm() {},
 		changeRadio(e) {
 			this.formData.sex = e.target.value;
 		},
@@ -90,6 +99,9 @@ export default {
 		},
 		chooseCause(e) {
 			this.formData.cause = e.target.value;
+		},
+		chooseSchool(e) {
+			this.formData.school = e.target.value;
 		}
 	}
 };
@@ -114,11 +126,9 @@ export default {
 .checkbox {
 	padding: 30rpx 10px 10px 2px;
 }
-.log {
-	background: #fff;
-	padding: 40rpx 20rpx;
-	margin: 20rpx 0 40rpx 0;
-	border-bottom: 1px solid #ddd;
+.sub-title {
+	font-size: 24rpx;
+	color: #999;
 }
 .submit-box {
 	height: 100rpx;
