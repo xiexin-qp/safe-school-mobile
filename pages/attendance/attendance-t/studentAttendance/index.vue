@@ -32,17 +32,8 @@
 
 <script>
 import person from '@s/img/person.png'
-import eventBus from '@u/eventBus.js'
 // import { store, actions } from './store/index.js'
 export default {
-  components: {
-  },
-  onLoad(options) {
-    console.log(options)
-  },
-  onPullDownRefresh() {
-    this.showList()
-  },
   data () {
     return {
       person,
@@ -81,16 +72,8 @@ export default {
       }]
     }
   },
-  computed: {
-    // ...mapState('home', [
-    //   'userCode'
-    // ])
-  },
   mounted() {
     this.showList()
-    eventBus.$on('change', () => {
-      alert(4)
-    })
   },
   methods: {
     async showList (tag = false) {

@@ -35,34 +35,12 @@
 <script>
 import person from '@s/img/person.png'
 import normal from '@s/img/normal.png'
-import eventBus from '@u/eventBus.js'
 // import { store, actions } from './store/index.js'
 export default {
-  components: {
-  },
-  onLoad(options) {
-    console.log(options)
-  },
-  onPullDownRefresh() {
-    this.showList()
-  },
   data () {
     return {
       person,
       normal,
-      dayInfo: [
-        {
-          id:1,
-          workOnTime:'2020-03-30',
-          recordOnTime:'2020-03-30',
-          stateOn:1
-        }
-      ],
-      leaveList: [],
-      exceptionList: [],
-      zcList: [],
-      currentDay: '',
-      isOther: false,
       dataList: [{
         id:'1',
         name:'1'
@@ -110,16 +88,8 @@ export default {
       }]
     }
   },
-  computed: {
-    // ...mapState('home', [
-    //   'userCode'
-    // ])
-  },
   mounted() {
     this.showList()
-    eventBus.$on('change', () => {
-      alert(4)
-    })
   },
   methods: {
     async showList (tag = false) {

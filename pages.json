@@ -1,9 +1,7 @@
 {
-	"pages": [
-		{
+	"pages": [{
 			"path": "pages/index/index",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/demo/index"
@@ -14,51 +12,66 @@
 		// 主页模块
 		{
 			"path": "pages/protal/index",
-			"style": {
-			}
+			"style": {}
 		},
 		// 新闻公告
 		{
-			"path": "pages/news/news-t/classBulletin/index",
-			"style": {
-			}
+			"path": "pages/news/news-t/newsBulletin/addnews",
+			"style": {}
+		},
+		{
+			"path": "pages/news/news-t/newsBulletin/detail",
+			"style": {}
 		},
 		{
 			"path": "pages/news/news-t/newsBulletin/index",
-			"style": {
-			}
+			"style": {}
+		},
+		{
+			"path": "pages/news/news-t/classBulletin/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/news/news-t/classBulletin/addnews",
+			"style": {}
+		},
+		{
+			"path": "pages/news/news-t/classBulletin/index",
+			"style": {}
 		},
 		{
 			"path": "pages/news/news-t/schoolBulletin/index",
-			"style": {
-			}
+			"style": {}
+		},
+		{
+			"path": "pages/news/news-t/schoolBulletin/addnews",
+			"style": {}
+		},
+		{
+			"path": "pages/news/news-t/schoolBulletin/detail",
+			"style": {}
 		},
 		// 门禁模块
 		{
 			"path": "pages/door/door-p/doorRecord/index",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/door/door-t/doorManage/index",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/door/door-t/doorManage/detail",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/door/door-t/doorManage/add",
-			"style": {
-			}
+			"style": {}
 		},
 		// 访客管理
 		{
 			"path": "pages/visitor/visitor-t/visitorLog/index",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/visitor/visitor-t/visitorLog/detail",
@@ -67,8 +80,7 @@
 		},
 		{
 			"path": "pages/visitor/visitor-t/comeLog/index",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/visitor/visitor-t/comeLog/detail",
@@ -77,8 +89,7 @@
 		},
 		{
 			"path": "pages/visitor/visitor-t/appointment/index",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/visitor/visitor-t/appointment/detail",
@@ -87,8 +98,7 @@
 		},
 		{
 			"path": "pages/visitor/visitor-t/invite/index",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/visitor/visitor-t/invite/detail",
@@ -102,68 +112,68 @@
 		},
 		// 教师考勤模块
 		{
-		  "path": "pages/attendance/attendance-t/attendance/index",
-		  "style": {}
+			"path": "pages/attendance/attendance-t/attendance/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/attendance/attendance-t/statistics/index",
-		  "style": {}
+			"path": "pages/attendance/attendance-t/statistics/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/attendance/attendance-t/leave/index",
-		  "style": {}
+			"path": "pages/attendance/attendance-t/leave/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/attendance/attendance-t/studentAttendance/index",
-		  "style": {}
+			"path": "pages/attendance/attendance-t/studentAttendance/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/attendance/attendance-t/studentStatistics/index",
-		  "style": {}
+			"path": "pages/attendance/attendance-t/studentStatistics/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/attendance/attendance-t/leave/detail",
-		  "style": {}
+			"path": "pages/attendance/attendance-t/leave/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/attendance/attendance-t/leave/add",
-		  "style": {}
+			"path": "pages/attendance/attendance-t/leave/add",
+			"style": {}
 		},
 		// 家长考勤模块
 		{
-		  "path": "pages/attendance/attendance-p/attendance/index",
-		  "style": {}
+			"path": "pages/attendance/attendance-p/attendance/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/attendance/attendance-p/statistics/index",
-		  "style": {}
+			"path": "pages/attendance/attendance-p/statistics/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/attendance/attendance-p/leave/index",
-		  "style": {}
+			"path": "pages/attendance/attendance-p/leave/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/attendance/attendance-p/leave/detail",
-		  "style": {}
+			"path": "pages/attendance/attendance-p/leave/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/attendance/attendance-p/leave/add",
-		  "style": {}
+			"path": "pages/attendance/attendance-p/leave/add",
+			"style": {}
 		}
 	],
 	"globalStyle": {
-	  // 禁用头部导航栏
+		// 禁用头部导航栏
 		"h5": {
 			"titleNView": false
 		},
-	  //#ifdef H5
-	  "pullToRefresh": {
-	  	"style": "circle",
-	  	"color": "#FC3F78",
-	  	"offset": "0px"
-	  },
-	  //#endif
-	  "onReachBottomDistance": 200,
+		//#ifdef H5
+		"pullToRefresh": {
+			"style": "circle",
+			"color": "#FC3F78",
+			"offset": "0px"
+		},
+		//#endif
+		"onReachBottomDistance": 200,
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "平安校园",
 		"navigationBarBackgroundColor": "#007aff",
