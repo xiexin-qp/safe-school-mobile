@@ -1,32 +1,32 @@
 <template>
   <view class="student-attendance qui-page qui-fx qui-fx-ver">
+    <view>
       <view>
-        <view>
-          <uni-calendar @change="getDate"></uni-calendar>
-        </view>
-        <view class="record-box">
-          <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
-          <view class="attandence-box">
-            <view 
-              class="attandence-info qui-fx-ac-jc" 
-              v-for="item in attandenceInfo" 
-              :key="item.id"
-              @click="detail(item)"
-            >
-              <view> {{item.title}}</view>
-              <view class="attandence-num"> {{item.num}}人</view>
-            </view>
+        <uni-calendar @change="getDate"></uni-calendar>
+      </view>
+      <view class="record-box">
+        <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
+        <view class="attandence-box">
+          <view 
+            class="attandence-info qui-fx-ac-jc" 
+            v-for="item in attandenceInfo" 
+            :key="item.id"
+            @click="detail(item)"
+          >
+            <view> {{item.title}}</view>
+            <view class="attandence-num"> {{item.num}}人</view>
           </view>
         </view>
       </view>
-     <uni-popup ref="popup" type="center">
-       	<scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
-          <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
-            <text>{{ list.name }}</text>
-            <image :src="person" mode=""></image>
-          </view>
-        </scroll-view>
-     </uni-popup>
+    </view>
+    <uni-popup ref="popup" type="center">
+     	<scroll-view scroll-y="true" class="scroll-h">
+        <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
+          <text>{{ list.name }}</text>
+          <image :src="person" mode=""></image>
+        </view>
+      </scroll-view>
+    </uni-popup>
   </view>
 </template>
 
@@ -94,18 +94,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.student-attendance{
-  .record-box{
-    padding-top:20rpx;
-    background-color:#f2f8fe;
-    .attandence-title{
+.student-attendance {
+  .record-box {
+    padding-top: 20rpx;
+    background-color: #f2f8fe;
+    .attandence-title {
       height: 60rpx;
       line-height: 60rpx;
       font-size: 36rpx;
     }
-    .attandence-box{
+    .attandence-box {
       height: 320rpx;
-      .attandence-info{
+      .attandence-info {
         width: 31%;
         float: left;  
         margin-bottom: 30rpx;
@@ -118,10 +118,10 @@ export default {
           margin-bottom: 10rpx;
         }
       }
-      :nth-child(3n){
+      :nth-child(3n) {
         border-right: none;
       }
-      .attandence-num{
+      .attandence-num {
         color: #ccc;
         font-size: 28rpx;
       }
