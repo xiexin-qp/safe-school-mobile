@@ -1,6 +1,6 @@
 <template>
-	<view class="">
-		<view class=""><uni-search-bar @confirm="search" @input="input"></uni-search-bar></view>
+	<view class="add">
+		<view class="head"><uni-search-bar @confirm="search" @input="input"></uni-search-bar></view>
 		<scroll-view @refresherpulling="haha" scroll-y="true" class="scroll-h">
 			<view class="warp">
 				<view class="box">
@@ -19,7 +19,7 @@
 				</view>
 			</view>
 		</scroll-view>
-		<view class="form_btn">
+		<view class="foot">
 			<button class="mini-btn" type="default" size="mini">取消</button>
 			<button class="mini-btn" type="primary" size="mini" @click="addInfo">保存</button>
 		</view>
@@ -80,42 +80,6 @@ export default {
 					age: '13071213738',
 					hobby: '武汉全品'
 				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				}
 			]
 		};
 	},
@@ -132,20 +96,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.list {
-	padding: 25rpx 20rpx;
-}
 .scroll-h {
-	height: 100vh;
+	height: calc(100vh - 100rpx - 100rpx);
 }
-.tit_tr {
-	background: #7b92f5;
+.head{
+	height: 100rpx;
 }
-.form_btn {
+.foot{
+	height: 100rpx;
 	text-align: center;
-	margin-top: 100rpx;
 	button {
 		margin: 0 30rpx;
 	}
+}
+.tit_tr {
+	background: #7b92f5;
 }
 </style>
