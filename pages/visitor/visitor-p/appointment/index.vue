@@ -1,6 +1,6 @@
 <template>
 	<view class="invite qui-page">
-		<uni-search-bar placeholder="输入姓名搜索" @confirm="search"></uni-search-bar>
+		<uni-search-bar class="search" placeholder="输入姓名搜索" @confirm="search"></uni-search-bar>
 		<view class="dropDown qui-fx">
 			<ms-dropdown-menu><ms-dropdown-item v-model="value0" :list="casueList"></ms-dropdown-item></ms-dropdown-menu>
 			<ms-dropdown-menu><ms-dropdown-item v-model="value1" :list="dateList"></ms-dropdown-item></ms-dropdown-menu>
@@ -43,7 +43,7 @@
 				</view>
 			</view>
 		</scroll-view>
-		<view class="add" @click="add">+</view>
+		<view class="float-add-btn" @click="add">+</view>
 	</view>
 </template>
 
@@ -181,21 +181,10 @@ export default {
 
 <style lang="scss" scoped>
 .invite {
-	position: relative;
-	.add {
-		position: absolute;
-		bottom: 40rpx;
-		left: calc(50% - 40rpx);
-		z-index: 1;
-		width: 100rpx;
-		height: 100rpx;
-		line-height: 80rpx;
-		border-radius: 100%;
-		background: #0079ff;
-		color: #fff;
-		font-size: 100rpx;
-		text-align: center;
+	.search{
+		height:104rpx;
 	}
+	
 }
 .approve-list {
 	background-color: #fff;
@@ -267,6 +256,7 @@ export default {
 	padding: 4rpx 18rpx 18rpx 18rpx;
 	background: #fff;
 	font-size: 12px;
+	height: 86rpx;
 }
 .dropdown-menu {
 	width: 50%;
