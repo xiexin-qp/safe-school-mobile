@@ -61,8 +61,7 @@
         </view>
       </view>
      </scroll-view>
-     <view class="add-icon">
-      <image :src="add" mode=""></image>
+     <view class="float-add-btn" @click="addLeave">
      </view>
   </view>
 </template>
@@ -162,8 +161,13 @@ export default {
   },
   methods: {
     select(){
-
     },
+		addLeave () {
+			this.$tools.navTo({
+				url: './add',
+				title: '新增请假单'
+			})
+		},
     detail(){
       const arr1 = ['修改', '撤回']
       const arr2 = ['审批通过', '审批不通过']

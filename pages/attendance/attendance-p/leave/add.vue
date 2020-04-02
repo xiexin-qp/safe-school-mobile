@@ -52,8 +52,8 @@
 			  </view>
 			</view>
     </scroll-view>
-    <view class="submit-box">
-      <view class="btn">提交</view>
+    <view class="submit-box common-btn">
+			提交
     </view>
   </view>
 </template>
@@ -102,16 +102,6 @@
   }
   .submit-box {
     height: 100rpx;
-    .btn {
-      height: 80rpx;
-      line-height: 80rpx;
-      text-align: center;
-      letter-spacing: 8rpx;
-      margin: 0 20rpx;
-      background-color: $main-color;
-      color:#fff;
-      border-radius: $radius;
-    }
   }
 }
 </style>
