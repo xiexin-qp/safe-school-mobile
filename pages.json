@@ -68,16 +68,41 @@
 			"style": {}
 		},
 		{
+			"path": "pages/visitor/visitor-t/visitorLog/detail",
+			"style": {
+			}
+		},
+		{
 			"path": "pages/visitor/visitor-t/comeLog/index",
 			"style": {}
+		},
+		{
+			"path": "pages/visitor/visitor-t/comeLog/detail",
+			"style": {
+			}
 		},
 		{
 			"path": "pages/visitor/visitor-t/appointment/index",
 			"style": {}
 		},
 		{
+			"path": "pages/visitor/visitor-t/appointment/detail",
+			"style": {
+			}
+		},
+		{
 			"path": "pages/visitor/visitor-t/invite/index",
 			"style": {}
+		},
+		{
+			"path": "pages/visitor/visitor-t/invite/detail",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/visitor/visitor-t/invite/form",
+			"style": {
+			}
 		},
 		// 教师考勤模块
 		{

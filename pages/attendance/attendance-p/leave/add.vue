@@ -61,10 +61,6 @@
         currentRole: 1
 			}
 		},
-    computed: {
-    },
-    async mounted() {
-    },
     methods: {
       bindTimeChange (e) {
         this.date = e.target.value

@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<view class="set_box" v-for="(item,index) in talk" :key="index">
+		<view class="set_box" v-for="(item,index) in 15" :key="index">
 			<view class="set_time">
 				<view>{{item.YYMMDD}}</view>
 			</view>
@@ -8,8 +8,8 @@
 			<view class="set-1">
 				<view class="set-2">
           <view class="right qui-fx-ver">
-            <text class="detail">上学打卡： {{ item.startTime }}  <text class="set-state">正常</text> </text>
-            <text class="detail">放学打卡： {{ item.endTime }}  <text class="set-state">正常</text></text>
+            <text class="detail">上学打卡： 08:00  <text class="set-state">正常</text> </text>
+            <text class="detail">放学打卡： 17:00  <text class="set-state">正常</text></text>
           </view>
 				</view>
 			</view>
@@ -21,37 +21,7 @@
 	export default {
 		data() {
 			return {
-				talk: [{
-						"id": 1,
-            "startTime": "08:00",
-            "endTime": "16:00",
-            "YYMMDD": "2020/2/28"
-					},
-					{
-						"id": 2,
-					"startTime": "09:00",
-            "endTime": "21:00",
-            "YYMMDD": "2020/3/1"
-					},
-          {
-          	"id": 3,
-          	"startTime": "08:00",
-            "endTime": "19:00",
-            "YYMMDD": "2020/3/2"
-          },
-          {
-          	"id": 4,
-          	"startTime": "09:00",
-            "endTime": "17:00",
-            "YYMMDD": "2020/3/5"
-          },
-          {
-          	"id": 5,
-          	"startTime": "06:00",
-            "endTime": "19:00",
-            "YYMMDD": "2020/4/1"
-          }
-				]
+				talk: []
 			}
 		},
 		methods: {}

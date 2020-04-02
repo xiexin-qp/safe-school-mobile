@@ -1,7 +1,6 @@
 <template>
   <view class="attendance qui-page qui-fx qui-fx-ver">
-    <scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
-      <view>
+    <view>
         <view class="calendar">
           <uni-calendar @change="getDate"></uni-calendar>
         </view>
@@ -23,23 +22,13 @@
           </view>
         </view>
       </view>
-     </scroll-view>
   </view>
 </template>
 
 <script>
 import person from '@s/img/person.png'
-import eventBus from '@u/eventBus.js'
 // import { store, actions } from './store/index.js'
 export default {
-  components: {
-  },
-  onLoad(options) {
-    console.log(options)
-  },
-  onPullDownRefresh() {
-    this.showList()
-  },
   data () {
     return {
       person,
@@ -50,31 +39,10 @@ export default {
           recordOnTime:'2020-03-30',
           stateOn:1
         }
-      ],
-      dataList: []
+      ]
     }
-  },
-  computed: {
-    // ...mapState('home', [
-    //   'userCode'
-    // ])
-  },
-  mounted() {
-    this.showList()
-    eventBus.$on('change', () => {
-      alert(4)
-    })
   },
   methods: {
-    async showList (tag = false) {
-      const res = await actions.getIndex()
-      if (tag) {
-        this.dataList = this.dataList.concat(res.data)
-      } else {
-        this.dataList = res.data
-        uni.stopPullDownRefresh()
-      }
-    }
   }
 }
 </script>
