@@ -1,18 +1,20 @@
 <template>
 	<view class="">
-		<view class="test"><button type="default" @click="onShowDatePicker('rangetime')">选择日期时间范围搜索</button></view>
-		<mx-date-picker
-			:show="showPicker"
-			:type="type"
-			:value="value"
-			:show-tips="true"
-			:begin-text="'开始'"
-			:end-text="'结束'"
-			:show-seconds="true"
-			@confirm="onSelected"
-			@cancel="onSelected"
-		/>
-		<scroll-view @refresherpulling="haha" scroll-y="true" class="scroll-h">
+		<view class="head"><button type="default" @click="onShowDatePicker('rangetime')">选择日期时间范围搜索</button></view>
+		<view class="">
+			<mx-date-picker
+				:show="showPicker"
+				:type="type"
+				:value="value"
+				:show-tips="true"
+				:begin-text="'开始'"
+				:end-text="'结束'"
+				:show-seconds="true"
+				@confirm="onSelected"
+				@cancel="onSelected"
+			/>
+		</view>
+		<scroll-view  scroll-y="true" class="scroll-h">
 			<view class="qui-page">
 				<no-data v-if="false" msg="暂无数据"></no-data>
 				<view class="list">
@@ -110,14 +112,14 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.test {
-	text-align: center;
-	padding: 10px 0;
+.head {
+	height: 80rpx;
+	button {
+		margin: 20upx;
+		font-size: 28upx;
+	}
 }
-button {
-	margin: 20upx;
-	font-size: 28upx;
-}
+
 .list {
 	padding: 25rpx 20rpx;
 	font-size: 28rpx;
@@ -148,6 +150,6 @@ button {
 	}
 }
 .scroll-h {
-	height: 100vh;
+	height: calc(100vh - 80rpx);
 }
 </style>

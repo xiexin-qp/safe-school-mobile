@@ -1,7 +1,7 @@
 <template>
 	<view class="add">
 		<view class="head"><uni-search-bar @confirm="search" @input="input"></uni-search-bar></view>
-		<scroll-view @refresherpulling="haha" scroll-y="true" class="scroll-h">
+		<scroll-view scroll-y="true" class="scroll-h">
 			<view class="warp">
 				<view class="box">
 					<t-table border="1" border-color="#eeeeee" :is-check="true" @change="change">

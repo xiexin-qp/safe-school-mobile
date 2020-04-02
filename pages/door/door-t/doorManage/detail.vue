@@ -1,9 +1,9 @@
 <template>
 	<view class="qui-page">
-		<view class="detail">
-			<view class="btn" @click="add"><button type="primary" size="mini">添加成员</button></view>
+		<view class="head">
+			<button type="primary" size="mini"  @click="add">添加成员</button>
 		</view>
-		<no-data v-if="false" msg="暂无数据"></no-data>
+		
 		<view class="list">
 			<view class="th qui-fx-jsa qui-fx-ac qui-fx-jc">
 				<text class="left">姓名</text>
@@ -15,7 +15,8 @@
 				<text class="right">手机号</text>
 				<text class="right">操作</text>
 			</view>
-			<scroll-view @refresherpulling="haha" scroll-y="true" class="scroll-h">
+			<scroll-view  scroll-y="true" class="scroll-h">
+				<no-data v-if="false" msg="暂无数据"></no-data>
 				<view v-for="list in dataList" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
 					<text class="left">{{ list.name }}</text>
 					<text class="md">{{ list.sex }}</text>
@@ -227,31 +228,13 @@ export default {
 	}
 }
 .scroll-h {
-	height: 100vh;
+	height: calc(100vh - 100rpx);
 }
-.detail {
-	padding: 0rpx 20rpx;
+.head {
+	padding: 20rpx 20rpx;
 	font-size: 28rpx;
-	margin-top: 20px;
-	// .btn {
-	//   border-radius: $radius;
-	//   background-color: $main-color;
-	//   line-height: 50rpx;
-	//   height: 50rpx;
-	//   color:#fff;
-	//   text-align: center;
-	//   display: inline-block;
-	// }
-	// .back_{
-	//   display: inline-block;
-	//   color: #0079FF;
-	// }
-	// .text_{
-	//   display: inline-block;
-	//   font-size: 16px;
-	//   width: calc(77.5% - 40rpx);
-	//   text-align: center;
-	// }
+	height: 100rpx;
+	
 }
 .uni-popup__wrapper-box {
 	width: 270px;

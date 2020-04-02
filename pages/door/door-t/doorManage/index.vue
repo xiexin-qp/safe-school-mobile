@@ -4,7 +4,6 @@
 		<scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
 			<view class="content">
 				<view class="record-box">
-					<no-data msg="暂无考勤记录~" v-if="infoList.length === 0"></no-data>
 					<view class="leave-box" v-for="item in infoList" :key="item.id">
 				 <view class="work-box qui-fx-jsb">
 					 <view>
@@ -81,7 +80,7 @@ export default {
 
 <style lang="less" scoped>
 .scroll-h {
-	height: calc(100vh - 80rpx);
+	height: calc(100vh - 100rpx);
 }
 .work-title {
   margin-top: 30rpx;
@@ -114,9 +113,9 @@ export default {
   }
 }
 .head{
-  margin: 1.5rem;
   font-size: 18px;
   text-align: center;
-  height: 80rpx;
+  height: 100rpx;
+  padding-top: 30rpx;
 }
 </style>
