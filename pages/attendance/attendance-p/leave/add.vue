@@ -32,7 +32,7 @@
         <view>请假时长：</view>
         <view class="qui-fx-f1"><input class="item-input" style="text-align: right;" placeholder="请输入姓名" /></view>
       </view>
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="qui-fx qui-bd-b item-list">
         <view>描述：</view>
         <view class="qui-fx-f1"><textarea class="item-input" style="text-align: right;" placeholder="请输入描述" /></view>
       </view>
@@ -52,8 +52,8 @@
 			  </view>
 			</view>
     </scroll-view>
-    <view class="submit-box">
-      <view class="btn">提交</view>
+    <view class="submit-box common-btn">
+			提交
     </view>
   </view>
 </template>
@@ -102,16 +102,6 @@
   }
   .submit-box {
     height: 100rpx;
-    .btn {
-      height: 80rpx;
-      line-height: 80rpx;
-      text-align: center;
-      letter-spacing: 8rpx;
-      margin: 0 20rpx;
-      background-color: $main-color;
-      color:#fff;
-      border-radius: $radius;
-    }
   }
 }
 </style>

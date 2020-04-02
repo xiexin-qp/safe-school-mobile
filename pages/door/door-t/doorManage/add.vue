@@ -1,7 +1,7 @@
 <template>
-	<view class="">
-		<view class=""><uni-search-bar @confirm="search" @input="input"></uni-search-bar></view>
-		<scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+	<view class="add">
+		<view class="head"><uni-search-bar @confirm="search" @input="input"></uni-search-bar></view>
+		<scroll-view @refresherpulling="haha" scroll-y="true" class="scroll-h">
 			<view class="warp">
 				<view class="box">
 					<t-table border="1" border-color="#eeeeee" :is-check="true" @change="change">
@@ -10,16 +10,16 @@
 							<t-th align="center">手机号</t-th>
 							<t-th align="center">组织机构</t-th>
 						</t-tr>
-						<t-tr font-size="12" color="#5d6f61" align="right" v-for="item in tableList" :key="item.id">
-							<t-td align="center">{{ item.name }}</t-td>
-							<t-td align="center">{{ item.age }}</t-td>
-							<t-td align="center">{{ item.hobby }}</t-td>
+						<t-tr font-size="12" color="#5d6f61" align="right" v-for="i in 25" :key="i">
+							<t-td align="center">张三</t-td>
+							<t-td align="center">12</t-td>
+							<t-td align="center">武汉全品</t-td>
 						</t-tr>
 					</t-table>
 				</view>
 			</view>
 		</scroll-view>
-		<view class="form_btn">
+		<view class="foot">
 			<button class="mini-btn" type="default" size="mini">取消</button>
 			<button class="mini-btn" type="primary" size="mini" @click="addInfo">保存</button>
 		</view>
@@ -45,90 +45,18 @@ export default {
 		return {
 			tableList: [
 				{
-					id: 0,
-					name: '张三',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 1,
-					name: '李四',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 2,
-					name: '王二',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
 					id: 3,
 					name: '码字',
 					age: '13071213738',
 					hobby: '武汉全品'
 				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				}
 			]
-		};
+		}
 	},
 	methods: {
 		change(e) {
 			console.log(e.detail);
 		},
-		// edit(item) {
-		//     uni.showToast({
-		//         title: item.name,
-		//         icon: 'none'
-		//     });
-		// },
 		addInfo() {
 			console.log(e.detail);
 		}
@@ -138,20 +66,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.list {
-	padding: 25rpx 20rpx;
-}
 .scroll-h {
-	height: 100vh;
+	height: calc(100vh - 100rpx - 100rpx);
 }
-.tit_tr {
-	background: #7b92f5;
+.head{
+	height: 100rpx;
 }
-.form_btn {
+.foot{
+	height: 100rpx;
 	text-align: center;
-	margin-top: 100rpx;
 	button {
 		margin: 0 30rpx;
 	}
+}
+.tit_tr {
+	background: #7b92f5;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <view class="add">
-    <scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+    <scroll-view @refresherpulling="haha" scroll-y="true"  class="scroll-h">
     <view class="qui-fx-ac qui-bd-b item-list">
       <view>标题：</view>
       <view class="qui-fx-f1"><input class="item-input"/></view>
