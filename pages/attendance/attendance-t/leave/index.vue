@@ -38,7 +38,7 @@
       >
       </xfl-select> -->
     <!-- </view> -->
-    <scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+    <scroll-view scroll-y="true" class="scroll-h">
       <view class="content">
         <view class="record-box">
           <!-- <no-data msg="暂无考勤记录~" v-if="dayInfo.length === 0"></no-data> -->
@@ -187,28 +187,28 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.leave{
+.leave {
   background-color: #f0f8ff;
   position: relative;
-  .nav-tab{
+  .nav-tab {
     height: 80rpx;
     line-height: 80rpx;
     text-align: center;
     background-color: #fff;
     margin-bottom: 15rpx;
-    .nav-item{
+    .nav-item {
       width: 30%;
       float: left;
       border-bottom: 1rpx solid #ccc;
-      &:nth-of-type(2){
+      &:nth-of-type(2) {
         margin: 0 37rpx;
       }
     }
   }
-  .select-box{
+  .select-box {
     background-color: #f1f8ff;
     padding: 20rpx 0;
-    .select{
+    .select {
       width: 30%;
       float: left;
       border: none;
@@ -218,7 +218,7 @@ export default {
   .scroll-h {
     height: calc(100vh - 180rpx);
     // height: 85vh;
-    .record-box{
+    .record-box {
       background-color: #f2f8fe;
       padding: 5rpx 5rpx 0 5rpx; 
       .leave-box {
@@ -226,74 +226,74 @@ export default {
         background-color: #fff;
         border-radius: 20rpx;
         padding: 25rpx 20rpx;
-        &:first-of-type{
+        &:first-of-type {
           margin-top: 0;
         }
-        .leave-top{
+        .leave-top {
           margin-bottom: 10rpx;
-          .leave-icon{
+          .leave-icon {
             font-size: 40rpx;
             font-weight: bolder;
           }
-          .leave-title{
+          .leave-title {
             font-size: 32rpx;
             font-weight: bold;
           }
         }
-        .leave-info{
+        .leave-info {
           color: #acafaf;
           .leave-pur{
             padding: 6rpx 0;
             font-size: 28rpx;
           }
         }
-        .leave-bottom{
+        .leave-bottom {
           margin-top: 10rpx;
           padding-top: 10rpx;
           font-size: 28rpx;
           border-top: 1rpx solid #f9fbfb;
-          .leave-time{
+          .leave-time {
             color:#cbcdcd;
           }
-          .leave-detail{
+          .leave-detail {
             font-weight: bold;
           }
         }
       }
     }
   }
-  .add-icon{
+  .add-icon {
     position: absolute;
     left: 43%;
     bottom: 5%;
-    image{
+    image {
      height: 100rpx;
 	   width: 100rpx;
     }
   }
 }
-.dropdown{
+.dropdown {
     padding: 4rpx 18rpx 18rpx 18rpx;
     background: #fff;
     font-size: 12px;
   }
-  .dropdown-menu{
+  .dropdown-menu {
     width: 50%;
     padding: 2rpx 0;
     border: 1rpx solid #ddd;
     border-radius: 8rpx;
     margin-bottom: 10rpx;
   }
-  .dropdown-menu:first-child{
+  .dropdown-menu:first-child { 
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     border-right: none;
   }
-  .dropdown-menu:last-child{
+  .dropdown-menu:last-child {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
-  .dropdown-item__selected{
+  .dropdown-item__selected {
     padding: 10rpx;
   }
   @font-face {
