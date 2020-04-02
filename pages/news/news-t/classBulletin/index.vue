@@ -116,7 +116,7 @@ export default {
 
 <style lang="scss" scoped>
 .scroll-h {
-  height: 100vh;
+  height: 50vh;
 }
 .work-box {
   background-color: #fff;
