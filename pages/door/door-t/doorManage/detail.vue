@@ -15,7 +15,7 @@
 				<text class="right">手机号</text>
 				<text class="right">操作</text>
 			</view>
-			<scroll-view @refresherpulling="haha" scroll-y="true"  class="scroll-h">
+			<scroll-view @refresherpulling="haha" scroll-y="true" class="scroll-h">
 				<view v-for="list in dataList" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
 					<text class="left">{{ list.name }}</text>
 					<text class="md">{{ list.sex }}</text>
@@ -170,8 +170,7 @@ export default {
 			]
 		};
 	},
-	watch: {
-	},
+	watch: {},
 
 	mounted() {},
 	methods: {
@@ -188,8 +187,9 @@ export default {
 			this.$tools.goBack();
 		},
 		add() {
-			uni.navigateTo({
-				url: './add'
+			this.$tools.navTo({
+				url: './add',
+				title: '添加成员'
 			});
 		}
 	}

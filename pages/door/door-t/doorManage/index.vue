@@ -68,8 +68,9 @@ export default {
   mounted() {},
   methods: {
     goDetail() {
-      uni.navigateTo({
-        url: './detail'
+     	this.$tools.navTo({
+        url: './detail',
+		title: '查看列表'
       });
     }
   }
