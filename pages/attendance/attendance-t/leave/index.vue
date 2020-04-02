@@ -1,5 +1,5 @@
 <template>
-  <view class="leave qui-page qui-fx qui-fx-ver">
+  <view class="leave qui-page">
     <view class="nav-tab">
       <view class="nav-item" v-for="item in navs" :key="item.id">{{item.name}}</view>
     </view>
@@ -14,30 +14,6 @@
         <ms-dropdown-item v-model="value2" :list="dataList"></ms-dropdown-item>
       </ms-dropdown-menu>
     </view>
-    <!-- <view class="select-box"> -->
-      <!-- <xfl-select 
-        :list="list"
-        placeholder = "请假类型"
-        :style_Container="'height: 70rpx;'"
-        class="select"
-        @change="select"
-      >
-      </xfl-select>
-      <xfl-select 
-        :list="list"
-        :style_Container="'height: 70rpx;'"
-        placeholder = "审批状态"
-        class="select"
-      >
-      </xfl-select>
-      <xfl-select 
-        :list="list"
-        :style_Container="'height: 70rpx;'"
-        placeholder = "全部时间"
-        class="select"
-      >
-      </xfl-select> -->
-    <!-- </view> -->
     <scroll-view scroll-y="true" class="scroll-h">
       <view class="content">
         <view class="record-box">
@@ -216,7 +192,7 @@ export default {
     }
   }
   .scroll-h {
-    height: calc(100vh - 180rpx);
+    height: calc(100vh - 190rpx);
     // height: 85vh;
     .record-box {
       background-color: #f2f8fe;

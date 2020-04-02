@@ -1,5 +1,5 @@
 <template>
-  <view class="stundent-statistics qui-page qui-fx qui-fx-ver">
+  <view class="stundent-statistics qui-page">
     <view>
       <view class="title qui-fx-ac">
         <image :src="person" mode=""></image>

@@ -1,5 +1,5 @@
 <template>
-  <view class="leave qui-page qui-fx qui-fx-ver">
+  <view class="leave qui-page">
     <view class="nav-tab">
       <view class="nav-item" v-for="item in navs" :key="item.id">{{item.name}}</view>
     </view>
@@ -216,7 +216,7 @@ export default {
     }
   }
   .scroll-h {
-    height: calc(100vh - 180rpx);
+    height: calc(100vh - 190rpx);
     // height: 85vh;
     .record-box{
       background-color: #f2f8fe;

@@ -32,7 +32,7 @@
         <view>请假时长：</view>
         <view class="qui-fx-f1"><input class="item-input" style="text-align: right;" placeholder="请输入姓名" /></view>
       </view>
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="qui-fx qui-bd-b item-list">
         <view>描述：</view>
         <view class="qui-fx-f1"><textarea class="item-input" style="text-align: right;" placeholder="请输入描述" /></view>
       </view>

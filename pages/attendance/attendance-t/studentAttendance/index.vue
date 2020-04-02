@@ -1,5 +1,5 @@
 <template>
-  <view class="student-attendance qui-page qui-fx qui-fx-ver">
+  <view class="student-attendance qui-page">
     <view>
       <view>
         <uni-calendar @change="getDate"></uni-calendar>
