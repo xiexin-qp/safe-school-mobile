@@ -37,13 +37,13 @@
         </view>
       </view> 
       <view class="log">
-        <text>邀请函</text>
         <view class="qui-fx-ac">
           <icon type="email" size="24"/>
           <view class="qui-fx-ver">
-            <text>访客,您好！</text>
-            <text>学校邀约人姓名邀请你于开始时间至结束时间来访进行来访事由，地址：手动填写。</text>
-            <text>请准时到达，如有问题请联系邀约人姓名邀约人手机号。</text>
+            <text>我的照片</text>
+			<view class="qui-fx">
+				<image :src="errorImg" alt="">
+			</view>
           </view>
         </view>
       </view> 
@@ -124,6 +124,12 @@
           margin-right: 20rpx;
         }
       }
+	  image{
+	    width: 160rpx;
+	    height: 160rpx;
+	    margin: 20px 38rpx 0 0;
+	    padding: 6rpx;
+	  }
     }
   }
 </style>
