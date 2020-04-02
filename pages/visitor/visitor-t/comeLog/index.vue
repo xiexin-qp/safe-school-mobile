@@ -1,6 +1,6 @@
 <template>
 	<view class="qui-page">
-		<uni-search-bar placeholder="输入姓名搜索" @confirm="search"></uni-search-bar>
+		<uni-search-bar class="search" placeholder="输入姓名搜索" @confirm="search"></uni-search-bar>
 		<view class="dropDown qui-fx">
 			<ms-dropdown-menu><ms-dropdown-item v-model="value0" :list="casueList"></ms-dropdown-item></ms-dropdown-menu>
 			<ms-dropdown-menu><ms-dropdown-item v-model="value1" :list="dateList"></ms-dropdown-item></ms-dropdown-menu>
@@ -138,10 +138,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.search {
+	height: 104rpx;
+}
 .list {
 	padding: 25rpx 20rpx;
 	font-size: 28rpx;
 	.th {
+		height: 100rpx;
 		background: #7b92f5;
 		padding: 20rpx 0;
 		border-radius: 8rpx;
@@ -177,6 +181,7 @@ export default {
 	height: calc(100vh - 330rpx);
 }
 .dropdown {
+	height: 86rpx;
 	padding: 4rpx 18rpx 18rpx 18rpx;
 	background: #fff;
 	font-size: 12px;
