@@ -43,14 +43,6 @@ export default {
 	},
 	data() {
 		return {
-			tableList: [
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-			]
 		}
 	},
 	methods: {

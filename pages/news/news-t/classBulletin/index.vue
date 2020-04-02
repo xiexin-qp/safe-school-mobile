@@ -4,21 +4,20 @@
 		<scroll-view scroll-y="true" class="scroll-h">
 			<view class="content">
 				<view class="record-box">
-					<no-data msg="暂无数据~" v-if="newsList.length === 0"></no-data>
-					<view class="leave-box" v-for="list in newsList" :key="list.id">
+					<view class="leave-box" v-for="list in 20" :key="list.id">
 						<view class="work-box qui-fx-jsb">
 							<text class="content_" @click="goDetail()">
-								{{ list.text }}
-								<view class="time_">{{ list.time }}</view>
+								我学召开第三次会议会议会议会议
+								<view class="time_">我 发布于2020年1月3日 16:23</view>
 							</text>
-							<text class="img_"><img :src="list.approveImg" /></text>
+							<text class="img_"><img :src="approveImg" /></text>
 							<view class="operation_" @click="actionsheet">...</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</scroll-view>
-		<view class="foot"><button type="primary" size="mini" @click="addNews()">+</button></view>
+		<view class="foot"><view class="add foot" @click="add">+</view></view>
 	</view>
 </template>
 <script>
@@ -29,32 +28,7 @@ export default {
 	data() {
 		return {
 			newsList: [
-				{
-					id: 0,
-					text: '我学召开第三次会议会议会议会议',
-					time: '我 发布于2020年1月3日 16:23',
-					approveImg: ''
-				},
-				{
-					id: 0,
-					text: '我学召开第三次会议会议会议会议',
-					time: '我 发布于2020年1月3日 16:23',
-					approveImg: ''
-				},
-				{
-					id: 0,
-					text: '我学召开第三次会议会议会议会议',
-					time: '我 发布于2020年1月3日 16:23',
-					approveImg: ''
-				},
-				{
-					id: 0,
-					text: '我学召开第三次会议会议会议会议',
-					time: '我 发布于2020年1月3日 16:23',
-					approveImg: ''
-				}
 			],
-
 			approveImg: ''
 		};
 	},
@@ -62,61 +36,41 @@ export default {
 		uniSearchBar
 	},
 	filters: {},
-	onLoad(options) {
-		console.log(options);
-	},
-	onPullDownRefresh() {
-		this.showList();
-	},
 	mounted() {
-		this.showList();
-		eventBus.$on('change', () => {
-			this.title = '新标题';
-		});
 	},
 	methods: {
 		actionsheet() {
 			const arr = ['编辑', '删除'];
 			this.$tools.actionsheet(['编辑', '删除'], index => {
 				console.log(arr[index]);
-				if (arr[index] == '编辑') {
+				if (index == 0) {
 					uni.navigateTo({
 						url: './addnews'
 					});
-				} else if (arr[index] == '删除') {
+				} else if  (index == 1) {
 					this.$tools.confirm('确定删除吗', () => {});
 				}
 			});
 		},
 		goDetail() {
-			uni.navigateTo({
-				url: './detail'
+			this.$tools.navTo({
+			  url: './detail',
+			title: '查看列表'
 			});
 		},
-		addNews() {
-			uni.navigateTo({
-				url: './addnews'
+		add() {
+			this.$tools.navTo({
+			url: './addnews',
+		   title: '添加新闻'
 			});
 		},
-		async showList(tag = false) {
-			const res = await actions.getIndex();
-			if (tag) {
-				this.dataList = this.dataList.concat(res.data);
-			} else {
-				this.dataList = res.data;
-				uni.stopPullDownRefresh();
-			}
-		},
-		chooseRole(e) {
-			this.currentRole = e.target.value;
-		}
 	}
 };
 </script>
 
 <style lang="scss" scoped>
 .scroll-h {
-	height: calc(100vh - 200rpx);
+	height: calc(100vh - 250rpx);
 }
 .work-box {
 	background-color: #fff;
@@ -148,19 +102,24 @@ export default {
 		color: #555555;
 	}
 }
-.head{
+.head {
 	height: 100rpx;
 }
 .foot {
-	height: 100rpx;
-	text-align: center;
-	button {
-		border-radius: 50%;
-		width: 50px;
-		height: 50px;
-		line-height: 50px;
-		font-size: 15px;
-		font-weight: 700;
+	height: 150rpx;
+	.add {
+		position: absolute;
+		bottom: 40rpx;
+		left: calc(50% - 40rpx);
+		z-index: 1;
+		width: 100rpx;
+		height: 100rpx;
+		line-height: 80rpx;
+		border-radius: 100%;
+		background: #0079ff;
+		color: #fff;
+		font-size: 100rpx;
+		text-align: center;
 	}
 }
 </style>

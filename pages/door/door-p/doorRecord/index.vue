@@ -1,5 +1,5 @@
 <template>
-	<view class="">
+	<view class="qui-page">
 		<view class="head"><button type="default" @click="onShowDatePicker('rangetime')">选择日期时间范围搜索</button></view>
 		<view class="">
 			<mx-date-picker
@@ -14,36 +14,31 @@
 				@cancel="onSelected"
 			/>
 		</view>
-		<scroll-view  scroll-y="true" class="scroll-h">
-			<view class="qui-page">
-				<no-data v-if="false" msg="暂无数据"></no-data>
-				<view class="list">
-					<view class="th qui-fx-jsa qui-fx-ac qui-fx-jc">
-						<text class="left">时间</text>
-						<view class="md qui-fx-ac qui-fx-jc">
-							<text>进/出</text>
-							<view class="icon qui-fx-ver"></view>
-						</view>
-						<text class="right">地点</text>
-					</view>
-					<view v-for="list in dataList" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
-						<text class="left">{{ list.name }}</text>
-						<text class="md">{{ list.sex }}</text>
-						<text class="right">{{ list.Organization }}</text>
-					</view>
+		<view class="list">
+			<view class="th qui-fx-jsa qui-fx-ac qui-fx-jc">
+				<text class="left">时间</text>
+				<view class="md qui-fx-ac qui-fx-jc">
+					<text>进/出</text>
+					<view class="icon qui-fx-ver"></view>
 				</view>
+				<text class="right">地点</text>
 			</view>
-		</scroll-view>
+			<scroll-view  scroll-y="true" class="scroll-h">
+				<view  v-for="list in 20" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
+					<text class="left">张三</text>
+					<text class="md">女</text>
+					<text class="right">全品文教</text>
+				</view>
+			</scroll-view>
+		</view>
 	</view>
 </template>
 <script>
 import MxDatePicker from '@/components/mx-datepicker/mx-datepicker.vue';
-import noData from '@/components/no-data/no-data.vue';
 import eventBus from '@u/eventBus.js';
 export default {
 	components: {
 		MxDatePicker,
-		noData
 	},
 	data() {
 		return {
@@ -55,38 +50,6 @@ export default {
 			rangetime: ['2019/01/08 14:00', '2019/01/16 13:59'],
 			type: 'rangetime',
 			value: '',
-			dataList: [
-				{
-					name: '张三',
-					sex: '女',
-					Organization: '全品文教'
-				},
-				{
-					name: '张三',
-					sex: '女',
-					Organization: '全品文教'
-				},
-				{
-					name: '张三',
-					sex: '女',
-					Organization: '全品文教'
-				},
-				{
-					name: '张三',
-					sex: '女',
-					Organization: '全品文教'
-				},
-				{
-					name: '张三',
-					sex: '女',
-					Organization: '全品文教'
-				},
-				{
-					name: '张三',
-					sex: '女',
-					Organization: '全品文教'
-				}
-			]
 		};
 	},
 	methods: {

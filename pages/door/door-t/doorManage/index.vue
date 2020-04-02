@@ -1,16 +1,16 @@
 <template>
-	<view class="">
+	<view class="qui-page">
 		<view class="head">我创建的通行权限组</view>
-		<scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+		<scroll-view @refresherpulling="haha" scroll-y="true" class="scroll-h">
 			<view class="content">
 				<view class="record-box">
-					<view class="leave-box" v-for="item in infoList" :key="item.id">
+					<view class="leave-box"  v-for="list in 20" :key="list.id" >
 				 <view class="work-box qui-fx-jsb">
-					 <view>
-						 <view class="work-til">{{item.remark}}</view>
+					 <view >
+						 <view class="work-til">小学部教师组</view>
 						 <view class="div-btn" @click="goDetail()">...</view>
-						 <view class="work-title normal-time" style="">{{item.outTime}}</view>
-						 <view class="work-title normal-equ" style="">{{item.position}}</view>
+						 <view class="work-title normal-time" style="">2020年3月21日 12:00</view>
+						 <view class="work-title normal-equ" style="">校大门设备组</view>
 					 </view>
 				 </view>
 					</view>
@@ -23,7 +23,7 @@
 import eventBus from '@u/eventBus.js'
 import { store, actions } from '../store/index.js'
 export default {
-  name: 'Home',
+  name: 'index',
   components: {},
   onLoad(options) {
     console.log(options);
@@ -33,36 +33,6 @@ export default {
   },
   data() {
     return {
-      infoList:[{
-        id: 1,
-        outTime: '2020年3月21日 12:00',
-        remark: '小学部教师组',
-        position: '校大门设备组'
-      },
-      {
-        id: 2,
-    outTime: '2020年3月21日 12:00',
-    remark: '小学部教师组',
-    position: '校大门设备组'
-      },
-      {
-        id: 3,
-    outTime: '2020年3月21日 12:00',
-    remark: '小学部教师组',
-    position: '校大门设备组'
-      },
-      {
-        id: 4,
-    outTime: '2020年3月21日 12:00',
-    remark: '小学部教师组',
-    position: '校大门设备组'
-      },
-      {
-        id: 5,
-     outTime: '2020年3月21日 12:00',
-     remark: '小学部教师组',
-     position: '校大门设备组'
-      }],
     };
   },
   computed: {},
