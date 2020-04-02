@@ -45,6 +45,12 @@
           </radio-group>
         </view>
       </view>
+      <view class="qui-bd-b item-list">
+			  <view>上传附图：</view>
+			  <view class="qui-fx-f1">
+					<an-upload-img total="3" v-model="imgList" style="margin: 20rpx"></an-upload-img>
+			  </view>
+			</view>
     </scroll-view>
     <view class="submit-box">
       <view class="btn">提交</view>
@@ -53,12 +59,17 @@
 </template>
 
 <script>
+	import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
 	export default {
+    components: {
+			anUploadImg
+		},
 		data() {
 			return {
         date: '2020-03-17',
         role: ['事假', '病假', '产假'],
-        currentRole: 1
+        currentRole: 1,
+        imgList:[]
 			}
 		},
     methods: {
