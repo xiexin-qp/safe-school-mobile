@@ -1,5 +1,6 @@
 .DS_Store
 .history
+__MACOSX/
 node_modules
 /unpackage
 .history

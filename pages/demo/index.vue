@@ -16,44 +16,15 @@
 	export default {
 		data() {
 			return {
-        title: '我是标题',
         dataList: []
 			}
 		},
     components: {
     },
-    filters: {
-       getTitle (val) {
-         return val + '666'
-       }
-    },
-    onLoad(options) {
-      console.log(options)
-    },
-    onPullDownRefresh() {
-      this.showList()
-    },
     mounted() {
-      this.showList()
-      eventBus.$on('change', () => {
-        this.title = '新标题'
-      })
+			console.table([1,2,3])
     },
 		methods: {
-      async showList (tag = false) {
-        const res = await actions.getIndex()
-        if (tag) {
-          this.dataList = this.dataList.concat(res.data)
-        } else {
-          this.dataList = res.data
-          uni.stopPullDownRefresh()
-        }
-      },
-      goDetail () {
-        uni.navigateTo({
-          url: './detail'
-        })
-      }
 		}
 	}
 </script>
