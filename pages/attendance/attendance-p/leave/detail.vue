@@ -1,5 +1,5 @@
 <template>
-  <view class="detail qui-page qui-fx qui-fx-ver">
+  <view class="detail qui-page">
     <view>
       <view class="leave-detail qui-fx-ver">
         <view class="leave-info qui-fx-jsb qui-fx-ac">

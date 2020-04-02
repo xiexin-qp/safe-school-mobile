@@ -1,5 +1,5 @@
 <template>
-  <view class="student-attendance qui-page qui-fx qui-fx-ver">
+  <view class="student-attendance qui-page">
     <view>
       <view>
         <uni-calendar @change="getDate"></uni-calendar>
@@ -31,66 +31,73 @@
 </template>
 
 <script>
-import person from '@s/img/person.png'
+import person from '@s/img/person.png';
 // import { store, actions } from './store/index.js'
 export default {
-  data () {
-    return {
-      person,
-      dayInfo: [
-        {
-          id:1,
-          workOnTime:'2020-03-30',
-          recordOnTime:'2020-03-30',
-          stateOn:1
-        }
-      ],
-      leaveList: [],
-      exceptionList: [],
-      zcList: [],
-      currentDay: '',
-      isOther: false,
-      dataList: [],
-      attandenceInfo:[{
-        title:'正常',
-        num:38
-      },{
-        title:'上学缺卡',
-        num:2
-      },{
-        title:'迟到',
-        num:7
-      },{
-        title:'早退',
-        num:4
-      },{
-        title:'放学缺卡',
-        num:9
-      },{
-        title:'缺勤',
-        num:13
-      }]
-    }
-  },
-  mounted() {
-    this.showList()
-  },
-  methods: {
-    async showList (tag = false) {
-      const res = await actions.getIndex()
-      if (tag) {
-        this.dataList = this.dataList.concat(res.data)
-      } else {
-        this.dataList = res.data
-        uni.stopPullDownRefresh()
-      }
-    },
-    detail(item){
-      console.log('item',item)
-      this.$refs.popup.open()
-    }
-  }
-}
+	data() {
+		return {
+			person,
+			dayInfo: [
+				{
+					id: 1,
+					workOnTime: '2020-03-30',
+					recordOnTime: '2020-03-30',
+					stateOn: 1
+				}
+			],
+			leaveList: [],
+			exceptionList: [],
+			zcList: [],
+			currentDay: '',
+			isOther: false,
+			dataList: [],
+			attandenceInfo: [
+				{
+					title: '正常',
+					num: 38
+				},
+				{
+					title: '上学缺卡',
+					num: 2
+				},
+				{
+					title: '迟到',
+					num: 7
+				},
+				{
+					title: '早退',
+					num: 4
+				},
+				{
+					title: '放学缺卡',
+					num: 9
+				},
+				{
+					title: '缺勤',
+					num: 13
+				}
+			]
+		};
+	},
+	mounted() {
+		this.showList();
+	},
+	methods: {
+		async showList(tag = false) {
+			const res = await actions.getIndex();
+			if (tag) {
+				this.dataList = this.dataList.concat(res.data);
+			} else {
+				this.dataList = res.data;
+				uni.stopPullDownRefresh();
+			}
+		},
+		detail(item) {
+			console.log('item', item);
+			this.$refs.popup.open();
+		}
+	}
+};
 </script>
 
 <style lang="less" scoped>

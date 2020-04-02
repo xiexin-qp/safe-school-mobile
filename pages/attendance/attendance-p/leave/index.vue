@@ -1,5 +1,5 @@
 <template>
-  <view class="leave qui-page qui-fx qui-fx-ver">
+  <view class="leave qui-page">
     <view class="nav-tab">
       <view class="nav-item" v-for="item in navs" :key="item.id">{{item.name}}</view>
     </view>
@@ -61,8 +61,7 @@
         </view>
       </view>
      </scroll-view>
-     <view class="add-icon">
-      <image :src="add" mode=""></image>
+     <view class="float-add-btn" @click="addLeave">
      </view>
   </view>
 </template>
@@ -162,8 +161,13 @@ export default {
   },
   methods: {
     select(){
-
     },
+		addLeave () {
+			this.$tools.navTo({
+				url: './add',
+				title: '新增请假单'
+			})
+		},
     detail(){
       const arr1 = ['修改', '撤回']
       const arr2 = ['审批通过', '审批不通过']
@@ -216,7 +220,7 @@ export default {
     }
   }
   .scroll-h {
-    height: calc(100vh - 180rpx);
+    height: calc(100vh - 190rpx);
     // height: 85vh;
     .record-box{
       background-color: #f2f8fe;

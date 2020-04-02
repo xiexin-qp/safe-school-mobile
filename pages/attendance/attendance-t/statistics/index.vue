@@ -1,5 +1,5 @@
 <template>
-  <view class="statistics qui-page qui-fx qui-fx-ver">
+  <view class="statistics qui-page">
     <view>
       <view class="calendar">
         <view class="year qui-fx-ac-jc">2020年</view>

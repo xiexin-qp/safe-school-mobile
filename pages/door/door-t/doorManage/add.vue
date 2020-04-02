@@ -10,10 +10,10 @@
 							<t-th align="center">手机号</t-th>
 							<t-th align="center">组织机构</t-th>
 						</t-tr>
-						<t-tr font-size="12" color="#5d6f61" align="right" v-for="item in tableList" :key="item.id">
-							<t-td align="center">{{ item.name }}</t-td>
-							<t-td align="center">{{ item.age }}</t-td>
-							<t-td align="center">{{ item.hobby }}</t-td>
+						<t-tr font-size="12" color="#5d6f61" align="right" v-for="i in 25" :key="i">
+							<t-td align="center">张三</t-td>
+							<t-td align="center">12</t-td>
+							<t-td align="center">武汉全品</t-td>
 						</t-tr>
 					</t-table>
 				</view>
@@ -45,43 +45,13 @@ export default {
 		return {
 			tableList: [
 				{
-					id: 0,
-					name: '张三',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 1,
-					name: '李四',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 2,
-					name: '王二',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-				{
 					id: 3,
 					name: '码字',
 					age: '13071213738',
 					hobby: '武汉全品'
 				},
 			]
-		};
+		}
 	},
 	methods: {
 		change(e) {
