@@ -1,22 +1,24 @@
 <template>
-	<scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
-		<view class="content">
-			<view class="record-box">
-				<no-data msg="暂无考勤记录~" v-if="infoList.length === 0"></no-data>
-				<view class="title_">我创建的通行权限组</view>
-				<view class="leave-box" v-for="item in infoList" :key="item.id">
-			 <view class="work-box qui-fx-jsb">
-				 <view>
-					 <view class="work-til">{{item.remark}}</view>
-					 <view class="div-btn" @click="goDetail()">...</view>
-					 <view class="work-title normal-time" style="">{{item.outTime}}</view>
-					 <view class="work-title normal-equ" style="">{{item.position}}</view>
+	<view class="">
+		<view class="head">我创建的通行权限组</view>
+		<scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+			<view class="content">
+				<view class="record-box">
+					<no-data msg="暂无考勤记录~" v-if="infoList.length === 0"></no-data>
+					<view class="leave-box" v-for="item in infoList" :key="item.id">
+				 <view class="work-box qui-fx-jsb">
+					 <view>
+						 <view class="work-til">{{item.remark}}</view>
+						 <view class="div-btn" @click="goDetail()">...</view>
+						 <view class="work-title normal-time" style="">{{item.outTime}}</view>
+						 <view class="work-title normal-equ" style="">{{item.position}}</view>
+					 </view>
 				 </view>
-			 </view>
+					</view>
 				</view>
 			</view>
-		</view>
-	 </scroll-view>
+		 </scroll-view>
+	</view>
 </template>
 <script>
 import eventBus from '@u/eventBus.js'
@@ -68,8 +70,9 @@ export default {
   mounted() {},
   methods: {
     goDetail() {
-      uni.navigateTo({
-        url: './detail'
+     	this.$tools.navTo({
+        url: './detail',
+		title: '查看列表'
       });
     }
   }
@@ -78,7 +81,7 @@ export default {
 
 <style lang="less" scoped>
 .scroll-h {
-	height: 100vh;
+	height: calc(100vh - 80rpx);
 }
 .work-title {
   margin-top: 30rpx;
@@ -110,9 +113,10 @@ export default {
     border-left: 2rpx 7b92f5 dashed;
   }
 }
-.title_ {
+.head{
   margin: 1.5rem;
   font-size: 18px;
   text-align: center;
+  height: 80rpx;
 }
 </style>

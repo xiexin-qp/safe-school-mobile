@@ -1,10 +1,10 @@
 <template>
   <view class="home qui-page qui-fx qui-fx-ver">
     <view id="title"><uni-search-bar @confirm="search" @input="input"></uni-search-bar></view>
-    <scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+    <scroll-view @refresherpulling="haha" scroll-y="true"  class="scroll-h">
       <view class="content">
         <view class="record-box">
-          <no-data msg="暂无考勤记录~" v-if="dataList.length === 0"></no-data>
+          <no-data msg="暂无新闻纪录~" v-if="dataList.length === 0"></no-data>
           <view class="leave-box" v-for="list in dataList" :key="list.id">
             <view class="work-box qui-fx-jsb">
               <text class="content_" @click="goDetail()">
@@ -62,17 +62,7 @@ export default {
     uniSearchBar
   },
   filters: {},
-  onLoad(options) {
-    console.log(options);
-  },
-  onPullDownRefresh() {
-    this.showList();
-  },
   mounted() {
-    this.showList();
-    eventBus.$on('change', () => {
-      this.title = '新标题';
-    });
   },
   methods: {
     actionsheet() {
@@ -98,18 +88,6 @@ export default {
         url: './addnews'
       });
     },
-    async showList(tag = false) {
-      const res = await actions.getIndex();
-      if (tag) {
-        this.dataList = this.dataList.concat(res.data);
-      } else {
-        this.dataList = res.data;
-        uni.stopPullDownRefresh();
-      }
-    },
-    chooseRole(e) {
-      this.currentRole = e.target.value;
-    }
   }
 };
 </script>
