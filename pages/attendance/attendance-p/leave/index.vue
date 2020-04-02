@@ -216,7 +216,8 @@ export default {
     }
   }
   .scroll-h {
-    height: 85vh;
+    height: calc(100vh - 180rpx);
+    // height: 85vh;
     .record-box{
       background-color: #f2f8fe;
       padding: 5rpx 5rpx 0 5rpx; 

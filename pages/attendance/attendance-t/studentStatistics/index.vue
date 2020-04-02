@@ -178,7 +178,7 @@ export default {
     }
   }
   .scroll {
-    height: 50vh;
+    height: calc(100vh - 620rpx);
     background-color: #fff;
     margin-top: 15rpx;
   }
