@@ -1,6 +1,6 @@
 <template>
   <view>
-    <scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+    <scroll-view @refresherpulling="haha" scroll-y="true"  class="scroll-h">
       <view class="qui-fx-ac qui-bd-b item-list">
         <view>姓名：</view>
         <view class="qui-fx-f1"><input class="item-input" v-model="formData.userName" style="text-align: right;" placeholder="请输入姓名" /></view>
@@ -60,6 +60,12 @@
           </checkbox-group>
         </view>
       </view>
+			<view class="qui-bd-b item-list">
+			  <view>上传图片：</view>
+			  <view class="qui-fx-f1">
+					<an-upload-img total="3" v-model="imgList" style="margin: 20rpx"></an-upload-img>
+			  </view>
+			</view>
       <view>
         {{JSON.stringify(formData)}}
       </view>
@@ -72,6 +78,7 @@
 </template>
 
 <script>
+	import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
 	export default {
 		data() {
 			return {
@@ -85,8 +92,12 @@
           birthday: '请选择',
           role: 0,
           healthy: ''
-        }
+        },
+				imgList: []
 			}
+		},
+		components: {
+			anUploadImg
 		},
     computed: {
     },
@@ -95,7 +106,7 @@
     methods: {
       confirm () {
         this.$tools.confirm('确定删除吗', () => {
-          console.log(4)
+					console.log(this.imgList)
         })
       },
       actionsheet () {

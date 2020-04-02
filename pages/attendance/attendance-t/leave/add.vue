@@ -1,11 +1,11 @@
 <template>
   <view class="add">
-    <scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+    <scroll-view scroll-y="true" class="scroll-h">
       <view class="qui-fx-ac qui-bd-b item-list">
         <view>请假类型：</view>
         <view class="qui-fx-f1 qui-fx-je">
           <picker mode="selector" :value="currentRole" :range="role" @change="chooseRole">
-              {{role[currentRole]}}
+            {{role[currentRole]}}
           </picker>
         </view>
         <view>></view>
@@ -14,7 +14,7 @@
         <view>开始时间：</view>
         <view class="qui-fx-f1 qui-fx-je">
           <picker mode="date" :value="date" @change="bindTimeChange">
-              <view class="uni-input">{{date}}</view>
+            <view class="uni-input">{{date}}</view>
           </picker>
         </view>
         <view>></view>
@@ -23,7 +23,7 @@
         <view>结束时间：</view>
         <view class="qui-fx-f1 qui-fx-je">
           <picker mode="date" :value="date" @change="bindTimeChange">
-              <view class="uni-input">{{date}}</view>
+            <view class="uni-input">{{date}}</view>
           </picker>
         </view>
         <view>></view>
@@ -45,6 +45,12 @@
           </radio-group>
         </view>
       </view>
+      <view class="qui-bd-b item-list">
+			  <view>上传附图：</view>
+			  <view class="qui-fx-f1">
+					<an-upload-img total="3" v-model="imgList" style="margin: 20rpx"></an-upload-img>
+			  </view>
+			</view>
     </scroll-view>
     <view class="submit-box">
       <view class="btn">提交</view>
@@ -53,12 +59,17 @@
 </template>
 
 <script>
+	import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
 	export default {
+    components: {
+			anUploadImg
+		},
 		data() {
 			return {
         date: '2020-03-17',
         role: ['事假', '病假', '产假'],
-        currentRole: 1
+        currentRole: 1,
+        imgList:[]
 			}
 		},
     methods: {
@@ -73,7 +84,7 @@
 </script>
 
 <style lang="scss">
-.add{
+.add {
   .scroll-h {
     height: calc(100vh - 100rpx);
   }

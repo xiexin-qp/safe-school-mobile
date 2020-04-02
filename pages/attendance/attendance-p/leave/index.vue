@@ -38,7 +38,7 @@
       >
       </xfl-select> -->
     <!-- </view> -->
-    <scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+    <scroll-view scroll-y="true" class="scroll-h">
       <view class="content">
         <view class="record-box">
           <!-- <no-data msg="暂无考勤记录~" v-if="dayInfo.length === 0"></no-data> -->
@@ -216,7 +216,8 @@ export default {
     }
   }
   .scroll-h {
-    height: 85vh;
+    height: calc(100vh - 180rpx);
+    // height: 85vh;
     .record-box{
       background-color: #f2f8fe;
       padding: 5rpx 5rpx 0 5rpx; 

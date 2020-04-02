@@ -1,52 +1,52 @@
 <template>
   <view class="detail qui-page qui-fx qui-fx-ver">
-      <view>
-        <view class="leave-detail qui-fx-ver">
-          <view class="leave-info qui-fx-jsb qui-fx-ac">
-            <view class="leave-name">张倩 事假4小时</view>
-            <view class="leave-state">出校</view>
-          </view>
-          <view class="leave-time qui-fx-jsb">
-            <view class="qui-fx"> 
-              <view class="leave-icon">起</view>
-              <view>
-                <view>2020年3月30日</view>
-                <view>12:00</view>
-              </view>
-            </view>
-            <view class="qui-fx"> 
-              <view class="leave-icon">止</view>
-              <view>
-                <view>2020年3月31日</view>
-                <view>12:00</view>
-              </view>
+    <view>
+      <view class="leave-detail qui-fx-ver">
+        <view class="leave-info qui-fx-jsb qui-fx-ac">
+          <view class="leave-name">张倩 事假4小时</view>
+          <view class="leave-state">出校</view>
+        </view>
+        <view class="leave-time qui-fx-jsb">
+          <view class="qui-fx"> 
+            <view class="leave-icon">起</view>
+            <view>
+              <view>2020年3月30日</view>
+              <view>12:00</view>
             </view>
           </view>
-        </view>
-        <view class="leave-remark">家长有急事</view>
-        <view class="apply-box qui-fx-ac">
-          <view class="qui-fx-ver qui-fx-ac">
-            审批人
-            <image :src="person" mode=""></image>
-             赵青
-          </view>
-          <view class="apply-content qui-fx-ver">
-            <view class="apply-status">审批通过</view>
-            <view class="apply-time">2020年3月20日 11:39</view>
-          </view>
-        </view>
-        <view class="apply-box qui-fx-ac">
-          <view class="qui-fx-ver qui-fx-ac">
-            抄送人
-            <image :src="person" mode=""></image>
-             吴启迪
-          </view>
-          <view class="apply-content qui-fx-ver">
-            <view class="apply-status">未读</view>
-            <view class="apply-time">--：--</view>
+          <view class="qui-fx"> 
+            <view class="leave-icon">止</view>
+            <view>
+              <view>2020年3月31日</view>
+              <view>12:00</view>
+            </view>
           </view>
         </view>
       </view>
+      <view class="leave-remark">家长有急事</view>
+      <view class="apply-box qui-fx-ac">
+        <view class="qui-fx-ver qui-fx-ac">
+          审批人
+          <image :src="person" mode=""></image>
+           赵青
+        </view>
+        <view class="apply-content qui-fx-ver">
+          <view class="apply-status">审批通过</view>
+          <view class="apply-time">2020年3月20日 11:39</view>
+        </view>
+      </view>
+      <view class="apply-box qui-fx-ac">
+        <view class="qui-fx-ver qui-fx-ac">
+          抄送人
+          <image :src="person" mode=""></image>
+           吴启迪
+        </view>
+        <view class="apply-content qui-fx-ver">
+          <view class="apply-status">未读</view>
+          <view class="apply-time">--：--</view>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 

@@ -1,11 +1,13 @@
 <template>
-	<scroll-view @refresherpulling="haha" scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
-    <view id="title">{{ title | getTitle }}</view>
-    <view @click="goDetail" v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb">
-      <text>{{ list.name }}</text>
-      <text>{{ list.number }}</text>
-    </view>
-	</scroll-view>
+	<view class="qui-page qui-fx-ver">
+		<view class="header"></view>
+		<scroll-view scroll-y="true" class="scroll-h">
+		  <view  v-for="i in 20" :key="i" class="list qui-bd-b qui-fx-jsb">
+				{{i}}
+		  </view>
+		</scroll-view>
+		<view class="footer"></view>
+	</view>
 </template>
 
 <script>
@@ -14,53 +16,32 @@
 	export default {
 		data() {
 			return {
-        title: '我是标题',
         dataList: []
 			}
 		},
     components: {
     },
-    filters: {
-       getTitle (val) {
-         return val + '666'
-       }
-    },
-    onLoad(options) {
-      console.log(options)
-    },
-    onPullDownRefresh() {
-      this.showList()
-    },
     mounted() {
-      this.showList()
-      eventBus.$on('change', () => {
-        this.title = '新标题'
-      })
+			console.table([1,2,3])
     },
 		methods: {
-      async showList (tag = false) {
-        const res = await actions.getIndex()
-        if (tag) {
-          this.dataList = this.dataList.concat(res.data)
-        } else {
-          this.dataList = res.data
-          uni.stopPullDownRefresh()
-        }
-      },
-      goDetail () {
-        uni.navigateTo({
-          url: './detail'
-        })
-      }
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.header {
+		height: 88rpx;
+		background-color: #0079FF;
+	}
   .list {
     padding: 25rpx 20rpx;
   }
   .scroll-h {
-    height: 100vh;
+    height: calc(100vh - 188rpx);
   }
+	.footer {
+		height: 100rpx;
+		background-color: red;
+	}
 </style>
