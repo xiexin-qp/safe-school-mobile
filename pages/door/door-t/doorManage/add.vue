@@ -1,7 +1,7 @@
 <template>
 	<view class="add">
 		<view class="head"><uni-search-bar @confirm="search" @input="input"></uni-search-bar></view>
-		<scroll-view @refresherpulling="haha" scroll-y="true" class="scroll-h">
+		<scroll-view scroll-y="true" class="scroll-h">
 			<view class="warp">
 				<view class="box">
 					<t-table border="1" border-color="#eeeeee" :is-check="true" @change="change">
@@ -42,16 +42,7 @@ export default {
 		tTd
 	},
 	data() {
-		return {
-			tableList: [
-				{
-					id: 3,
-					name: '码字',
-					age: '13071213738',
-					hobby: '武汉全品'
-				},
-			]
-		}
+		return {};
 	},
 	methods: {
 		change(e) {
@@ -69,10 +60,10 @@ export default {
 .scroll-h {
 	height: calc(100vh - 100rpx - 100rpx);
 }
-.head{
+.head {
 	height: 100rpx;
 }
-.foot{
+.foot {
 	height: 100rpx;
 	text-align: center;
 	button {
