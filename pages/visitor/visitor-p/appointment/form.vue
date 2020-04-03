@@ -53,7 +53,7 @@
 				</view>
 			</view>
 		</scroll-view>
-		<view class="submit-box"><view class="btn" @click="confirm">提交</view></view>
+		<view class="common-btn" @click="confirm">提交</view>
 	</view>
 </template>
 
@@ -109,7 +109,7 @@ export default {
 
 <style lang="scss">
 .scroll-h {
-	height: calc(100vh - 100rpx);
+	height: calc(100vh - 88rpx);
 }
 .item-list {
 	padding: 25rpx 15rpx;
@@ -129,19 +129,5 @@ export default {
 .sub-title {
 	font-size: 24rpx;
 	color: #999;
-}
-.submit-box {
-	height: 100rpx;
-	.btn {
-		padding: 0 20rpx;
-		height: 80rpx;
-		line-height: 80rpx;
-		text-align: center;
-		letter-spacing: 8rpx;
-		margin: 0 20rpx;
-		background-color: $main-color;
-		color: #fff;
-		border-radius: $radius;
-	}
 }
 </style>

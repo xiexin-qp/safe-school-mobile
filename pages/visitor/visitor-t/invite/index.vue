@@ -39,7 +39,7 @@
 				</view>
 			</view>
 		</scroll-view>
-		<view class="add" @click="add">+</view>
+		<view class="float-add-btn" @click="add"></view>
 	</view>
 </template>
 
@@ -172,23 +172,6 @@ export default {
 <style lang="scss" scoped>
 .search {
 	height: 104rpx;
-}
-.invite {
-	position: relative;
-	.add {
-		position: absolute;
-		bottom: 40rpx;
-		left: calc(50% - 40rpx);
-		z-index: 1;
-		width: 100rpx;
-		height: 100rpx;
-		line-height: 80rpx;
-		border-radius: 100%;
-		background: #0079ff;
-		color: #fff;
-		font-size: 100rpx;
-		text-align: center;
-	}
 }
 .approve-list {
 	background-color: #fff;
