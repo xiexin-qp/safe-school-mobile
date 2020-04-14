@@ -1,9 +1,13 @@
 <template>
   <view class="statistics qui-page">
     <view>
-      <view class="calendar">
-        <view class="year qui-fx-ac-jc">2020年</view>
-        <view class="month qui-fx-ac-jc" v-for="item in monthList" :key="item.id">{{item.month}}月</view>
+      <view class="year-list">
+        <view class="title">{{yearTitle.split('-')[0]}}年</view>
+        <view class="last-month qui-fx qui-fx-jsa" >
+					<view @click="searchMonth(month)" :class="{'act': yearTitle === month}" v-for="month in lastMonth" :key="month">
+						{{ month.split('-')[1] }}月
+					</view>
+				</view>
       </view>
       <view class="record-box">
         <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
@@ -61,49 +65,79 @@ export default {
         id:'2',
         name:'1'
       }],
-      attandenceInfo:[{
-        title:'正常',
-        num:38
-      },{
-        title:'上学缺卡',
-        num:2
-      },{
-        title:'迟到',
-        num:7
-      },{
-        title:'早退',
-        num:4
-      },{
-        title:'放学缺卡',
-        num:9
-      },{
-        title:'缺勤',
-        num:13
-      }],
-      monthList:[{
-        id: 1,
-        month: 1
-      },{
-        id: 2,
-        month: 2
-      },{
-        id: 3,
-        month: 3
-      },{
-        id: 4,
-        month: 4
-      },{
-        id: 5,
-        month: 5
-      },{
-        id: 6,
-        month: 6
-      }]
+      attandenceInfo:[],
+			lastMonth: this.lastFiveMonth(),
+			yearTitle: this.lastFiveMonth().pop(),
     }
   },
+  mounted () {
+    this.searchMonth(this.yearTitle)
+  },
   methods: {
-    detail(item){
+		lastFiveMonth (num = 6) {
+			var monthArr = []
+			var date = new Date()
+			var year = date.getFullYear()
+			var month = date.getMonth() + 2
+			if (month > num) {
+				for (var i = month - 1; i >= month - num; i--) {
+					monthArr.push(year + '-' + (i > 9 ? i : '0' + i))
+				}
+			} else {
+				var lastY = year - 1
+				var cMonth = month - 1
+				var lastM = num - (month - 1)
+				for (let i = cMonth; i > 0; i--) {
+					monthArr.push(year + '-' + (i > 9 ? i : '0' + i))
+				}
+				for (let i = 12; i > 12 - lastM; i--) {
+					monthArr.push(lastY + '-' + (i > 9 ? i : '0' + i))
+				}
+			}
+			return monthArr.reverse()
+		},
+		async searchMonth (month) {
+      this.yearTitle = month
+      const req = {
+				month: month,
+				userCode: store.userCode
+			}
+      const res = await actions.getTeacherStatic(req)
+			this.attandenceInfo = [{
+        title: '正常',
+        state: '5',
+        num: res.data.normalCount
+      },{
+        title: '上学缺卡',
+        state: '3',
+        num: res.data.onNoRecordCount
+      },{
+        title: '迟到',
+        state: '1',
+        num: res.data.lateCount
+      },{
+        title: '早退',
+        state: '2',
+        num: res.data.earlyCount
+      },{
+        title: '放学缺卡',
+        state: '6',
+        num: res.data.offNoRecordCount
+      },{
+        title: '缺勤',
+        state: '7',
+        num: res.data.noRecord
+      }]
+		},
+    async detail(item){
       console.log('item',item)
+      console.log('this.yearTitle',this.yearTitle)
+      const req = {
+				month: this.yearTitle,
+        userCode: store.userCode,
+        state: item.state
+			}
+      const res = await actions.teacherStaticDetail(req)
       this.$refs.popup.open()
     }
   }
@@ -112,19 +146,32 @@ export default {
 
 <style lang="less" scoped>
 .statistics {
-  .calendar {
-    height: 200rpx;
-    background-color: #0079ff;
-    color:#fff;
-    .year {
-      height: 100rpx;
-      font-weight: bold;
-    }
-    .month {
-      width: 16.3%;
-      float: left;
-    }
-  }
+	.year-list {
+	    background-color:#0079ff;
+	    .title {
+	      color:#fff;
+	      font-size: 34rpx;
+	      font-weight: bold;
+	      text-align: center;
+	      padding: 30rpx 0 0rpx 0;
+	    }
+	    .last-month {
+	      padding: 20rpx 0 40rpx 0;
+	      & > view {
+	        color:#fff;
+	        text-align: center;
+	        height: 80rpx;
+	        width: 80rpx;
+	        line-height: 80rpx;
+	        border-radius: 100%;
+	      }
+	      .act {
+	        background-color:#fff;
+	        color: #0079ff;
+	        font-weight: bold
+	      }
+	    }
+	  }
   .record-box {
     padding-top:20rpx;
     background-color:#f2f8fe;

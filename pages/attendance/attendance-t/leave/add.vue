@@ -30,7 +30,7 @@
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view>请假时长：</view>
-        <view class="qui-fx-f1"><input class="item-input" style="text-align: right;" placeholder="请输入姓名" /></view>
+        <view class="qui-fx-f1"><input class="item-input" v-model="duration" style="text-align: right;" placeholder="请输入姓名" /></view>
       </view>
       <view class="qui-fx qui-bd-b item-list">
         <view>描述：</view>
@@ -60,6 +60,7 @@
 
 <script>
 	import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
+import { actions } from '../store'
 	export default {
     components: {
 			anUploadImg
@@ -69,10 +70,18 @@
         date: '2020-03-17',
         role: ['事假', '病假', '产假'],
         currentRole: 1,
-        imgList:[]
+        imgList:[],
+        duration: 0
 			}
-		},
+    },
+    mounted () {
+      this.leaveReasonGet()
+    },
     methods: {
+      async leaveReasonGet () {
+        const res = await actions.getLeaveReason()
+        this.role = res.data
+      },
       bindTimeChange (e) {
         this.date = e.target.value
       },

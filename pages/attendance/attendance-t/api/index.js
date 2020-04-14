@@ -3,9 +3,11 @@
  */
 
 import home from './home'
+import leave from './leave'
 
 let apiList = {
-  ...home
+  ...home,
+  ...leave
 }
 
 export default apiList

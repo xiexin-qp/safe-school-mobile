@@ -5,11 +5,19 @@
 
 const ConfigEnv = process.env.NODE_ENV
 let hostEnv = ''
+let lz = ''
+let zk = ''
 
 if (ConfigEnv === 'production') {
   hostEnv = ''
 } else if (ConfigEnv === 'development') {
   hostEnv = ''
+  lz = '/lz'
+  zk = '/zk'
 }
 
-export default hostEnv
+export default {
+	hostEnv,
+  lz,
+  zk
+}

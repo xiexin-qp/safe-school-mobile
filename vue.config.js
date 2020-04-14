@@ -27,5 +27,25 @@ module.exports = {
     //     axios: 'axios'
     //   }
     // }
-  }
+  },
+   devServer: {
+      port: 8001,
+      open: true,
+      proxy: {
+        lz: {
+          target: 'http://39.97.164.4:10091/', // 吕卓
+          changeOrigin: true,
+          pathRewrite: {
+            '^/lz': ''
+          }
+        },
+        zk: {
+          target: 'http://pugai.natapp1.cc/', // 张坤
+          changeOrigin: true,
+          pathRewrite: {
+            '^/zk': ''
+          }
+        }
+      }
+    },
 }

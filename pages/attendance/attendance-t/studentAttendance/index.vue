@@ -2,7 +2,7 @@
   <view class="student-attendance qui-page">
     <view>
       <view>
-        <uni-calendar @change="getDate"></uni-calendar>
+        <uni-calendar @change="change"></uni-calendar>
       </view>
       <view class="record-box">
         <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
@@ -32,69 +32,73 @@
 
 <script>
 import person from '@s/img/person.png';
-// import { store, actions } from './store/index.js'
+import { store, actions } from '../store/index.js'
 export default {
 	data() {
 		return {
 			person,
-			dayInfo: [
-				{
-					id: 1,
-					workOnTime: '2020-03-30',
-					recordOnTime: '2020-03-30',
-					stateOn: 1
-				}
-			],
-			leaveList: [],
-			exceptionList: [],
-			zcList: [],
-			currentDay: '',
-			isOther: false,
 			dataList: [],
-			attandenceInfo: [
-				{
-					title: '正常',
-					num: 38
-				},
-				{
-					title: '上学缺卡',
-					num: 2
-				},
-				{
-					title: '迟到',
-					num: 7
-				},
-				{
-					title: '早退',
-					num: 4
-				},
-				{
-					title: '放学缺卡',
-					num: 9
-				},
-				{
-					title: '缺勤',
-					num: 13
-				}
-			]
-		};
+      attandenceInfo: [],
+      day: new Date()
+		}
 	},
 	mounted() {
+    const date = new Date()
+    let y = date.getFullYear()
+    let m = date.getMonth() + 1
+    m = m < 10 ? ('0' + m) : m
+    let d = date.getDate()
+    d = d < 10 ? ('0' + d) : d
+    this.day = y + '-' + m + '-' + d
 		this.showList();
 	},
 	methods: {
-		async showList(tag = false) {
-			const res = await actions.getIndex();
-			if (tag) {
-				this.dataList = this.dataList.concat(res.data);
-			} else {
-				this.dataList = res.data;
-				uni.stopPullDownRefresh();
+		async showList () {
+      const req = {
+        teacherCode: store.userCode,
+        day: this.day
 			}
-		},
-		detail(item) {
-			console.log('item', item);
-			this.$refs.popup.open();
+      const res = await actions.classDayStatic(req)
+			this.attandenceInfo = [{
+        title: '正常',
+        state: '5',
+        num: res.data.normalCount
+      },{
+        title: '上学缺卡',
+        state: '3',
+        num: res.data.onNoRecordCount
+      },{
+        title: '迟到',
+        state: '1',
+        num: res.data.lateCount
+      },{
+        title: '早退',
+        state: '2',
+        num: res.data.earlyCount
+      },{
+        title: '放学缺卡',
+        state: '6',
+        num: res.data.offNoRecordCount
+      },{
+        title: '缺勤',
+        state: '7',
+        num: res.data.noRecord
+      }]
+    },
+    change (data) {
+      console.log('data',data.fulldate)
+      this.day = data.fulldate
+      this.showList()
+    },
+		async detail(item) {
+      console.log('item', item)
+      const req = {
+				day: this.day,
+        teacherCode: store.userCode,
+        state: item.state
+			}
+      const res = await actions.classDayStaticDetail(req)
+			this.$refs.popup.open()
 		}
 	}
 };
