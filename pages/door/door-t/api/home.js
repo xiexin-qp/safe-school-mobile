@@ -6,12 +6,17 @@
 import hostEnv from '../../../../config/index.js'
 
 let homeApi = {
-  getIndex: 'http://yapi.demo.qunar.com/mock/5691/getDemoList#get', // 获取列表
-  getDetail: 'http://yapi.demo.qunar.com/mock/5691/getDemoInfo#get' // 获取详情
+  addgroupList: '/setting/rule/group/add#post', // 添加/编辑权限组列表
+  delgroupList: '/setting/rule/group/delete#post', // 权限组删除
+  getrecordDetail: '/setting/rule/group/detail#get', // 权限组详细信息
+  getrecordList: '/setting/rule/group/list#post', // 权限组列表
+  addgroupuserList: '/setting/rule/group/user/add#post', // 权限组添加人员
+  delgroupuserList: '/setting/rule/group/user/delete#post', // 权限组删除人员
+  getgroupuserList: '/setting/rule/user/list#post' // 权限组人员列表
 }
 
 for (let val in homeApi) {
-  homeApi[val] = `${hostEnv}${homeApi[val]}`
+  homeApi[val] = `${hostEnv.zx}${homeApi[val]}`
 }
 
 export default homeApi

@@ -45,7 +45,14 @@ module.exports = {
           pathRewrite: {
             '^/zk': ''
           }
-        }
+        },  
+		zx: {
+          target: 'http://39.97.164.4:10162/', // 朱旭
+          changeOrigin: true,
+          pathRewrite: {
+            '^/zx': ''
+          }
+        },
       }
     },
 }
