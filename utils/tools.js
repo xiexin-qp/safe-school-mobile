@@ -15,6 +15,20 @@ const tools = {
         delta
     });
   },
+  // 审批状态
+  approveState(val) {
+    if(val === '0'){
+  		return '待审批'
+  	} else if(val === '1'){
+  		return '同意'
+  	} else if(val === '2'){
+  		return '不同意'
+  	} else if(val === '3'){
+  		return '撤销'
+  	} else if(val === '4'){
+  		return '失效'
+  	}
+  },
   // 删除提示
   delTip(msg = '确认进行此操作吗?', cb) {
     uni.showModal({

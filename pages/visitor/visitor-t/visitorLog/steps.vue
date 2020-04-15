@@ -20,10 +20,19 @@
 </template>
 
 <script>
+
 export default {
+	props: {
+		talk: {
+			type: Array,
+			default: () => {
+				return []
+			}
+		}
+	},
 	data() {
 		return {
-			talk: [
+			/* talk: [
 				{
 					id: 1,
 					YYMMDD: '2020/2/28',
@@ -64,10 +73,11 @@ export default {
 					endTime: '2020/2/26 16:00',
 					duration: '5小时'
 				}
-			]
+			] */
 		};
 	},
-	methods: {}
+	methods: {
+	}
 };
 </script>
 

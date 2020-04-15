@@ -7,7 +7,11 @@ import hostEnv from '../../../../config/index.js'
 
 let homeApi = {
   getCauseList: '/cause/info/list#post', // 获取事由列表
-  getVisitList: '/invite/appoint/mobile/list#post', // 获取访客记录
+  getVisitList: '/invite/appoint/mobile/list#post', // 获取访客记录列表
+  getVisitDetail: '/invite/appoint/mobile/detail/list#post', // 获取访客记录详情
+  getComeLogList: '/invite/appoint/mobile/visit/list#post', // 获取来访记录列表
+  getComeLogDetail: '/invite/appoint/mobile/visit/detail#getUrl', // 获取来访记录详情
+  getInviteList: '/invite/appoint/mobile/appoints#post', // 获取邀预约记录列表
 }
 
 for (let val in homeApi) {
