@@ -10,7 +10,7 @@ uniRequest.interceptors.request.use(
         return Promise.reject(err);
     });
 
-// 响应拦截
+// 响应拦截A
 uniRequest.interceptors.response.use(function(response) {
     return Promise.resolve(response);
 }, function(error) {

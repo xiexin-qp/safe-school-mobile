@@ -7,7 +7,7 @@ import hostEnv from '../../../../config/index.js'
 
 let homeApi = {
   getCauseList: '/cause/info/list#post', // 获取事由列表
-  getDetail: 'http://yapi.demo.qunar.com/mock/5691/getDemoInfo#get', // 获取详情
+  getVisitList: '/invite/appoint/mobile/list#post', // 获取访客记录
 }
 
 for (let val in homeApi) {
