@@ -25,18 +25,29 @@ import { store, actions } from '../store/index.js';
 export default {
 	name: 'index',
 	components: {},
-	onLoad(options) {
-		console.log(options);
-	},
-	onPullDownRefresh() {
-		this.showList();
-	},
 	data() {
-		return {};
+		return {
+			pageList: {
+				page: 1,
+				size: 20
+			},
+			ruleGroupCode :''
+		};
 	},
 	computed: {},
-	mounted() {},
+	mounted() {
+		this.showList();
+	},
 	methods: {
+		async showList() {
+			const req = {
+				schoolCode: 'QPZX',
+				ruleGroupType:this.ruleGroupCode,
+				...this.pageList
+			};
+			const res = await actions.getgroupList(req);
+			this.dataList = res.data.list;
+		},
 		goDetail() {
 			this.$tools.navTo({
 				url: './detail',
