@@ -18,30 +18,26 @@
       <view class="content">
         <view class="record-box">
           <!-- <no-data msg="暂无考勤记录~" v-if="dayInfo.length === 0"></no-data> -->
-          <view class="leave-box" v-for="(item,index) in 10" :key="index">
+          <view class="leave-box" v-for="(item,index) in leaveList" :key="index">
             <view class="leave-top qui-fx-jsb">
-              <view class="leave-title">事假 </view>
-              <view class="leave-icon" @click="detail(item)"> ...</view>
+              <view class="leave-title"> {{ item.reason }} </view>
+              <view class="leave-icon" @click="check(item)"> ...</view>
             </view>
             <view class="leave-info"> 
-              <view class="leave-pur">开始时间：2020年3月20日 12:00</view>
-              <view class="leave-pur">结束时间：2020年3月21日 12:00</view>
-              <view class="leave-pur">描述：家里有急事</view>
-              <view class="leave-pur">状态：待审批</view>
+              <view class="leave-pur">开始时间：{{ item.startTime | formatDate }}</view>
+              <view class="leave-pur">结束时间：{{ item.endTime | formatDate }}</view>
+              <view class="leave-pur">描述：{{ item.remark }}</view>
+              <view class="leave-pur">状态：{{ item.state | getState }}</view>
             </view>
             <view class="leave-bottom qui-fx-jsb">
-              <view class="leave-time">2020年3月20日 10:00 </view>
-              <view class="leave-detail" style=""> 查看详情 > </view>
+              <view class="leave-time"> {{ item.initiationTime | formatDate }}</view>
+              <view class="leave-detail" @click="detail(item.id)"> 查看详情 > </view>
             </view>
           </view>
         </view>
       </view>
      </scroll-view>
-     <view class="float-add-btn" @click="addLeave">
-     </view>
-     <!-- <view class="add-icon">
-      <image :src="add" mode=""></image>
-     </view> -->
+     <view class="float-add-btn" @click="addLeave"> </view>
   </view>
 </template>
 
@@ -75,44 +71,27 @@ export default {
         id: '3',
         name: '我的抄送'
       }],
-      list: [       //要展示的数据
-        {value: '事假', id: 1},
-        {value: '病假', id: 2}
-      ],
-      casueList: [
-          {
-              text: '请假类型',
-              value: '0'
-          },
-          {
-              text: '年假',
-              value: '1'
-          },
-          {
-              text: '事假',
-              value: '2'
-          },
-          {
-              text: '产假',
-              value: '3'
-          }
-        ],
+      casueList: [{text:'请假类型',value:'0'}],
         dateList: [
           {
-              text: '审批状态',
-              value: '0'
+            text: '审批状态',
+            value: ''
           },
           {
-              text: '待审批',
-              value: '1'
+            text: '待审批',
+            value: '0'
           },
           {
-              text: '审批通过',
-              value: '2'
+            text: '审批通过',
+            value: '1'
           },
           {
-              text: '审批未通过',
-              value: '3'
+            text: '审批未通过',
+            value: '2'
+          },
+          {
+            text: '撤回',
+            value: '3'
           }
         ],
         dataList: [
@@ -138,7 +117,67 @@ export default {
       value2: '0',
     }
   },
+  filters: {
+    formatDate: function (value) {
+      let date = new Date(value);
+      let y = date.getFullYear();
+      let MM = date.getMonth() + 1;
+      MM = MM < 10 ? ('0' + MM) : MM;
+      let d = date.getDate();
+      d = d < 10 ? ('0' + d) : d;
+      let h = date.getHours();
+      h = h < 10 ? ('0' + h) : h;
+      let m = date.getMinutes();
+      m = m < 10 ? ('0' + m) : m;
+      let s = date.getSeconds();
+      s = s < 10 ? ('0' + s) : s;
+      return y  + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s
+    },
+    getState: function (value) {
+      if (value === '0') {
+        return '未审批'
+      } else if (value === '1') {
+        return '通过'
+      } else if (value === '2') {
+        return '拒绝'
+      } else if (value === '3') {
+        return '撤回'
+      }
+    }
+  },
+  mounted () {
+    this.leaveReasonGet()
+    this.teacherLeaveGet()
+  },
   methods: {
+    async leaveReasonGet () {
+      const res = await actions.getLeaveReason()
+      const data = res.data.map(el => {
+        el.text = el.name
+        el.value = el.id
+        return el
+      })
+      this.casueList =this.casueList.concat(data)
+    },
+    async teacherLeaveGet () {
+    // state (string, optional): 状态(0未审批,1通过,2拒绝,3撤回) 
+    // outSchool (string, optional): 是否出校(Y/N) ,
+      const req = {
+        applicantCode: '',
+        applicantName: '',
+        schoolCode:store.schoolCode,
+        state: '',
+        startTime:'' ,
+        endTime:'',
+        page:1,
+        size:20,
+        orgCode:'',
+        outSchool:'',
+        userName:''
+      }
+      const res = await actions.getTeacherLeave(req)
+      this.leaveList = res.data.list
+    },
     select(){
 
     },
@@ -148,12 +187,18 @@ export default {
 				title: '新增请假单'
 			})
 		},
-    detail(){
+    check(){
       const arr1 = ['修改', '撤回']
       const arr2 = ['审批通过', '审批不通过']
         this.check(arr2)
         // this.check(arr1)
     },
+    detail (id) {
+      this.$tools.navTo({
+				url: `./detail?id=${id}`,
+				title: '查看详情'
+			})
+    }, 
     check(arr){
       this.$tools.actionsheet(arr, (index) => {
         console.log(arr[index])

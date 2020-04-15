@@ -85,7 +85,7 @@ export default {
       } else {
         return '缺卡'
       }
-    },
+    }
   },
   mounted () {
     const date = new Date()

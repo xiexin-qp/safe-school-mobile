@@ -34,7 +34,7 @@
 import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue';
 import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue';
 import noData from '@/components/no-data/no-data.vue';
-import { actions } from '../store/index.js';
+import { store, actions } from '../store/index.js';
 export default {
 	components: {
 		msDropdownMenu,
@@ -97,11 +97,17 @@ export default {
 	},
 	methods: {
 		async showList(tag = false) {
-			const res = await actions.getIndex();
+			const req = {
+				schoolCode:  store.schoolCode,
+				pageNum: 1,
+				pageSize: 100,
+			}
+			const res = await actions.getCauseList();
 			if (tag) {
 				this.dataList = this.dataList.concat(res.data);
 			} else {
 				this.dataList = res.data;
+				console.log(this.dataList)
 				uni.stopPullDownRefresh();
 			}
 		},

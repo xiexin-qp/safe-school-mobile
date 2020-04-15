@@ -39,7 +39,7 @@
       <view class="qui-fx-ac qui-bd-b item-list">
         <view>是否出校：</view>
         <view class="qui-fx-f1 qui-fx-je">
-          <radio-group>
+          <radio-group @change="radioChange">
             <label><radio value="1" />是</label>
             <label class="radio"><radio value="2" />否</label>
           </radio-group>
@@ -81,6 +81,9 @@ import { actions } from '../store'
       async leaveReasonGet () {
         const res = await actions.getLeaveReason()
         this.role = res.data
+      },
+      radioChange (e) {
+        console.log('e',e.target.value)
       },
       bindTimeChange (e) {
         this.date = e.target.value
