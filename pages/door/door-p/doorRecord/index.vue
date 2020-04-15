@@ -23,11 +23,12 @@
 				</view>
 				<text class="right">地点</text>
 			</view>
+			<no-data msg="暂无出入记录记录~" v-if="dataList.length === 0"></no-data>
 			<scroll-view scroll-y="true" class="scroll-h">
 				<view v-for="list in dataList" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
-					<text class="left">{{ list.name }}</text>
-					<text class="md">{{ list.sex }}</text>
-					<text class="right">{{ list.Organization }}</text>
+					<text class="left">{{ list.accessTime }}</text>
+					<text class="md">{{ list.accessType }}</text>
+					<text class="right">{{ list.accessPlace }}</text>
 				</view>
 			</scroll-view>
 		</view>
@@ -36,9 +37,11 @@
 <script>
 import MxDatePicker from '@/components/mx-datepicker/mx-datepicker.vue';
 import { store, actions } from '../store/index.js';
+import noData from '@/components/no-data/no-data.vue';
 export default {
 	components: {
-		MxDatePicker
+		MxDatePicker,
+		noData
 	},
 	data() {
 		return {
@@ -50,11 +53,7 @@ export default {
 			rangetime: ['2019/01/08 14:00', '2019/01/16 13:59'],
 			type: 'rangetime',
 			value: '',
-			dataList: [],
-			pageList: {
-				page: 1,
-				size: 20
-			}
+			dataList: []
 		};
 	},
 	mounted() {
@@ -64,7 +63,10 @@ export default {
 		async showList() {
 			const req = {
 				schoolCode: 'QPZX',
-				...this.pageList
+				startTime: '',
+				endTime: '',
+				page: 1,
+				size: 20
 			};
 			const res = await actions.getrecordList(req);
 			this.dataList = res.data.list;

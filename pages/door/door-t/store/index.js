@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import apiList from '../api/index.js'
-import $ajax from '@u/request.js'
+// 	import $ajax from '@u/request.js'
+import $ajax from '@u/ajax-serve'
 /**
  * @description 处理请求成功后返回Promise方便vue界面处理数据
  * @param {res} 返回结果

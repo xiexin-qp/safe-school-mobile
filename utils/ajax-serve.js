@@ -81,7 +81,68 @@ const $ajax = {
     } catch (err) {
       return responseRes(err)
     }
-  }
-}
-
-export default $ajax
+  },
+   async postQuery(obj, tag = true) {
+     if (tag) showToast()
+     let url = obj.url + '?'
+     for (const key in obj.params) {
+       url += key + '=' + obj.params[key] + '&'
+     }
+     try {
+       let res = await axios.post(url, qs.stringify({}))
+       res = res.data
+       return responseRes(res)
+     } catch (err) {
+       return responseRes(err.response.data)
+     }
+   },
+   async del(obj, tag = true) {
+     if (tag) showToast()
+     try {
+       let res = await axios.delete(obj.url, {})
+       res = res.data
+       return responseRes(res)
+     } catch (err) {
+       return responseRes(err.response.data)
+     }
+   },
+   async delQuery(obj, tag = true) {
+     if (tag) showToast()
+     let url = obj.url + '?'
+     for (const key in obj.params) {
+       url += key + '=' + obj.params[key] + '&'
+     }
+     try {
+       let res = await axios.delete(url, {})
+       res = res.data
+       return responseRes(res)
+     } catch (err) {
+       return responseRes(err.response.data)
+     }
+   },
+   async put(obj, tag = true) {
+     if (tag) showToast()
+     try {
+       let res = await axios.put(obj.url, qs.stringify(obj.params))
+       res = res.data
+       return responseRes(res)
+     } catch (err) {
+       return responseRes(err.response.data)
+     }
+   },
+   async getWithPara(obj, tag = true) {
+     if (tag) showToast()
+     try {
+       let res = await axios({
+         url: obj.url + obj.params,
+         method: 'get'
+       })
+       res = res.data
+       return responseRes(res)
+     } catch (err) {
+       return responseRes(err.response.data)
+     }
+   }
+ }
+ 
+ export default $ajax
