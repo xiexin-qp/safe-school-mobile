@@ -20,7 +20,9 @@ const getState = (state, val) => {
 const store = Vue.observable({
   tabIndex: 0,
   enjoyApp: getState('enjoyApp', []),
-  schoolCOde: '123456'
+  schoolCode: 'QPZX',
+  userCode: 'Ukjimoo909n',
+  userName: '李清照'
 })
 
 // 修改数据

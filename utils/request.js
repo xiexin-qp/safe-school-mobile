@@ -1,5 +1,7 @@
 import uniRequest from 'uni-request'
 import qs from 'qs'
+import axios from 'axios'
+
 // 请求拦截
 uniRequest.interceptors.request.use(
     request => {
@@ -9,7 +11,7 @@ uniRequest.interceptors.request.use(
         return Promise.reject(err);
     });
 
-// 响应拦截
+// 响应拦截A
 uniRequest.interceptors.response.use(function(response) {
     return Promise.resolve(response);
 }, function(error) {
