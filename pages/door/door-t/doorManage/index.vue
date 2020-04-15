@@ -1,17 +1,29 @@
 <template>
   <view class="qui-page">
     <view class="head">我创建的通行权限组</view>
-    <scroll-view @refresherpulling="haha" scroll-y="true" class="scroll-h">
-      <view class="content">
-        <view class="record-box">
-          <view class="leave-box" v-for="list in dataList" :key="list.id">
-            <view class="work-box qui-fx-jsb">
-              <view>
-                <view class="work-til">{{ list.ruleGroupName }}</view>
-                <view class="div-btn" @click="goDetail(list.ruleGroupCode)">...</view>
-                <view class="work-title normal-time" style>2020年3月21日 12:00</view>
-                <view class="work-title normal-equ" style>校大门设备组</view>
+    <no-data  msg="暂无数据"  v-if="groupList.length === 0"></no-data>
+    <scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+      <view class="approve-list" v-for="(item, i) in groupList" :key="i">
+        <view class="detail qui-fx">
+          <view class="process-type">
+            <view class="div-btn" @click="goDetail(item.ruleGroupCode)">···</view>
+          </view>
+          <view class="info qui-fx-ac">
+            <view class="list qui-fx-f1">
+              <view class="name">{{ item.ruleGroupName }}</view>
+              <view class="normal-time" v-for="(ele, i) in item.timeRuleList" :key="i">
+                <text style="margin-right:10px;">星期{{ toWeekName(ele.weekCode)}}</text>
+                <view v-for="(item, j) in ele.timeRuleList" :key="j">
+                  <text>{{ item.accessStart }}</text>
+                  <text>~</text>
+                  <text>{{ item.accessEnd}}</text>
+                </view>
               </view>
+              <view
+                class="work-title normal-equ"
+                v-for="item in item.controlGroupList"
+                :key="item.controlGroupCode"
+              >{{ item.controlGroupName }}</view>
             </view>
           </view>
         </view>
@@ -20,49 +32,57 @@
   </view>
 </template>
 <script>
-import eventBus from '@u/eventBus.js';
-import { store, actions } from '../store/index.js';
+import eventBus from "@u/eventBus.js";
+import { store, actions } from "../store/index.js";
+import noData from "@/components/no-data/no-data.vue";
+
 export default {
-	name: 'index',
-	components: {},
-	data() {
-		return {
-			pageList: {
-				pageNum: 1,
-				pageSize: 20
-			},
-			dataList:[],
-			datauserList:[],
-			userGroupCode :''
-		};
-	},
-	computed: {},
-	mounted() {
-		this.showList();
-	},
-	methods: {
-		async showList() {
-			 const res = await actions.getgroupList({
-			      	schoolCode: 'QPZX',
-			      	ruleGroupType:1,
-			      	...this.pageList
-			      })
-			this.dataList = res.data.list;
-		},
-		async	goDetail(id) {
-			 const res = await actions.getgroupuserList({
-			      	schoolCode: 'QPZX',
-					  userGroupCode :this.userGroupCode,
-					  ruleGroupCode : id,
-			      	...this.pageList
-			      })
-			this.datauserList = res.data.list;
-			this.$tools.navTo({
-				url: './detail?id=' + id,
-				title: '查看人员列表'
-			});
-		}
-	}
+  name: "index",
+  components: {
+    noData
+  },
+  data() {
+    return {
+      pageList: {
+        pageNum: 1,
+        pageSize: 20
+      },
+      groupList: [],
+      userGroupCode: ""
+    };
+  },
+  computed: {},
+  mounted() {
+    this.showList();
+  },
+  methods: {
+    async showList(tag = false) {
+      const res = await actions.getgroupList({
+        schoolCode: "123456",
+        ruleGroupType: 1,
+        ...this.pageList
+      });
+      this.groupList = res.data.list;
+      this.total = res.data.total;
+    },
+    goDetail(ruleGroupCode) {
+      this.$tools.navTo({
+        url: "./detail?ruleGroupCode=" + ruleGroupCode,
+        title: "查看人员列表"
+      });
+    },
+    toWeekName(day) {
+      let week = new Map();
+      week.set(1, "一");
+      week.set(2, "二");
+      week.set(3, "三");
+      week.set(4, "四");
+      week.set(5, "五");
+      week.set(6, "六");
+      week.set(7, "日");
+      return week.get(day);
+    }
+  }
 };
 </script>
 
@@ -70,40 +90,47 @@ export default {
 .scroll-h {
   height: calc(100vh - 100rpx);
 }
-.work-title {
-  margin-top: 30rpx;
-}
-.work-til {
-  display: inline-block;
-}
-.div-btn {
-  display: inline-block;
-  cursor: pointer;
-  font-size: 1.5rem;
-  margin-left: 10.6rem;
-}
-.normal-time {
-  color: #555555;
-}
-.normal-equ {
-  font-size: 13px;
-  color: #c8c7cc;
-}
-.work-box {
-  background-color: #fff;
-  border-radius: 8rpx;
-  margin: 20rpx;
-  padding: 50rpx;
-  padding: 30rpx 40rpx;
-  border-bottom: 1rpx solid #cfd0d1;
-  .work-line {
-    border-left: 2rpx 7b92f5 dashed;
+.list {
+  .name {
+    margin-bottom: 30rpx;
+  }
+  .work-title {
+    margin-top: 30rpx;
+  }
+  .div-btn {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 25px;
+  }
+  .normal-time {
+    color: #555555;
+  }
+  .normal-equ {
+    font-size: 15px;
+    color: #c8c7cc;
   }
 }
+
 .head {
   font-size: 18px;
   text-align: center;
   height: 100rpx;
   padding-top: 30rpx;
+}
+.approve-list {
+  background-color: #fff;
+  border-radius: 8rpx;
+  border-bottom: 1rpx solid #cfd0d1;
+  margin: 20rpx;
+  position: relative;
+  .detail {
+    padding: 30rpx;
+  }
+  .process-type {
+    top: 0;
+    right: 20rpx;
+    position: absolute;
+    font-size: 48rpx;
+  }
 }
 </style>

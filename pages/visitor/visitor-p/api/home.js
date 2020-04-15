@@ -6,12 +6,13 @@
 import hostEnv from '../../../../config/index.js'
 
 let homeApi = {
-  getIndex: 'http://yapi.demo.qunar.com/mock/5691/getDemoList#get', // 获取列表
-  getDetail: 'http://yapi.demo.qunar.com/mock/5691/getDemoInfo#get' // 获取详情
+  getCauseList: '/cause/info/list#post', // 获取事由列表
+  getComeLogList: '/invite/appoint/mobile/visit/list#post', // 获取拜访记录列表
+  getComeLogDetail: '/invite/appoint/mobile/visit/detail#getUrl', // 获取拜访记录详情
 }
 
 for (let val in homeApi) {
-  homeApi[val] = `${hostEnv}${homeApi[val]}`
+  homeApi[val] = `${hostEnv.zx}${homeApi[val]}`
 }
 
 export default homeApi

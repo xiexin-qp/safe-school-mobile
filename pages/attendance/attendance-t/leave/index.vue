@@ -75,11 +75,11 @@ export default {
       dateList: [
         {
           text: '审批状态',
-          value: ''
+          value: '0'
         },
         {
           text: '待审批',
-          value: '0'
+          value: '4'
         },
         {
           text: '审批通过',
@@ -101,15 +101,15 @@ export default {
         },
         {
             text: '一周内',
-            value: '1'
+            value: '7'
         },
         {
             text: '一个月内',
-            value: '2'
+            value: '30'
         },
         {
             text: '六个月内',
-            value: '3'
+            value: '180'
         }
       ],
       value0: '0',
@@ -146,6 +146,41 @@ export default {
       }
     }
   },
+  watch: {
+		value0 (val, oldval) {
+			if (val !== oldval) {
+        if (this.currentIndex === '1') {
+          this.teacherLeaveGet()
+        } else if ( this.currentIndex === '2') {
+           this.approvalLeaveGet()
+        } else if ( this.currentIndex === '3') {
+           this.copyLeaveGet()
+        }
+			}
+		},
+		value1 (val, oldval) {
+			if (val !== oldval) {
+				if (this.currentIndex === '1') {
+          this.teacherLeaveGet()
+        } else if ( this.currentIndex === '2') {
+           this.approvalLeaveGet()
+        } else if ( this.currentIndex === '3') {
+           this.copyLeaveGet()
+        }
+			}
+    },
+		value2 (val, oldval) {
+			if (val !== oldval) {
+				if (this.currentIndex === '1') {
+          this.teacherLeaveGet()
+        } else if ( this.currentIndex === '2') {
+           this.approvalLeaveGet()
+        } else if ( this.currentIndex === '3') {
+           this.copyLeaveGet()
+        }
+			}
+			}
+	},
   mounted () {
     this.leaveReasonGet()
     this.teacherLeaveGet()
@@ -161,52 +196,74 @@ export default {
       this.casueList =this.casueList.concat(data)
     },
     async teacherLeaveGet () {
-    // state (string, optional): 状态(0未审批,1通过,2拒绝,3撤回) 
-    // outSchool (string, optional): 是否出校(Y/N) ,
+      let value1 = ''
+      if (this.value1 === '0') {
+        value1 =  ''
+      } else if ( this.value1 === '4' ) {
+        value1 =  '0'
+      }else {
+        value1 =  this.value1 
+      }
       const req = {
         applicantCode: '',
         applicantName: '',
-        schoolCode:store.schoolCode,
-        state: '',
-        startTime:'' ,
-        endTime:'',
-        page:1,
-        size:20,
-        orgCode:'',
-        outSchool:'',
-        userName:''
+        schoolCode: store.schoolCode,
+        state: value1,
+        startTime: '' ,
+        endTime: '',
+        page: 1,
+        size: 20,
+        orgCode: '',
+        outSchool: '',
+        userName: '',
+        reasonId: this.value0 ===  '0' ? '' : this.value0,
+        day: this.value2 === '0' ? '' : this.value2
       }
       const res = await actions.getTeacherLeave(req)
       this.leaveList = res.data.list
     },
     async approvalLeaveGet () {
-    // state (string, optional): 状态(0未审批,1通过,2拒绝,3撤回) 
-    // outSchool (string, optional): 是否出校(Y/N) ,
+      let value1 = ''
+        if (this.value1 === '0') {
+          value1 =  ''
+        } else if ( this.value1 === '4' ) {
+          value1 =  '0'
+        }else {
+          value1 =  this.value1 
+        }
        const req = {
         applicantCode: '',
-        state: '',
+        state: value1,
         page: 1,
         size: 20,
         userCode: '',
         userName: '',
         time: '',
-        day: '',
-        reasonId: ''
+        day: this.value2 === '0' ? '' : this.value2,
+        reasonId: this.value0 ===  '0' ? '' : this.value0
       }
       const res = await actions.getApprovalLeave(req)
       this.leaveList = res.data.list
     },
     async copyLeaveGet () {
+      let value1 = ''
+      if (this.value1 === '0') {
+        value1 =  ''
+      } else if ( this.value1 === '4' ) {
+        value1 =  '0'
+      }else {
+        value1 =  this.value1 
+      }
       const req = {
         applicantCode: '',
-        state: '',
+        state: value1,
         page: 1,
         size: 20,
         userCode: '',
         userName: '',
         time: '',
-        day: '',
-        reasonId: ''
+        day: this.value2 === '0' ? '' : this.value2,
+        reasonId: this.value0 ===  '0' ? '' : this.value0
       }
       const res = await actions.getCopyLeave(req)
       this.leaveList = res.data.list

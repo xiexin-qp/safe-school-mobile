@@ -1,28 +1,25 @@
 <template>
-	<view class="qui-page">
+	<view class="qui-page qui-fff">
 		<uni-search-bar placeholder="输入姓名搜索" @confirm="search"></uni-search-bar>
-		<view class="dropDown qui-fx">
-			<ms-dropdown-menu><ms-dropdown-item v-model="value0" :list="casueList"></ms-dropdown-item></ms-dropdown-menu>
-			<ms-dropdown-menu><ms-dropdown-item v-model="value1" :list="dateList"></ms-dropdown-item></ms-dropdown-menu>
-		</view>
-		<no-data v-if="false" msg="暂无数据"></no-data>
+		<dropdown-menu :hasStatus="false" @value0Change="value0Change" @value1Change="value1Change"></dropdown-menu>
+		<no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
 		<view v-else class="list">
 			<view class="th qui-fx-jsa qui-fx-ac qui-fx-jc">
 				<text class="left">访客姓名</text>
 				<view class="md qui-fx-ac qui-fx-jc">
 					<text>最近来访时间</text>
-					<view class="icon qui-fx-ver">
+					<!-- <view class="icon qui-fx-ver">
 						<view class="up"><text class="iconfont">&#xe851;</text></view>
 						<view class="down"><text class="iconfont">&#xe851;</text></view>
-					</view>
+					</view> -->
 				</view>
 				<text class="right">来访总次数</text>
 			</view>
 			<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
-				<view @click="goDetail(list.id)" v-for="list in 20" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
-					<text class="left">李毅</text>
-					<text class="md">2020-04-05</text>
-					<text class="right">5</text>
+				<view @click="goDetail(item.userCode)" v-for="(item, i) in dataList" :key="i" class="tbody qui-bd-b qui-fx-jsb">
+					<text class="left">{{ item.userName }}</text>
+					<text class="md">{{ item.accessTime }}</text>
+					<text class="right">{{ item.visitSum }}</text>
 					<view class="icon"><text class="iconfont">&#xe851;</text></view>
 				</view>
 			</scroll-view>
@@ -31,90 +28,39 @@
 </template>
 
 <script>
-import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue';
-import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue';
+import DropdownMenu from '../component/DropdownMenu.vue';
 import noData from '@/components/no-data/no-data.vue';
 import { store, actions } from '../store/index.js';
 export default {
 	components: {
-		msDropdownMenu,
-		msDropdownItem,
+		DropdownMenu,
 		noData
 	},
 	data() {
 		return {
 			dataList: [],
 			searchName: '',
+			value0: '0',
+			value1: '0',
 			pageList: {
 				page: 1,
 				size: 15
-			},
-			value0: '0',
-			value1: '0',
-			casueList: [
-				{
-					text: '全部事由',
-					value: '0'
-				}
-			],
-			dateList: [
-				{
-					text: '全部时间',
-					value: '0'
-				},
-				{
-					text: '一周内',
-					value: '1'
-				},
-				{
-					text: '一个月内',
-					value: '2'
-				},
-				{
-					text: '六个月内',
-					value: '3'
-				}
-			]
+			}
 		};
-	},
-	watch: {
-		value0(val, oldval) {
-			if (val !== oldval) {
-				this.showList();
-			}
-		},
-		value1(val, oldval) {
-			if (val !== oldval) {
-				this.showList();
-			}
-		}
-	},
-	onLoad() {
-		this.getCause();
 	},
 	mounted() {
 		this.showList();
 	},
 	methods: {
-		// 事由列表
-		async getCause() {
-			const req = {
-				schoolCode: store.schoolCode,
-				pageNum: 1,
-				pageSize: 100
-			};
-			const res = await actions.getCauseList(req);
-			if (res.data.list.length === 0) {
-				return;
-			}
-			console.log(res.data.list);
-			res.data.list.forEach(ele => {
-				this.casueList.push({
-					text: ele.causeName,
-					value: ele.id
-				});
-			});
-			console.log(this.casueList);
+		value0Change(val) {
+			console.log(val);
+			this.value0 = val;
+			this.showList();
+		},
+		value1Change(val) {
+			console.log(val);
+			this.value1 = val;
+			this.showList();
 		},
 		// 访客记录
 		async showList(tag = false) {
@@ -141,9 +87,9 @@ export default {
 			const res = await actions.getVisitList(req);
 			if (tag) {
 				this.pageList.page++;
-				this.dataList = this.dataList.concaAt(res.data);
+				this.dataList = this.dataList.concant(res.data);
 			} else {
-				this.dataList = res.data;
+				this.dataList = res.data.list;
 				uni.stopPullDownRefresh();
 				console.log(this.dataList);
 				if (!res.data.hasNextPage) {
@@ -155,9 +101,9 @@ export default {
 			this.searchName = value.value;
 			this.showList();
 		},
-		goDetail(id) {
+		goDetail(userCode) {
 			this.$tools.navTo({
-				url: './detail?id=' + id,
+				url: './detail?userCode=' + userCode,
 				title: '查看详情'
 			});
 		}
@@ -181,9 +127,12 @@ export default {
 		.icon {
 			position: absolute;
 			right: 10rpx;
-			top: 30rpx;
+			top: 24rpx;
 			transform: rotateZ(-90deg);
-		}
+			.iconfont{
+				font-size:28rpx;
+			}
+		}	
 	}
 	.tbody:nth-child(even) {
 		background: #f5f5f5;
@@ -203,47 +152,6 @@ export default {
 }
 .scroll-h {
 	height: calc(100vh - 330rpx);
-}
-.dropdown {
-	padding: 4rpx 18rpx 18rpx 18rpx;
-	background: #fff;
-	font-size: 12px;
-}
-.dropdown-menu {
-	width: 50%;
-	padding: 2rpx 0;
-	border: 1rpx solid #ddd;
-	border-radius: 8rpx;
-}
-.dropdown-menu:first-child {
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-	border-right: none;
-}
-.dropdown-menu:last-child {
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-}
-.dropdown-item__selected {
-	padding: 10rpx;
-}
-@font-face {
-	font-family: 'iconfont'; /* project id 1564327 */
-	src: url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.eot');
-	src: url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.eot?#iefix') format('embedded-opentype'), url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.woff2') format('woff2'),
-		url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.woff') format('woff'), url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.ttf') format('truetype'),
-		url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.svg#iconfont') format('svg');
-}
-.icon {
-	margin-left: 10rpx;
-}
-.iconfont {
-	font-family: 'iconfont' !important;
-	font-size: 24rpx;
-	font-style: normal;
-	-webkit-font-smoothing: antialiased;
-	-webkit-text-stroke-width: 0.2px;
-	-moz-osx-font-smoothing: grayscale;
 }
 .down {
 	transition: transform 0.3s;
