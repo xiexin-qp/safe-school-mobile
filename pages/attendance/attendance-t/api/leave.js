@@ -10,6 +10,10 @@ let leaveApi = {
   getDetail: 'http://yapi.demo.qunar.com/mock/5691/getDemoInfo#get', // 获取详情
   getLeaveReason: '/leave/reason/getList#get', // 请假理由列表
   addTeacherLeave: '/teacher/leave/add#post', // 新增教职工请假
+  getTeacherLeave: '/teacher/leave/list#post', // PC 教职工分页查询请假单
+  getLeaveDetail: '/teacher/leave/detailById/#getWithPara' // 根据请假单id获取请假单全部信息
+ 
+  
 }
 
 for (let val in leaveApi) {

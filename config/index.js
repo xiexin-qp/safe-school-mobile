@@ -7,7 +7,7 @@ const ConfigEnv = process.env.NODE_ENV
 let hostEnv = ''
 let lz = ''
 let zk = ''
-let zx = ''
+let zx= ''
 
 if (ConfigEnv === 'production') {
   hostEnv = ''

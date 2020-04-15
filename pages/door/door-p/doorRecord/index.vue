@@ -24,10 +24,10 @@
 				<text class="right">地点</text>
 			</view>
 			<scroll-view scroll-y="true" class="scroll-h">
-				<view v-for="list in 20" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
-					<text class="left">张三</text>
-					<text class="md">女</text>
-					<text class="right">全品文教</text>
+				<view v-for="list in dataList" :key="list.id" class="tbody qui-bd-b qui-fx-jsb">
+					<text class="left">{{ list.name }}</text>
+					<text class="md">{{ list.sex }}</text>
+					<text class="right">{{ list.Organization }}</text>
 				</view>
 			</scroll-view>
 		</view>
@@ -35,7 +35,7 @@
 </template>
 <script>
 import MxDatePicker from '@/components/mx-datepicker/mx-datepicker.vue';
-import eventBus from '@u/eventBus.js';
+import { store, actions } from '../store/index.js';
 export default {
 	components: {
 		MxDatePicker
@@ -49,10 +49,26 @@ export default {
 			range: ['2019/01/01', '2019/01/06'],
 			rangetime: ['2019/01/08 14:00', '2019/01/16 13:59'],
 			type: 'rangetime',
-			value: ''
+			value: '',
+			dataList: [],
+			pageList: {
+				page: 1,
+				size: 20
+			}
 		};
 	},
+	mounted() {
+		this.showList();
+	},
 	methods: {
+		async showList() {
+			const req = {
+				schoolCode: 'QPZX',
+				...this.pageList
+			};
+			const res = await actions.getrecordList(req);
+			this.dataList = res.data.list;
+		},
 		onShowDatePicker(type) {
 			//显示
 			this.type = type;
@@ -70,8 +86,7 @@ export default {
 				console.log('date => ' + e.date);
 			}
 		}
-	},
-	mounted() {}
+	}
 };
 </script>
 <style lang="scss" scoped>
