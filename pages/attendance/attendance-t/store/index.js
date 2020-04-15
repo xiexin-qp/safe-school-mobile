@@ -21,7 +21,8 @@ const store = Vue.observable({
   tabIndex: 0,
   enjoyApp: getState('enjoyApp', []),
   userCode: '00001',
-  studentCode: 'abc'
+  studentCode: 'abc',
+  schoolCode: 'WHQP'
 })
 
 // 修改数据

@@ -55,6 +55,13 @@ module.exports = {
 				pathRewrite: {
 					'^/zx': ''
 				}
+			},
+			apply: {
+				target: 'http://112.125.89.37:1010/', // 应用管理平台 文件上传
+				changeOrigin: true,
+				pathRewrite: {
+					'^/apply': ''
+				}
 			}
 		}
 	}

@@ -6,8 +6,6 @@
 import hostEnv from '../../../../config/index.js'
 
 let leaveApi = {
-  getIndex: 'http://yapi.demo.qunar.com/mock/5691/getDemoList#get', // 获取列表
-  getDetail: 'http://yapi.demo.qunar.com/mock/5691/getDemoInfo#get', // 获取详情
   getLeaveReason: '/leave/reason/getList#get', // 请假理由列表
   addTeacherLeave: '/teacher/leave/add#post', // 新增教职工请假
   getTeacherLeave: '/teacher/leave/list#post', // PC 教职工分页查询请假单
