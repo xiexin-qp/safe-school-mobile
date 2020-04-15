@@ -1,23 +1,23 @@
 <template>
-	<view class="qui-page">
-		<view class="head">我创建的通行权限组</view>
-		<scroll-view @refresherpulling="haha" scroll-y="true" class="scroll-h">
-			<view class="content">
-				<view class="record-box">
-					<view class="leave-box" v-for="list in 20" :key="list.id">
-						<view class="work-box qui-fx-jsb">
-							<view>
-								<view class="work-til">小学部教师组</view>
-								<view class="div-btn" @click="goDetail()">...</view>
-								<view class="work-title normal-time" style="">2020年3月21日 12:00</view>
-								<view class="work-title normal-equ" style="">校大门设备组</view>
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</scroll-view>
-	</view>
+  <view class="qui-page">
+    <view class="head">我创建的通行权限组</view>
+    <scroll-view @refresherpulling="haha" scroll-y="true" class="scroll-h">
+      <view class="content">
+        <view class="record-box">
+          <view class="leave-box" v-for="list in dataList" :key="list.id">
+            <view class="work-box qui-fx-jsb">
+              <view>
+                <view class="work-til">{{ list.ruleGroupName }}</view>
+                <view class="div-btn" @click="goDetail(list.ruleGroupCode)">...</view>
+                <view class="work-title normal-time" style>2020年3月21日 12:00</view>
+                <view class="work-title normal-equ" style>校大门设备组</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
 </template>
 <script>
 import eventBus from '@u/eventBus.js';
@@ -28,10 +28,12 @@ export default {
 	data() {
 		return {
 			pageList: {
-				page: 1,
-				size: 20
+				pageNum: 1,
+				pageSize: 20
 			},
-			ruleGroupCode :''
+			dataList:[],
+			datauserList:[],
+			userGroupCode :''
 		};
 	},
 	computed: {},
@@ -40,18 +42,24 @@ export default {
 	},
 	methods: {
 		async showList() {
-			const req = {
-				schoolCode: 'QPZX',
-				ruleGroupType:this.ruleGroupCode,
-				...this.pageList
-			};
-			const res = await actions.getgroupList(req);
+			 const res = await actions.getgroupList({
+			      	schoolCode: 'QPZX',
+			      	ruleGroupType:1,
+			      	...this.pageList
+			      })
 			this.dataList = res.data.list;
 		},
-		goDetail() {
+		async	goDetail(id) {
+			 const res = await actions.getgroupuserList({
+			      	schoolCode: 'QPZX',
+					  userGroupCode :this.userGroupCode,
+					  ruleGroupCode : id,
+			      	...this.pageList
+			      })
+			this.datauserList = res.data.list;
 			this.$tools.navTo({
-				url: './detail',
-				title: '查看列表'
+				url: './detail?id=' + id,
+				title: '查看人员列表'
 			});
 		}
 	}
@@ -60,42 +68,42 @@ export default {
 
 <style lang="less" scoped>
 .scroll-h {
-	height: calc(100vh - 100rpx);
+  height: calc(100vh - 100rpx);
 }
 .work-title {
-	margin-top: 30rpx;
+  margin-top: 30rpx;
 }
 .work-til {
-	display: inline-block;
+  display: inline-block;
 }
 .div-btn {
-	display: inline-block;
-	cursor: pointer;
-	font-size: 1.5rem;
-	margin-left: 10.6rem;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin-left: 10.6rem;
 }
 .normal-time {
-	color: #555555;
+  color: #555555;
 }
 .normal-equ {
-	font-size: 13px;
-	color: #c8c7cc;
+  font-size: 13px;
+  color: #c8c7cc;
 }
 .work-box {
-	background-color: #fff;
-	border-radius: 8rpx;
-	margin: 20rpx;
-	padding: 50rpx;
-	padding: 30rpx 40rpx;
-	border-bottom: 1rpx solid #cfd0d1;
-	.work-line {
-		border-left: 2rpx 7b92f5 dashed;
-	}
+  background-color: #fff;
+  border-radius: 8rpx;
+  margin: 20rpx;
+  padding: 50rpx;
+  padding: 30rpx 40rpx;
+  border-bottom: 1rpx solid #cfd0d1;
+  .work-line {
+    border-left: 2rpx 7b92f5 dashed;
+  }
 }
 .head {
-	font-size: 18px;
-	text-align: center;
-	height: 100rpx;
-	padding-top: 30rpx;
+  font-size: 18px;
+  text-align: center;
+  height: 100rpx;
+  padding-top: 30rpx;
 }
 </style>

@@ -9,7 +9,7 @@ let homeApi = {
   addgroupList: '/setting/rule/group/add#post', // 添加/编辑权限组列表
   delgroupList: '/setting/rule/group/delete#post', // 权限组删除
   getgroupDetail: '/setting/rule/group/detail#get', // 权限组详细信息
-  getgroupList: '/setting/rule/group/list#post', // 权限组列表
+  getgroupList: '/setting/rule/group/list#postQuery', // 权限组列表
   addgroupuserList: '/setting/rule/group/user/add#post', // 权限组添加人员
   delgroupuserList: '/setting/rule/group/user/delete#post', // 权限组删除人员
   getgroupuserList: '/setting/rule/user/list#post' // 权限组人员列表

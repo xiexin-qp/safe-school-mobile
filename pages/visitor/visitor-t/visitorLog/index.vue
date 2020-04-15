@@ -44,24 +44,17 @@ export default {
 	data() {
 		return {
 			dataList: [],
+			searchName: '',
+			pageList: {
+				page: 1,
+				size: 15
+			},
 			value0: '0',
 			value1: '0',
 			casueList: [
 				{
 					text: '全部事由',
 					value: '0'
-				},
-				{
-					text: '看望孩子',
-					value: '1'
-				},
-				{
-					text: '家长会',
-					value: '2'
-				},
-				{
-					text: '商务拜访',
-					value: '3'
 				}
 			],
 			dateList: [
@@ -85,34 +78,82 @@ export default {
 		};
 	},
 	watch: {
-		value0(val) {
-			console.log(val);
+		value0(val, oldval) {
+			if (val !== oldval) {
+				this.showList();
+			}
 		},
-		value1(val) {
-			console.log(val);
+		value1(val, oldval) {
+			if (val !== oldval) {
+				this.showList();
+			}
 		}
+	},
+	onLoad() {
+		this.getCause();
 	},
 	mounted() {
 		this.showList();
 	},
 	methods: {
-		async showList(tag = false) {
+		// 事由列表
+		async getCause() {
 			const req = {
-				schoolCode:  store.schoolCode,
+				schoolCode: store.schoolCode,
 				pageNum: 1,
-				pageSize: 100,
+				pageSize: 100
+			};
+			const res = await actions.getCauseList(req);
+			if (res.data.list.length === 0) {
+				return;
 			}
-			const res = await actions.getCauseList();
+			console.log(res.data.list);
+			res.data.list.forEach(ele => {
+				this.casueList.push({
+					text: ele.causeName,
+					value: ele.id
+				});
+			});
+			console.log(this.casueList);
+		},
+		// 访客记录
+		async showList(tag = false) {
+			let queryTime = new Date();
+			if (this.value1 === '0') {
+				queryTime = '';
+			} else if (this.value1 === '1') {
+				queryTime = new Date(new Date().setDate(new Date().getDate() - 7));
+			} else if (this.value1 === '2') {
+				queryTime = new Date(new Date().setDate(new Date().getDate() - 30));
+			} else if (this.value1 === '3') {
+				queryTime = new Date(new Date().setDate(new Date().getDate() - 180));
+			}
+			console.log(queryTime);
+			const req = {
+				schoolCode: store.schoolCode,
+				pageNum: this.pageList.page,
+				pageSize: this.pageList.size,
+				userName: this.searchName,
+				userCode: store.userCode,
+				causeId: this.value0 === '0' ? '' : this.value0,
+				queryTime: queryTime
+			};
+			const res = await actions.getVisitList(req);
 			if (tag) {
-				this.dataList = this.dataList.concat(res.data);
+				this.pageList.page++;
+				this.dataList = this.dataList.concaAt(res.data);
 			} else {
 				this.dataList = res.data;
-				console.log(this.dataList)
 				uni.stopPullDownRefresh();
+				console.log(this.dataList);
+				if (!res.data.hasNextPage) {
+				}
 			}
 		},
 		search(value) {
 			console.log(value);
+			this.searchName = value.value;
+			this.showList();
 		},
 		goDetail(id) {
 			this.$tools.navTo({
