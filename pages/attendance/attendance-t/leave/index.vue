@@ -21,7 +21,7 @@
           <view class="leave-box" v-for="(item,index) in leaveList" :key="index">
             <view class="leave-top qui-fx-jsb">
               <view class="leave-title"> {{ item.reason }} </view>
-              <view v-if=" currentIndex !== '3' " class="leave-icon" @click="check(item.oddNumbers)"> ...</view>
+              <view v-if=" currentIndex !== '3'  && item.state === '0'  " class="leave-icon" @click="check(item.oddNumbers)"> ...</view>
             </view>
             <view class="leave-info"> 
               <view class="leave-pur">开始时间：{{ item.startTime | formatDate }}</view>
@@ -288,29 +288,31 @@ export default {
       const arr1 = ['修改', '撤回']
       const arr2 = ['审批通过', '审批不通过']
       if (this.currentIndex === '1') {
-        // this.check(arr1)
         this.$tools.actionsheet(arr1, (index) => {
-          console.log(arr[index])
           if (index === 0) {
-
+            this.$tools.navTo({
+              url: `./add?oddNumbers=${oddNumbers}`,
+              title: '编辑请假单'
+            })
           } else {
-            this.$tools.confirm(`确定${arr[index]}吗?`, () => {
+            this.$tools.confirm(`确定${arr1[index]}吗?`, () => {
               actions.recallLeave(oddNumbers).then(res => {
-
+                this.$tools.toast('操作成功')
+                this.teacherLeaveGet()
               })
             })
           }
         })
       } else if (this.currentIndex === '2') {
         this.$tools.actionsheet(arr2, (index) => {
-          console.log(arr[index])
           const req = {
             oddNumbers: oddNumbers,
             newState: index === 0 ? '1' : '2'
           }
-          this.$tools.confirm(`确定${arr[index]}吗?`, () => {
+          this.$tools.confirm(`确定${arr2[index]}吗?`, () => {
             actions.approvalLeave(req).then(res => {
-              
+              this.$tools.toast('操作成功')
+              this.teacherLeaveGet()
             })
           })
         })

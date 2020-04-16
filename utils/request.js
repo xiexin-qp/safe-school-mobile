@@ -87,7 +87,21 @@ const $ajax = {
     } catch (err) {
       return responseRes(err.response.data, false)
     }
-  }
+  },
+  async postQuery(obj, tag = true) {
+    if (tag) showToast()
+    let url = obj.url + '?'
+    for (const key in obj.params) {
+      url += key + '=' + obj.params[key] + '&'
+    }
+    try {
+      let res = await axios.post(url, qs.stringify({}))
+      res = res.data
+      return responseRes(res)
+    } catch (err) {
+      return responseRes(err.response.data)
+    }
+  },
 }
 
 export default $ajax
