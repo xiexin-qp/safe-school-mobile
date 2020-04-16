@@ -278,9 +278,6 @@ export default {
         this.teacherLeaveGet()
       }
     },
-    select(){
-
-    },
     addLeave () {
 			this.$tools.navTo({
 				url: './add',

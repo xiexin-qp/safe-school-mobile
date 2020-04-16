@@ -57,22 +57,22 @@
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
 			  <view>审批人：</view>
-			  <view class="qui-fx-f1">
-					
+			  <view class="qui-fx-f1  qui-fx-je">
+          {{approlUser}}
 			  </view>
-        <view @click="check" >></view>
+        <view @click="check(1)" >></view>
 			</view>
       <view class="qui-fx-ac qui-bd-b item-list">
 			  <view>抄送人：</view>
-			  <view class="qui-fx-f1">
-					
+			  <view class="qui-fx-f1  qui-fx-je">
+					{{copyUser}}
 			  </view>
-        <view @click="check">></view>
+        <view @click="check(2)">></view>
 			</view>
       <view class="qui-bd-b item-list">
 			  <view>上传附图：</view>
 			  <view class="qui-fx-f1">
-					<an-upload-img total="3" v-model="imgList" style="margin: 20rpx"></an-upload-img>
+					<an-upload-img total="3" v-model="photoList" style="margin: 20rpx"></an-upload-img>
 			  </view>
 			</view>
     </scroll-view>
@@ -81,8 +81,37 @@
     </view>
     <uni-popup ref="popup" type="center">
       <scroll-view scroll-y="true" class="scroll">
-        <view v-for="list in dataList" :key="list" class="list qui-bd-b">
-          <text>{{ list }}</text>
+        <view>
+          <radio-group @change="radioUser">
+            <label class="list qui-bd-b qui-fx-jsb" v-for="(item,index) in dataList" :key="index">
+              <label :for="item.userName">
+                  <text>{{item.userName}}</text>
+              </label>
+              <radio :id="item.userCode" :value='`${item.userCode}^${item.userName}=${item.photoUrl}`' :checked="item.checked"></radio>
+            </label>
+          </radio-group>
+          <view class="submit-btn qui-fx">
+             <button class="btn" @click="cancel(1)">取消</button>
+             <button class="btn" @click="ok(1)">确定</button>
+          </view>
+        </view>
+      </scroll-view>
+    </uni-popup>
+    <uni-popup ref="checkPopup" type="center">
+      <scroll-view scroll-y="true" class="scroll">
+        <view>
+          <checkbox-group @change="checkUser">
+            <label  class="list qui-bd-b qui-fx-jsb" v-for="(item,index) in dataList" :key="index">
+                <label :for="item.userName">
+                  <text>{{item.userName}}</text>
+                </label>
+                <checkbox :value='`${item.userCode}^${item.userName}=${item.photoUrl}`'></checkbox>
+            </label>
+          </checkbox-group>
+          <view class="submit-btn qui-fx">
+             <button class="btn" @click="cancel(2)">取消</button>
+             <button class="btn" @click="ok(2)">确定</button>
+          </view>
         </view>
       </scroll-view>
     </uni-popup>
@@ -91,20 +120,20 @@
 
 <script>
 	import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
-  import { actions, store } from '../store'
+  import { actions, store } from '../store/index'
 	export default {
     components: {
 			anUploadImg
 		},
 		data() {
 			return {
-        startDate: '2020-03-17',
-        endDate: '2020-03-17',
+        startDate: '2020-04-17',
+        endDate: '2020-04-17',
         startTime: '10:10',
-        endTime: '10:10',
+        endTime: '11:10',
         role: [],
         currentRole: 1,
-        imgList:[],
+        photoList:[],
         duration: 0,
         reasonId: '',
         reason: '',
@@ -112,7 +141,11 @@
         outSchool: '',
         remark: '',
         nbsp: '',
-        dataList: []
+        dataList: [],
+        leaveApprovalAddDto : {},
+        leaveCopyList: [],
+        approlUser: '',
+        copyUser: ''
 			}
     },
     mounted () {
@@ -120,34 +153,6 @@
       this.orgUserGet()
     },
     methods: {
-
-      // {
-      //   duration (number, optional): 时长 ,  =====================
-      //   endTime (string, optional): 结束时间 ,=====================
-      //   orgId (integer, optional): 机构id ,=====================
-      //   orgName (string, optional): 更新时间 ,=====================
-      //   outSchool (string, optional): 是否出校(Y/N) , =============
-      //   photoList (Array[string], optional): 请假图片地址集合 ,=============
-      //   reason (string, optional): 事由 , ==========================
-      //   reasonId (string, optional): 事由_id , =====================
-      //   remark (string, optional): 备注 , ====================
-      //   schoolCode (string, optional): 学校编码 ,=====================
-      //   startTime (string, optional): 开始时间 ,=====================
-      //   userCode (string, optional): 教职工编码 ,=====================
-      //   userName (string, optional): 教职工姓名=====================
-      //   }
-      //   新增审批人实体 { leaveApprovalAddDto
-      //   photoUrl (string, optional): 审批人照片 ,
-      //   userCode (string, optional): 审批人code ,
-      //   userName (string, optional): 审批人姓名
-      //   }
-      //   新增抄送人实体 { leaveCopyList []
-      //   photoUrl (string, optional): 抄送人头像 ,
-      //   readTime (string, optional): 已读时间 ,
-      //   state (string, optional): 0 未读, 1 已读 ,
-      //   userCode (string, optional): 抄送人code ,
-      //   userName (string, optional): 抄送人姓名
-      // }
       async leaveReasonGet () {
         const res = await actions.getLeaveReason()
         this.reasonList = res.data
@@ -158,7 +163,6 @@
       },
       radioChange (e) {
         this.outSchool = e.target.value
-        console.log('imgList',this.imgList)
       },
       bindStartDate (e) {
         this.startDate = e.target.value
@@ -182,18 +186,82 @@
           keyword: '',
           orgCode: '',
           page: 1,
-          schoolCode: store.schoolCode,
+          schoolCode: store.schoolCode1,
           size: 100000
         }
         const res = await actions.getOrgUser(req)
         this.dataList = res.data.list
       },
-       check () {
-        
-        this.$refs.popup.open()
+      check (type) {
+        if (type === 1) {
+          this.$refs.popup.open()
+        } else {
+          this.$refs.checkPopup.open()
+        }
+      },
+      cancel (type) {
+         if (type === 1) {
+          this.$refs.popup.close()
+        } else {
+          this.$refs.checkPopup.close()
+        }
+      },
+      ok (type) {
+         if (type === 1) {
+          this.$refs.popup.close()
+          this.approlUser =  this.leaveApprovalAddDto.userName
+        } else {
+          this.$refs.checkPopup.close()
+          this.copyUser = this.leaveCopyList.map(el=>{
+            return  el.userName
+          }).join(',')
+        }
+      },
+      radioUser (e) {
+        const data = e.target.value
+        this.leaveApprovalAddDto = {
+          userCode: data.split('^')[0],
+          userName: data.split('^')[1].split('=')[0],
+          photoUrl : data.split('^')[1].split('=')[1]
+        }
+      },
+      checkUser (e){
+        this.checkList = e
+        const data = e.target.value
+        this.leaveCopyList = []
+        data.map(el=>{
+          this.leaveCopyList.push({
+            userCode: el.split('^')[0],
+            userName: el.split('^')[1].split('=')[0],
+            photoUrl : el.split('^')[1].split('=')[1]
+          })
+        })
       },
       submit () {
-
+        const req = {
+          duration: this.duration,
+          startTime: new Date(this.startDate + ' ' + this.startTime).getTime(),
+          endTime: new Date(this.endDate + ' ' + this.endTime).getTime(),
+          outSchool: this.outSchool,
+          leaveCopyList: this.leaveCopyList,
+          leaveApprovalAddDto: this.leaveApprovalAddDto,
+          photoList: this.photoList,
+          reason: this.reason,
+          reasonId: this.reasonId,
+          remark: this.remark,
+          userName: store.userName,
+          userCode: store.userCode,
+          schoolCode: store.schoolCode,
+          orgId: store.orgId,
+          orgName: store.orgName
+        }
+        actions.addTeacherLeave(req).then(res => {
+          this.$tools.toast('操作成功')
+          this.$tools.navTo({
+            url: './index',
+            title: ''
+          })
+        })
       }
     }
 	}
@@ -201,6 +269,7 @@
 
 <style lang="scss">
 .add {
+  position: relative;
   .scroll-h {
     height: calc(100vh - 100rpx);
   }
@@ -229,15 +298,34 @@
       border-radius: $radius;
     }
   }
-}
-.scroll {
+  .scroll {
     height: 70vh;
+    padding-bottom: 10vh;
     .list {
       padding: 15rpx 25rpx;
+      
       image {
         width: 60rpx;
         height: 60rpx;
       }
     }
+    .submit-btn {
+       height: 80rpx;
+       position: fixed;
+       bottom: 15vh;
+       left: 27%;
+        .btn {
+          height: 50rpx;
+          line-height: 50rpx;
+          text-align: center;
+          letter-spacing: 8rpx;
+          margin: 0 20rpx;
+          background-color: $main-color;
+          color:#fff;
+          border-radius: $radius;
+          font-size: 28rpx;
+        }
+    }
   }
+}
 </style>
