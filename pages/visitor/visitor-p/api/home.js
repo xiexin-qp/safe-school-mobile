@@ -9,6 +9,10 @@ let homeApi = {
   getCauseList: '/cause/info/list#post', // 获取事由列表
   getComeLogList: '/invite/appoint/mobile/visit/list#post', // 获取拜访记录列表
   getComeLogDetail: '/invite/appoint/mobile/visit/detail#getUrl', // 获取拜访记录详情
+  getInviteList: '/invite/appoint/mobile/appoints#post', // 获取邀预约记录列表
+  getInviteDetail: '/invite/appoint/mobile/appoints#getUrl', // 获取邀预约记录详情
+  addInviteInfo: '/invite/appoint/mobile/add#post', // 添加修改邀预约信息
+  approval: '/invite/appoint/update#post', // 审批邀预约信息
 }
 
 for (let val in homeApi) {
