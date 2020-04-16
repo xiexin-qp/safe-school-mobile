@@ -66,6 +66,19 @@ const $ajax = {
       return responseRes(err)
     }
   },
+   async getWithPara (obj, tag = true) {
+      if (tag) showToast()
+      try {
+        let res = await axios({
+          url: obj.url + obj.params,
+          method: 'get'
+        })
+        res = res.data
+        return responseRes(res)
+      } catch (err) {
+        return responseRes(err.response.data, false)
+      }
+    },
   async post (obj, tag = true) {
     try {
       let res = await axios({

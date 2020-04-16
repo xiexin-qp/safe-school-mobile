@@ -8,10 +8,10 @@
 			<view class="set-1">
 				<view class="set-2">
 					<view class="right qui-fx-ver">
-						<text class="detail">来访事由： {{ item.cause }}</text>
-						<text class="detail">来访时间： {{ item.startTime }}</text>
-						<text class="detail">签离时间： {{ item.endTime }}</text>
-						<text class="detail">来访时长： {{ item.duration }}</text>
+						<text class="detail">来访事由： {{ item.causeName }}</text>
+						<text class="detail">来访时间： {{ item.inTime }}</text>
+						<text class="detail">签离时间： {{ item.outTime }}</text>
+						<text class="detail">来访时长： {{ item.countTime }}</text>
 					</view>
 				</view>
 			</view>

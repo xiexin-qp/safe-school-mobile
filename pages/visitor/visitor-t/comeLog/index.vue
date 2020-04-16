@@ -18,7 +18,7 @@
 			<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
 				<view @click="goDetail(item.id)" v-for="(item, i) in dataList" :key="i" class="tbody qui-bd-b qui-fx-jsb">
 					<text class="left">{{ item.userName }}</text>
-					<text class="md">{{ item.accessTime }}</text>
+					<text class="md">{{ item.accessTime | getFullDate }}</text>
 					<text class="right">{{ item.visitState | visitState }}</text>
 					<view class="icon"><text class="iconfont">&#xe851;</text></view>
 				</view>
