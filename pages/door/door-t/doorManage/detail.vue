@@ -45,16 +45,15 @@ export default {
   onLoad(options) {
     this.ruleGroupCode = options.ruleGroupCode;
   },
- mounted() {
+  mounted() {
     this.showList();
   },
   methods: {
     async showList() {
       const req = {
-        //   schoolCode: store.schoolCode,
-        schoolCode: "QPZX",
-        ruleGroupCode: this.ruleGroupCode,
-        userGroupCode: this.userGroupCode,
+        schoolCode: "123456",
+        ruleGroupCode: "RG14hyo8vx7yywz",
+        userGroupCode: "RR14hyo8vx7yyx0 ",
         ...this.pageList
       };
       const res = await actions.getgroupuserList(req);
@@ -65,16 +64,17 @@ export default {
     actionsheet(item) {
       this.$tools.confirm("确定删除吗", () => {
         const req = {
-          schoolCode: "QPZX",
-          ruleGroupCode: "",
-          userGroupCode: "",
-          userCode: record.id
-        };
-        this.delgroupuserList(req);
-        this.$message.success("删除成功");
-        setTimeout(() => {
+          schoolCode: "123456",
+          ruleGroupCode: item.ruleGroupCode,
+          userGroupCode: item.userGroupCode,
+          userCode: item.userCode
+        }; 
+        actions.delgroupuserList(req).then(res => {
+        this.$tools.toast("删除成功");
+          setTimeout(() => {
           this.showList();
         }, 2000);
+      });
       });
     },
     add() {

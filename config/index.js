@@ -8,6 +8,7 @@ let hostEnv = ''
 let lz = ''
 let zk = ''
 let zx= ''
+let mj= ''
 let apply= ''
 
 if (ConfigEnv === 'production') {
@@ -17,6 +18,7 @@ if (ConfigEnv === 'production') {
   lz = '/lz'
   zk = '/zk'
   zx = '/zx'
+  mj = '/mj'
   apply = '/apply'
 }
 
@@ -25,5 +27,6 @@ export default {
   lz,
   zk,
   zx,
+  mj,
   apply
 }

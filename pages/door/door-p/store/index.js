@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import apiList from '../api/index.js'
-import $ajax from '@u/request.js'
+import $ajax from '@u/ajax-serve.js'
 /**
  * @description 处理请求成功后返回Promise方便vue界面处理数据
  * @param {res} 返回结果
@@ -20,8 +20,7 @@ const getState = (state, val) => {
 const store = Vue.observable({
   tabIndex: 0,
   enjoyApp: getState('enjoyApp', []),
-  userCode: '00001',
-  studentCode: 'abc'
+  schoolCode: '"QPZX"',
 })
 
 // 修改数据

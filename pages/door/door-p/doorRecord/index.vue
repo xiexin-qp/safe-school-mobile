@@ -57,8 +57,8 @@ export default {
       value: "",
       recordList: [],
       pageList: {
-        pageNum: 1,
-        pageSize: 20
+        page: 1,
+        size: 20
       }
     };
   },
@@ -68,11 +68,11 @@ export default {
   methods: {
     async showList(searchObj = {}) {
       const req = {
-        schoolCode: "QPZX",
+			schoolCode: store.schoolCode,
         ...searchObj,
         ...this.pageList
       };
-	  const res = await actions.getrecordList(req);
+      const res = await actions.getrecordList(req);
       this.recordList = res.data.list;
     },
     onShowDatePicker(type) {
@@ -88,29 +88,29 @@ export default {
       }
       const searchObj = {
         startTime: e.value[0],
-        endTime:e.value[1]
+        endTime: e.value[1]
       };
       this.showList(searchObj);
-	},
-	  getDateTime(date) {
-      if (date === '' || date === null) {
-        return '--'
+    },
+    getDateTime(date) {
+      if (date === "" || date === null) {
+        return "--";
       }
-      const d = new Date(date)
+      const d = new Date(date);
       return (
         d.getFullYear() +
-        '-' +
-        (d.getMonth() + 1 > 9 ? d.getMonth() + 1 : '0' + (d.getMonth() + 1)) +
-        '-' +
-        (d.getDate() > 9 ? d.getDate() : '0' + d.getDate()) +
-        ' ' +
-        (d.getHours() > 9 ? d.getHours() : '0' + d.getHours()) +
-        ':' +
-        (d.getMinutes() > 9 ? d.getMinutes() : '0' + d.getMinutes()) +
-        ':' +
-        (d.getSeconds() > 9 ? d.getSeconds() : '0' + d.getSeconds())
-      )
-    },
+        "-" +
+        (d.getMonth() + 1 > 9 ? d.getMonth() + 1 : "0" + (d.getMonth() + 1)) +
+        "-" +
+        (d.getDate() > 9 ? d.getDate() : "0" + d.getDate()) +
+        " " +
+        (d.getHours() > 9 ? d.getHours() : "0" + d.getHours()) +
+        ":" +
+        (d.getMinutes() > 9 ? d.getMinutes() : "0" + d.getMinutes()) +
+        ":" +
+        (d.getSeconds() > 9 ? d.getSeconds() : "0" + d.getSeconds())
+      );
+    }
   }
 };
 </script>

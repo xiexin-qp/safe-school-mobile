@@ -5,7 +5,8 @@
  */
 import hostEnv from '../../../../config/index.js'
 
-let homeApi = {
+let homeApi = { 
+   getOrgUser: '/userinfo/teacher/user/queryTeacherInfo#post' ,// 获取教职工信息列表
   addgroupList: '/setting/rule/group/add#post', // 添加/编辑权限组列表
   delgroupList: '/setting/rule/group/delete#delete', // 权限组删除
   getgroupDetail: '/setting/rule/group/detail#get', // 权限组详细信息
@@ -16,7 +17,7 @@ let homeApi = {
 }
 
 for (let val in homeApi) {
-  homeApi[val] = `${hostEnv.zx}${homeApi[val]}`
+  homeApi[val] = `${hostEnv.mj}${homeApi[val]}`
 }
 
 export default homeApi
