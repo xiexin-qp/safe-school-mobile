@@ -6,7 +6,6 @@
 				<view class="qui-fx-ver">
 					<text class="name">{{ visitorName }}</text>
 					<text class="phone">{{ visitorPhone }}</text>
-					<text class="times">来访{{ visitSum }}次</text>
 				</view>
 		    </view>
 			<view class="state">{{ visitState | visitState}}</view>
@@ -74,7 +73,7 @@ export default {
 	},
 	async mounted() {
 		const res = await actions.getComeLogDetail(this.id);
-		if (res.data.list.length === 0) {
+		if (!res.data) {
 			return;
 		}
 		this.comeLog = res.data;

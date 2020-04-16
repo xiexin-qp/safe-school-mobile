@@ -49,7 +49,7 @@ export default {
 		if (res.data.list.length === 0) {
 			return;
 		}
-		this.talk = res.data.list;
+		this.talk = res.data.list
 		this.photo = res.data.list[0].registPhoto
 		this.visitorName = res.data.list[0].userName		this.visitorPhone = res.data.list[0].mobile
 		this.visitSum = res.data.list[0].visitSum

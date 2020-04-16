@@ -239,7 +239,7 @@
 		display: block;
 		/* #endif */
 		position: relative;
-		width: 80%;
+		width: 100%;
 		background-color: #fff;
 	}
 

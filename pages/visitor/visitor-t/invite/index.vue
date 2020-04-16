@@ -2,24 +2,17 @@
 	<view class="invite qui-page">
 		<uni-search-bar class="search" placeholder="输入姓名搜索" @confirm="search"></uni-search-bar>
 		<dropdown-menu :statusList="statusList" @value0Change="value0Change" @value1Change="value1Change" @value2Change="value2Change"></dropdown-menu>
-		<uni-popup ref="popup" type="bottom">
-			<view class="pop qui-fx-ver">
-				<text @click="appoint(1)">修改</text>
-				<text @click="appoint(2)">再次发起邀约</text>
-				<text @click="appoint(0)">取消</text>
-			</view>
-		</uni-popup>
 		<no-data v-if="appointList.length === 0" msg="暂无数据"></no-data>
 		<scroll-view v-else scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
 			<view class="approve-list" v-for="(item, i) in appointList" :key="i">
 				<view class="detail qui-fx">
-					<view class="process-type" style="right: 20rpx"><view class="wait" @click="open(i)">···</view></view>
+					<view class="process-type" style="right: 20rpx"><view class="wait" @click="appoint(item.id)">···</view></view>
 					<view class="info qui-fx-ac">
 						<view class="img"><image :src="item.registPhoto ? item.registPhoto :errorImg" alt="" /></view>
 						<view class="list qui-fx-f1">
 							<view class="name">{{ item.visitorName }}</view>
-							<view>开始时间：{{ item.accessStartTime }}</view>
-							<view>结束时间：{{ item.accessEndTime }}</view>
+							<view>开始时间：{{ item.accessStartTime | getFullDate }}</view>
+							<view>结束时间：{{ item.accessEndTime | getFullDate }}</view>
 							<view>来访事由：{{ item.causeName }}</view>
 							<view>状态：{{ item.state | approveState }}</view>
 						</view>
@@ -27,7 +20,7 @@
 				</view>
 				<view class="line qui-bd-t"></view>
 				<view class="see qui-fx-jsb">
-					<text>{{ item.createTime }}</text>
+					<text>{{ item.createTime | getFullDate }}</text>
 					<view class="qui-fx qui-fx-ac">
 						<text @click="goDetail(item.id)">查看详情</text>
 						<view class="icon right"><text class="iconfont">&#xe851;</text></view>
@@ -81,6 +74,7 @@ export default {
 			value0: '0',
 			value1: '0',
 			value2: '0',
+			id: '',
 		};
 	},
 	mounted() {
@@ -162,14 +156,24 @@ export default {
 				title: '发起邀约'
 			});
 		},
-		open(id) {
-			console.log(id);
-			this.$refs.popup.open();
+		appoint(id){
+		  const arr1 = ['修改', '再次发起邀约']
+		  this.id = id
+		  this.check(arr1)
 		},
-		appoint(type) {
-			// 1.通过 2.不通过 3.取消
-			console.log(type);
-			this.$refs.popup.close();
+		check(arr){
+		  this.$tools.actionsheet(arr, (index) => {
+		    if(arr[index]==='修改'){
+				this.$tools.navTo({
+					url: './form?id=' + this.id,
+					title: '修改邀约'
+				});
+		    }else{
+		      this.$tools.confirm(`确定${arr[index]}吗?`, () => {
+				  console.log(this.id)
+		    })
+		    }
+		  })
 		}
 	}
 };
