@@ -1,6 +1,6 @@
 <template>
   <view class="detail qui-page">
-    <view>
+      <scroll-view scroll-y="true" class="scroll-h">
       <view class="leave-detail qui-fx-ver">
         <view class="leave-info qui-fx-jsb qui-fx-ac">
           <view class="leave-name"> {{ dayInfo.userName }} {{ dayInfo.reason }} {{ dayInfo.duration }}小时 </view>
@@ -46,7 +46,7 @@
           <view class="apply-time"> {{ copyer.readTime | formatDate }} </view>
         </view>
       </view>
-    </view>
+     </scroll-view>
   </view>
 </template>
 
@@ -59,7 +59,7 @@ export default {
     return {
       person,
       normal,
-      dayInfo: []
+      dayInfo: { }
     }
   },
   filters: {
@@ -174,5 +174,8 @@ export default {
       }
     }
   }
+}
+.scroll-h{
+  height: 100vh;
 }
 </style>

@@ -87,10 +87,10 @@ const tools = {
 		});
 	},
 	// 轻提示
-	toast(title, cb) {
+	toast(title, cb= 'none') {
 		uni.showToast({
 			title: title,
-			icon: 'none'
+			icon: cb
 		});
 	},
 	// 底部弹出菜单

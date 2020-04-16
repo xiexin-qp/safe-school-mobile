@@ -63,7 +63,7 @@ export default {
 			visitorPhone: '',
 			causeName: '',
 			state: '',
-			photo: ',',
+			photo: '',
 			comeLog: {
 				accessStartTime: '',
 				accessEndTime: '',
@@ -88,12 +88,6 @@ export default {
 		this.state = res.data.state;
 	},
 	methods: {
-		clickCancel() {
-			this.showTag = false;
-		},
-		clickConfirm() {
-			this.showTag = false;
-		}
 	}
 };
 </script>

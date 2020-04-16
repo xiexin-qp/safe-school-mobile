@@ -11,7 +11,7 @@
         <text class="right">手机号</text>
       </view>
       <scroll-view scroll-y="true" class="scroll-h">
-        <checkbox-group  @change="checkUser">
+        <checkbox-group @change="checkUser">
           <label class="tbody qui-bd-b qui-fx-jsb" v-for="(item,index) in dataList" :key="index">
             <checkbox :value="`${item.userCode}^${item.userName}`" class="left"></checkbox>
             <label :for="item.userName">
@@ -70,10 +70,10 @@ export default {
     },
     cancel() {
       this.userInfoList = [];
-        this.$tools.navTo({
-          url: "./detail",
-          title: "查看人员列表"
-        });
+      this.$tools.navTo({
+        url: "./detail",
+        title: "查看人员列表"
+      });
     },
     checkUser(e) {
       const data = e.target.value;
@@ -88,22 +88,26 @@ export default {
       });
     },
     addInfo() {
-      const req = {
-        schoolCode: "123456",
-        ruleGroupCode: this.ruleGroupCode,
-        userGroupCode: this.userGroupCode,
-        userInfoList: this.userInfoList,
-        userType: "1"
-      };
-      actions.addgroupuserList(req).then(res => {
-        this.$tools.toast("操作成功");
-        this.$tools.navTo({
-          url: "./detail",
-          title: "查看人员列表"
+      if (this.userInfoList.length != 0) {
+        const req = {
+          schoolCode: "123456",
+          ruleGroupCode: this.ruleGroupCode,
+          userGroupCode: this.userGroupCode,
+          userInfoList: this.userInfoList,
+          userType: "1"
+        };
+        actions.addgroupuserList(req).then(res => {
+            this.$tools.toast("操作成功");
+            this.$tools.navTo({
+              url: "./detail",
+              title: ""
+            });
         });
-      });
+      } else {
+        this.$tools.toast("请选择人员");
+      }
     },
-      search(value) {
+    search(value) {
       console.log(value);
       this.keyword = value.value;
       this.showList();

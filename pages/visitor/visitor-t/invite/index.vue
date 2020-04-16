@@ -6,13 +6,13 @@
 		<scroll-view v-else scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
 			<view class="approve-list" v-for="(item, i) in appointList" :key="i">
 				<view class="detail qui-fx">
-					<view class="process-type" style="right: 20rpx"><view class="wait" @click="appoint(item.id)">···</view></view>
+					<view class="process-type" style="right: 20rpx"><view class="wait" @click="appoint(item)">···</view></view>
 					<view class="info qui-fx-ac">
-						<view class="img"><image :src="item.registPhoto ? item.registPhoto :errorImg" alt="" /></view>
+						<view class="img"><image :src="item.registPhoto ? item.registPhoto : errorImg" alt="" /></view>
 						<view class="list qui-fx-f1">
 							<view class="name">{{ item.visitorName }}</view>
 							<view>开始时间：{{ item.accessStartTime | getFullDate }}</view>
-							<view>结束时间：{{ item.accessEndTime | getFullDate }}</view>
+							<!-- <view>结束时间：{{ item.accessEndTime | getFullDate }}</view> -->
 							<view>来访事由：{{ item.causeName }}</view>
 							<view>状态：{{ item.state | approveState }}</view>
 						</view>
@@ -74,7 +74,7 @@ export default {
 			value0: '0',
 			value1: '0',
 			value2: '0',
-			id: '',
+			record: ''
 		};
 	},
 	mounted() {
@@ -108,13 +108,13 @@ export default {
 			} else if (this.value1 === '3') {
 				queryTime = new Date(new Date().setDate(new Date().getDate() - 180));
 			}
-			let state = ''
-			if(this.value2 === '0'){
-				state = ''
-			} else if(this.value2 === '00'){
-				state = '0'
+			let state = '';
+			if (this.value2 === '0') {
+				state = '';
+			} else if (this.value2 === '00') {
+				state = '0';
 			} else {
-				state = this.value2
+				state = this.value2;
 			}
 			const req = {
 				schoolCode: store.schoolCode,
@@ -125,7 +125,7 @@ export default {
 				causeId: this.value0 === '0' ? '' : this.value0,
 				queryTime,
 				state,
-				type: 1,
+				type: 1
 			};
 			const res = await actions.getInviteList(req);
 			if (tag) {
@@ -156,24 +156,21 @@ export default {
 				title: '发起邀约'
 			});
 		},
-		appoint(id){
-		  const arr1 = ['修改', '再次发起邀约']
-		  this.id = id
-		  this.check(arr1)
+		appoint(record) {
+			this.record = record;
+			if (record.state == 0) {
+				this.check(['修改', '再次发起邀约']);
+			} else {
+				this.check(['再次发起邀约']);
+			}
 		},
-		check(arr){
-		  this.$tools.actionsheet(arr, (index) => {
-		    if(arr[index]==='修改'){
+		check(arr) {
+			this.$tools.actionsheet(arr, index => {
 				this.$tools.navTo({
-					url: './form?id=' + this.id,
+					url: './form?id=' + this.record.id + '&type=' + (arr[index] === '修改' ? '0' : '1'),
 					title: '修改邀约'
 				});
-		    }else{
-		      this.$tools.confirm(`确定${arr[index]}吗?`, () => {
-				  console.log(this.id)
-		    })
-		    }
-		  })
+			});
 		}
 	}
 };

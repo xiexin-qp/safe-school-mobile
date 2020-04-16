@@ -87,7 +87,45 @@ const $ajax = {
     } catch (err) {
       return responseRes(err.response.data, false)
     }
-  }
+  },
+  async del(obj, tag = true) {
+    if (tag) showToast()
+    try {
+      let res = await axios.delete(obj.url, {})
+      res = res.data
+      return responseRes(res)
+    } catch (err) {
+      return responseRes(err.response.data)
+    }
+  },
+  async delQuery(obj, tag = true) {
+    if (tag) showToast()
+    let url = obj.url + '?'
+    for (const key in obj.params) {
+      url += key + '=' + obj.params[key] + '&'
+    }
+    try {
+      let res = await axios.delete(url, {})
+      res = res.data
+      return responseRes(res)
+    } catch (err) {
+      return responseRes(err.response.data)
+    }
+  },
+  async postQuery(obj, tag = true) {
+    if (tag) showToast()
+    let url = obj.url + '?'
+    for (const key in obj.params) {
+      url += key + '=' + obj.params[key] + '&'
+    }
+    try {
+      let res = await axios.post(url, qs.stringify({}))
+      res = res.data
+      return responseRes(res)
+    } catch (err) {
+      return responseRes(err.response.data)
+    }
+  },
 }
 
 export default $ajax

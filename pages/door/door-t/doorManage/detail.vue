@@ -62,19 +62,17 @@ export default {
     },
     //删除
     actionsheet(item) {
+      const req = {
+        schoolCode: "123456",
+        ruleGroupCode: item.ruleGroupCode,
+        userGroupCode: item.userGroupCode,
+        userCode: item.userCode
+      };
       this.$tools.confirm("确定删除吗", () => {
-        const req = {
-          schoolCode: "123456",
-          ruleGroupCode: item.ruleGroupCode,
-          userGroupCode: item.userGroupCode,
-          userCode: item.userCode
-        }; 
         actions.delgroupuserList(req).then(res => {
-        this.$tools.toast("删除成功");
-          setTimeout(() => {
+          this.$tools.toast("删除成功");
           this.showList();
-        }, 2000);
-      });
+        });
       });
     },
     add() {

@@ -13,13 +13,13 @@
       <view class="qui-fx-ac qui-bd-b item-list">
         <view>开始时间：</view>
         <view class="qui-fx-f1 qui-fx-je">
-          <picker mode="date" :value="startDate" @change="bindStartDate">
-            <view class="uni-input">{{startDate}}</view>
+          <picker mode="date" :value="leaveInfo.startDate" @change="dateChange(1)">
+            <view class="uni-input">{{leaveInfo.startDate | form}}</view>
           </picker>
         </view>
         <view class="qui-fx-je" style="margin-left:10rpx">
-          <picker mode="time" :value="startTime" @change="bindStartTime">
-            <view class="uni-input"> {{startTime}}</view>
+          <picker mode="time" :value="leaveInfo.startTime" @change="dateChange(2)">
+            <view class="uni-input"> {{leaveInfo.startTime}}</view>
           </picker>
         </view>
         <view>></view>
@@ -27,52 +27,52 @@
       <view class="qui-fx-ac qui-bd-b item-list">
         <view>结束时间：</view>
         <view class="qui-fx-f1 qui-fx-je">
-          <picker mode="date" :value="endDate" @change="bindEndDate">
-            <view class="uni-input">{{endDate}}</view>
+          <picker mode="date" :value="leaveInfo.endDate" @change="dateChange(3)">
+            <view class="uni-input">{{leaveInfo.endDate}}</view>
           </picker>
         </view>
         <view class="qui-fx-je" style="margin-left:10rpx">
-          <picker mode="time" :value="endTime" @change="bindEndTime">
-            <view class="uni-input"> {{endTime}}</view>
+          <picker mode="time" :value="leaveInfo.endTime" @change="dateChange(4)">
+            <view class="uni-input"> {{leaveInfo.endTime}}</view>
           </picker>
         </view>
         <view>></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view>请假时长：</view>
-        <view class="qui-fx-f1"><input class="item-input" v-model="duration" style="text-align: right;" placeholder="请输入请假时长" /></view>
+        <view class="qui-fx-f1 qui-fx-je">{{ leaveInfo.duration }}小时</view>
       </view>
       <view class="qui-fx qui-bd-b item-list">
         <view>描述：</view>
-        <view class="qui-fx-f1"><textarea v-model="remark" class="item-input" style="text-align: right;" placeholder="请输入描述" /></view>
+        <view class="qui-fx-f1"><textarea v-model="leaveInfo.remark" class="item-input" style="text-align: right;" placeholder="请输入描述" /></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view>是否出校：</view>
         <view class="qui-fx-f1 qui-fx-je">
           <radio-group @change="radioChange">
-            <label><radio value="Y" />是</label>
-            <label class="radio"><radio value="N" />否</label>
+            <label><radio value="Y" :checked="leaveInfo.outSchool === 'Y'" />是</label>
+            <label class="radio"><radio :checked="leaveInfo.outSchool === 'N'" value="N" />否</label>
           </radio-group>
         </view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
 			  <view>审批人：</view>
 			  <view class="qui-fx-f1  qui-fx-je">
-          {{approlUser}}
+          {{leaveInfo.approlUser}}
 			  </view>
         <view @click="check(1)" >></view>
 			</view>
       <view class="qui-fx-ac qui-bd-b item-list">
 			  <view>抄送人：</view>
 			  <view class="qui-fx-f1  qui-fx-je">
-					{{copyUser}}
+					{{leaveInfo.copyUser}}
 			  </view>
         <view @click="check(2)">></view>
 			</view>
       <view class="qui-bd-b item-list">
 			  <view>上传附图：</view>
 			  <view class="qui-fx-f1">
-					<an-upload-img total="3" v-model="photoList" style="margin: 20rpx"></an-upload-img>
+					<an-upload-img total="3" v-model="leaveInfo.photoList" style="margin: 20rpx"></an-upload-img>
 			  </view>
 			</view>
     </scroll-view>
@@ -127,32 +127,53 @@
 		},
 		data() {
 			return {
-        startDate: '2020-04-17',
-        endDate: '2020-04-17',
-        startTime: '10:10',
-        endTime: '11:10',
         role: [],
-        currentRole: 1,
-        photoList:[],
-        duration: 0,
-        reasonId: '',
-        reason: '',
         reasonList: [],
-        outSchool: '',
-        remark: '',
-        nbsp: '',
         dataList: [],
         leaveApprovalAddDto : {},
         leaveCopyList: [],
-        approlUser: '',
-        copyUser: ''
+        currentRole: 0,
+        leaveInfo: {
+          startDate: this.$tools.getDateTime(new Date(), 'date'),
+          startTime: this.$tools.getDateTime(new Date(), 'time'),
+          endDate: this.$tools.getDateTime(new Date(), 'date'),
+          endTime: this.$tools.getDateTime(new Date(new Date().getTime() + 2 * 60 * 60 * 1000), 'time'),
+          duration: '2',
+          outSchool: '',
+          remark: '',
+          approlUser: '',
+          copyUser: '',
+          photoList:[],
+          reasonId: '',
+          reason: '',
+        },
+        oddNumbers: ''
 			}
     },
+    onLoad(options) {
+      if (options.oddNumbers) {
+        this.oddNumbers = options.oddNumbers
+        this.detailGet(options.oddNumbers)
+      }
+	  },
     mounted () {
-      this.leaveReasonGet()
+      // this.leaveReasonGet()
       this.orgUserGet()
     },
     methods: {
+      async detailGet (id) {
+        const res = await actions.getLeaveDetail(id)
+        this.leaveInfo = res.data
+        this.leaveInfo.startDate = this.$tools.getDateTime(new Date(this.leaveInfo.startTime), 'date')
+        this.leaveInfo.startTime = this.$tools.getDateTime(new Date(this.leaveInfo.startTime), 'time')
+        this.leaveInfo.endDate = this.$tools.getDateTime(new Date(this.leaveInfo.endTime), 'date')
+        this.leaveInfo.endTime = this.$tools.getDateTime(new Date(this.leaveInfo.endTime), 'time')
+        this.leaveInfo.approlUser = this.leaveInfo.leaveApprovalAddDto.userName
+        this.leaveInfo.copyUser = this.leaveInfo.leaveCopyList.map(el=>el.userName).join(',')
+        this.leaveApprovalAddDto = this.leaveInfo.leaveApprovalAddDto
+        this.leaveCopyList = this.leaveInfo.leaveCopyList
+        this.leaveReasonGet()
+      },
       async leaveReasonGet () {
         const res = await actions.getLeaveReason()
         this.reasonList = res.data
@@ -160,26 +181,28 @@
         res.data.forEach(el => {
           this.role.push(el.name)
         })
+        this.currentRole = this.role.indexOf(this.leaveInfo.reason)
       },
       radioChange (e) {
         this.outSchool = e.target.value
       },
-      bindStartDate (e) {
-        this.startDate = e.target.value
-      },
-      bindStartTime (e) {
-        this.startTime = e.target.value
-      },
-      bindEndDate (e) {
-        this.endDate = e.target.value
-      },
-      bindEndTime (e) {
-        this.endTime = e.target.value
+      dateChange (e, type) {
+      if (type === 1) {
+				this.leaveInfo.startDate = e.target.value;
+			} else if (type === 2) {
+				this.leaveInfo.startTime = e.target.value;
+			} else if (type === 3) {
+				this.leaveInfo.endDate = e.target.value;
+			} else if (type === 4) {
+				this.leaveInfo.endTime = e.target.value;
+			}
+        this.leaveInfo.duration = parseInt(Math.ceil(new Date(new Date(this.endDate + ' ' + this.endTime).getTime()).getTime() 
+                        - new Date(new Date(this.startDate + ' ' + this.startTime).getTime()).getTime()) / 1000 / 60 / 60)
       },
       chooseRole (e) {
         this.currentRole = e.target.value
-        this.reasonId = this.reasonList[e.target.value].id
-        this.reason = this.reasonList[e.target.value].name
+        this.leaveInfo.reasonId = this.reasonList[e.target.value].id
+        this.leaveInfo.reason = this.reasonList[e.target.value].name
       },
       async orgUserGet (){
         const req = {
@@ -209,10 +232,10 @@
       ok (type) {
          if (type === 1) {
           this.$refs.popup.close()
-          this.approlUser =  this.leaveApprovalAddDto.userName
+          this.leaveInfo.approlUser =  this.leaveApprovalAddDto.userName
         } else {
           this.$refs.checkPopup.close()
-          this.copyUser = this.leaveCopyList.map(el=>{
+          this.leaveInfo.copyUser = this.leaveCopyList.map(el=>{
             return  el.userName
           }).join(',')
         }
@@ -238,30 +261,54 @@
         })
       },
       submit () {
+        if (this.outSchool === '') {
+          this.$tools.toast('请选择是否出校')
+          return false
+        } else if (new Date(this.leaveInfo.endDate + ' ' + this.leaveInfo.endTime).getTime() <= new Date(this.leaveInfo.startDate + ' ' + this.leaveInfo.startTime).getTime()) {
+          this.$tools.toast('请选择正确时间段')
+          return false
+        } else if (this.approlUser === '') {
+          this.$tools.toast('请选择审批人')
+          return false
+        }
         const req = {
-          duration: this.duration,
-          startTime: new Date(this.startDate + ' ' + this.startTime).getTime(),
-          endTime: new Date(this.endDate + ' ' + this.endTime).getTime(),
-          outSchool: this.outSchool,
+          duration: this.leaveInfo.duration,
+          startTime: new Date(this.leaveInfo.startDate + ' ' + this.leaveInfo.startTime).getTime(),
+          endTime: new Date(this.leaveInfo.endDate + ' ' + this.leaveInfo.endTime).getTime(),
+          outSchool: this.leaveInfo.outSchool,
           leaveCopyList: this.leaveCopyList,
           leaveApprovalAddDto: this.leaveApprovalAddDto,
-          photoList: this.photoList,
-          reason: this.reason,
-          reasonId: this.reasonId,
-          remark: this.remark,
+          photoList: this.leaveInfo.photoList,
+          reason: this.leaveInfo.reason,
+          reasonId: this.leaveInfo.reasonId,
+          remark: this.leaveInfo.remark,
           userName: store.userName,
           userCode: store.userCode,
           schoolCode: store.schoolCode,
           orgId: store.orgId,
           orgName: store.orgName
         }
-        actions.addTeacherLeave(req).then(res => {
-          this.$tools.toast('操作成功')
-          this.$tools.navTo({
-            url: './index',
-            title: ''
+        if (this.oddNumbers) {
+          actions.updateTeacherLeave({
+             ...this.leaveInfo,
+            ...req
+          }).then(res => {
+            this.$tools.toast('操作成功')
+            this.$tools.navTo({
+              url: './index',
+              title: ''
+            })
           })
-        })
+        } else {
+          actions.addTeacherLeave(req).then(res => {  
+            this.$tools.toast('操作成功')
+            this.$tools.navTo({
+              url: './index',
+              title: ''
+            })
+          })
+        }
+        
       }
     }
 	}
