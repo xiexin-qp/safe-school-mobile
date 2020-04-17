@@ -11,7 +11,7 @@
 						<view class="img"><image :src="item.registPhoto ? item.registPhoto : errorImg" alt="" /></view>
 						<view class="list qui-fx-f1">
 							<view class="name">{{ item.visitorName }}</view>
-							<view>开始时间：{{ item.accessStartTime | getFullDate }}</view>
+							<view>预计到达时间：{{ item.accessStartTime | getFullDate }}</view>
 							<!-- <view>结束时间：{{ item.accessEndTime | getFullDate }}</view> -->
 							<view>来访事由：{{ item.causeName }}</view>
 							<view>状态：{{ item.state | approveState }}</view>
@@ -117,15 +117,15 @@ export default {
 				state = this.value2;
 			}
 			const req = {
-				schoolCode: store.schoolCode,
+				schoolCode: store.userInfo.schoolCode,
 				pageNum: this.pageList.page,
 				pageSize: this.pageList.size,
 				userName: this.searchName,
-				userCode: store.userCode,
+				userCode: store.userInfo.userCode,
 				causeId: this.value0 === '0' ? '' : this.value0,
 				queryTime,
 				state,
-				type: 1
+				queryType: 1
 			};
 			const res = await actions.getInviteList(req);
 			if (tag) {

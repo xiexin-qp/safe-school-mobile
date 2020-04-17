@@ -95,11 +95,11 @@ export default {
 				queryTime = new Date(new Date().setDate(new Date().getDate() - 180));
 			}
 			const req = {
-				schoolCode: store.schoolCode,
+				schoolCode: store.userInfo.schoolCode,
 				pageNum: this.pageList.page,
 				pageSize: this.pageList.size,
 				userName: this.searchName,
-				userCode: store.userCode,
+				userCode: store.userInfo.userCode,
 				causeId: this.value0 === '0' ? '' : this.value0,
 				queryTime,
 				visitState: this.value2 === '0' ? '' : this.value2

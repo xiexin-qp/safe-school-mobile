@@ -77,7 +77,7 @@ export default {
 	},
 	async mounted() {
 		const req = {
-			schoolCode: store.schoolCode,
+			schoolCode: store.userInfo.schoolCode,
 			pageNum: 1,
 			pageSize: 100
 		};

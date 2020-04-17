@@ -21,32 +21,17 @@
 				</view>
 				<view class="qui-fx-ver">
 					<view class="end qui-fx-ac">
-						<text>止</text>
-						<text>{{ comeLog.accessEndTime | gmtToDate }}</text>
+						<icon type="info" size="24" />
+						<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum }}</text>
 					</view>
 				</view>
 			</view>
-			<view class="log qui-fx-jsb">
-				<view class="start qui-fx-ac">
-					<icon type="info" size="24" />
-					<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum }}</text>
-				</view>
-				<view class="end qui-fx-ac">
-					<icon type="waiting" size="24" />
-					<text style="margin-left: 10rpx;">来访时长：{{ comeLog.duration }}小时</text>
-				</view>
-			</view>
-			<!-- <view class="log">
-				<text>邀请函</text>
-				<view class="qui-fx-ac">
-					<icon type="email" size="24" />
-					<view class="qui-fx-ver">
-						<text>{{ visitorName }},您好！</text>
-						<text>学校邀约人姓名邀请你于开始时间至结束时间来访进行来访事由，地址：手动填写。</text>
-						<text>请准时到达，如有问题请联系邀约人姓名邀约人手机号。</text>
-					</view>
-				</view>
-			</view> -->
+			<view v-if="state == 2" class="log qui-fx-jsb">
+			  <view class="start qui-fx-ac">
+			    <icon type="cancel" size="24"/>
+			    <text style="margin-left: 10rpx;">拒绝原因：{{ comeLog.reason }}</text>
+			  </view>
+			</view> 
 		</view>
 	</view>
 </template>
@@ -68,7 +53,8 @@ export default {
 				accessStartTime: '',
 				accessEndTime: '',
 				togetherNum: '',
-				duration: ''
+				duration: '',
+				reason: ''
 			}
 		};
 	},
@@ -85,6 +71,7 @@ export default {
 		this.visitorName = res.data.visitorName;
 		this.visitorPhone = res.data.mobile;
 		this.causeName = res.data.causeName;
+		this.reason = res.data.reason
 		this.state = res.data.state;
 	},
 	methods: {

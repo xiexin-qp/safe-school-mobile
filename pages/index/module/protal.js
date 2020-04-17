@@ -5,7 +5,11 @@ const protal = [
       {
         title: '主模块',
         url: '/pages/protal/index'
-      }
+      },
+	  {
+	    title: '访客预约',
+	    url: '/pages/visitor/appoint/index'
+	  }
     ]
   }
 ]

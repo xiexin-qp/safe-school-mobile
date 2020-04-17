@@ -99,7 +99,7 @@ export default {
 	async mounted() {
 		if (this.id) {
 			const res = await actions.getInviteDetail(this.id);
-			if (!res.data) {
+			if (!res.data.id) {
 				return;
 			}
 			this.formData.visitorName = res.data.visitorName;
@@ -120,7 +120,7 @@ export default {
 	methods: {
 		async getCause() {
 			const req = {
-				schoolCode: store.schoolCode,
+				schoolCode: store.userInfo.schoolCode,
 				pageNum: 1,
 				pageSize: 100
 			};
@@ -160,13 +160,13 @@ export default {
 					return
 				}
 				const req = {
-					schoolCode: store.schoolCode,
+					schoolCode: store.userInfo.schoolCode,
 					// accessEndTime: new Date(this.formData.accessEndTime),
 					accessStartTime: new Date(this.formData.accessStartTime),
 					visitorName: this.formData.visitorName,
 					visitorMobile: this.formData.phone,
-					respondentCode: store.userCode,
-					respondentName: store.userName,
+					respondentCode: store.userInfo.userCode,
+					respondentName: store.userInfo.userName,
 					causeId: cause.value,
 					causeName: cause.text,
 					id: this.type === '0' ? this.id : null,
