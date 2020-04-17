@@ -65,60 +65,46 @@ export default {
       currentDay: '',
       isOther: false,
       dataList: [],
-      attandenceInfo:[{
-        title:'正常',
-        num:38
-      },{
-        title:'上学缺卡',
-        num:2
-      },{
-        title:'迟到',
-        num:7
-      },{
-        title:'早退',
-        num:4
-      },{
-        title:'放学缺卡',
-        num:9
-      },{
-        title:'缺勤',
-        num:13
-      }],
-      monthList:[{
-        id: 1,
-        month: 1
-      },{
-        id: 2,
-        month: 2
-      },{
-        id: 3,
-        month: 3
-      },{
-        id: 4,
-        month: 4
-      },{
-        id: 5,
-        month: 5
-      },{
-        id: 6,
-        month: 6
-      }]
+      attandenceInfo:[]
     }
   },
   mounted() {
     this.showList()
   },
   methods: {
-    async showList (tag = false) {
-      const res = await actions.getIndex()
-      if (tag) {
-        this.dataList = this.dataList.concat(res.data)
-      } else {
-        this.dataList = res.data
-        uni.stopPullDownRefresh()
-      }
-    },
-    detail(item){
+  	async showList () {
+      const req = {
+				month: '2020-04',
+				studentCode: store.studentCode
+			}
+      const res = await actions.studentMonthRecord(req)
+			this.attandenceInfo = [{
+        title: '正常',
+        state: '5',
+        num: res.data.normalCount
+      },{
+        title: '上学缺卡',
+        state: '3',
+        num: res.data.onNoRecordCount
+      },{
+        title: '迟到',
+        state: '1',
+        num: res.data.lateCount
+      },{
+        title: '早退',
+        state: '2',
+        num: res.data.earlyCount
+      },{
+        title: '放学缺卡',
+        state: '6',
+        num: res.data.offNoRecordCount
+      },{
+        title: '缺勤',
+        state: '7',
+        num: res.data.noRecord
+      }]
+		},
+    detail (item) {
       console.log('item',item)
       this.$refs.popup.open()
     }

@@ -5,13 +5,19 @@
  */
 import hostEnv from '../../../../config/index.js'
 
-let homeApi = {
-  getIndex: 'http://yapi.demo.qunar.com/mock/5691/getDemoList#get', // 获取列表
-  getDetail: 'http://yapi.demo.qunar.com/mock/5691/getDemoInfo#get' // 获取详情
+let homeApi = { 
+   getOrgUser: '/userinfo/teacher/user/queryTeacherInfo#post' ,// 获取教职工信息列表
+  addgroupList: '/setting/rule/group/add#post', // 添加/编辑权限组列表
+  delgroupList: '/setting/rule/group/delete#delQuery', // 权限组删除
+  getgroupDetail: '/setting/rule/group/detail#get', // 权限组详细信息
+  getgroupList: '/setting/rule/group/list#postQuery', // 权限组列表
+  addgroupuserList: '/setting/rule/group/user/add#post', // 权限组添加人员
+  delgroupuserList: '/setting/rule/group/user/delete#delQuery', // 权限组删除人员
+  getgroupuserList: '/setting/rule/user/list#post' // 权限组人员列表
 }
 
 for (let val in homeApi) {
-  homeApi[val] = `${hostEnv}${homeApi[val]}`
+  homeApi[val] = `${hostEnv.mj}${homeApi[val]}`
 }
 
 export default homeApi

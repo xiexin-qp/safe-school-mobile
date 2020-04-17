@@ -5,12 +5,12 @@
  */
 import hostEnv from '../../../../config/index.js'
 
-let homeApi = {
-  getrecordList: '/record/access/list#post', // 出入记录列表
+let applyApi = {
+  getOrgUser: '/userinfo/teacher/user/queryTeacherInfo#post' // 获取教职工信息列表
 }
 
-for (let val in homeApi) {
-  homeApi[val] = `${hostEnv.mj}${homeApi[val]}`
+for (let val in applyApi) {
+  applyApi[val] = `${hostEnv.apply}${applyApi[val]}`
 }
 
-export default homeApi
+export default applyApi

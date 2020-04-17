@@ -1,7 +1,7 @@
 <template>
   <view class="leave qui-page">
     <view class="nav-tab">
-      <view class="nav-item" v-for="item in navs" :key="item.id">{{item.name}}</view>
+      <view :class="['nav-item',{'active':item.id === currentIndex}]" v-for="item in navs" :key="item.id" @click="tabChange(item.id)">{{item.name}}</view>
     </view>
     <view class="dropDown qui-fx">
       <ms-dropdown-menu>
@@ -18,30 +18,26 @@
       <view class="content">
         <view class="record-box">
           <!-- <no-data msg="暂无考勤记录~" v-if="dayInfo.length === 0"></no-data> -->
-          <view class="leave-box" v-for="(item,index) in 10" :key="index">
+          <view class="leave-box" v-for="(item,index) in leaveList" :key="index">
             <view class="leave-top qui-fx-jsb">
-              <view class="leave-title">事假 </view>
-              <view class="leave-icon" @click="detail(item)"> ...</view>
+              <view class="leave-title"> {{ item.reason }} </view>
+              <view v-if=" currentIndex !== '3'  && item.state === '0'  " class="leave-icon" @click="check(item.oddNumbers)"> ...</view>
             </view>
             <view class="leave-info"> 
-              <view class="leave-pur">开始时间：2020年3月20日 12:00</view>
-              <view class="leave-pur">结束时间：2020年3月21日 12:00</view>
-              <view class="leave-pur">描述：家里有急事</view>
-              <view class="leave-pur">状态：待审批</view>
+              <view class="leave-pur">开始时间：{{ item.startTime | formatDate }}</view>
+              <view class="leave-pur">结束时间：{{ item.endTime | formatDate }}</view>
+              <view class="leave-pur">描述：{{ item.remark }}</view>
+              <view class="leave-pur">状态：{{ item.state | getState }}</view>
             </view>
             <view class="leave-bottom qui-fx-jsb">
-              <view class="leave-time">2020年3月20日 10:00 </view>
-              <view class="leave-detail" style=""> 查看详情 > </view>
+              <view class="leave-time"> {{ item.initiationTime | formatDate }}</view>
+              <view class="leave-detail" @click="detail(item.oddNumbers)"> 查看详情 > </view>
             </view>
           </view>
         </view>
       </view>
      </scroll-view>
-     <view class="float-add-btn" @click="addLeave">
-     </view>
-     <!-- <view class="add-icon">
-      <image :src="add" mode=""></image>
-     </view> -->
+     <view class="float-add-btn" @click="addLeave"> </view>
   </view>
 </template>
 
@@ -75,72 +71,212 @@ export default {
         id: '3',
         name: '我的抄送'
       }],
-      list: [       //要展示的数据
-        {value: '事假', id: 1},
-        {value: '病假', id: 2}
+      casueList: [{text:'请假类型',value:'0'}],
+      dateList: [
+        {
+          text: '审批状态',
+          value: '0'
+        },
+        {
+          text: '待审批',
+          value: '4'
+        },
+        {
+          text: '审批通过',
+          value: '1'
+        },
+        {
+          text: '审批未通过',
+          value: '2'
+        },
+        {
+          text: '撤回',
+          value: '3'
+        }
       ],
-      casueList: [
-          {
-              text: '请假类型',
-              value: '0'
-          },
-          {
-              text: '年假',
-              value: '1'
-          },
-          {
-              text: '事假',
-              value: '2'
-          },
-          {
-              text: '产假',
-              value: '3'
-          }
-        ],
-        dateList: [
-          {
-              text: '审批状态',
-              value: '0'
-          },
-          {
-              text: '待审批',
-              value: '1'
-          },
-          {
-              text: '审批通过',
-              value: '2'
-          },
-          {
-              text: '审批未通过',
-              value: '3'
-          }
-        ],
-        dataList: [
-          {
-              text: '全部时间',
-              value: '0'
-          },
-          {
-              text: '一周内',
-              value: '1'
-          },
-          {
-              text: '一个月内',
-              value: '2'
-          },
-          {
-              text: '六个月内',
-              value: '3'
-          }
-        ],
+      dataList: [
+        {
+            text: '全部时间',
+            value: '0'
+        },
+        {
+            text: '一周内',
+            value: '7'
+        },
+        {
+            text: '一个月内',
+            value: '30'
+        },
+        {
+            text: '六个月内',
+            value: '180'
+        }
+      ],
       value0: '0',
       value1: '0',
       value2: '0',
+      currentIndex: '1'
     }
   },
+  filters: {
+    formatDate: function (value) {
+      let date = new Date(value);
+      let y = date.getFullYear();
+      let MM = date.getMonth() + 1;
+      MM = MM < 10 ? ('0' + MM) : MM;
+      let d = date.getDate();
+      d = d < 10 ? ('0' + d) : d;
+      let h = date.getHours();
+      h = h < 10 ? ('0' + h) : h;
+      let m = date.getMinutes();
+      m = m < 10 ? ('0' + m) : m;
+      let s = date.getSeconds();
+      s = s < 10 ? ('0' + s) : s;
+      return y  + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s
+    },
+    getState: function (value) {
+      if (value === '0') {
+        return '未审批'
+      } else if (value === '1') {
+        return '通过'
+      } else if (value === '2') {
+        return '拒绝'
+      } else if (value === '3') {
+        return '撤回'
+      }
+    }
+  },
+  watch: {
+		value0 (val, oldval) {
+			if (val !== oldval) {
+        if (this.currentIndex === '1') {
+          this.teacherLeaveGet()
+        } else if ( this.currentIndex === '2') {
+           this.approvalLeaveGet()
+        } else if ( this.currentIndex === '3') {
+           this.copyLeaveGet()
+        }
+			}
+		},
+		value1 (val, oldval) {
+			if (val !== oldval) {
+				if (this.currentIndex === '1') {
+          this.teacherLeaveGet()
+        } else if ( this.currentIndex === '2') {
+           this.approvalLeaveGet()
+        } else if ( this.currentIndex === '3') {
+           this.copyLeaveGet()
+        }
+			}
+    },
+		value2 (val, oldval) {
+			if (val !== oldval) {
+				if (this.currentIndex === '1') {
+          this.teacherLeaveGet()
+        } else if ( this.currentIndex === '2') {
+           this.approvalLeaveGet()
+        } else if ( this.currentIndex === '3') {
+           this.copyLeaveGet()
+        }
+			}
+			}
+	},
+  mounted () {
+    this.leaveReasonGet()
+    this.teacherLeaveGet()
+  },
   methods: {
-    select(){
-
+    async leaveReasonGet () {
+      const res = await actions.getLeaveReason()
+      const data = res.data.map(el => {
+        el.text = el.name
+        el.value = el.id
+        return el
+      })
+      this.casueList =this.casueList.concat(data)
+    },
+    async teacherLeaveGet () {
+      let value1 = ''
+      if (this.value1 === '0') {
+        value1 =  ''
+      } else if ( this.value1 === '4' ) {
+        value1 =  '0'
+      }else {
+        value1 =  this.value1 
+      }
+      const req = {
+        applicantCode: '',
+        applicantName: '',
+        schoolCode: store.schoolCode,
+        state: value1,
+        startTime: '' ,
+        endTime: '',
+        page: 1,
+        size: 20,
+        orgCode: '',
+        outSchool: '',
+        userName: '',
+        reasonId: this.value0 ===  '0' ? '' : this.value0,
+        day: this.value2 === '0' ? '' : this.value2
+      }
+      const res = await actions.getTeacherLeave(req)
+      this.leaveList = res.data.list
+    },
+    async approvalLeaveGet () {
+      let value1 = ''
+        if (this.value1 === '0') {
+          value1 =  ''
+        } else if ( this.value1 === '4' ) {
+          value1 =  '0'
+        }else {
+          value1 =  this.value1 
+        }
+       const req = {
+        applicantCode: '',
+        state: value1,
+        page: 1,
+        size: 20,
+        userCode: '',
+        userName: '',
+        time: '',
+        day: this.value2 === '0' ? '' : this.value2,
+        reasonId: this.value0 ===  '0' ? '' : this.value0
+      }
+      const res = await actions.getApprovalLeave(req)
+      this.leaveList = res.data.list
+    },
+    async copyLeaveGet () {
+      let value1 = ''
+      if (this.value1 === '0') {
+        value1 =  ''
+      } else if ( this.value1 === '4' ) {
+        value1 =  '0'
+      }else {
+        value1 =  this.value1 
+      }
+      const req = {
+        applicantCode: '',
+        state: value1,
+        page: 1,
+        size: 20,
+        userCode: '',
+        userName: '',
+        time: '',
+        day: this.value2 === '0' ? '' : this.value2,
+        reasonId: this.value0 ===  '0' ? '' : this.value0
+      }
+      const res = await actions.getCopyLeave(req)
+      this.leaveList = res.data.list
+    },
+    tabChange (type) {
+      this.currentIndex = type
+      if (type === '2') {
+        this.approvalLeaveGet()
+      } else  if (type === '3') {
+        this.copyLeaveGet()
+      } else {
+        this.teacherLeaveGet()
+      }
     },
     addLeave () {
 			this.$tools.navTo({
@@ -148,23 +284,45 @@ export default {
 				title: '新增请假单'
 			})
 		},
-    detail(){
+    check (oddNumbers) {
       const arr1 = ['修改', '撤回']
       const arr2 = ['审批通过', '审批不通过']
-        this.check(arr2)
-        // this.check(arr1)
-    },
-    check(arr){
-      this.$tools.actionsheet(arr, (index) => {
-        console.log(arr[index])
-        if(arr[index]==='修改'){
-
-        }else{
-          this.$tools.confirm(`确定${arr[index]}吗?`, () => {
-          console.log(4)
+      if (this.currentIndex === '1') {
+        this.$tools.actionsheet(arr1, (index) => {
+          if (index === 0) {
+            this.$tools.navTo({
+              url: `./add?oddNumbers=${oddNumbers}`,
+              title: '编辑请假单'
+            })
+          } else {
+            this.$tools.confirm(`确定${arr1[index]}吗?`, () => {
+              actions.recallLeave(oddNumbers).then(res => {
+                this.$tools.toast('操作成功')
+                this.teacherLeaveGet()
+              })
+            })
+          }
         })
-        }
-      })
+      } else if (this.currentIndex === '2') {
+        this.$tools.actionsheet(arr2, (index) => {
+          const req = {
+            oddNumbers: oddNumbers,
+            newState: index === 0 ? '1' : '2'
+          }
+          this.$tools.confirm(`确定${arr2[index]}吗?`, () => {
+            actions.approvalLeave(req).then(res => {
+              this.$tools.toast('操作成功')
+              this.teacherLeaveGet()
+            })
+          })
+        })
+      }
+    },
+    detail (id) {
+      this.$tools.navTo({
+				url: `./detail?id=${id}`,
+				title: '查看详情'
+			})
     }
   }
 }
@@ -183,10 +341,12 @@ export default {
     .nav-item {
       width: 30%;
       float: left;
-      border-bottom: 1rpx solid #ccc;
       &:nth-of-type(2) {
         margin: 0 37rpx;
       }
+    }
+    .active {
+      border-bottom: 1rpx solid #ccc;
     }
   }
   .select-box {

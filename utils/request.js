@@ -1,5 +1,6 @@
 import uniRequest from 'uni-request'
 import qs from 'qs'
+import axios from 'axios'
 // 请求拦截
 uniRequest.interceptors.request.use(
     request => {
@@ -9,7 +10,7 @@ uniRequest.interceptors.request.use(
         return Promise.reject(err);
     });
 
-// 响应拦截
+// 响应拦截A
 uniRequest.interceptors.response.use(function(response) {
     return Promise.resolve(response);
 }, function(error) {
@@ -73,7 +74,58 @@ const $ajax = {
     } catch (err) {
       return responseRes(err)
     }
-  }
+  },
+  async getWithPara (obj, tag = true) {
+    if (tag) showToast()
+    try {
+      let res = await axios({
+        url: obj.url + obj.params,
+        method: 'get'
+      })
+      res = res.data
+      return responseRes(res)
+    } catch (err) {
+      return responseRes(err.response.data, false)
+    }
+  },
+  async del(obj, tag = true) {
+    if (tag) showToast()
+    try {
+      let res = await axios.delete(obj.url, {})
+      res = res.data
+      return responseRes(res)
+    } catch (err) {
+      return responseRes(err.response.data)
+    }
+  },
+  async delQuery(obj, tag = true) {
+    if (tag) showToast()
+    let url = obj.url + '?'
+    for (const key in obj.params) {
+      url += key + '=' + obj.params[key] + '&'
+    }
+    try {
+      let res = await axios.delete(url, {})
+      res = res.data
+      return responseRes(res)
+    } catch (err) {
+      return responseRes(err.response.data)
+    }
+  },
+  async postQuery(obj, tag = true) {
+    if (tag) showToast()
+    let url = obj.url + '?'
+    for (const key in obj.params) {
+      url += key + '=' + obj.params[key] + '&'
+    }
+    try {
+      let res = await axios.post(url, qs.stringify({}))
+      res = res.data
+      return responseRes(res)
+    } catch (err) {
+      return responseRes(err.response.data)
+    }
+  },
 }
 
 export default $ajax

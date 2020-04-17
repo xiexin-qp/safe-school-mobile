@@ -1,76 +1,167 @@
 <template>
-	<view class="add">
-		<view class="head"><uni-search-bar @confirm="search" @input="input"></uni-search-bar></view>
-		<scroll-view scroll-y="true" class="scroll-h">
-			<view class="warp">
-				<view class="box">
-					<t-table border="1" border-color="#eeeeee" :is-check="true" @change="change">
-						<t-tr font-size="14" color="#fff" align="center" class="tit_tr">
-							<t-th align="center">姓名</t-th>
-							<t-th align="center">手机号</t-th>
-							<t-th align="center">组织机构</t-th>
-						</t-tr>
-						<t-tr font-size="12" color="#5d6f61" align="right" v-for="i in 25" :key="i">
-							<t-td align="center">张三</t-td>
-							<t-td align="center">12</t-td>
-							<t-td align="center">武汉全品</t-td>
-						</t-tr>
-					</t-table>
-				</view>
-			</view>
-		</scroll-view>
-		<view class="foot">
-			<button class="mini-btn" type="default" size="mini">取消</button>
-			<button class="mini-btn" type="primary" size="mini" @click="addInfo">保存</button>
-		</view>
-	</view>
+  <view class="qui-page">
+    <view class="list">
+      <view class="head">
+        <uni-search-bar class="search" placeholder="输入姓名/手机号/工号搜索" @confirm="search"></uni-search-bar>
+      </view>
+      <view class="th qui-fx-jsa qui-fx-ac qui-fx-jc title_">
+        <text class="right">选择</text>
+        <text class="right">姓名</text>
+        <text class="right">工号</text>
+        <text class="right">手机号</text>
+      </view>
+      <scroll-view scroll-y="true" class="scroll-h">
+        <checkbox-group @change="checkUser">
+          <label class="tbody qui-bd-b qui-fx-jsb" v-for="(item,index) in dataList" :key="index">
+            <checkbox :value="`${item.userCode}^${item.userName}`" class="left"></checkbox>
+            <label :for="item.userName">
+              <text class="right">{{ item.userName }}</text>
+            </label>
+            <label :for="item.workNo">
+              <text class="right">11</text>
+            </label>
+            <label :for="item.mobile">
+              <text class="right">{{ item.mobile }}</text>
+            </label>
+          </label>
+        </checkbox-group>
+      </scroll-view>
+    </view>
+    <view class="foot">
+      <button class="mini-btn" type="default" size="mini" @click="cancel()">取消</button>
+      <button class="mini-btn" type="primary" size="mini" @click="addInfo()">保存</button>
+    </view>
+  </view>
 </template>
+
 <script>
-import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue';
-import tTable from '@/components/t-table/t-table.vue';
-import tTh from '@/components/t-table/t-th.vue';
-import tTr from '@/components/t-table/t-tr.vue';
-import tTd from '@/components/t-table/t-td.vue';
-import eventBus from '@u/eventBus.js';
-import { actions } from '../store/index.js';
+import { actions, store } from "../store/index";
+import uniSearchBar from "@/components/uni-search-bar/uni-search-bar.vue";
 export default {
-	components: {
-		uniSearchBar,
-		tTable,
-		tTh,
-		tTr,
-		tTd
-	},
-	data() {
-		return {};
-	},
-	methods: {
-		change(e) {
-			console.log(e.detail);
-		},
-		addInfo() {
-			console.log(e.detail);
-		}
-	},
-	mounted() {}
+  components: {
+    uniSearchBar
+  },
+  data() {
+    return {
+      dataList: [],
+      userInfoList: [],
+      pageList: {
+        pageNum: 1,
+        pageSize: 20
+      },
+      ruleGroupCode: "",
+      userGroupCode: ""
+    };
+  },
+  mounted() {
+    this.showList();
+  },
+  methods: {
+    async showList() {
+      const req = {
+        ...this.pageList,
+        keyword: "",
+        orgCode: "",
+        schoolCode: "GZ"
+      };
+
+      const res = await actions.getOrgUser(req);
+      this.dataList = res.data.list;
+    },
+    cancel() {
+      this.userInfoList = [];
+      this.$tools.navTo({
+        url: "./detail",
+        title: "查看人员列表"
+      });
+    },
+    checkUser(e) {
+      const data = e.target.value;
+      this.userInfoList = [];
+      data.map(el => {
+        this.userInfoList.push({
+          userCode: el.split("^")[0],
+          userName: el.split("^")[1].split("=")[0],
+          userType: "1"
+        });
+        console.log(this.userInfoList);
+      });
+    },
+    addInfo() {
+      if (this.userInfoList.length != 0) {
+        const req = {
+          schoolCode: "123456",
+          ruleGroupCode: this.ruleGroupCode,
+          userGroupCode: this.userGroupCode,
+          userInfoList: this.userInfoList,
+          userType: "1"
+        };
+        actions.addgroupuserList(req).then(res => {
+            this.$tools.toast("操作成功");
+            this.$tools.navTo({
+              url: "./detail",
+              title: ""
+            });
+        });
+      } else {
+        this.$tools.toast("请选择人员");
+      }
+    },
+    search(value) {
+      console.log(value);
+      this.keyword = value.value;
+      this.showList();
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .scroll-h {
-	height: calc(100vh - 100rpx - 100rpx);
+  height: calc(100vh - 330rpx);
 }
 .head {
-	height: 100rpx;
+  height: 100rpx;
 }
 .foot {
-	height: 100rpx;
-	text-align: center;
-	button {
-		margin: 0 30rpx;
-	}
+  height: 150rpx;
+  text-align: center;
+  button {
+    margin: 0 30rpx;
+    background: #7b92f5;
+    color: #fff;
+  }
 }
-.tit_tr {
-	background: #7b92f5;
+.title_ {
+  height: 80rpx;
+}
+.list {
+  padding: 25rpx 20rpx;
+  font-size: 28rpx;
+  .th {
+    background: #7b92f5;
+    padding: 20rpx 0;
+    border-radius: 8rpx;
+    color: #fff;
+  }
+  .tbody {
+    position: relative;
+    padding: 25rpx 10rpx;
+  }
+  .tbody:nth-child(even) {
+    background: #f5f5f5;
+  }
+  .left {
+    width: 20%;
+    text-align: center;
+  }
+  .md {
+    width: calc(35% - 40rpx);
+    text-align: center;
+  }
+  .right {
+    width: 35%;
+    text-align: center;
+  }
 }
 </style>

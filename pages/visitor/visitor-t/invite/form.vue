@@ -3,25 +3,35 @@
 		<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view>访客姓名：</view>
-				<view class="qui-fx-f1"><input class="item-input" v-model="formData.userName" style="text-align: right;" placeholder="请输入" /></view>
+				<view class="qui-fx-f1"><input class="item-input" v-model="formData.visitorName" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view>访客手机：</view>
 				<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>开始时间：</view>
+				<view>预计到达时间：</view>
 				<view class="qui-fx-f1 qui-fx-je">
-					<picker mode="time" :value="formData.startTime" @change="startTimeChange">
+					<picker mode="date" :value="formData.startDate" @change="dateChange($event, 'startDate')">
+						<view class="uni-input">{{ formData.startDate }}</view>
+					</picker>
+				</view>
+				<view class="qui-fx-je" style="margin-left:10rpx">
+					<picker mode="time" :value="formData.startTime" @change="dateChange($event, 'startTime')">
 						<view class="uni-input">{{ formData.startTime }}</view>
 					</picker>
 				</view>
 				<view>></view>
 			</view>
-			<view class="qui-fx-ac qui-bd-b item-list">
+			<!-- <view class="qui-fx-ac qui-bd-b item-list">
 				<view>结束时间：</view>
 				<view class="qui-fx-f1 qui-fx-je">
-					<picker mode="date" :value="formData.endTime" @change="endTimeChange">
+					<picker mode="date" :value="formData.endDate" @change="dateChange($event, 'endDate')">
+						<view class="uni-input">{{ formData.endDate }}</view>
+					</picker>
+				</view>
+				<view class="qui-fx-je" style="margin-left:10rpx">
+					<picker mode="time" :value="formData.endTime" @change="dateChange($event, 'endTime')">
 						<view class="uni-input">{{ formData.endTime }}</view>
 					</picker>
 				</view>
@@ -29,16 +39,16 @@
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view>来访时长：</view>
-				<view class="qui-fx-f1 qui-fx-je">{{ formData.time }}</view>
-			</view>
+				<view class="qui-fx-f1 qui-fx-je">{{ formData.duration }}</view>
+			</view> -->
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view>来访事由：</view>
 				<view class="qui-fx-f1 qui-fx-je">
-					<picker mode="selector" :value="formData.cause" :range="cause" @change="chooseCause">{{ cause[formData.cause] || '请选择' }}</picker>
+					<picker mode="selector" :value="formData.cause" :range="causeNameList" @change="chooseCause">{{ causeNameList[formData.cause] || '请选择' }}</picker>
 				</view>
 				<view>></view>
 			</view>
-			<view class="log">
+			<!-- <view class="log">
 				<text>邀请函</text>
 				<view class="qui-fx-ac">
 					<icon type="email" size="24" />
@@ -48,45 +58,145 @@
 						<text>请准时到达，如有问题请联系邀约人姓名邀约人手机号。</text>
 					</view>
 				</view>
-			</view>
+			</view> -->
 		</scroll-view>
 		<view class="common-btn" @click="confirm">提交</view>
 	</view>
 </template>
 
 <script>
+import { store, actions } from '../store/index.js';
 export default {
 	data() {
 		return {
-			cause: ['家长会', '拜访老师', '看望学生'],
+			causeNameList: [],
+			causeList: [],
+			id: '',
+			type: '',  // 0-修改  1-再次邀约
 			formInfo: {},
 			formData: {
-				userName: '',
+				visitorName: '',
 				phone: '',
-				isMarry: false,
-				startTime: '请选择',
-				endTime: '请选择',
-				time: '5小时',
-				cause: 0
+				startDate: this.$tools.getDateTime(new Date(), 'date'),
+				startTime: this.$tools.getDateTime(new Date(), 'time'),
+				endDate: this.$tools.getDateTime(new Date(), 'date'),
+				endTime: this.$tools.getDateTime(new Date(new Date().getTime() + 2 * 60 * 60 * 1000), 'time'),
+				duration: '2小时',
+				cause: '',
+				accessStartTime: '',
+				accessEndTime: ''
 			}
 		};
 	},
+	onLoad(options) {
+		this.id = options.id;
+		this.type = options.id;
+	},
 	computed: {},
-	async mounted() {},
+	created() {
+		this.getCause();
+	},
+	async mounted() {
+		if (this.id) {
+			const res = await actions.getInviteDetail(this.id);
+			if (!res.data) {
+				return;
+			}
+			this.formData.visitorName = res.data.visitorName;
+			this.formData.address = res.data.address;
+			this.formData.phone = res.data.visitorMobile;
+			this.formData.duration = res.data.duration + '小时';
+			this.formData.startDate = this.$tools.getDateTime(res.data.accessStartTime).split(' ')[0];
+			this.formData.startTime = this.$tools.getDateTime(res.data.accessStartTime).split(' ')[1];
+			this.formData.endDate = this.$tools.getDateTime(res.data.accessEndTime).split(' ')[0];
+			this.formData.endTime = this.$tools.getDateTime(res.data.accessEndTime).split(' ')[1];
+			this.causeNameList.forEach((item, i) => {
+				if (item === res.data.causeName) {
+					this.formData.cause = i;
+				}
+			});
+		}
+	},
 	methods: {
-		confirm() {
+		async getCause() {
+			const req = {
+				schoolCode: store.schoolCode,
+				pageNum: 1,
+				pageSize: 100
+			};
+			const res = await actions.getCauseList(req);
+			if (res.data.list.length === 0) {
+				return;
+			}
+			res.data.list.forEach(ele => {
+				this.causeNameList.push(ele.causeName);
+				this.causeList.push({
+					text: ele.causeName,
+					value: ele.id
+				});
+			});
 		},
-		changeRadio(e) {
-			this.formData.sex = e.target.value;
+		async confirm() {
+			this.formData.accessStartTime = this.formData.startDate + ' ' + this.formData.startTime;
+			this.formData.accessEndTime = this.formData.endDate + ' ' + this.formData.endTime;
+			console.log(this.formData);
+			if (this.formData.visitorName === '') {
+				this.$tools.toast('请填写访客姓名');
+			} else if (this.formData.phone === '') {
+				this.$tools.toast('请填写访客手机号');
+			} else if (!/^1[3456789]\d{9}$/.test(this.formData.phone)) {
+				this.$tools.toast('请填写正确手机号');
+			} else if (this.formData.cause === '') {
+				this.$tools.toast('请选择来访事由');
+			}/* else if (new Date(this.formData.accessEndTime).getTime() <= new Date(this.formData.accessStartTime).getTime()) {
+				this.$tools.toast('请选择正确时间段');
+			} */ else {
+				let cause = this.causeList.filter(ele => {
+					return ele.text === this.causeNameList[this.formData.cause];
+				})[0];
+				console.log(cause)
+				if(!cause){
+					this.$tools.toast('请选择来访事由');
+					return
+				}
+				const req = {
+					schoolCode: store.schoolCode,
+					// accessEndTime: new Date(this.formData.accessEndTime),
+					accessStartTime: new Date(this.formData.accessStartTime),
+					visitorName: this.formData.visitorName,
+					visitorMobile: this.formData.phone,
+					respondentCode: store.userCode,
+					respondentName: store.userName,
+					causeId: cause.value,
+					causeName: cause.text,
+					id: this.type === '0' ? this.id : null,
+					type: 1,
+					respondentType: 1
+				};
+				console.log(req)
+				const res = await actions.addInviteInfo(req);
+				this.$tools.toast('提交成功', 'success');
+				this.$tools.navTo({
+					url: './index',
+					title: '来访邀约'
+				});
+			}
 		},
-		switch1Change(e) {
-			this.formData.isMarry = e.target.value;
-		},
-		startTimeChange(e) {
-			this.formData.startTime = e.target.value;
-		},
-		endTimeChange(e) {
-			this.formData.endTime = e.target.value;
+		dateChange(e, type) {
+			if (type === 'startDate') {
+				this.formData.startDate = e.target.value;
+			} else if (type === 'startTime') {
+				this.formData.startTime = e.target.value;
+			} else if (type === 'endDate') {
+				this.formData.endDate = e.target.value;
+			} else if (type === 'endTime') {
+				this.formData.endTime = e.target.value;
+			}
+			this.formData.accessStartTime = this.formData.startDate + ' ' + this.formData.startTime;
+			this.formData.accessEndTime = this.formData.endDate + ' ' + this.formData.endTime;
+			console.log(new Date(this.formData.accessStartTime).getTime());
+			this.formData.duration =
+				parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
 		},
 		chooseCause(e) {
 			this.formData.cause = e.target.value;

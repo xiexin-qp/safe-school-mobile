@@ -1,39 +1,28 @@
 <template>
 	<view class="invite qui-page">
 		<uni-search-bar class="search" placeholder="输入姓名搜索" @confirm="search"></uni-search-bar>
-		<view class="dropDown qui-fx">
-			<ms-dropdown-menu><ms-dropdown-item v-model="value0" :list="casueList"></ms-dropdown-item></ms-dropdown-menu>
-			<ms-dropdown-menu><ms-dropdown-item v-model="value1" :list="dateList"></ms-dropdown-item></ms-dropdown-menu>
-			<ms-dropdown-menu><ms-dropdown-item v-model="value2" :list="statusList"></ms-dropdown-item></ms-dropdown-menu>
-		</view>
-		<uni-popup ref="popup" type="bottom">
-			<view class="pop qui-fx-ver">
-				<text @click="appoint(1)">修改</text>
-				<text @click="appoint(2)">再次发起邀约</text>
-				<text @click="appoint(0)">取消</text>
-			</view>
-		</uni-popup>
-		<no-data v-if="false" msg="暂无数据"></no-data>
-		<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
-			<view class="approve-list" v-for="(list, i) in 10" :key="list.id">
+		<dropdown-menu :statusList="statusList" @value0Change="value0Change" @value1Change="value1Change" @value2Change="value2Change"></dropdown-menu>
+		<no-data v-if="appointList.length === 0" msg="暂无数据"></no-data>
+		<scroll-view v-else scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+			<view class="approve-list" v-for="(item, i) in appointList" :key="i">
 				<view class="detail qui-fx">
-					<view class="process-type" style="right: 20rpx"><view class="wait" @click="open(i)">···</view></view>
+					<view class="process-type" style="right: 20rpx"><view class="wait" @click="appoint(item)">···</view></view>
 					<view class="info qui-fx-ac">
-						<view class="img"><image :src="errorImg" alt="" /></view>
+						<view class="img"><image :src="item.registPhoto ? item.registPhoto : errorImg" alt="" /></view>
 						<view class="list qui-fx-f1">
-							<view class="name">李煜</view>
-							<view>开始时间：2020年2月1日 12:00</view>
-							<view>结束时间：2020年2月1日 12:00</view>
-							<view>来访事由：家长会</view>
-							<view>状态：待审批</view>
+							<view class="name">{{ item.visitorName }}</view>
+							<view>开始时间：{{ item.accessStartTime | getFullDate }}</view>
+							<!-- <view>结束时间：{{ item.accessEndTime | getFullDate }}</view> -->
+							<view>来访事由：{{ item.causeName }}</view>
+							<view>状态：{{ item.state | approveState }}</view>
 						</view>
 					</view>
 				</view>
 				<view class="line qui-bd-t"></view>
 				<view class="see qui-fx-jsb">
-					<text>2020年2月1日 11:00</text>
+					<text>{{ item.createTime | getFullDate }}</text>
 					<view class="qui-fx qui-fx-ac">
-						<text @click="goDetail()">查看详情</text>
+						<text @click="goDetail(item.id)">查看详情</text>
 						<view class="icon right"><text class="iconfont">&#xe851;</text></view>
 					</view>
 				</view>
@@ -44,105 +33,116 @@
 </template>
 
 <script>
-import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue';
-import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue';
+import DropdownMenu from '../component/DropdownMenu.vue';
 import noData from '@/components/no-data/no-data.vue';
-import { actions } from '../store/index.js';
+import { store, actions } from '../store/index.js';
 export default {
 	components: {
-		msDropdownMenu,
-		msDropdownItem,
+		DropdownMenu,
 		noData
 	},
 	data() {
 		return {
 			errorImg: require('@s/img/person.png'),
-			appointList: [],
-			value0: '0',
-			value1: '0',
-			value2: '0',
-			casueList: [
-				{
-					text: '全部事由',
-					value: '0'
-				},
-				{
-					text: '看望孩子',
-					value: '1'
-				},
-				{
-					text: '家长会',
-					value: '2'
-				},
-				{
-					text: '商务拜访',
-					value: '3'
-				}
-			],
-			dateList: [
+			statusList: [
 				{
 					text: '全部状态',
 					value: '0'
 				},
 				{
-					text: '待审批',
+					text: '待处理',
+					value: '00'
+				},
+				{
+					text: '同意',
 					value: '1'
 				},
 				{
-					text: '审批通过',
+					text: '拒绝',
 					value: '2'
 				},
 				{
-					text: '审批不通过',
+					text: '撤销',
 					value: '3'
 				}
 			],
-			statusList: [
-				{
-					text: '全部时间',
-					value: '0'
-				},
-				{
-					text: '一周内',
-					value: '1'
-				},
-				{
-					text: '一个月内',
-					value: '2'
-				},
-				{
-					text: '六个月内',
-					value: '3'
-				}
-			]
+			pageList: {
+				page: 1,
+				size: 15
+			},
+			appointList: [],
+			value0: '0',
+			value1: '0',
+			value2: '0',
+			record: ''
 		};
-	},
-	watch: {
-		value0(val) {
-			console.log(val);
-		},
-		value1(val) {
-			console.log(val);
-		},
-		value2(val) {
-			console.log(val);
-		}
 	},
 	mounted() {
 		this.showList();
 	},
 	methods: {
+		value0Change(val) {
+			console.log(val);
+			this.value0 = val;
+			this.showList();
+		},
+		value1Change(val) {
+			console.log(val);
+			this.value1 = val;
+			this.showList();
+		},
+		value2Change(val) {
+			console.log(val);
+			this.value2 = val;
+			this.showList();
+		},
+		// 访客记录
 		async showList(tag = false) {
-			const res = await actions.getIndex();
-			if (tag) {
-				this.appointList = this.appointList.concat(res.data);
+			let queryTime = new Date();
+			if (this.value1 === '0') {
+				queryTime = '';
+			} else if (this.value1 === '1') {
+				queryTime = new Date(new Date().setDate(new Date().getDate() - 7));
+			} else if (this.value1 === '2') {
+				queryTime = new Date(new Date().setDate(new Date().getDate() - 30));
+			} else if (this.value1 === '3') {
+				queryTime = new Date(new Date().setDate(new Date().getDate() - 180));
+			}
+			let state = '';
+			if (this.value2 === '0') {
+				state = '';
+			} else if (this.value2 === '00') {
+				state = '0';
 			} else {
-				this.appointList = res.data;
+				state = this.value2;
+			}
+			const req = {
+				schoolCode: store.schoolCode,
+				pageNum: this.pageList.page,
+				pageSize: this.pageList.size,
+				userName: this.searchName,
+				userCode: store.userCode,
+				causeId: this.value0 === '0' ? '' : this.value0,
+				queryTime,
+				state,
+				type: 1
+			};
+			const res = await actions.getInviteList(req);
+			if (tag) {
+				this.pageList.page++;
+				this.appointList = this.appointList.concat(res.data.list);
+			} else {
+				this.appointList = res.data.list;
 				uni.stopPullDownRefresh();
+				console.log(this.appointList);
+				if (!res.data.hasNextPage) {
+				}
 			}
 		},
 		search(value) {
 			console.log(value);
+			this.searchName = value.value;
+			this.showList();
 		},
 		goDetail(id) {
 			this.$tools.navTo({
@@ -156,14 +156,21 @@ export default {
 				title: '发起邀约'
 			});
 		},
-		open(id) {
-			console.log(id);
-			this.$refs.popup.open();
+		appoint(record) {
+			this.record = record;
+			if (record.state == 0) {
+				this.check(['修改', '再次发起邀约']);
+			} else {
+				this.check(['再次发起邀约']);
+			}
 		},
-		appoint(type) {
-			// 1.通过 2.不通过 3.取消
-			console.log(type);
-			this.$refs.popup.close();
+		check(arr) {
+			this.$tools.actionsheet(arr, index => {
+				this.$tools.navTo({
+					url: './form?id=' + this.record.id + '&type=' + (arr[index] === '修改' ? '0' : '1'),
+					title: '修改邀约'
+				});
+			});
 		}
 	}
 };

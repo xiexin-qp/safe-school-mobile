@@ -1,78 +1,109 @@
 <template>
   <view class="detail qui-page">
-    <view>
+      <scroll-view scroll-y="true" class="scroll-h">
       <view class="leave-detail qui-fx-ver">
         <view class="leave-info qui-fx-jsb qui-fx-ac">
-          <view class="leave-name">张倩 事假4小时</view>
+          <view class="leave-name"> {{ dayInfo.userName }} {{ dayInfo.reason }} {{ dayInfo.duration }}小时 </view>
           <view class="leave-state">出校</view>
         </view>
         <view class="leave-time qui-fx-jsb">
           <view class="qui-fx"> 
-            <view class="leave-icon">起</view>
+            <view class="leave-icon"> 起 </view>
             <view>
-              <view>2020年3月30日</view>
-              <view>12:00</view>
+              <view> {{ dayInfo.startTime | formatDate(1) }} </view>
+              <view> {{ dayInfo.startTime | formatDate(2) }} </view>
             </view>
           </view>
           <view class="qui-fx"> 
-            <view class="leave-icon">止</view>
+            <view class="leave-icon"> 止 </view>
             <view>
-              <view>2020年3月31日</view>
-              <view>12:00</view>
+              <view> {{ dayInfo.endTime | formatDate(1) }} </view>
+              <view> {{ dayInfo.endTime | formatDate(2) }} </view>
             </view>
           </view>
         </view>
       </view>
-      <view class="leave-remark">家长有急事</view>
+      <view class="leave-remark"> {{ dayInfo.remark }} </view>
       <view class="apply-box qui-fx-ac">
         <view class="qui-fx-ver qui-fx-ac">
           审批人
-          <image :src="person" mode=""></image>
-           赵青
+          <image :src="dayInfo.leaveApprovalAddDto.photoUrl ? dayInfo.leaveApprovalAddDto.photoUrl : person" mode=""></image>
+           {{ dayInfo.leaveApprovalAddDto.userName }}
         </view>
         <view class="apply-content qui-fx-ver">
-          <view class="apply-status">审批通过</view>
-          <view class="apply-time">2020年3月20日 11:39</view>
+          <view class="apply-status"> {{ dayInfo.state | getState }} </view>
+          <view class="apply-time"> {{ dayInfo.approvalTime | formatDate }} </view>
         </view>
       </view>
-      <view class="apply-box qui-fx-ac">
+      <view class="apply-box qui-fx-ac" v-for="copyer in dayInfo.leaveCopyList" :key="copyer.userCode">
         <view class="qui-fx-ver qui-fx-ac">
           抄送人
-          <image :src="person" mode=""></image>
-           吴启迪
+          <image :src="copyer.photoUrl ? copyer.photoUrl : person" mode=""></image>
+           {{ copyer.userName }}
         </view>
         <view class="apply-content qui-fx-ver">
-          <view class="apply-status">未读</view>
-          <view class="apply-time">--：--</view>
+          <view class="apply-status"> {{ copyer.state | getState }} </view>
+          <view class="apply-time"> {{ copyer.readTime | formatDate }} </view>
         </view>
       </view>
-    </view>
+     </scroll-view>
   </view>
 </template>
 
 <script>
 import person from '@s/img/person.png'
 import normal from '@s/img/normal.png'
-// import { store, actions } from './store/index.js'
+import { actions } from '../store'
 export default {
   data () {
     return {
       person,
       normal,
-      dayInfo: [
-        {
-          id:1,
-          workOnTime:'2020-03-30',
-          recordOnTime:'2020-03-30',
-          stateOn:1
-        }
-      ],
+      dayInfo: { }
     }
   },
+  filters: {
+    formatDate: function (value, type) {
+      let date = new Date(value);
+      let y = date.getFullYear();
+      let MM = date.getMonth() + 1;
+      MM = MM < 10 ? ('0' + MM) : MM;
+      let d = date.getDate();
+      d = d < 10 ? ('0' + d) : d;
+      let h = date.getHours();
+      h = h < 10 ? ('0' + h) : h;
+      let m = date.getMinutes();
+      m = m < 10 ? ('0' + m) : m;
+      let s = date.getSeconds();
+      s = s < 10 ? ('0' + s) : s;
+      if (type === 1) {
+        return y  + '-' + MM + '-' + d
+      } else if (type === 2) {
+        return h + ':' + m + ':' + s
+      } else {
+        return y  + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s
+      }
+    },
+    getState: function (value) {
+      if (value === '0') {
+        return '未审批'
+      } else if (value === '1') {
+        return '通过'
+      } else if (value === '2') {
+        return '拒绝'
+      } else if (value === '3') {
+        return '撤回'
+      }
+    }
+  },
+  onLoad(options) {
+    this.detailGet(options.id)
+  },
   methods: {
-    detail(item){
-      console.log('item',item)
-      this.$refs.popup.open()
+    async detailGet (id) {
+      const res = await actions.getLeaveDetail(id)
+      console.log('----',res)
+      this.dayInfo = res.data
     }
   }
 }
@@ -143,5 +174,8 @@ export default {
       }
     }
   }
+}
+.scroll-h{
+  height: 100vh;
 }
 </style>
