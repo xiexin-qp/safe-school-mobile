@@ -9,12 +9,12 @@
           <view>
             <view v-if="dayInfo && dayInfo.onWorkTime"> 上班打卡 {{ dayInfo.onWorkTime  | formatDate }} </view>
             <view v-else> 上班打卡 --:-- </view>
-            <view v-if="dayInfo && dayInfo.offState" 
+            <view v-if="dayInfo && dayInfo.onState" 
               :class ="[
-                { 'unnormal-title': dayInfo.offState === 2 },
-                { 'normal-title': dayInfo.offState === 1 },
-                { 'absence-title': dayInfo || dayInfo.offState === 3 }, 
-                'work-title']"> {{dayInfo.offState | getState}}</view>
+                { 'unnormal-title': dayInfo.onState === 2 },
+                { 'normal-title': dayInfo.onState === 1 },
+                { 'absence-title': dayInfo || dayInfo.onState === 3 }, 
+                'work-title']"> {{dayInfo.onState | getState}}</view>
               <view v-else class="absence-title"> 缺卡 </view>
           </view>
           <view>
@@ -25,12 +25,12 @@
           <view class="work-title">
             <view v-if="dayInfo && dayInfo.offWorkTime"> 下班打卡 {{ dayInfo.offWorkTime | formatDate }} </view>
             <view v-else> 下班打卡 --:-- </view>
-            <view v-if="dayInfo && dayInfo.onState" 
+            <view v-if="dayInfo && dayInfo.offState" 
               :class ="[
-                { 'unnormal-title': dayInfo.onState === 2 },
-                { 'normal-title': dayInfo.onState === 1 },
-                { 'absence-title': dayInfo || dayInfo.onState === 3 }, 
-                'work-title']"> {{dayInfo.onState | getState}}</view>
+                { 'unnormal-title': dayInfo.offState === 2 },
+                { 'normal-title': dayInfo.offState === 1 },
+                { 'absence-title': dayInfo || dayInfo.offState === 3 }, 
+                'work-title']"> {{dayInfo.offState | getState}}</view>
               <view v-else class="absence-title"> 缺卡 </view>
           </view>
           <view>
@@ -101,8 +101,9 @@ export default {
     // 正常 迟到(早退) 缺卡 绿色 橙色 红色
     async showList (tag = false) {
       const req ={
-        userCode: store.userCode,
-        day: this.day
+        userCode: store.userInfo.userCode,
+        day: '2020-04-09'
+        // day: this.day
       }
       const res = await actions.getTeacherAttendance(req)
       this.dayInfo = res.data

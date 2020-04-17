@@ -75,9 +75,9 @@ export default {
   	async showList () {
       const req = {
 				month: '2020-04',
-				studentCode: store.studentCode
+				studentCode: store.userInfo.studentCode
 			}
-      const res = await actions.studentMonthRecord(req)
+      const res = await actions.studentMonthStatic(req)
 			this.attandenceInfo = [{
         title: '正常',
         state: '5',

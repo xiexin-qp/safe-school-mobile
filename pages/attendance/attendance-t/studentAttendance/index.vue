@@ -55,8 +55,9 @@ export default {
 	methods: {
 		async showList () {
       const req = {
-        teacherCode: store.userCode,
-        day: this.day
+        teacherCode: store.userInfo.userCode,
+        day: '2020-04-09'
+        // day: this.day
 			}
       const res = await actions.classDayStatic(req)
 			this.attandenceInfo = [{
@@ -91,14 +92,17 @@ export default {
       this.showList()
     },
 		async detail(item) {
-      console.log('item', item)
-      const req = {
-				day: this.day,
-        teacherCode: store.userCode,
-        state: item.state
-			}
-      const res = await actions.classDayStaticDetail(req)
-			this.$refs.popup.open()
+      if (item.num !== 0) {
+        const req = {
+         day: '2020-04-09',
+        // day: this.day
+          teacherCode: store.userInfo.userCode,
+          state: item.state
+        }
+        const res = await actions.classDayStaticDetail(req)
+        this.$refs.popup.open()
+      }
+      
 		}
 	}
 };
