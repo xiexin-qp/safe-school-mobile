@@ -40,7 +40,7 @@ export default {
 	},
 	async mounted() {
 		const req = {
-			schoolCode: store.schoolCode,
+			schoolCode: store.userInfo.schoolCode,
 			userCode: this.visitorCode,
 			pageNum: 1,
 			pageSize: 100

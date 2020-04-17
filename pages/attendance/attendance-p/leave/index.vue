@@ -1,8 +1,5 @@
 <template>
   <view class="leave qui-page">
-    <view class="nav-tab">
-      <view class="nav-item" v-for="item in navs" :key="item.id">{{item.name}}</view>
-    </view>
     <view class="dropDown qui-fx">
       <ms-dropdown-menu>
         <ms-dropdown-item v-model="value0" :list="casueList"></ms-dropdown-item>
@@ -14,55 +11,30 @@
         <ms-dropdown-item v-model="value2" :list="dataList"></ms-dropdown-item>
       </ms-dropdown-menu>
     </view>
-    <!-- <view class="select-box"> -->
-      <!-- <xfl-select 
-        :list="list"
-        placeholder = "请假类型"
-        :style_Container="'height: 70rpx;'"
-        class="select"
-        @change="select"
-      >
-      </xfl-select>
-      <xfl-select 
-        :list="list"
-        :style_Container="'height: 70rpx;'"
-        placeholder = "审批状态"
-        class="select"
-      >
-      </xfl-select>
-      <xfl-select 
-        :list="list"
-        :style_Container="'height: 70rpx;'"
-        placeholder = "全部时间"
-        class="select"
-      >
-      </xfl-select> -->
-    <!-- </view> -->
     <scroll-view scroll-y="true" class="scroll-h">
       <view class="content">
         <view class="record-box">
           <!-- <no-data msg="暂无考勤记录~" v-if="dayInfo.length === 0"></no-data> -->
-          <view class="leave-box" v-for="(item,index) in 10" :key="index">
+          <view class="leave-box" v-for="(item,index) in leaveList" :key="index">
             <view class="leave-top qui-fx-jsb">
-              <view class="leave-title">事假 </view>
-              <view class="leave-icon" @click="detail(item)"> ...</view>
+              <view class="leave-title"> {{ item.reason }} </view>
+              <view v-if=" item.state === '0'  " class="leave-icon" @click="check(item.oddNumbers)"> ...</view>
             </view>
             <view class="leave-info"> 
-              <view class="leave-pur">开始时间：2020年3月20日 12:00</view>
-              <view class="leave-pur">结束时间：2020年3月21日 12:00</view>
-              <view class="leave-pur">描述：家里有急事</view>
-              <view class="leave-pur">状态：待审批</view>
+              <view class="leave-pur">开始时间：{{ item.startTime | formatDate }}</view>
+              <view class="leave-pur">结束时间：{{ item.endTime | formatDate }}</view>
+              <view class="leave-pur">描述：{{ item.remark }}</view>
+              <view class="leave-pur">状态：{{ item.state | getState }}</view>
             </view>
             <view class="leave-bottom qui-fx-jsb">
-              <view class="leave-time">2020年3月20日 10:00 </view>
-              <view class="leave-detail" style=""> 查看详情 > </view>
+              <view class="leave-time"> {{ item.initiationTime | formatDate }}</view>
+              <view class="leave-detail" @click="detail(item.oddNumbers)"> 查看详情 > </view>
             </view>
           </view>
         </view>
       </view>
      </scroll-view>
-     <view class="float-add-btn" @click="addLeave">
-     </view>
+     <view class="float-add-btn" @click="addLeave"> </view>
   </view>
 </template>
 
@@ -84,135 +56,176 @@ export default {
       dayInfo: [],
       leaveList: [],
       dataList: [],
-      navs:[{
-        id: '1',
-        name: '我的请假'
-      },
-      {
-        id: '2',
-        name: '我的审批'
-      },
-      {
-        id: '3',
-        name: '我的抄送'
-      }],
-      list: [       //要展示的数据
-        {value: '事假', id: 1},
-        {value: '病假', id: 2}
+      casueList: [{text:'请假类型',value:'0'}],
+      dateList: [
+        {
+          text: '审批状态',
+          value: '0'
+        },
+        {
+          text: '待审批',
+          value: '4'
+        },
+        {
+          text: '审批通过',
+          value: '1'
+        },
+        {
+          text: '审批未通过',
+          value: '2'
+        },
+        {
+          text: '撤回',
+          value: '3'
+        }
       ],
-      casueList: [
-          {
-              text: '请假类型',
-              value: '0'
-          },
-          {
-              text: '年假',
-              value: '1'
-          },
-          {
-              text: '事假',
-              value: '2'
-          },
-          {
-              text: '产假',
-              value: '3'
-          }
-        ],
-        dateList: [
-          {
-              text: '审批状态',
-              value: '0'
-          },
-          {
-              text: '待审批',
-              value: '1'
-          },
-          {
-              text: '审批通过',
-              value: '2'
-          },
-          {
-              text: '审批未通过',
-              value: '3'
-          }
-        ],
-        dataList: [
-          {
-              text: '全部时间',
-              value: '0'
-          },
-          {
-              text: '一周内',
-              value: '1'
-          },
-          {
-              text: '一个月内',
-              value: '2'
-          },
-          {
-              text: '六个月内',
-              value: '3'
-          }
-        ],
+      dataList: [
+        {
+            text: '全部时间',
+            value: '0'
+        },
+        {
+            text: '一周内',
+            value: '7'
+        },
+        {
+            text: '一个月内',
+            value: '30'
+        },
+        {
+            text: '六个月内',
+            value: '180'
+        }
+      ],
       value0: '0',
       value1: '0',
-      value2: '0',
+      value2: '0'
     }
   },
-  methods: {
-    select(){
+  filters: {
+    formatDate: function (value) {
+      let date = new Date(value);
+      let y = date.getFullYear();
+      let MM = date.getMonth() + 1;
+      MM = MM < 10 ? ('0' + MM) : MM;
+      let d = date.getDate();
+      d = d < 10 ? ('0' + d) : d;
+      let h = date.getHours();
+      h = h < 10 ? ('0' + h) : h;
+      let m = date.getMinutes();
+      m = m < 10 ? ('0' + m) : m;
+      let s = date.getSeconds();
+      s = s < 10 ? ('0' + s) : s;
+      return y  + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s
     },
-		addLeave () {
+    getState: function (value) {
+      if (value === '0') {
+        return '未审批'
+      } else if (value === '1') {
+        return '通过'
+      } else if (value === '2') {
+        return '拒绝'
+      } else if (value === '3') {
+        return '撤回'
+      }
+    }
+  },
+  watch: {
+		value0 (val, oldval) {
+			if (val !== oldval) {
+        this.teacherLeaveGet()
+			}
+		},
+		value1 (val, oldval) {
+			if (val !== oldval) {
+        this.teacherLeaveGet()
+			}
+    },
+		value2 (val, oldval) {
+			if (val !== oldval) {
+        this.teacherLeaveGet()
+			}
+		}
+	},
+  mounted () {
+    this.leaveReasonGet()
+    this.teacherLeaveGet()
+  },
+  methods: {
+    async leaveReasonGet () {
+      const res = await actions.getLeaveReason()
+      const data = res.data.map(el => {
+        el.text = el.name
+        el.value = el.id
+        return el
+      })
+      this.casueList =this.casueList.concat(data)
+    },
+    async teacherLeaveGet () {
+      let value1 = ''
+      if (this.value1 === '0') {
+        value1 =  ''
+      } else if ( this.value1 === '4' ) {
+        value1 =  '0'
+      }else {
+        value1 =  this.value1 
+      }
+      const req = {
+        applicantCode: store.userInfo.userCode,
+        userCode: store.userInfo.studentCode,
+        time: '',
+        state: value1,
+        page: 1,
+        size: 20,
+        userName: '',
+        reasonId: this.value0 ===  '0' ? '' : this.value0,
+        day: this.value2 === '0' ? '' : this.value2
+      }
+      const res = await actions.getStudentLeave(req)
+      this.leaveList = res.data.list
+    },
+    addLeave () {
 			this.$tools.navTo({
 				url: './add',
 				title: '新增请假单'
 			})
 		},
-    detail(){
+    check (oddNumbers) {
       const arr1 = ['修改', '撤回']
-      const arr2 = ['审批通过', '审批不通过']
-        this.check(arr2)
-        // this.check(arr1)
-    },
-    check(arr){
-      this.$tools.actionsheet(arr, (index) => {
-        console.log(arr[index])
-        if(arr[index]==='修改'){
-
-        }else{
-          this.$tools.confirm(`确定${arr[index]}吗?`, () => {
-          console.log(4)
+        this.$tools.actionsheet(arr1, (index) => {
+          if (index === 0) {
+            this.$tools.navTo({
+              url: `./add?oddNumbers=${oddNumbers}`,
+              title: '编辑请假单'
+            })
+          } else {
+            this.$tools.confirm(`确定${arr1[index]}吗?`, () => {
+              actions.recallStudentLeave(oddNumbers).then(res => {
+                this.$tools.toast('操作成功')
+                this.teacherLeaveGet()
+              })
+            })
+          }
         })
-        }
-      })
-    }
-  }
-}
-</script>
-
-<style lang="less" scoped>
-.leave{
-  background-color: #f0f8ff;
-  position: relative;
-  .nav-tab{
-    height: 80rpx;
-    line-height: 80rpx;
-    text-align: center;
-    background-color: #fff;
-    margin-bottom: 15rpx;
-    .nav-item{
-      width: 30%;
-      float: left;
-      border-bottom: 1rpx solid #ccc;
-      &:nth-of-type(2){
-        margin: 0 37rpx;
+      },
+      detail (id) {
+        this.$tools.navTo({
+          url: `./detail?id=${id}`,
+          title: '查看详情'
+        })
       }
     }
   }
-  .select-box{
+</script>
+
+<style lang="less" scoped>
+.leave {
+  background-color: #f0f8ff;
+  position: relative;
+  .select-box {
     background-color: #f1f8ff;
     padding: 20rpx 0;
-    .select{
+    .select {
       width: 30%;
       float: left;
       border: none;
@@ -220,9 +233,9 @@ export default {
     }
   }
   .scroll-h {
-    height: calc(100vh - 190rpx);
+    height: calc(100vh - 110rpx);
     // height: 85vh;
-    .record-box{
+    .record-box {
       background-color: #f2f8fe;
       padding: 5rpx 5rpx 0 5rpx; 
       .leave-box {
@@ -230,74 +243,65 @@ export default {
         background-color: #fff;
         border-radius: 20rpx;
         padding: 25rpx 20rpx;
-        &:first-of-type{
+        &:first-of-type {
           margin-top: 0;
         }
-        .leave-top{
+        .leave-top {
           margin-bottom: 10rpx;
-          .leave-icon{
+          .leave-icon {
             font-size: 40rpx;
             font-weight: bolder;
           }
-          .leave-title{
+          .leave-title {
             font-size: 32rpx;
             font-weight: bold;
           }
         }
-        .leave-info{
+        .leave-info {
           color: #acafaf;
           .leave-pur{
             padding: 6rpx 0;
             font-size: 28rpx;
           }
         }
-        .leave-bottom{
+        .leave-bottom {
           margin-top: 10rpx;
           padding-top: 10rpx;
           font-size: 28rpx;
           border-top: 1rpx solid #f9fbfb;
-          .leave-time{
+          .leave-time {
             color:#cbcdcd;
           }
-          .leave-detail{
+          .leave-detail {
             font-weight: bold;
           }
         }
       }
     }
   }
-  .add-icon{
-    position: absolute;
-    left: 43%;
-    bottom: 5%;
-    image{
-     height: 100rpx;
-	   width: 100rpx;
-    }
-  }
 }
-.dropdown{
+.dropdown {
     padding: 4rpx 18rpx 18rpx 18rpx;
     background: #fff;
     font-size: 12px;
   }
-  .dropdown-menu{
+  .dropdown-menu {
     width: 50%;
     padding: 2rpx 0;
     border: 1rpx solid #ddd;
     border-radius: 8rpx;
     margin-bottom: 10rpx;
   }
-  .dropdown-menu:first-child{
+  .dropdown-menu:first-child { 
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     border-right: none;
   }
-  .dropdown-menu:last-child{
+  .dropdown-menu:last-child {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
-  .dropdown-item__selected{
+  .dropdown-item__selected {
     padding: 10rpx;
   }
   @font-face {

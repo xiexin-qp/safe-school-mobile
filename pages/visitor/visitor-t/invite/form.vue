@@ -72,7 +72,7 @@ export default {
 			causeNameList: [],
 			causeList: [],
 			id: '',
-			type: '',  // 0-修改  1-再次邀约
+			type: '', // 0-修改  1-再次邀约
 			formInfo: {},
 			formData: {
 				visitorName: '',
@@ -99,7 +99,7 @@ export default {
 	async mounted() {
 		if (this.id) {
 			const res = await actions.getInviteDetail(this.id);
-			if (!res.data) {
+			if (!res.data.id) {
 				return;
 			}
 			this.formData.visitorName = res.data.visitorName;
@@ -120,7 +120,7 @@ export default {
 	methods: {
 		async getCause() {
 			const req = {
-				schoolCode: store.schoolCode,
+				schoolCode: store.userInfo.schoolCode,
 				pageNum: 1,
 				pageSize: 100
 			};
@@ -148,32 +148,32 @@ export default {
 				this.$tools.toast('请填写正确手机号');
 			} else if (this.formData.cause === '') {
 				this.$tools.toast('请选择来访事由');
-			}/* else if (new Date(this.formData.accessEndTime).getTime() <= new Date(this.formData.accessStartTime).getTime()) {
+			} /* else if (new Date(this.formData.accessEndTime).getTime() <= new Date(this.formData.accessStartTime).getTime()) {
 				this.$tools.toast('请选择正确时间段');
 			} */ else {
 				let cause = this.causeList.filter(ele => {
 					return ele.text === this.causeNameList[this.formData.cause];
 				})[0];
-				console.log(cause)
-				if(!cause){
+				console.log(cause);
+				if (!cause) {
 					this.$tools.toast('请选择来访事由');
-					return
+					return;
 				}
 				const req = {
-					schoolCode: store.schoolCode,
+					schoolCode: store.userInfo.schoolCode,
 					// accessEndTime: new Date(this.formData.accessEndTime),
 					accessStartTime: new Date(this.formData.accessStartTime),
 					visitorName: this.formData.visitorName,
 					visitorMobile: this.formData.phone,
-					respondentCode: store.userCode,
-					respondentName: store.userName,
+					respondentCode: store.userInfo.userCode,
+					respondentName: store.userInfo.userName,
 					causeId: cause.value,
 					causeName: cause.text,
 					id: this.type === '0' ? this.id : null,
 					type: 1,
 					respondentType: 1
 				};
-				console.log(req)
+				console.log(req);
 				const res = await actions.addInviteInfo(req);
 				this.$tools.toast('提交成功', 'success');
 				this.$tools.navTo({

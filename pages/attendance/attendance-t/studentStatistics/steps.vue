@@ -1,15 +1,15 @@
 <template>
 	<view class="container">
-		<view class="set_box" v-for="(item,index) in 15" :key="index">
+		<view class="set_box" v-for="(item,index) in attandenceInfo" :key="index">
 			<view class="set_time">
-				<view>{{item.YYMMDD}}</view>
+				<view>{{item.day | formatDate(1)}}</view>
 			</view>
 			<!-- 步骤条 -->
 			<view class="set-1">
 				<view class="set-2">
           <view class="right qui-fx-ver">
-            <text class="detail">上学打卡： 08:00  <text class="set-state">正常</text> </text>
-            <text class="detail">放学打卡： 17:00  <text class="set-state">正常</text></text>
+            <text class="detail">上学打卡： {{item.onTime | formatDate(2)}}  <text class="set-state">{{ item.onState | getState }} </text> </text>
+            <text class="detail">放学打卡： {{item.offTime | formatDate(2)}} <text class="set-state">{{ item.offState | getState }} </text></text>
           </view>
 				</view>
 			</view>
@@ -18,13 +18,68 @@
 </template>
 
 <script>
+import { store, actions } from '../store/index.js'
 	export default {
 		data() {
 			return {
-				talk: []
+				talk: [],
+				attandenceInfo:[]
 			}
 		},
-		methods: {}
+		filters: {
+			formatDate: function (value, type) {
+				let date = new Date(value);
+				let y = date.getFullYear();
+				let MM = date.getMonth() + 1;
+				MM = MM < 10 ? ('0' + MM) : MM;
+				let d = date.getDate();
+				d = d < 10 ? ('0' + d) : d;
+				let h = date.getHours();
+				h = h < 10 ? ('0' + h) : h;
+				let m = date.getMinutes();
+				m = m < 10 ? ('0' + m) : m;
+				let s = date.getSeconds();
+				s = s < 10 ? ('0' + s) : s;
+				if (type === 1) {
+					return y  + '-' + MM + '-' + d
+				} else if (type === 2) {
+					return h + ':' + m + ':' + s
+				} else {
+					return y  + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s
+				}
+			},
+			getState: function (value) {
+				if (value === 1) {
+					return '迟到'
+				} else if (value === 2) {
+					return '早退'
+				} else if (value === 3) {
+					return '上学缺卡'
+				} else if (value === 4) {
+					return '请假'
+				} else if (value === 5) {
+					return '正常'
+				} else if (value === 6) {
+					return '放学缺卡'
+				} else {
+					return '缺卡'
+				}
+			}
+    },
+		mounted() {
+			this.showList()
+		},
+		methods: {
+			// studentMonthRecord
+				async showList () {
+					const req = {
+						month: '2020-04',
+						studentCode: store.userInfo.studentCode
+					}
+				const res = await actions.studentMonthRecord(req)
+				this.attandenceInfo = res.data
+			}
+		}
 	}
 </script>
 
