@@ -15,8 +15,6 @@ let leaveApi = {
   getCopyLeave: '/leave/copy/getCopyLeaveByUserCode#post', // 查询抄送给自己的请假单
   recallLeave: '/teacher/leave/withdraw/#getWithPara', // 根据单号撤回教职工请假单
   approvalLeave: '/leave/approval/approvalTeacherLeave#postQuery' // 审批请假单
- 
-  
 }
 
 for (let val in leaveApi) {

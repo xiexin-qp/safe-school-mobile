@@ -7,7 +7,7 @@
       <view class="record-box">
         <view class="work-box qui-fx-jsb">
           <view>
-            <view v-if="dayInfo && dayInfo.onWorkTime"> 上班打卡 {{ dayInfo.onWorkTime  | formatDate }} </view>
+            <view v-if="dayInfo && dayInfo.onWorkTime"> 上班打卡 {{ dayInfo.onWorkTime  | gmtToDate('time') }} </view>
             <view v-else> 上班打卡 --:-- </view>
             <view v-if="dayInfo && dayInfo.onState" 
               :class ="[
@@ -23,7 +23,7 @@
         </view>
         <view class="work-box qui-fx-jsb">
           <view class="work-title">
-            <view v-if="dayInfo && dayInfo.offWorkTime"> 下班打卡 {{ dayInfo.offWorkTime | formatDate }} </view>
+            <view v-if="dayInfo && dayInfo.offWorkTime"> 下班打卡 {{ dayInfo.offWorkTime | gmtToDate('time') }} </view>
             <view v-else> 下班打卡 --:-- </view>
             <view v-if="dayInfo && dayInfo.offState" 
               :class ="[
@@ -51,40 +51,6 @@ export default {
       person,
       dayInfo: {},
       day: new Date()
-    }
-  },
-  filters: {
-    formatDate: function (value) {
-      let date = new Date(value);
-      let y = date.getFullYear();
-      let MM = date.getMonth() + 1;
-      MM = MM < 10 ? ('0' + MM) : MM;
-      let d = date.getDate();
-      d = d < 10 ? ('0' + d) : d;
-      let h = date.getHours();
-      h = h < 10 ? ('0' + h) : h;
-      let m = date.getMinutes();
-      m = m < 10 ? ('0' + m) : m;
-      let s = date.getSeconds();
-      s = s < 10 ? ('0' + s) : s;
-      return  h + ':' + m + ':' + s;
-    },
-    getState: function (value) {
-      if (value === 1) {
-        return '迟到'
-      } else if (value === 2) {
-        return '早退'
-      } else if (value === 3) {
-        return '上学缺卡'
-      } else if (value === 4) {
-        return '请假'
-      } else if (value === 5) {
-        return '正常'
-      } else if (value === 6) {
-        return '放学缺卡'
-      } else {
-        return '缺卡'
-      }
     }
   },
   mounted () {

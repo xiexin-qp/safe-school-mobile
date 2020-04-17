@@ -25,7 +25,7 @@ const filters = {
 		} else if (type === 'date') {
 			return time.substring(0, 10)
 		} else if (type === 'time') {
-			return time.substring(11, 15)
+			return time.substring(11, 16)
 		}
 	},
 	// 访客状态
@@ -50,6 +50,23 @@ const filters = {
 			return '撤销'
 		} else if (val == 4) {
 			return '失效'
+		}
+	},
+	getState: value=> {
+		if (value === 1) {
+			return '迟到'
+		} else if (value === 2) {
+			return '早退'
+		} else if (value === 3) {
+			return '上学缺卡'
+		} else if (value === 4) {
+			return '请假'
+		} else if (value === 5) {
+			return '正常'
+		} else if (value === 6) {
+			return '放学缺卡'
+		} else {
+			return '缺卡'
 		}
 	}
 }

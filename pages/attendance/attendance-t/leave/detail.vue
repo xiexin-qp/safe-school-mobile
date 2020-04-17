@@ -10,15 +10,15 @@
           <view class="qui-fx"> 
             <view class="leave-icon"> 起 </view>
             <view>
-              <view> {{ dayInfo.startTime | formatDate(1) }} </view>
-              <view> {{ dayInfo.startTime | formatDate(2) }} </view>
+              <view> {{ dayInfo.startTime | gmtToDate('date') }} </view>
+              <view> {{ dayInfo.startTime | gmtToDate('time') }} </view>
             </view>
           </view>
           <view class="qui-fx"> 
             <view class="leave-icon"> 止 </view>
             <view>
-              <view> {{ dayInfo.endTime | formatDate(1) }} </view>
-              <view> {{ dayInfo.endTime | formatDate(2) }} </view>
+              <view> {{ dayInfo.endTime | gmtToDate('date') }} </view>
+              <view> {{ dayInfo.endTime | gmtToDate('time') }} </view>
             </view>
           </view>
         </view>
@@ -31,8 +31,8 @@
            {{ dayInfo.leaveApprovalAddDto.userName }}
         </view>
         <view class="apply-content qui-fx-ver">
-          <view class="apply-status"> {{ dayInfo.state | getState }} </view>
-          <view class="apply-time"> {{ dayInfo.approvalTime | formatDate }} </view>
+          <view class="apply-status"> {{ dayInfo.state | approveState }} </view>
+          <view class="apply-time"> {{ dayInfo.approvalTime | gmtToDate }} </view>
         </view>
       </view>
       <view class="apply-box qui-fx-ac" v-for="copyer in dayInfo.leaveCopyList" :key="copyer.userCode">
@@ -42,8 +42,8 @@
            {{ copyer.userName }}
         </view>
         <view class="apply-content qui-fx-ver">
-          <view class="apply-status"> {{ copyer.state | getState }} </view>
-          <view class="apply-time"> {{ copyer.readTime | formatDate }} </view>
+          <view class="apply-status"> {{ copyer.state | approveState }} </view>
+          <view class="apply-time"> {{ copyer.readTime | gmtToDate }} </view>
         </view>
       </view>
      </scroll-view>
@@ -60,40 +60,6 @@ export default {
       person,
       normal,
       dayInfo: { }
-    }
-  },
-  filters: {
-    formatDate: function (value, type) {
-      let date = new Date(value);
-      let y = date.getFullYear();
-      let MM = date.getMonth() + 1;
-      MM = MM < 10 ? ('0' + MM) : MM;
-      let d = date.getDate();
-      d = d < 10 ? ('0' + d) : d;
-      let h = date.getHours();
-      h = h < 10 ? ('0' + h) : h;
-      let m = date.getMinutes();
-      m = m < 10 ? ('0' + m) : m;
-      let s = date.getSeconds();
-      s = s < 10 ? ('0' + s) : s;
-      if (type === 1) {
-        return y  + '-' + MM + '-' + d
-      } else if (type === 2) {
-        return h + ':' + m + ':' + s
-      } else {
-        return y  + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s
-      }
-    },
-    getState: function (value) {
-      if (value === '0') {
-        return '未审批'
-      } else if (value === '1') {
-        return '通过'
-      } else if (value === '2') {
-        return '拒绝'
-      } else if (value === '3') {
-        return '撤回'
-      }
     }
   },
   onLoad(options) {

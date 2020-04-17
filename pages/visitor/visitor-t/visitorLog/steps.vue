@@ -89,7 +89,7 @@ export default {
 }
 /* 左侧时间 */
 .set_time {
-	width: 20%;
+	width: 30%;
 	position: relative;
 	view {
 		width: 100%;

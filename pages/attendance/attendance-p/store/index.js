@@ -21,7 +21,7 @@ const store = Vue.observable({
   tabIndex: 0,
   enjoyApp: getState('enjoyApp', []),
   userInfo:{
-    userCode: 'eee',
+    userCode: 'abc',
     userName: '张',
     orgId: '',
     orgName: '',

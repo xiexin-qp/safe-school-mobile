@@ -24,13 +24,13 @@
               <view v-if=" currentIndex !== '3'  && item.state === '0'  " class="leave-icon" @click="check(item.oddNumbers)"> ...</view>
             </view>
             <view class="leave-info"> 
-              <view class="leave-pur">开始时间：{{ item.startTime | formatDate }}</view>
-              <view class="leave-pur">结束时间：{{ item.endTime | formatDate }}</view>
+              <view class="leave-pur">开始时间：{{ item.startTime | gmtToDate }}</view>
+              <view class="leave-pur">结束时间：{{ item.endTime | gmtToDate }}</view>
               <view class="leave-pur">描述：{{ item.remark }}</view>
-              <view class="leave-pur">状态：{{ item.state | getState }}</view>
+              <view class="leave-pur">状态：{{ item.state | approveState }}</view>
             </view>
             <view class="leave-bottom qui-fx-jsb">
-              <view class="leave-time"> {{ item.initiationTime | formatDate }}</view>
+              <view class="leave-time"> {{ item.initiationTime | gmtToDate }}</view>
               <view class="leave-detail" @click="detail(item.oddNumbers)"> 查看详情 > </view>
             </view>
           </view>
@@ -116,34 +116,6 @@ export default {
       value1: '0',
       value2: '0',
       currentIndex: '1'
-    }
-  },
-  filters: {
-    formatDate: function (value) {
-      let date = new Date(value);
-      let y = date.getFullYear();
-      let MM = date.getMonth() + 1;
-      MM = MM < 10 ? ('0' + MM) : MM;
-      let d = date.getDate();
-      d = d < 10 ? ('0' + d) : d;
-      let h = date.getHours();
-      h = h < 10 ? ('0' + h) : h;
-      let m = date.getMinutes();
-      m = m < 10 ? ('0' + m) : m;
-      let s = date.getSeconds();
-      s = s < 10 ? ('0' + s) : s;
-      return y  + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s
-    },
-    getState: function (value) {
-      if (value === '0') {
-        return '未审批'
-      } else if (value === '1') {
-        return '通过'
-      } else if (value === '2') {
-        return '拒绝'
-      } else if (value === '3') {
-        return '撤回'
-      }
     }
   },
   watch: {

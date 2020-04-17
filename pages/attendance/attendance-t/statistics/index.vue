@@ -10,7 +10,7 @@
 				</view>
       </view>
       <view class="record-box">
-        <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
+        <view class="attandence-title qui-fx-ac-jc">上下班考勤统计</view>
         <view class="attandence-box">
           <view 
             class="attandence-info qui-fx-ac-jc" 
@@ -20,7 +20,7 @@
           >
             <image :src="normal" mode=""></image>
             <view> {{item.title}}</view>
-            <view class="attandence-num"> {{item.num}}次</view>
+            <view class="attandence-num"> {{item.num}}</view>
           </view>
         </view>
       </view>
@@ -28,7 +28,7 @@
     <uni-popup ref="popup" type="center">
       <scroll-view scroll-y="true" class="scroll-h">
         <view v-for="list in dataList" :key="list" class="list qui-bd-b">
-          <text>{{ list | formatDate }}</text>
+          <text>{{ list | gmtToDate('date') }}</text>
         </view>
       </scroll-view>
     </uni-popup>
@@ -61,23 +61,6 @@ export default {
       attandenceInfo:[],
 			lastMonth: this.lastFiveMonth(),
 			yearTitle: this.lastFiveMonth().pop(),
-    }
-  },
-  filters: {
-    formatDate: function (value) {
-      let date = new Date(value);
-      let y = date.getFullYear();
-      let MM = date.getMonth() + 1;
-      MM = MM < 10 ? ('0' + MM) : MM;
-      let d = date.getDate();
-      d = d < 10 ? ('0' + d) : d;
-      let h = date.getHours();
-      h = h < 10 ? ('0' + h) : h;
-      let m = date.getMinutes();
-      m = m < 10 ? ('0' + m) : m;
-      let s = date.getSeconds();
-      s = s < 10 ? ('0' + s) : s;
-      return y  + '-' + MM + '-' + d 
     }
   },
   mounted () {
@@ -116,31 +99,31 @@ export default {
 			this.attandenceInfo = [{
         title: '正常',
         state: '5',
-        num: res.data.normalCount
+        num: `${res.data.normalCount}天`
       },{
         title: '上学缺卡',
         state: '3',
-        num: res.data.onNoRecordCount
+        num: `${res.data.onNoRecordCount}次`
       },{
         title: '迟到',
         state: '1',
-        num: res.data.lateCount
+        num:  `${res.data.lateCount}次`
       },{
         title: '早退',
         state: '2',
-        num: res.data.earlyCount
+        num:  `${res.data.earlyCount}次`
       },{
         title: '放学缺卡',
         state: '6',
-        num: res.data.offNoRecordCount
+        num:  `${res.data.offNoRecordCount}次`
       },{
         title: '缺勤',
         state: '7',
-        num: res.data.noRecord
+        num:  `${res.data.noRecord}天`
       }]
 		},
     async detail(item){
-      if ( item.num !== 0 ) {
+      if ( item.num !== '0次' && item.num !== '0天' ) {
         const req = {
           month: this.yearTitle,
           userCode: store.userInfo.userCode,

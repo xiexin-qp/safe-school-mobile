@@ -15,7 +15,7 @@
           >
             <image :src="normal" mode=""></image>
             <view> {{item.title}}</view>
-            <view class="attandence-num"> {{item.num}}人</view>
+            <view class="attandence-num"> {{item.num}}</view>
           </view>
         </view>
       </view>
@@ -30,8 +30,7 @@
     <uni-popup ref="popup" type="center">
      	<scroll-view scroll-y="true" class="scroll-h">
         <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
-          <text>{{ list.name }}</text>
-          <image :src="person" mode=""></image>
+          <text>{{ list | gmtToDate('date') }}</text>
         </view>
       </scroll-view>
     </uni-popup>
@@ -81,32 +80,40 @@ export default {
 			this.attandenceInfo = [{
         title: '正常',
         state: '5',
-        num: res.data.normalCount
+        num: `${res.data.normalCount}天`
       },{
         title: '上学缺卡',
         state: '3',
-        num: res.data.onNoRecordCount
+        num: `${res.data.onNoRecordCount}次`
       },{
         title: '迟到',
         state: '1',
-        num: res.data.lateCount
+        num:  `${res.data.lateCount}次`
       },{
         title: '早退',
         state: '2',
-        num: res.data.earlyCount
+        num:  `${res.data.earlyCount}次`
       },{
         title: '放学缺卡',
         state: '6',
-        num: res.data.offNoRecordCount
+        num:  `${res.data.offNoRecordCount}次`
       },{
         title: '缺勤',
         state: '7',
-        num: res.data.noRecord
+        num:  `${res.data.noRecord}天`
       }]
 		},
-    detail (item) {
-      console.log('item',item)
-      this.$refs.popup.open()
+    async detail (item) {
+      if (item.num !== '0次' && item.num !== '0天') {
+        const req = {
+          month: '2020-04',
+          studentCode: store.userInfo.studentCode,
+          state: item.state
+        }
+        const res = await actions.childStaticDetail(req)
+        this.dataList = res.data
+        this.$refs.popup.open()
+      }
     }
   },
   

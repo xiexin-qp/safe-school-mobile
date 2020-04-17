@@ -22,8 +22,8 @@
     <uni-popup ref="popup" type="center">
      	<scroll-view scroll-y="true" class="scroll-h">
         <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
-          <text>{{ list.name }}</text>
-          <image :src="person" mode=""></image>
+          <text> {{ list.userName }} </text>
+          <image :src="list.photoUrl ? photoUrl : person" mode=""></image>
         </view>
       </scroll-view>
     </uni-popup>
@@ -100,6 +100,7 @@ export default {
           state: item.state
         }
         const res = await actions.classDayStaticDetail(req)
+        this.dataList = res.data
         this.$refs.popup.open()
       }
       

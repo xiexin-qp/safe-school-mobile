@@ -2,14 +2,14 @@
 	<view class="container">
 		<view class="set_box" v-for="(item,index) in attandenceInfo" :key="index">
 			<view class="set_time">
-				<view>{{item.day | formatDate(1)}}</view>
+				<view>{{item.day | gmtToDate('date')}}</view>
 			</view>
 			<!-- 步骤条 -->
 			<view class="set-1">
 				<view class="set-2">
           <view class="right qui-fx-ver">
-            <text class="detail">上学打卡： {{item.onTime | formatDate(2)}}  <text class="set-state">{{ item.onState | getState }} </text> </text>
-            <text class="detail">放学打卡： {{item.offTime | formatDate(2)}} <text class="set-state">{{ item.offState | getState }} </text></text>
+            <text class="detail">上学打卡： {{item.onTime | gmtToDate('time')}}  <text class="set-state">{{ item.onState | getState }} </text> </text>
+            <text class="detail">放学打卡： {{item.offTime | gmtToDate('time')}} <text class="set-state">{{ item.offState | getState }} </text></text>
           </view>
 				</view>
 			</view>
@@ -27,27 +27,6 @@ import { store, actions } from '../store/index.js'
 			}
 		},
 		filters: {
-			formatDate: function (value, type) {
-				let date = new Date(value);
-				let y = date.getFullYear();
-				let MM = date.getMonth() + 1;
-				MM = MM < 10 ? ('0' + MM) : MM;
-				let d = date.getDate();
-				d = d < 10 ? ('0' + d) : d;
-				let h = date.getHours();
-				h = h < 10 ? ('0' + h) : h;
-				let m = date.getMinutes();
-				m = m < 10 ? ('0' + m) : m;
-				let s = date.getSeconds();
-				s = s < 10 ? ('0' + s) : s;
-				if (type === 1) {
-					return y  + '-' + MM + '-' + d
-				} else if (type === 2) {
-					return h + ':' + m + ':' + s
-				} else {
-					return y  + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s
-				}
-			},
 			getState: function (value) {
 				if (value === 1) {
 					return '迟到'
@@ -95,7 +74,7 @@ import { store, actions } from '../store/index.js'
 	}
 	/* 左侧时间 */
 	.set_time {
-		width: 20%;
+		width: 30%;
 		position: relative;
 		view {
 			width: 100%;

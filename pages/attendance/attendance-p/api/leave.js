@@ -12,7 +12,6 @@ let leaveApi = {
   getStudentLeave: '/student/leave/getLeaveForChild#post', // 根据请假人code,申请人code 查询学生的请假单
   studentLeaveDetail: '/student/leave/detailByNumbers/#getWithPara', // 根据请假单号获取请假单全部信息
   recallStudentLeave: '/student/leave/withdraw/#getWithPara', // 撤回学生请假单
- 
 }
 
 for (let val in leaveApi) {
