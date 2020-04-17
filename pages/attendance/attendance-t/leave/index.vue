@@ -207,7 +207,7 @@ export default {
       const req = {
         applicantCode: '',
         applicantName: '',
-        schoolCode: store.schoolCode,
+        schoolCode: store.userInfo.schoolCode,
         state: value1,
         startTime: '' ,
         endTime: '',

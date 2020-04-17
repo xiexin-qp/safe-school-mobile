@@ -4,7 +4,7 @@
       <view class="leave-detail qui-fx-ver">
         <view class="leave-info qui-fx-jsb qui-fx-ac">
           <view class="leave-name"> {{ dayInfo.userName }} {{ dayInfo.reason }} {{ dayInfo.duration }}小时 </view>
-          <view class="leave-state">出校</view>
+          <view class="leave-state"> {{dayInfo.outSchool === 'Y' ? '出校' : '不出校'}} </view>
         </view>
         <view class="leave-time qui-fx-jsb">
           <view class="qui-fx"> 

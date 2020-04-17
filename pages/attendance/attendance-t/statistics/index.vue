@@ -110,7 +110,7 @@ export default {
       this.yearTitle = month
       const req = {
 				month: month,
-				userCode: store.userCode
+				userCode: store.userInfo.userCode
 			}
       const res = await actions.getTeacherStatic(req)
 			this.attandenceInfo = [{
@@ -140,16 +140,16 @@ export default {
       }]
 		},
     async detail(item){
-      console.log('item',item)
-      console.log('this.yearTitle',this.yearTitle)
-      const req = {
-				month: this.yearTitle,
-        userCode: store.userCode,
-        state: item.state
-			}
-      const res = await actions.teacherStaticDetail(req)
-      this.dataList = res.data
-      this.$refs.popup.open()
+      if ( item.num !== 0 ) {
+        const req = {
+          month: this.yearTitle,
+          userCode: store.userInfo.userCode,
+          state: item.state
+        }
+        const res = await actions.teacherStaticDetail(req)
+        this.dataList = res.data
+        this.$refs.popup.open()
+      }
     }
   }
 }
@@ -215,16 +215,17 @@ export default {
         }
       }
     }
-  }
+  };
   .scroll-h {
-    height: 70vh;
-    .list {
-      padding: 15rpx 25rpx;
-      image {
-        width: 60rpx;
-        height: 60rpx;
+      height: 70vh;
+      .list {
+        padding: 15rpx 25rpx;
+        image {
+          width: 60rpx;
+          height: 60rpx;
+        }
       }
     }
-  }
 }
+
 </style>

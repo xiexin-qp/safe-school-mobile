@@ -13,12 +13,12 @@
       <view class="qui-fx-ac qui-bd-b item-list">
         <view>开始时间：</view>
         <view class="qui-fx-f1 qui-fx-je">
-          <picker mode="date" :value="leaveInfo.startDate" @change="dateChange(1)">
+          <picker mode="date" :value="leaveInfo.startDate" @change="dateChange($event, 1)">
             <view class="uni-input">{{leaveInfo.startDate | form}}</view>
           </picker>
         </view>
         <view class="qui-fx-je" style="margin-left:10rpx">
-          <picker mode="time" :value="leaveInfo.startTime" @change="dateChange(2)">
+          <picker mode="time" :value="leaveInfo.startTime" @change="dateChange($event, 2)">
             <view class="uni-input"> {{leaveInfo.startTime}}</view>
           </picker>
         </view>
@@ -27,12 +27,12 @@
       <view class="qui-fx-ac qui-bd-b item-list">
         <view>结束时间：</view>
         <view class="qui-fx-f1 qui-fx-je">
-          <picker mode="date" :value="leaveInfo.endDate" @change="dateChange(3)">
+          <picker mode="date" :value="leaveInfo.endDate" @change="dateChange($event, 3)">
             <view class="uni-input">{{leaveInfo.endDate}}</view>
           </picker>
         </view>
         <view class="qui-fx-je" style="margin-left:10rpx">
-          <picker mode="time" :value="leaveInfo.endTime" @change="dateChange(4)">
+          <picker mode="time" :value="leaveInfo.endTime" @change="dateChange($event, 4)">
             <view class="uni-input"> {{leaveInfo.endTime}}</view>
           </picker>
         </view>
@@ -184,11 +184,11 @@
         this.currentRole = this.role.indexOf(this.leaveInfo.reason)
       },
       radioChange (e) {
-        this.outSchool = e.target.value
+        this.leaveInfo.outSchool = e.target.value
       },
       dateChange (e, type) {
       if (type === 1) {
-				this.leaveInfo.startDate = e.target.value;
+        this.leaveInfo.startDate = e.target.value;
 			} else if (type === 2) {
 				this.leaveInfo.startTime = e.target.value;
 			} else if (type === 3) {
@@ -196,8 +196,8 @@
 			} else if (type === 4) {
 				this.leaveInfo.endTime = e.target.value;
 			}
-        this.leaveInfo.duration = parseInt(Math.ceil(new Date(new Date(this.endDate + ' ' + this.endTime).getTime()).getTime() 
-                        - new Date(new Date(this.startDate + ' ' + this.startTime).getTime()).getTime()) / 1000 / 60 / 60)
+        this.leaveInfo.duration = parseInt(Math.ceil(new Date(new Date(this.leaveInfo.endDate + ' ' + this.leaveInfo.endTime).getTime()).getTime() 
+                        - new Date(new Date(this.leaveInfo.startDate + ' ' + this.leaveInfo.startTime).getTime()).getTime()) / 1000 / 60 / 60)
       },
       chooseRole (e) {
         this.currentRole = e.target.value
@@ -209,7 +209,7 @@
           keyword: '',
           orgCode: '',
           page: 1,
-          schoolCode: store.schoolCode1,
+          schoolCode: store.userInfo.schoolCode1,
           size: 100000
         }
         const res = await actions.getOrgUser(req)
@@ -282,11 +282,11 @@
           reason: this.leaveInfo.reason,
           reasonId: this.leaveInfo.reasonId,
           remark: this.leaveInfo.remark,
-          userName: store.userName,
-          userCode: store.userCode,
-          schoolCode: store.schoolCode,
-          orgId: store.orgId,
-          orgName: store.orgName
+          userName: store.userInfo.userName,
+          userCode: store.userInfo.userCode,
+          schoolCode: store.userInfo.schoolCode,
+          orgId: store.userInfo.orgId,
+          orgName: store.userInfo.orgName
         }
         if (this.oddNumbers) {
           actions.updateTeacherLeave({
