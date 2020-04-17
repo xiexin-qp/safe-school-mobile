@@ -35,7 +35,8 @@ const tools = {
   },
   // 时间转化
   getDateTime(t = new Date().getTime()) {
-    let d = new Date(t)
+    const str = t + ''.replace(/-/g, '/').replace('T', ' ').replace('.000+0000', '')
+    let d = new Date(str)
     const date =
       d.getFullYear() +
       '/' +

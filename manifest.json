@@ -74,6 +74,14 @@
     },
     "h5" : {
         "title" : "safe-mobile-vue",
-        "domain" : "localhost"
+        "domain" : "",
+        "router" : {
+            "mode" : "hash",
+            "base" : "/mobile-protal/protal/"
+        },
+        "devServer" : {
+            "https" : false,
+            "port" : ""
+        }
     }
 }
