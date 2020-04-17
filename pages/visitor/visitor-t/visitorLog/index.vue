@@ -76,11 +76,11 @@ export default {
 			}
 			console.log(queryTime);
 			const req = {
-				schoolCode: store.schoolCode,
+				schoolCode: store.userInfo.schoolCode,
 				pageNum: this.pageList.page,
 				pageSize: this.pageList.size,
 				userName: this.searchName,
-				userCode: store.userCode,
+				userCode: store.userInfo.userCode,
 				causeId: this.value0 === '0' ? '' : this.value0,
 				queryTime: queryTime
 			};

@@ -19,6 +19,12 @@ export default {
 		hasStatus: {
 			type: Boolean,
 			default: true //是否显示状态选择
+		},
+		statusList: {
+			type: Array,
+			default: () => {
+				return []
+			}
 		}
 	},
 	data() {
@@ -49,20 +55,6 @@ export default {
 					text: '六个月内',
 					value: '3'
 				}
-			],
-			statusList: [
-				{
-					text: '全部状态',
-					value: '0'
-				},
-				{
-					text: '在访',
-					value: '1'
-				},
-				{
-					text: '签离',
-					value: '2'
-				}
 			]
 		};
 	},
@@ -85,7 +77,7 @@ export default {
 	},
 	async mounted() {
 		const req = {
-			schoolCode: store.schoolCode,
+			schoolCode: store.userInfo.schoolCode,
 			pageNum: 1,
 			pageSize: 100
 		};

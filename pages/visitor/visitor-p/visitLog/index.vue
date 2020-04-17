@@ -81,11 +81,11 @@ export default {
 				queryTime = new Date(new Date().setDate(new Date().getDate() - 180));
 			}
 			const req = {
-				schoolCode: store.schoolCode,
+				schoolCode: store.userInfo.schoolCode,
 				pageNum: this.pageList.page,
 				pageSize: this.pageList.size,
 				userName: this.searchName,
-				visitorCode: store.userCode,
+				visitorCode: store.userInfo.userCode,
 				causeId: this.value0 === '0' ? '' : this.value0,
 				queryTime,
 				visitState: this.value2 === '0' ? '' : this.value2
@@ -135,10 +135,10 @@ export default {
 			right: 10rpx;
 			top: 24rpx;
 			transform: rotateZ(-90deg);
-			.iconfont{
-				font-size:28rpx;
+			.iconfont {
+				font-size: 28rpx;
 			}
-		}	
+		}
 	}
 	.tbody:nth-child(even) {
 		background: #f5f5f5;

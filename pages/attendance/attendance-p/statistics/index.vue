@@ -1,9 +1,13 @@
 <template>
   <view class="statistics qui-page">
     <view>
-      <view class="calendar">
-        <view class="year qui-fx-ac-jc">2020年</view>
-        <view class="month qui-fx-ac-jc" v-for="item in monthList" :key="item.id">{{item.month}}月</view>
+      <view class="year-list">
+        <view class="title">{{yearTitle.split('-')[0]}}年</view>
+        <view class="last-month qui-fx qui-fx-jsa" >
+					<view @click="searchMonth(month)" :class="{'act': yearTitle === month}" v-for="month in lastMonth" :key="month">
+						{{ month.split('-')[1] }}月
+					</view>
+				</view>
       </view>
       <view class="record-box">
         <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
@@ -16,16 +20,15 @@
           >
             <image :src="normal" mode=""></image>
             <view> {{item.title}}</view>
-            <view class="attandence-num"> {{item.num}}人</view>
+            <view class="attandence-num"> {{item.num}}次</view>
           </view>
         </view>
       </view>
     </view>
     <uni-popup ref="popup" type="center">
       <scroll-view scroll-y="true" class="scroll-h">
-        <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
-          <text>{{ list.name }}</text>
-          <image :src="person" mode=""></image>
+        <view v-for="list in dataList" :key="list" class="list qui-bd-b">
+          <text>{{ list | formatDate }}</text>
         </view>
       </scroll-view>
     </uni-popup>
@@ -35,110 +38,166 @@
 <script>
 import person from '@s/img/person.png'
 import normal from '@s/img/normal.png'
-// import { store, actions } from './store/index.js'
+import { store, actions } from '../store/index.js'
 export default {
   data () {
     return {
       person,
       normal,
-      dataList: [{
-        id:'1',
-        name:'1'
-      },{
-        id:'2',
-        name:'1'
-      }],
-      attandenceInfo:[{
-        title:'正常',
-        num:38
-      },{
-        title:'上学缺卡',
-        num:2
-      },{
-        title:'迟到',
-        num:7
-      },{
-        title:'早退',
-        num:4
-      },{
-        title:'放学缺卡',
-        num:9
-      },{
-        title:'缺勤',
-        num:13
-      }],
-      monthList:[{
-        id: 1,
-        month: 1
-      },{
-        id: 2,
-        month: 2
-      },{
-        id: 3,
-        month: 3
-      },{
-        id: 4,
-        month: 4
-      },{
-        id: 5,
-        month: 5
-      },{
-        id: 6,
-        month: 6
-      }]
+      dayInfo: [
+        {
+          id:1,
+          workOnTime:'2020-03-30',
+          recordOnTime:'2020-03-30',
+          stateOn:1
+        }
+      ],
+      leaveList: [],
+      exceptionList: [],
+      zcList: [],
+      currentDay: '',
+      isOther: false,
+      dataList: [],
+      attandenceInfo:[],
+			lastMonth: this.lastFiveMonth(),
+			yearTitle: this.lastFiveMonth().pop(),
     }
   },
-  mounted() {
-    this.showList()
+  filters: {
+    formatDate: function (value) {
+      let date = new Date(value);
+      let y = date.getFullYear();
+      let MM = date.getMonth() + 1;
+      MM = MM < 10 ? ('0' + MM) : MM;
+      let d = date.getDate();
+      d = d < 10 ? ('0' + d) : d;
+      let h = date.getHours();
+      h = h < 10 ? ('0' + h) : h;
+      let m = date.getMinutes();
+      m = m < 10 ? ('0' + m) : m;
+      let s = date.getSeconds();
+      s = s < 10 ? ('0' + s) : s;
+      return y  + '-' + MM + '-' + d 
+    }
+  },
+  mounted () {
+    this.searchMonth(this.yearTitle)
   },
   methods: {
-    async showList (tag = false) {
-      const res = await actions.getIndex()
-      if (tag) {
-        this.dataList = this.dataList.concat(res.data)
-      } else {
+		lastFiveMonth (num = 6) {
+			var monthArr = []
+			var date = new Date()
+			var year = date.getFullYear()
+			var month = date.getMonth() + 2
+			if (month > num) {
+				for (var i = month - 1; i >= month - num; i--) {
+					monthArr.push(year + '-' + (i > 9 ? i : '0' + i))
+				}
+			} else {
+				var lastY = year - 1
+				var cMonth = month - 1
+				var lastM = num - (month - 1)
+				for (let i = cMonth; i > 0; i--) {
+					monthArr.push(year + '-' + (i > 9 ? i : '0' + i))
+				}
+				for (let i = 12; i > 12 - lastM; i--) {
+					monthArr.push(lastY + '-' + (i > 9 ? i : '0' + i))
+				}
+			}
+			return monthArr.reverse()
+		},
+		async searchMonth (month) {
+      this.yearTitle = month
+      const req = {
+				month: month,
+				studentCode: store.userInfo.userCode
+			}
+      const res = await actions.getChildStatic(req)
+			this.attandenceInfo = [{
+        title: '正常',
+        state: '5',
+        num: res.data.normalCount
+      },{
+        title: '上学缺卡',
+        state: '3',
+        num: res.data.onNoRecordCount
+      },{
+        title: '迟到',
+        state: '1',
+        num: res.data.lateCount
+      },{
+        title: '早退',
+        state: '2',
+        num: res.data.earlyCount
+      },{
+        title: '放学缺卡',
+        state: '6',
+        num: res.data.offNoRecordCount
+      },{
+        title: '缺勤',
+        state: '7',
+        num: res.data.noRecord
+      }]
+		},
+    async detail(item){
+      if(item.num !== 0){
+        const req = {
+          month: this.yearTitle,
+          studentCode: store.userInfo.userCode,
+          state: item.state
+        }
+        const res = await actions.childStaticDetail(req)
         this.dataList = res.data
-        uni.stopPullDownRefresh()
+        this.$refs.popup.open()
       }
-    },
-    detail(item){
-      console.log('item',item)
-      this.$refs.popup.open()
+      
     }
-  },
-  
+  }
 }
 </script>
 
 <style lang="less" scoped>
-.statistics{
-  .calendar{
-    height: 200rpx;
-    background-color: #0079ff;
-    color:#fff;
-    .year{
-      height: 100rpx;
-      font-weight: bold;
-    }
-    .month{
-      width: 16.3%;
-      float: left;
-    }
-  }
-  .record-box{
+.statistics {
+	.year-list {
+	    background-color:#0079ff;
+	    .title {
+	      color:#fff;
+	      font-size: 34rpx;
+	      font-weight: bold;
+	      text-align: center;
+	      padding: 30rpx 0 0rpx 0;
+	    }
+	    .last-month {
+	      padding: 20rpx 0 40rpx 0;
+	      & > view {
+	        color:#fff;
+	        text-align: center;
+	        height: 80rpx;
+	        width: 80rpx;
+	        line-height: 80rpx;
+	        border-radius: 100%;
+	      }
+	      .act {
+	        background-color:#fff;
+	        color: #0079ff;
+	        font-weight: bold
+	      }
+	    }
+	  }
+  .record-box {
     padding-top:20rpx;
     background-color:#f2f8fe;
-    .attandence-title{
+    .attandence-title {
       height: 60rpx;
       line-height: 60rpx;
       font-size: 36rpx;
     }
-    .attandence-box{
+    .attandence-box {
       height: 450rpx;
-      :nth-child(3n){
+      :nth-child(3n) {
         border-right: none;
       }
-      .attandence-info{
+      .attandence-info {
         width: 31%;
         float: left;  
         margin-bottom: 30rpx;
@@ -151,7 +210,7 @@ export default {
           height: 60rpx;
           margin-bottom: 10rpx;
         }
-         .attandence-num{
+         .attandence-num {
           color: #ccc;
           font-size: 28rpx;
         }
@@ -168,5 +227,6 @@ export default {
       }
     }
   }
+  
 }
 </style>

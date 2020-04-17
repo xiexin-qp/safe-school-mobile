@@ -18,7 +18,7 @@
 					<view class="info qui-fx-ac">
 						<view class="img"><image :src="item.registPhoto ? item.registPhoto : errorImg" alt="" /></view>
 						<view class="list qui-fx-f1">
-							<view class="name">{{ item.visitorName }}</view>
+							<view class="name">{{ item.respondentName }}</view>
 							<view>开始时间：{{ item.accessStartTime | getFullDate }}</view>
 							<!-- <view>结束时间：{{ item.accessEndTime | getFullDate }}</view> -->
 							<view>来访事由：{{ item.causeName }}</view>
@@ -125,14 +125,15 @@ export default {
 				state = this.value2;
 			}
 			const req = {
-				schoolCode: store.schoolCode,
+				schoolCode: store.userInfo.schoolCode,
 				pageNum: this.pageList.page,
 				pageSize: this.pageList.size,
 				userName: this.searchName,
-				visitorCode: store.userCode,
+				visitorCode: store.userInfo.userCode,
 				causeId: this.value0 === '0' ? '' : this.value0,
 				queryTime,
 				state,
+				queryType: 3,
 				type: 1
 			};
 			const res = await actions.getInviteList(req);
@@ -172,9 +173,13 @@ export default {
 						const req = {
 							id: this.record.id,
 							state: '1',
-							visitorCode: store.userCode,
-							visitorName: this.record.visitorName,
-							registPhoto: store.registPhoto
+							visitorCode: store.userInfo.userCode,
+							visitorName: store.userInfo.userName,
+							visitorMobile: store.userInfo.visitorMobile,
+							schoolCode: store.userInfo.schoolCode,
+							openid: store.userInfo.openid,
+							registPhoto: store.userInfo.registPhoto,
+							type: 1
 						};
 						console.log(req);
 						actions.approval(req).then(res => {
@@ -193,15 +198,19 @@ export default {
 				const req = {
 					id: this.record.id,
 					state: '2',
-					visitorCode: store.userCode,
-					visitorName: this.record.visitorName,
-					reason: this.refuseText
+					visitorCode: store.userInfo.userCode,
+					visitorName: store.userInfo.userName,
+					visitorMobile: store.userInfo.visitorMobile,
+					schoolCode: store.userInfo.schoolCode,
+					openid: store.userInfo.openid,
+					reason: this.refuseText,
+					type: 1
 				};
 				console.log(req);
 				actions.approval(req).then(res => {
 					this.$tools.toast('操作成功', 'success');
-					this.refuseText = ''
-					this.showList()
+					this.refuseText = '';
+					this.showList();
 				});
 			});
 		}

@@ -2,50 +2,60 @@
 	<view>
 		<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
 			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>被访人学校：</view>
-				<view class="qui-fx-f1 qui-fx-je">
-					<picker mode="selector" :value="formData.school" :range="schoolNameList" @change="chooseSchool">{{ schoolNameList[formData.school] || '请选择' }}</picker>
-				</view>
-				<view>></view>
-			</view>
-			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>被访人姓名：</view>
+				<view>访客姓名：</view>
 				<view class="qui-fx-f1"><input class="item-input" v-model="formData.visitorName" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>被访人手机号：</view>
-				<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" /></view>
+				<view>访客手机号：</view>
+				<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.visitorMobile" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
-			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>预计到达时间：</view>
-				<view class="qui-fx-f1 qui-fx-je">
-					<picker mode="date" :value="formData.startDate" @change="dateChange($event, 'startDate')">
-						<view class="uni-input">{{ formData.startDate }}</view>
-					</picker>
-				</view>
-				<view class="qui-fx-je" style="margin-left:10rpx">
-					<picker mode="time" :value="formData.startTime" @change="dateChange($event, 'startTime')">
-						<view class="uni-input">{{ formData.startTime }}</view>
-					</picker>
-				</view>
-				<view>></view>
+
+			<view class="item-list qui-bd-b">
+				<view>访客照片：</view>
+				<view class="qui-fx-f1"><an-upload-img total="1" v-model="imgList" style="margin: 20rpx"></an-upload-img></view>
+				<view class="sub-title">请上传1张本人正脸清晰照片用于来访识别。</view>
 			</view>
-			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>来访事由：</view>
-				<view class="qui-fx-f1 qui-fx-je">
-					<picker mode="selector" :value="formData.cause" :range="causeNameList" @change="chooseCause">{{ causeNameList[formData.cause] || '请选择' }}</picker>
-				</view>
-				<view>></view>
-			</view>
+
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view>随行人数：</view>
 				<view class="qui-fx-f1"><input class="item-input" v-model="formData.togetherNum" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
 			<view class="log">
-				<view class="item-list">
-					<view>我的照片：</view>
-					<view class="qui-fx-f1"><an-upload-img total="1" v-model="imgList" style="margin: 20rpx"></an-upload-img></view>
-					<view class="sub-title">请上传1张本人正脸清晰照片用于来访识别。</view>
+				<view class="qui-fx-ac qui-bd-b item-list">
+					<view>被访人学校：</view>
+					<view class="qui-fx-f1 qui-fx-je">
+						<picker mode="selector" :value="formData.school" :range="schoolNameList" @change="chooseSchool">{{ schoolNameList[formData.school] || '请选择' }}</picker>
+					</view>
+					<view>></view>
+				</view>
+				<view class="qui-fx-ac qui-bd-b item-list">
+					<view>被访人姓名：</view>
+					<view class="qui-fx-f1"><input class="item-input" v-model="formData.respondentName" style="text-align: right;" placeholder="请输入" /></view>
+				</view>
+				<view class="qui-fx-ac qui-bd-b item-list">
+					<view>被访人手机号：</view>
+					<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.resMobile" style="text-align: right;" placeholder="请输入" /></view>
+				</view>
+				<view class="qui-fx-ac qui-bd-b item-list">
+					<view>预计到达时间：</view>
+					<view class="qui-fx-f1 qui-fx-je">
+						<picker mode="date" :value="formData.startDate" @change="dateChange($event, 'startDate')">
+							<view class="uni-input">{{ formData.startDate }}</view>
+						</picker>
+					</view>
+					<view class="qui-fx-je" style="margin-left:10rpx">
+						<picker mode="time" :value="formData.startTime" @change="dateChange($event, 'startTime')">
+							<view class="uni-input">{{ formData.startTime }}</view>
+						</picker>
+					</view>
+					<view>></view>
+				</view>
+				<view class="qui-fx-ac qui-bd-b item-list">
+					<view>来访事由：</view>
+					<view class="qui-fx-f1 qui-fx-je">
+						<picker mode="selector" :value="formData.cause" :range="causeNameList" @change="chooseCause">{{ causeNameList[formData.cause] || '请选择' }}</picker>
+					</view>
+					<view>></view>
 				</view>
 			</view>
 		</scroll-view>
@@ -55,7 +65,7 @@
 
 <script>
 import anUploadImg from '@/components/an-uploadImg/an-uploadImg';
-import { store, actions } from '../store/index.js';
+import { store, actions } from './store/index.js';
 export default {
 	components: {
 		anUploadImg
@@ -78,7 +88,7 @@ export default {
 			formData: {
 				school: 0,
 				visitorName: '',
-				phone: '',
+				visitorMobile: '',
 				startDate: this.$tools.getDateTime(new Date(), 'date'),
 				startTime: this.$tools.getDateTime(new Date(), 'time'),
 				endDate: this.$tools.getDateTime(new Date(), 'date'),
@@ -87,43 +97,25 @@ export default {
 				cause: '',
 				accessStartTime: '',
 				accessEndTime: '',
-				togetherNum: 0
+				togetherNum: 0,
+				respondentName: '',
+				resMobile: ''
 			}
 		};
 	},
-	onLoad(options) {
-		this.id = options.id;
-		this.type = options.id;
-	},
 	computed: {},
-	created() {
+	created() {},
+	mounted() {
 		this.getCause();
-	},
-	async mounted() {
-		if (this.id) {
-			const res = await actions.getInviteDetail(this.id);
-			if (!res.data.id) {
-				return;
-			}
-			this.formData.visitorName = res.data.visitorName;
-			this.formData.address = res.data.address;
-			this.formData.phone = res.data.visitorMobile;
-			this.formData.duration = res.data.duration + '小时';
-			this.formData.startDate = this.$tools.getDateTime(res.data.accessStartTime).split(' ')[0];
-			this.formData.startTime = this.$tools.getDateTime(res.data.accessStartTime).split(' ')[1];
-			this.formData.endDate = this.$tools.getDateTime(res.data.accessEndTime).split(' ')[0];
-			this.formData.endTime = this.$tools.getDateTime(res.data.accessEndTime).split(' ')[1];
-			this.causeNameList.forEach((item, i) => {
-				if (item === res.data.causeName) {
-					this.formData.cause = i;
-				}
-			});
-		}
 	},
 	methods: {
 		async getCause() {
+			if (!this.schoolList[this.formData.school].value) {
+				this.$tools.toast('请选择被访人学校');
+				return;
+			}
 			const req = {
-				schoolCode: store.userInfo.schoolCode,
+				schoolCode: this.schoolList[this.formData.school].value,
 				pageNum: 1,
 				pageSize: 100
 			};
@@ -143,19 +135,23 @@ export default {
 			this.formData.accessStartTime = this.formData.startDate + ' ' + this.formData.startTime;
 			this.formData.accessEndTime = this.formData.endDate + ' ' + this.formData.endTime;
 			console.log(this.formData);
-			if (this.formData.school === '') {
+			if (this.formData.visitorName === '') {
+				this.$tools.toast('请填写访客姓名');
+			} else if (this.formData.visitorMobile === '') {
+				this.$tools.toast('请填写访客手机号');
+			} else if (this.imgList.length === 0) {
+				this.$tools.toast('请上传访客照片');
+			} else if (this.formData.school === '') {
 				this.$tools.toast('请选择被访人学校');
-			} else if (this.formData.visitorName === '') {
+			} else if (this.formData.respondentName === '') {
 				this.$tools.toast('请填写被访人姓名');
-			} else if (this.formData.phone === '') {
+			} else if (this.formData.resMobile === '') {
 				this.$tools.toast('请填写被访人手机号');
-			} else if (!/^1[3456789]\d{9}$/.test(this.formData.phone)) {
+			} else if (!/^1[3456789]\d{9}$/.test(this.formData.visitorMobile) || !/^1[3456789]\d{9}$/.test(this.formData.resMobile)) {
 				this.$tools.toast('请填写正确手机号');
 			} else if (this.formData.cause === '') {
 				this.$tools.toast('请选择来访事由');
-			} /* else if (new Date(this.formData.accessEndTime).getTime() <= new Date(this.formData.accessStartTime).getTime()) {
-				this.$tools.toast('请选择正确时间段');
-			} */ else {
+			} else {
 				let school = this.schoolList.filter(ele => {
 					return ele.text === this.schoolNameList[this.formData.school];
 				})[0];
@@ -173,26 +169,23 @@ export default {
 					return;
 				}
 				const req = {
-					schoolCode: store.userInfo.schoolCode,
+					registPhoto: this.imgList[0],
+					schoolCode: school.value,
 					accessStartTime: new Date(this.formData.accessStartTime),
-					respondentName: this.formData.visitorName,
-					resMobile: this.formData.phone,
+					respondentName: this.formData.respondentName,
+					resMobile: this.formData.resMobile,
+					visitorName: this.formData.visitorName,
+					visitorMobile: this.formData.visitorMobile,
 					togetherNum: this.formData.togetherNum,
-					visitorMobile: store.userInfo.visitorMobile,
-					visitorName: store.userInfo.userName,
 					causeId: cause.value,
 					causeName: cause.text,
-					id: this.type === '0' ? this.id : null,
 					type: 0,
 					respondentType: 1
 				};
 				console.log(req);
 				const res = await actions.addInviteInfo(req);
 				this.$tools.toast('提交成功', 'success');
-				this.$tools.navTo({
-					url: './index',
-					title: '来访邀约'
-				});
+				uni.navigateBack();
 			}
 		},
 		dateChange(e, type) {
@@ -242,7 +235,6 @@ export default {
 }
 .log {
 	background: #fff;
-	padding: 40rpx 20rpx;
 	margin: 20rpx 0 40rpx 0;
 	border-bottom: 1px solid #ddd;
 }

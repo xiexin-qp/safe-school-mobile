@@ -57,9 +57,11 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wx02c23d5ba971d7b8",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : true,
+            "es6" : true,
+            "minified" : true
         },
         "usingComponents" : true
     },
@@ -74,6 +76,14 @@
     },
     "h5" : {
         "title" : "safe-mobile-vue",
-        "domain" : "localhost"
+        "domain" : "",
+        "router" : {
+            "mode" : "hash",
+            "base" : "/mobile-protal/protal/"
+        },
+        "devServer" : {
+            "https" : false,
+            "port" : ""
+        }
     }
 }
