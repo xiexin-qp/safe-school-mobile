@@ -87,7 +87,7 @@ export default {
 		this.visitorCode = res.data.visitorCode;
 		this.visitorPhone = res.data.visitorMobile;
 		this.causeName = res.data.causeName;
-		this.reason = res.data.reason
+		this.reason = res.data.reason;
 		this.state = res.data.state;
 	},
 	methods: {

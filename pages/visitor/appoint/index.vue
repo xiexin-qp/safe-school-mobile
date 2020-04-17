@@ -104,16 +104,15 @@ export default {
 		};
 	},
 	computed: {},
-	created() {
-	},
+	created() {},
 	mounted() {
 		this.getCause();
 	},
 	methods: {
 		async getCause() {
-			if(!this.schoolList[this.formData.school].value){
-				this.$tools.toast('请选择被访人学校')
-				return
+			if (!this.schoolList[this.formData.school].value) {
+				this.$tools.toast('请选择被访人学校');
+				return;
 			}
 			const req = {
 				schoolCode: this.schoolList[this.formData.school].value,
@@ -186,7 +185,7 @@ export default {
 				console.log(req);
 				const res = await actions.addInviteInfo(req);
 				this.$tools.toast('提交成功', 'success');
-				uni.navigateBack()
+				uni.navigateBack();
 			}
 		},
 		dateChange(e, type) {

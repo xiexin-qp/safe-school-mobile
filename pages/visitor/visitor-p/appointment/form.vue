@@ -65,10 +65,12 @@ export default {
 			causeNameList: [],
 			causeList: [],
 			schoolNameList: ['全品中学'],
-			schoolList: [{
-				text: '全品中学',
-				value: 'CANPOINT'
-			}],
+			schoolList: [
+				{
+					text: '全品中学',
+					value: 'CANPOINT'
+				}
+			],
 			id: '',
 			type: '', // 0-修改  1-再次邀约
 			formInfo: {},
@@ -143,7 +145,7 @@ export default {
 			console.log(this.formData);
 			if (this.formData.school === '') {
 				this.$tools.toast('请选择被访人学校');
-			}else if (this.formData.visitorName === '') {
+			} else if (this.formData.visitorName === '') {
 				this.$tools.toast('请填写被访人姓名');
 			} else if (this.formData.phone === '') {
 				this.$tools.toast('请填写被访人手机号');
@@ -209,8 +211,8 @@ export default {
 			this.formData.duration =
 				parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
 		},
-		chooseSchool (e) {
-		  this.formData.school = e.target.value
+		chooseSchool(e) {
+			this.formData.school = e.target.value;
 		},
 		chooseCause(e) {
 			this.formData.cause = e.target.value;

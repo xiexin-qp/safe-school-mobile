@@ -72,7 +72,7 @@ export default {
 			causeNameList: [],
 			causeList: [],
 			id: '',
-			type: '',  // 0-修改  1-再次邀约
+			type: '', // 0-修改  1-再次邀约
 			formInfo: {},
 			formData: {
 				visitorName: '',
@@ -148,16 +148,16 @@ export default {
 				this.$tools.toast('请填写正确手机号');
 			} else if (this.formData.cause === '') {
 				this.$tools.toast('请选择来访事由');
-			}/* else if (new Date(this.formData.accessEndTime).getTime() <= new Date(this.formData.accessStartTime).getTime()) {
+			} /* else if (new Date(this.formData.accessEndTime).getTime() <= new Date(this.formData.accessStartTime).getTime()) {
 				this.$tools.toast('请选择正确时间段');
 			} */ else {
 				let cause = this.causeList.filter(ele => {
 					return ele.text === this.causeNameList[this.formData.cause];
 				})[0];
-				console.log(cause)
-				if(!cause){
+				console.log(cause);
+				if (!cause) {
 					this.$tools.toast('请选择来访事由');
-					return
+					return;
 				}
 				const req = {
 					schoolCode: store.userInfo.schoolCode,
@@ -173,7 +173,7 @@ export default {
 					type: 1,
 					respondentType: 1
 				};
-				console.log(req)
+				console.log(req);
 				const res = await actions.addInviteInfo(req);
 				this.$tools.toast('提交成功', 'success');
 				this.$tools.navTo({

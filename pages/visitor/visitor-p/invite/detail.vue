@@ -97,7 +97,7 @@ export default {
 		this.visitorName = res.data.visitorName;
 		this.visitorPhone = res.data.visitorMobile;
 		this.causeName = res.data.causeName;
-		this.reason = res.data.reason
+		this.reason = res.data.reason;
 		this.state = res.data.state;
 	},
 	methods: {

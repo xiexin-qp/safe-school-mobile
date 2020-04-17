@@ -125,6 +125,7 @@ export default {
 				causeId: this.value0 === '0' ? '' : this.value0,
 				queryTime,
 				state,
+				type: 0,
 				queryType: 2
 			};
 			const res = await actions.getInviteList(req);

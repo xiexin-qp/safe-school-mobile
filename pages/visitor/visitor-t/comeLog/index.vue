@@ -149,10 +149,10 @@ export default {
 			right: 10rpx;
 			top: 24rpx;
 			transform: rotateZ(-90deg);
-			.iconfont{
-				font-size:28rpx;
+			.iconfont {
+				font-size: 28rpx;
 			}
-		}	
+		}
 	}
 	.tbody:nth-child(even) {
 		background: #f5f5f5;

@@ -129,7 +129,8 @@ export default {
 				causeId: this.value0 === '0' ? '' : this.value0,
 				queryTime,
 				state,
-				queryType: 0
+				queryType: 0,
+				type: 0
 			};
 			const res = await actions.getInviteList(req);
 			if (tag) {
@@ -199,8 +200,8 @@ export default {
 				console.log(req);
 				actions.approval(req).then(res => {
 					this.$tools.toast('操作成功', 'success');
-					this.refuseText = ''
-					this.showList()
+					this.refuseText = '';
+					this.showList();
 				});
 			});
 		}

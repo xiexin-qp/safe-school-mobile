@@ -27,11 +27,11 @@
 				</view>
 			</view>
 			<view v-if="state == 2" class="log qui-fx-jsb">
-			  <view class="start qui-fx-ac">
-			    <icon type="cancel" size="24"/>
-			    <text style="margin-left: 10rpx;">拒绝原因：{{ comeLog.reason }}</text>
-			  </view>
-			</view> 
+				<view class="start qui-fx-ac">
+					<icon type="cancel" size="24" />
+					<text style="margin-left: 10rpx;">拒绝原因：{{ comeLog.reason }}</text>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -71,11 +71,10 @@ export default {
 		this.visitorName = res.data.visitorName;
 		this.visitorPhone = res.data.mobile;
 		this.causeName = res.data.causeName;
-		this.reason = res.data.reason
+		this.reason = res.data.reason;
 		this.state = res.data.state;
 	},
-	methods: {
-	}
+	methods: {}
 };
 </script>
 
