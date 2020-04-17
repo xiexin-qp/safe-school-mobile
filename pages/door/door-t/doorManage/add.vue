@@ -53,6 +53,10 @@ export default {
       userGroupCode: ""
     };
   },
+  onLoad(options) {
+    this.ruleGroupCode = options.ruleGroupCode;
+  	this.userGroupCode = options.userGroupCode;
+  },
   mounted() {
     this.showList();
   },
@@ -64,7 +68,6 @@ export default {
         orgCode: "",
         schoolCode: "GZ"
       };
-
       const res = await actions.getOrgUser(req);
       this.dataList = res.data.list;
     },

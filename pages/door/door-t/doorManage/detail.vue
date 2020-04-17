@@ -44,6 +44,7 @@ export default {
   },
   onLoad(options) {
     this.ruleGroupCode = options.ruleGroupCode;
+	this.userGroupCode = options.userGroupCode;
   },
   mounted() {
     this.showList();
@@ -52,8 +53,8 @@ export default {
     async showList() {
       const req = {
         schoolCode: "123456",
-        ruleGroupCode: "RG14hyo8vx7yywz",
-        userGroupCode: "RR14hyo8vx7yyx0 ",
+        ruleGroupCode: this.ruleGroupCode,
+        userGroupCode: this.userGroupCode,
         ...this.pageList
       };
       const res = await actions.getgroupuserList(req);
@@ -77,7 +78,7 @@ export default {
     },
     add() {
       this.$tools.navTo({
-        url: "./add",
+		url: "./add?ruleGroupCode=" + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
         title: "添加成员"
       });
     }

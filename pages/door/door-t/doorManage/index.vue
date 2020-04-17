@@ -6,7 +6,7 @@
       <view class="approve-list" v-for="(item, i) in groupList" :key="i">
         <view class="detail qui-fx">
           <view class="process-type">
-            <view class="div-btn" @click="goDetail(item.ruleGroupCode)">···</view>
+            <view class="div-btn" @click="goDetail(item)">···</view>
           </view>
           <view class="info qui-fx-ac">
             <view class="list qui-fx-f1">
@@ -65,9 +65,9 @@ export default {
       this.groupList = res.data.list;
       this.total = res.data.total;
     },
-    goDetail(ruleGroupCode) {
+    goDetail(item) {
       this.$tools.navTo({
-        url: "./detail?ruleGroupCode=" + ruleGroupCode,
+        url: "./detail?ruleGroupCode=" + item.ruleGroupCode + '&userGroupCode=' + item.userGroupCode,
         title: "查看人员列表"
       });
     },
