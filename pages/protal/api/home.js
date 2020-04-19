@@ -7,12 +7,10 @@ import hostEnv from '../../../config/index.js'
 
 let homeApi = {
   getAppList: 'http://ai2.canpoint.net/baseEnv/data/query/menu/tree/list?schoolCode=CANPOINT&roleCode=BZR#get', // 获取应用列表
-  getNewList: 'http://yapi.demo.qunar.com/mock/5691/getNews#get',
-  getNoticeList: 'http://yapi.demo.qunar.com/mock/5691/getNotice#get'
 }
 
 for (let val in homeApi) {
-  homeApi[val] = `${hostEnv}${homeApi[val]}`
+  homeApi[val] = `${hostEnv.hostEnv}${homeApi[val]}`
 }
 
 export default homeApi

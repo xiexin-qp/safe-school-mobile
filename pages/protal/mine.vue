@@ -1,11 +1,11 @@
 <template>
   <view class="mine">
-    <view class="person-bg qui-fx-jsb" style="background: url('http://canpointtest.com:8081/personBg.png'); backgroundSize: '100% 100%'">
+    <view class="person-bg qui-fx-jsb" style="background: url('http://canpointtest.com/mobile-protal/images_/person-bg.png') no-repeat; backgroundSize: 100% 100%">
       <text>武汉全品文教</text>   
       <text>2020/03/04</text>
     </view>
     <view class="person-info">
-      <view class="info qui-fx-ac-jc" style="background: url('http://canpointtest.com:8081/person-info.png'); backgroundSize: '100% 100%'">
+      <view class="info qui-fx-ac-jc" style="background: url('http://canpointtest.com/mobile-protal/images_/person-info.png') no-repeat; backgroundSize: 100% 312rpx">
         <view>
           <img src="./assets/img/app.png" alt="">
         </view>
@@ -57,7 +57,8 @@
     }
     .info {
       height: 312rpx;
-      background-size: 100% 312rpx;
+			overflow: hidden;
+			border-radius: 10rpx;
       z-index: 99;
       .tip {
         display: inline-block;

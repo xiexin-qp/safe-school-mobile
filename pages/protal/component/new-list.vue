@@ -1,5 +1,6 @@
 <template>
 	<view class="news">
+		<no-data v-if="newsList.length === 0"></no-data>
     <view v-for="news in newsList" :key="news.id" class="news-list qui-bd-b qui-fx">
       <view class="qui-fx-f1 qui-fx-ver qui-fx-jsb">
         <view class="qui-te2">{{ news.title }}</view>
@@ -13,7 +14,11 @@
 </template>
 
 <script>
+import noData from '@/components/no-data/no-data.vue'
 export default {
+	components: {
+		noData
+	},
   props: {
     newsList: {
       type: Array,

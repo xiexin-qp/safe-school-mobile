@@ -35,7 +35,8 @@
               <view>
                 <img :src="app.icon" alt="">
               </view>
-              <text class="text">{{ app.name.split('-')[0] }}</text>
+              <view class="text">{{ app.name.split('-')[0] }}</view>
+							<view class="text">({{ app.name.split('-')[1] }})</view>
             </view>
           </view> 
         </view>
@@ -48,6 +49,7 @@
   import { store, setStore } from './store/index.js'
   import app from './assets/img/app.png'
   import { actions } from './store/index.js' 
+	import menuData from './assets/menu.js' 
   export default {
     data () {
       return {
@@ -60,8 +62,7 @@
       enjoyApp: () => store.enjoyApp
     },
     async mounted () {
-      const res = await actions.getAppList()
-      this.appList = res.data
+      this.appList = menuData
     },
     methods: {
       delEnjoy (code) {
@@ -79,7 +80,13 @@
         this.setEnjoy(this.enjoyApp)
       },
       chooseEnjoy (item, tag) {
-        if (!this.isEdit) return
+        if (!this.isEdit) {
+					this.$tools.navTo({
+						title: item.name,
+						url: item.requestUrl
+					})
+					return
+				}
         if (tag) {
           this.delEnjoy(item.code)
         } else {

@@ -13,6 +13,11 @@ let apply= ''
 
 if (ConfigEnv === 'production') {
 	hostEnv = ''
+	lz = '/lz'
+	zk = '/zk'
+	zx = '/zx'
+	mj = '/mj'
+	apply = '/apply'
 } else if (ConfigEnv === 'development') {
   hostEnv = ''
   lz = '/lz'

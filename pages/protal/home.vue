@@ -24,7 +24,7 @@
     <view class="tab-list">
       <view class="qui-fx-jc">
         <view class="tab-title qui-fx">
-          <view v-for="(tab, index) in tabList" :key="tab.id" @click="changTab(tab)" :class="{'act': tabIndex === tab.id}" class="tab">
+          <view v-for="tab in tabList" :key="tab.id" @click="changTab(tab)" :class="{'act': tabIndex === tab.id}" class="tab">
             {{ tab.title }}
           </view>
         </view>
@@ -92,10 +92,6 @@
       },
     },
     async mounted() {
-      const res = await actions.getNewList()
-      this.newsList = res.data
-      const notice = await actions.getNoticeList()
-      this.noticeList = notice.data
     }
   }
 </script>

@@ -1,18 +1,27 @@
 {
-	"pages": [{
-			"path": "pages/index/index",
-			"style": {}
-		},
-		{
-			"path": "pages/demo/index"
-		},
-		{
-			"path": "pages/demo/form"
-		},
+	"pages": [
+		// {
+		// 	"path": "pages/index/index",
+		// 	"style": {}
+		// },
+		// {
+		// 	"path": "pages/demo/index"
+		// },
+		// {
+		// 	"path": "pages/demo/form"
+		// },
 		// 主页模块
 		{
 			"path": "pages/protal/index",
 			"style": {}
+		},
+		{
+				"path" : "pages/protal/main",
+				"style" : {}
+		}
+		,{
+				"path" : "pages/protal/register",
+				"style" : {}
 		},
 		// 新闻公告
 		{
@@ -200,7 +209,7 @@
 			"path": "pages/attendance/attendance-p/leave/add",
 			"style": {}
 		}
-	],
+    ],
 	"globalStyle": {
 		// 禁用头部导航栏
 		"h5": {

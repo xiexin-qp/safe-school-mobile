@@ -8,6 +8,7 @@ const tools = {
 		url,
 		title = '平安校园'
 	} = params) {
+		document.title = title
 		uni.navigateTo({
 			url
 		})

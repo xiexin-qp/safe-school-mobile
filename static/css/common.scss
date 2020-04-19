@@ -26,10 +26,19 @@
 	&::before {
 		position: absolute;
 		font-size: 90rpx;
-		left: 30rpx;
+		left: 28rpx;
 		top: -5rpx;
 		z-index: 99;
 		color:#fff;
 		content: '+';
 	}
+}
+/**
+ * 向右箭头
+ */
+.rit-icon {
+	width: 34rpx;
+	height: 34rpx;
+	background: url(../img/rit-icon.png);
+	background-size: 100%;
 }
