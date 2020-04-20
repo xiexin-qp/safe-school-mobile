@@ -49,6 +49,7 @@ export default {
 <style lang="scss">
 	.login {
 		padding-top: 160rpx;
+		background-color: #fff;
 		.logo {
 			margin: 0 auto 140rpx auto;
 			width: 428rpx;
