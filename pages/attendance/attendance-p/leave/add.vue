@@ -135,13 +135,12 @@
       if (options.oddNumbers) {
         this.oddNumbers = options.oddNumbers
         this.detailGet(options.oddNumbers)
+      } else {
+        this.leaveReasonGet(0)
       }
 	  },
     mounted () {
       this.teacherName = store.userInfo.teacherName
-      if (!this.oddNumbers) {
-        this.leaveReasonGet()
-      }
       this.orgUserGet()
     },
     methods: {
@@ -155,17 +154,16 @@
         this.leaveInfo.copyUser = this.leaveInfo.leaveCopyList.map(el=>el.userName).join(',')
         this.teacherName = this.leaveInfo.leaveApprovalAddDto.userName
         this.leaveCopyList = this.leaveInfo.leaveCopyList
-        this.leaveReasonGet()
-        
+        this.leaveReasonGet(1)
       },
-      async leaveReasonGet () {
+      async leaveReasonGet (type) {
         const res = await actions.getLeaveReason()
         this.reasonList = res.data
         this.role = []
         res.data.forEach(el => {
           this.role.push(el.name)
         })
-        if (this.oddNumbers) {
+        if (type) {
           this.currentRole = this.role.indexOf(this.leaveInfo.reason)
         }
       },
