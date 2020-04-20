@@ -189,15 +189,15 @@
 			"style": {}
 		},
 		{
-			"path": "pages/attendance/attendance-t/leaveStudent/index",
+			"path": "pages/attendance/attendance-t/studentLeave/index",
 			"style": {}
 		},
 		{
-			"path": "pages/attendance/attendance-t/leaveStudent/detail",
+			"path": "pages/attendance/attendance-t/studentLeave/detail",
 			"style": {}
 		},
 		{
-			"path": "pages/attendance/attendance-t/leaveStudent/add",
+			"path": "pages/attendance/attendance-t/studentLeave/add",
 			"style": {}
 		},
 		// 家长考勤模块
