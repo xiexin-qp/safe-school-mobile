@@ -26,25 +26,6 @@ import { store, actions } from '../store/index.js'
 				attandenceInfo:[]
 			}
 		},
-		filters: {
-			getState: function (value) {
-				if (value === 1) {
-					return '迟到'
-				} else if (value === 2) {
-					return '早退'
-				} else if (value === 3) {
-					return '上学缺卡'
-				} else if (value === 4) {
-					return '请假'
-				} else if (value === 5) {
-					return '正常'
-				} else if (value === 6) {
-					return '放学缺卡'
-				} else {
-					return '缺卡'
-				}
-			}
-    },
 		mounted() {
 			this.showList()
 		},

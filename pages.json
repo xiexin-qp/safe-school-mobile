@@ -188,6 +188,18 @@
 			"path": "pages/attendance/attendance-t/leave/add",
 			"style": {}
 		},
+		{
+			"path": "pages/attendance/attendance-t/leaveStudent/index",
+			"style": {}
+		},
+		{
+			"path": "pages/attendance/attendance-t/leaveStudent/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/attendance/attendance-t/leaveStudent/add",
+			"style": {}
+		},
 		// 家长考勤模块
 		{
 			"path": "pages/attendance/attendance-p/attendance/index",
