@@ -5,8 +5,9 @@
 				<view class="info qui-fx-ac">
 					<image :src="photo ? photo :errorImg" alt="">
 					<view class="qui-fx-ver">
-						<text class="name">{{ visitorName }}</text>
-						<text class="phone">{{ visitorPhone }}</text>
+						<text class="name">{{ comeLog.respondentName }}</text>
+						<text class="phone">{{ comeLog.resMobile }}</text>
+						<text class="name">{{ comeLog.causeName }}</text>
 					</view>
 				</view>
 				<view class="state">{{ state | approveState}}</view>
@@ -94,10 +95,6 @@ export default {
 		}
 		this.comeLog = res.data;
 		this.photo = res.data.registPhoto;
-		this.visitorName = res.data.visitorName;
-		this.visitorPhone = res.data.visitorMobile;
-		this.causeName = res.data.causeName;
-		this.reason = res.data.reason;
 		this.state = res.data.state;
 	},
 	methods: {
@@ -120,10 +117,12 @@ export default {
 				console.log(req);
 				actions.approval(req).then(res => {
 					this.$tools.toast('操作成功', 'success');
-					this.$tools.navTo({
-						url: './index',
-						title: '邀约处理'
-					});
+					this.$tools.goNext(()=>{
+						this.$tools.navTo({
+							url: './index',
+							title: '邀约处理'
+						});
+					})
 				});
 			});
 		},
@@ -150,10 +149,12 @@ export default {
 				actions.approval(req).then(res => {
 					this.$tools.toast('操作成功', 'success');
 					this.refuseText = '';
-					this.$tools.navTo({
-						url: './index',
-						title: '邀约处理'
-					});
+					this.$tools.goNext(()=>{
+						this.$tools.navTo({
+							url: './index',
+							title: '邀约处理'
+						});	
+					})
 				});
 			});
 		}

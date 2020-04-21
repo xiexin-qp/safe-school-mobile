@@ -1,7 +1,7 @@
 <template>
 	<view class="qui-page qui-fff">
 		<uni-search-bar placeholder="输入姓名搜索" @confirm="search"></uni-search-bar>
-		<dropdown-menu @value0Change="value0Change" @value1Change="value1Change" @value2Change="value2Change"></dropdown-menu>
+		<dropdown-menu :statusList="statusList" @value0Change="value0Change" @value1Change="value1Change" @value2Change="value2Change"></dropdown-menu>
 		<no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
 		<view v-else class="list">
 			<view class="th qui-fx-jsa qui-fx-ac qui-fx-jc">
@@ -39,6 +39,20 @@ export default {
 	data() {
 		return {
 			dataList: [],
+			statusList: [
+				{
+					text: '全部状态',
+					value: '0'
+				},
+				{
+					text: '在访',
+					value: '1'
+				},
+				{
+					text: '签离',
+					value: '2'
+				}
+			],
 			searchName: '',
 			value0: '0',
 			value1: '0',

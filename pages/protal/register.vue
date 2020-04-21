@@ -179,8 +179,8 @@
 		margin: 50rpx 20rpx;
 		text-align: center;
 		padding:0 20rpx;
-		height: 88rpx;
-		line-height: 88rpx;
+		height: 80rpx;
+		line-height: 80rpx;
 		text-align: center;
 		letter-spacing: 8rpx;
 		background-color: $main-color;
@@ -190,6 +190,7 @@
 	.go-login {
 		text-align: center;
 		color: #666;
+		padding-bottom: 40rpx;
 		letter-spacing: 2rpx;
 		.act {
 			padding-left: 6rpx;

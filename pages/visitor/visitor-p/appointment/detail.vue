@@ -5,9 +5,9 @@
 			    <view class="info qui-fx-ac">
 					<image :src="errorImg" alt="">
 					<view class="qui-fx-ver">
-					  <text class="name">{{ visitorName }}</text>
-					  <text class="phone">{{ visitorPhone }}</text>
-					  <text class="times">{{ causeName }}</text>
+					  <text class="name">{{ comeLog.respondentName }}</text>
+					  <text class="phone">{{ comeLog.resMobile }}</text>
+					  <text class="times">{{ comeLog.causeName }}</text>
 					</view>
 				</view>
 			    <view class="state">{{ state | approveState }}</view>
@@ -22,7 +22,7 @@
 				<view class="qui-fx-ver">
 					<view class="end qui-fx-ac">
 						<icon type="info" size="24" />
-						<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum }}</text>
+						<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</text>
 					</view>
 				</view>
 			</view>
@@ -68,10 +68,6 @@ export default {
 		}
 		this.comeLog = res.data;
 		this.photo = res.data.registPhoto;
-		this.visitorName = res.data.visitorName;
-		this.visitorPhone = res.data.mobile;
-		this.causeName = res.data.causeName;
-		this.reason = res.data.reason;
 		this.state = res.data.state;
 	},
 	methods: {}
