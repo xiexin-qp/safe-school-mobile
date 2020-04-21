@@ -288,8 +288,8 @@
           userName: store.userInfo.userName,
           userCode: store.userInfo.userCode,
           schoolCode: store.userInfo.schoolCode,
-          orgId: store.userInfo.orgId,
-          orgName: store.userInfo.orgName
+          // orgId: store.userInfo.orgId,
+          // orgName: store.userInfo.orgName
         }
         if (this.oddNumbers) {
           actions.updateTeacherLeave({

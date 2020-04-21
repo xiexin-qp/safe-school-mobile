@@ -253,10 +253,10 @@
           userCode: store.userInfo.studentCode,
           schoolCode: store.userInfo.schoolCode,
           orgName: store.userInfo.orgName,
-          gradeId: '',
-          gradeName: '',
-          classId : '',
-          className: '',
+          // gradeId: '',
+          // gradeName: '',
+          // classId : '',
+          // className: '',
         }
         if (this.oddNumbers) {
           actions.updateStudentLeave({
