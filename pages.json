@@ -153,12 +153,6 @@
 			"style": {
 			}
 		},
-		// 访客预约
-		{
-			"path": "pages/visitor/appoint/index",
-			"style": {
-			}
-		},
 		// 教师考勤模块
 		{
 			"path": "pages/attendance/attendance-t/attendance/index",
