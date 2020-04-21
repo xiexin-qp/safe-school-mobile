@@ -6,6 +6,8 @@
 import hostEnv from '../../../../config/index.js'
 
 let homeApi = {
+  getSchoolList: '/visitor/info/schoolinfo#getUrl', // 获取家长绑定学校列表
+  verifUser: '/visitor/info/rescode#get', // 验证被访用户
   getCauseList: '/cause/info/list#post', // 获取事由列表
   getComeLogList: '/invite/appoint/mobile/visit/list#post', // 获取拜访记录列表
   getComeLogDetail: '/invite/appoint/mobile/visit/detail#getUrl', // 获取拜访记录详情

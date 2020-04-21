@@ -64,13 +64,8 @@ export default {
 		return {
 			causeNameList: [],
 			causeList: [],
-			schoolNameList: ['全品中学'],
-			schoolList: [
-				{
-					text: '全品中学',
-					value: 'CANPOINT'
-				}
-			],
+			schoolNameList: [],
+			schoolList: [],
 			id: '',
 			type: '', // 0-修改  1-再次邀约
 			formInfo: {},
@@ -97,7 +92,7 @@ export default {
 	},
 	computed: {},
 	created() {
-		this.getCause();
+		this.getSchool();
 	},
 	async mounted() {
 		if (this.id) {
@@ -121,11 +116,26 @@ export default {
 		}
 	},
 	methods: {
+		async getSchool() {
+			const res = await actions.getSchoolList(store.userInfo.userCode);
+			if (!res.data) {
+				this.$tools.toast('请绑定学校');
+				return;
+			}
+			res.data.forEach(ele => {
+				this.schoolNameList.push(ele.schoolName);
+				this.causeList.push({
+					text: ele.schoolName,
+					value: ele.schoolCode
+				});
+			});
+		},
 		async getCause() {
+			if (!this.schoolList[this.formData.school].value) {
+				this.$tools.toast('请选择拜访学校');
+			}
 			const req = {
-				schoolCode: store.userInfo.schoolCode,
-				pageNum: 1,
-				pageSize: 100
+				schoolCode: this.schoolList[this.formData.school].value
 			};
 			const res = await actions.getCauseList(req);
 			if (res.data.list.length === 0) {
@@ -153,9 +163,7 @@ export default {
 				this.$tools.toast('请填写正确手机号');
 			} else if (this.formData.cause === '') {
 				this.$tools.toast('请选择来访事由');
-			} /* else if (new Date(this.formData.accessEndTime).getTime() <= new Date(this.formData.accessStartTime).getTime()) {
-				this.$tools.toast('请选择正确时间段');
-			} */ else {
+			} else {
 				let school = this.schoolList.filter(ele => {
 					return ele.text === this.schoolNameList[this.formData.school];
 				})[0];
@@ -172,26 +180,38 @@ export default {
 					this.$tools.toast('请选择来访事由');
 					return;
 				}
-				const req = {
-					schoolCode: store.userInfo.schoolCode,
-					accessStartTime: new Date(this.formData.accessStartTime),
-					respondentName: this.formData.visitorName,
-					resMobile: this.formData.phone,
-					togetherNum: this.formData.togetherNum,
-					visitorMobile: store.userInfo.visitorMobile,
-					visitorName: store.userInfo.userName,
-					causeId: cause.value,
-					causeName: cause.text,
-					id: this.type === '0' ? this.id : null,
-					type: 0,
-					respondentType: 1
+				let yzreq = {
+					mobile: this.formData.phone,
+					schoolCode: school.value
 				};
-				console.log(req);
-				const res = await actions.addInviteInfo(req);
-				this.$tools.toast('提交成功', 'success');
-				this.$tools.navTo({
-					url: './index',
-					title: '来访邀约'
+				actions.verifUser(yzreq).then(res => {
+					if (!res.data) {
+						this.$toast('该手机号不是该校教职工');
+						return;
+					}
+					const req = {
+						schoolCode: school.value,
+						schoolName: school.text,
+						accessStartTime: new Date(this.formData.accessStartTime),
+						respondentName: this.formData.visitorName,
+						resMobile: this.formData.phone,
+						togetherNum: this.formData.togetherNum,
+						visitorMobile: store.userInfo.visitorMobile,
+						visitorName: store.userInfo.userName,
+						causeId: cause.value,
+						causeName: cause.text,
+						id: this.type === '0' ? this.id : null,
+						type: '0',
+						respondentType: '1'
+					};
+					console.log(req);
+					actions.addInviteInfo(req).then(res => {
+						this.$tools.toast('提交成功', 'success');
+						this.$tools.navTo({
+							url: './index',
+							title: '来访邀约'
+						});
+					});
 				});
 			}
 		},
@@ -213,6 +233,7 @@ export default {
 		},
 		chooseSchool(e) {
 			this.formData.school = e.target.value;
+			this.getCause()
 		},
 		chooseCause(e) {
 			this.formData.cause = e.target.value;
