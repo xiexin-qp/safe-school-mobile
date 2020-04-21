@@ -154,10 +154,11 @@
       if (options.oddNumbers) {
         this.oddNumbers = options.oddNumbers
         this.detailGet(options.oddNumbers)
+      } else {
+        this.leaveReasonGet(0)
       }
 	  },
     mounted () {
-      // this.leaveReasonGet()
       this.orgUserGet()
     },
     methods: {
@@ -172,16 +173,18 @@
         this.leaveInfo.copyUser = this.leaveInfo.leaveCopyList.map(el=>el.userName).join(',')
         this.leaveApprovalAddDto = this.leaveInfo.leaveApprovalAddDto
         this.leaveCopyList = this.leaveInfo.leaveCopyList
-        this.leaveReasonGet()
+        this.leaveReasonGet(1)
       },
-      async leaveReasonGet () {
+      async leaveReasonGet (type) {
         const res = await actions.getLeaveReason()
         this.reasonList = res.data
         this.role = []
         res.data.forEach(el => {
           this.role.push(el.name)
         })
-        this.currentRole = this.role.indexOf(this.leaveInfo.reason)
+        if (type) {
+          this.currentRole = this.role.indexOf(this.leaveInfo.reason)
+        }
       },
       radioChange (e) {
         this.leaveInfo.outSchool = e.target.value
