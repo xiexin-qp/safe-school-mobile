@@ -176,10 +176,12 @@ export default {
 				console.log(req);
 				const res = await actions.addInviteInfo(req);
 				this.$tools.toast('提交成功', 'success');
-				this.$tools.navTo({
-					url: './index',
-					title: '来访邀约'
-				});
+				this.$tools.goNext(()=>{
+					this.$tools.navTo({
+						url: './index',
+						title: '来访邀约'
+					});
+				})
 			}
 		},
 		dateChange(e, type) {

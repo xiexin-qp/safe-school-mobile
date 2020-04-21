@@ -6,6 +6,7 @@
 				<view class="qui-fx-ver">
 					<text class="name">{{ visitorName }}</text>
 					<text class="phone">{{ visitorPhone }}</text>
+					<text class="name">{{ comeLog.causeName }}</text>
 				</view>
 		    </view>
 			<view class="state">{{ visitState | visitState}}</view>

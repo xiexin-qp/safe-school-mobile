@@ -22,7 +22,7 @@
 				<view class="qui-fx-ver">
 					<view class="end qui-fx-ac">
 						<icon type="info" size="24" />
-						<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum }}</text>
+						<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</text>
 					</view>
 				</view>
 			</view>
@@ -69,7 +69,7 @@ export default {
 		this.comeLog = res.data;
 		this.photo = res.data.registPhoto;
 		this.visitorName = res.data.visitorName;
-		this.visitorPhone = res.data.mobile;
+		this.visitorPhone = res.data.visitorMobile;
 		this.causeName = res.data.causeName;
 		this.reason = res.data.reason;
 		this.state = res.data.state;
