@@ -28,7 +28,7 @@
       </scroll-view>
       </view>
     <uni-popup ref="popup" type="center">
-     	<scroll-view scroll-y="true" class="scroll-h">
+     	<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
         <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
           <text>{{ list | gmtToDate('date') }}</text>
         </view>
@@ -64,7 +64,13 @@ export default {
       currentDay: '',
       isOther: false,
       dataList: [],
-      attandenceInfo:[]
+      attandenceInfo:[],
+      pageList: {
+				page: 1,
+				size: 15
+      },
+      morePage: false,
+      num: ''
     }
   },
   mounted() {
@@ -103,20 +109,39 @@ export default {
         num:  `${res.data.noRecord}天`
       }]
 		},
-    async detail (item) {
+    async detail (item, tag = false) {
+      this.num = item.num
       if (item.num !== '0次' && item.num !== '0天') {
+        if (tag) {
+          this.pageList.page += 1;
+        } else {
+          this.pageList.page = 1;
+        }
         const req = {
           month: '2020-04',
           studentCode: store.userInfo.studentCode,
-          state: item.state
+          state: item.state,
+          page: this.pageList.page,
+				  size: this.pageList.size
         }
         const res = await actions.childStaticDetail(req)
-        this.dataList = res.data
+        if (tag) {
+          this.dataList = this.dataList.concat(res.data);
+        } else {
+          this.dataList = res.data
+        }
+			  this.morePage = res.data.hasNextPage;
         this.$refs.popup.open()
       }
-    }
-  },
-  
+    },
+    loadMore() {
+			if (!this.morePage) {
+				this.$tools.toast('数据已加载完毕')
+				return
+			}
+			this.detail(this.num, true)
+		}
+  }
 }
 </script>
 

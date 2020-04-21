@@ -20,7 +20,7 @@
       </view>
     </view>
     <uni-popup ref="popup" type="center">
-     	<scroll-view scroll-y="true" class="scroll-h">
+     	<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
         <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
           <text> {{ list.userName }} </text>
           <image :src="list.photoUrl ? photoUrl : person" mode=""></image>
@@ -39,7 +39,13 @@ export default {
 			person,
 			dataList: [],
       attandenceInfo: [],
-      day: new Date()
+      day: new Date(),
+      pageList: {
+				page: 1,
+				size: 15
+      },
+      morePage: false,
+      num: 0
 		}
 	},
 	mounted() {
@@ -91,20 +97,39 @@ export default {
       this.day = data.fulldate
       this.showList()
     },
-		async detail(item) {
+		async detail(item, tag = false) {
+      this.num = item.num
       if (item.num !== 0) {
+        if (tag) {
+          this.pageList.page += 1;
+        } else {
+          this.pageList.page = 1;
+        }
         const req = {
          day: '2020-04-09',
         // day: this.day
           teacherCode: store.userInfo.userCode,
-          state: item.state
+          state: item.state,
+          page: this.pageList.page,
+				  size: this.pageList.size
         }
         const res = await actions.classDayStaticDetail(req)
-        this.dataList = res.data
+        if (tag) {
+          this.appointList = this.appointList.concat(res.data)
+        } else {
+          this.appointList = res.data
+        }
+			  this.morePage = res.data.hasNextPage;
         this.$refs.popup.open()
       }
-      
-		}
+    },
+    loadMore() {
+			if (!this.morePage) {
+				this.$tools.toast('数据已加载完毕');
+				return;
+			}
+			this.detail(this.num, true)
+		},
 	}
 };
 </script>

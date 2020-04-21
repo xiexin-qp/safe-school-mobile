@@ -14,7 +14,7 @@
         <ms-dropdown-item v-model="value2" :list="dataList"></ms-dropdown-item>
       </ms-dropdown-menu>
     </view>
-    <scroll-view scroll-y="true" class="scroll-h">
+    <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore" >
       <view class="content">
         <view class="record-box">
           <!-- <no-data msg="暂无考勤记录~" v-if="dayInfo.length === 0"></no-data> -->
@@ -115,7 +115,12 @@ export default {
       value0: '0',
       value1: '0',
       value2: '0',
-      currentIndex: '1'
+      currentIndex: '1',
+      pageList: {
+				page: 1,
+				size: 15
+      },
+      morePage: false
     }
   },
   watch: {
@@ -167,7 +172,7 @@ export default {
       })
       this.casueList =this.casueList.concat(data)
     },
-    async teacherLeaveGet () {
+    async teacherLeaveGet (tag = false) {
       let value1 = ''
       if (this.value1 === '0') {
         value1 =  ''
@@ -176,6 +181,11 @@ export default {
       }else {
         value1 =  this.value1 
       }
+      if (tag) {
+				this.pageList.page += 1;
+			} else {
+				this.pageList.page = 1;
+			}
       const req = {
         applicantCode: '',
         applicantName: '',
@@ -183,8 +193,8 @@ export default {
         state: value1,
         startTime: '' ,
         endTime: '',
-        page: 1,
-        size: 20,
+        page: this.pageList.page,
+        size: this.pageList.size,
         orgCode: '',
         outSchool: '',
         userName: '',
@@ -192,9 +202,14 @@ export default {
         day: this.value2 === '0' ? '' : this.value2
       }
       const res = await actions.getTeacherLeave(req)
-      this.leaveList = res.data.list
+      if (tag) {
+				this.leaveList = this.leaveList.concat(res.data.list)
+			} else {
+				this.leaveList = res.data.list;
+			}
+			this.morePage = res.data.hasNextPage;
     },
-    async approvalLeaveGet () {
+    async approvalLeaveGet (tag = false) {
       let value1 = ''
         if (this.value1 === '0') {
           value1 =  ''
@@ -203,11 +218,16 @@ export default {
         }else {
           value1 =  this.value1 
         }
+        if (tag) {
+          this.pageList.page += 1;
+        } else {
+          this.pageList.page = 1;
+        }
        const req = {
         applicantCode: '',
         state: value1,
-        page: 1,
-        size: 20,
+        page: this.pageList.page,
+        size: this.pageList.size,
         userCode: '',
         userName: '',
         time: '',
@@ -215,9 +235,14 @@ export default {
         reasonId: this.value0 ===  '0' ? '' : this.value0
       }
       const res = await actions.getApprovalLeave(req)
-      this.leaveList = res.data.list
+      if (tag) {
+				this.leaveList = this.leaveList.concat(res.data.list)
+			} else {
+				this.leaveList = res.data.list;
+			}
+			this.morePage = res.data.hasNextPage;
     },
-    async copyLeaveGet () {
+    async copyLeaveGet (tag = false) {
       let value1 = ''
       if (this.value1 === '0') {
         value1 =  ''
@@ -226,11 +251,16 @@ export default {
       }else {
         value1 =  this.value1 
       }
+      if (tag) {
+        this.pageList.page += 1;
+      } else {
+        this.pageList.page = 1;
+      }
       const req = {
         applicantCode: '',
         state: value1,
-        page: 1,
-        size: 20,
+        page: this.pageList.page,
+        size: this.pageList.size,
         userCode: '',
         userName: '',
         time: '',
@@ -238,8 +268,26 @@ export default {
         reasonId: this.value0 ===  '0' ? '' : this.value0
       }
       const res = await actions.getCopyLeave(req)
-      this.leaveList = res.data.list
+      if (tag) {
+				this.leaveList = this.leaveList.concat(res.data.list)
+			} else {
+				this.leaveList = res.data.list;
+			}
+			this.morePage = res.data.hasNextPage;
     },
+    loadMore() {
+			if (!this.morePage) {
+				this.$tools.toast('数据已加载完毕');
+				return;
+			}
+			if (this.currentIndex === '2') {
+        this.approvalLeaveGet(true)
+      } else if (this.currentIndex === '3') {
+        this.copyLeaveGet(true)
+      } else {
+        this.teacherLeaveGet(true)
+      }
+		},
     tabChange (type) {
       this.currentIndex = type
       if (type === '2') {

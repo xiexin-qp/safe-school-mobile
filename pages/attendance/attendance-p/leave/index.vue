@@ -11,7 +11,7 @@
         <ms-dropdown-item v-model="value2" :list="dataList"></ms-dropdown-item>
       </ms-dropdown-menu>
     </view>
-    <scroll-view scroll-y="true" class="scroll-h">
+    <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
       <view class="content">
         <view class="record-box">
           <!-- <no-data msg="暂无考勤记录~" v-if="dayInfo.length === 0"></no-data> -->
@@ -99,7 +99,12 @@ export default {
       ],
       value0: '0',
       value1: '0',
-      value2: '0'
+      value2: '0',
+      pageList: {
+				page: 1,
+				size: 15
+      },
+      morePage: false
     }
   },
   watch: {
@@ -133,7 +138,7 @@ export default {
       })
       this.casueList =this.casueList.concat(data)
     },
-    async teacherLeaveGet () {
+    async teacherLeaveGet ( tag = false ) {
       let value1 = ''
       if (this.value1 === '0') {
         value1 =  ''
@@ -142,20 +147,37 @@ export default {
       }else {
         value1 =  this.value1 
       }
+      if (tag) {
+				this.pageList.page += 1;
+			} else {
+				this.pageList.page = 1;
+			}
       const req = {
         applicantCode: store.userInfo.userCode,
         userCode: store.userInfo.studentCode,
         time: '',
         state: value1,
-        page: 1,
-        size: 20,
+        page: this.pageList.page,
+				size: this.pageList.size,
         userName: '',
         reasonId: this.value0 ===  '0' ? '' : this.value0,
         day: this.value2 === '0' ? '' : this.value2
       }
       const res = await actions.getStudentLeave(req)
-      this.leaveList = res.data.list
+      if (tag) {
+				this.leaveList = this.leaveList.concat(res.data.list)
+			} else {
+				this.leaveList = res.data.list
+			}
+			this.morePage = res.data.hasNextPage
     },
+    loadMore() {
+			if (!this.morePage) {
+				this.$tools.toast('数据已加载完毕')
+				return
+			}
+			this.teacherLeaveGet(true)
+		},
     addLeave () {
 			this.$tools.navTo({
 				url: './add',
@@ -179,15 +201,15 @@ export default {
             })
           }
         })
-      },
-      detail (id) {
-        this.$tools.navTo({
-          url: `./detail?id=${id}`,
-          title: '查看详情'
-        })
-      }
+    },
+    detail (id) {
+      this.$tools.navTo({
+        url: `./detail?id=${id}`,
+        title: '查看详情'
+      })
     }
   }
+}
 </script>
 
 <style lang="less" scoped>

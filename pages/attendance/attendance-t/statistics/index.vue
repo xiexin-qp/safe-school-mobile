@@ -26,7 +26,7 @@
       </view>
     </view>
     <uni-popup ref="popup" type="center">
-      <scroll-view scroll-y="true" class="scroll-h">
+      <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
         <view v-for="list in dataList" :key="list" class="list qui-bd-b">
           <text>{{ list | gmtToDate('date') }}</text>
         </view>
@@ -60,7 +60,13 @@ export default {
       dataList: [],
       attandenceInfo:[],
 			lastMonth: this.lastFiveMonth(),
-			yearTitle: this.lastFiveMonth().pop(),
+      yearTitle: this.lastFiveMonth().pop(),
+      pageList: {
+				page: 1,
+				size: 15
+      },
+      morePage: false,
+      num: ''
     }
   },
   mounted () {
@@ -122,18 +128,38 @@ export default {
         num:  `${res.data.noRecord}天`
       }]
 		},
-    async detail(item){
+    async detail(item, tag = false){
+      this.num = item.num
       if ( item.num !== '0次' && item.num !== '0天' ) {
+        if (tag) {
+          this.pageList.page += 1
+        } else {
+          this.pageList.page = 1
+        }
         const req = {
           month: this.yearTitle,
           userCode: store.userInfo.userCode,
-          state: item.state
+          state: item.state,
+          pageNum: this.pageList.page,
+				  pageSize: this.pageList.size,
         }
         const res = await actions.teacherStaticDetail(req)
-        this.dataList = res.data
+        if (tag) {
+          this.dataList = this.dataList.concat(res.data)
+        } else {
+          this.dataList = res.data
+        }
+        this.morePage = res.data.hasNextPage
         this.$refs.popup.open()
       }
-    }
+    },
+    loadMore() {
+			if (!this.morePage) {
+				this.$tools.toast('数据已加载完毕');
+				return;
+			}
+			this.detail(this.num, true);
+		},
   }
 }
 </script>
