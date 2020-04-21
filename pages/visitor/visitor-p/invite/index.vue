@@ -184,7 +184,9 @@ export default {
 						console.log(req);
 						actions.approval(req).then(res => {
 							this.$tools.toast('操作成功', 'success');
-							this.showList();
+							this.$tools.goNext(()=>{
+								this.showList();
+							})
 						});
 					});
 				}
@@ -210,7 +212,9 @@ export default {
 				actions.approval(req).then(res => {
 					this.$tools.toast('操作成功', 'success');
 					this.refuseText = '';
-					this.showList();
+					this.$tools.goNext(()=>{
+						this.showList();
+					})
 				});
 			});
 		}

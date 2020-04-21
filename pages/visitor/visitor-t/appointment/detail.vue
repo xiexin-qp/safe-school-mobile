@@ -7,6 +7,7 @@
 					<view class="qui-fx-ver">
 						<text class="name">{{ visitorName }}</text>
 						<text class="phone">{{ visitorPhone }}</text>
+						<text class="times">{{ comeLog.causeName }}</text>
 					</view>
 				</view>
 				<view class="state">{{ state | approveState}}</view>
@@ -22,7 +23,7 @@
 					<view class="qui-fx-ver">
 						<view class="end qui-fx-ac">
 							<icon type="info" size="24" />
-							<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum }}</text>
+							<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</text>
 						</view>
 					</view>
 				</view>
@@ -89,6 +90,7 @@ export default {
 		this.causeName = res.data.causeName;
 		this.reason = res.data.reason;
 		this.state = res.data.state;
+		this.refuseTag = this.state === '2'
 	},
 	methods: {
 		clickCancel() {
@@ -108,10 +110,12 @@ export default {
 				console.log(req);
 				actions.approval(req).then(res => {
 					this.$tools.toast('操作成功', 'success');
-					this.$tools.navTo({
-						url: './index',
-						title: '预约审批'
-					});
+					this.$tools.goNext(()=>{
+						this.$tools.navTo({
+							url: './index',
+							title: '预约审批'
+						});
+					})
 				});
 			});
 		},
@@ -137,10 +141,12 @@ export default {
 				actions.approval(req).then(res => {
 					this.$tools.toast('操作成功', 'success');
 					this.refuseText = '';
-					this.$tools.navTo({
-						url: './index',
-						title: '预约审批'
-					});
+					this.$tools.goNext(()=>{
+						this.$tools.navTo({
+							url: './index',
+							title: '预约审批'
+						});
+					})
 				});
 			});
 		}

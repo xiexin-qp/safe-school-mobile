@@ -207,10 +207,12 @@ export default {
 					console.log(req);
 					actions.addInviteInfo(req).then(res => {
 						this.$tools.toast('提交成功', 'success');
-						this.$tools.navTo({
-							url: './index',
-							title: '来访邀约'
-						});
+						this.$tools.goNext(()=>{
+							this.$tools.navTo({
+								url: './index',
+								title: '来访邀约'
+							});
+						})
 					});
 				});
 			}

@@ -15,6 +15,7 @@ let homeApi = {
   getInviteDetail: '/invite/appoint/mobile/appoints#getUrl', // 获取邀预约记录详情
   addInviteInfo: '/invite/appoint/mobile/add#post', // 添加修改邀预约信息
   approval: '/invite/appoint/update#post', // 审批邀预约信息
+  cancelAppoint: '/invite/appoint/mobile/appoints/{cancel#get', // 邀预约撤回
 }
 
 for (let val in homeApi) {

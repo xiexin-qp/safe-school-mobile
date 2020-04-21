@@ -170,15 +170,10 @@ export default {
 				if (arr[index] === '撤回') {
 					const req = {
 						id: this.record.id,
-						state: '3',
-						visitorCode: store.userInfo.userCode,
-						visitorName: store.userInfo.userName,
-						visitorMobile: store.userInfo.visitorMobile,
-						schoolCode: store.userInfo.schoolCode,
-						openid: store.userInfo.openid
+						state: '3'
 					};
 					console.log(req);
-					actions.approval(req).then(res => {
+					actions.cancelAppoint(req).then(res => {
 						this.$tools.toast('撤回成功', 'success');
 						this.showList();
 					});
