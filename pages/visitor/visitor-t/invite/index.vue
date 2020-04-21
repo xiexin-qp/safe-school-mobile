@@ -3,7 +3,7 @@
 		<uni-search-bar class="search" placeholder="输入姓名搜索" @confirm="search"></uni-search-bar>
 		<dropdown-menu :statusList="statusList" @value0Change="value0Change" @value1Change="value1Change" @value2Change="value2Change"></dropdown-menu>
 		<no-data v-if="appointList.length === 0" msg="暂无数据"></no-data>
-		<scroll-view v-else scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+		<scroll-view v-else scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
 			<view class="approve-list" v-for="(item, i) in appointList" :key="i">
 				<view class="detail qui-fx">
 					<view class="process-type" style="right: 20rpx"><view class="wait" @click="appoint(item)">···</view></view>
@@ -70,6 +70,7 @@ export default {
 				page: 1,
 				size: 15
 			},
+			morePage: false,
 			appointList: [],
 			value0: '0',
 			value1: '0',
@@ -116,6 +117,11 @@ export default {
 			} else {
 				state = this.value2;
 			}
+			if (tag) {
+				this.pageList.page += 1;
+			} else {
+				this.pageList.page = 1;
+			}
 			const req = {
 				schoolCode: store.userInfo.schoolCode,
 				pageNum: this.pageList.page,
@@ -130,15 +136,18 @@ export default {
 			};
 			const res = await actions.getInviteList(req);
 			if (tag) {
-				this.pageList.page++;
 				this.appointList = this.appointList.concat(res.data.list);
 			} else {
 				this.appointList = res.data.list;
-				uni.stopPullDownRefresh();
-				console.log(this.appointList);
-				if (!res.data.hasNextPage) {
-				}
 			}
+			this.morePage = res.data.hasNextPage;
+		},
+		loadMore() {
+			if (!this.morePage) {
+				this.$tools.toast('数据已加载完毕');
+				return;
+			}
+			this.showList(true);
 		},
 		search(value) {
 			console.log(value);

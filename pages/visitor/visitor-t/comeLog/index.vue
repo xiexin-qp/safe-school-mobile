@@ -15,7 +15,7 @@
 				</view>
 				<text class="right">状态</text>
 			</view>
-			<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+			<scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
 				<view @click="goDetail(item.id)" v-for="(item, i) in dataList" :key="i" class="tbody qui-bd-b qui-fx-jsb">
 					<text class="left">{{ item.userName }}</text>
 					<text class="md">{{ item.accessTime | getFullDate }}</text>
@@ -60,7 +60,8 @@ export default {
 			pageList: {
 				page: 1,
 				size: 15
-			}
+			},
+			morePage: false,
 		};
 	},
 	mounted() {
@@ -94,6 +95,11 @@ export default {
 			} else if (this.value1 === '3') {
 				queryTime = new Date(new Date().setDate(new Date().getDate() - 180));
 			}
+			if (tag) {
+				this.pageList.page += 1;
+			} else {
+				this.pageList.page = 1;
+			}
 			const req = {
 				schoolCode: store.userInfo.schoolCode,
 				pageNum: this.pageList.page,
@@ -106,15 +112,18 @@ export default {
 			};
 			const res = await actions.getComeLogList(req);
 			if (tag) {
-				this.pageList.page++;
-				this.dataList = this.dataList.concant(res.data);
+				this.dataList = this.dataList.concat(res.data.list);
 			} else {
 				this.dataList = res.data.list;
-				uni.stopPullDownRefresh();
-				console.log(this.dataList);
-				if (!res.data.hasNextPage) {
-				}
 			}
+			this.morePage = res.data.hasNextPage;
+		},
+		loadMore() {
+			if (!this.morePage) {
+				this.$tools.toast('数据已加载完毕');
+				return;
+			}
+			this.showList(true);
 		},
 		search(value) {
 			console.log(value);
