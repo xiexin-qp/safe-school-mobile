@@ -1,6 +1,5 @@
 const isProd = process.env.NODE_ENV === 'production'
 const path = require('path')
-
 function resolve(dir) {
 	return path.join(__dirname, dir)
 }

@@ -108,14 +108,14 @@ const menuData = [
 										"name": "我的考勤-教职工"
 								},
 								{
-										"no": 4,
-										"code": "AU13vr0ze8ngn8i",
+										"no": 3,
+										"code": "AU13vnr851vvrmq",
 										"children": [],
 										"enable": true,
 										"levelType": 3,
-										"requestUrl": "../attendance-teacher/index.html",
-										"icon": "http://canpoint.oss-cn-beijing.aliyuncs.com/2019/10/23/09de47e5f1c4454a96e54ea8d365a248.jpg",
-										"name": "出入校-老师"
+										"requestUrl": "/pages/attendance/attendance-t/studentLeave/index",
+										"icon": "http://canpoint.oss-cn-beijing.aliyuncs.com/2019/09/09/cf61aebcb02143859b736a351e726743.jpg",
+										"name": "学生请假-教职工"
 								},
 								{
 										"no": 6,
