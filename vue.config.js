@@ -1,6 +1,5 @@
 const isProd = process.env.NODE_ENV === 'production'
 const path = require('path')
-const uploadZip = require('./upload.js')
 function resolve(dir) {
 	return path.join(__dirname, dir)
 }
@@ -23,7 +22,6 @@ module.exports = {
 			}))
 	},
 	configureWebpack: config => {
-		config.plugins.push(new uploadZip())
 		// 配置cdn模块
 		// if (isProd) {
 		//   config.externals = {
