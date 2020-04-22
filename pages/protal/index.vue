@@ -1,129 +1,140 @@
 <template>
 	<view class="qui-page login">
-		<view>
-			<image :src="logo" class="logo"></image>
-		</view>
+		<view><image :src="logo" class="logo"></image></view>
 		<view class="qui-fx-ac login-tab">
-			<view class="">密码登录</view>
-			<view class="">短信登录</view>
+			<view @click="changTab(1)" class="qui-fx-f1 qui-tx-c" :class="{ act: type === 1 }">密码登录</view>
+			<view @click="changTab(0)" class="qui-fx-f1 qui-tx-c" :class="{ act: type === 0 }">短信登录</view>
 		</view>
 		<view class="qui-fx-ac input-box">
-			<input type="number" v-model="phone" class="item-input"  placeholder="请输入手机号" />
-			<view class="yzm" :class="{'act': total !== 5}" @click="getYzm">{{ tip }}</view>
+			<input type="number" v-model="phone" class="item-input" placeholder="请输入手机号" />
+			<view class="yzm" :class="{ act: total !== 5 }" @click="getYzm">{{ tip }}</view>
 		</view>
-		<view class="qui-fx-ac input-box">
-			<input type="text" v-model="code" class="item-input"  placeholder="请输入验证码" />
-		</view>
-		<view class="login-btn" @click="login">
-			<text>登录</text>
-		</view>
+		<view class="qui-fx-ac input-box"><input type="text" v-model="code" class="item-input" placeholder="请输入验证码" /></view>
+		<view class="login-btn" @click="login"><text>登录</text></view>
+		<view class="login-btn" @click="loginTest"><text>登录测试</text></view>
 		<view @click="toReg" class="register">家长注册 ></view>
 	</view>
 </template>
 
 <script>
-import logo from './assets/img/logo.png'
-import uniRequest from 'uni-request'
-import { setStore, actions } from './store/index.js'
-import vConsole from 'vconsole'
+import logo from './assets/img/logo.png';
+import uniRequest from 'uni-request';
+import { setStore, actions } from './store/index.js';
+import vConsole from 'vconsole';
 
 export default {
 	data() {
 		return {
+			type: 1, // 密码
 			phone: '',
 			code: '',
 			logo,
 			total: 5,
 			tip: '获取验证码'
-		}
+		};
 	},
-  computed: {
-  },
-  components: {
-  },
-	mounted () {
+	computed: {},
+	components: {},
+	mounted() {
 		if (process.env.NODE_ENV === 'development') {
-			new vConsole()
+			new vConsole();
 		}
-		this.getOpenid()
+		this.getOpenid();
 		// 处理界面错位问题
 		document.body.addEventListener('focusin', () => {
-			this.isReset = false
+			this.isReset = false;
 		});
 		document.body.addEventListener('focusout', () => {
-			this.isReset = true
+			this.isReset = true;
 			setTimeout(() => {
 				if (this.isReset) {
-					window.scrollTo(0, 0)
+					window.scrollTo(0, 0);
 				}
 			}, 200);
-		})
+		});
 	},
 	methods: {
+		loginTest() {
+			setStore({
+				key: 'userInfo',
+				data: {
+					userCode: 'U149jvwntgma42',
+					schoolCode: 'CANPOINT11',
+					studentCode: 'P14j688pfbugq1',
+					studentName: '',
+					userName: '',
+					orgName: '',
+					photoUrl: ''
+				}
+			});
+			this.$tools.navTo({
+				url: './main'
+			});
+		},
 		// 获取openid
-		async getOpenid () {
-			const url = window.location.href
-			const params = new URLSearchParams(url.substr(url.indexOf('?')).replace('#/', ''))
-			this.schoolCode = params.get('schoolCode') || ''
+		async getOpenid() {
+			const url = window.location.href;
+			const params = new URLSearchParams(url.substr(url.indexOf('?')).replace('#/', ''));
+			this.schoolCode = params.get('schoolCode') || '';
 			// 本地测试使用
 			if (params.get('openid') || !params.get('code')) {
-				const openid = params.get('openid') || 'ojPaT0QK1z--3f-hUCHkKeDipIdw'
-				this.setOpenid(openid)
-				return
+				const openid = params.get('openid') || 'ojPaT0QK1z--3f-hUCHkKeDipIdw';
+				this.setOpenid(openid);
+				return;
 			}
-			const code = params.get('code')
+			const code = params.get('code');
 			if (uni.getStorageSync('openid')) {
-				this.setOpenid(uni.getStorageSync('openid'))
+				this.setOpenid(uni.getStorageSync('openid'));
 			} else {
 				const res = await uniRequest.get('/getOpenid', {
-				  params: {
+					params: {
 						code
 					}
-				})
-				const openid = res.data.data.openid
-				uni.setStorageSync('openid', openid)
-				this.setOpenid(openid)
+				});
+				const openid = res.data.data.openid;
+				uni.setStorageSync('openid', openid);
+				this.setOpenid(openid);
 			}
 		},
 		// 存储openid
-		setOpenid (openid) {
-			this.openid = openid
+		setOpenid(openid) {
+			this.openid = openid;
 			setStore({
 				key: 'openid',
 				data: openid
-			})
+			});
 		},
-		testPhone () {
+		testPhone() {
 			var reg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
 			if (this.phone === '' || !reg.test(this.phone)) {
-				this.$tools.toast('请输入正确手机号')
-				return false
+				this.$tools.toast('请输入正确手机号');
+				return false;
 			}
-			return true
+			return true;
 		},
-		async getYzm () {
-			if (!this.testPhone()) return
+		async getYzm() {
+			if (!this.testPhone()) return;
 			try {
-				const res = await actions.getCode(this.phone)
-				this.$tools.toast('验证码发送成功')
+				const res = await actions.getCode(this.phone);
+				this.$tools.toast('验证码发送成功');
 				this.timer = setInterval(() => {
 					if (this.total === 1) {
-						this.tip = '获取验证码'
-						this.total = 5
-						clearInterval(this.timer)
-						return
+						this.tip = '获取验证码';
+						this.total = 5;
+						clearInterval(this.timer);
+						return;
 					}
-					this.total--
-					this.tip = `${this.total} s`
-				}, 1000)
+					this.total--;
+					this.tip = `${this.total} s`;
+				}, 1000);
 			} catch (err) {}
 		},
 		// 登录
-		async login () {
-			if (!this.testPhone()) return
+		async login() {
+			if (!this.testPhone()) return;
 			if (this.code === '') {
-				this.$tools.toast('请输入验证码')
-				return
+				this.$tools.toast('请输入验证码');
+				return;
 			}
 			const res = await actions.login({
 				mobile: this.phone,
@@ -131,83 +142,88 @@ export default {
 				passCode: this.code,
 				schoolCode: this.schoolCode,
 				type: 0
-			})
-			clearInterval(this.timer)
+			});
+			clearInterval(this.timer);
 			setStore({
 				key: 'userInfo',
 				data: res.data
-			})
+			});
 		},
-		toReg () {
+		toReg() {
 			this.$tools.navTo({
 				title: '家长注册',
 				url: './register'
-			})
+			});
 		}
-  }
-}
+	}
+};
 </script>
 
 <style lang="scss">
-	.login {
-		padding-top: 160rpx;
-		background-color: #fff;
-		.logo {
-			margin: 0 auto 100rpx auto;
-			width: 428rpx;
-			height: 89rpx;
-			display: block;
-		}
-		.login-tab {
-			width: 360rpx;
-			height: 68rpx;
-			border-radius: 6rpx;
-			margin: 0 auto;
-			background-color: $main-color;
-		}
-		.input-box {
-			width: 80%;
-			margin: 60rpx auto 60rpx;
-			border-bottom: 1px #EEEEEE solid;
-		}
-		.item-input {
-			width: 100%;
-			padding-left: 10rpx;
-			color:#333;
-			margin: 0 auto;
-			height: 80rpx;
-		}
-		.yzm {
-			margin-left: 20rpx;
-			width: 260rpx;
-			text-align: center;
-			line-height: 60rpx;
-			height: 60rpx;
-			border-radius: 6rpx;
-			background-color: $main-color;
-			color:#fff;
-			&.act {
-				width: 100rpx;
-				background-color: #ccc;
-			}
-		}
-		.login-btn {
-			width: 80%;
-			height: 80rpx;
+.login {
+	padding-top: 160rpx;
+	background-color: #fff;
+	.logo {
+		margin: 0 auto 100rpx auto;
+		width: 428rpx;
+		height: 89rpx;
+		display: block;
+	}
+	.login-tab {
+		width: 60%;
+		height: 68rpx;
+		border-radius: 6rpx;
+		margin: 0 auto;
+		background-color: #ccc;
+		color: #444;
+		&.act {
 			background-color: $main-color;
 			color: #fff;
-			text-align: center;
-			line-height: 80rpx;
-			margin: 80rpx auto;
-			border-radius: $radius;
-			letter-spacing: 4rpx;
-		}
-		.register {
-			position: fixed;
-			z-index: 99;
-			bottom: 80rpx;
-			right: 100rpx;
-			color: $main-color;
 		}
 	}
+	.input-box {
+		width: 80%;
+		margin: 60rpx auto 60rpx;
+		border-bottom: 1px #eeeeee solid;
+	}
+	.item-input {
+		width: 100%;
+		padding-left: 10rpx;
+		color: #333;
+		margin: 0 auto;
+		height: 80rpx;
+	}
+	.yzm {
+		margin-left: 20rpx;
+		width: 260rpx;
+		text-align: center;
+		line-height: 60rpx;
+		height: 60rpx;
+		border-radius: 6rpx;
+		background-color: $main-color;
+		color: #fff;
+		&.act {
+			width: 100rpx;
+			background-color: #ccc;
+		}
+	}
+	.login-btn {
+		width: 80%;
+		height: 80rpx;
+		background-color: $main-color;
+		color: #fff;
+		text-align: center;
+		line-height: 80rpx;
+		margin: 80rpx auto;
+		border-radius: $radius;
+		letter-spacing: 4rpx;
+	}
+	.register {
+		position: fixed;
+		z-index: 99;
+		bottom: 80rpx;
+		right: 100rpx;
+		color: $main-color;
+	}
+}
 </style>
