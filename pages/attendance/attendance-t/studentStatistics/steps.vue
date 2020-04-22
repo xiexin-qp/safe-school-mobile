@@ -27,6 +27,16 @@ import { store, actions } from '../store/index.js'
 				attandenceInfo:[]
 			}
 		},
+		props: {
+			studentCode: {
+				type: String,
+				default: ''
+			},
+			month: {
+				type: String,
+				default: ''
+			}
+		},
 		mounted() {
 			this.showList()
 		},
@@ -34,8 +44,8 @@ import { store, actions } from '../store/index.js'
 			// studentMonthRecord
 				async showList () {
 					const req = {
-						month: '2020-04',
-						studentCode: store.userInfo.studentCode
+						month: this.month,
+						studentCode: this.studentCode
 					}
 				const res = await actions.studentMonthRecord(req)
 				this.attandenceInfo = res.data

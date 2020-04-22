@@ -1,17 +1,22 @@
 <template>
-  <view class="stundent-statistics qui-page">
+  <view class="statistics qui-page">
     <view>
-      <view class="title qui-fx-ac">
-        <image :src="person" mode=""></image>
-        <view>学生D 2月考勤统计</view>
+      <view class="year-list">
+        <view class="title">{{yearTitle.split('-')[0]}}年</view>
+        <view class="last-month qui-fx qui-fx-jsa" >
+					<view @click="searchMonth(month)" :class="{'act': yearTitle === month}" v-for="month in lastMonth" :key="month">
+						{{ month.split('-')[1] }}月
+					</view>
+				</view>
       </view>
       <view class="record-box">
+        <view class="attandence-title qui-fx-ac-jc">上下班考勤统计</view>
         <view class="attandence-box">
           <view 
-            class="attandence-info qui-fx-ac-jc" 
-            v-for="item in attandenceInfo" 
+            :class="['attandence-info', 'qui-fx-ac-jc', {'active': currentIndex === index} ]" 
+            v-for="(item, index) in attandenceInfo" 
             :key="item.id"
-            @click="detail(item)"
+            @click="detail(item, index)"
           >
             <image :src="normal" mode=""></image>
             <view> {{item.title}}</view>
@@ -19,57 +24,75 @@
           </view>
         </view>
       </view>
-      <view class="title qui-fx-ac">
-        <image :src="person" mode=""></image>
-        <view>学生D 2月考勤记录</view>
+      <view  class="qui-fx-ac-jc">
+        <scroll-view  scroll-y="true" class="scroll-h">
+          <no-data msg="暂无数据~" v-if="dataList.length === 0"></no-data>
+          <view v-else  v-for="(list, index) in dataList" :key="index" class="list qui-fx-ac-jc qui-fx-ac" @click="check(list)">
+            <image :src=" list.photoUrl ? list.photoUrl : person" mode=""></image>
+            <text>{{ list.userName }}</text>
+          </view>
+        </scroll-view>
       </view>
-      <scroll-view scroll-y="true" class="scroll">
-        <steps></steps>
-      </scroll-view>
     </view>
-    <uni-popup ref="popup" type="center">
-     	<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
-        <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
+    <!-- <uni-popup ref="popup" type="center">
+      <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
+        <view v-for="list in dataList" :key="list" class="list qui-bd-b">
           <text>{{ list | gmtToDate('date') }}</text>
         </view>
       </scroll-view>
-    </uni-popup>
+    </uni-popup> -->
   </view>
 </template>
 
 <script>
-import steps from './steps.vue'
 import person from '@s/img/person.png'
 import normal from '@s/img/normal.png'
 import { store, actions } from '../store/index.js'
 export default {
-  components: {
-    steps
-  },
   data () {
     return {
       person,
       normal,
       dataList: [],
       attandenceInfo:[],
-      pageList: {
-				page: 1,
-				size: 15
-      },
-      morePage: false,
-      num: ''
+			lastMonth: this.lastFiveMonth(),
+      yearTitle: this.lastFiveMonth().pop(),
+      currentIndex: 0
     }
   },
-  mounted() {
-    this.showList()
+  mounted () {
+    this.searchMonth(this.yearTitle)
   },
   methods: {
-  	async showList () {
-      const req = {
-				month: '2020-04',
-				studentCode: store.userInfo.studentCode
+		lastFiveMonth (num = 6) {
+			var monthArr = []
+			var date = new Date()
+			var year = date.getFullYear()
+			var month = date.getMonth() + 2
+			if (month > num) {
+				for (var i = month - 1; i >= month - num; i--) {
+					monthArr.push(year + '-' + (i > 9 ? i : '0' + i))
+				}
+			} else {
+				var lastY = year - 1
+				var cMonth = month - 1
+				var lastM = num - (month - 1)
+				for (let i = cMonth; i > 0; i--) {
+					monthArr.push(year + '-' + (i > 9 ? i : '0' + i))
+				}
+				for (let i = 12; i > 12 - lastM; i--) {
+					monthArr.push(lastY + '-' + (i > 9 ? i : '0' + i))
+				}
 			}
-      const res = await actions.studentMonthStatic(req)
+			return monthArr.reverse()
+		},
+		async searchMonth (month) {
+      this.yearTitle = month
+      const req = {
+				month: month,
+				teacherCode: store.userInfo.userCode
+			}
+      const res = await actions.classStatic(req)
 			this.attandenceInfo = [{
         title: '正常',
         state: '5',
@@ -96,96 +119,105 @@ export default {
         num:  `${res.data.noRecord}天`
       }]
 		},
-    async detail (item, tag = false) {
-      this.num = item.num
-      if (item.num !== '0次' && item.num !== '0天') {
-        if (tag) {
-          this.pageList.page += 1;
-        } else {
-          this.pageList.page = 1;
-        }
+    async detail(item, index){
+      this.currentIndex = index
         const req = {
-          month: '2020-04',
-          studentCode: store.userInfo.studentCode,
-          state: item.state,
-          page: this.pageList.page,
-				  size: this.pageList.size
+          month: this.yearTitle,
+          teacherCode: store.userInfo.userCode,
+          state: item.state
         }
-        const res = await actions.childStaticDetail(req)
-        if (tag) {
-          this.dataList = this.dataList.concat(res.data)
-        } else {
-          this.dataList = res.data
-        }
-			  this.morePage = res.data.hasNextPage
-        this.$refs.popup.open()
-      }
+        const res = await actions.classStaticDetail(req)
+        this.dataList = res.data
     },
-    loadMore() {
-			if (!this.morePage) {
-				this.$tools.toast('数据已加载完毕')
-				return
-			}
-			this.detail(this.num, true)
-		}
+    check (record) {
+      this.$tools.navTo({
+				url: `./record?userCode=${record.userCode}&month=${this.yearTitle}&name=${record.userName}`,
+				title: ''
+      })
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.stundent-statistics {
-    background-color: #f1f8ff;
-    .title {
-      height: 80rpx;
-      background-color: #fff;
-      justify-content: center;
+.statistics {
+	.year-list {
+	    background-color: #0079ff;
+	    .title {
+	      color: #fff;
+	      font-size: 34rpx;
+	      font-weight: bold;
+	      text-align: center;
+	      padding: 30rpx 0 0rpx 0;
+	    }
+	    .last-month {
+	      padding: 20rpx 0;
+	      & > view {
+	        color: #fff;
+	        text-align: center;
+	        height: 80rpx;
+	        width: 80rpx;
+	        line-height: 80rpx;
+	        border-radius: 100%;
+	      }
+	      .act {
+	        background-color: #fff;
+	        color: #0079ff;
+	        font-weight: bold
+	      }
+	    }
+	  }
+  .record-box {
+    padding-top: 20rpx;
+    background-color: #f2f8fe;
+    .attandence-title {
+      height: 60rpx;
+      line-height: 60rpx;
+      font-size: 36rpx;
+    }
+    .attandence-box {
+      height: 430rpx;
+      :nth-child(3n) {
+        border-right: none;
+      }
+      .attandence-info {
+        width: 31%;
+        float: left;  
+        margin-bottom: 30rpx;
+        background-color: #fff;
+        margin: 15rpx 0 5rpx 15rpx;
+        padding: 20rpx 0;
+        border-radius: 15rpx;
+        image {
+          width: 60rpx;
+          height: 60rpx;
+          margin-bottom: 10rpx;
+        }
+         .attandence-num {
+          color: #ccc;
+          font-size: 28rpx;
+        }
+      }
+      .active {
+        background-color: #dce6e6;
+      }
+    }
+  };
+  .scroll-h {
+    height: calc(100vh - 700rpx);
+    background-color: #fff;
+    .list {
+      width: 20%;
+      float: left;
+      padding: 15rpx 25rpx;
+      font-size: 26rpx;
       image {
         width: 50rpx;
         height: 50rpx;
-        margin-right: 10rpx;
         border-radius: 50%;
       }
     }
-    .record-box {
-      background-color:#f2f8fe;
-      .attandence-box {
-        height: 425rpx;
-        .attandence-info {
-          width: 29.8%;
-          float: left;  
-          background-color: #fff;
-          margin: 15rpx 0 5rpx 20rpx;
-          padding: 20rpx 0;
-          border-radius: 15rpx;
-          image {
-            width: 60rpx;
-            height: 60rpx;
-            margin-bottom: 10rpx;
-          }
-          .attandence-num {
-            color: #ccc;
-            font-size: 28rpx;
-          }
-        }
-        :nth-child(3n) {
-          border-right: none;
-        }
-      }
-    }
-  .scroll-h {
-    height: 70vh;
-    .list {
-      padding: 15rpx 25rpx;
-      image {
-        width: 60rpx;
-        height: 60rpx;
-      }
-    }
-  }
-  .scroll {
-    height: calc(100vh - 620rpx);
-    background-color: #fff;
-    margin-top: 15rpx;
   }
 }
+
 </style>

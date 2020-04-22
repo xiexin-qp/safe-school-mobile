@@ -13,7 +13,9 @@ let homeApi = {
   classDayStaticDetail: '/attendance/mobile/class/day/static/detail#get', // 学生的考勤,查询某一天具体状态的学生详情
   studentMonthRecord: '/attendance/mobile/student/month/record#get', // 考勤记录,查询一个月学生的考勤记录
   studentMonthStatic: '/attendance/mobile/student/month/static#get', // 考勤记录,查询某月学生的出勤统
-  childStaticDetail: '/attendance/mobile/child/month/static/detail#get' // 孩子考勤,查询孩子某月的状态天数
+  childStaticDetail: '/attendance/mobile/child/month/static/detail#get', // 孩子考勤,查询孩子某月的状态天数
+  classStatic: '/attendance/mobile/class/month/static#get', // 学生的统计,查询某月学生的出勤统计
+  classStaticDetail: '/attendance/mobile/class/month/static/detail#get' // 学生的统计,查询一个月学生各种状态的学生
 }
 
 for (let val in homeApi) {
