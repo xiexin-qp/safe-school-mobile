@@ -68,7 +68,6 @@ export default {
   methods: {
     async detailGet (id) {
       const res = await actions.studentLeaveDetail(id)
-      console.log('----',res)
       this.dayInfo = res.data
     }
   }

@@ -44,19 +44,6 @@ export default {
     return {
       person,
       normal,
-      dayInfo: [
-        {
-          id:1,
-          workOnTime:'2020-03-30',
-          recordOnTime:'2020-03-30',
-          stateOn:1
-        }
-      ],
-      leaveList: [],
-      exceptionList: [],
-      zcList: [],
-      currentDay: '',
-      isOther: false,
       dataList: [],
       attandenceInfo:[],
 			lastMonth: this.lastFiveMonth(),
@@ -128,13 +115,13 @@ export default {
         num:  `${res.data.noRecord}天`
       }]
 		},
-    async detail (item) {
+    async detail (item, tag = false) {
       this.num = item.num
       if (item.num !== '0次' && item.num !== '0天') {
         if (tag) {
-          this.pageList.page += 1;
+          this.pageList.page += 1
         } else {
-          this.pageList.page = 1;
+          this.pageList.page = 1
         }
         const req = {
           month: this.yearTitle,
@@ -145,9 +132,9 @@ export default {
         }
         const res = await actions.childStaticDetail(req)
         if (tag) {
-          this.dataList = this.dataList.concat(res.data.list)
+          this.dataList = this.dataList.concat(res.data)
         } else {
-          this.dataList = res.data.list
+          this.dataList = res.data
         }
         this.morePage = res.data.hasNextPage
         this.$refs.popup.open()
@@ -159,7 +146,7 @@ export default {
 				return
 			}
 			this.detail(this.num, true)
-		},
+		}
   }
 }
 </script>
