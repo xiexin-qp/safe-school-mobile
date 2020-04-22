@@ -185,19 +185,14 @@ export default {
 				this.pageList.page += 1;
 			} else {
 				this.pageList.page = 1;
-			}
+      }
       const req = {
-        applicantCode: '',
-        applicantName: '',
-        schoolCode: store.userInfo.schoolCode,
+        applicantCode: store.userInfo.userCode,
         state: value1,
-        startTime: '' ,
-        endTime: '',
         page: this.pageList.page,
         size: this.pageList.size,
-        orgCode: '',
-        outSchool: '',
-        userName: '',
+        userName: store.userInfo.userName,
+        userCode: store.userInfo.userCode,
         reasonId: this.value0 ===  '0' ? '' : this.value0,
         day: this.value2 === '0' ? '' : this.value2
       }
