@@ -4,8 +4,8 @@
 			<image :src="logo" class="logo"></image>
 		</view>
 		<view class="qui-fx-ac login-tab">
-			<view class="">密码登录</view>
-			<view class="">短信登录</view>
+			<view @click="changTab(1)" class="qui-fx-f1 qui-tx-c" :class="{'act': type === 1}">密码登录</view>
+			<view @click="changTab(0)" class="qui-fx-f1 qui-tx-c" :class="{'act': type === 0}">短信登录</view>
 		</view>
 		<view class="qui-fx-ac input-box">
 			<input type="number" v-model="phone" class="item-input"  placeholder="请输入手机号" />
@@ -16,6 +16,9 @@
 		</view>
 		<view class="login-btn" @click="login">
 			<text>登录</text>
+		</view>
+		<view class="login-btn" @click="loginTest">
+			<text>登录测试</text>
 		</view>
 		<view @click="toReg" class="register">家长注册 ></view>
 	</view>
@@ -30,6 +33,7 @@ import vConsole from 'vconsole'
 export default {
 	data() {
 		return {
+			type: 1, // 密码
 			phone: '',
 			code: '',
 			logo,
@@ -60,6 +64,15 @@ export default {
 		})
 	},
 	methods: {
+		loginTest () {
+			setStore({
+				key: 'userInfo',
+				data: {}
+			})
+			this.$tools.navTo({
+				url: './index'
+			})
+		},
 		// 获取openid
 		async getOpenid () {
 			const url = window.location.href
@@ -159,11 +172,16 @@ export default {
 			display: block;
 		}
 		.login-tab {
-			width: 360rpx;
+			width: 60%;
 			height: 68rpx;
 			border-radius: 6rpx;
 			margin: 0 auto;
-			background-color: $main-color;
+			background-color: #ccc;
+			color:#444;
+			&.act {
+				background-color: $main-color;
+				color:#fff;
+			}
 		}
 		.input-box {
 			width: 80%;
