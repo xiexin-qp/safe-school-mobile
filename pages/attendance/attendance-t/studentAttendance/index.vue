@@ -62,8 +62,7 @@ export default {
 		async showList () {
       const req = {
         teacherCode: store.userInfo.userCode,
-        day: '2020-04-09'
-        // day: this.day
+        day: this.day
 			}
       const res = await actions.classDayStatic(req)
 			this.attandenceInfo = [{
@@ -93,7 +92,6 @@ export default {
       }]
     },
     change (data) {
-      console.log('data',data.fulldate)
       this.day = data.fulldate
       this.showList()
     },
@@ -101,13 +99,12 @@ export default {
       this.num = item.num
       if (item.num !== 0) {
         if (tag) {
-          this.pageList.page += 1;
+          this.pageList.page += 1
         } else {
-          this.pageList.page = 1;
+          this.pageList.page = 1
         }
         const req = {
-         day: '2020-04-09',
-        // day: this.day
+          day: this.day,
           teacherCode: store.userInfo.userCode,
           state: item.state,
           page: this.pageList.page,
@@ -115,21 +112,21 @@ export default {
         }
         const res = await actions.classDayStaticDetail(req)
         if (tag) {
-          this.appointList = this.appointList.concat(res.data)
+          this.dataList = this.dataList.concat(res.data)
         } else {
-          this.appointList = res.data
+          this.dataList = res.data
         }
-			  this.morePage = res.data.hasNextPage;
+			  this.morePage = res.data.hasNextPage
         this.$refs.popup.open()
       }
     },
     loadMore() {
 			if (!this.morePage) {
-				this.$tools.toast('数据已加载完毕');
-				return;
+				this.$tools.toast('数据已加载完毕')
+				return
 			}
 			this.detail(this.num, true)
-		},
+		}
 	}
 };
 </script>

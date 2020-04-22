@@ -15,14 +15,13 @@
                 { 'normal-title': dayInfo.onState === 1 },
                 { 'absence-title': dayInfo || dayInfo.onState === 3 }, 
                 'work-title']"> {{dayInfo.onState | getState}}</view>
-              <view v-else class="absence-title"> 缺卡 </view>
           </view>
           <view>
             <image :src="(dayInfo && dayInfo.onSnacpUrl) ? dayInfo.onSnacpUrl : person"></image>
           </view>
         </view>
         <view class="work-box qui-fx-jsb">
-          <view class="work-title">
+          <view>
             <view v-if="dayInfo && dayInfo.offWorkTime"> 下班打卡 {{ dayInfo.offWorkTime | gmtToDate('time') }} </view>
             <view v-else> 下班打卡 --:-- </view>
             <view v-if="dayInfo && dayInfo.offState" 
@@ -31,7 +30,6 @@
                 { 'normal-title': dayInfo.offState === 1 },
                 { 'absence-title': dayInfo || dayInfo.offState === 3 }, 
                 'work-title']"> {{dayInfo.offState | getState}}</view>
-              <view v-else class="absence-title"> 缺卡 </view>
           </view>
           <view>
             <image :src="(dayInfo && dayInfo.offSnacpUrl) ? dayInfo.offSnacpUrl : person"></image>
@@ -68,14 +66,12 @@ export default {
     async showList (tag = false) {
       const req ={
         userCode: store.userInfo.userCode,
-        day: '2020-04-09'
-        // day: this.day
+        day: this.day
       }
       const res = await actions.getTeacherAttendance(req)
       this.dayInfo = res.data
     },
     change (data) {
-      console.log('data',data.fulldate)
       this.day = data.fulldate
       this.showList()
     }

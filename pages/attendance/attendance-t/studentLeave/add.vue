@@ -171,7 +171,6 @@
         this.leaveInfo.outSchool = e.target.value
       },
       dateChange (e, type) {
-       console.log('type',type)
         if (type === 1) {
           this.leaveInfo.startDate = e.target.value;
         } else if (type === 2) {
@@ -252,11 +251,7 @@
           userName: store.userInfo.studentName,
           userCode: store.userInfo.studentCode,
           schoolCode: store.userInfo.schoolCode,
-          orgName: store.userInfo.orgName,
-          // gradeId: '',
-          // gradeName: '',
-          // classId : '',
-          // className: '',
+          orgName: store.userInfo.orgName
         }
         if (this.oddNumbers) {
           actions.updateStudentLeave({
@@ -278,7 +273,6 @@
             })
           })
         }
-        
       }
     }
 	}

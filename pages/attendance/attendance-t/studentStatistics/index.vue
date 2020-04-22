@@ -50,19 +50,6 @@ export default {
     return {
       person,
       normal,
-      dayInfo: [
-        {
-          id:1,
-          workOnTime:'2020-03-30',
-          recordOnTime:'2020-03-30',
-          stateOn:1
-        }
-      ],
-      leaveList: [],
-      exceptionList: [],
-      zcList: [],
-      currentDay: '',
-      isOther: false,
       dataList: [],
       attandenceInfo:[],
       pageList: {
@@ -126,11 +113,11 @@ export default {
         }
         const res = await actions.childStaticDetail(req)
         if (tag) {
-          this.dataList = this.dataList.concat(res.data);
+          this.dataList = this.dataList.concat(res.data)
         } else {
           this.dataList = res.data
         }
-			  this.morePage = res.data.hasNextPage;
+			  this.morePage = res.data.hasNextPage
         this.$refs.popup.open()
       }
     },

@@ -44,19 +44,6 @@ export default {
     return {
       person,
       normal,
-      dayInfo: [
-        {
-          id:1,
-          workOnTime:'2020-03-30',
-          recordOnTime:'2020-03-30',
-          stateOn:1
-        }
-      ],
-      leaveList: [],
-      exceptionList: [],
-      zcList: [],
-      currentDay: '',
-      isOther: false,
       dataList: [],
       attandenceInfo:[],
 			lastMonth: this.lastFiveMonth(),
@@ -155,10 +142,10 @@ export default {
     },
     loadMore() {
 			if (!this.morePage) {
-				this.$tools.toast('数据已加载完毕');
-				return;
+				this.$tools.toast('数据已加载完毕')
+				return
 			}
-			this.detail(this.num, true);
+			this.detail(this.num, true)
 		},
   }
 }
