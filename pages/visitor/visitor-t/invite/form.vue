@@ -93,10 +93,10 @@ export default {
 		this.type = options.id;
 	},
 	computed: {},
-	created() {
-		this.getCause();
+	created() {	
 	},
 	async mounted() {
+		await this.getCause();
 		if (this.id) {
 			const res = await actions.getInviteDetail(this.id);
 			if (!res.data.id) {
@@ -110,10 +110,8 @@ export default {
 			this.formData.startTime = this.$tools.getDateTime(res.data.accessStartTime).split(' ')[1];
 			this.formData.endDate = this.$tools.getDateTime(res.data.accessEndTime).split(' ')[0];
 			this.formData.endTime = this.$tools.getDateTime(res.data.accessEndTime).split(' ')[1];
-			this.causeNameList.forEach((item, i) => {
-				if (item === res.data.causeName) {
-					this.formData.cause = i;
-				}
+			this.formData.cause = this.causeNameList.findIndex(item => {
+				return item === res.data.causeName
 			});
 		}
 	},
@@ -169,7 +167,7 @@ export default {
 					respondentName: store.userInfo.userName,
 					causeId: cause.value,
 					causeName: cause.text,
-					id: this.type === '0' ? this.id : null,
+					id: this.id,
 					type: 1,
 					respondentType: 1
 				};
