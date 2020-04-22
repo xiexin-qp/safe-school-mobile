@@ -4,17 +4,17 @@
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view>被访人学校：</view>
 				<view class="qui-fx-f1 qui-fx-je">
-					<picker mode="selector" :value="formData.school" :range="schoolNameList" @change="chooseSchool">{{ schoolNameList[formData.school] || '请选择' }}</picker>
+					<picker :disabled="disabledTag" mode="selector" :value="formData.school" :range="schoolNameList" @change="chooseSchool">{{ schoolNameList[formData.school] || '请选择' }}</picker>
 				</view>
 				<view>></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view>被访人姓名：</view>
-				<view class="qui-fx-f1"><input class="item-input" v-model="formData.visitorName" style="text-align: right;" placeholder="请输入" /></view>
+				<view class="qui-fx-f1"><input :disabled="disabledTag" class="item-input" v-model="formData.visitorName" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view>被访人手机号：</view>
-				<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" /></view>
+				<view class="qui-fx-f1 qui-fx-je"><input :disabled="disabledTag" class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view>预计到达时间：</view>
@@ -62,10 +62,14 @@ export default {
 	},
 	data() {
 		return {
+			disabledTag: false,
 			causeNameList: [],
 			causeList: [],
-			schoolNameList: [],
-			schoolList: [],
+			schoolNameList: ['全品中学'],
+			schoolList: [{
+					text: '全品中学',
+					value: 'CANPOINT11'
+				}],
 			id: '',
 			type: '', // 0-修改  1-再次邀约
 			formInfo: {},
@@ -100,6 +104,7 @@ export default {
 			if (!res.data.id) {
 				return;
 			}
+			this.disabledTag = true;
 			this.formData.visitorName = res.data.visitorName;
 			this.formData.address = res.data.address;
 			this.formData.phone = res.data.visitorMobile;
@@ -184,7 +189,7 @@ export default {
 				};
 				actions.verifUser(yzreq).then(res => {
 					if (!res.data) {
-						this.$toast('该手机号不是该校教职工');
+						this.$tools.toast('该手机号不是该校教职工');
 						return;
 					}
 					const req = {

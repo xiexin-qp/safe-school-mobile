@@ -3,11 +3,11 @@
 		<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view>访客姓名：</view>
-				<view class="qui-fx-f1"><input class="item-input" v-model="formData.visitorName" style="text-align: right;" placeholder="请输入" /></view>
+				<view class="qui-fx-f1"><input :disabled="disabledTag" class="item-input" v-model="formData.visitorName" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view>访客手机：</view>
-				<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" /></view>
+				<view class="qui-fx-f1 qui-fx-je"><input :disabled="disabledTag" class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view>预计到达时间：</view>
@@ -69,6 +69,7 @@ import { store, actions } from '../store/index.js';
 export default {
 	data() {
 		return {
+			disabledTag: false,
 			causeNameList: [],
 			causeList: [],
 			id: '',
@@ -93,8 +94,7 @@ export default {
 		this.type = options.id;
 	},
 	computed: {},
-	created() {	
-	},
+	created() {},
 	async mounted() {
 		await this.getCause();
 		if (this.id) {
@@ -102,6 +102,7 @@ export default {
 			if (!res.data.id) {
 				return;
 			}
+			this.disabledTag = true;
 			this.formData.visitorName = res.data.visitorName;
 			this.formData.address = res.data.address;
 			this.formData.phone = res.data.visitorMobile;
@@ -111,7 +112,7 @@ export default {
 			this.formData.endDate = this.$tools.getDateTime(res.data.accessEndTime).split(' ')[0];
 			this.formData.endTime = this.$tools.getDateTime(res.data.accessEndTime).split(' ')[1];
 			this.formData.cause = this.causeNameList.findIndex(item => {
-				return item === res.data.causeName
+				return item === res.data.causeName;
 			});
 		}
 	},
@@ -167,19 +168,19 @@ export default {
 					respondentName: store.userInfo.userName,
 					causeId: cause.value,
 					causeName: cause.text,
-					id: this.id,
+					id: this.type === '0' ? this.id : null,
 					type: 1,
 					respondentType: 1
 				};
 				console.log(req);
 				const res = await actions.addInviteInfo(req);
 				this.$tools.toast('提交成功', 'success');
-				this.$tools.goNext(()=>{
+				this.$tools.goNext(() => {
 					this.$tools.navTo({
 						url: './index',
 						title: '来访邀约'
 					});
-				})
+				});
 			}
 		},
 		dateChange(e, type) {
@@ -195,8 +196,7 @@ export default {
 			this.formData.accessStartTime = this.formData.startDate + ' ' + this.formData.startTime;
 			this.formData.accessEndTime = this.formData.endDate + ' ' + this.formData.endTime;
 			console.log(new Date(this.formData.accessStartTime).getTime());
-			this.formData.duration =
-				parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
+			this.formData.duration = parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
 		},
 		chooseCause(e) {
 			this.formData.cause = e.target.value;

@@ -17,12 +17,13 @@ const localData = uni.getStorageSync(projectName) || '{}'
 const getState = (state, val) => {
   return JSON.parse(localData)[state] || val
 }
+
 const store = Vue.observable({
 	userInfo: {
-		schoolCode: 'CANPOINT',
+		schoolCode: 'CANPOINT11',
 		openid: 'ggg',
-		userCode: 'FK14eladeg2cb9b',
-		userName: '李白',
+		userCode: 'FK14j9iv07sc05p',
+		userName: '张鹏',
 		registPhoto: 'http://192.169.1.11/b.jpg',
 		visitorMobile: '18709876789'
 	}

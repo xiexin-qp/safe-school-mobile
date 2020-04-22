@@ -18,13 +18,7 @@ const getState = (state, val) => {
   return JSON.parse(localData)[state] || val
 }
 const store = Vue.observable({
-  tabIndex: 0,
-  enjoyApp: getState('enjoyApp', []),
-  userInfo: {
-  	schoolCode: 'CANPOINT',
-  	userCode: 'Ukjimoo909n',
-  	userName: '李清照'
-  }
+  userInfo: JSON.parse(uni.getStorageSync('protal')).userInfo
 })
 
 // 修改数据
