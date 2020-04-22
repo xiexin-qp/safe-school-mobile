@@ -27,10 +27,6 @@ export default {
 				},
 				{
 					id: 2,
-					name: '消息'
-				},
-				{
-					id: 3,
 					name: '我的'
 				}
 			]

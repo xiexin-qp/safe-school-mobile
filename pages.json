@@ -22,6 +22,9 @@
 		,{
 				"path" : "pages/protal/register",
 				"style" : {}
+		},{
+				"path" : "pages/protal/bindChild",
+				"style" : {}
 		},
 		// 新闻公告
 		{

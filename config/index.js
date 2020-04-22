@@ -4,46 +4,43 @@
  */
 
 const ConfigEnv = process.env.NODE_ENV
-let hostEnv = ''
-let zxprotal = ''
-let lz = ''
-let zk = ''
-let zx = ''
-let mj = ''
-let apply = ''
-let zkschool = ''
-let lzadmin = ''
+let zx_mobile_user = ''
+let wxz_contorl = ''
+let zk_school = ''
+let zk_leave = ''
+let zx_visitor = ''
+let zx_door = ''
+let lz_attendance = ''
+let lz_user_center = ''
 
 if (ConfigEnv === 'production') {
-	hostEnv = ''
-	zxprotal = ''
-	lz = '/lz'
-	zk = '/zk'
-	zkschool = '/zkschool'
-	lzadmin = ''
-	zx = '/zx'
-	mj = '/mj'
-	apply = '/apply'
+	zx_mobile_user = '/zx_mobile_user'
+	wxz_contorl = '/wxz_contorl'
+	zk_school = '/zk_school'
+	zk_leave = '/zk_leave'
+	zx_visitor = '/zx_visitor'
+	zx_door = '/zx_door'
+	lz_attendance = '/lz_attendance'
+	lz_user_center = '/lz_user_center'
 } else if (ConfigEnv === 'development') {
-	hostEnv = ''
-	zxprotal = '/zxprotal'
-	lz = '/lz'
-	zk = '/zk'
-	zkschool = '/zkschool'
-	lzadmin = '/lzadmin'
-	zx = '/zx'
-	mj = '/mj'
-	apply = '/apply'
+	zx_mobile_user = '/zx_mobile_user'
+	wxz_contorl = '/wxz_contorl'
+	zk_school = '/zk_school'
+	zk_leave = '/zk_leave'
+	zx_visitor = '/zx_visitor'
+	zx_door = '/zx_door'
+	lz_attendance = '/lz_attendance'
+	lz_user_center = '/lz_user_center'
 }
 
 export default {
-	hostEnv,
-	zxprotal,
-	lz,
-	lzadmin,
-	zk,
-	zkschool,
-	zx,
-	mj,
-	apply
+	zx_mobile_user,
+  wxz_contorl,
+  zk_school,
+  zk_leave,
+  zx_visitor,
+  zx_door,
+  lz_attendance,
+  lz_user_center
 }
+

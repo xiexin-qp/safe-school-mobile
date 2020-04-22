@@ -21,15 +21,11 @@
 		    <text>手机号：</text>
 		    <text class="qui-fx-f1 qui-tx-r">18702707106</text>
 		  </view>
-		  <view class="item qui-fx-jsb qui-bd-b">
-		    <text>密码：</text>
-		    <text>******</text>
-		  </view>
 		</view>
     <view class="person-item">
       <view class="item qui-fx-jsb qui-bd-b">
         <text>我的身份：</text>
-        <text class="qui-fx-f1 qui-tx-r">班主任</text>
+        <text class="qui-fx-f1 qui-tx-r" @click="changeType">班主任</text>
 				<view class="rit-icon"></view>
       </view>
       <view class="item qui-fx-jsb qui-bd-b">
@@ -38,7 +34,6 @@
       </view>
     </view>
     <view class="mine-btn school">切换学校</view>
-    <view class="mine-btn quit">退出登录</view>
   </view>
 </template>
 
@@ -52,6 +47,15 @@
     },
 		computed: {
 			userInfo: () => store.userInfo
+		},
+		methods: {
+			// 切换身份
+			changeType () {
+				const arr = ['教职工', '家长']
+				this.$tools.actionsheet(arr, (index) => {
+				  console.log(arr[index])
+				})
+			}
 		}
   }
 </script>

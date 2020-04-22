@@ -85,62 +85,60 @@
 			"https": false,
 			"port": "",
 			"proxy": {
-				"lzadmin": {
-					"target": "http://192.168.1.170:1010/", // 吕卓-应用管理平台
+				"/zx_mobile_user": {
+					"target": "http://192.168.1.24:10166/", // 朱旭-移动端用户系统
 					"changeOrigin": true,
 					"pathRewrite": {
-						"^/lzadmin": ""
+						"^/zx_mobile_user": ""
 					}
 				},
-				"/zkschool": {
-					"target": "http://192.168.1.23:10050/", // 张坤学校管理
+				"/wxz_control": {
+					"target": "http://192.168.1.123:10090/", // 王选章-控制中心
 					"changeOrigin": true,
 					"pathRewrite": {
-						"^/zkschool": ""
+						"^/wxz_control": ""
 					}
 				},
-				"/zxprotal": {
-					"target": "http://192.168.1.24:10166/", // 朱旭-个人中心移动业务系统
+				"/zk_school": {
+					"target": "http://192.168.1.23:10050/", // 张坤-学校管理
 					"changeOrigin": true,
 					"pathRewrite": {
-						"^/zxprotal": ""
+						"^/zk_school": ""
 					}
 				},
-				"/lz": {
-					"target": "http://39.97.164.4:10091/", // 吕卓
+				"/zk_leave": {
+					"target": "http://192.168.1.23:10054/", // 张坤-校历请假
 					"changeOrigin": true,
 					"pathRewrite": {
-						"^/lz": ""
+						"^/zk_leave": ""
 					}
 				},
-				"/zk": {
-					"target": "http://pugai.natapp1.cc/", // 张坤
+				"/zx_door": {
+					"target": "http://192.168.1.24:10163/", // 朱旭-门禁系统
 					"changeOrigin": true,
 					"pathRewrite": {
-						"^/zk": ""
+						"^/zx_door": ""
 					}
 				},
-				"/zx": {
-					"target": "http://39.97.164.4:10160/", // 朱旭
-
-					// target: 'http://192.168.1.24:10160/',
+				"/zx_visitor": {
+					"target": "http://192.168.1.24:10160/", // 朱旭-访客系统
 					"changeOrigin": true,
 					"pathRewrite": {
-						"^/zx": ""
+						"^/zx_visitor": ""
 					}
 				},
-				"/mj": {
-					"target": "http://39.97.164.4:10162/", //朱旭门禁
+				"/lz_attendance": {
+					"target": "http://192.168.1.170:11004/", // 吕卓-考勤
 					"changeOrigin": true,
 					"pathRewrite": {
-						"^/mj": ""
+						"^/lz_attendance": ""
 					}
 				},
-				"/apply": {
-					"target": "http://112.125.89.37:1010/", // 应用管理平台 文件上传
+				"/lz_user_center": {
+					"target": "http://192.168.1.170:11002/", // 吕卓-用户中心
 					"changeOrigin": true,
 					"pathRewrite": {
-						"^/apply": ""
+						"^/lz_user_center": ""
 					}
 				}
 			}

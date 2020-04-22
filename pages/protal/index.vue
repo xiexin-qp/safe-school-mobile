@@ -2,14 +2,16 @@
 	<view class="qui-page login">
 		<view><image :src="logo" class="logo"></image></view>
 		<view class="qui-fx-ac login-tab">
-			<view @click="changTab(1)" class="qui-fx-f1 qui-tx-c" :class="{ act: type === 1 }">密码登录</view>
-			<view @click="changTab(0)" class="qui-fx-f1 qui-tx-c" :class="{ act: type === 0 }">短信登录</view>
+			<view @click="changTab(1)" class="qui-fx-f1 qui-tx-c" :class="{ 'act': type === 1 }">密码登录</view>
+			<view @click="changTab(0)" class="qui-fx-f1 qui-tx-c" :class="{ 'act': type === 0 }">短信登录</view>
 		</view>
-		<view class="qui-fx-ac input-box">
+		<view v-if="type === 0" class="qui-fx-ac input-box">
 			<input type="number" v-model="phone" class="item-input" placeholder="请输入手机号" />
 			<view class="yzm" :class="{ act: total !== 5 }" @click="getYzm">{{ tip }}</view>
 		</view>
-		<view class="qui-fx-ac input-box"><input type="text" v-model="code" class="item-input" placeholder="请输入验证码" /></view>
+		<view v-if="type === 1" class="qui-fx-ac input-box"><input type="text" v-model="phone" class="item-input" placeholder="请输入手机号" /></view>
+		<view v-if="type === 1" class="qui-fx-ac input-box"><input type="password" v-model="code" class="item-input" placeholder="请输入密码" /></view>
+		<view v-if="type === 0" class="qui-fx-ac input-box"><input type="text" v-model="code" class="item-input" placeholder="请输入验证码" /></view>
 		<view class="login-btn" @click="login"><text>登录</text></view>
 		<view class="login-btn" @click="loginTest"><text>登录测试</text></view>
 		<view @click="toReg" class="register">家长注册 ></view>
@@ -30,7 +32,7 @@ export default {
 			code: '',
 			logo,
 			total: 5,
-			tip: '获取验证码'
+			tip: '获取验证码',
 		};
 	},
 	computed: {},
@@ -54,6 +56,10 @@ export default {
 		});
 	},
 	methods: {
+		changTab (type) {
+			this.type = type
+			this.code = ''
+		},
 		loginTest() {
 			setStore({
 				key: 'userInfo',
@@ -141,7 +147,7 @@ export default {
 				openid: this.openid,
 				passCode: this.code,
 				schoolCode: this.schoolCode,
-				type: 0
+				type: this.type
 			});
 			clearInterval(this.timer);
 			setStore({
@@ -172,11 +178,14 @@ export default {
 	.login-tab {
 		width: 60%;
 		height: 68rpx;
+		line-height: 68rpx;
 		border-radius: 6rpx;
 		margin: 0 auto;
+		overflow: hidden;
 		background-color: #ccc;
-		color: #444;
-		&.act {
+		color: #666;
+		.act {
+			height: 68rpx;
 			background-color: $main-color;
 			color: #fff;
 		}
