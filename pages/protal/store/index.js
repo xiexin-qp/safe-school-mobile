@@ -42,8 +42,16 @@ const store = Vue.observable({
 		}
 	],
   enjoyApp: getState('enjoyApp', []),
-	userInfo: getState('userInfo', {}),
-	openid: getState('openid', []),
+	userInfo: getState('userInfo', {
+    userCode: 'U149jvwntgma42',
+    schoolCode: 'CANPOINT11',
+    studentCode: 'P14j688pfbugq1',
+    studentName: '',
+    userName: '',
+    orgName: '',
+    photoUrl: ''
+  }),
+	openid: getState('openid', [])
 })
 
 // 修改数据
