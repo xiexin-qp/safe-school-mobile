@@ -11,10 +11,10 @@
         <ms-dropdown-item v-model="value2" :list="dataList"></ms-dropdown-item>
       </ms-dropdown-menu>
     </view>
-    <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
+    <no-data msg="暂无数据~" v-if="leaveList.length === 0"></no-data>
+    <scroll-view v-else scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
       <view class="content">
         <view class="record-box">
-          <!-- <no-data msg="暂无考勤记录~" v-if="dayInfo.length === 0"></no-data> -->
           <view class="leave-box" v-for="(item,index) in leaveList" :key="index">
             <view class="leave-top qui-fx-jsb">
               <view class="leave-title"> {{ item.reason }} </view>

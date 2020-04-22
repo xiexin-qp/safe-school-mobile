@@ -3,6 +3,10 @@
 		<view>
 			<image :src="logo" class="logo"></image>
 		</view>
+		<view class="qui-fx-ac login-tab">
+			<view class="">密码登录</view>
+			<view class="">短信登录</view>
+		</view>
 		<view class="qui-fx-ac input-box">
 			<input type="number" v-model="phone" class="item-input"  placeholder="请输入手机号" />
 			<view class="yzm" :class="{'act': total !== 5}" @click="getYzm">{{ tip }}</view>
@@ -20,8 +24,9 @@
 <script>
 import logo from './assets/img/logo.png'
 import uniRequest from 'uni-request'
-import { setStore } from './store/index.js'
+import { setStore, actions } from './store/index.js'
 import vConsole from 'vconsole'
+
 export default {
 	data() {
 		return {
@@ -37,9 +42,11 @@ export default {
   components: {
   },
 	mounted () {
-		console.log('in')
-		new vConsole()
+		if (process.env.NODE_ENV === 'development') {
+			new vConsole()
+		}
 		this.getOpenid()
+		// 处理界面错位问题
 		document.body.addEventListener('focusin', () => {
 			this.isReset = false
 		});
@@ -57,15 +64,18 @@ export default {
 		async getOpenid () {
 			const url = window.location.href
 			const params = new URLSearchParams(url.substr(url.indexOf('?')).replace('#/', ''))
-			if (params.get('openid')) {
-				this.setOpenid(params.get('openid'))
+			this.schoolCode = params.get('schoolCode') || ''
+			// 本地测试使用
+			if (params.get('openid') || !params.get('code')) {
+				const openid = params.get('openid') || 'ojPaT0QK1z--3f-hUCHkKeDipIdw'
+				this.setOpenid(openid)
 				return
 			}
 			const code = params.get('code')
 			if (uni.getStorageSync('openid')) {
 				this.setOpenid(uni.getStorageSync('openid'))
 			} else {
-				const res = await uniRequest.get('http://canpointtest.com/getOpenid', {
+				const res = await uniRequest.get('/getOpenid', {
 				  params: {
 						code
 					}
@@ -77,6 +87,7 @@ export default {
 		},
 		// 存储openid
 		setOpenid (openid) {
+			this.openid = openid
 			setStore({
 				key: 'openid',
 				data: openid
@@ -86,32 +97,46 @@ export default {
 			var reg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
 			if (this.phone === '' || !reg.test(this.phone)) {
 				this.$tools.toast('请输入正确手机号')
-				return
+				return false
 			}
+			return true
 		},
-		getYzm () {
-			this.timer = setInterval(() => {
-				if (this.total === 1) {
-					this.tip = '获取验证码'
-					this.total = 5
-					clearInterval(this.timer)
-					return
-				}
-				this.total--
-				this.tip = `${this.total} s`
-			}, 1000)
+		async getYzm () {
+			if (!this.testPhone()) return
+			try {
+				const res = await actions.getCode(this.phone)
+				this.$tools.toast('验证码发送成功')
+				this.timer = setInterval(() => {
+					if (this.total === 1) {
+						this.tip = '获取验证码'
+						this.total = 5
+						clearInterval(this.timer)
+						return
+					}
+					this.total--
+					this.tip = `${this.total} s`
+				}, 1000)
+			} catch (err) {}
 		},
-		login () {
-			this.$tools.navTo({
-				title: '家长注册',
-				url: './main'
-			})
-			return
-			this.testPhone()
+		// 登录
+		async login () {
+			if (!this.testPhone()) return
 			if (this.code === '') {
 				this.$tools.toast('请输入验证码')
 				return
 			}
+			const res = await actions.login({
+				mobile: this.phone,
+				openid: this.openid,
+				passCode: this.code,
+				schoolCode: this.schoolCode,
+				type: 0
+			})
+			clearInterval(this.timer)
+			setStore({
+				key: 'userInfo',
+				data: res.data
+			})
 		},
 		toReg () {
 			this.$tools.navTo({
@@ -128,14 +153,21 @@ export default {
 		padding-top: 160rpx;
 		background-color: #fff;
 		.logo {
-			margin: 0 auto 140rpx auto;
+			margin: 0 auto 100rpx auto;
 			width: 428rpx;
 			height: 89rpx;
 			display: block;
 		}
+		.login-tab {
+			width: 360rpx;
+			height: 68rpx;
+			border-radius: 6rpx;
+			margin: 0 auto;
+			background-color: $main-color;
+		}
 		.input-box {
 			width: 80%;
-			margin: 80rpx auto;
+			margin: 60rpx auto 60rpx;
 			border-bottom: 1px #EEEEEE solid;
 		}
 		.item-input {
@@ -166,7 +198,7 @@ export default {
 			color: #fff;
 			text-align: center;
 			line-height: 80rpx;
-			margin: 60rpx auto;
+			margin: 80rpx auto;
 			border-radius: $radius;
 			letter-spacing: 4rpx;
 		}

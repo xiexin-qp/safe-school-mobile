@@ -137,16 +137,16 @@ const menuData = [
 										"icon": "http://canpoint.oss-cn-beijing.aliyuncs.com/2019/09/23/01230d1e873e4e2a863f7aff52b50f11.jpg",
 										"name": "学生统计-教职工"
 								},
-								{
-										"no": 9,
-										"code": "AU13y8fkf0it8qg",
-										"children": [],
-										"enable": true,
-										"levelType": 3,
-										"requestUrl": "/pages/attendance/attendance-t/studentStatistics/index",
-										"icon": "http://canpoint.oss-cn-beijing.aliyuncs.com/2019/09/23/01230d1e873e4e2a863f7aff52b50f11.jpg",
-										"name": "学生统计-教职工"
-								},
+								// {
+								// 		"no": 9,
+								// 		"code": "AU13y8fkf0it8qg",
+								// 		"children": [],
+								// 		"enable": true,
+								// 		"levelType": 3,
+								// 		"requestUrl": "/pages/attendance/attendance-t/studentStatistics/index",
+								// 		"icon": "http://canpoint.oss-cn-beijing.aliyuncs.com/2019/09/23/01230d1e873e4e2a863f7aff52b50f11.jpg",
+								// 		"name": "学生统计-教职工"
+								// },
 								{
 										"no": 10,
 										"code": "AU13y8f238qg",

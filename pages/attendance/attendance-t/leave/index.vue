@@ -14,10 +14,10 @@
         <ms-dropdown-item v-model="value2" :list="dataList"></ms-dropdown-item>
       </ms-dropdown-menu>
     </view>
-    <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore" >
+    <no-data msg="暂无数据~" v-if="leaveList.length === 0"></no-data>
+    <scroll-view v-else scroll-y="true" class="scroll-h" @scrolltolower="loadMore" >
       <view class="content">
         <view class="record-box">
-          <!-- <no-data msg="暂无考勤记录~" v-if="dayInfo.length === 0"></no-data> -->
           <view class="leave-box" v-for="(item,index) in leaveList" :key="index">
             <view class="leave-top qui-fx-jsb">
               <view class="leave-title"> {{ item.reason }} </view>
@@ -185,19 +185,14 @@ export default {
 				this.pageList.page += 1;
 			} else {
 				this.pageList.page = 1;
-			}
+      }
       const req = {
-        applicantCode: '',
-        applicantName: '',
-        schoolCode: store.userInfo.schoolCode,
+        applicantCode: store.userInfo.userCode,
         state: value1,
-        startTime: '' ,
-        endTime: '',
         page: this.pageList.page,
         size: this.pageList.size,
-        orgCode: '',
-        outSchool: '',
-        userName: '',
+        userName: store.userInfo.userName,
+        userCode: store.userInfo.userCode,
         reasonId: this.value0 ===  '0' ? '' : this.value0,
         day: this.value2 === '0' ? '' : this.value2
       }
@@ -228,8 +223,8 @@ export default {
         state: value1,
         page: this.pageList.page,
         size: this.pageList.size,
-        userCode: '',
-        userName: '',
+        userCode: store.userInfo.userCode,
+        userName: store.userInfo.userName,
         time: '',
         day: this.value2 === '0' ? '' : this.value2,
         reasonId: this.value0 ===  '0' ? '' : this.value0
@@ -261,8 +256,8 @@ export default {
         state: value1,
         page: this.pageList.page,
         size: this.pageList.size,
-        userCode: '',
-        userName: '',
+        userCode: store.userInfo.userCode,
+        userName: store.userInfo.userName,
         time: '',
         day: this.value2 === '0' ? '' : this.value2,
         reasonId: this.value0 ===  '0' ? '' : this.value0
