@@ -178,6 +178,10 @@
 			"style": {}
 		},
 		{
+			"path": "pages/attendance/attendance-t/studentStatistics/record",
+			"style": {}
+		},
+		{
 			"path": "pages/attendance/attendance-t/leave/detail",
 			"style": {}
 		},
