@@ -240,8 +240,8 @@
           outSchool: this.leaveInfo.outSchool,
           leaveCopyList: this.leaveCopyList,
           leaveApprovalAddDto:{
-            userCode: store.userInfo.teacherCode,
-            userName: store.userInfo.teacherName,
+            userCode: store.userInfo.userCode,
+            userName: store.userInfo.userName,
             photoUrl : store.userInfo.photoUrl
           },
           photoList: this.leaveInfo.photoList,

@@ -251,12 +251,7 @@
           remark: this.leaveInfo.remark,
           userName: store.userInfo.studentName,
           userCode: store.userInfo.studentCode,
-          schoolCode: store.userInfo.schoolCode,
-          // orgName: store.userInfo.orgName,
-          // gradeId: '',
-          // gradeName: '',
-          // classId : '',
-          // className: '',
+          schoolCode: store.userInfo.schoolCode
         }
         if (this.oddNumbers) {
           actions.updateStudentLeave({
