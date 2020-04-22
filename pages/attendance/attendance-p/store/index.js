@@ -12,28 +12,13 @@ function resultBack(res) {
 }
 
 // 响应式数据
-const projectName = 'door' // 此处写项目名作为存储值
+const projectName = 'attendance-p' // 此处写项目名作为存储值
 const localData = uni.getStorageSync(projectName) || '{}'
 const getState = (state, val) => {
   return JSON.parse(localData)[state] || val
 }
 const store = Vue.observable({
-  tabIndex: 0,
-  enjoyApp: getState('enjoyApp', []),
-  userInfo:{
-    userCode: 'abc',
-    userName: '张',
-    orgId: '',
-    orgName: '',
-    studentCode: 'xx1',
-    schoolCode: 'CC',
-    schoolCode1: 'GZ',
-    gradeId: '',
-    classId: '',
-    teacherName: 'zzz',
-    teacherCode: 'zzz',
-    photoUrl: 'zzz'
-  }
+  userInfo: JSON.parse(uni.getStorageSync('protal'))
 })
 
 // 修改数据

@@ -212,7 +212,7 @@
           keyword: '',
           orgCode: '',
           page: 1,
-          schoolCode: store.userInfo.schoolCode1,
+          schoolCode: store.userInfo.schoolCode,
           size: 100000
         }
         const res = await actions.getOrgUser(req)
@@ -287,9 +287,7 @@
           remark: this.leaveInfo.remark,
           userName: store.userInfo.userName,
           userCode: store.userInfo.userCode,
-          schoolCode: store.userInfo.schoolCode,
-          // orgId: store.userInfo.orgId,
-          // orgName: store.userInfo.orgName
+          schoolCode: store.userInfo.schoolCode
         }
         if (this.oddNumbers) {
           actions.updateTeacherLeave({
