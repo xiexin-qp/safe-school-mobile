@@ -19,6 +19,28 @@ const getState = (state, val) => {
 }
 const store = Vue.observable({
   tabIndex: 0,
+	relationShipList: [
+		{
+			id: 1,
+			relationShip: '爸爸'
+		},
+		{
+			id: 2,
+			relationShip: '妈妈'
+		},
+		{
+			id: 3,
+			relationShip: '爷爷'
+		},
+		{
+			id: 4,
+			relationShip: '奶奶'
+		},
+		{
+			id: 5,
+			relationShip: '其他'
+		}
+	],
   enjoyApp: getState('enjoyApp', []),
 	userInfo: getState('userInfo', {}),
 	openid: getState('openid', []),

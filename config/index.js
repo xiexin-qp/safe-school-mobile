@@ -5,33 +5,45 @@
 
 const ConfigEnv = process.env.NODE_ENV
 let hostEnv = ''
+let zxprotal = ''
 let lz = ''
 let zk = ''
-let zx= ''
-let mj= ''
-let apply= ''
+let zx = ''
+let mj = ''
+let apply = ''
+let zkschool = ''
+let lzadmin = ''
 
 if (ConfigEnv === 'production') {
 	hostEnv = ''
+	zxprotal = ''
 	lz = '/lz'
 	zk = '/zk'
+	zkschool = '/zkschool'
+	lzadmin = ''
 	zx = '/zx'
 	mj = '/mj'
 	apply = '/apply'
 } else if (ConfigEnv === 'development') {
-  hostEnv = ''
-  lz = '/lz'
-  zk = '/zk'
-  zx = '/zx'
-  mj = '/mj'
-  apply = '/apply'
+	hostEnv = ''
+	zxprotal = '/zxprotal'
+	lz = '/lz'
+	zk = '/zk'
+	zkschool = '/zkschool'
+	lzadmin = '/lzadmin'
+	zx = '/zx'
+	mj = '/mj'
+	apply = '/apply'
 }
 
 export default {
 	hostEnv,
-  lz,
-  zk,
-  zx,
-  mj,
-  apply
+	zxprotal,
+	lz,
+	lzadmin,
+	zk,
+	zkschool,
+	zx,
+	mj,
+	apply
 }

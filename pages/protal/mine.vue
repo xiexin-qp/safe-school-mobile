@@ -1,8 +1,8 @@
 <template>
   <view class="mine">
     <view class="person-bg qui-fx-jsb" style="background: url('http://canpointtest.com/mobile-protal/images_/person-bg.png') no-repeat; backgroundSize: 100% 100%">
-      <text>武汉全品文教</text>   
-      <text>2020/03/04</text>
+      <text>武汉全品文教</text>
+      <text>{{ date }}</text>
     </view>
     <view class="person-info">
       <view class="info qui-fx-ac-jc" style="background: url('http://canpointtest.com/mobile-protal/images_/person-info.png') no-repeat; backgroundSize: 100% 312rpx">
@@ -16,32 +16,43 @@
         </view>
       </view>
     </view>
+		<view class="person-item">
+		  <view class="item qui-fx-jsb qui-bd-b">
+		    <text>手机号：</text>
+		    <text class="qui-fx-f1 qui-tx-r">18702707106</text>
+		  </view>
+		  <view class="item qui-fx-jsb qui-bd-b">
+		    <text>密码：</text>
+		    <text>******</text>
+		  </view>
+		</view>
     <view class="person-item">
       <view class="item qui-fx-jsb qui-bd-b">
         <text>我的身份：</text>
-        <text>班主任</text>
+        <text class="qui-fx-f1 qui-tx-r">班主任</text>
+				<view class="rit-icon"></view>
       </view>
       <view class="item qui-fx-jsb qui-bd-b">
         <text>当前绑定：</text>
         <text>小学一年级一班</text>
       </view>
     </view>
-    <view class="mine-btn role">切换角色</view>
     <view class="mine-btn school">切换学校</view>
     <view class="mine-btn quit">退出登录</view>
   </view>
 </template>
 
 <script>
-  import personBg from './assets/img/personBg.png'
-  import personInfo from './assets/img/person-info.png'
+	import { store } from './store/index.js'
   export default {
     data () {
       return {
-        personBg,
-        personInfo
+				date: this.$tools.getDateTime().substr(0, 10)
       }
-    }
+    },
+		computed: {
+			userInfo: () => store.userInfo
+		}
   }
 </script>
 

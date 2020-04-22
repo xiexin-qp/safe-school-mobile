@@ -31,6 +31,10 @@ function responseRes (res) {
       resolve(res)
     } else if (res.code === 401) {
     } else {
+			uni.showToast({
+				title: res.message,
+				icon: 'none'
+			});
       reject(res)
     }
   })
@@ -49,6 +53,16 @@ const $ajax = {
       return responseRes(err)
     }
   },
+	async getUrl (obj, tag = true) {
+	  if (tag) showToast()
+	  try {
+	    let res = await uniRequest.get(obj.url)
+	    res = res.data
+	    return responseRes(res)
+	  } catch (err) {
+	    return responseRes(err)
+	  }
+	},
   async postForm (obj, tag = true) {
     if (tag) showToast()
     try {
@@ -59,7 +73,22 @@ const $ajax = {
       return responseRes(err)
     }
   },
+	async postQuery(obj, tag = true) {
+	  if (tag) showToast()
+	  let url = obj.url + '?'
+	  for (const key in obj.params) {
+	    url += key + '=' + obj.params[key] + '&'
+	  }
+	  try {
+	    let res = await uniRequest.post(url, qs.stringify({}))
+	    res = res.data
+	    return responseRes(res)
+	  } catch (err) {
+	    return responseRes(err.response.data)
+	  }
+	},
   async post (obj, tag = true) {
+		if (tag) showToast()
     try {
       let res = await axios({
         url: obj.url,
@@ -106,20 +135,6 @@ const $ajax = {
     }
     try {
       let res = await axios.delete(url, {})
-      res = res.data
-      return responseRes(res)
-    } catch (err) {
-      return responseRes(err.response.data)
-    }
-  },
-  async postQuery(obj, tag = true) {
-    if (tag) showToast()
-    let url = obj.url + '?'
-    for (const key in obj.params) {
-      url += key + '=' + obj.params[key] + '&'
-    }
-    try {
-      let res = await axios.post(url, qs.stringify({}))
       res = res.data
       return responseRes(res)
     } catch (err) {

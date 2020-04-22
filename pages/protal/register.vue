@@ -1,200 +1,238 @@
 <template>
-	<scroll-view scroll-y="true"  class="scroll-h">
+	<scroll-view scroll-y="true" class="scroll-h bg-fff">
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>学校：</view>
-				<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="schoolList[0]" :range="schoolList" @change="chooseItem">
-						{{ schoolList[0] }}
-				</picker>
+			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="schoolName" :range="schoolList" @change="chooseSchool">{{ schoolName }}</picker>
 			<view class="rit-icon"></view>
 		</view>
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>年级：</view>
-			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="gradeList[0]" :range="gradeList" @change="chooseItem">
-					{{ schoolList[0] }}
-			</picker>
+			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="gradeName" :range="gradeList" @change="chooseGrade">{{ gradeName }}</picker>
 			<view class="rit-icon"></view>
 		</view>
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>班级：</view>
-			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="classList[0]" :range="classList" @change="chooseItem">
-					{{ schoolList[0] }}
-			</picker>
+			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="className" :range="classList" @change="chooseClass">{{ className }}</picker>
 			<view class="rit-icon"></view>
 		</view>
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>孩子姓名：</view>
-			<view class="qui-fx-f1"><input class="item-input" v-model="formData.childName" placeholder="请输入姓名" /></view>
+			<view class="qui-fx-f1"><input class="item-input" v-model="formData.userName" placeholder="请输入姓名" /></view>
 		</view>
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view v-if="false" class="qui-fx-ac qui-bd-b item-list">
 			<view>孩子性别：</view>
 			<view class="qui-fx-f1 qui-fx-je col-666">
 				<radio-group @change="changeRadio">
-					<label><radio value="1" checked="true" />男</label>
-					<label class="radio"><radio value="2" />女</label>
+					<label>
+						<radio value="1" checked="true" />
+						男
+					</label>
+					<label class="radio">
+						<radio value="2" />
+						女
+					</label>
 				</radio-group>
 			</view>
 		</view>
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>孩子学号：</view>
-			<view class="qui-fx-f1 qui-fx-je">
-				<input class="item-input" v-model="formData.code" placeholder="请输入学号" />
-			</view>
+			<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.workNo" placeholder="请输入学号" /></view>
 		</view>
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>亲属关系：</view>
-			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="formData.relation" :range="role" @change="chooseItem">
-					{{role[formData.role] || '请选择'}}
-			</picker>
+			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="relationShip" :range="relationShipList" @change="chooseRelation">{{ relationShip }}</picker>
 			<view class="rit-icon"></view>
 		</view>
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>家长姓名：</view>
-			<view class="qui-fx-f1 qui-fx-je">
-				<input class="item-input" v-model="formData.parentName" placeholder="请输入姓名" />
-			</view>
+			<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.parentName" placeholder="请输入姓名" /></view>
 		</view>
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>手机号：</view>
-			<view class="qui-fx-f1 qui-fx-je">
-				<input class="item-input" v-model="formData.parentTel" placeholder="请输入手机号" />
-			</view>
+			<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.mobile" placeholder="请输入手机号" /></view>
 		</view>
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view v-if="false" class="qui-fx-ac qui-bd-b item-list">
 			<view>验证码：</view>
-			<view class="qui-fx-f1 qui-fx-je">
-				<input class="item-input" v-model="formData.code" placeholder="请输入验证码" />
-			</view>
+			<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.code" placeholder="请输入验证码" /></view>
 			<view class="yzm-btn">获取验证码</view>
 		</view>
-		<view class="submit-box">
-			注册
-		</view>
+		<view class="submit-box" @click="register">注册</view>
 		<view class="go-login" @click="goLogin">
-			已有账号,<span class="act">直接登录></span>
+			已有账号,
+			<span class="act">直接登录></span>
 		</view>
 	</scroll-view>
 </template>
 
 <script>
-	import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
-	export default {
-		data() {
-			return {
-				schoolList: ['请选择', '武汉全品', '宜昌外国语'],
-				gradeList: ['一年级', '二年级'],
-				classList: ['一班', '二班'],
-        role: ['家长', '班主任', '教职工'],
-        formInfo: {},
-        formData: {
-          childName: '',
-					childSex: '1',
-					childNo: '',
-					parentName: '',
-					parentTel: '',
-					school: '',
-					grade: '',
-					class: '',
-					relation: '',
-					code: ''
-        },
-				imgList: []
+import { store, actions } from './store/index.js';
+export default {
+	data() {
+		return {
+			schoolList: [],
+			schoolName: '请选择学校',
+			gradeList: [],
+			gradeName: '请选择班级',
+			classList: [],
+			className: '请选择年级',
+			relationShip: '请选择关系',
+			formInfo: {},
+			formData: {
+				userName: '',
+				workNo: '',
+				parentName: '',
+				mobile: '',
+				schoolCode: '',
+				gradeCode: '',
+				classCode: '',
+				relationShip: ''
 			}
+		}
+	},
+	components: {},
+	computed: {
+		relationShipList: () => store.relationShipList.map(item => item.relationShip)
+	},
+	async mounted() {
+		const res = await actions.getSchoolList({
+			page: 1,
+			size: 100
+		})
+		this.schoolTotal = res.data.list
+		this.schoolList = res.data.list.map(item => {
+			return item.schoolName
+		})
+	},
+	methods: {
+		// 返回登录
+		goLogin() {
+			this.$tools.navTo({
+				url: './index',
+				title: '平安校园'
+			});
 		},
-		components: {
-			anUploadImg
+		// 选择学校
+		async chooseSchool(item) {
+			const index = item.target.value
+			this.schoolName = this.schoolList[index]
+			this.formData.schoolCode = this.schoolTotal[index].schoolCode
+			const res = await actions.getGradeList({
+				schoolCode: this.formData.schoolCode,
+				page: 1,
+				size: 100
+			})
+			this.gradeTotal = res.data.list
+			this.gradeList = res.data.list.map(item => {
+				return item.name
+			})
 		},
-    computed: {
-    },
-    async mounted() {
-    },
-    methods: {
-			// 登录
-			goLogin () {
+		// 选择年级
+		async chooseGrade (item) {
+			const index = item.target.value
+			this.gradeName = this.gradeList[index]
+			this.formData.gradeCode = this.gradeTotal[index].code
+			const res = await actions.getClassList({
+				schoolCode: this.formData.schoolCode,
+				page: 1,
+				size: 100,
+				gradeCode: this.formData.gradeCode,
+				schoolYearId: ''
+			})
+			this.classTotal = res.data.list
+			this.classList = res.data.list.map(item => {
+				return item.className
+			})
+		},
+		// 选择班级
+		chooseClass (item) {
+			const index = item.target.value
+			this.className = this.classList[index]
+			this.formData.classCode = this.classTotal[index].classCode
+		},
+		// 选择关系
+		chooseRelation (item) {
+			const index = item.target.value
+			this.relationShip = this.relationShipList[index]
+			this.formData.relationShip = index + 1
+		},
+		// 注册
+		async register () {
+			console.log(this.formData)
+			for (let key in this.formData) {
+				if (!this.formData[key]) {
+					this.$tools.toast('请填写完整信息')
+					return
+				}
+			}
+			var reg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+			if (!reg.test(this.formData.mobile)) {
+				this.$tools.toast('请输入正确手机号')
+				return
+			}
+			await actions.parentAdd(this.formData)
+			this.$tools.toast('注册成功')
+			this.$tools.goNext(() => {
 				this.$tools.navTo({
-					url: './index',
-					title: '平安校园'
+					url: './index'
 				})
-			},
-			// 选择学校班级和年级
-			chooseItem (type) {
-			},
-      actionsheet () {
-        const arr = ['苹果', '梨子', '香蕉']
-        this.$tools.actionsheet(['苹果', '梨子', '香蕉'], (index) => {
-          console.log(arr[index])
-        })
-      },
-      changeRadio (e) {
-        this.formData.sex = e.target.value
-      },
-      switch1Change (e) {
-        this.formData.isMarry = e.target.value
-      },
-      bindTimeChange (e) {
-        this.formData.birthday = e.target.value
-      },
-      chooseRole (e) {
-        this.formData.role = e.target.value
-      },
-      checkboxChange (e) {
-        this.formData.healthy = e.target.value
-      }
-    }
+			})
+		}
 	}
+};
 </script>
 
 <style lang="scss">
-  .scroll-h {
-    height: 100vh;
-  }
-  .item-list {
-    padding: 28rpx 15rpx;
-  }
-  .item-input {
-    width: 100%;
-    font-size: 26rpx;
-    color: #666;
-		text-align: right;
-  }
-	.col-666 {
-		color:#999
+.scroll-h {
+	height: 100vh;
+}
+.item-list {
+	padding: 28rpx 15rpx;
+}
+.item-input {
+	width: 100%;
+	font-size: 26rpx;
+	color: #666;
+	text-align: right;
+}
+.col-666 {
+	color: #999;
+}
+.radio {
+	padding-left: 25rpx;
+}
+.checkbox {
+	padding: 30rpx 10px 10px 2px;
+}
+.yzm-btn {
+	background-color: $main-color;
+	height: 60rpx;
+	line-height: 60rpx;
+	width: 180rpx;
+	color: #fff;
+	margin-left: 30rpx;
+	text-align: center;
+	border-radius: 4rpx;
+}
+.submit-box {
+	margin: 50rpx 20rpx;
+	text-align: center;
+	padding: 0 20rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+	text-align: center;
+	letter-spacing: 8rpx;
+	background-color: $main-color;
+	color: #fff;
+	border-radius: $radius;
+}
+.go-login {
+	text-align: center;
+	color: #666;
+	padding-bottom: 40rpx;
+	letter-spacing: 2rpx;
+	.act {
+		padding-left: 6rpx;
+		color: $main-color;
 	}
-  .radio {
-    padding-left: 25rpx
-  }
-  .checkbox {
-    padding: 30rpx 10px 10px 2px;
-  }
-	.yzm-btn {
-		background-color: $main-color;
-		height: 60rpx;
-		line-height: 60rpx;
-		width: 180rpx;
-		color:#fff;
-		margin-left: 30rpx;
-		text-align: center;
-		border-radius: 4rpx;
-	}
-  .submit-box {
-		margin: 50rpx 20rpx;
-		text-align: center;
-		padding:0 20rpx;
-		height: 80rpx;
-		line-height: 80rpx;
-		text-align: center;
-		letter-spacing: 8rpx;
-		background-color: $main-color;
-		color:#fff;
-		border-radius: $radius;
-  }
-	.go-login {
-		text-align: center;
-		color: #666;
-		padding-bottom: 40rpx;
-		letter-spacing: 2rpx;
-		.act {
-			padding-left: 6rpx;
-			color: $main-color
-		}
-	}
+}
 </style>
