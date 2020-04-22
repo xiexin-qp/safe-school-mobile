@@ -26,7 +26,7 @@
       <scroll-view scroll-y="true" class="scroll">
         <steps></steps>
       </scroll-view>
-      </view>
+    </view>
     <uni-popup ref="popup" type="center">
      	<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
         <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">

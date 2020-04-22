@@ -1,6 +1,7 @@
 <template>
 	<view class="container">
-		<view class="set_box" v-for="(item,index) in attandenceInfo" :key="index">
+		<no-data v-if="attandenceInfo.length === 0" msg="暂无数据"></no-data>
+		<view v-else class="set_box" v-for="(item,index) in attandenceInfo" :key="index">
 			<view class="set_time">
 				<view>{{item.day | gmtToDate('date')}}</view>
 			</view>
