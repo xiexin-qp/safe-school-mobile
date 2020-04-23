@@ -42,6 +42,5 @@ export default {
   zx_door,
   lz_attendance,
   lz_user_center,
-  zx_doort
 }
 
