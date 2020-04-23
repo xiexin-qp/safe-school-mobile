@@ -23,7 +23,7 @@
      	<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
         <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
           <text> {{ list.userName }} </text>
-          <image :src="list.photoUrl ? photoUrl : person" mode=""></image>
+          <image :src="list.photoUrl ? list.photoUrl : person" mode=""></image>
         </view>
       </scroll-view>
     </uni-popup>
@@ -65,31 +65,60 @@ export default {
         day: this.day
 			}
       const res = await actions.classDayStatic(req)
-			this.attandenceInfo = [{
-        title: '正常',
-        state: '5',
-        num: res.data.normalCount
-      },{
-        title: '上学缺卡',
-        state: '3',
-        num: res.data.onNoRecordCount
-      },{
-        title: '迟到',
-        state: '1',
-        num: res.data.lateCount
-      },{
-        title: '早退',
-        state: '2',
-        num: res.data.earlyCount
-      },{
-        title: '放学缺卡',
-        state: '6',
-        num: res.data.offNoRecordCount
-      },{
-        title: '缺勤',
-        state: '7',
-        num: res.data.noRecord
-      }]
+      if ( res.data ) {
+        this.attandenceInfo = [{
+          title: '正常',
+          state: '5',
+          num: res.data.normalCount
+        },{
+          title: '上学缺卡',
+          state: '3',
+          num: res.data.onNoRecordCount
+        },{
+          title: '迟到',
+          state: '1',
+          num: res.data.lateCount
+        },{
+          title: '早退',
+          state: '2',
+          num: res.data.earlyCount
+        },{
+          title: '放学缺卡',
+          state: '6',
+          num: res.data.offNoRecordCount
+        },{
+          title: '缺勤',
+          state: '7',
+          num: res.data.noRecord
+        }]
+      } else {
+        this.attandenceInfo = [{
+          title: '正常',
+          state: '5',
+          num: 0
+        },{
+          title: '上学缺卡',
+          state: '3',
+          num: 0
+        },{
+          title: '迟到',
+          state: '1',
+          num: 0
+        },{
+          title: '早退',
+          state: '2',
+          num: 0
+        },{
+          title: '放学缺卡',
+          state: '6',
+          num: 0
+        },{
+          title: '缺勤',
+          state: '7',
+          num: 0
+        }]
+      }
+			
     },
     change (data) {
       this.day = data.fulldate
