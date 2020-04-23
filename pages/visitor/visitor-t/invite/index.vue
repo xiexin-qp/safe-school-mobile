@@ -60,11 +60,11 @@ export default {
 				{
 					text: '拒绝',
 					value: '2'
-				},
+				}/* ,
 				{
 					text: '撤销',
 					value: '3'
-				}
+				} */
 			],
 			pageList: {
 				page: 1,
