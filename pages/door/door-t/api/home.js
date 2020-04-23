@@ -17,7 +17,7 @@ let homeApi = {
 }
 
 for (let val in homeApi) {
-  homeApi[val] = `${hostEnv.mj}${homeApi[val]}`
+  homeApi[val] = `${hostEnv.zx_doort}${homeApi[val]}`
 }
 
 export default homeApi
