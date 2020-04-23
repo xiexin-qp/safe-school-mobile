@@ -2,6 +2,7 @@
   <view class="add">
     <scroll-view scroll-y="true" class="scroll-h">
       <view class="qui-fx-ac qui-bd-b item-list">
+        <view class="must">*</view>
 			  <view>请假学生：</view>
 			  <view class="qui-fx-f1  qui-fx-je">
 					{{leaveInfo.studentName}}
@@ -9,6 +10,7 @@
         <view @click="check(1)">></view>
 			</view>
       <view class="qui-fx-ac qui-bd-b item-list">
+        <view class="must">*</view>
         <view>请假类型：</view>
         <view class="qui-fx-f1 qui-fx-je">
           <picker mode="selector" :value="currentRole" :range="role" @change="chooseRole">
@@ -18,6 +20,7 @@
         <view>></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
+        <view class="must">*</view>
         <view>开始时间：</view>
         <view class="qui-fx-f1 qui-fx-je">
           <picker mode="date" :value="leaveInfo.startDate" @change="dateChange($event, 1)">
@@ -32,6 +35,7 @@
         <view>></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
+        <view class="must">*</view>
         <view>结束时间：</view>
         <view class="qui-fx-f1 qui-fx-je">
           <picker mode="date" :value="leaveInfo.endDate" @change="dateChange($event, 3)">
@@ -46,6 +50,7 @@
         <view>></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
+        <view class="must">*</view>
         <view>请假时长：</view>
         <view class="qui-fx-f1 qui-fx-je">{{ leaveInfo.duration }}小时</view>
       </view>
@@ -54,6 +59,7 @@
         <view class="qui-fx-f1"><textarea v-model="leaveInfo.remark" class="item-input" style="text-align: right;" placeholder="请输入描述" /></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
+        <view class="must">*</view>
         <view>是否出校：</view>
         <view class="qui-fx-f1 qui-fx-je">
           <radio-group @change="radioChange">
@@ -63,6 +69,7 @@
         </view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
+        <view class="must">*</view>
 			  <view>审批人：</view>
 			  <view class="qui-fx-f1  qui-fx-je">
           {{teacherName}}
@@ -87,7 +94,7 @@
       <view class="btn" @click="submit">提交</view>
     </view>
     <uni-popup ref="popup" type="center">
-      <scroll-view scroll-y="true" class="scroll"  @scrolltolower="loadMore">
+      <scroll-view scroll-y="true" class="scroll"  @scrolltolower="loadMore(1)">
         <view>
           <radio-group @change="radioUser">
             <label class="list qui-bd-b qui-fx-jsb" v-for="(item,index) in studentList" :key="index">
@@ -105,7 +112,7 @@
       </scroll-view>
     </uni-popup>
     <uni-popup ref="checkPopup" type="center">
-      <scroll-view scroll-y="true" class="scroll">
+      <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore(0)">
         <view>
           <checkbox-group @change="checkUser">
             <label  class="list qui-bd-b qui-fx-jsb" v-for="(item,index) in dataList" :key="index">
@@ -159,9 +166,14 @@
         teacherName: '',
         pageList: {
           page: 1,
-          size: 15
+          size: 11
         },
-        morePage: false
+        orgPageList: {
+          page: 1,
+          size: 11
+        },
+        morePage: false,
+        OrgMorePage: false
 			}
     },
     onLoad(options) {
@@ -197,12 +209,10 @@
           this.pageList.page = 1
         }
         const req = {
-          classId: store.userInfo.classCode,
-          gradeId: store.userInfo.gradeCode,
           page: this.pageList.page,
           size: this.pageList.size,
           schoolCode: store.userInfo.schoolCode,
-          schoolYearId: ''
+          headerTeacherId: store.userInfo.userCode
         }
         const res = await actions.getClassStudent(req)
         if (tag) {
@@ -211,14 +221,21 @@
           this.studentList = res.data.list
         }
 			  this.morePage = res.data.hasNextPage
-        console.log('getClassStudent',res)
       },
-      loadMore() {
-        if (!this.morePage) {
-          this.$tools.toast('数据已加载完毕')
-          return
+      loadMore (type) {
+        if (type) {
+          if (!this.morePage) {
+            this.$tools.toast('数据已加载完毕')
+            return
+          }
+            this.studentGet(true)
+        } else {
+          if (!this.OrgMorePage) {
+            this.$tools.toast('数据已加载完毕')
+            return
+          }
+            this.orgUserGet(true)
         }
-        this.studentGet(true)
       },
       async leaveReasonGet (type) {
         const res = await actions.getLeaveReason()
@@ -229,6 +246,9 @@
         })
         if (type) {
           this.currentRole = this.role.indexOf(this.leaveInfo.reason)
+        } else {
+          this.leaveInfo.reasonId = this.reasonList[0].id
+          this.leaveInfo.reason = this.reasonList[0].name
         }
       },
       radioChange (e) {
@@ -252,16 +272,26 @@
         this.leaveInfo.reasonId = this.reasonList[e.target.value].id
         this.leaveInfo.reason = this.reasonList[e.target.value].name
       },
-      async orgUserGet (){
+      async orgUserGet ( tag = false){
+        if (tag) {
+          this.orgPageList.page += 1
+        } else {
+          this.orgPageList.page = 1
+        }
         const req = {
           keyword: '',
           orgCode: '',
-          page: 1,
-          schoolCode: store.userInfo.schoolCode,
-          size: 100000
+          page: this.orgPageList.page,
+          size: this.orgPageList.size,
+          schoolCode: store.userInfo.schoolCode
         }
         const res = await actions.getOrgUser(req)
-        this.dataList = res.data.list
+        if (tag) {
+          this.dataList = this.dataList.concat(res.data.list)
+        } else {
+          this.dataList = res.data.list
+        }
+			  this.OrgMorePage = res.data.hasNextPage
       },
       check (type) {
         if (type) {
@@ -308,7 +338,7 @@
         // }
       },
       submit () {
-        if (this.outSchool === '') {
+        if (this.leaveInfo.outSchool === '') {
           this.$tools.toast('请选择是否出校')
           return false
         } else if (new Date(this.leaveInfo.endDate + ' ' + this.leaveInfo.endTime).getTime() <= new Date(this.leaveInfo.startDate + ' ' + this.leaveInfo.startTime).getTime()) {
@@ -367,6 +397,10 @@
   position: relative;
   .scroll-h {
     height: calc(100vh - 100rpx);
+  }
+  .must {
+    color: red;
+    margin-right: 5rpx;
   }
   .item-list {
     padding: 25rpx 15rpx;

@@ -7,7 +7,7 @@ import hostEnv from '../../../../config/index.js'
 
 let applyApi = {
   getOrgUser: '/userinfo/teacher/user/queryTeacherInfo#post', // 获取教职工信息列表
-  getClassStudent: '/student/class/list#post' // 班级学生列表查询
+  getClassStudent: '/classManage/query/bind/student#get' // 班级学生列表查询
 }
 
 for (let val in applyApi) {
