@@ -114,7 +114,7 @@
 					}
 				},
 				"/zx_door": {
-					"target": "http://192.168.1.24:10163/", // 朱旭-门禁系统
+					"target": "http://192.168.1.24:10162/", // 朱旭-门禁系统
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zx_door": ""
@@ -125,13 +125,6 @@
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zx_visitor": ""
-					}
-				},
-				"/zx_doort": {
-					"target": "http://192.168.1.24:10162/", // 朱旭-权限管理
-					"changeOrigin": true,
-					"pathRewrite": {
-						"^/zx_doort": ""
 					}
 				},
 				"/lz_attendance": {

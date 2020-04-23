@@ -65,11 +65,8 @@ export default {
 			disabledTag: false,
 			causeNameList: [],
 			causeList: [],
-			schoolNameList: ['全品中学'],
-			schoolList: [{
-					text: '全品中学',
-					value: 'CANPOINT11'
-				}],
+			schoolNameList: [],
+			schoolList: [],
 			id: '',
 			type: '', // 0-修改  1-再次邀约
 			formInfo: {},
@@ -134,7 +131,7 @@ export default {
 			});
 		},
 		async getCause() {
-			if (!this.schoolList[this.formData.school].value) {
+			if (!this.schoolList[this.formData.school]) {
 				this.$tools.toast('请选择拜访学校');
 			}
 			const req = {
@@ -237,6 +234,9 @@ export default {
 				parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
 		},
 		chooseSchool(e) {
+			if(!e.target.value){
+				return
+			}	
 			this.formData.school = e.target.value;
 			this.getCause()
 		},
