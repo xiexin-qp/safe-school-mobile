@@ -184,10 +184,10 @@ export default {
 							state: '1',
 							visitorCode: store.userInfo.userCode,
 							visitorName: store.userInfo.userName,
-							visitorMobile: store.userInfo.visitorMobile,
+							visitorMobile: store.userInfo.mobile,
 							schoolCode: store.userInfo.schoolCode,
-							openid: store.userInfo.openid,
-							registPhoto: store.userInfo.registPhoto,
+							openid: store.openid,
+							registPhoto: store.userInfo.photoUrl,
 							type: 1
 						};
 						console.log(req);
@@ -211,9 +211,9 @@ export default {
 					state: '2',
 					visitorCode: store.userInfo.userCode,
 					visitorName: store.userInfo.userName,
-					visitorMobile: store.userInfo.visitorMobile,
+					visitorMobile: store.userInfo.mobile,
 					schoolCode: store.userInfo.schoolCode,
-					openid: store.userInfo.openid,
+					openid: store.openid,
 					reason: this.refuseText,
 					type: 1
 				};
