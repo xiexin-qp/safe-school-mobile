@@ -11,14 +11,14 @@
     	</swiper>
     </view>
     <view class="enjoy">
-      <view @click="goApp" v-for="enjoy in enjoyApp.concat(addMore)" :key="enjoy.code" class="enjoy-list qui-fx-ac-jc">
+      <view @click="goApp(enjoy)" v-for="enjoy in enjoyApp.concat(addMore)" :key="enjoy.id" class="enjoy-list qui-fx-ac-jc">
         <view>
-          <img :src="enjoy.icon" alt="">
+          <img :src="enjoy.icon || appImg" alt="">
         </view>
         <text class="title">{{ enjoy.name.split('-')[0] }}</text>
       </view>
     </view>
-    <view class="todo">
+    <view class="todo" v-if="false">
       您还有5个待办事项需要处理, 请尽快处理...
     </view>
     <view class="tab-list">
@@ -37,12 +37,14 @@
 
 <script>
   import add from './assets/img/add.png'
+	import appImg from './assets/img/app.png'
   import newList from './component/new-list.vue'
   import notice from './component/notice.vue'
   import { setStore, store, actions } from './store/index.js' 
   export default {
     data () {
       return {
+				appImg,
         show: true,
         newsType: 0,
         autoColor: 'rgba(0, 0, 0, .2)',
@@ -67,29 +69,57 @@
         addMore: [
           {
             icon: add,
-            code: 0,
+            id: 0,
             name: '更多'
           }
         ]
       }
     },
     computed: {
+			userInfo: () => store.userInfo,
       enjoyApp: () => store.enjoyApp
     },
-    components: { 
+    components: {
       newList,
       notice
     },
+		mounted () {
+			if (this.userInfo.typeCode == 16) {
+				this.getChildList()
+			}
+		},
     methods: {
       changTab (tab) {
         this.tabIndex = tab.id
       },
-      goApp (code) {
-        setStore({
-          key: 'tabIndex',
-          data: 1
-        })
+      goApp (enjoy) {
+				console.log(enjoy)
+				if (enjoy.id === 0) {
+					setStore({
+					  key: 'tabIndex',
+					  data: 1
+					})
+				} else {
+					this.$tools.navTo({
+						title: enjoy.name,
+						url: enjoy.url
+					})
+				}
       },
+			// 获取绑定的孩子
+			async getChildList () {
+				const {schoolCode, userCode, typeCode} = this.userInfo
+				const res = await actions.getChildList({
+					schoolCode,
+					userCode,
+					userType: typeCode
+				})
+				this.childList = res.data
+				setStore({
+					key: 'childList',
+					data: res.data
+				})
+			}
     },
     async mounted() {
     }
@@ -144,6 +174,7 @@
     }
   }
   .tab-list {
+		margin-top: 20rpx;
     background-color: #fff;
   }
   .tab-title {

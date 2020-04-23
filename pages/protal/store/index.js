@@ -42,19 +42,8 @@ const store = Vue.observable({
 		}
 	],
   enjoyApp: getState('enjoyApp', []),
-	userInfo: getState('userInfo', {
-    userCode: 'U149jvwntgma42',
-    schoolCode: 'CANPOINT11',
-    studentCode: 'P14j688pfbugq1',
-    studentName: '小高',
-    userName: '',
-    orgName: '',
-    photoUrl: '',
-		openid: 'ggg',
-		userName: '高鸿志',
-		registPhoto: 'http://canpoint-photo.oss-cn-beijing.aliyuncs.com/CANPOINT11/2020/04/22/base/162640a6dfb54d1abfc59ff4165a9d27.jpg',
-    visitorMobile: '18100000004'
-  }),
+	userInfo: getState('userInfo', {}),
+	childList: getState('childList', []),
 	openid: getState('openid', [])
 })
 

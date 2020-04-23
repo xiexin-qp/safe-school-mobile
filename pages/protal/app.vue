@@ -3,8 +3,8 @@
     <view v-if="!isEdit" class="qui-fx-ac enjoy-app">
       <text class="text">常用模块</text>
       <view class="qui-fx-f1 qui-fx">
-        <view v-for="enjoy in enjoyApp" :key="enjoy.code" class="app">
-          <img :src="enjoy.icon" alt="">
+        <view v-for="enjoy in enjoyApp" :key="enjoy.id" class="app">
+          <img :src="enjoy.icon || appImg" alt="">
         </view>
       </view>
       <view class="btn edit" @click="isEdit = true">编辑</view>
@@ -15,57 +15,64 @@
     </view>
     <view v-if="isEdit" class="system-list edit-app qui-bd-t">
       <div v-if="enjoyApp.length === 0" class="no-app">暂未添加常用模块...</div>
-      <view @click="delEnjoy(enjoy.code)" v-for="enjoy in enjoyApp" :key="enjoy.code" class="app qui-fx-ac-jc" :class="{'act': isEdit}">
+      <view @click="delEnjoy(enjoy.code)" v-for="enjoy in enjoyApp" :key="enjoy.id" class="app qui-fx-ac-jc" :class="{'act': isEdit}">
         <i style="color: #999" class="iconfont">&#xe62b;</i>
         <view>
-          <img :src="enjoy.icon" alt="">
+          <img :src="enjoy.icon || appImg" alt="">
         </view>
         <text class="text">{{ enjoy.name.split('-')[0] }}</text>
       </view>
     </view>
     <view class="app-module">
-      <view v-for="module in appList" :key="module.code" class="app-list">
-        <view class="module">{{ module.name }}</view>
-        <view class="system-box">
-          <view class="system-list" v-for="system in module.children" :key="system.code">
-            <view class="system">{{ system.name }}</view>
-            <view @click="chooseEnjoy(app, isShow(app.code))" class="app qui-fx-ac-jc" :class="{'act': isEdit}" v-for="app in system.children" :key="app.code">
-              <i v-if="isShow(app.code) && isEdit" style="color: #999" class="iconfont">&#xe62b;</i>
-              <i v-if="!isShow(app.code) && isEdit" style="color: #7b92f5" class="iconfont">&#xe636;</i>
-              <view>
-                <img :src="app.icon" alt="">
-              </view>
-              <view class="text">{{ app.name.split('-')[0] }}</view>
-							<view class="text">({{ app.name.split('-')[1] }})</view>
-            </view>
-          </view> 
-        </view>
-      </view>
+			<view class="system-box">
+				<view class="system-list" v-for="app in appList" :key="app.id">
+					<view class="system">{{ app.name }}</view>
+					<view @click="chooseEnjoy(module, isShow(module.id))" class="app qui-fx-ac-jc" :class="{'act': isEdit}" v-for="module in app.children" :key="module.id">
+						<i v-if="isShow(module.id) && isEdit" style="color: #999" class="iconfont">&#xe62b;</i>
+						<i v-if="!isShow(module.id) && isEdit" style="color: #7b92f5" class="iconfont">&#xe636;</i>
+						<view>
+							<img :src="module.icon || appImg" alt="">
+						</view>
+						<view class="text">{{ module.name.split('-')[0] }}</view>
+						<view class="text">({{ module.name.split('-')[1] }})</view>
+					</view>
+				</view> 
+			</view>
     </view>
   </view>
 </template>
 
 <script>
-  import { store, setStore } from './store/index.js'
-  import app from './assets/img/app.png'
-  import { actions } from './store/index.js' 
+  import { store, setStore, actions } from './store/index.js'
+  import appImg from './assets/img/app.png'
 	import menuData from './assets/menu.js' 
   export default {
     data () {
       return {
         isEdit: false,
-        app,
+        appImg,
         appList: []
       }
     },
     computed: {
+			userInfo: () => store.userInfo,
       enjoyApp: () => store.enjoyApp
     },
     async mounted () {
-      this.appList = menuData
+			this.getMenuList()
     },
     methods: {
-      delEnjoy (code) {
+			// 获取菜单列表
+			async getMenuList () {
+				const res = await actions.getMenuList({
+					plateformType: 1,
+					schoolCode: this.userInfo.schoolCode,
+					userId: this.userInfo.userId,
+					userType: this.userInfo.typeCode
+				})
+				this.appList = res.data
+			},
+      delEnjoy (id) {
         if (this.enjoyApp.length === 4) {
           uni.showToast({
               title: '至少保留4个模块',
@@ -74,7 +81,7 @@
           return
         }
         const index = this.enjoyApp.findIndex(item => {
-          return item.code === code
+          return item.id === id
         })
         this.enjoyApp.splice(index, 1)
         this.setEnjoy(this.enjoyApp)
@@ -83,12 +90,12 @@
         if (!this.isEdit) {
 					this.$tools.navTo({
 						title: item.name,
-						url: item.requestUrl
+						url: item.url
 					})
 					return
 				}
         if (tag) {
-          this.delEnjoy(item.code)
+          this.delEnjoy(item.id)
         } else {
           if (this.enjoyApp.length === 7) {
             uni.showToast({
@@ -98,9 +105,10 @@
             return
           }
           this.enjoyApp.push({
-            code: item.code,
+            id: item.id,
             icon: item.icon,
-            name: item.name
+            name: item.name,
+						url: item.url
           })
           this.setEnjoy(this.enjoyApp)
         }
@@ -111,9 +119,9 @@
           data
         })
       },
-      isShow (code) {
+      isShow (id) {
         return this.enjoyApp.some(item => {
-          return item.code === code
+          return item.id === id
         })
       }
     }

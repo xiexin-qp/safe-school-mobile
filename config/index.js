@@ -10,6 +10,7 @@ let zk_school = ''
 let zk_leave = ''
 let zx_visitor = ''
 let zx_door = ''
+let zx_protal = ''
 let lz_attendance = ''
 let lz_user_center = ''
 
@@ -20,6 +21,7 @@ if (ConfigEnv === 'production') {
 	zk_leave = '/zk_leave'
 	zx_visitor = '/zx_visitor'
 	zx_door = '/zx_door'
+	zx_protal = '/zx_protal'
 	lz_attendance = '/lz_attendance'
 	lz_user_center = '/lz_user_center'
 } else if (ConfigEnv === 'development') {
@@ -29,6 +31,7 @@ if (ConfigEnv === 'production') {
 	zk_leave = '/zk_leave'
 	zx_visitor = '/zx_visitor'
 	zx_door = '/zx_door'
+	zx_protal = '/zx_protal'
 	lz_attendance = '/lz_attendance'
 	lz_user_center = '/lz_user_center'
 }
@@ -40,6 +43,7 @@ export default {
   zk_leave,
   zx_visitor,
   zx_door,
+	zx_protal,
   lz_attendance,
   lz_user_center,
 }

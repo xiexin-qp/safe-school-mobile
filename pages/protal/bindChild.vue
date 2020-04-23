@@ -28,10 +28,10 @@
 
 <script>
 import { store, actions } from './store/index.js';
+import eventBus from '@u/eventBus'
 export default {
 	data() {
 		return {
-			schoolList: [],
 			schoolName: '请选择学校',
 			gradeList: [],
 			gradeName: '请选择班级',
@@ -44,7 +44,7 @@ export default {
 				workNo: '',
 				parentName: '',
 				mobile: '',
-				schoolCode: 'CANPOINT11',
+				schoolCode: '',
 				gradeCode: '',
 				classCode: '',
 				relationShip: ''
@@ -57,6 +57,11 @@ export default {
 		relationShipList: () => store.relationShipList.map(item => item.relationShip)
 	},
 	mounted() {
+		this.formData.schoolCode = this.userInfo.schoolCode
+		this.formData.parentName = this.userInfo.userName
+		this.formData.mobile = this.userInfo.mobile
+		this.schoolName = this.userInfo.schoolName
+		this.formData.relationShip =  1
 		this.getGradeList()
 	},
 	methods: {
@@ -97,19 +102,50 @@ export default {
 		},
 		// 绑定孩子
 		async bindChild () {
-			console.log(this.formData)
 			for (let key in this.formData) {
 				if (!this.formData[key]) {
 					this.$tools.toast('请填写完整信息')
 					return
 				}
 			}
-			await actions.bindChild(this.formData)
-			this.$tools.toast('绑定成功')
-			this.$tools.goNext(() => {
-				this.$tools.goBack()
+			await actions.bindChild({
+				...this.formData,
+				openid: this.userInfo.openid
 			})
-		}
+			this.$tools.toast('绑定成功')
+			if (this.userInfo.typeCode == 4) {
+				this.addLog('16', '家长')
+			} else {
+				eventBus.$emit('getChild')
+				this.$tools.goNext(() => {
+					this.$tools.goBack()
+				})
+			}
+		},
+		// 添加登录日志
+		async addLog (typeCode, typeName) {
+			const { openid, schoolCode, schoolName, userCode, userName } = this.userInfo
+			await actions.addLog({
+				id: this.userInfo.userId,
+				openid,
+				schoolCode,
+				schoolName,
+				typeCode,
+				typeName,
+				userCode,
+				userName
+			})
+			setStore({
+				key: 'userInfo',
+				data: {
+					...this.userInfo,
+					typeCode,
+					typeName
+				}
+			})
+			eventBus.$emit('getChild')
+			this.$tools.goBack()
+		},
 	}
 };
 </script>
