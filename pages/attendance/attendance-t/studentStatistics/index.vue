@@ -161,7 +161,7 @@ export default {
     },
     check (record) {
       this.$tools.navTo({
-				url: `./record?userCode=${record.userCode}&month=${this.yearTitle}&name=${record.userName}`,
+				url: `./record?userCode=${record.userCode}&month=${this.yearTitle}&name=${record.userName}&photo=${encodeURIComponent(record.photoUrl)}`,
 				title: ''
       })
     }
