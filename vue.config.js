@@ -30,45 +30,4 @@ module.exports = {
 		//   }
 		// }
 	},
-	devServer: {
-		open: true,
-		proxy: {
-			lz: {
-				target: 'http://39.97.164.4:10091/', // 吕卓
-				changeOrigin: true,
-				pathRewrite: {
-					'^/lz': ''
-				}
-			},
-			zk: {
-				target: 'http://pugai.natapp1.cc/', // 张坤
-				changeOrigin: true,
-				pathRewrite: {
-					'^/zk': ''
-				}
-			},
-			zx: {
-				// target: 'http://39.97.164.4:10160/', // 朱旭
-				target: 'http://192.168.1.24:10160/',
-				changeOrigin: true,
-				pathRewrite: {
-					'^/zx': ''
-				}
-			},
-			mj: {
-				target: 'http://39.97.164.4:10162/',//朱旭门禁
-				changeOrigin: true,
-				pathRewrite: {
-					'^/mj': ''
-				}
-			},
-			apply: {
-				target: 'http://112.125.89.37:1010/', // 应用管理平台 文件上传
-				changeOrigin: true,
-				pathRewrite: {
-					'^/apply': ''
-				}
-			}
-		}
-	}
 }
