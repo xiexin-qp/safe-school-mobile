@@ -120,14 +120,8 @@
 						"^/zx_door": ""
 					}
 				},
-<<<<<<< HEAD
-				"/zx_visitor": {
-					"target": "http://192.168.1.24:10160/", // 朱旭-访客系统
-=======
 				"/zx": {
-					//"target": "http://39.97.164.4:10160/", // 朱旭
 					"target": "http://192.168.1.24:10160/",
->>>>>>> cda20146b5d83b4123e4a18f05a8da995d014c70
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zx_visitor": ""

@@ -12,7 +12,7 @@ function resultBack(res) {
 }
 
 // 响应式数据
-const projectName = 'visitor-t' // 此处写项目名作为存储值
+const projectName = 'door' // 此处写项目名作为存储值
 const localData = uni.getStorageSync(projectName) || '{}'
 const getState = (state, val) => {
   return JSON.parse(localData)[state] || val

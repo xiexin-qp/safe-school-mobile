@@ -10,7 +10,7 @@ let applyApi = {
 }
 
 for (let val in applyApi) {
-  applyApi[val] = `${hostEnv.apply}${applyApi[val]}`
+  applyApi[val] = `${hostEnv.lz_user_center}${applyApi[val]}`
 }
 
 export default applyApi
