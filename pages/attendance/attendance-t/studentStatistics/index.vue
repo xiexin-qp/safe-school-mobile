@@ -10,7 +10,7 @@
 				</view>
       </view>
       <view class="record-box">
-        <view class="attandence-title qui-fx-ac-jc">上下班考勤统计</view>
+        <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
         <view class="attandence-box">
           <view 
             :class="['attandence-info', 'qui-fx-ac-jc', {'active': currentIndex === index} ]" 
@@ -20,7 +20,7 @@
           >
             <image :src="normal" mode=""></image>
             <view> {{item.title}}</view>
-            <view class="attandence-num"> {{item.num}}</view>
+            <view class="attandence-num"> {{item.num}}人</view>
           </view>
         </view>
       </view>
@@ -93,57 +93,57 @@ export default {
 				teacherCode: store.userInfo.userCode
 			}
       const res = await actions.classStatic(req)
-      if (res.data) {
+      if ( res.data ) {
         this.attandenceInfo = [{
           title: '正常',
           state: '5',
-          num: `${res.data.normalCount}天`
+          num: res.data.normalCount
         },{
           title: '上学缺卡',
           state: '3',
-          num: `${res.data.onNoRecordCount}次`
+          num: res.data.onNoRecordCount
         },{
           title: '迟到',
           state: '1',
-          num:  `${res.data.lateCount}次`
+          num: res.data.lateCount
         },{
           title: '早退',
           state: '2',
-          num:  `${res.data.earlyCount}次`
+          num: res.data.earlyCount
         },{
           title: '放学缺卡',
           state: '6',
-          num:  `${res.data.offNoRecordCount}次`
+          num: res.data.offNoRecordCount
         },{
           title: '缺勤',
           state: '7',
-          num:  `${res.data.noRecord}天`
+          num: res.data.noRecord
         }]
       } else {
         this.attandenceInfo = [{
           title: '正常',
           state: '5',
-          num: '0天'
+          num: 0
         },{
           title: '上学缺卡',
           state: '3',
-          num: '0次'
+          num: 0
         },{
           title: '迟到',
           state: '1',
-          num:  '0次'
+          num: 0
         },{
           title: '早退',
           state: '2',
-          num:  '0次'
+          num: 0
         },{
           title: '放学缺卡',
           state: '6',
-          num:  '0次'
+          num: 0
         },{
           title: '缺勤',
           state: '7',
-          num:  '0天'
+          num: 0
         }]
       }
       this.currentIndex = 0
