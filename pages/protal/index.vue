@@ -68,9 +68,11 @@ export default {
 					schoolCode: 'CANPOINT11',
 					studentCode: 'P14j688pfbugq1',
 					studentName: '',
-					userName: '',
+					userName: '朱旭14',
 					orgName: '',
-					photoUrl: ''
+					photoUrl: '',
+					classCode: '20200201',
+    			gradeCode: '02',
 				}
 			});
 			this.$tools.navTo({
