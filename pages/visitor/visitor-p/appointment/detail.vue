@@ -3,14 +3,18 @@
 		<view class="detail">
 			<view class="top qui-fx-jsb">
 			    <view class="info qui-fx-ac">
-					<image :src="errorImg" alt="">
-					<view class="qui-fx-ver">
-					  <text class="name">{{ comeLog.respondentName }}</text>
-					  <text class="phone">{{ comeLog.resMobile }}</text>
-					  <text class="times">{{ comeLog.causeName }}</text>
+							<image :src="errorImg" alt="">
+							<view class="qui-fx-ver">
+								<text class="name">{{ comeLog.respondentName }}</text>
+								<text class="phone">{{ comeLog.resMobile }}</text>
+								<text class="times">{{ comeLog.causeName }}</text>
+							</view>
 					</view>
-				</view>
-			    <view class="state">{{ state | approveState }}</view>
+			    <view class="state qui-fx">
+			    	<view class="trigon">
+			    	</view>
+			    	<text :class="state === '2' ? 'refuse' : state === '1' ? 'agree' : state === '0' ? 'wait' : 'cancel'">{{ state | approveState }}</text>
+			    </view>
 			</view>
 			<view class="log qui-fx-jsb">
 				<view class="qui-fx-ver">
@@ -85,8 +89,20 @@ export default {
 		margin: 20rpx 0 40rpx 0;
 		color: #fff;
 		.state {
-			margin: 30rpx 60rpx 0 0;
+			margin: 30rpx 30rpx 0 0;
 			font-size: 28rpx;
+			height: 60rpx;
+			line-height: 60rpx;
+			.trigon{
+				border-width:30rpx 20rpx 30rpx 0;
+				border-style:solid;
+				border-color:transparent #fff transparent transparent;
+				position:relative;
+			}
+			text{
+				background-color: #fff;
+				padding: 0 20rpx;
+			}
 		}
 		.info {
 			margin: 0 0 0 10%;

@@ -11,7 +11,7 @@
 	height: 88rpx;
 	background-color: $main-color;
 	line-height: 88rpx;
-	color:#fff;
+	color: #fff;
 	text-align: center;
 	border-radius: 6rpx;
 }
@@ -27,7 +27,7 @@
 	right: 40rpx;
 	border-radius: 100rpx;
 	background-color: $main-color;
-	color:#fff;
+	color: #fff;
 	z-index: 88;
 	&::before {
 		position: absolute;
@@ -35,7 +35,7 @@
 		left: 28rpx;
 		top: -5rpx;
 		z-index: 99;
-		color:#fff;
+		color: #fff;
 		content: '+';
 	}
 }
@@ -47,4 +47,20 @@
 	height: 34rpx;
 	background: url(../img/rit-icon.png);
 	background-size: 100%;
+}
+
+/**
+ * 审批状态
+ */
+.wait {
+	color: #0079ff;
+}
+.agree {
+	color: #69c08f;
+}
+.refuse {
+	color: #e37e7e;
+}
+.cancel {
+	color: #333333;
 }

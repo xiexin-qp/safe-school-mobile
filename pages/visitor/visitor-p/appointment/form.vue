@@ -2,22 +2,24 @@
 	<view>
 		<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
 			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>被访人学校：</view>
+				<view class="tip">被访人学校：</view>
 				<view class="qui-fx-f1 qui-fx-je">
-					<picker :disabled="disabledTag" mode="selector" :value="formData.school" :range="schoolNameList" @change="chooseSchool">{{ schoolNameList[formData.school] || '请选择' }}</picker>
+					<picker :disabled="disabledTag" mode="selector" :value="formData.school" :range="schoolNameList" @change="chooseSchool">
+						{{ schoolNameList[formData.school] || '请选择' }}
+					</picker>
 				</view>
 				<view>></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>被访人姓名：</view>
+				<view class="tip">被访人姓名：</view>
 				<view class="qui-fx-f1"><input :disabled="disabledTag" class="item-input" v-model="formData.visitorName" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>被访人手机号：</view>
+				<view class="tip">被访人手机号：</view>
 				<view class="qui-fx-f1 qui-fx-je"><input :disabled="disabledTag" class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>预计到达时间：</view>
+				<view class="tip">预计到达时间：</view>
 				<view class="qui-fx-f1 qui-fx-je">
 					<picker mode="date" :value="formData.startDate" @change="dateChange($event, 'startDate')">
 						<view class="uni-input">{{ formData.startDate }}</view>
@@ -31,7 +33,7 @@
 				<view>></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>来访事由：</view>
+				<view class="tip">来访事由：</view>
 				<view class="qui-fx-f1 qui-fx-je">
 					<picker mode="selector" :value="formData.cause" :range="causeNameList" @change="chooseCause">{{ causeNameList[formData.cause] || '请选择' }}</picker>
 				</view>
@@ -43,7 +45,7 @@
 			</view>
 			<view class="log">
 				<view class="item-list">
-					<view>我的照片：</view>
+					<view class="tip">我的照片：</view>
 					<view class="qui-fx-f1"><an-upload-img total="1" v-model="imgList" style="margin: 20rpx"></an-upload-img></view>
 					<view class="sub-title">请上传1张本人正脸清晰照片用于来访识别。</view>
 				</view>
@@ -68,6 +70,7 @@ export default {
 			schoolNameList: [],
 			schoolList: [],
 			id: '',
+			defaultDate: '',
 			type: '', // 0-修改  1-再次邀约
 			formInfo: {},
 			imgList: [],
@@ -92,7 +95,9 @@ export default {
 		this.type = options.id;
 	},
 	computed: {},
-	created() {	
+	created() {
+		// this.defaultDate = this.$tools.getDateTime(new Date(), 'date')
+		console.log(this.defaultDate)
 	},
 	async mounted() {
 		await this.getSchool();
@@ -111,7 +116,7 @@ export default {
 			this.formData.endDate = this.$tools.getDateTime(res.data.accessEndTime).split(' ')[0];
 			this.formData.endTime = this.$tools.getDateTime(res.data.accessEndTime).split(' ')[1];
 			this.formData.cause = this.causeNameList.findIndex(item => {
-				return item === res.data.causeName
+				return item === res.data.causeName;
 			});
 		}
 	},
@@ -163,6 +168,10 @@ export default {
 				this.$tools.toast('请填写正确手机号');
 			} else if (this.formData.cause === '') {
 				this.$tools.toast('请选择来访事由');
+			} else if (new Date(this.formData.accessStartTime).getTime() < new Date().getTime()) {
+				this.$tools.toast('请填写正确到达时间');
+			} else if (this.imgList.length === 0) {
+				this.$tools.toast('请上传照片');
 			} else {
 				let school = this.schoolList.filter(ele => {
 					return ele.text === this.schoolNameList[this.formData.school];
@@ -207,12 +216,12 @@ export default {
 					console.log(req);
 					actions.addInviteInfo(req).then(res => {
 						this.$tools.toast('提交成功', 'success');
-						this.$tools.goNext(()=>{
+						this.$tools.goNext(() => {
 							this.$tools.navTo({
 								url: './index',
 								title: '来访邀约'
 							});
-						})
+						});
 					});
 				});
 			}
@@ -230,15 +239,14 @@ export default {
 			this.formData.accessStartTime = this.formData.startDate + ' ' + this.formData.startTime;
 			this.formData.accessEndTime = this.formData.endDate + ' ' + this.formData.endTime;
 			console.log(new Date(this.formData.accessStartTime).getTime());
-			this.formData.duration =
-				parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
+			this.formData.duration = parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
 		},
 		chooseSchool(e) {
-			if(!e.target.value){
-				return
-			}	
+			if (!e.target.value) {
+				return;
+			}
 			this.formData.school = e.target.value;
-			this.getCause()
+			this.getCause();
 		},
 		chooseCause(e) {
 			this.formData.cause = e.target.value;
@@ -251,8 +259,16 @@ export default {
 .scroll-h {
 	height: calc(100vh - 88rpx);
 }
+.tip::before {
+	position: absolute;
+	content: '*';
+	color: red;
+	left: 10rpx;
+	width: 10rpx;
+	height: 10rpx;
+}
 .item-list {
-	padding: 25rpx 15rpx;
+	padding: 25rpx 10rpx 25rpx 30rpx;
 	background: #fff;
 }
 .item-input {
@@ -268,7 +284,7 @@ export default {
 }
 .log {
 	background: #fff;
-	padding: 40rpx 20rpx;
+	padding: 40rpx 0rpx;
 	margin: 20rpx 0 40rpx 0;
 	border-bottom: 1px solid #ddd;
 }
