@@ -13,7 +13,6 @@
 		<view v-if="type === 1" class="qui-fx-ac input-box"><input type="password" v-model="code" class="item-input" placeholder="请输入密码" /></view>
 		<view v-if="type === 0" class="qui-fx-ac input-box"><input type="text" v-model="code" class="item-input" placeholder="请输入验证码" /></view>
 		<view class="login-btn" @click="login"><text>登录</text></view>
-		<view class="login-btn" @click="loginTest"><text>登录测试</text></view>
 		<view @click="toReg" class="register">家长注册 ></view>
 	</view>
 </template>
@@ -60,23 +59,6 @@ export default {
 			this.type = type
 			this.code = ''
 		},
-		loginTest() {
-			setStore({
-				key: 'userInfo',
-				data: {
-					userCode: 'U149jvwntgma42',
-					schoolCode: 'CANPOINT11',
-					studentCode: 'P14j688pfbugq1',
-					studentName: '',
-					userName: '',
-					orgName: '',
-					photoUrl: ''
-				}
-			});
-			this.$tools.navTo({
-				url: './main'
-			});
-		},
 		// 获取openid
 		async getOpenid() {
 			const url = window.location.href;
@@ -90,7 +72,9 @@ export default {
 			}
 			const code = params.get('code');
 			if (uni.getStorageSync('openid')) {
-				this.setOpenid(uni.getStorageSync('openid'));
+				const openid = uni.getStorageSync('openid')
+				this.getUserInfo(openid)
+				this.setOpenid(openid);
 			} else {
 				const res = await uniRequest.get('/getOpenid', {
 					params: {
@@ -110,6 +94,7 @@ export default {
 				data: openid
 			});
 		},
+		// 验证手机号
 		testPhone() {
 			var reg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
 			if (this.phone === '' || !reg.test(this.phone)) {
@@ -118,6 +103,7 @@ export default {
 			}
 			return true;
 		},
+		// 获取验证码
 		async getYzm() {
 			if (!this.testPhone()) return;
 			try {
@@ -134,6 +120,10 @@ export default {
 					this.tip = `${this.total} s`;
 				}, 1000);
 			} catch (err) {}
+		},
+		// 通过openid获取用户信息
+		async getUserInfo (openid) {
+			const res = await actions.getUserInfo(openid)
 		},
 		// 登录
 		async login() {
@@ -154,6 +144,12 @@ export default {
 				key: 'userInfo',
 				data: res.data
 			});
+			this.$tools.toast('登录成功')
+			this.$tools.goNext(() => {
+				this.$tools.navTo({
+					url: './main'
+				});
+			})
 		},
 		toReg() {
 			this.$tools.navTo({

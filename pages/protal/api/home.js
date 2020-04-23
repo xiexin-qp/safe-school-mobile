@@ -5,11 +5,11 @@
  */
 import hostEnv from '../../../config/index.js'
 let schoolApi = {
-	getSchoolList: `${hostEnv.zkschool}/school/info/getSchoolInfoListPage#post`, // 获取学校列表
+	getSchoolList: `${hostEnv.zk_school}/school/info/getSchoolInfoListPage#post`, // 获取学校列表
 }
 let gradeApi = {
-	getGradeList: `${hostEnv.lzadmin}/grade/manage/list#postQuery`, // 获取年级列表
-	getClassList: `${hostEnv.lzadmin}/classManage/list#post` // 获取班级列表
+	getGradeList: `${hostEnv.lz_user_center}/grade/manage/list#postQuery`, // 获取年级列表
+	getClassList: `${hostEnv.lz_user_center}/classManage/list#post` // 获取班级列表
 }
 let homeApi = {
 	login: '/mobile/user/info/login#post', // 用户登录
@@ -26,7 +26,7 @@ let homeApi = {
 }
 
 for (let val in homeApi) {
-  homeApi[val] = `${hostEnv.zxprotal}${homeApi[val]}`
+  homeApi[val] = `${hostEnv.zx_mobile_user}${homeApi[val]}`
 }
 
 homeApi = {
