@@ -26,7 +26,7 @@
       </view>
       <view  class="qui-fx-ac-jc">
         <scroll-view  scroll-y="true" class="scroll-h">
-          <no-data msg="暂无数据~" v-if="dataList.length === 0"></no-data>
+          <no-data msg="暂无数据~" v-if="!dataList || dataList.length === 0"></no-data>
           <view v-else  v-for="(list, index) in dataList" :key="index" class="list qui-fx-ac-jc qui-fx-ac" @click="check(list)">
             <image :src=" list.photoUrl ? list.photoUrl : person" mode=""></image>
             <text>{{ list.userName }}</text>
@@ -93,31 +93,59 @@ export default {
 				teacherCode: store.userInfo.userCode
 			}
       const res = await actions.classStatic(req)
-			this.attandenceInfo = [{
-        title: '正常',
-        state: '5',
-        num: `${res.data.normalCount}天`
-      },{
-        title: '上学缺卡',
-        state: '3',
-        num: `${res.data.onNoRecordCount}次`
-      },{
-        title: '迟到',
-        state: '1',
-        num:  `${res.data.lateCount}次`
-      },{
-        title: '早退',
-        state: '2',
-        num:  `${res.data.earlyCount}次`
-      },{
-        title: '放学缺卡',
-        state: '6',
-        num:  `${res.data.offNoRecordCount}次`
-      },{
-        title: '缺勤',
-        state: '7',
-        num:  `${res.data.noRecord}天`
-      }]
+      if (res.data) {
+        this.attandenceInfo = [{
+          title: '正常',
+          state: '5',
+          num: `${res.data.normalCount}天`
+        },{
+          title: '上学缺卡',
+          state: '3',
+          num: `${res.data.onNoRecordCount}次`
+        },{
+          title: '迟到',
+          state: '1',
+          num:  `${res.data.lateCount}次`
+        },{
+          title: '早退',
+          state: '2',
+          num:  `${res.data.earlyCount}次`
+        },{
+          title: '放学缺卡',
+          state: '6',
+          num:  `${res.data.offNoRecordCount}次`
+        },{
+          title: '缺勤',
+          state: '7',
+          num:  `${res.data.noRecord}天`
+        }]
+      } else {
+        this.attandenceInfo = [{
+          title: '正常',
+          state: '5',
+          num: '0天'
+        },{
+          title: '上学缺卡',
+          state: '3',
+          num: '0次'
+        },{
+          title: '迟到',
+          state: '1',
+          num:  '0次'
+        },{
+          title: '早退',
+          state: '2',
+          num:  '0次'
+        },{
+          title: '放学缺卡',
+          state: '6',
+          num:  '0次'
+        },{
+          title: '缺勤',
+          state: '7',
+          num:  '0天'
+        }]
+      }
       this.currentIndex = 0
       this.detail(this.attandenceInfo[0], this.currentIndex)
 		},

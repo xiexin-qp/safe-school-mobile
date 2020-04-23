@@ -89,31 +89,59 @@ export default {
 				userCode: store.userInfo.userCode
 			}
       const res = await actions.getTeacherStatic(req)
-			this.attandenceInfo = [{
-        title: '正常',
-        state: '5',
-        num: `${res.data.normalCount}天`
-      },{
-        title: '上班缺卡',
-        state: '3',
-        num: `${res.data.onNoRecordCount}次`
-      },{
-        title: '迟到',
-        state: '1',
-        num:  `${res.data.lateCount}次`
-      },{
-        title: '早退',
-        state: '2',
-        num:  `${res.data.earlyCount}次`
-      },{
-        title: '下班缺卡',
-        state: '6',
-        num:  `${res.data.offNoRecordCount}次`
-      },{
-        title: '缺勤',
-        state: '7',
-        num:  `${res.data.noRecord}天`
-      }]
+      if( res.data ) {
+        this.attandenceInfo = [{
+          title: '正常',
+          state: '5',
+          num: `${res.data.normalCount}天`
+        },{
+          title: '上学缺卡',
+          state: '3',
+          num: `${res.data.onNoRecordCount}次`
+        },{
+          title: '迟到',
+          state: '1',
+          num:  `${res.data.lateCount}次`
+        },{
+          title: '早退',
+          state: '2',
+          num:  `${res.data.earlyCount}次`
+        },{
+          title: '放学缺卡',
+          state: '6',
+          num:  `${res.data.offNoRecordCount}次`
+        },{
+          title: '缺勤',
+          state: '7',
+          num:  `${res.data.noRecord}天`
+        }]
+      } else {
+        this.attandenceInfo = [{
+          title: '正常',
+          state: '5',
+          num: '0天'
+        },{
+          title: '上学缺卡',
+          state: '3',
+          num: '0次'
+        },{
+          title: '迟到',
+          state: '1',
+          num:  '0次'
+        },{
+          title: '早退',
+          state: '2',
+          num:  '0次'
+        },{
+          title: '放学缺卡',
+          state: '6',
+          num:  '0次'
+        },{
+          title: '缺勤',
+          state: '7',
+          num:  '0天'
+        }]
+      }
 		},
     async detail(item, tag = false){
       this.num = item.num
