@@ -2,6 +2,13 @@
   <view class="add">
     <scroll-view scroll-y="true" class="scroll-h">
       <view class="qui-fx-ac qui-bd-b item-list">
+			  <view>请假学生：</view>
+			  <view class="qui-fx-f1  qui-fx-je">
+					{{leaveInfo.studentName}}
+			  </view>
+        <view @click="check(1)">></view>
+			</view>
+      <view class="qui-fx-ac qui-bd-b item-list">
         <view>请假类型：</view>
         <view class="qui-fx-f1 qui-fx-je">
           <picker mode="selector" :value="currentRole" :range="role" @change="chooseRole">
@@ -67,7 +74,7 @@
 			  <view class="qui-fx-f1  qui-fx-je">
 					{{leaveInfo.copyUser}}
 			  </view>
-        <view @click="check">></view>
+        <view @click="check(0)">></view>
 			</view>
       <view class="qui-bd-b item-list">
 			  <view>上传附图：</view>
@@ -79,6 +86,24 @@
     <view class="submit-box">
       <view class="btn" @click="submit">提交</view>
     </view>
+    <uni-popup ref="popup" type="center">
+      <scroll-view scroll-y="true" class="scroll"  @scrolltolower="loadMore">
+        <view>
+          <radio-group @change="radioUser">
+            <label class="list qui-bd-b qui-fx-jsb" v-for="(item,index) in studentList" :key="index">
+              <label :for="item.userName">
+                  <text>{{item.userName}}</text>
+              </label>
+              <radio :id="item.userCode" :value='`${item.userCode}^${item.userName}=${item.photoUrl}`' :checked="item.checked"></radio>
+            </label>
+          </radio-group>
+          <view class="submit-btn qui-fx">
+             <button class="btn" @click="cancel(1)">取消</button>
+             <button class="btn" @click="ok(1)">确定</button>
+          </view>
+        </view>
+      </scroll-view>
+    </uni-popup>
     <uni-popup ref="checkPopup" type="center">
       <scroll-view scroll-y="true" class="scroll">
         <view>
@@ -91,8 +116,8 @@
             </label>
           </checkbox-group>
           <view class="submit-btn qui-fx">
-             <button class="btn" @click="cancel">取消</button>
-             <button class="btn" @click="ok">确定</button>
+             <button class="btn" @click="cancel(0)">取消</button>
+             <button class="btn" @click="ok(0)">确定</button>
           </view>
         </view>
       </scroll-view>
@@ -113,6 +138,7 @@
         reasonList: [],
         dataList: [],
         leaveCopyList: [],
+        studentList: [],
         currentRole: 0,
         leaveInfo: {
           startDate: this.$tools.getDateTime(new Date(), 'date'),
@@ -125,10 +151,17 @@
           copyUser: '',
           photoList:[],
           reasonId: '',
-          reason: ''
+          reason: '',
+          studentCode: '',
+          studentName: ''
         },
         oddNumbers: '',
-        teacherName: ''
+        teacherName: '',
+        pageList: {
+          page: 1,
+          size: 15
+        },
+        morePage: false
 			}
     },
     onLoad(options) {
@@ -140,7 +173,8 @@
       }
 	  },
     mounted () {
-      this.teacherName = store.userInfo.teacherName
+      this.teacherName = store.userInfo.userName
+      this.studentGet()
       this.orgUserGet()
     },
     methods: {
@@ -155,6 +189,36 @@
         this.teacherName = this.leaveInfo.leaveApprovalAddDto.userName
         this.leaveCopyList = this.leaveInfo.leaveCopyList
         this.leaveReasonGet(1)
+      },
+      async studentGet (tag = false) {
+        if (tag) {
+          this.pageList.page += 1
+        } else {
+          this.pageList.page = 1
+        }
+        const req = {
+          classId: store.userInfo.classCode,
+          gradeId: store.userInfo.gradeCode,
+          page: this.pageList.page,
+          size: this.pageList.size,
+          schoolCode: store.userInfo.schoolCode,
+          schoolYearId: ''
+        }
+        const res = await actions.getClassStudent(req)
+        if (tag) {
+          this.studentList = this.studentList.concat(res.data.list)
+        } else {
+          this.studentList = res.data.list
+        }
+			  this.morePage = res.data.hasNextPage
+        console.log('getClassStudent',res)
+      },
+      loadMore() {
+        if (!this.morePage) {
+          this.$tools.toast('数据已加载完毕')
+          return
+        }
+        this.studentGet(true)
       },
       async leaveReasonGet (type) {
         const res = await actions.getLeaveReason()
@@ -193,23 +257,35 @@
           keyword: '',
           orgCode: '',
           page: 1,
-          schoolCode: store.userInfo.schoolCode1,
+          schoolCode: store.userInfo.schoolCode,
           size: 100000
         }
         const res = await actions.getOrgUser(req)
         this.dataList = res.data.list
       },
-      check () {
-        this.$refs.checkPopup.open()
+      check (type) {
+        if (type) {
+          this.$refs.popup.open()
+        } else {
+          this.$refs.checkPopup.open()
+        }
       },
-      cancel () {
-        this.$refs.checkPopup.close()
+      cancel (type) {
+        if (type) {
+          this.$refs.popup.close()
+        } else {
+          this.$refs.checkPopup.close()
+        }
       },
-      ok () {
-        this.$refs.checkPopup.close()
-        this.leaveInfo.copyUser = this.leaveCopyList.map(el=>{
-          return  el.userName
-        }).join(',')
+      ok (type) {
+        if (type) {
+          this.$refs.popup.close()
+        } else {
+          this.$refs.checkPopup.close()
+          this.leaveInfo.copyUser = this.leaveCopyList.map(el=>{
+            return  el.userName
+          }).join(',')
+        }
       },
       checkUser (e){
         this.checkList = e
@@ -222,6 +298,14 @@
             photoUrl : el.split('^')[1].split('=')[1]
           })
         })
+      },
+      radioUser (e) {
+        const data = e.target.value
+        // this.leaveApprovalAddDto = {
+        //   userCode: data.split('^')[0],
+        //   userName: data.split('^')[1].split('=')[0],
+        //   photoUrl : data.split('^')[1].split('=')[1]
+        // }
       },
       submit () {
         if (this.outSchool === '') {

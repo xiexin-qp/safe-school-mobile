@@ -53,7 +53,7 @@ const store = Vue.observable({
 		openid: 'ggg',
 		userName: '高鸿志',
 		registPhoto: 'http://canpoint-photo.oss-cn-beijing.aliyuncs.com/CANPOINT11/2020/04/22/base/162640a6dfb54d1abfc59ff4165a9d27.jpg',
-		visitorMobile: '18100000004'
+    visitorMobile: '18100000004'
   }),
 	openid: getState('openid', [])
 })
