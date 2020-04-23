@@ -2,15 +2,15 @@
 	<view>
 		<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
 			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>访客姓名：</view>
+				<view class="tip">访客姓名：</view>
 				<view class="qui-fx-f1"><input :disabled="disabledTag" class="item-input" v-model="formData.visitorName" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>访客手机：</view>
+				<view class="tip">访客手机：</view>
 				<view class="qui-fx-f1 qui-fx-je"><input :disabled="disabledTag" class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>预计到达时间：</view>
+				<view class="tip">预计到达时间：</view>
 				<view class="qui-fx-f1 qui-fx-je">
 					<picker mode="date" :value="formData.startDate" @change="dateChange($event, 'startDate')">
 						<view class="uni-input">{{ formData.startDate }}</view>
@@ -23,42 +23,13 @@
 				</view>
 				<view>></view>
 			</view>
-			<!-- <view class="qui-fx-ac qui-bd-b item-list">
-				<view>结束时间：</view>
-				<view class="qui-fx-f1 qui-fx-je">
-					<picker mode="date" :value="formData.endDate" @change="dateChange($event, 'endDate')">
-						<view class="uni-input">{{ formData.endDate }}</view>
-					</picker>
-				</view>
-				<view class="qui-fx-je" style="margin-left:10rpx">
-					<picker mode="time" :value="formData.endTime" @change="dateChange($event, 'endTime')">
-						<view class="uni-input">{{ formData.endTime }}</view>
-					</picker>
-				</view>
-				<view>></view>
-			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>来访时长：</view>
-				<view class="qui-fx-f1 qui-fx-je">{{ formData.duration }}</view>
-			</view> -->
-			<view class="qui-fx-ac qui-bd-b item-list">
-				<view>来访事由：</view>
+				<view class="tip">来访事由：</view>
 				<view class="qui-fx-f1 qui-fx-je">
 					<picker mode="selector" :value="formData.cause" :range="causeNameList" @change="chooseCause">{{ causeNameList[formData.cause] || '请选择' }}</picker>
 				</view>
 				<view>></view>
 			</view>
-			<!-- <view class="log">
-				<text>邀请函</text>
-				<view class="qui-fx-ac">
-					<icon type="email" size="24" />
-					<view class="qui-fx-ver">
-						<text>访客,您好！</text>
-						<text>学校邀约人姓名邀请你于开始时间至结束时间来访进行来访事由，地址：手动填写。</text>
-						<text>请准时到达，如有问题请联系邀约人姓名邀约人手机号。</text>
-					</view>
-				</view>
-			</view> -->
 		</scroll-view>
 		<view class="common-btn" @click="confirm">提交</view>
 	</view>
@@ -147,6 +118,8 @@ export default {
 				this.$tools.toast('请填写正确手机号');
 			} else if (this.formData.cause === '') {
 				this.$tools.toast('请选择来访事由');
+			} else if (new Date(this.formData.accessStartTime).getTime() < new Date().getTime()) {
+				this.$tools.toast('请填写正确到达时间');
 			} /* else if (new Date(this.formData.accessEndTime).getTime() <= new Date(this.formData.accessStartTime).getTime()) {
 				this.$tools.toast('请选择正确时间段');
 			} */ else {
@@ -209,8 +182,16 @@ export default {
 .scroll-h {
 	height: calc(100vh - 88rpx);
 }
+.tip::before {
+	position: absolute;
+	content: '*';
+	color: red;
+	left: 10rpx;
+	width: 10rpx;
+	height: 10rpx;
+}
 .item-list {
-	padding: 25rpx 15rpx;
+	padding: 25rpx 10rpx 25rpx 30rpx;
 	background: #fff;
 }
 .item-input {
@@ -226,7 +207,7 @@ export default {
 }
 .log {
 	background: #fff;
-	padding: 40rpx 20rpx;
+	padding: 40rpx 0rpx;
 	margin: 20rpx 0 40rpx 0;
 	border-bottom: 1px solid #ddd;
 }

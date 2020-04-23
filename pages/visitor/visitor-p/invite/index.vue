@@ -22,7 +22,7 @@
 							<view>开始时间：{{ item.accessStartTime | getFullDate }}</view>
 							<!-- <view>结束时间：{{ item.accessEndTime | getFullDate }}</view> -->
 							<view>来访事由：{{ item.causeName }}</view>
-							<view>状态：{{ item.state | approveState }}</view>
+							<view>状态：<text :class="item.state === 2 ? 'refuse' : item.state === 1 ? 'agree' : item.state === 0 ? 'wait' : 'cancel'">{{ item.state | approveState }}</text></view>
 						</view>
 					</view>
 				</view>
@@ -248,18 +248,18 @@ export default {
 		right: 20rpx;
 		position: absolute;
 		font-size: 48rpx;
-		.wait {
-			color: #0079ff;
-		}
-		.agree {
-			color: #69c08f;
-		}
-		.refuse {
-			color: #e37e7e;
-		}
-		.cancel {
-			color: #333333;
-		}
+	}
+	.wait {
+		color: #0079ff;
+	}
+	.agree {
+		color: #69c08f;
+	}
+	.refuse {
+		color: #e37e7e;
+	}
+	.cancel {
+		color: #999;
 	}
 	.see {
 		padding: 20rpx 10rpx 20rpx 20rpx;
