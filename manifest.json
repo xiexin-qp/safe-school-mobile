@@ -120,11 +120,18 @@
 						"^/zx_door": ""
 					}
 				},
-				"/zx": {
-					"target": "http://192.168.1.24:10160/",
+				"/zx_visitor": {
+					"target": "http://192.168.1.24:10160/", // 朱旭-访客系统
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zx_visitor": ""
+					}
+				},
+				"/zx_doort": {
+					"target": "http://192.168.1.24:10162/", // 朱旭-权限管理
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/zx_doort": ""
 					}
 				},
 				"/lz_attendance": {

@@ -52,7 +52,7 @@ export default {
   methods: {
     async showList() {
       const req = {
-        schoolCode: "123456",
+				schoolCode: store.userInfo.schoolCode,
         ruleGroupCode: this.ruleGroupCode,
         userGroupCode: this.userGroupCode,
         ...this.pageList
@@ -64,7 +64,7 @@ export default {
     //删除
     actionsheet(item) {
       const req = {
-        schoolCode: "123456",
+				schoolCode: store.userInfo.schoolCode,
         ruleGroupCode: item.ruleGroupCode,
         userGroupCode: item.userGroupCode,
         userCode: item.userCode

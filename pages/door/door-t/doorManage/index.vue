@@ -58,7 +58,7 @@ export default {
   methods: {
     async showList(tag = false) {
       const res = await actions.getgroupList({
-			schoolCode: store.schoolCode,
+				schoolCode: store.userInfo.schoolCode,
         ruleGroupType: 1,
         ...this.pageList
       });

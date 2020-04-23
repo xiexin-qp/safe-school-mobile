@@ -12,6 +12,7 @@ let zx_visitor = ''
 let zx_door = ''
 let lz_attendance = ''
 let lz_user_center = ''
+let zx_doort = ''
 
 if (ConfigEnv === 'production') {
 	zx_mobile_user = '/zx_mobile_user'
@@ -20,6 +21,7 @@ if (ConfigEnv === 'production') {
 	zk_leave = '/zk_leave'
 	zx_visitor = '/zx_visitor'
 	zx_door = '/zx_door'
+	zx_doort = '/zx_doort'
 	lz_attendance = '/lz_attendance'
 	lz_user_center = '/lz_user_center'
 } else if (ConfigEnv === 'development') {
@@ -31,6 +33,7 @@ if (ConfigEnv === 'production') {
 	zx_door = '/zx_door'
 	lz_attendance = '/lz_attendance'
 	lz_user_center = '/lz_user_center'
+	zx_doort = '/zx_doort'
 }
 
 export default {
@@ -41,6 +44,7 @@ export default {
   zx_visitor,
   zx_door,
   lz_attendance,
-  lz_user_center
+  lz_user_center,
+  zx_doort
 }
 
