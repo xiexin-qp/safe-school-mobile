@@ -66,7 +66,7 @@ export default {
         ...this.pageList,
         keyword: "",
         orgCode: "",
-        schoolCode: "GZ"
+				schoolCode: store.userInfo.schoolCode,
       };
       const res = await actions.getOrgUser(req);
       this.dataList = res.data.list;
@@ -93,7 +93,7 @@ export default {
     addInfo() {
       if (this.userInfoList.length != 0) {
         const req = {
-          schoolCode: "123456",
+				schoolCode: store.userInfo.schoolCode,
           ruleGroupCode: this.ruleGroupCode,
           userGroupCode: this.userGroupCode,
           userInfoList: this.userInfoList,

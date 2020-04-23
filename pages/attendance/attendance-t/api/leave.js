@@ -23,7 +23,7 @@ let leaveApi = {
 }
 
 for (let val in leaveApi) {
-  leaveApi[val] = `${hostEnv.zk}${leaveApi[val]}`
+  leaveApi[val] = `${hostEnv.zk_leave}${leaveApi[val]}`
 }
 
 export default leaveApi
