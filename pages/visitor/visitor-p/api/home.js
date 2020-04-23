@@ -19,7 +19,7 @@ let homeApi = {
 }
 
 for (let val in homeApi) {
-  homeApi[val] = `${hostEnv.zx}${homeApi[val]}`
+  homeApi[val] = `${hostEnv.zx_visitor}${homeApi[val]}`
 }
 
 export default homeApi
