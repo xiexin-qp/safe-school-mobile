@@ -38,7 +38,7 @@
 </template>
 <script>
 import MxDatePicker from "@/components/mx-datepicker/mx-datepicker.vue";
-import { store, actions } from "../store/index.js";
+import { store, actions } from '../store/index.js';
 import noData from "@/components/no-data/no-data.vue";
 export default {
   components: {
@@ -68,7 +68,7 @@ export default {
   methods: {
     async showList(searchObj = {}) {
       const req = {
-			schoolCode: store.schoolCode,
+				schoolCode: store.userInfo.schoolCode,
         ...searchObj,
         ...this.pageList
       };

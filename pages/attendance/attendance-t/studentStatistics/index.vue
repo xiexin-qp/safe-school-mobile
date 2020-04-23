@@ -118,6 +118,8 @@ export default {
         state: '7',
         num:  `${res.data.noRecord}天`
       }]
+      this.currentIndex = 0
+      this.detail(this.attandenceInfo[0], this.currentIndex)
 		},
     async detail(item, index){
       this.currentIndex = index
