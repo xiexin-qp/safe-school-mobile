@@ -19,6 +19,10 @@ const getState = (state, val) => {
 }
 
 const store = Vue.observable({
+  userInfo: JSON.parse(uni.getStorageSync('protal')).userInfo
+})
+
+/* const store = Vue.observable({
 	userInfo: {
 		schoolCode: 'CANPOINT11',
 		openid: 'ggg',
@@ -27,7 +31,7 @@ const store = Vue.observable({
 		registPhoto: 'http://192.169.1.11/b.jpg',
 		visitorMobile: '18709876789'
 	}
-})
+}) */
 
 // 修改数据
 const setStore = ({

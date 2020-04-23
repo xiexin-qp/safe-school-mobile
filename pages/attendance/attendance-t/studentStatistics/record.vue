@@ -2,7 +2,7 @@
   <view class="stundent-statistics qui-page">
     <view>
       <view class="title qui-fx-ac">
-        <image :src="person" mode=""></image>
+        <image :src="photo ? photo : person" mode=""></image>
         <view>{{studentName}} {{month}} 考勤统计</view>
       </view>
       <view class="record-box">
@@ -20,7 +20,7 @@
         </view>
       </view>
       <view class="title qui-fx-ac">
-        <image :src="person" mode=""></image>
+        <image :src="photo ? photo : person" mode=""></image>
         <view>{{studentName}}  {{month}} 考勤记录</view>
       </view>
       <scroll-view scroll-y="true" class="scroll">
@@ -60,14 +60,16 @@ export default {
       num: '',
       studentCode: '',
       studentName: '',
-      month: ''
+      month: '',
+      photo: ''
     }
   },
    onLoad(options) {
-    console.log('options',options)
+    console.log('options',decodeURIComponent(options.photo))
     this.studentCode = options.userCode
     this.studentName = options.name
     this.month = options.month
+    this.photo = decodeURIComponent(options.photo)
   },
   mounted() {
     this.showList()
@@ -79,31 +81,59 @@ export default {
 				studentCode: this.studentCode
 			}
       const res = await actions.studentMonthStatic(req)
-			this.attandenceInfo = [{
-        title: '正常',
-        state: '5',
-        num: `${res.data.normalCount}天`
-      },{
-        title: '上学缺卡',
-        state: '3',
-        num: `${res.data.onNoRecordCount}次`
-      },{
-        title: '迟到',
-        state: '1',
-        num:  `${res.data.lateCount}次`
-      },{
-        title: '早退',
-        state: '2',
-        num:  `${res.data.earlyCount}次`
-      },{
-        title: '放学缺卡',
-        state: '6',
-        num:  `${res.data.offNoRecordCount}次`
-      },{
-        title: '缺勤',
-        state: '7',
-        num:  `${res.data.noRecord}天`
-      }]
+			if (res.data) {
+        this.attandenceInfo = [{
+          title: '正常',
+          state: '5',
+          num: `${res.data.normalCount}天`
+        },{
+          title: '上学缺卡',
+          state: '3',
+          num: `${res.data.onNoRecordCount}次`
+        },{
+          title: '迟到',
+          state: '1',
+          num:  `${res.data.lateCount}次`
+        },{
+          title: '早退',
+          state: '2',
+          num:  `${res.data.earlyCount}次`
+        },{
+          title: '放学缺卡',
+          state: '6',
+          num:  `${res.data.offNoRecordCount}次`
+        },{
+          title: '缺勤',
+          state: '7',
+          num:  `${res.data.noRecord}天`
+        }]
+      } else {
+        this.attandenceInfo = [{
+          title: '正常',
+          state: '5',
+          num: '0天'
+        },{
+          title: '上学缺卡',
+          state: '3',
+          num: '0次'
+        },{
+          title: '迟到',
+          state: '1',
+          num:  '0次'
+        },{
+          title: '早退',
+          state: '2',
+          num:  '0次'
+        },{
+          title: '放学缺卡',
+          state: '6',
+          num:  '0次'
+        },{
+          title: '缺勤',
+          state: '7',
+          num:  '0天'
+        }]
+      }
 		},
     async detail (item, tag = false) {
       this.num = item.num

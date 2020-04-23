@@ -45,7 +45,7 @@ const filters = {
 		} else if (val == 1) {
 			return '同意'
 		} else if (val == 2) {
-			return '不同意'
+			return '拒绝'
 		} else if (val == 3) {
 			return '撤销'
 		} else if (val == 4) {

@@ -10,7 +10,11 @@
 						<text class="name">{{ comeLog.causeName }}</text>
 					</view>
 				</view>
-				<view class="state">{{ state | approveState}}</view>
+				<view class="state qui-fx">
+					<view class="trigon">
+					</view>
+					<text :class="state === '2' ? 'refuse' : state === '1' ? 'agree' : state === '0' ? 'wait' : 'cancel'">{{ state | approveState }}</text>
+				</view>
 			</view>
 			<scroll-view scroll-y="true" class="scroll-h">
 				<view class="log qui-fx-jsb">
@@ -109,9 +113,9 @@ export default {
 					state: '1',
 					visitorCode: store.userInfo.userCode,
 					visitorName: store.userInfo.userName,
-					visitorMobile: store.userInfo.visitorMobile,
+					visitorMobile: store.userInfo.mobile,
 					schoolCode: store.userInfo.schoolCode,
-					openid: store.userInfo.openid,
+					openid: store.openid,
 					type: 1
 				};
 				console.log(req);
@@ -139,9 +143,9 @@ export default {
 					state: '2',
 					visitorCode: store.userInfo.userCode,
 					visitorName: store.userInfo.userName,
-					visitorMobile: store.userInfo.visitorMobile,
+					visitorMobile: store.userInfo.mobile,
 					schoolCode: store.userInfo.schoolCode,
-					openid: store.userInfo.openid,
+					openid: store.openid,
 					reason: this.refuseText,
 					type: 1
 				};
@@ -176,8 +180,20 @@ export default {
 		margin: 20rpx 0 40rpx 0;
 		color: #fff;
 		.state {
-			margin: 30rpx 60rpx 0 0;
+			margin: 30rpx 30rpx 0 0;
 			font-size: 28rpx;
+			height: 60rpx;
+			line-height: 60rpx;
+			.trigon{
+				border-width:30rpx 20rpx 30rpx 0;
+				border-style:solid;
+				border-color:transparent #fff transparent transparent;
+				position:relative;
+			}
+			text{
+				background-color: #fff;
+				padding: 0 20rpx;
+			}
 		}
 		.info {
 			margin: 0 0 0 10%;
