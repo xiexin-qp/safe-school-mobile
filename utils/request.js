@@ -38,6 +38,28 @@ function responseRes(res) {
 	})
 }
 
+// post请求
+const post = (obj) => {
+	return new Promise((resolve, reject) => {
+		uni.request({
+			url: obj.url,
+			data: JSON.stringify(obj.params),
+			header: {
+				'Content-Type': 'application/json',
+			},
+			method: 'post',
+			success: (data) => {
+				const res = data.data
+				if (res.code === 200) {
+					resolve(res)
+				} else {
+					reject(res)
+				}
+			},
+		})
+	})
+} 
+
 const $ajax = {
 	async get(obj, tag = true) {
 		if (tag) showToast()
@@ -88,24 +110,10 @@ const $ajax = {
 	async post(obj, tag = true) {
 		if (tag) showToast()
 		try {
-			uni.request({
-				url: obj.url,
-				data: JSON.stringify(obj.params),
-				header: {
-					'Content-Type': 'application/json',
-				},
-				method: 'post',
-				success: (data) => {
-					const res = data.data
-					if (res.code === 200) {
-						return responseRes(res)
-					} else {
-						return responseRes(res)
-					}
-				},
-			})
+			let res = await post(obj)
+			return responseRes(res)
 		} catch (err) {
-			return responseRes(err)
+			return responseRes(err.response.data)
 		}
 	},
 	async del(obj, tag = true) {
