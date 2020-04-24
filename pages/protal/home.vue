@@ -18,7 +18,6 @@
         <text class="title">{{ enjoy.name.split('-')[0] }}</text>
       </view>
     </view>
-		<choose-child @change="childInfo"></choose-child>
     <view class="todo" v-if="false">
       您还有5个待办事项需要处理, 请尽快处理...
     </view>
@@ -39,7 +38,6 @@
 <script>
   import newList from './component/new-list.vue'
   import notice from './component/notice.vue'
-	import chooseChild from '@/components/choose-child/choose-child.vue'
   import { setStore, store, actions } from './store/index.js' 
   export default {
     data () {
@@ -80,16 +78,13 @@
     },
     components: {
       newList,
-      notice,
-			chooseChild
+      notice
     },
 		mounted () {
-			if (this.userInfo.typeCode == 16) {
-				this.getChildList()
-			}
 		},
     methods: {
 			childInfo (item) {
+				console.log(item)
 			},
       changTab (tab) {
         this.tabIndex = tab.id

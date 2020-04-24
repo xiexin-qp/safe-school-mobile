@@ -79,9 +79,9 @@ export default {
 			schoolList: [],
 			schoolName: '请选择学校',
 			gradeList: [],
-			gradeName: '请选择班级',
+			gradeName: '请选择年级',
 			classList: [],
-			className: '请选择年级',
+			className: '请选择班级',
 			relationShip: '请选择关系',
 			formInfo: {},
 			formData: {
@@ -133,6 +133,11 @@ export default {
 				page: 1,
 				size: 100
 			})
+			this.formData.gradeCode = ''
+			this.gradeName = '请选择年级'
+			this.formData.classCode = ''
+			this.className = '请选择班级'
+			this.classList = []
 			this.gradeTotal = res.data.list
 			this.gradeList = res.data.list.map(item => {
 				return item.name
@@ -151,6 +156,8 @@ export default {
 				gradeCode: this.formData.gradeCode,
 				schoolYearId: ''
 			})
+			this.formData.classCode = ''
+			this.className = '请选择班级'
 			this.classTotal = res.data.list
 			this.classList = res.data.list.map(item => {
 				return item.className

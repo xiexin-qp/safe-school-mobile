@@ -90,7 +90,7 @@ const $ajax = {
   async post (obj, tag = true) {
 		if (tag) showToast()
     try {
-      let res = await axios({
+      let res = await uniRequest({
         url: obj.url,
         method: 'post',
         data: obj.params,
@@ -104,23 +104,10 @@ const $ajax = {
       return responseRes(err)
     }
   },
-  async getWithPara (obj, tag = true) {
-    if (tag) showToast()
-    try {
-      let res = await axios({
-        url: obj.url + obj.params,
-        method: 'get'
-      })
-      res = res.data
-      return responseRes(res)
-    } catch (err) {
-      return responseRes(err.response.data, false)
-    }
-  },
   async del(obj, tag = true) {
     if (tag) showToast()
     try {
-      let res = await axios.delete(obj.url, {})
+      let res = await uniRequest.delete(obj.url, {})
       res = res.data
       return responseRes(res)
     } catch (err) {
@@ -134,7 +121,7 @@ const $ajax = {
       url += key + '=' + obj.params[key] + '&'
     }
     try {
-      let res = await axios.delete(url, {})
+      let res = await uniRequest.delete(url, {})
       res = res.data
       return responseRes(res)
     } catch (err) {

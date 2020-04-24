@@ -92,7 +92,7 @@ export default {
 	},
 	onLoad(options) {
 		this.id = options.id;
-		this.type = options.id;
+		this.type = options.type;
 	},
 	computed: {},
 	created() {
