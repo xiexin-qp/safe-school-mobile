@@ -41,7 +41,9 @@ const store = Vue.observable({
 			relationShip: '其他'
 		}
 	],
-  enjoyApp: getState('enjoyApp', []),
+	enjoyApp: getState('enjoyApp', []),
+  enjoyTeacherApp: getState('enjoyTeacherApp', []),
+	enjoyParentApp: getState('enjoyParentApp', []),
 	userInfo: getState('userInfo', {}),
 	childList: getState('childList', []),
 	openid: getState('openid', [])

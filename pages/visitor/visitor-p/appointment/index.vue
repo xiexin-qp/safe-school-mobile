@@ -127,7 +127,7 @@ export default {
 				pageNum: this.pageList.page,
 				pageSize: this.pageList.size,
 				userName: this.searchName,
-				userCode: store.userInfo.userCode,
+				visitorCode: store.userInfo.userCode,
 				causeId: this.value0 === '0' ? '' : this.value0,
 				queryTime,
 				state,

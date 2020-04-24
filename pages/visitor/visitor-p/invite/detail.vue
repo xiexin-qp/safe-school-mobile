@@ -27,11 +27,11 @@
 					<view class="qui-fx-ver">
 						<view class="end qui-fx-ac">
 							<icon type="info" size="24" />
-							<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum }}</text>
+							<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</text>
 						</view>
 					</view>
 				</view>
-				<view v-if="refuseTag" class="log qui-fx-jsb">
+				<view v-if="refuseTag || state == '2'" class="log qui-fx-jsb">
 					<view class="start qui-fx-ac">
 						<icon type="cancel" size="24" />
 						<text style="margin-left: 10rpx;">拒绝原因：{{ comeLog.reason }}</text>
@@ -107,6 +107,10 @@ export default {
 		},
 		clickConfirm() {
 			this.$tools.confirm(`确定同意吗?`, () => {
+				if(this.imgList.length===0){
+					this.$tools.toast('请上传访客人脸识别照片');
+					return
+				}
 				const req = {
 					registPhoto: this.imgList[0],
 					id: this.id,
@@ -280,5 +284,14 @@ export default {
 		background-color: $main-color;
 		color: #fff;
 	}
+}
+/deep/ uni-input{
+	    line-height: 2.1em;
+	    height: 2.1em;
+	    min-height: 2.1em;
+}
+/deep/ .uni-popup__wrapper-box{
+	width: 80%;
+	border-radius: 6rpx;
 }
 </style>

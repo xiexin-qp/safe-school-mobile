@@ -54,6 +54,7 @@ export default {
 	components: {},
 	computed: {
 		userInfo: () => store.userInfo,
+		enjoyParentApp: () => store.enjoyParentApp,
 		relationShipList: () => store.relationShipList.map(item => item.relationShip)
 	},
 	mounted() {
@@ -142,6 +143,10 @@ export default {
 					typeCode,
 					typeName
 				}
+			})
+			setStore({
+				key: 'enjoyApp',
+				data: this.enjoyParentApp
 			})
 			eventBus.$emit('getChild')
 			this.$tools.goBack()

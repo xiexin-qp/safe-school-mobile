@@ -62,7 +62,7 @@ export default {
 	},
 	onLoad(options) {
 		this.id = options.id;
-		this.type = options.id;
+		this.type = options.type;
 	},
 	computed: {},
 	created() {},
@@ -145,7 +145,7 @@ export default {
 					type: 1,
 					respondentType: 1
 				};
-				console.log(req);
+				console.log(this.type);
 				const res = await actions.addInviteInfo(req);
 				this.$tools.toast('提交成功', 'success');
 				this.$tools.goNext(() => {
