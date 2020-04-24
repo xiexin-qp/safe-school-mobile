@@ -104,8 +104,7 @@ export default {
 				size: 15
       },
       morePage: false,
-      studentCode: '',
-      studentName: ''
+      studentCode: ''
     }
   },
   watch: {
@@ -127,7 +126,6 @@ export default {
 	},
   mounted () {
     this.studentCode = store.childList[0].userCode
-    this.studentName = store.childList[0].userName
     this.leaveReasonGet()
     this.teacherLeaveGet()
   },
@@ -162,7 +160,6 @@ export default {
         state: value1,
         page: this.pageList.page,
 				size: this.pageList.size,
-        userName: this.studentName,
         reasonId: this.value0 ===  '0' ? '' : this.value0,
         day: this.value2 === '0' ? '' : this.value2
       }
