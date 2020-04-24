@@ -358,7 +358,7 @@
   }
   .item-list {
     padding: 25rpx 15rpx;
-    background-color: #fff;
+    background-color: $uni-bg-color;
     .item-input {
       width: 100%;
       font-size: 26rpx;
@@ -377,7 +377,7 @@
       letter-spacing: 8rpx;
       margin: 0 20rpx;
       background-color: $main-color;
-      color:#fff;
+      color:$uni-bg-color;
       border-radius: $radius;
     }
   }
@@ -404,7 +404,7 @@
           letter-spacing: 8rpx;
           margin: 0 20rpx;
           background-color: $main-color;
-          color:#fff;
+          color:$uni-bg-color;
           border-radius: $radius;
           font-size: 28rpx;
         }

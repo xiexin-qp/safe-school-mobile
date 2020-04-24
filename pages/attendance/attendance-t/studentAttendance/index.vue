@@ -158,7 +158,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .student-attendance {
   .record-box {
     padding-top: 20rpx;
@@ -174,7 +174,7 @@ export default {
         width: 31%;
         float: left;  
         margin-bottom: 30rpx;
-        background-color: #fff;
+        background-color: $uni-bg-color;
         margin: 15rpx 0 5rpx 15rpx;
         padding: 20rpx 0;
         border-radius: 15rpx;

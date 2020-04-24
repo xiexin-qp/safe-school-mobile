@@ -339,7 +339,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .leave {
   background-color: #f0f8ff;
   position: relative;
@@ -347,7 +347,7 @@ export default {
     height: 80rpx;
     line-height: 80rpx;
     text-align: center;
-    background-color: #fff;
+    background-color: $uni-bg-color;
     margin-bottom: 15rpx;
     .nav-item {
       width: 30%;
@@ -378,7 +378,7 @@ export default {
       padding: 5rpx 5rpx 0 5rpx; 
       .leave-box {
         margin: 20rpx;
-        background-color: #fff;
+        background-color: $uni-bg-color;
         border-radius: 20rpx;
         padding: 25rpx 20rpx;
         &:first-of-type {
@@ -429,7 +429,7 @@ export default {
 }
 .dropdown {
     padding: 4rpx 18rpx 18rpx 18rpx;
-    background: #fff;
+    background: $uni-bg-color;
     font-size: 12px;
   }
   .dropdown-menu {
