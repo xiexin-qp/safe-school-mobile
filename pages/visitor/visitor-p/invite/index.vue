@@ -371,4 +371,9 @@ export default {
 		color: #fff;
 	}
 }
+/deep/ .uni-input{
+	    line-height: 2.1em;
+	    height: 2.1em;
+	    min-height: 2.1em;
+}
 </style>
