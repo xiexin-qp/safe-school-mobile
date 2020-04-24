@@ -17,6 +17,7 @@ const localData = uni.getStorageSync(projectName) || '{}'
 const getState = (state, val) => {
   return JSON.parse(localData)[state] || val
 }
+ 
 const store = Vue.observable({
   userInfo: JSON.parse(uni.getStorageSync('protal')).userInfo
 })
