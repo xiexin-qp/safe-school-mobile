@@ -214,7 +214,9 @@ export default {
 						id: this.type === '0' ? this.id : '',
 						type: '0',
 						respondentType: '1',
-						respondentCode: res.data
+						respondentCode: res.data,
+						openid: store.openid,
+						visitorUrl: this.imgList[0].split(',')[1]
 					};
 					console.log(req);
 					actions.addInviteInfo(req).then(res => {
@@ -222,7 +224,7 @@ export default {
 						this.$tools.goNext(() => {
 							this.$tools.navTo({
 								url: './index',
-								title: '来访邀约'
+								title: '来访预约'
 							});
 						});
 					});
