@@ -1,6 +1,6 @@
 <template>
 	<view class="qui-page login">
-		<view><image :src="logo" class="logo"></image></view>
+		<view><img src="/mobile-img/logo.png" class="logo"></img></view>
 		<view class="qui-fx-ac login-tab">
 			<view @click="changTab(1)" class="qui-fx-f1 qui-tx-c" :class="{ 'act': type === 1 }">密码登录</view>
 			<view @click="changTab(0)" class="qui-fx-f1 qui-tx-c" :class="{ 'act': type === 0 }">短信登录</view>
@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import logo from './assets/img/logo.png';
 import uniRequest from 'uni-request';
 import { setStore, actions } from './store/index.js';
 import vConsole from 'vconsole';
@@ -29,7 +28,6 @@ export default {
 			type: 1, // 密码
 			phone: '',
 			code: '',
-			logo,
 			total: 5,
 			tip: '获取验证码',
 		};

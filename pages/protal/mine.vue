@@ -1,11 +1,11 @@
 <template>
 	<view class="mine">
-		<view class="person-bg qui-fx-jsb" style="background: url('http://canpointtest.com/mobile-protal/images_/person-bg.png') no-repeat; backgroundSize: 100% 100%">
+		<view class="person-bg qui-fx-jsb" style="background: url('/mobile-img/person-bg-one.png') no-repeat; backgroundSize: 100% 100%">
 			<text>{{ userInfo.schoolName }}</text>
 			<text>{{ date }}</text>
 		</view>
 		<view class="person-info">
-			<view class="info qui-fx-ac-jc" style="background: url('http://canpointtest.com/mobile-protal/images_/person-info.png') no-repeat; backgroundSize: 100% 312rpx">
+			<view class="info qui-fx-ac-jc" style="background: url('/mobile-img/person-bg-two.png') no-repeat; backgroundSize: 100% 312rpx">
 				<view><img :src="userInfo.photoUrl || personIcon" alt="" /></view>
 				<view class="qui-fx-ac">
 					<text>{{ userInfo.userName }}</text>
@@ -41,13 +41,13 @@
 				</view>
 			</view>
 		</view>
-		<view class="mine-btn school">切换学校</view>
+		<view class="mine-btn school" v-if="false">切换学校</view>
 	</view>
 </template>
 
 <script>
 import eventBus from '@u/eventBus'
-import personIcon from './assets/img/person-icon.png';
+import personIcon from './assets/img/person-auto.png';
 import { store, setStore, actions } from './store/index.js';
 export default {
 	data() {
@@ -60,7 +60,9 @@ export default {
 		};
 	},
 	computed: {
-		userInfo: () => store.userInfo
+		userInfo: () => store.userInfo,
+		enjoyParentApp: () => store.enjoyParentApp,
+		enjoyTeacherApp: () => store.enjoyTeacherApp
 	},
 	async mounted() {
 		eventBus.$on('getChild', () => {
@@ -125,11 +127,19 @@ export default {
 					typeName
 				}
 			})
+			// 切换首页收藏应用
 			if (typeCode == '4') {
 				this.getClassInfo()
+				setStore({
+					key: 'enjoyApp',
+					data: this.enjoyParentApp
+				})
 			} else {
-				console.log(typeCode)
 				this.getChildList()
+				setStore({
+					key: 'enjoyApp',
+					data: this.enjoyTeacherApp
+				})
 			}
 		},
 		// 绑定孩子

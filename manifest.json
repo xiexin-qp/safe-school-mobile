@@ -147,7 +147,14 @@
                     "pathRewrite" : {
                         "^/lz_user_center" : ""
                     }
-                }
+                },
+								"/mobile-img": {
+									"target" : "http://canpointtest.com/mobile-img/", // 移动端图片管理
+									"changeOrigin" : true,
+									"pathRewrite" : {
+									    "^/mobile-img" : ""
+									}
+								}
             }
         }
     }
