@@ -6,7 +6,7 @@
 		</view>
 		<view class="person-info">
 			<view class="info qui-fx-ac-jc" style="background: url('/mobile-img/person-bg-two.png') no-repeat; backgroundSize: 100% 312rpx">
-				<view><img :src="userInfo.photoUrl || personIcon" alt="" /></view>
+				<view><img :src="userInfo.photoUrl || '/mobile-img/person-auto.png'" alt="" /></view>
 				<view class="qui-fx-ac">
 					<text>{{ userInfo.userName }}</text>
 					<text class="tip"></text>
@@ -47,12 +47,10 @@
 
 <script>
 import eventBus from '@u/eventBus'
-import personIcon from './assets/img/person-auto.png';
 import { store, setStore, actions } from './store/index.js';
 export default {
 	data() {
 		return {
-			personIcon,
 			date: this.$tools.getDateTime().substr(0, 10),
 			classInfo: {},
 			childList: [],
@@ -132,13 +130,13 @@ export default {
 				this.getClassInfo()
 				setStore({
 					key: 'enjoyApp',
-					data: this.enjoyParentApp
+					data: this.enjoyTeacherApp
 				})
 			} else {
 				this.getChildList()
 				setStore({
 					key: 'enjoyApp',
-					data: this.enjoyTeacherApp
+					data: this.enjoyParentApp
 				})
 			}
 		},

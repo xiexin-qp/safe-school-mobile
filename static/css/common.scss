@@ -23,21 +23,11 @@
 	position: fixed;
 	width: 120rpx;
 	height: 120rpx;
-	bottom: 40rpx;
+	bottom: 80rpx;
 	right: 40rpx;
-	border-radius: 100rpx;
-	background-color: $main-color;
-	color: #fff;
+	background: url(/mobile-img/add-btn.png) no-repeat;
+	background-size: 100%;
 	z-index: 88;
-	&::before {
-		position: absolute;
-		font-size: 90rpx;
-		left: 28rpx;
-		top: -5rpx;
-		z-index: 99;
-		color: #fff;
-		content: '+';
-	}
 }
 /**
  * 向右箭头
@@ -45,7 +35,7 @@
 .rit-icon {
 	width: 34rpx;
 	height: 34rpx;
-	background: url(../img/rit-icon.png);
+	background: url(/mobile-img/rit-icon.png);
 	background-size: 100%;
 }
 

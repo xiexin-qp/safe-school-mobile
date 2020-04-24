@@ -13,11 +13,12 @@
     <view class="enjoy">
       <view @click="goApp(enjoy)" v-for="enjoy in enjoyApp.concat(addMore)" :key="enjoy.id" class="enjoy-list qui-fx-ac-jc">
         <view>
-          <img :src="enjoy.icon || '/mobile-img/more-add-icon.png'" alt="">
+          <img :src="enjoy.icon || '/mobile-img/app-auto-icon.png'" alt="">
         </view>
         <text class="title">{{ enjoy.name.split('-')[0] }}</text>
       </view>
     </view>
+		<choose-child @change="childInfo"></choose-child>
     <view class="todo" v-if="false">
       您还有5个待办事项需要处理, 请尽快处理...
     </view>
@@ -38,6 +39,7 @@
 <script>
   import newList from './component/new-list.vue'
   import notice from './component/notice.vue'
+	import chooseChild from '@/components/choose-child/choose-child.vue'
   import { setStore, store, actions } from './store/index.js' 
   export default {
     data () {
@@ -65,7 +67,7 @@
         ],
         addMore: [
           {
-            icon: '',
+            icon: '/mobile-img/more-add-icon.png',
             id: 0,
             name: '更多'
           }
@@ -78,7 +80,8 @@
     },
     components: {
       newList,
-      notice
+      notice,
+			chooseChild
     },
 		mounted () {
 			if (this.userInfo.typeCode == 16) {
