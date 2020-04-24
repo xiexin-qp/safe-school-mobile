@@ -135,7 +135,6 @@ export default {
 					value: ele.schoolCode
 				});
 			});
-			
 		},
 		async getCause() {
 			if (!this.schoolList[this.formData.school]) {
