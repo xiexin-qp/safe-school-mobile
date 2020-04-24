@@ -4,12 +4,7 @@
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
         <view>学生姓名：</view>
-        <view class="qui-fx-f1 qui-fx-je">
-          <picker mode="selector" :value="currentChild" :range="child" @change="chooseChild">
-            {{child[currentChild]}}
-          </picker>
-        </view>
-        <view class="rit-icon"></view>
+        <view class="qui-fx-f1 qui-fx-je">{{ leaveInfo.userName }}</view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
@@ -70,14 +65,6 @@
           </radio-group>
         </view>
       </view>
-      <!-- <view class="qui-fx-ac qui-bd-b item-list">
-        <view class="must">*</view>
-			  <view>审批人：</view>
-			  <view class="qui-fx-f1  qui-fx-je">
-          {{teacherName}}
-			  </view>
-        <view ></view>
-			</view> -->
       <view class="qui-fx-ac qui-bd-b item-list">
 			  <view>抄送人：</view>
         <view @click="check" class="qui-fx-f1 qui-fx rit-icon">
@@ -86,13 +73,6 @@
           </view>
           <view class="rit-icon"></view>
         </view>
-			  <!-- <view class="qui-fx-f1  qui-fx-je">
-					{{leaveInfo.copyUser}}
-			  </view>
-        <view @click="check" class="qui-fx-f1 qui-fx rit-icon">
-          <view class="qui-fx-f1" ></view>
-          <view class="rit-icon"></view>
-        </view> -->
 			</view>
       <view class="qui-bd-b item-list">
 			  <view>上传附图：</view>
@@ -152,10 +132,11 @@
           copyUser: '',
           photoList:[],
           reasonId: '',
-          reason: ''
+          reason: '',
+          userName: '',
+          userCode: ''
         },
         oddNumbers: '',
-        // teacherName: '',
         pageList: {
           page: 1,
           size: 11
@@ -169,11 +150,11 @@
         this.detailGet(options.oddNumbers)
       } else {
         this.leaveReasonGet(0)
-        this.childGet(0)
       }
+        this.leaveInfo.userName = options.userName
+        this.leaveInfo.userCode = options.userCode
 	  },
     mounted () {
-      // this.teacherName = store.userInfo.teacherName
       this.orgUserGet()
     },
     methods: {
@@ -185,10 +166,8 @@
         this.leaveInfo.endDate = this.$tools.getDateTime(new Date(this.leaveInfo.endTime), 'date')
         this.leaveInfo.endTime = this.$tools.getDateTime(new Date(this.leaveInfo.endTime), 'time')
         this.leaveInfo.copyUser = this.leaveInfo.leaveCopyList.map(el=>el.userName).join(',')
-        // this.teacherName = this.leaveInfo.leaveApprovalAddDto.userName
         this.leaveCopyList = this.leaveInfo.leaveCopyList
         this.leaveReasonGet(1)
-        this.childGet(1)
       },
       async leaveReasonGet (type) {
         const res = await actions.getLeaveReason()
@@ -202,18 +181,6 @@
         } else {
           this.leaveInfo.reasonId = this.reasonList[0].id
           this.leaveInfo.reason = this.reasonList[0].name
-        }
-      },
-      async childGet (type) {
-        this.child = []
-        store.childList.forEach(el => {
-          this.child.push(el.userName)
-        })
-        if (type) {
-          this.currentChild = this.child.indexOf(this.leaveInfo.userName)
-        } else {
-          this.leaveInfo.studentCode = store.childList[0].userCode
-          this.leaveInfo.studentName = store.childList[0].userName
         }
       },
       radioChange (e) {
@@ -236,11 +203,6 @@
         this.currentRole = e.target.value
         this.leaveInfo.reasonId = this.reasonList[e.target.value].id
         this.leaveInfo.reason = this.reasonList[e.target.value].name
-      },
-      chooseChild (e) {
-        this.currentChild = e.target.value
-        this.leaveInfo.studentCode = store.childList[e.target.value].userCode
-        this.leaveInfo.studentName = store.childList[e.target.value].userName
       },
       async orgUserGet ( tag = false ){
         if (tag) {
@@ -319,8 +281,8 @@
           reason: this.leaveInfo.reason,
           reasonId: this.leaveInfo.reasonId,
           remark: this.leaveInfo.remark,
-          userName: this.leaveInfo.studentName,
-          userCode: this.leaveInfo.studentCode,
+          userName: this.leaveInfo.userName,
+          userCode: this.leaveInfo.userCode,
           schoolCode: store.userInfo.schoolCode
         }
         if (this.oddNumbers) {
