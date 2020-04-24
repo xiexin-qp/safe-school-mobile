@@ -70,14 +70,14 @@
           </radio-group>
         </view>
       </view>
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <!-- <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
 			  <view>审批人：</view>
 			  <view class="qui-fx-f1  qui-fx-je">
           {{teacherName}}
 			  </view>
         <view ></view>
-			</view>
+			</view> -->
       <view class="qui-fx-ac qui-bd-b item-list">
 			  <view>抄送人：</view>
 			  <view class="qui-fx-f1  qui-fx-je">
@@ -146,7 +146,7 @@
           reason: ''
         },
         oddNumbers: '',
-        teacherName: '',
+        // teacherName: '',
         pageList: {
           page: 1,
           size: 11
@@ -164,7 +164,7 @@
       }
 	  },
     mounted () {
-      this.teacherName = store.userInfo.teacherName
+      // this.teacherName = store.userInfo.teacherName
       this.orgUserGet()
     },
     methods: {
@@ -176,7 +176,7 @@
         this.leaveInfo.endDate = this.$tools.getDateTime(new Date(this.leaveInfo.endTime), 'date')
         this.leaveInfo.endTime = this.$tools.getDateTime(new Date(this.leaveInfo.endTime), 'time')
         this.leaveInfo.copyUser = this.leaveInfo.leaveCopyList.map(el=>el.userName).join(',')
-        this.teacherName = this.leaveInfo.leaveApprovalAddDto.userName
+        // this.teacherName = this.leaveInfo.leaveApprovalAddDto.userName
         this.leaveCopyList = this.leaveInfo.leaveCopyList
         this.leaveReasonGet(1)
         this.childGet(1)
@@ -301,11 +301,7 @@
           endTime: new Date(this.leaveInfo.endDate + ' ' + this.leaveInfo.endTime).getTime(),
           outSchool: this.leaveInfo.outSchool,
           leaveCopyList: this.leaveCopyList,
-          leaveApprovalAddDto:{
-            userCode: store.userInfo.teacherCode,
-            userName: store.userInfo.teacherName,
-            photoUrl : store.userInfo.photoUrl
-          },
+          leaveApprovalAddDto:{ },
           photoList: this.leaveInfo.photoList,
           reason: this.leaveInfo.reason,
           reasonId: this.leaveInfo.reasonId,

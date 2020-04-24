@@ -24,7 +24,7 @@
         </view>
       </view>
       <scroll-view scroll-y="true" class="scroll">
-        <view class="leave-remark"> {{ dayInfo.remark }} </view>
+        <view class="leave-remark"> {{ dayInfo.remark ? dayInfo.remark : '暂无' }} </view>
       </scroll-view>
       <view class="apply-box qui-fx-ac">
         <view class="qui-fx-ver qui-fx-ac">
