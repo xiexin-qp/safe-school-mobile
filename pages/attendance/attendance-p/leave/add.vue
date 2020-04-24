@@ -3,6 +3,16 @@
     <scroll-view scroll-y="true" class="scroll-h">
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
+        <view>学生姓名：</view>
+        <view class="qui-fx-f1 qui-fx-je">
+          <picker mode="selector" :value="currentChild" :range="child" @change="chooseChild">
+            {{child[currentChild]}}
+          </picker>
+        </view>
+        <view>></view>
+      </view>
+      <view class="qui-fx-ac qui-bd-b item-list">
+        <view class="must">*</view>
         <view>请假类型：</view>
         <view class="qui-fx-f1 qui-fx-je">
           <picker mode="selector" :value="currentRole" :range="role" @change="chooseRole">
@@ -116,10 +126,12 @@
 		data() {
 			return {
         role: [],
+        child: [],
         reasonList: [],
         dataList: [],
         leaveCopyList: [],
         currentRole: 0,
+        currentChild: 0,
         leaveInfo: {
           startDate: this.$tools.getDateTime(new Date(), 'date'),
           startTime: this.$tools.getDateTime(new Date(), 'time'),
@@ -148,6 +160,7 @@
         this.detailGet(options.oddNumbers)
       } else {
         this.leaveReasonGet(0)
+        this.childGet(0)
       }
 	  },
     mounted () {
@@ -166,6 +179,7 @@
         this.teacherName = this.leaveInfo.leaveApprovalAddDto.userName
         this.leaveCopyList = this.leaveInfo.leaveCopyList
         this.leaveReasonGet(1)
+        this.childGet(1)
       },
       async leaveReasonGet (type) {
         const res = await actions.getLeaveReason()
@@ -179,6 +193,18 @@
         } else {
           this.leaveInfo.reasonId = this.reasonList[0].id
           this.leaveInfo.reason = this.reasonList[0].name
+        }
+      },
+      async childGet (type) {
+        this.child = []
+        store.childList.forEach(el => {
+          this.child.push(el.userName)
+        })
+        if (type) {
+          this.currentChild = this.child.indexOf(this.leaveInfo.userName)
+        } else {
+          this.leaveInfo.studentCode = store.childList[0].userCode
+          this.leaveInfo.studentName = store.childList[0].userName
         }
       },
       radioChange (e) {
@@ -201,6 +227,11 @@
         this.currentRole = e.target.value
         this.leaveInfo.reasonId = this.reasonList[e.target.value].id
         this.leaveInfo.reason = this.reasonList[e.target.value].name
+      },
+      chooseChild (e) {
+        this.currentChild = e.target.value
+        this.leaveInfo.studentCode = this.childList[e.target.value].userCode
+        this.leaveInfo.studentName = this.childList[e.target.value].userName
       },
       async orgUserGet ( tag = false ){
         if (tag) {
@@ -279,8 +310,8 @@
           reason: this.leaveInfo.reason,
           reasonId: this.leaveInfo.reasonId,
           remark: this.leaveInfo.remark,
-          userName: store.userInfo.studentName,
-          userCode: store.userInfo.studentCode,
+          userName: this.leaveInfo.studentName,
+          userCode: this.leaveInfo.studentCode,
           schoolCode: store.userInfo.schoolCode
         }
         if (this.oddNumbers) {
