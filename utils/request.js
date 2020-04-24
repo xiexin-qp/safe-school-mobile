@@ -96,8 +96,8 @@ const $ajax = {
 				},
 				method: 'post',
 				success: (data) => {
-					if (data.data.code === 200) {
-						res = data.data
+					const res = data.data
+					if (res.code === 200) {
 						return responseRes(res)
 					} else {
 						return responseRes(res)
