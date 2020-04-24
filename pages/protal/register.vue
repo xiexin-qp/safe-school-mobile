@@ -109,6 +109,7 @@ export default {
 			page: 1,
 			size: 100
 		})
+		console.log(res)
 		this.schoolTotal = res.data.list
 		this.schoolList = res.data.list.map(item => {
 			return item.schoolName

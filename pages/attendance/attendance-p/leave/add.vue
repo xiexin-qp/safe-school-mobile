@@ -26,7 +26,7 @@
         <view>开始时间：</view>
         <view class="qui-fx-f1 qui-fx-je">
           <picker mode="date" :value="leaveInfo.startDate" @change="dateChange($event, 1)">
-            <view class="uni-input">{{leaveInfo.startDate | form}}</view>
+            <view class="uni-input">{{leaveInfo.startDate}}</view>
           </picker>
         </view>
         <view class="qui-fx-je" style="margin-left:10rpx">
