@@ -205,7 +205,7 @@ export default {
 						respondentName: this.formData.visitorName,
 						resMobile: this.formData.phone,
 						togetherNum: this.formData.togetherNum,
-						visitorMobile: store.userInfo.visitorMobile,
+						visitorMobile: store.userInfo.mobile,
 						visitorName: store.userInfo.userName,
 						causeId: cause.value,
 						causeName: cause.text,

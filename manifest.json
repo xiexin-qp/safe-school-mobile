@@ -135,14 +135,14 @@
 					}
 				},
 				"/lz_attendance": {
-					"target": "http://192.168.1.170:11004/", // 吕卓-考勤
+					"target": "http://192.168.1.46:11004/", // 吕卓-考勤
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/lz_attendance": ""
 					}
 				},
 				"/lz_user_center": {
-					"target": "http://192.168.1.170:11002/", // 吕卓-用户中心
+					"target": "http://192.168.1.46:11002/", // 吕卓-用户中心
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/lz_user_center": ""
