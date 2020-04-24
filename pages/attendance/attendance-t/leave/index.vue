@@ -348,7 +348,7 @@ export default {
 
 <style lang="scss" scoped>
 .leave {
-  background-color: #f0f8ff;
+  background-color: $bor-color;
   position: relative;
   .nav-tab {
     height: 80rpx;
@@ -381,7 +381,7 @@ export default {
     height: calc(100vh - 190rpx);
     // height: 85vh;
     .record-box {
-      background-color: #f2f8fe;
+      background-color: $bor-color;
       padding: 5rpx 5rpx 0 5rpx; 
       .leave-box {
         margin: 20rpx;

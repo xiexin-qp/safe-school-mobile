@@ -220,7 +220,7 @@ export default {
 
 <style lang="scss" scoped>
 .leave {
-  background-color: #f0f8ff;
+  background-color: $bor-color;
   position: relative;
   .select-box {
     background-color: #f1f8ff;
@@ -236,7 +236,7 @@ export default {
     height: calc(100vh - 110rpx);
     // height: 85vh;
     .record-box {
-      background-color: #f2f8fe;
+      background-color: $bor-color;
       padding: 5rpx 5rpx 0 5rpx; 
       .leave-box {
         margin: 20rpx;

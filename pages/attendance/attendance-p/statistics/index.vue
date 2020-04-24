@@ -230,7 +230,7 @@ export default {
 	  }
   .record-box {
     padding-top:20rpx;
-    background-color:#f2f8fe;
+    background-color:$bor-color;
     .attandence-title {
       height: 60rpx;
       line-height: 60rpx;
