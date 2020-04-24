@@ -28,7 +28,7 @@
 						<view class="end qui-fx-ac">
 							<icon type="info" size="24" />
 							<view style="margin-left: 10rpx;" v-if="state !== '0'">随行人数：{{ comeLog.togetherNum || 0 }}</view>
-							<view style="margin-left: 10rpx;" v-else class="qui-fx-ac togethernum">随行人数：<input type="number" v-model="comeLog.togetherNum" focus placeholder="0" /></view>
+							<view style="margin-left: 10rpx;" v-else class="qui-fx-ac togethernum">随行人数：<input type="number" v-model="comeLog.togetherNum" focus placeholder="" /></view>
 						</view>
 					</view>
 				</view>
