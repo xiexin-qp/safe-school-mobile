@@ -86,7 +86,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .scroll-h {
   height: calc(100vh - 100rpx);
 }
@@ -107,7 +107,9 @@ export default {
   }
   .normal-equ {
     font-size: 15px;
-    color: #c8c7cc;
+		color:#fff;
+		background-color: $main-color;
+		padding: 10rpx 20rpx;
   }
 }
 
