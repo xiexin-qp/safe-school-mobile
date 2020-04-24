@@ -18,20 +18,20 @@ const getState = (state, val) => {
   return JSON.parse(localData)[state] || val
 }
 
-const store = Vue.observable({
-  userInfo: JSON.parse(uni.getStorageSync('protal')).userInfo
-})
-
 /* const store = Vue.observable({
+  userInfo: JSON.parse(uni.getStorageSync('protal')).userInfo
+}) */
+
+const store = Vue.observable({
 	userInfo: {
 		schoolCode: 'CANPOINT11',
-		openid: 'ggg',
-		userCode: 'FK14j9iv07sc05p',
-		userName: '张鹏',
-		registPhoto: 'http://192.169.1.11/b.jpg',
-		visitorMobile: '18709876789'
-	}
-}) */
+		userCode: 'FK14jckp88fe5sp',
+		userName: '李传',
+		photoUrl: '',
+		mobile: '13510566216'
+	},
+	openid: '666'
+})
 
 // 修改数据
 const setStore = ({
