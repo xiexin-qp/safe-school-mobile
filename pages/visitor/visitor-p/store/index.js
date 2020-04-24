@@ -19,7 +19,8 @@ const getState = (state, val) => {
 }
 
 const store = Vue.observable({
-  userInfo: JSON.parse(uni.getStorageSync('protal')).userInfo
+  userInfo: JSON.parse(uni.getStorageSync('protal')).userInfo,
+	openid: JSON.parse(uni.getStorageSync('protal')).openid
 })
 
 /* const store = Vue.observable({
