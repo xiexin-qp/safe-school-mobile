@@ -331,6 +331,8 @@
       },
       radioUser (e) {
         const data = e.target.value
+        this.leaveInfo.studentName = data.split('^')[1].split('=')[0]
+        this.leaveInfo.studentCode = data.split('^')[0]
         // this.leaveApprovalAddDto = {
         //   userCode: data.split('^')[0],
         //   userName: data.split('^')[1].split('=')[0],
@@ -338,7 +340,10 @@
         // }
       },
       submit () {
-        if (this.leaveInfo.outSchool === '') {
+        if (this.leaveInfo.studentName === '') {
+          this.$tools.toast('请选择学生')
+          return false
+        } else if (this.leaveInfo.outSchool === '') {
           this.$tools.toast('请选择是否出校')
           return false
         } else if (new Date(this.leaveInfo.endDate + ' ' + this.leaveInfo.endTime).getTime() <= new Date(this.leaveInfo.startDate + ' ' + this.leaveInfo.startTime).getTime()) {
@@ -362,8 +367,8 @@
           reason: this.leaveInfo.reason,
           reasonId: this.leaveInfo.reasonId,
           remark: this.leaveInfo.remark,
-          userName: store.userInfo.studentName,
-          userCode: store.userInfo.studentCode,
+          userName: this.leaveInfo.studentName,
+          userCode: this.leaveInfo.studentCode,
           schoolCode: store.userInfo.schoolCode,
           orgName: store.userInfo.orgName
         }
