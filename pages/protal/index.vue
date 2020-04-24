@@ -65,8 +65,13 @@ export default {
 			const params = new URLSearchParams(url.substr(url.indexOf('?')).replace('#/', ''));
 			this.schoolCode = params.get('schoolCode') || '';
 			// 本地测试使用
+			if (!params.get('openid')) {
+				this.$tools.toast('请在地址栏输入openid进行绑定')
+				return
+			}
 			if (params.get('openid') || !params.get('code')) {
-				const openid = params.get('openid') || 'ojPaT0QK1z--3f-hUCHkKeDipIdw';
+				const openid = params.get('openid');
+				this.getUserInfo(openid)
 				this.setOpenid(openid);
 				return;
 			}
@@ -124,6 +129,15 @@ export default {
 		// 通过openid获取用户信息
 		async getUserInfo (openid) {
 			const res = await actions.getUserInfo(openid)
+			if (res.data) {
+				setStore({
+					key: 'userInfo',
+					data: res.data
+				});
+				this.$tools.navTo({
+					url: './main'
+				});
+			}
 		},
 		// 登录
 		async login() {

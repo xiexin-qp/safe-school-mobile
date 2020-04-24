@@ -14,15 +14,16 @@ let gradeApi = {
 let homeApi = {
 	login: '/mobile/user/info/login#post', // 用户登录
 	loginOut: '/mobile/user/info/signOut#getUrl', // 用户退出登录
-	addLog: '/mobile/user/info/log/add#get', // 添加日志
+	addLog: '/mobile/user/info/log/add#post', // 添加日志
 	getUserInfo: '/mobile/user/info#getUrl', // 通过openid查询用户信息
 	getCode: '/mobile/user/info/code/send#getUrl', // 获取验证码
 	parentAdd: '/mobile/user/info/parent/add#post', // 家长注册
 	bindChild: '/mobile/user/info/parent/student/add#post', // 家长绑定学生
 	delChild: '/mobile/user/info/parent/student/del#del', // 家长删除绑定学生
 	typeList: '/mobile/user/info/type/list#get', // 查询身份类型
-	getChildList: '/mobile/user/info/bind/stu/info#get', // 查询绑定学生信息
-	getClassInfo: '/mobile/user/info/bind/clazz/info#get' // 查询绑定的班级信息
+	getChildList: '/mobile/user/info/bind/stu/info#get#false', // 查询绑定学生信息
+	getClassInfo: '/mobile/user/info/bind/clazz/info#get', // 查询绑定的班级信息
+	getTypeList: '/mobile/user/info/type/list#get#false', // 查询用户拥有的身份
 }
 
 for (let val in homeApi) {
@@ -32,7 +33,8 @@ for (let val in homeApi) {
 homeApi = {
 	...homeApi,
 	...schoolApi,
-	...gradeApi
+	...gradeApi,
+	getMenuList: `${hostEnv.zx_protal}/role/manage/menu/multiple/tree/list#get`
 }
 
 export default homeApi
