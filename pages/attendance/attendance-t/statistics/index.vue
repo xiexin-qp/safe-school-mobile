@@ -95,7 +95,7 @@ export default {
           state: '5',
           num: `${res.data.normalCount}天`
         },{
-          title: '上学缺卡',
+          title: '上班缺卡',
           state: '3',
           num: `${res.data.onNoRecordCount}次`
         },{
@@ -107,7 +107,7 @@ export default {
           state: '2',
           num:  `${res.data.earlyCount}次`
         },{
-          title: '放学缺卡',
+          title: '下班缺卡',
           state: '6',
           num:  `${res.data.offNoRecordCount}次`
         },{
@@ -121,7 +121,7 @@ export default {
           state: '5',
           num: '0天'
         },{
-          title: '上学缺卡',
+          title: '上班缺卡',
           state: '3',
           num: '0次'
         },{
@@ -133,7 +133,7 @@ export default {
           state: '2',
           num:  '0次'
         },{
-          title: '放学缺卡',
+          title: '下班缺卡',
           state: '6',
           num:  '0次'
         },{
