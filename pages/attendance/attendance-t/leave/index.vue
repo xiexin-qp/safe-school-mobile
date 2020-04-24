@@ -330,10 +330,20 @@ export default {
       }
     },
     detail (id) {
+      if(this.currentIndex==='3' ){
+        this.leaveRead(id) 
+      }
       this.$tools.navTo({
 				url: `./detail?id=${id}`,
 				title: '查看详情'
 			})
+    },
+    leaveRead (oddNumbers) {
+      const req = {
+        userCode: store.userInfo.userCode,
+        oddNumbers: oddNumbers
+      }
+      actions.readTeacherLeave(req)
     }
   }
 }

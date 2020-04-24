@@ -30,7 +30,7 @@
         <view style="margin:0 0 10rpx 20rpx">审批人</view>
         <view class="apply-box qui-fx-ac">
           <view class="qui-fx-ver qui-fx-ac">
-            <image :src="dayInfo.leaveApprovalAddDto.photoUrl ? dayInfo.leaveApprovalAddDto.photoUrl : person" mode=""></image>
+            <image :src="dayInfo.leaveApprovalAddDto.photoUrl ? dayInfo.leaveApprovalAddDto.photoUrl : 'child-auto-icon.png'" mode=""></image>
             {{ dayInfo.leaveApprovalAddDto.userName }}
           </view>
           <view class="apply-content qui-fx-ver">

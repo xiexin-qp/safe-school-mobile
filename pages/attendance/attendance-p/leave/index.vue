@@ -35,17 +35,20 @@
       </view>
      </scroll-view>
      <view class="float-add-btn" @click="addLeave"> </view>
+     <choose-child @change="childInfo"></choose-child>
   </view>
 </template>
 
 <script>
+import chooseChild from '@/components/choose-child/choose-child.vue'
 import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue'
 import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue'
 import { store, actions } from '../store/index.js'
 export default {
   components: {
     msDropdownMenu,
-    msDropdownItem
+    msDropdownItem,
+    chooseChild
   },
   data () {
     return {
@@ -100,7 +103,9 @@ export default {
 				page: 1,
 				size: 15
       },
-      morePage: false
+      morePage: false,
+      studentCode: '',
+      studentName: ''
     }
   },
   watch: {
@@ -121,6 +126,8 @@ export default {
 		}
 	},
   mounted () {
+    this.studentCode = store.childList[0].userCode
+    this.studentName = store.childList[0].userName
     this.leaveReasonGet()
     this.teacherLeaveGet()
   },
@@ -150,12 +157,12 @@ export default {
 			}
       const req = {
         applicantCode: store.userInfo.userCode,
-        userCode: store.childList[0].userCode,
+        userCode: this.studentCode,
         time: '',
         state: value1,
         page: this.pageList.page,
 				size: this.pageList.size,
-        userName: store.childList[0].userName,
+        userName: this.studentName,
         reasonId: this.value0 ===  '0' ? '' : this.value0,
         day: this.value2 === '0' ? '' : this.value2
       }
@@ -203,6 +210,12 @@ export default {
         url: `./detail?id=${id}`,
         title: '查看详情'
       })
+    },
+    childInfo (item) {
+      if (item.userCode !== this.studentCode) {
+        this.studentCode = item.userCode
+        this.teacherLeaveGet()
+      }
     }
   }
 }

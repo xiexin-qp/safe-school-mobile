@@ -17,7 +17,7 @@
                 'work-title']"> {{dayInfo.onState | getState}}</view>
           </view>
           <view>
-            <image :src="(dayInfo && dayInfo.onSnacpUrl) ? dayInfo.onSnacpUrl : person"></image>
+            <image :src="(dayInfo && dayInfo.onSnacpUrl) ? dayInfo.onSnacpUrl : 'child-auto-icon.png'"></image>
           </view>
         </view>
         <view class="work-box qui-fx-jsb">
@@ -37,17 +37,23 @@
         </view>
       </view>
     </view>
+    <choose-child @change="childInfo"></choose-child>
   </view>
 </template>
 
 <script>
+import chooseChild from '@/components/choose-child/choose-child.vue'
 import { store, actions } from '../store/index.js'
 export default {
   data () {
     return {
       dayInfo: {},
-      day: new Date()
+      day: new Date(),
+      studentCode: ''
     }
+  },
+  components: {
+    chooseChild
   },
   mounted () {
     const date = new Date()
@@ -57,13 +63,14 @@ export default {
     let d = date.getDate()
     d = d < 10 ? ('0' + d) : d
     this.day = y + '-' + m + '-' + d
+    this.studentCode = store.childList[0].userCode
     this.showList()
   },
   methods: {
     // 正常 迟到(早退) 缺卡 绿色 橙色 红色
     async showList (tag = false) {
       const req ={
-        studentCode: store.childList[0].userCode,
+        studentCode: this.studentCode,
         day: this.day
       }
       const res = await actions.getChildAttendance(req)
@@ -72,6 +79,12 @@ export default {
     change (data) {
       this.day = data.fulldate
       this.showList()
+    },
+    childInfo (item) {
+      if (item.userCode !== this.studentCode) {
+        this.studentCode = item.userCode
+        this.showList()
+      }
     }
   }
 }
