@@ -23,7 +23,7 @@
      	<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
         <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
           <text> {{ list.userName }} </text>
-          <image :src="list.photoUrl ? list.photoUrl : '/mobile-img/person.png'" mode=""></image>
+          <image :src="list.photoUrl ? list.photoUrl : 'child-auto-icon.png'" mode=""></image>
         </view>
       </scroll-view>
     </uni-popup>
@@ -202,5 +202,8 @@ export default {
       }
     }
   }
+}
+/deep/ .uni-popup__wrapper-box {
+  width: 70%;
 }
 </style>

@@ -32,7 +32,7 @@
                 'work-title']"> {{dayInfo.offState | getState}}</view>
           </view>
           <view>
-            <image :src="(dayInfo && dayInfo.offSnacpUrl) ? dayInfo.offSnacpUrl : '/mobile-img/person.png'"></image>
+            <image :src="(dayInfo && dayInfo.offSnacpUrl) ? dayInfo.offSnacpUrl : 'child-auto-icon.png'"></image>
           </view>
         </view>
       </view>

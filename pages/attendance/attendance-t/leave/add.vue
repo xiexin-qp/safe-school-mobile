@@ -411,4 +411,7 @@
     }
   }
 }
+/deep/ .uni-popup__wrapper-box {
+  width: 70%;
+}
 </style>
