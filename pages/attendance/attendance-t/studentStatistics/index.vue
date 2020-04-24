@@ -18,7 +18,7 @@
             :key="item.id"
             @click="detail(item, index)"
           >
-            <image :src="normal" mode=""></image>
+            <image src="/mobile-img/normal.png" mode=""></image>
             <view> {{item.title}}</view>
             <view class="attandence-num"> {{item.num}}次</view>
           </view>
@@ -28,7 +28,7 @@
         <scroll-view  scroll-y="true" class="scroll-h">
           <no-data msg="暂无数据~" v-if="!dataList || dataList.length === 0"></no-data>
           <view v-else  v-for="(list, index) in dataList" :key="index" class="list qui-fx-ac-jc qui-fx-ac" @click="check(list)">
-            <image :src=" list.photoUrl ? list.photoUrl : person" mode=""></image>
+            <image :src=" list.photoUrl ? list.photoUrl : '/mobile-img/person.png'" mode=""></image>
             <text>{{ list.userName }}</text>
           </view>
         </scroll-view>
@@ -45,14 +45,10 @@
 </template>
 
 <script>
-import person from '@s/img/person.png'
-import normal from '@s/img/normal.png'
 import { store, actions } from '../store/index.js'
 export default {
   data () {
     return {
-      person,
-      normal,
       dataList: [],
       attandenceInfo:[],
 			lastMonth: this.lastFiveMonth(),

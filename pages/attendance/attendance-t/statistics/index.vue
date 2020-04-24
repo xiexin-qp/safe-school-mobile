@@ -18,7 +18,7 @@
             :key="item.id"
             @click="detail(item)"
           >
-            <image :src="normal" mode=""></image>
+            <image src="/mobile-img/normal.png" mode=""></image>
             <view> {{item.title}}</view>
             <view class="attandence-num"> {{item.num}}</view>
           </view>
@@ -36,14 +36,10 @@
 </template>
 
 <script>
-import person from '@s/img/person.png'
-import normal from '@s/img/normal.png'
 import { store, actions } from '../store/index.js'
 export default {
   data () {
     return {
-      person,
-      normal,
       dataList: [],
       attandenceInfo:[],
 			lastMonth: this.lastFiveMonth(),

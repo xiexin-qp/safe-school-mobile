@@ -18,7 +18,7 @@
             :key="item.id"
             @click="detail(item)"
           >
-            <image :src="normal" mode=""></image>
+            <image src="/mobile-img/normal.png" mode=""></image>
             <view> {{item.title}}</view>
             <view class="attandence-num"> {{item.num}}</view>
           </view>
@@ -36,14 +36,10 @@
 </template>
 
 <script>
-import person from '@s/img/person.png'
-import normal from '@s/img/normal.png'
 import { store, actions } from '../store/index.js'
 export default {
   data () {
     return {
-      person,
-      normal,
       dataList: [],
       attandenceInfo:[],
 			lastMonth: this.lastFiveMonth(),
@@ -86,7 +82,7 @@ export default {
       this.yearTitle = month
       const req = {
 				month: month,
-				studentCode: store.userInfo.userCode
+				studentCode: store.childList[0].userCode
 			}
       const res = await actions.studentMonthStatic(req)
       if( res.data ) {
@@ -153,7 +149,7 @@ export default {
         }
         const req = {
           month: this.yearTitle,
-          studentCode: store.userInfo.userCode,
+          studentCode: store.childList[0].userCode,
           state: item.state,
           page: this.pageList.page,
 				  size: this.pageList.size

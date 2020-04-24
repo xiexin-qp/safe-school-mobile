@@ -32,7 +32,7 @@
                 'work-title']"> {{dayInfo.offState | getState}}</view>
           </view>
           <view>
-            <image :src="(dayInfo && dayInfo.offSnacpUrl) ? dayInfo.offSnacpUrl : person"></image>
+            <image :src="(dayInfo && dayInfo.offSnacpUrl) ? dayInfo.offSnacpUrl : '/mobile-img/person.png'"></image>
           </view>
         </view>
       </view>
@@ -41,12 +41,10 @@
 </template>
 
 <script>
-import person from '@s/img/person.png'
 import { store, actions } from '../store/index.js'
 export default {
   data () {
     return {
-      person,
       dayInfo: {},
       day: new Date()
     }
@@ -65,7 +63,7 @@ export default {
     // 正常 迟到(早退) 缺卡 绿色 橙色 红色
     async showList (tag = false) {
       const req ={
-        studentCode: store.userInfo.userCode,
+        studentCode: store.childList[0].userCode,
         day: this.day
       }
       const res = await actions.getChildAttendance(req)

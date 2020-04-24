@@ -43,7 +43,7 @@
         <view style="margin:0 0 10rpx 20rpx">抄送人</view>
         <view class="apply-box qui-fx-ac" v-for="copyer in dayInfo.leaveCopyList" :key="copyer.userCode">
           <view class="qui-fx-ver qui-fx-ac">
-            <image :src="copyer.photoUrl ? copyer.photoUrl : person" mode=""></image>
+            <image :src="copyer.photoUrl ? copyer.photoUrl : '/mobile-img/person.png'" mode=""></image>
             {{ copyer.userName }}
           </view>
           <view class="apply-content qui-fx-ver">
@@ -57,14 +57,10 @@
 </template>
 
 <script>
-import person from '@s/img/person.png'
-import normal from '@s/img/normal.png'
 import { actions } from '../store'
 export default {
   data () {
     return {
-      person,
-      normal,
       dayInfo: { }
     }
   },
