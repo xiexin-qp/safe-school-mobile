@@ -93,7 +93,7 @@ export default {
 				gradeCode: '',
 				classCode: '',
 				relationShip: '',
-				photoUrl: ''
+				// photoUrl: []
 			}
 		}
 	},
@@ -165,7 +165,7 @@ export default {
 		},
 		// 选择关系
 		chooseRelation (item) {
-			if (!item) return
+			if (this.relationShipList.length === 0) return
 			const index = item.target.value
 			this.relationShip = this.relationShipList[index]
 			this.formData.relationShip = index + 1
@@ -184,6 +184,7 @@ export default {
 				this.$tools.toast('请输入正确手机号')
 				return
 			}
+			this.formData.photoUrl = ''
 			await actions.parentAdd({
 				...this.formData,
 				openid: this.openid
