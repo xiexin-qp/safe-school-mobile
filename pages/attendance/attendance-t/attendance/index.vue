@@ -17,7 +17,7 @@
                 'work-title']"> {{dayInfo.onState | getState}}</view>
           </view>
           <view>
-            <image :src="(dayInfo && dayInfo.onSnacpUrl) ? dayInfo.onSnacpUrl : 'child-auto-icon.png'"></image>
+            <image :src="(dayInfo && dayInfo.onSnacpUrl) ? dayInfo.onSnacpUrl : hostEnv.mobile_img + 'child-auto-icon.png'"></image>
           </view>
         </view>
         <view class="work-box qui-fx-jsb">
@@ -32,7 +32,7 @@
                 'work-title']"> {{dayInfo.offState | getState}}</view>
           </view>
           <view>
-            <image :src="(dayInfo && dayInfo.offSnacpUrl) ? dayInfo.offSnacpUrl : 'child-auto-icon.png'"></image>
+            <image :src="(dayInfo && dayInfo.offSnacpUrl) ? dayInfo.offSnacpUrl : hostEnv.mobile_img + 'child-auto-icon.png'"></image>
           </view>
         </view>
       </view>
@@ -41,10 +41,12 @@
 </template>
 
 <script>
+import hostEnv from '@config/index'
 import { store, actions } from '../store/index.js'
 export default {
   data () {
     return {
+			hostEnv,
       dayInfo: {},
       day: new Date()
     }
