@@ -1,12 +1,11 @@
 <template>
 	<view class="no-data qui-fx-ac-jc">
-		<img :src="noData" alt="" />
+		<img src="/mobile-img/no-data.png" alt="" />
     <text class="msg">{{ msg }}</text>
 	</view>
 </template>
 
 <script>
-  import noData from '@s/img/no-data.png'
 	export default {
     props: {
       msg: {
@@ -16,7 +15,6 @@
     },
 		data() {
 			return {
-        noData
 			}
 		},
 		methods: {

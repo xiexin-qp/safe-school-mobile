@@ -27,11 +27,12 @@
 					<view class="qui-fx-ver">
 						<view class="end qui-fx-ac">
 							<icon type="info" size="24" />
-							<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</text>
+							<view style="margin-left: 10rpx;" v-if="state !== '0'">随行人数：{{ comeLog.togetherNum || 0 }}</view>
+							<view style="margin-left: 10rpx;" v-else class="qui-fx-ac togethernum">随行人数：<input type="number" v-model="comeLog.togetherNum" focus placeholder="0" /></view>
 						</view>
 					</view>
 				</view>
-				<view v-if="refuseTag" class="log qui-fx-jsb">
+				<view v-if="refuseTag || state == '2'" class="log qui-fx-jsb">
 					<view class="start qui-fx-ac">
 						<icon type="cancel" size="24" />
 						<text style="margin-left: 10rpx;">拒绝原因：{{ comeLog.reason }}</text>
@@ -272,5 +273,26 @@ export default {
 		background-color: $main-color;
 		color: #fff;
 	}
+}/deep/ uni-input{
+	    line-height: 2.1em;
+	    height: 2.1em;
+	    min-height: 2.1em;
+}
+.togethernum{
+	/deep/ uni-input{
+		    line-height: 1.4em;
+		    height: 1.4em;
+		    min-height: 1.4em;
+				max-width: 60rpx;
+				.uni-input-input{
+					padding: 0 10rpx;
+					border: 1rpx solid #ddd;
+					border-radius: 4rpx;
+				}
+	}
+}
+/deep/ .uni-popup__wrapper-box{
+	width: 80%;
+	border-radius: 6rpx;
 }
 </style>

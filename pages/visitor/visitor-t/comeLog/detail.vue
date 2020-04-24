@@ -36,7 +36,7 @@
 		<view class="log qui-fx-jsb">
 			<view class="start qui-fx-ac">
 				<icon type="info" size="24" />
-				<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum }}</text>
+				<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</text>
 			</view>
 			<view class="end qui-fx-ac">
 				<icon type="waiting" size="24" />
