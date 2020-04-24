@@ -3,17 +3,17 @@
     <view class="banner">
     	<swiper class="swiper" :indicator-active-color="actColor" :indicator-color="autoColor" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval">
     		<swiper-item>
-          <img class="banner-img" src="./assets/img/banner1.png" />
+          <img class="banner-img" src="/mobile-img/banner-one.png" />
         </swiper-item>
         <swiper-item>
-          <img class="banner-img" src="./assets/img/banner2.png" />
+          <img class="banner-img" src="/mobile-img/banner-two.png" />
         </swiper-item>
     	</swiper>
     </view>
     <view class="enjoy">
       <view @click="goApp(enjoy)" v-for="enjoy in enjoyApp.concat(addMore)" :key="enjoy.id" class="enjoy-list qui-fx-ac-jc">
         <view>
-          <img :src="enjoy.icon || appImg" alt="">
+          <img :src="enjoy.icon || '/mobile-img/more-add-icon.png'" alt="">
         </view>
         <text class="title">{{ enjoy.name.split('-')[0] }}</text>
       </view>
@@ -36,15 +36,12 @@
 </template>
 
 <script>
-  import add from './assets/img/add.png'
-	import appImg from './assets/img/app.png'
   import newList from './component/new-list.vue'
   import notice from './component/notice.vue'
   import { setStore, store, actions } from './store/index.js' 
   export default {
     data () {
       return {
-				appImg,
         show: true,
         newsType: 0,
         autoColor: 'rgba(0, 0, 0, .2)',
@@ -68,7 +65,7 @@
         ],
         addMore: [
           {
-            icon: add,
+            icon: '',
             id: 0,
             name: '更多'
           }

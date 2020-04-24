@@ -44,7 +44,7 @@
 
 <script>
   import { store, setStore, actions } from './store/index.js'
-  import appImg from './assets/img/app.png'
+  import appImg from './assets/img/person-auto.png'
 	import menuData from './assets/menu.js' 
   export default {
     data () {
@@ -56,7 +56,7 @@
     },
     computed: {
 			userInfo: () => store.userInfo,
-      enjoyApp: () => store.enjoyApp
+			enjoyApp: () => store.enjoyApp
     },
     async mounted () {
 			this.getMenuList()
@@ -118,6 +118,18 @@
           key: 'enjoyApp',
           data
         })
+				// 分别存教职工和家长的首页收藏app
+				if (this.userInfo.typeCode == 4) {
+					setStore({
+						key: 'enjoyTeacherApp',
+						data
+					})
+				} else {
+					setStore({
+						key: 'enjoyParentApp',
+						data
+					})
+				}
       },
       isShow (id) {
         return this.enjoyApp.some(item => {

@@ -3,7 +3,7 @@
  * @params get, getUrl(参数直接拼接在url斜杠后面), post(JSON数据提交), postForm(表单数据提交)
  * @params false: 请求没有加载提示，默认有
  */
-import hostEnv from '../../../config/index.js'
+import hostEnv from '@config/index.js'
 let schoolApi = {
 	getSchoolList: `${hostEnv.zk_school}/school/info/getSchoolInfoListPage#post`, // 获取学校列表
 }
