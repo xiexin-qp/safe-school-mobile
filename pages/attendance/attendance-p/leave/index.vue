@@ -56,10 +56,10 @@ export default {
       dayInfo: [],
       leaveList: [],
       dataList: [],
-      casueList: [{text:'请假类型',value:'0'}],
+      casueList: [{text:'全部请假',value:'0'}],
       dateList: [
         {
-          text: '审批状态',
+          text: '全部审批',
           value: '0'
         },
         {
@@ -154,12 +154,12 @@ export default {
 			}
       const req = {
         applicantCode: store.userInfo.userCode,
-        userCode: store.userInfo.studentCode,
+        userCode: store.childList.userCode,
         time: '',
         state: value1,
         page: this.pageList.page,
 				size: this.pageList.size,
-        userName: '',
+        userName: store.childList.userName,
         reasonId: this.value0 ===  '0' ? '' : this.value0,
         day: this.value2 === '0' ? '' : this.value2
       }

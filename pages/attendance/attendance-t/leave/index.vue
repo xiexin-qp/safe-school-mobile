@@ -71,10 +71,10 @@ export default {
         id: '3',
         name: '我的抄送'
       }],
-      casueList: [{text:'请假类型',value:'0'}],
+      casueList: [{text:'全部请假',value:'0'}],
       dateList: [
         {
-          text: '审批状态',
+          text: '全部审批',
           value: '0'
         },
         {

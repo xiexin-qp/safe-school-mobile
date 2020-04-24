@@ -1,6 +1,6 @@
 <template>
-  <view class="detail qui-page">
-      <scroll-view scroll-y="true" class="scroll-h">
+  <view class="detail qui-page qui-fff">
+    <scroll-view scroll-y="true" class="scroll-h">
       <view class="leave-detail qui-fx-ver">
         <view class="leave-info qui-fx-jsb qui-fx-ac">
           <view class="leave-name"> {{ dayInfo.userName }} {{ dayInfo.reason }} {{ dayInfo.duration }}小时 </view>
@@ -23,7 +23,9 @@
           </view>
         </view>
       </view>
-      <view class="leave-remark"> {{ dayInfo.remark }} </view>
+      <scroll-view scroll-y="true" class="scroll">
+        <view class="leave-remark"> {{ dayInfo.remark }} </view>
+      </scroll-view>
       <view class="apply-box qui-fx-ac">
         <view class="qui-fx-ver qui-fx-ac">
           审批人
@@ -113,9 +115,7 @@ export default {
   }
   .leave-remark {
     height: 100rpx;
-    line-height: 90rpx;
-    padding-left: 20rpx;
-    background-color: #fff;
+    padding: 20rpx;
   }
   .apply-box {
     height: 280rpx;
@@ -142,5 +142,8 @@ export default {
 }
 .scroll-h{
   height: 100vh;
+}
+.scroll{
+  height: 100rpx;
 }
 </style>
