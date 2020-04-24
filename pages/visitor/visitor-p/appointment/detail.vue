@@ -3,7 +3,7 @@
 		<view class="detail">
 			<view class="top qui-fx-jsb">
 			    <view class="info qui-fx-ac">
-							<image :src="photo ? photo : errorImg" alt="">
+							<image :src="comeLog.resUrl ? comeLog.resUrl : errorImg" alt="">
 							<view class="qui-fx-ver">
 								<text class="name">{{ comeLog.respondentName }}</text>
 								<text class="phone">{{ comeLog.resMobile }}</text>
@@ -35,7 +35,7 @@
 					<icon type="info" size="24" />
 					<text style="margin-left: 10rpx;">我的照片：</text>
 				</view>
-				<image class="myphoto" :src="comeLog.visitorPhoto ? comeLog.visitorPhoto : errorImg" alt="">
+				<image class="myphoto" :src="comeLog.visitorUrl ? comeLog.visitorUrl : errorImg" alt="">
 			</view>
 			<view v-if="state == 2" class="log qui-fx-jsb">
 				<view class="start qui-fx-ac">
@@ -66,7 +66,8 @@ export default {
 				togetherNum: '',
 				duration: '',
 				reason: '',
-				visitorPhoto: ''
+				visitorUrl: '',
+				resUrl: ''
 			}
 		};
 	},
@@ -79,7 +80,6 @@ export default {
 			return;
 		}
 		this.comeLog = res.data;
-		this.photo = res.data.registPhoto;
 		this.state = res.data.state;
 	},
 	methods: {}
