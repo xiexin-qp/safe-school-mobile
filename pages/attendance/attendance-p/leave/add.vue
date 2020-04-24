@@ -230,8 +230,8 @@
       },
       chooseChild (e) {
         this.currentChild = e.target.value
-        this.leaveInfo.studentCode = this.childList[e.target.value].userCode
-        this.leaveInfo.studentName = this.childList[e.target.value].userName
+        this.leaveInfo.studentCode = store.childList[e.target.value].userCode
+        this.leaveInfo.studentName = store.childList[e.target.value].userName
       },
       async orgUserGet ( tag = false ){
         if (tag) {
