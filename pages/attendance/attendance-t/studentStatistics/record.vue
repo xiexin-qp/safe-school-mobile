@@ -179,46 +179,46 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .stundent-statistics {
-    background-color: #f1f8ff;
-    .title {
-      height: 80rpx;
-      background-color: #fff;
-      justify-content: center;
-      image {
-        width: 50rpx;
-        height: 50rpx;
-        margin-right: 10rpx;
-        border-radius: 50%;
-      }
+  background-color: $uni-bg-color-grey;
+  .title {
+    height: 80rpx;
+    background-color: $uni-bg-color;
+    justify-content: center;
+    image {
+      width: 50rpx;
+      height: 50rpx;
+      margin-right: 10rpx;
+      border-radius: 50%;
     }
-    .record-box {
-      background-color:#f2f8fe;
-      .attandence-box {
-        height: 425rpx;
-        .attandence-info {
-          width: 29.8%;
-          float: left;  
-          background-color: #fff;
-          margin: 15rpx 0 5rpx 20rpx;
-          padding: 20rpx 0;
-          border-radius: 15rpx;
-          image {
-            width: 60rpx;
-            height: 60rpx;
-            margin-bottom: 10rpx;
-          }
-          .attandence-num {
-            color: #ccc;
-            font-size: 28rpx;
-          }
+  }
+  .record-box {
+    background-color:$uni-bg-color-hover;
+    .attandence-box {
+      height: 425rpx;
+      .attandence-info {
+        width: 29.8%;
+        float: left;  
+        background-color: $uni-bg-color;
+        margin: 15rpx 0 5rpx 20rpx;
+        padding: 20rpx 0;
+        border-radius: 15rpx;
+        image {
+          width: 60rpx;
+          height: 60rpx;
+          margin-bottom: 10rpx;
         }
-        :nth-child(3n) {
-          border-right: none;
+        .attandence-num {
+          color: $dark-color;
+          font-size: 28rpx;
         }
       }
+      :nth-child(3n) {
+        border-right: none;
+      }
     }
+  }
   .scroll-h {
     height: 70vh;
     .list {
@@ -231,7 +231,7 @@ export default {
   }
   .scroll {
     height: calc(100vh - 620rpx);
-    background-color: #fff;
+    background-color: $uni-bg-color;
     margin-top: 15rpx;
   }
 }

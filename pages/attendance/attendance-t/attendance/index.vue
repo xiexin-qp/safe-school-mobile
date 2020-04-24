@@ -77,11 +77,11 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .attendance {
   .record-box {
     margin-top: 20rpx;
-    background-color: #fff;
+    background-color: $uni-bg-color;
     .work-box {
       padding: 30rpx 40rpx;
       border-bottom: 1rpx solid #cfd0d1;
@@ -96,7 +96,8 @@ export default {
         color: #48ce92;
       }
       .absence-title {
-        color: #FF0000;
+        color: $tip-color;
+        background-color: $main-color;
       }
       .unnormal-title {
         color: #FFCC00;

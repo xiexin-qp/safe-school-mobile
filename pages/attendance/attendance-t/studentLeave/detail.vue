@@ -76,7 +76,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .detail {
   .leave-detail {
     height: 250rpx;
@@ -93,7 +93,7 @@ export default {
         line-height: 55rpx;
         background-color: #6d7cff;
         border-radius: 50rpx 0 0 50rpx;
-        color: #fff;
+        color: $uni-bg-color;
         font-size: 34rpx;
         text-align: center;
       }
@@ -107,7 +107,7 @@ export default {
         width: 70rpx;
         border-radius: 50%;
         background-color: #b5c7ff;
-        color: #fff;
+        color: $uni-bg-color;
         font-size: 32rpx;
         margin-right: 20rpx;
       }
@@ -119,7 +119,7 @@ export default {
   }
   .apply-box {
     height: 280rpx;
-    background-color: #fff;
+    background-color: $uni-bg-color;
     padding: 40rpx;
     margin-top: 1rpx solid #f0f1f2;
     image {

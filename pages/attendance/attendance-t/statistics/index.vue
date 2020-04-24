@@ -187,12 +187,12 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .statistics {
 	.year-list {
 	    background-color:#0079ff;
 	    .title {
-	      color:#fff;
+	      color:$uni-bg-color;
 	      font-size: 34rpx;
 	      font-weight: bold;
 	      text-align: center;
@@ -201,7 +201,7 @@ export default {
 	    .last-month {
 	      padding: 20rpx 0 40rpx 0;
 	      & > view {
-	        color:#fff;
+	        color:$uni-bg-color;
 	        text-align: center;
 	        height: 80rpx;
 	        width: 80rpx;
@@ -209,7 +209,7 @@ export default {
 	        border-radius: 100%;
 	      }
 	      .act {
-	        background-color:#fff;
+	        background-color:$uni-bg-color;
 	        color: #0079ff;
 	        font-weight: bold
 	      }
@@ -232,7 +232,7 @@ export default {
         width: 31%;
         float: left;  
         margin-bottom: 30rpx;
-        background-color: #fff;
+        background-color: $uni-bg-color;
         margin: 15rpx 0 5rpx 15rpx;
         padding: 20rpx 0;
         border-radius: 15rpx;
