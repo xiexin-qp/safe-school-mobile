@@ -66,6 +66,13 @@ const filters = {
 		} else if (value === 7) {
 			return '缺勤'
 		} 
+	},
+	getRead: value=> {
+		if (value === '0') {
+			return '未读'
+		} else if (value === '1') {
+			return '已读'
+		}
 	}
 }
 

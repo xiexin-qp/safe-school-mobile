@@ -44,7 +44,6 @@
 <script>
 import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue'
 import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue'
-import person from '@s/img/person.png'
 import { store, actions } from '../store/index.js'
 export default {
   components: {
@@ -53,7 +52,6 @@ export default {
   },
   data () {
     return {
-      person,
       dayInfo: [],
       leaveList: [],
       dataList: [],

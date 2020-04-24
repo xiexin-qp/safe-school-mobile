@@ -67,10 +67,6 @@ export default {
 				{
 					text: '拒绝',
 					value: '2'
-				},
-				{
-					text: '撤销',
-					value: '3'
 				}
 			],
 			pageList: {
@@ -371,9 +367,13 @@ export default {
 		color: #fff;
 	}
 }
-/deep/ .uni-input{
+/deep/ uni-input{
 	    line-height: 2.1em;
 	    height: 2.1em;
 	    min-height: 2.1em;
+}
+/deep/ .uni-popup__wrapper-box{
+	width: 80%;
+	border-radius: 6rpx;
 }
 </style>

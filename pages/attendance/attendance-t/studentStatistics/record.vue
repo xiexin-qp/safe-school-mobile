@@ -2,7 +2,7 @@
   <view class="stundent-statistics qui-page">
     <view>
       <view class="title qui-fx-ac">
-        <image :src="photo ? photo : person" mode=""></image>
+        <image :src="photo ? photo : 'child-auto-icon.png'" mode=""></image>
         <view>{{studentName}} {{month}} 考勤统计</view>
       </view>
       <view class="record-box">
@@ -13,14 +13,14 @@
             :key="item.id"
             @click="detail(item)"
           >
-            <image :src="normal" mode=""></image>
+            <image :src="`/mobile-img/${item.img}.png`" mode=""></image>
             <view> {{item.title}}</view>
             <view class="attandence-num"> {{item.num}}</view>
           </view>
         </view>
       </view>
       <view class="title qui-fx-ac">
-        <image :src="photo ? photo : person" mode=""></image>
+        <image :src="photo ? photo : 'child-auto-icon.png'" mode=""></image>
         <view>{{studentName}}  {{month}} 考勤记录</view>
       </view>
       <scroll-view scroll-y="true" class="scroll">
@@ -39,8 +39,6 @@
 
 <script>
 import steps from './steps.vue'
-import person from '@s/img/person.png'
-import normal from '@s/img/normal.png'
 import { store, actions } from '../store/index.js'
 export default {
   components: {
@@ -48,8 +46,6 @@ export default {
   },
   data () {
     return {
-      person,
-      normal,
       dataList: [],
       attandenceInfo:[],
       pageList: {
@@ -85,53 +81,65 @@ export default {
         this.attandenceInfo = [{
           title: '正常',
           state: '5',
-          num: `${res.data.normalCount}天`
+          num: `${res.data.normalCount}天`,
+          img: 'qk-zc-icon'
         },{
           title: '上学缺卡',
           state: '3',
-          num: `${res.data.onNoRecordCount}次`
+          num: `${res.data.onNoRecordCount}次`,
+          img: 'qk-qk-icon'
         },{
           title: '迟到',
           state: '1',
-          num:  `${res.data.lateCount}次`
+          num:  `${res.data.lateCount}次`,
+          img: 'qk-cd-icon'
         },{
           title: '早退',
           state: '2',
-          num:  `${res.data.earlyCount}次`
+          num:  `${res.data.earlyCount}次`,
+          img: 'qk-zt-icon'
         },{
           title: '放学缺卡',
           state: '6',
-          num:  `${res.data.offNoRecordCount}次`
+          num:  `${res.data.offNoRecordCount}次`,
+          img: 'qk-qk-icon'
         },{
           title: '缺勤',
           state: '7',
-          num:  `${res.data.noRecord}天`
+          num:  `${res.data.noRecord}天`,
+          img: 'qk-qq-icon'
         }]
       } else {
         this.attandenceInfo = [{
           title: '正常',
           state: '5',
-          num: '0天'
+          num: '0天',
+          img: 'qk-zc-icon'
         },{
           title: '上学缺卡',
           state: '3',
-          num: '0次'
+          num: '0次',
+          img: 'qk-qk-icon'
         },{
           title: '迟到',
           state: '1',
-          num:  '0次'
+          num:  '0次',
+          img: 'qk-cd-icon'
         },{
           title: '早退',
           state: '2',
-          num:  '0次'
+          num:  '0次',
+          img: 'qk-zt-icon'
         },{
           title: '放学缺卡',
           state: '6',
-          num:  '0次'
+          num:  '0次',
+          img: 'qk-qk-icon'
         },{
           title: '缺勤',
           state: '7',
-          num:  '0天'
+          num:  '0天',
+          img: 'qk-qq-icon'
         }]
       }
 		},
@@ -226,5 +234,8 @@ export default {
     background-color: #fff;
     margin-top: 15rpx;
   }
+}
+/deep/ .uni-popup__wrapper-box {
+  width: 70%;
 }
 </style>
