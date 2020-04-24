@@ -90,6 +90,7 @@ export default {
 	},
 	onLoad(options) {
 		this.id = options.id;
+		console.log(store);
 	},
 	async mounted() {
 		const res = await actions.getInviteDetail(this.id);

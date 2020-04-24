@@ -71,7 +71,7 @@ export default {
 			return;
 		}
 		this.comeLog = res.data;
-		this.photo = res.data.registPhoto;
+		this.photo = res.data.visitorUrl;
 		this.visitorName = res.data.visitorName;
 		this.visitorPhone = res.data.visitorMobile;
 		this.causeName = res.data.causeName;
