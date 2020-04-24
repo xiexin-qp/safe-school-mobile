@@ -9,7 +9,7 @@
             {{child[currentChild]}}
           </picker>
         </view>
-        <view>></view>
+        <view class="rit-icon"></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
@@ -19,7 +19,7 @@
             {{role[currentRole]}}
           </picker>
         </view>
-        <view>></view>
+        <view class="rit-icon"></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
@@ -34,7 +34,7 @@
             <view class="uni-input"> {{leaveInfo.startTime}}</view>
           </picker>
         </view>
-        <view>></view>
+        <view class="rit-icon"></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
@@ -49,7 +49,7 @@
             <view class="uni-input"> {{leaveInfo.endTime}}</view>
           </picker>
         </view>
-        <view>></view>
+        <view class="rit-icon"></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
@@ -80,10 +80,19 @@
 			</view> -->
       <view class="qui-fx-ac qui-bd-b item-list">
 			  <view>抄送人：</view>
-			  <view class="qui-fx-f1  qui-fx-je">
+        <view @click="check" class="qui-fx-f1 qui-fx rit-icon">
+          <view class="qui-fx-f1" style="text-align:right" >
+            {{leaveInfo.copyUser}}
+          </view>
+          <view class="rit-icon"></view>
+        </view>
+			  <!-- <view class="qui-fx-f1  qui-fx-je">
 					{{leaveInfo.copyUser}}
 			  </view>
-        <view @click="check">></view>
+        <view @click="check" class="qui-fx-f1 qui-fx rit-icon">
+          <view class="qui-fx-f1" ></view>
+          <view class="rit-icon"></view>
+        </view> -->
 			</view>
       <view class="qui-bd-b item-list">
 			  <view>上传附图：</view>
@@ -320,17 +329,21 @@
             ...req
           }).then(res => {
             this.$tools.toast('操作成功')
-            this.$tools.navTo({
-              url: './index',
-              title: ''
+            this.$tools.goNext(()=>{
+              this.$tools.navTo({
+                url: './index',
+                title: ''
+              })
             })
           })
         } else {
           actions.addStudentLeave(req).then(res => {  
             this.$tools.toast('操作成功')
-            this.$tools.navTo({
-              url: './index',
-              title: ''
+            this.$tools.goNext(()=>{
+              this.$tools.navTo({
+                url: './index',
+                title: ''
+              })
             })
           })
         }
