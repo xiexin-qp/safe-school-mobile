@@ -89,6 +89,8 @@
 			}
 		},
     methods: {
+			childInfo (item) {
+			},
       changTab (tab) {
         this.tabIndex = tab.id
       },

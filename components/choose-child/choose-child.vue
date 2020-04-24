@@ -1,6 +1,6 @@
 <template>
 	<view v-if="childList.length > 1" class="choose-child qui-fx-ac-jc" @click="changeChild">
-		{{ childList[0].userName }}
+		{{ childList[index].userName }}
 	</view>
 </template>
 
@@ -10,8 +10,12 @@
     },
 		data() {
 			return {
+				index: 0,
 				childList: JSON.parse(uni.getStorageSync('protal')).childList
 			}
+		},
+		mounted () {
+			
 		},
 		methods: {
 			changeChild () {
@@ -19,6 +23,7 @@
 					return item.userName
 				})
 				this.$tools.actionsheet(arr, (index) => {
+					this.index = index
 					this.$emit('change', this.childList[index])
 				})
 			}
