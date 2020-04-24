@@ -95,7 +95,7 @@
     <view class="submit-box">
       <view class="btn" @click="submit">提交</view>
     </view>
-    <uni-popup ref="checkPopup" type="center">
+    <uni-popup ref="checkPopup" type="center" :maskClick="false">
       <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore">
         <view>
           <checkbox-group @change="checkUser">
@@ -121,7 +121,7 @@
   import { actions, store } from '../store/index'
 	export default {
     components: {
-			anUploadImg
+      anUploadImg
 		},
 		data() {
 			return {
@@ -262,9 +262,13 @@
         this.orgUserGet(true)
       },
       check () {
+        this.leaveInfo.copyUser = ''
+        this.leaveCopyList = []
         this.$refs.checkPopup.open()
       },
       cancel () {
+        this.leaveInfo.copyUser = ''
+        this.leaveCopyList = []
         this.$refs.checkPopup.close()
       },
       ok () {

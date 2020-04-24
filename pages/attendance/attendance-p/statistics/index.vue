@@ -32,10 +32,12 @@
         </view>
       </scroll-view>
     </uni-popup>
+    <choose-child @change="childInfo"></choose-child>
   </view>
 </template>
 
 <script>
+import chooseChild from '@/components/choose-child/choose-child.vue'
 import { store, actions } from '../store/index.js'
 export default {
   data () {
@@ -49,10 +51,15 @@ export default {
 				size: 15
       },
       morePage: false,
-      num: ''
+      num: '',
+      studentCode: ''
     }
   },
+  components: {
+    chooseChild
+  },
   mounted () {
+    this.studentCode = store.childList[0].userCode
     this.searchMonth(this.yearTitle)
   },
   methods: {
@@ -82,7 +89,7 @@ export default {
       this.yearTitle = month
       const req = {
 				month: month,
-				studentCode: store.childList[0].userCode
+				studentCode: this.studentCode
 			}
       const res = await actions.studentMonthStatic(req)
       if( res.data ) {
@@ -161,7 +168,7 @@ export default {
         }
         const req = {
           month: this.yearTitle,
-          studentCode: store.childList[0].userCode,
+          studentCode: this.studentCode,
           state: item.state,
           page: this.pageList.page,
 				  size: this.pageList.size
@@ -182,7 +189,13 @@ export default {
 				return
 			}
 			this.detail(this.num, true)
-		}
+    },
+    childInfo (item) {
+      if (item.userCode !== this.studentCode) {
+        this.studentCode = item.userCode
+        this.searchMonth(this.yearTitle)
+      }
+    }
   }
 }
 </script>

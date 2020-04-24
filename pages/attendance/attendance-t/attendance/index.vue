@@ -17,7 +17,7 @@
                 'work-title']"> {{dayInfo.onState | getState}}</view>
           </view>
           <view>
-            <image :src="(dayInfo && dayInfo.onSnacpUrl) ? dayInfo.onSnacpUrl : person"></image>
+            <image :src="(dayInfo && dayInfo.onSnacpUrl) ? dayInfo.onSnacpUrl : 'child-auto-icon.png'"></image>
           </view>
         </view>
         <view class="work-box qui-fx-jsb">

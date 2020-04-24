@@ -187,7 +187,6 @@ export default {
         state: value1,
         page: this.pageList.page,
         size: this.pageList.size,
-        userName: store.userInfo.userName,
         userCode: store.userInfo.userCode,
         reasonId: this.value0 ===  '0' ? '' : this.value0,
         day: this.value2 === '0' ? '' : this.value2
@@ -220,7 +219,6 @@ export default {
         page: this.pageList.page,
         size: this.pageList.size,
         userCode: store.userInfo.userCode,
-        userName: store.userInfo.userName,
         time: '',
         day: this.value2 === '0' ? '' : this.value2,
         reasonId: this.value0 ===  '0' ? '' : this.value0
@@ -253,7 +251,6 @@ export default {
         page: this.pageList.page,
         size: this.pageList.size,
         userCode: store.userInfo.userCode,
-        userName: store.userInfo.userName,
         time: '',
         day: this.value2 === '0' ? '' : this.value2,
         reasonId: this.value0 ===  '0' ? '' : this.value0
@@ -330,10 +327,20 @@ export default {
       }
     },
     detail (id) {
+      if(this.currentIndex==='3' ){
+        this.leaveRead(id) 
+      }
       this.$tools.navTo({
 				url: `./detail?id=${id}`,
 				title: '查看详情'
 			})
+    },
+    leaveRead (oddNumbers) {
+      const req = {
+        userCode: store.userInfo.userCode,
+        oddNumbers: oddNumbers
+      }
+      actions.readTeacherLeave(req)
     }
   }
 }

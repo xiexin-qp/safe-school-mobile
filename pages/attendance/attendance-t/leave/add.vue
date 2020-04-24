@@ -85,7 +85,7 @@
     <view class="submit-box">
       <view class="btn" @click="submit">提交</view>
     </view>
-    <uni-popup ref="popup" type="center">
+    <uni-popup ref="popup" type="center" :maskClick="false">
       <scroll-view scroll-y="true" class="scroll"  @scrolltolower="loadMore">
         <view>
           <radio-group @change="radioUser">
@@ -103,7 +103,7 @@
         </view>
       </scroll-view>
     </uni-popup>
-    <uni-popup ref="checkPopup" type="center">
+    <uni-popup ref="checkPopup" type="center" :maskClick="false">
       <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore">
         <view>
           <checkbox-group @change="checkUser">
@@ -251,15 +251,23 @@
       },
       check (type) {
         if (type === 1) {
+          this.leaveInfo.approlUser = ''
+          this.leaveApprovalAddDto = []
           this.$refs.popup.open()
         } else {
+          this.leaveInfo.copyUser = ''
+          this.leaveCopyList = []
           this.$refs.checkPopup.open()
         }
       },
       cancel (type) {
          if (type === 1) {
+          this.leaveInfo.approlUser = ''
+          this.leaveApprovalAddDto = []
           this.$refs.popup.close()
         } else {
+          this.leaveInfo.copyUser = ''
+          this.leaveCopyList = []
           this.$refs.checkPopup.close()
         }
       },

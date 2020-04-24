@@ -155,7 +155,6 @@ export default {
         state: value1,
         page: this.pageList.page,
         size: this.pageList.size,
-        userName: '',
         reasonId: this.value0 ===  '0' ? '' : this.value0,
         day: this.value2 === '0' ? '' : this.value2
       }
