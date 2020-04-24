@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { store, actions } from './store/index.js';
+import { store, setStore, actions } from './store/index.js'
 import eventBus from '@u/eventBus'
 export default {
 	data() {

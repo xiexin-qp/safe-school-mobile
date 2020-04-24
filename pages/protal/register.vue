@@ -51,6 +51,12 @@
 			<view>手机号：</view>
 			<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.mobile" placeholder="请输入手机号" /></view>
 		</view>
+		<view class="qui-bd-b item-list">
+		  <view>上传头像：</view>
+		  <view class="qui-fx-f1">
+				<an-upload-img total="1" v-model="formData.photoUrl" style="margin: 20rpx"></an-upload-img>
+		  </view>
+		</view>
 		<view v-if="false" class="qui-fx-ac qui-bd-b item-list">
 			<view>验证码：</view>
 			<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.code" placeholder="请输入验证码" /></view>
@@ -65,7 +71,8 @@
 </template>
 
 <script>
-import { store, actions } from './store/index.js';
+import { store, actions } from './store/index.js'
+import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
 export default {
 	data() {
 		return {
@@ -85,11 +92,14 @@ export default {
 				schoolCode: '',
 				gradeCode: '',
 				classCode: '',
-				relationShip: ''
+				relationShip: '',
+				// photoUrl: []
 			}
 		}
 	},
-	components: {},
+	components: {
+		anUploadImg
+	},
 	computed: {
 		openid: () => store.openid,
 		relationShipList: () => store.relationShipList.map(item => item.relationShip)
@@ -114,6 +124,7 @@ export default {
 		},
 		// 选择学校
 		async chooseSchool(item) {
+			if (this.schoolList.length === 0) return
 			const index = item.target.value
 			this.schoolName = this.schoolList[index]
 			this.formData.schoolCode = this.schoolTotal[index].schoolCode
@@ -129,6 +140,7 @@ export default {
 		},
 		// 选择年级
 		async chooseGrade (item) {
+			if (this.gradeList.length === 0) return
 			const index = item.target.value
 			this.gradeName = this.gradeList[index]
 			this.formData.gradeCode = this.gradeTotal[index].code
@@ -146,12 +158,14 @@ export default {
 		},
 		// 选择班级
 		chooseClass (item) {
+			if (this.classList.length === 0) return
 			const index = item.target.value
 			this.className = this.classList[index]
 			this.formData.classCode = this.classTotal[index].classCode
 		},
 		// 选择关系
 		chooseRelation (item) {
+			if (this.relationShipList.length === 0) return
 			const index = item.target.value
 			this.relationShip = this.relationShipList[index]
 			this.formData.relationShip = index + 1
@@ -170,6 +184,7 @@ export default {
 				this.$tools.toast('请输入正确手机号')
 				return
 			}
+			this.formData.photoUrl = ''
 			await actions.parentAdd({
 				...this.formData,
 				openid: this.openid

@@ -24,7 +24,7 @@
               <view class="leave-pur">开始时间：{{ item.startTime | gmtToDate }}</view>
               <view class="leave-pur">结束时间：{{ item.endTime | gmtToDate }}</view>
               <view class="leave-pur">描述：{{ item.remark }}</view>
-              <view class="leave-pur">状态：{{ item.state | getState }}</view>
+              <view class="leave-pur">状态：{{ item.state | approveState }}</view>
             </view>
             <view class="leave-bottom qui-fx-jsb">
               <view class="leave-time"> {{ item.initiationTime | gmtToDate }}</view>
