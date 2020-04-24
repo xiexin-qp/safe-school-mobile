@@ -32,7 +32,7 @@
                 'work-title']"> {{dayInfo.offState | getState}}</view>
           </view>
           <view>
-            <image :src="(dayInfo && dayInfo.offSnacpUrl) ? dayInfo.offSnacpUrl : person"></image>
+            <image :src="(dayInfo && dayInfo.offSnacpUrl) ? dayInfo.offSnacpUrl : 'child-auto-icon.png'"></image>
           </view>
         </view>
       </view>
@@ -41,12 +41,10 @@
 </template>
 
 <script>
-import person from '@s/img/person.png'
 import { store, actions } from '../store/index.js'
 export default {
   data () {
     return {
-      person,
       dayInfo: {},
       day: new Date()
     }

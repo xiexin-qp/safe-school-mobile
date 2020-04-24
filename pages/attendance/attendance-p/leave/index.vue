@@ -41,8 +41,6 @@
 <script>
 import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue'
 import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue'
-import person from '@s/img/person.png'
-import add from '@s/img/add.png'
 import { store, actions } from '../store/index.js'
 export default {
   components: {
@@ -51,8 +49,6 @@ export default {
   },
   data () {
     return {
-      add,
-      person,
       dayInfo: [],
       leaveList: [],
       dataList: [],
@@ -154,12 +150,12 @@ export default {
 			}
       const req = {
         applicantCode: store.userInfo.userCode,
-        userCode: store.childList.userCode,
+        userCode: store.childList[0].userCode,
         time: '',
         state: value1,
         page: this.pageList.page,
 				size: this.pageList.size,
-        userName: store.childList.userName,
+        userName: store.childList[0].userName,
         reasonId: this.value0 ===  '0' ? '' : this.value0,
         day: this.value2 === '0' ? '' : this.value2
       }
