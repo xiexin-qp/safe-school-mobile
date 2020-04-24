@@ -26,26 +26,30 @@
       <scroll-view scroll-y="true" class="scroll">
         <view class="leave-remark"> {{ dayInfo.remark ? dayInfo.remark : '暂无' }} </view>
       </scroll-view>
-      <view class="apply-box qui-fx-ac">
-        <view class="qui-fx-ver qui-fx-ac">
-          审批人
-          <image :src="dayInfo.leaveApprovalAddDto.photoUrl ? dayInfo.leaveApprovalAddDto.photoUrl : person" mode=""></image>
-           {{ dayInfo.leaveApprovalAddDto.userName }}
-        </view>
-        <view class="apply-content qui-fx-ver">
-          <view class="apply-status"> {{ dayInfo.state | approveState }} </view>
-          <view class="apply-time"> {{ dayInfo.approvalTime | gmtToDate }} </view>
+       <view>
+        <view style="margin:0 0 10rpx 20rpx">审批人</view>
+        <view class="apply-box qui-fx-ac">
+          <view class="qui-fx-ver qui-fx-ac">
+            <image :src="dayInfo.leaveApprovalAddDto.photoUrl ? dayInfo.leaveApprovalAddDto.photoUrl : person" mode=""></image>
+            {{ dayInfo.leaveApprovalAddDto.userName }}
+          </view>
+          <view class="apply-content qui-fx-ver">
+            <view class="apply-status"> {{ dayInfo.state | approveState }} </view>
+            <view class="apply-time"> {{ dayInfo.approvalTime | gmtToDate }} </view>
+          </view>
         </view>
       </view>
-      <view class="apply-box qui-fx-ac" v-for="copyer in dayInfo.leaveCopyList" :key="copyer.userCode">
-        <view class="qui-fx-ver qui-fx-ac">
-          抄送人
-          <image :src="copyer.photoUrl ? copyer.photoUrl : person" mode=""></image>
-           {{ copyer.userName }}
-        </view>
-        <view class="apply-content qui-fx-ver">
-          <view class="apply-status"> {{ copyer.state | approveState }} </view>
-          <view class="apply-time"> {{ copyer.readTime | gmtToDate }} </view>
+      <view>
+        <view style="margin:0 0 10rpx 20rpx">抄送人</view>
+        <view class="apply-box qui-fx-ac" v-for="copyer in dayInfo.leaveCopyList" :key="copyer.userCode">
+          <view class="qui-fx-ver qui-fx-ac">
+            <image :src="copyer.photoUrl ? copyer.photoUrl : person" mode=""></image>
+            {{ copyer.userName }}
+          </view>
+          <view class="apply-content qui-fx-ver">
+            <view :class="['apply-status', { 'un-read' : copyer.state === '0' }]"> {{ copyer.state | getRead }} </view>
+            <view class="apply-time"> {{ copyer.readTime | gmtToDate }} </view>
+          </view>
         </view>
       </view>
      </scroll-view>
@@ -132,6 +136,9 @@ export default {
       margin-left: 40rpx;
       .apply-status {
         color: #00b800;
+      }
+      .un-read {
+        color: red;
       }
       .apply-time {
         color: #dadbdc;
