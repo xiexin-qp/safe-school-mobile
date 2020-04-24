@@ -56,7 +56,7 @@ import { store, actions } from '../store/index.js'
 
 <style lang="scss">
 .set-state{
-  color: #43d565;
+  color: $uni-color-success;
   margin-left: 20rpx;
 }
 	.set_box {
@@ -72,7 +72,7 @@ import { store, actions } from '../store/index.js'
 			width: 100%;
 			position: absolute;
 			margin: 30rpx 0 0 20rpx;
-      color: #999;
+      color: $uni-text-color-grey;
 		}
 	}
 	/* 右侧内容 */
