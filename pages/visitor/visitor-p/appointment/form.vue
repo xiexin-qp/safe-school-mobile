@@ -203,7 +203,7 @@ export default {
 					const req = {
 						schoolCode: school.value,
 						schoolName: school.text,
-						accessStartTime: new Date(this.formData.accessStartTime),
+						accessStartTime: this.formData.accessStartTime + ':00',
 						respondentName: this.formData.visitorName,
 						resMobile: this.formData.phone,
 						togetherNum: this.formData.togetherNum,
@@ -211,9 +211,10 @@ export default {
 						visitorName: store.userInfo.userName,
 						causeId: cause.value,
 						causeName: cause.text,
-						id: this.type === '0' ? this.id : null,
+						id: this.type === '0' ? this.id : '',
 						type: '0',
-						respondentType: '1'
+						respondentType: '1',
+						respondentCode: res.data
 					};
 					console.log(req);
 					actions.addInviteInfo(req).then(res => {

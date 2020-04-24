@@ -126,7 +126,6 @@ export default {
 				let cause = this.causeList.filter(ele => {
 					return ele.text === this.causeNameList[this.formData.cause];
 				})[0];
-				console.log(cause);
 				if (!cause) {
 					this.$tools.toast('请选择来访事由');
 					return;
@@ -134,18 +133,18 @@ export default {
 				const req = {
 					schoolCode: store.userInfo.schoolCode,
 					// accessEndTime: new Date(this.formData.accessEndTime),
-					accessStartTime: new Date(this.formData.accessStartTime),
+					accessStartTime: this.formData.accessStartTime + ':00',
 					visitorName: this.formData.visitorName,
 					visitorMobile: this.formData.phone,
 					respondentCode: store.userInfo.userCode,
 					respondentName: store.userInfo.userName,
 					causeId: cause.value,
 					causeName: cause.text,
-					id: this.type === '0' ? this.id : null,
+					id: this.type === '0' ? this.id : '',
 					type: 1,
 					respondentType: 1
 				};
-				console.log(this.type);
+				console.log(req,2222)
 				const res = await actions.addInviteInfo(req);
 				this.$tools.toast('提交成功', 'success');
 				this.$tools.goNext(() => {
