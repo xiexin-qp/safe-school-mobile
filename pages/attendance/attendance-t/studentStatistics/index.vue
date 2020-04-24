@@ -20,7 +20,7 @@
           >
             <image :src="normal" mode=""></image>
             <view> {{item.title}}</view>
-            <view class="attandence-num"> {{item.num}}人</view>
+            <view class="attandence-num"> {{item.num}}次</view>
           </view>
         </view>
       </view>
