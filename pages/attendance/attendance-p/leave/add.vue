@@ -121,7 +121,7 @@
   import { actions, store } from '../store/index'
 	export default {
     components: {
-			anUploadImg
+      anUploadImg
 		},
 		data() {
 			return {
