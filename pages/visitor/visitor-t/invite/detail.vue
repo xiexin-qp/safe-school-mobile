@@ -19,7 +19,7 @@
 			<view class="log qui-fx-jsb">
 				<view class="qui-fx-ver">
 					<view class="start qui-fx-ac">
-						<text>起</text>
+						<text>到</text>
 						<text>{{ comeLog.accessStartTime | gmtToDate }}</text>
 					</view>
 				</view>

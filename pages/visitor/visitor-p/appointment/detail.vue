@@ -3,7 +3,7 @@
 		<view class="detail">
 			<view class="top qui-fx-jsb">
 			    <view class="info qui-fx-ac">
-							<image :src="errorImg" alt="">
+							<image :src="comeLog.resUrl ? comeLog.resUrl : errorImg" alt="">
 							<view class="qui-fx-ver">
 								<text class="name">{{ comeLog.respondentName }}</text>
 								<text class="phone">{{ comeLog.resMobile }}</text>
@@ -19,16 +19,23 @@
 			<view class="log qui-fx-jsb">
 				<view class="qui-fx-ver">
 					<view class="start qui-fx-ac">
-						<text>起</text>
+						<text>到</text>
 						<text>{{ comeLog.accessStartTime | gmtToDate }}</text>
 					</view>
 				</view>
 				<view class="qui-fx-ver">
 					<view class="end qui-fx-ac">
-						<icon type="info" size="24" />
+						<icon type="waiting" size="24" />
 						<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</text>
 					</view>
 				</view>
+			</view>
+			<view class="log">
+				<view class="start qui-fx-ac">
+					<icon type="info" size="24" />
+					<text style="margin-left: 10rpx;">我的照片：</text>
+				</view>
+				<image class="myphoto" :src="comeLog.visitorUrl ? comeLog.visitorUrl : errorImg" alt="">
 			</view>
 			<view v-if="state == 2" class="log qui-fx-jsb">
 				<view class="start qui-fx-ac">
@@ -58,7 +65,9 @@ export default {
 				accessEndTime: '',
 				togetherNum: '',
 				duration: '',
-				reason: ''
+				reason: '',
+				visitorUrl: '',
+				resUrl: ''
 			}
 		};
 	},
@@ -71,7 +80,6 @@ export default {
 			return;
 		}
 		this.comeLog = res.data;
-		this.photo = res.data.registPhoto;
 		this.state = res.data.state;
 	},
 	methods: {}
@@ -140,6 +148,11 @@ export default {
 				border-radius: 100%;
 				margin-right: 20rpx;
 			}
+		}
+		.myphoto{
+			width: 100rpx;
+			height: 100rpx;
+			margin: 20rpx 20rpx 20rpx 60rpx;
 		}
 	}
 }

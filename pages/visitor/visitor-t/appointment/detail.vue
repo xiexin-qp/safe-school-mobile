@@ -16,19 +16,17 @@
 					<text :class="state === '2' ? 'refuse' : state === '1' ? 'agree' : state === '0' ? 'wait' : 'cancel'">{{ state | approveState }}</text>
 				</view>
 			</view>
-			<scroll-view scroll-y="true" class="scroll-h">
 				<view class="log qui-fx-jsb">
 					<view class="qui-fx-ver">
 						<view class="start qui-fx-ac">
-							<text>起</text>
+							<text>到</text>
 							<text>{{ comeLog.accessStartTime | gmtToDate }}</text>
 						</view>
 					</view>
 					<view class="qui-fx-ver">
 						<view class="end qui-fx-ac">
 							<icon type="info" size="24" />
-							<view style="margin-left: 10rpx;" v-if="state !== '0'">随行人数：{{ comeLog.togetherNum || 0 }}</view>
-							<view style="margin-left: 10rpx;" v-else class="qui-fx-ac togethernum">随行人数：<input type="number" v-model="comeLog.togetherNum" focus placeholder="" /></view>
+							<view style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</view>
 						</view>
 					</view>
 				</view>
@@ -38,7 +36,6 @@
 						<text style="margin-left: 10rpx;">拒绝原因：{{ comeLog.reason }}</text>
 					</view>
 				</view>
-			</scroll-view>
 		</view>
 		<view v-if="state == '0'" class="submit-box qui-fx">
 			<view class="btn1" @click="open">审批不通过</view>
@@ -73,7 +70,7 @@ export default {
 			comeLog: {
 				accessStartTime: '',
 				accessEndTime: '',
-				togetherNum: '',
+				togetherNum: '0',
 				duration: '',
 				reason: ''
 			}
@@ -110,7 +107,8 @@ export default {
 					visitorName: this.visitorName,
 					visitorMobile: this.visitorPhone,
 					schoolCode: store.userInfo.schoolCode,
-					type: 0
+					type: 0,
+					openid: store.openid
 				};
 				console.log(req);
 				actions.approval(req).then(res => {
@@ -140,7 +138,8 @@ export default {
 					visitorMobile: this.visitorPhone,
 					schoolCode: store.userInfo.schoolCode,
 					reason: this.refuseText,
-					type: 0
+					type: 0,
+					openid: store.openid
 				};
 				console.log(req);
 				actions.approval(req).then(res => {

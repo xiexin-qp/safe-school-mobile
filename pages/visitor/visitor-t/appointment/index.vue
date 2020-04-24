@@ -181,7 +181,8 @@ export default {
 							visitorCode: this.record.visitorCode,
 							visitorName: this.record.visitorName,
 							schoolCode: store.userInfo.schoolCode,
-							type: 0
+							type: 0,
+							openid: store.openid
 						};
 						console.log(req);
 						actions.approval(req).then(res => {
@@ -206,7 +207,8 @@ export default {
 					visitorName: this.record.visitorName,
 					schoolCode: store.userInfo.schoolCode,
 					reason: this.refuseText,
-					type: 0
+					type: 0,
+					openid: store.openid
 				};
 				console.log(req);
 				actions.approval(req).then(res => {
@@ -361,5 +363,14 @@ export default {
 		background-color: $main-color;
 		color: #fff;
 	}
+}
+/deep/ uni-input{
+	    line-height: 2.1em;
+	    height: 2.1em;
+	    min-height: 2.1em;
+}
+/deep/ .uni-popup__wrapper-box{
+	width: 80%;
+	border-radius: 6rpx;
 }
 </style>
