@@ -3,7 +3,7 @@
 		<view class="detail">
 			<view class="top qui-fx-jsb">
 			    <view class="info qui-fx-ac">
-							<image :src="errorImg" alt="">
+							<image :src="photo ? photo :errorImg" alt="">
 							<view class="qui-fx-ver">
 								<text class="name">{{ visitorName }}</text>
 								<text class="phone">{{ visitorPhone }}</text>
