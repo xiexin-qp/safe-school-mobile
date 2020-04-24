@@ -101,6 +101,7 @@ export default {
 	},
 	async mounted() {
 		await this.getSchool();
+		this.getCause()
 		if (this.id) {
 			const res = await actions.getInviteDetail(this.id);
 			if (!res.data.id) {
@@ -129,11 +130,12 @@ export default {
 			}
 			res.data.forEach(ele => {
 				this.schoolNameList.push(ele.schoolName);
-				this.causeList.push({
+				this.schoolList.push({
 					text: ele.schoolName,
 					value: ele.schoolCode
 				});
 			});
+			
 		},
 		async getCause() {
 			if (!this.schoolList[this.formData.school]) {
@@ -205,7 +207,7 @@ export default {
 						respondentName: this.formData.visitorName,
 						resMobile: this.formData.phone,
 						togetherNum: this.formData.togetherNum,
-						visitorMobile: store.userInfo.visitorMobile,
+						visitorMobile: store.userInfo.mobile,
 						visitorName: store.userInfo.userName,
 						causeId: cause.value,
 						causeName: cause.text,
@@ -242,7 +244,7 @@ export default {
 			this.formData.duration = parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
 		},
 		chooseSchool(e) {
-			if (!e.target.value) {
+			if (!e.target) {
 				return;
 			}
 			this.formData.school = e.target.value;
