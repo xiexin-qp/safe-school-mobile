@@ -2,7 +2,7 @@
   <view class="stundent-statistics qui-page">
     <view>
       <view class="title qui-fx-ac">
-        <image :src="person" mode=""></image>
+        <image :src="photo ? photo : person" mode=""></image>
         <view>{{studentName}} {{month}} 考勤统计</view>
       </view>
       <view class="record-box">
@@ -20,7 +20,7 @@
         </view>
       </view>
       <view class="title qui-fx-ac">
-        <image :src="person" mode=""></image>
+        <image :src="photo ? photo : person" mode=""></image>
         <view>{{studentName}}  {{month}} 考勤记录</view>
       </view>
       <scroll-view scroll-y="true" class="scroll">
@@ -60,14 +60,16 @@ export default {
       num: '',
       studentCode: '',
       studentName: '',
-      month: ''
+      month: '',
+      photo: ''
     }
   },
    onLoad(options) {
-    console.log('options',options)
+    console.log('options',decodeURIComponent(options.photo))
     this.studentCode = options.userCode
     this.studentName = options.name
     this.month = options.month
+    this.photo = decodeURIComponent(options.photo)
   },
   mounted() {
     this.showList()

@@ -91,6 +91,7 @@ export default {
 	},
 	components: {},
 	computed: {
+		openid: () => store.openid,
 		relationShipList: () => store.relationShipList.map(item => item.relationShip)
 	},
 	async mounted() {
@@ -164,12 +165,15 @@ export default {
 					return
 				}
 			}
-			var reg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+			var reg = /^1[3456789]\d{9}$/;
 			if (!reg.test(this.formData.mobile)) {
 				this.$tools.toast('请输入正确手机号')
 				return
 			}
-			await actions.parentAdd(this.formData)
+			await actions.parentAdd({
+				...this.formData,
+				openid: this.openid
+			})
 			this.$tools.toast('注册成功')
 			this.$tools.goNext(() => {
 				this.$tools.navTo({
