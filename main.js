@@ -9,6 +9,9 @@ Vue.config.productionTip = false
 Vue.prototype.$tools = tools
 App.mpType = 'app'
 
+import uView from "@/uview";
+Vue.use(uView);
+
 const app = new Vue({
   ...App
 })

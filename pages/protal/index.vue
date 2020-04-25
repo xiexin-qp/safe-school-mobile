@@ -1,9 +1,9 @@
 <template>
 	<view class="qui-page login">
-		<view><img src="/mobile-img/logo.png" class="logo"></img></view>
+		<view><image src="/mobile-img/logo.png" class="auto-bg-img logo"></image></view>
 		<view class="qui-fx-ac login-tab">
-			<view @click="changTab(1)" class="qui-fx-f1 qui-tx-c" :class="{ 'act': type === 1 }">密码登录</view>
-			<view @click="changTab(0)" class="qui-fx-f1 qui-tx-c" :class="{ 'act': type === 0 }">短信登录</view>
+			<view @click="changTab(1)" class="qui-fx-f1 qui-tx-c" :class="{ act: type === 1 }">密码登录</view>
+			<view @click="changTab(0)" class="qui-fx-f1 qui-tx-c" :class="{ act: type === 0 }">短信登录</view>
 		</view>
 		<view v-if="type === 0" class="qui-fx-ac input-box">
 			<input type="number" v-model="phone" class="item-input" placeholder="请输入手机号" />
@@ -18,9 +18,7 @@
 </template>
 
 <script>
-import uniRequest from 'uni-request';
 import { setStore, actions } from './store/index.js';
-import vConsole from 'vconsole';
 
 export default {
 	data() {
@@ -29,14 +27,14 @@ export default {
 			phone: '',
 			code: '',
 			total: 5,
-			tip: '获取验证码',
+			tip: '获取验证码'
 		};
 	},
 	computed: {},
 	components: {},
 	mounted() {
 		if (process.env.NODE_ENV === 'development') {
-			new vConsole();
+			// new vConsole();
 		}
 		this.getOpenid();
 		// 处理界面错位问题
@@ -53,9 +51,9 @@ export default {
 		});
 	},
 	methods: {
-		changTab (type) {
-			this.type = type
-			this.code = ''
+		changTab(type) {
+			this.type = type;
+			this.code = '';
 		},
 		// 获取openid
 		async getOpenid() {
@@ -64,19 +62,19 @@ export default {
 			this.schoolCode = params.get('schoolCode') || '';
 			// 本地测试使用
 			if (!params.get('openid')) {
-				this.$tools.toast('请在地址栏输入openid进行绑定')
-				return
+				this.$tools.toast('请在地址栏输入openid进行绑定');
+				return;
 			}
 			if (params.get('openid') || !params.get('code')) {
 				const openid = params.get('openid');
-				this.getUserInfo(openid)
+				this.getUserInfo(openid);
 				this.setOpenid(openid);
 				return;
 			}
 			const code = params.get('code');
 			if (uni.getStorageSync('openid')) {
-				const openid = uni.getStorageSync('openid')
-				this.getUserInfo(openid)
+				const openid = uni.getStorageSync('openid');
+				this.getUserInfo(openid);
 				this.setOpenid(openid);
 			} else {
 				const res = await uniRequest.get('/getOpenid', {
@@ -125,8 +123,8 @@ export default {
 			} catch (err) {}
 		},
 		// 通过openid获取用户信息
-		async getUserInfo (openid) {
-			const res = await actions.getUserInfo(openid)
+		async getUserInfo(openid) {
+			const res = await actions.getUserInfo(openid);
 			if (res.data) {
 				setStore({
 					key: 'userInfo',
@@ -156,12 +154,12 @@ export default {
 				key: 'userInfo',
 				data: res.data
 			});
-			this.$tools.toast('登录成功')
+			this.$tools.toast('登录成功');
 			this.$tools.goNext(() => {
 				this.$tools.navTo({
 					url: './main'
 				});
-			})
+			});
 		},
 		toReg() {
 			this.$tools.navTo({
