@@ -110,7 +110,7 @@ export default {
 			this.disabledTag = true;
 			this.formData.visitorName = res.data.visitorName;
 			this.formData.address = res.data.address;
-			this.formData.phone = res.data.visitorMobile;
+			this.formData.phone = res.data.resMobile;
 			this.formData.duration = res.data.duration + '小时';
 			this.formData.startDate = this.$tools.getDateTime(res.data.accessStartTime).split(' ')[0];
 			this.formData.startTime = this.$tools.getDateTime(res.data.accessStartTime).split(' ')[1];
@@ -123,7 +123,11 @@ export default {
 	},
 	methods: {
 		async getSchool() {
-			const res = await actions.getSchoolList(store.userInfo.userCode);
+			const req = {
+				schoolCode: store.userInfo.schoolCode,
+				userCode: store.userInfo.userCode
+			}
+			const res = await actions.getSchoolList(req);
 			if (!res.data) {
 				this.$tools.toast('请绑定学校');
 				return;
