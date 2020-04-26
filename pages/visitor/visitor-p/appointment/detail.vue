@@ -53,7 +53,7 @@ export default {
 	components: {},
 	data() {
 		return {
-			errorImg: '/mobile-img/person.png',
+			errorImg: '/mobile-img/person-auto.png',
 			id: '',
 			visitorName: '',
 			visitorPhone: '',
@@ -92,7 +92,7 @@ export default {
 	.top {
 		width: 100%;
 		height: 362rpx;
-		background: url('/mobile-img/bg.png') no-repeat;
+		background: url('/mobile-img/person-bg.png') no-repeat;
 		background-size: 100% 362rpx;
 		margin: 20rpx 0 40rpx 0;
 		color: #fff;
@@ -136,14 +136,14 @@ export default {
 		background: #fff;
 		padding: 40rpx 20rpx;
 		margin: 20rpx 0 40rpx 0;
-		border: 1px solid #ddd;
+		border: 1px solid $bor-color;
 		border-radius: 16rpx;
-		box-shadow: 2rpx 2rpx 1rpx 1rpx #ddd;
+		box-shadow: 2rpx 2rpx 1rpx 1rpx $bor-color;
 		.start,
 		.end {
 			margin: 10rpx 0;
 			text:first-child {
-				border: 1rpx solid #0079ff;
+				border: 1rpx solid $main-color;
 				padding: 6rpx 12rpx;
 				border-radius: 100%;
 				margin-right: 20rpx;

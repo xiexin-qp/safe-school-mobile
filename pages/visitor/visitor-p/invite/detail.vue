@@ -68,7 +68,7 @@ export default {
 	},
 	data() {
 		return {
-			errorImg: '/mobile-img/person.png',
+			errorImg: '/mobile-img/person-auto.png',
 			showTag: false,
 			refuseTag: false,
 			refuseText: '',
@@ -180,7 +180,7 @@ export default {
 	.top {
 		width: 100%;
 		height: 362rpx;
-		background: url('/mobile-img/bg.png') no-repeat;
+		background: url('/mobile-img/person-bg.png') no-repeat;
 		background-size: 100% 362rpx;
 		margin: 20rpx 0 40rpx 0;
 		color: #fff;
@@ -224,14 +224,14 @@ export default {
 		background: #fff;
 		padding: 40rpx 20rpx;
 		margin: 20rpx 0 40rpx 0;
-		border: 1px solid #ddd;
+		border: 1px solid $bor-color;
 		border-radius: 16rpx;
-		box-shadow: 2rpx 2rpx 1rpx 1rpx #ddd;
+		box-shadow: 2rpx 2rpx 1rpx 1rpx $bor-color;
 		.start,
 		.end {
 			margin: 10rpx 0;
 			text:first-child {
-				border: 1rpx solid #0079ff;
+				border: 1rpx solid $main-color;
 				padding: 6rpx 12rpx;
 				border-radius: 100%;
 				margin-right: 20rpx;
@@ -239,7 +239,7 @@ export default {
 		}
 		.sub-title {
 			font-size: 24rpx;
-			color: #999;
+			color: $second-color;
 		}
 	}
 }
@@ -254,7 +254,7 @@ export default {
 		text-align: center;
 		letter-spacing: 8rpx;
 		background-color: #fff;
-		color: #000;
+		color: $title-color;
 		border-radius: $radius;
 	}
 	.btn2 {
@@ -273,7 +273,7 @@ export default {
 		padding: 20rpx 0 0 0;
 	}
 	input {
-		border: 1rpx solid #ddd;
+		border: 1rpx solid $bor-color;
 		margin: 20rpx 0;
 	}
 	.btn {
@@ -299,7 +299,7 @@ export default {
 				max-width: 60rpx;
 				.uni-input-input{
 					padding: 0 10rpx;
-					border: 1rpx solid #ddd;
+					border: 1rpx solid $bor-color;
 					border-radius: 4rpx;
 				}
 	}

@@ -105,7 +105,7 @@ export default {
 .dropdown-menu {
 	width: 50%;
 	padding: 2rpx 0;
-	border: 1rpx solid #ddd;
+	border: 1rpx solid $bor-color;
 	border-radius: 8rpx;
 }
 .dropdown-menu:first-child {

@@ -95,7 +95,7 @@ export default {
 		width: 100%;
 		position: absolute;
 		margin: 30rpx 0 0 20rpx;
-		color: #999;
+		color: $second-color;
 	}
 }
 /* 右侧内容 */
@@ -118,7 +118,7 @@ export default {
 	/* 必须存在如果没有图标就留空 */
 	top: 0rpx;
 	/* 定位 距离*/
-	border-left: #c6c6c6 1px solid;
+	border-left: $dark-color 1px solid;
 	/* 横线颜色 */
 	left: -44rpx;
 	/* 定位 距离*/
@@ -131,7 +131,7 @@ export default {
 .set-2::before {
 	content: '\e64d';
 	/* 必须存在如果没有图标就留空 */
-	color: #007aff;
+	color: $main-color;
 	/* 设置颜色 */
 	position: absolute;
 	/* 定位 */
