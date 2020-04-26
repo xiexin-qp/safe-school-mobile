@@ -320,7 +320,7 @@ export default {
           this.$tools.confirm(`确定${arr2[index]}吗?`, () => {
             actions.approvalLeave(req).then(res => {
               this.$tools.toast('操作成功')
-              this.teacherLeaveGet()
+              this.approvalLeaveGet()
             })
           })
         })

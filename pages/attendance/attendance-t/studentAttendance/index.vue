@@ -13,6 +13,7 @@
             :key="item.id"
             @click="detail(item)"
           >
+            <image :src="`/mobile-img/${item.img}.png`" mode=""></image>
             <view> {{item.title}}</view>
             <view class="attandence-num"> {{item.num}}人</view>
           </view>
@@ -67,53 +68,65 @@ export default {
         this.attandenceInfo = [{
           title: '正常',
           state: '5',
-          num: res.data.normalCount
+          num: res.data.normalCount,
+          img: 'kq-zc-icon'
         },{
           title: '上学缺卡',
           state: '3',
-          num: res.data.onNoRecordCount
+          num: res.data.onNoRecordCount,
+          img: 'kq-qk-icon'
         },{
           title: '迟到',
           state: '1',
-          num: res.data.lateCount
+          num: res.data.lateCount,
+          img: 'kq-cd-icon'
         },{
           title: '早退',
           state: '2',
-          num: res.data.earlyCount
+          num: res.data.earlyCount,
+          img: 'kq-zt-icon'
         },{
           title: '放学缺卡',
           state: '6',
-          num: res.data.offNoRecordCount
+          num: res.data.offNoRecordCount,
+          img: 'kq-qk-icon'
         },{
           title: '缺勤',
           state: '7',
-          num: res.data.noRecord
+          num: res.data.noRecord,
+          img: 'kq-qq-icon'
         }]
       } else {
         this.attandenceInfo = [{
           title: '正常',
           state: '5',
-          num: 0
+          num: 0,
+          img: 'kq-zc-icon'
         },{
           title: '上学缺卡',
           state: '3',
-          num: 0
+          num: 0,
+          img: 'kq-qk-icon'
         },{
           title: '迟到',
           state: '1',
-          num: 0
+          num: 0,
+          img: 'kq-cd-icon'
         },{
           title: '早退',
           state: '2',
-          num: 0
+          num: 0,
+          img: 'kq-zt-icon'
         },{
           title: '放学缺卡',
           state: '6',
-          num: 0
+          num: 0,
+          img: 'kq-qk-icon'
         },{
           title: '缺勤',
           state: '7',
-          num: 0
+          num: 0,
+          img: 'kq-qq-icon'
         }]
       }
 			
@@ -180,6 +193,7 @@ export default {
         border-radius: 15rpx;
         image {
           width: 60rpx;
+          height: 60rpx;
           margin-bottom: 10rpx;
         }
       }
