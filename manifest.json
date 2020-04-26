@@ -79,7 +79,7 @@
         "domain" : "canponittest.com",
         "router" : {
             "mode" : "hash",
-            "base" : "/app-protal/"
+            "base" : "/mobile-protal/protal/"
         },
         "devServer" : {
             "https" : false,
@@ -148,20 +148,20 @@
                         "^/lz_user_center" : ""
                     }
                 },
-                "/mobile-img" : {
-                    "target" : "http://canpointtest.com/mobile-protal/mobile-img", // 移动端图片管理
+                "/mobile-protal/protal/mobile-img" : {
+                    "target" : "http://canpointtest.com/mobile-protal/protal/mobile-img", // 图片代理
                     "changeOrigin" : true,
-										"pathRewrite" : {
-										    "^/mobile-img" : "/"
-										}
+                    "pathRewrite" : {
+                        "^/mobile-protal/protal/mobile-img" : ""
+                    }
                 },
-								"/app-protal/mobile-img" : {
-								    "target" : "http://canpointtest.com/mobile-protal/mobile-img", // 移动端图片管理
-								    "changeOrigin" : true,
-										"pathRewrite" : {
-										    "^/app-protal/mobile-img" : "/"
-										}
-								}
+                "/mobile-img" : {
+                    "target" : "http://canpointtest.com/mobile-protal/protal/mobile-img", // 图片代理
+                    "changeOrigin" : true,
+                    "pathRewrite" : {
+                        "^/mobile-img" : ""
+                    }
+                }
             }
         },
         "optimization" : {

@@ -33,7 +33,6 @@ function responseRes(res) {
 				title: res.message,
 				icon: 'none'
 			});
-			reject(res)
 		}
 	})
 }
@@ -53,7 +52,7 @@ const post = (obj) => {
 				if (res.code === 200) {
 					resolve(res)
 				} else {
-					reject(res)
+					responseRes(res)
 				}
 			},
 		})

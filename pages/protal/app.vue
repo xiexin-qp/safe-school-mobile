@@ -226,7 +226,7 @@
         border-radius: $radius;
         background-color: #e8e8e8;
       }
-      img {
+      .app-icon {
         width: 52rpx;
         height: 52rpx;
         display: block;
