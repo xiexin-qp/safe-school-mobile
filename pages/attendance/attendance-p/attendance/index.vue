@@ -17,7 +17,7 @@
                 'work-title']"> {{dayInfo.onState | getState}}</view>
           </view>
           <view>
-            <image :src="(dayInfo && dayInfo.photoUrl) ? dayInfo.photoUrl : '/mobile-img/child-auto-icon.png'"></image>
+            <image :src="(dayInfo && dayInfo.onSnacpUrl) ? dayInfo.onSnacpUrl : '/mobile-img/child-auto-icon.png'"></image>
           </view>
         </view>
         <view class="work-box qui-fx-jsb">
@@ -32,7 +32,7 @@
                 'work-title']"> {{dayInfo.offState | getState}}</view>
           </view>
           <view>
-            <image :src="(dayInfo && dayInfo.photoUrl) ? dayInfo.photoUrl : '/mobile-img/child-auto-icon.png'"></image>
+            <image :src="(dayInfo && dayInfo.offSnacpUrl) ? dayInfo.offSnacpUrl : '/mobile-img/child-auto-icon.png'"></image>
           </view>
         </view>
       </view>
