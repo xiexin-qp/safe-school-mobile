@@ -26,7 +26,7 @@ export default {
 	},
 	data() {
 		return {
-			errorImg: require('@s/img/person.png'),
+			errorImg: '/mobile-img/person.png',
 			visitorCode: '',
 			visitorName: '',
 			visitorPhone: '',
@@ -67,7 +67,7 @@ export default {
 	.top {
 		width: 100%;
 		height: 362rpx;
-		background: url('../../../../static/img/bg.png') no-repeat;
+		background: url('/mobile-img/bg.png') no-repeat;
 		background-size: 100% 362rpx;
 		margin: 20rpx 0 40rpx 0;
 		color: #fff;

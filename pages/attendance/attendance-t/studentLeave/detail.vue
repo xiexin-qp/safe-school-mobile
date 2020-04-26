@@ -1,5 +1,5 @@
 <template>
-  <view class="detail qui-page">
+  <view class="detail qui-page qui-fff">
       <scroll-view scroll-y="true" class="scroll-h">
       <view class="leave-detail qui-fx-ver">
         <view class="leave-info qui-fx-jsb qui-fx-ac">
@@ -30,8 +30,8 @@
         <view style="margin:0 0 10rpx 20rpx">审批人</view>
         <view class="apply-box qui-fx-ac">
           <view class="qui-fx-ver qui-fx-ac">
-            <image :src="dayInfo.leaveApprovalAddDto.photoUrl ? dayInfo.leaveApprovalAddDto.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
-            {{ dayInfo.leaveApprovalAddDto.userName }}
+            <image :src="dayInfo.leaveApprovalAddDto && dayInfo.leaveApprovalAddDto.photoUrl ? dayInfo.leaveApprovalAddDto.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
+            {{ dayInfo.leaveApprovalAddDto ? dayInfo.leaveApprovalAddDto.userName : ''}}
           </view>
           <view class="apply-content qui-fx-ver">
             <view class="apply-status"> {{ dayInfo.state | approveState }} </view>

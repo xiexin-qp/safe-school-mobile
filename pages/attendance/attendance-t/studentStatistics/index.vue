@@ -94,64 +94,64 @@ export default {
           title: '正常',
           state: '5',
           num: res.data.normalCount,
-          img: 'qk-zc-icon'
+          img: 'kq-zc-icon'
         },{
           title: '上学缺卡',
           state: '3',
           num: res.data.onNoRecordCount,
-          img: 'qk-qk-icon'
+          img: 'kq-qk-icon'
         },{
           title: '迟到',
           state: '1',
           num: res.data.lateCount,
-          img: 'qk-cd-icon'
+          img: 'kq-cd-icon'
         },{
           title: '早退',
           state: '2',
           num: res.data.earlyCount,
-          img: 'qk-zt-icon'
+          img: 'kq-zt-icon'
         },{
           title: '放学缺卡',
           state: '6',
           num: res.data.offNoRecordCount,
-          img: 'qk-qk-icon'
+          img: 'kq-qk-icon'
         },{
           title: '缺勤',
           state: '7',
           num: res.data.noRecord,
-          img: 'qk-qq-icon'
+          img: 'kq-qq-icon'
         }]
       } else {
         this.attandenceInfo = [{
           title: '正常',
           state: '5',
           num: 0,
-          img: 'qk-zc-icon'
+          img: 'kq-zc-icon'
         },{
           title: '上学缺卡',
           state: '3',
           num: 0,
-          img: 'qk-qk-icon'
+          img: 'kq-qk-icon'
         },{
           title: '迟到',
           state: '1',
           num: 0,
-          img: 'qk-cd-icon'
+          img: 'kq-cd-icon'
         },{
           title: '早退',
           state: '2',
           num: 0,
-          img: 'qk-zt-icon'
+          img: 'kq-zt-icon'
         },{
           title: '放学缺卡',
           state: '6',
           num: 0,
-          img: 'qk-qk-icon'
+          img: 'kq-qk-icon'
         },{
           title: '缺勤',
           state: '7',
           num: 0,
-          img: 'qk-qq-icon'
+          img: 'kq-qq-icon'
         }]
       }
       this.currentIndex = 0

@@ -37,7 +37,7 @@
         </view>
       </view>
      </scroll-view>
-     <view class="float-add-btn" @click="addLeave"> </view>
+     <view v-if="currentIndex === '1'" class="float-add-btn" @click="addLeave"> </view>
   </view>
 </template>
 

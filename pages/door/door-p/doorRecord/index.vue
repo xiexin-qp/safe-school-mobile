@@ -1,40 +1,43 @@
 <template>
-	<view class="qui-page">
-		<view class="head">
-			<button type="default" @click="onShowDatePicker('rangetime')">选择日期时间范围搜索</button>
-		</view>
-		<view class="">
-			<mx-date-picker
-				:show="showPicker"
-				:type="type"
-				:value="value"
-				:show-tips="true"
-				:begin-text="'开始'"
-				:end-text="'结束'"
-				:show-seconds="true"
-				@confirm="onSelected"
-				@cancel="onSelected"
-			/>
-		</view>
-		<view class="list">
-			<view class="th qui-fx-jsa qui-fx-ac qui-fx-jc">
-				<text class="left">时间</text>
-				<view class="md qui-fx-ac qui-fx-jc">
-					<text>进/出</text>
-					<view class="icon qui-fx-ver"></view>
-				</view>
-				<text class="right">地点</text>
-			</view>
-			<no-data msg="暂无出入记录记录~" v-if="recordList.length === 0"></no-data>
-			<scroll-view scroll-y="true" class="scroll-h">
-				<view v-for="(item, i) in recordList" :key="i" class="tbody qui-bd-b qui-fx-jsb">
-					<text class="left">{{ getDateTime(new Date(item.accessTime)) }}</text>
-					<text class="md">{{ item.accessType == '1' ? '进' : '出' }}</text>
-					<text class="right">{{ item.accessPlace }}</text>
-				</view>
-			</scroll-view>
-		</view>
-	</view>
+  <view class="qui-page">
+    <view class="head">
+      <button type="default" @click="onShowDatePicker('rangetime')">
+        <span v-if="this.rangetime!= ''">{{rangetime[0]}}~{{rangetime[1]}}</span>
+        <span v-else>选择日期时间范围搜索</span>
+      </button>
+    </view>
+    <view class="">
+      <mx-date-picker
+        :show="showPicker"
+        :type="type"
+        :value="value"
+        :show-tips="true"
+        :begin-text="'开始'"
+        :end-text="'结束'"
+        :show-seconds="true"
+        @confirm="onSelected"
+        @cancel="onSelected"
+      />
+    </view>
+    <view class="list">
+      <view class="th qui-fx-jsa qui-fx-ac qui-fx-jc">
+        <text class="left">时间</text>
+        <view class="md qui-fx-ac qui-fx-jc">
+          <text>进/出</text>
+          <view class="icon qui-fx-ver"></view>
+        </view>
+        <text class="right">地点</text>
+      </view>
+      <no-data msg="暂无出入记录记录~" v-if="recordList.length === 0"></no-data>
+      <scroll-view scroll-y="true" class="scroll-h">
+        <view v-for="(item, i) in recordList" :key="i" class="tbody qui-bd-b qui-fx-jsb">
+          <text class="left">{{ getDateTime(new Date(item.accessTime)) }}</text>
+          <text class="md">{{ item.accessType == '1' ? '进' : '出' }}</text>
+          <text class="right">{{ item.accessPlace }}</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
 </template>
 <script>
 import MxDatePicker from "@/components/mx-datepicker/mx-datepicker.vue";
@@ -48,11 +51,7 @@ export default {
   data() {
     return {
       showPicker: false,
-      date: "2019/01/01",
-      time: "15:00:12",
-      datetime: "2019/01/01 15:00:12",
-      range: ["2019/01/01", "2019/01/06"],
-      rangetime: ["2019/01/08 14:00", "2019/01/16 13:59"],
+      rangetime: [],
       type: "rangetime",
       value: "",
       recordList: [],
@@ -69,6 +68,7 @@ export default {
     async showList(searchObj = {}) {
       const req = {
         schoolCode: store.userInfo.schoolCode,
+        ruleGroupType: 2,
         ...searchObj,
         pageNum: this.pageList.page,
         pageSize: this.pageList.size
@@ -91,6 +91,7 @@ export default {
         startTime: e.value[0],
         endTime: e.value[1]
       };
+
       this.showList(searchObj);
     },
     getDateTime(date) {
