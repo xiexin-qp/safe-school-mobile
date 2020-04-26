@@ -116,7 +116,6 @@ export default {
   .leave-remark {
     height: 100rpx;
     padding: 20rpx;
-    border-bottom: 1rpx solid $second-color;
   }
   .apply-box {
     height: 280rpx;

@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import eventBus from '@u/eventBus'
 import chooseChild from '@/components/choose-child/choose-child.vue'
 import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue'
 import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue'
@@ -124,10 +125,13 @@ export default {
         this.teacherLeaveGet()
 			}
 		}
-	},
+  },
   mounted () {
     this.studentCode = store.childList[0].userCode
     this.studentName = store.childList[0].userName
+	  eventBus.$on('getList', () => {
+			this.teacherLeaveGet()
+    })
     this.leaveReasonGet()
     this.teacherLeaveGet()
   },
