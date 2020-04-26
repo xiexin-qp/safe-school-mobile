@@ -3,7 +3,7 @@
 		<view class="detail">
 			<view class="top qui-fx-jsb">
 				<view class="info qui-fx-ac">
-					<image :src="photo ? photo :errorImg" alt="">
+					<image :src="comeLog.resUrl ? comeLog.resUrl : errorImg" alt="">
 					<view class="qui-fx-ver">
 						<text class="name">{{ comeLog.respondentName }}</text>
 						<text class="phone">{{ comeLog.resMobile }}</text>
@@ -84,7 +84,9 @@ export default {
 				accessEndTime: '',
 				togetherNum: '0',
 				duration: '',
-				reason: ''
+				reason: '',
+				visitorUrl: '',
+				resUrl: ''
 			}
 		};
 	},
