@@ -43,13 +43,10 @@ export default {
     img {
       margin-left: 10rpx;
       width: 220rpx;
-      font-size: $font-des;
       height: 150rpx;
       display: block;
     }
     .time {
-      color: $des-color;
-      font-size: $font-second;
     }
   }
 </style>

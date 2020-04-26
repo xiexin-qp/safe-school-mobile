@@ -1,10 +1,7 @@
 <template>
 	<view class="footer-com qui-fx qui-bd-t">
-		<view @click="switchTab(foot.id)" class="qui-fx-f1 qui-fx-ac-jc" :class="{ 'act': foot.id == tabIndex }" v-for="foot in footList" :key="foot.id">
-			<text v-if="foot.id == 0" class="iconfont" >&#xe64f;</text>
-      <text v-else-if="foot.id == 1" class="iconfont" >&#xe60d;</text>
-      <text v-else-if="foot.id == 2" class="iconfont" >&#xe600;</text>
-      <text v-else-if="foot.id == 3" class="iconfont" >&#xe62e;</text>
+		<view @click="switchTab(foot.id)" class="qui-fx-f1 qui-fx-ac-jc u-content-color" :class="{ 'act': foot.id == tabIndex }" v-for="foot in footList" :key="foot.id">
+			<image :src="foot.id === tabIndex ? foot.iconAct : foot.icon" class="foot-img"></image>
 			<text class="tip">{{ foot.name }}</text>
 		</view>
 	</view>
@@ -19,15 +16,20 @@ export default {
 				{
 					id: 0,
 					name: '首页',
-          icon: ''
+          icon: '/mobile-img/home-icon.png',
+					iconAct: '/mobile-img/home-icon-act.png'
 				},
 				{
 					id: 1,
-					name: '应用'
+					name: '应用',
+					icon: '/mobile-img/shop-icon.png',
+					iconAct: '/mobile-img/shop-icon-act.png'
 				},
 				{
 					id: 2,
-					name: '我的'
+					name: '我的',
+					icon: '/mobile-img/mine-icon.png',
+					iconAct: '/mobile-img/mine-icon-act.png'
 				}
 			]
 		}
@@ -58,8 +60,13 @@ export default {
   i {
     font-size: 40rpx;
   }
+	.foot-img {
+		width: 40rpx;
+		height: 40rpx;
+		display: block;
+	}
 	.act {
-		color: #007AFF;
+		color: $u-type-primary !important;
 	}
 }
 </style>
