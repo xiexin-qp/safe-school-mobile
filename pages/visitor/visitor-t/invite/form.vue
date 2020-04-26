@@ -149,8 +149,7 @@ export default {
 				this.$tools.toast('提交成功', 'success');
 				this.$tools.goNext(() => {
 					this.$tools.navTo({
-						url: './index',
-						title: '来访邀约'
+						url: './index'
 					});
 				});
 			}

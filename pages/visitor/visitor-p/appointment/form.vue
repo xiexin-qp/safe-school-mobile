@@ -41,7 +41,7 @@
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view>随行人数：</view>
-				<view class="qui-fx-f1"><input class="item-input" v-model="formData.togetherNum" style="text-align: right;" placeholder="请输入" /></view>
+				<view class="qui-fx-f1"><input class="item-input" v-model="formData.togetherNum" style="text-align: right;" placeholder="0" /></view>
 			</view>
 			<view class="log">
 				<view class="item-list">
@@ -86,7 +86,7 @@ export default {
 				cause: '',
 				accessStartTime: '',
 				accessEndTime: '',
-				togetherNum: 0
+				togetherNum: ''
 			}
 		};
 	},
@@ -226,8 +226,7 @@ export default {
 						this.$tools.toast('提交成功', 'success');
 						this.$tools.goNext(() => {
 							this.$tools.navTo({
-								url: './index',
-								title: '来访预约'
+								url: './index'
 							});
 						});
 					});

@@ -43,7 +43,7 @@ export default {
 	},
 	data() {
 		return {
-			errorImg: require('@s/img/person.png'),
+			errorImg: '/mobile-img/person.png',
 			statusList: [
 				{
 					text: '全部状态',
@@ -156,8 +156,7 @@ export default {
 		},
 		goDetail(id) {
 			this.$tools.navTo({
-				url: './detail?id=' + id,
-				title: '查看详情'
+				url: './detail?id=' + id
 			});
 		},
 		add() {
@@ -177,8 +176,7 @@ export default {
 		check(arr) {
 			this.$tools.actionsheet(arr, index => {
 				this.$tools.navTo({
-					url: './form?id=' + this.record.id + '&type=' + (arr[index] === '修改' ? '0' : '1'),
-					title: '修改邀约'
+					url: './form?id=' + this.record.id + '&type=' + (arr[index] === '修改' ? '0' : '1')
 				});
 			});
 		}

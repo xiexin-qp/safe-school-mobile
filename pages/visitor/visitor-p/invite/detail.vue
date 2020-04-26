@@ -68,7 +68,7 @@ export default {
 	},
 	data() {
 		return {
-			errorImg: require('@s/img/person.png'),
+			errorImg: '/mobile-img/person.png',
 			showTag: false,
 			refuseTag: false,
 			refuseText: '',
@@ -130,8 +130,7 @@ export default {
 					this.$tools.toast('操作成功', 'success');
 					this.$tools.goNext(()=>{
 						this.$tools.navTo({
-							url: './index',
-							title: '邀约处理'
+							url: './index'
 						});
 					})
 				});
@@ -162,8 +161,7 @@ export default {
 					this.refuseText = '';
 					this.$tools.goNext(()=>{
 						this.$tools.navTo({
-							url: './index',
-							title: '邀约处理'
+							url: './index'
 						});	
 					})
 				});
@@ -182,7 +180,7 @@ export default {
 	.top {
 		width: 100%;
 		height: 362rpx;
-		background: url('../../../../static/img/bg.png') no-repeat;
+		background: url('/mobile-img/bg.png') no-repeat;
 		background-size: 100% 362rpx;
 		margin: 20rpx 0 40rpx 0;
 		color: #fff;
