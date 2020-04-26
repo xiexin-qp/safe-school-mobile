@@ -187,6 +187,8 @@ export default {
 	.person-icon {
 		width: 120rpx;
 		height: 120rpx;
+		border-radius: 100%;
+		margin-bottom: 20rpx;
 		display: block;
 	}
 	.info {

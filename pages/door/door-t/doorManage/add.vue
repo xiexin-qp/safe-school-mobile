@@ -46,8 +46,8 @@ export default {
       dataList: [],
       userInfoList: [],
       pageList: {
-        pageNum: 1,
-        pageSize: 20
+        page: 1,
+        size: 20
       },
       ruleGroupCode: "",
       userGroupCode: ""
@@ -55,7 +55,7 @@ export default {
   },
   onLoad(options) {
     this.ruleGroupCode = options.ruleGroupCode;
-  	this.userGroupCode = options.userGroupCode;
+    this.userGroupCode = options.userGroupCode;
   },
   mounted() {
     this.showList();
@@ -66,7 +66,7 @@ export default {
         ...this.pageList,
         keyword: "",
         orgCode: "",
-				schoolCode: store.userInfo.schoolCode,
+        schoolCode: store.userInfo.schoolCode
       };
       const res = await actions.getOrgUser(req);
       this.dataList = res.data.list;
@@ -93,18 +93,18 @@ export default {
     addInfo() {
       if (this.userInfoList.length != 0) {
         const req = {
-				schoolCode: store.userInfo.schoolCode,
+          schoolCode: store.userInfo.schoolCode,
           ruleGroupCode: this.ruleGroupCode,
           userGroupCode: this.userGroupCode,
           userInfoList: this.userInfoList,
           userType: "1"
         };
         actions.addgroupuserList(req).then(res => {
-            this.$tools.toast("操作成功");
-            this.$tools.navTo({
-              url: "./detail",
-              title: ""
-            });
+          this.$tools.toast("操作成功");
+          this.$tools.navTo({
+            url: "./detail",
+            title: ""
+          });
         });
       } else {
         this.$tools.toast("请选择人员");
