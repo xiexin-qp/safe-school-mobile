@@ -112,8 +112,7 @@ export default {
 		},
 		goDetail(userCode) {
 			this.$tools.navTo({
-				url: './detail?userCode=' + userCode,
-				title: '查看详情'
+				url: './detail?userCode=' + userCode
 			});
 		}
 	}
