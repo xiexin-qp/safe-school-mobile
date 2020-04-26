@@ -147,6 +147,7 @@
 </template>
 
 <script>
+  import eventBus from '@u/eventBus'
 	import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
   import { actions, store } from '../store/index'
 	export default {
@@ -391,21 +392,17 @@
             ...req
           }).then(res => {
             this.$tools.toast('操作成功')
-            this.$tools.goNext( () =>{
-              this.$tools.navTo({
-                url: './index',
-                title: ''
-              })
+            eventBus.$emit('getList')
+            this.$tools.goNext(() => {
+              this.$tools.goBack()
             })
           })
         } else {
           actions.addStudentLeave(req).then(res => {  
             this.$tools.toast('操作成功')
-            this.$tools.goNext( () =>{
-              this.$tools.navTo({
-                url: './index',
-                title: ''
-              })
+            eventBus.$emit('getList')
+            this.$tools.goNext(() => {
+              this.$tools.goBack()
             })
           })
         }

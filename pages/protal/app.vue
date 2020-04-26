@@ -26,15 +26,15 @@
     <view class="app-module">
 			<view class="system-box">
 				<view class="system-list" v-for="app in appList" :key="app.id">
-					<view class="system">{{ app.name }}</view>
+					<view class="system u-font-1">{{ app.name }}</view>
 					<view @click="chooseEnjoy(module, isShow(module.id))" class="app qui-fx-ac-jc" :class="{'act': isEdit}" v-for="module in app.children" :key="module.id">
 						<i v-if="isShow(module.id) && isEdit" style="color: #999" class="iconfont">&#xe62b;</i>
 						<i v-if="!isShow(module.id) && isEdit" style="color: #7b92f5" class="iconfont">&#xe636;</i>
 						<view>
 							<image class="app-icon" :src="module.icon || '/mobile-img/app-auto-icon.png'" alt="">
 						</view>
-						<view class="text">{{ module.name.split('-')[0] }}</view>
-						<view class="text">({{ module.name.split('-')[1] }})</view>
+						<view class="text u-content-color u-font-01">{{ module.name.split('-')[0] }}</view>
+						<view v-if="false" class="text u-tips-color u-font-02">({{ module.name.split('-')[1] }})</view>
 					</view>
 				</view> 
 			</view>
@@ -150,7 +150,6 @@
     .app {
       margin-left: 20rpx;
       .app-icon {
-        border-radius: 100%;
         width: 40rpx;
         height: 40rpx;
         display: block;
@@ -179,7 +178,6 @@
       line-height: 75rpx;  
       padding: 0 15rpx;
       font-weight: 600;
-      font-size: $font-middle;
     }
     .system-box {
       padding-top: 30rpx;
@@ -195,7 +193,6 @@
      padding: 30rpx;
      text-align: center;
      font-size: 24rpx;
-     color: $dark-color;
    }
   .system-list {
     overflow: auto;
@@ -206,7 +203,6 @@
       line-height: 34rpx;
       padding-left: 16rpx;
       border-radius: $radius;
-      font-size: $font-title;
       border-left: 8rpx solid $main-color;
     }
     .app {
@@ -232,11 +228,9 @@
         display: block;
       }
       .text {
-        color: $des-color;
+				margin-top: 15rpx;
         transform: scale(.9);
         -webkit-transform: scale(.9);
-        font-size: $font-second;
-        padding-top: 10rpx
       }
     }
   }

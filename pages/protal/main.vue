@@ -1,5 +1,5 @@
 <template>
-	<view class="qui-page qui-fx-ver">
+	<view class="qui-fx-ver">
 		<scroll-view scroll-y="true" class="scroll-h">
 			<home v-if="tabIndex === 0"></home>
       <app v-else-if="tabIndex === 1"></app>

@@ -2,7 +2,10 @@ $u-main-color: #303133;
 $u-content-color: #606266;
 $u-tips-color: #909399;
 $u-light-color: #c0c4cc;
+$u-border-color-one: #dcdfe6;
 $u-border-color: #e4e7ed;
+$u-border-color-three: #ebeef5;
+$u-border-color-four: #eff6fc;
 $u-bg-color: #f3f4f6;
 
 $u-type-primary: #2979ff;
@@ -29,6 +32,8 @@ $u-type-info: #909399;
 $u-type-info-disabled: #c8c9cc;
 $u-type-info-dark: #82848a;
 $u-type-info-light: #f4f4f5;
+
+$u-mar-padd: 20rpx;
 
 .u-type-primary-light {
 	color: $u-type-primary-light!important;
@@ -170,14 +175,86 @@ $u-type-info-light: #f4f4f5;
 	background-color: $u-type-info!important;
 }
 
-.u-main-color {
-	color: $u-main-color;
-}
-
 .u-content-color {
-	color: $u-content-color;
+	color: $u-content-color!important;
 }
 
 .u-tips-color {
-	color: $u-tips-color;
+	color: $u-tips-color!important;
+}
+
+.u-light-color {
+	color: $u-light-color!important;
+}
+
+.u-main-color {
+	color: $u-main-color!important;
+}
+
+.u-white-color {
+	color:#fff !important;
+}
+
+.u-bg-color {
+	background-color: $u-bg-color!important;
+}
+
+.u-bg-fff {
+	background-color: #fff !important;
+}
+
+.u-border-radius {
+	border-radius: 8rpx;
+}
+
+.u-mar-t {
+	margin-top: $u-mar-padd
+}
+
+.u-padd-t {
+	padding-top: $u-mar-padd
+}
+
+.u-mar-b {
+	margin-bottom: $u-mar-padd
+}
+
+.u-padd-b {
+	padding-bottom: $u-mar-padd
+}
+
+.u-mar-l {
+	margin-left: $u-mar-padd
+}
+
+.u-padd-l {
+	padding-left: $u-mar-padd
+}
+
+.u-mar-r {
+	margin-right: $u-mar-padd
+}
+
+.u-padd-r {
+	padding-right: $u-mar-padd
+}
+
+.u-font-02 {
+	font-size: 24rpx;
+}
+
+.u-font-01 {
+	font-size: 26rpx;
+}
+
+.u-font-1 {
+	font-size: 30rpx;
+}
+
+.u-font-2 {
+	font-size: 32rpx;
+}
+
+.u-font-3 {
+	font-size: 36rpx;
 }

@@ -12,44 +12,16 @@
  * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
  */
 
-/* 颜色变量 */
+@import '@/uview/libs/css/color.scss';
 
-/**移动端变量**/
-$main-color: #7b92f5;
+/* 颜色变量 */
+$main-color: #2979ff;
 $title-color: #333;
 $des-color: #666;
 $second-color: #999;
 $dark-color: #ccc;
 $bor-color: #eee;
 $tip-color: #ff0000;
-$err-color: #f05248;
-
-/**
- * 辅助色彩（彩色）
- * @other1-color
- * @other2-color
- * @other3-color
- * @other4-color
- */
-$other1-color: #74d4d4;
-$other2-color: #90bef1;
-$other3-color: #9292f2;
-$other4-color: #caa4e6;
-
-/**
- * @font-large 重要的标题字体大小
- * @font-middle 次要的标题字体大小
- * @font-title 普通的标题字体大小
- * @font-des 描述性字体大小
- * @font-second 辅助性文字大小
- * @font-tip 提示性文字大小
- */
-$font-large: 34rpx;
-$font-middle: 32rpx;
-$font-title: 30rpx;
-$font-des: 28rpx;
-$font-second: 26rpx;
-$font-tip: 24rpx;
 
 /**
  * @box-mar 元素与界面左右间距 普通块之间的间距
@@ -62,8 +34,6 @@ $box-padd: 20rpx 30rpx;
  * @radius 圆角大小
  */
 $radius: 8rpx;
-
-
 
 /* 行为相关颜色 */
 $uni-color-primary: #007aff;

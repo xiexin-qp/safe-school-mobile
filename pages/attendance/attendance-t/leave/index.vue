@@ -37,11 +37,12 @@
         </view>
       </view>
      </scroll-view>
-     <view class="float-add-btn" @click="addLeave"> </view>
+     <view v-if="currentIndex === '1'" class="float-add-btn" @click="addLeave"> </view>
   </view>
 </template>
 
 <script>
+import eventBus from '@u/eventBus'
 import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue'
 import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue'
 import { store, actions } from '../store/index.js'
@@ -155,6 +156,9 @@ export default {
 			}
 	},
   mounted () {
+    eventBus.$on('getList', () => {
+			this.teacherLeaveGet()
+    })
     this.leaveReasonGet()
     this.teacherLeaveGet()
   },
