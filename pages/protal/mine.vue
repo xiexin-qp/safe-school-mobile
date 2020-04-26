@@ -1,12 +1,12 @@
 <template>
 	<view class="mine">
-		<view class="person-bg qui-fx-jsb" style="background: url('/mobile-img/person-bg-one.png') no-repeat; backgroundSize: 100% 100%">
+		<view class="person-bg qui-fx-jsb" style="background: url(/mobile-img/person-bg-one.png) no-repeat; backgroundSize: 100% 100%">
 			<text>{{ userInfo.schoolName }}</text>
 			<text>{{ date }}</text>
 		</view>
 		<view class="person-info">
 			<view class="info qui-fx-ac-jc" style="background: url('/mobile-img/person-bg-two.png') no-repeat; backgroundSize: 100% 312rpx">
-				<view><img :src="userInfo.photoUrl || '/mobile-img/person-auto.png'" alt="" /></view>
+				<view><image class="person-icon" :src="userInfo.photoUrl || '/mobile-img/person-auto.png'" alt="" /></view>
 				<view class="qui-fx-ac">
 					<text>{{ userInfo.userName }}</text>
 					<text class="tip"></text>
@@ -183,6 +183,11 @@ export default {
 	}
 	.person-info {
 		margin: -220rpx 30rpx 0 30rpx;
+	}
+	.person-icon {
+		width: 120rpx;
+		height: 120rpx;
+		display: block;
 	}
 	.info {
 		height: 312rpx;

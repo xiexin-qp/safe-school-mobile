@@ -6,7 +6,7 @@
 }
 
 /**
- * @des 间距
+ * @des 盒子间距
  */
 .mar-t20 {
 	margin-top: 20rpx
@@ -32,6 +32,7 @@
 .padd-b20 {
 	padding-bottom: 20rpx
 }
+
 /**
  * @des 公共button按钮
  */
@@ -65,6 +66,13 @@
 	height: 34rpx;
 	background: url(/mobile-img/rit-icon.png);
 	background-size: 100%;
+}
+
+/**
+ * 图片默认背景
+ */
+.auto-bg-img {
+	background-color: #ccc;
 }
 
 /**

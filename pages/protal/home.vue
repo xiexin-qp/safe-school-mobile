@@ -3,17 +3,17 @@
     <view class="banner">
     	<swiper class="swiper" :indicator-active-color="actColor" :indicator-color="autoColor" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval">
     		<swiper-item>
-          <img class="banner-img" src="/mobile-img/banner-one.png" />
+          <image class="banner-img" src="/mobile-img/banner-one.png" />
         </swiper-item>
         <swiper-item>
-          <img class="banner-img" src="/mobile-img/banner-two.png" />
+          <image class="banner-img" src="/mobile-img/banner-two.png" />
         </swiper-item>
     	</swiper>
     </view>
     <view class="enjoy">
       <view @click="goApp(enjoy)" v-for="enjoy in enjoyApp.concat(addMore)" :key="enjoy.id" class="enjoy-list qui-fx-ac-jc">
         <view>
-          <img :src="enjoy.icon || '/mobile-img/app-auto-icon.png'" alt="">
+          <image class="app-icon" :src="enjoy.icon || '/mobile-img/app-auto-icon.png'" alt="">
         </view>
         <text class="title">{{ enjoy.name.split('-')[0] }}</text>
       </view>
@@ -158,7 +158,7 @@
       width: 25%;
       float: left;
       height: 130rpx;
-      img {
+      .app-icon {
         width: 50rpx;
         height: 50rpx;
         display: block;

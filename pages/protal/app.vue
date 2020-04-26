@@ -4,7 +4,7 @@
       <text class="text">常用模块</text>
       <view class="qui-fx-f1 qui-fx">
         <view v-for="enjoy in enjoyApp" :key="enjoy.id" class="app">
-          <img :src="enjoy.icon || '/mobile-img/app-auto-icon.png'" alt="">
+          <image class="app-icon" :src="enjoy.icon || '/mobile-img/app-auto-icon.png'" alt="">
         </view>
       </view>
       <view class="btn edit" @click="isEdit = true">编辑</view>
@@ -18,7 +18,7 @@
       <view @click="delEnjoy(enjoy.code)" v-for="enjoy in enjoyApp" :key="enjoy.id" class="app qui-fx-ac-jc" :class="{'act': isEdit}">
         <i style="color: #999" class="iconfont">&#xe62b;</i>
         <view>
-          <img :src="enjoy.icon || '/mobile-img/app-auto-icon.png'" alt="">
+          <image class="app-icon" :src="enjoy.icon || '/mobile-img/app-auto-icon.png'" alt="">
         </view>
         <text class="text">{{ enjoy.name.split('-')[0] }}</text>
       </view>
@@ -31,7 +31,7 @@
 						<i v-if="isShow(module.id) && isEdit" style="color: #999" class="iconfont">&#xe62b;</i>
 						<i v-if="!isShow(module.id) && isEdit" style="color: #7b92f5" class="iconfont">&#xe636;</i>
 						<view>
-							<img :src="module.icon || '/mobile-img/app-auto-icon.png'" alt="">
+							<image class="app-icon" :src="module.icon || '/mobile-img/app-auto-icon.png'" alt="">
 						</view>
 						<view class="text">{{ module.name.split('-')[0] }}</view>
 						<view class="text">({{ module.name.split('-')[1] }})</view>
@@ -149,7 +149,7 @@
     }
     .app {
       margin-left: 20rpx;
-      img {
+      .app-icon {
         border-radius: 100%;
         width: 40rpx;
         height: 40rpx;
