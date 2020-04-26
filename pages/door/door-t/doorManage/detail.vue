@@ -34,8 +34,8 @@ export default {
   data() {
     return {
       pageList: {
-        pageNum: 1,
-        pageSize: 20
+        page: 1,
+        size: 20
       },
       groupuserList: [],
       ruleGroupCode: "",
@@ -44,7 +44,7 @@ export default {
   },
   onLoad(options) {
     this.ruleGroupCode = options.ruleGroupCode;
-	this.userGroupCode = options.userGroupCode;
+    this.userGroupCode = options.userGroupCode;
   },
   mounted() {
     this.showList();
@@ -52,10 +52,11 @@ export default {
   methods: {
     async showList() {
       const req = {
-				schoolCode: store.userInfo.schoolCode,
+        schoolCode: store.userInfo.schoolCode,
         ruleGroupCode: this.ruleGroupCode,
         userGroupCode: this.userGroupCode,
-        ...this.pageList
+        pageNum: this.pageList.page,
+        pageSize: this.pageList.size
       };
       const res = await actions.getgroupuserList(req);
       this.groupuserList = res.data.list;
@@ -64,7 +65,7 @@ export default {
     //删除
     actionsheet(item) {
       const req = {
-				schoolCode: store.userInfo.schoolCode,
+        schoolCode: store.userInfo.schoolCode,
         ruleGroupCode: item.ruleGroupCode,
         userGroupCode: item.userGroupCode,
         userCode: item.userCode
@@ -78,7 +79,11 @@ export default {
     },
     add() {
       this.$tools.navTo({
-		url: "./add?ruleGroupCode=" + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
+        url:
+          "./add?ruleGroupCode=" +
+          this.ruleGroupCode +
+          "&userGroupCode=" +
+          this.userGroupCode,
         title: "添加成员"
       });
     }
