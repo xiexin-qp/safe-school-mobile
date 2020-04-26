@@ -30,7 +30,7 @@
         <view style="margin:0 0 10rpx 20rpx">审批人</view>
         <view class="apply-box qui-fx-ac">
           <view class="qui-fx-ver qui-fx-ac">
-            <image :src="dayInfo.leaveApprovalAddDto.photoUrl ? dayInfo.leaveApprovalAddDto.photoUrl : 'child-auto-icon.png'" mode=""></image>
+            <image :src="dayInfo.leaveApprovalAddDto.photoUrl ? dayInfo.leaveApprovalAddDto.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
             {{ dayInfo.leaveApprovalAddDto.userName }}
           </view>
           <view class="apply-content qui-fx-ver">
@@ -43,7 +43,7 @@
         <view style="margin:0 0 10rpx 20rpx">抄送人</view>
         <view class="apply-box qui-fx-ac" v-for="copyer in dayInfo.leaveCopyList" :key="copyer.userCode">
           <view class="qui-fx-ver qui-fx-ac">
-            <image :src="copyer.photoUrl ? copyer.photoUrl : 'child-auto-icon.png'" mode=""></image>
+            <image :src="copyer.photoUrl ? copyer.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
             {{ copyer.userName }}
           </view>
           <view class="apply-content qui-fx-ver">

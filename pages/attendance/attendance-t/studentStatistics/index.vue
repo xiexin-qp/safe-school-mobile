@@ -28,7 +28,7 @@
         <scroll-view  scroll-y="true" class="scroll-h">
           <no-data msg="暂无数据~" v-if="!dataList || dataList.length === 0"></no-data>
           <view v-else  v-for="(list, index) in dataList" :key="index" class="list qui-fx-ac-jc qui-fx-ac" @click="check(list)">
-            <image :src=" list.photoUrl ? list.photoUrl : 'child-auto-icon.png'" mode=""></image>
+            <image :src=" list.photoUrl ? list.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
             <text>{{ list.userName }}</text>
           </view>
         </scroll-view>
@@ -207,7 +207,7 @@ export default {
 	  }
   .record-box {
     padding-top: 20rpx;
-    background-color: #f2f8fe;
+    background-color: $bor-color;
     .attandence-title {
       height: 60rpx;
       line-height: 60rpx;

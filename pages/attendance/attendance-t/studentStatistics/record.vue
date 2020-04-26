@@ -2,7 +2,7 @@
   <view class="stundent-statistics qui-page">
     <view>
       <view class="title qui-fx-ac">
-        <image :src="photo ? photo : 'child-auto-icon.png'" mode=""></image>
+        <image :src="photo ? photo : '/mobile-img/child-auto-icon.png'" mode=""></image>
         <view>{{studentName}} {{month}} 考勤统计</view>
       </view>
       <view class="record-box">
@@ -20,7 +20,7 @@
         </view>
       </view>
       <view class="title qui-fx-ac">
-        <image :src="photo ? photo : 'child-auto-icon.png'" mode=""></image>
+        <image :src="photo ? photo : '/mobile-img/child-auto-icon.png'" mode=""></image>
         <view>{{studentName}}  {{month}} 考勤记录</view>
       </view>
       <scroll-view scroll-y="true" class="scroll">

@@ -23,7 +23,7 @@
      	<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
         <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
           <text> {{ list.userName }} </text>
-          <image :src="list.photoUrl ? list.photoUrl : 'child-auto-icon.png'" mode=""></image>
+          <image :src="list.photoUrl ? list.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
         </view>
       </scroll-view>
     </uni-popup>
@@ -162,7 +162,7 @@ export default {
 .student-attendance {
   .record-box {
     padding-top: 20rpx;
-    background-color: #f2f8fe;
+    background-color: $bor-color;
     .attandence-title {
       height: 60rpx;
       line-height: 60rpx;

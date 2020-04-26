@@ -9,14 +9,14 @@
             {{role[currentRole]}}
           </picker>
         </view>
-        <view>></view>
+        <view class="rit-icon"></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
         <view>开始时间：</view>
         <view class="qui-fx-f1 qui-fx-je">
           <picker mode="date" :value="leaveInfo.startDate" @change="dateChange($event, 1)">
-            <view class="uni-input">{{leaveInfo.startDate | form}}</view>
+            <view class="uni-input">{{leaveInfo.startDate}}</view>
           </picker>
         </view>
         <view class="qui-fx-je" style="margin-left:10rpx">
@@ -24,7 +24,7 @@
             <view class="uni-input"> {{leaveInfo.startTime}}</view>
           </picker>
         </view>
-        <view>></view>
+        <view class="rit-icon"></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
@@ -39,7 +39,7 @@
             <view class="uni-input"> {{leaveInfo.endTime}}</view>
           </picker>
         </view>
-        <view>></view>
+        <view class="rit-icon"></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
@@ -63,17 +63,35 @@
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
 			  <view>审批人：</view>
-			  <view class="qui-fx-f1  qui-fx-je">
+			  <!-- <view class="qui-fx-f1  qui-fx-je">
           {{leaveInfo.approlUser}}
 			  </view>
-        <view @click="check(1)" >></view>
+        <view @click="check(1)" class="qui-fx-f1 qui-fx rit-icon">
+          <view class="qui-fx-f1"></view>
+          <view class="rit-icon"></view>
+        </view> -->
+         <view @click="check(1)" class="qui-fx-f1 qui-fx rit-icon">
+          <view class="qui-fx-f1" style="text-align:right" >
+            {{leaveInfo.approlUser}}
+          </view>
+          <view class="rit-icon"></view>
+        </view>
 			</view>
       <view class="qui-fx-ac qui-bd-b item-list">
 			  <view>抄送人：</view>
-			  <view class="qui-fx-f1  qui-fx-je">
+			  <!-- <view class="qui-fx-f1  qui-fx-je">
 					{{leaveInfo.copyUser}}
 			  </view>
-        <view @click="check(2)">></view>
+        <view @click="check(2)" class="qui-fx-f1 qui-fx rit-icon">
+          <view class="qui-fx-f1"></view>
+          <view class="rit-icon"></view>
+        </view> -->
+        <view @click="check(2)" class="qui-fx-f1 qui-fx rit-icon">
+          <view class="qui-fx-f1" style="text-align:right" >
+            {{leaveInfo.copyUser}}
+          </view>
+          <view class="rit-icon"></view>
+        </view>
 			</view>
       <view class="qui-bd-b item-list">
 			  <view>上传附图：</view>
@@ -334,21 +352,24 @@
             ...req
           }).then(res => {
             this.$tools.toast('操作成功')
-            this.$tools.navTo({
-              url: './index',
-              title: ''
+            this.$tools.goNext( () =>{
+              this.$tools.navTo({
+                url: './index',
+                title: ''
+              })
             })
           })
         } else {
           actions.addTeacherLeave(req).then(res => {  
             this.$tools.toast('操作成功')
-            this.$tools.navTo({
-              url: './index',
-              title: ''
+            this.$tools.goNext( () =>{
+              this.$tools.navTo({
+                url: './index',
+                title: ''
+              })
             })
           })
         }
-        
       }
     }
 	}
