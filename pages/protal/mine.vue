@@ -33,7 +33,7 @@
 			</view>
 		</view>
 		<view v-if="userInfo.typeCode == 16">
-			<view v-for="child in childList" :key="child.userCode" class="qui-fx-ac child-list qui-bd-b">
+			<view v-for="child in childList" :key="child.userCode" class="qui-fx-ac child-list qui-bd-b u-content-color u-bg-fff">
 				<image class="img" :src="child.photoUrl" alt="" />
 				<view class="qui-fx-f1">
 					<view>姓名: {{ child.userName }}</view>
@@ -243,19 +243,14 @@ export default {
 		display: block;
 		background-color: #eee;
 	}
-	color: $des-color;
-	background-color: #fff;
 	line-height: 60rpx;
 	padding: 20rpx;
 }
 .role {
-	background-color: $other1-color;
 }
 .school {
 	margin-top: 80rpx;
-	background-color: $other2-color;
 }
 .quit {
-	background-color: $second-color;
 }
 </style>

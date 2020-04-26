@@ -1,24 +1,17 @@
 <template>
   <view class="home">
     <view class="banner">
-    	<swiper class="swiper" :indicator-active-color="actColor" :indicator-color="autoColor" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval">
-    		<swiper-item>
-          <image class="banner-img" src="/mobile-img/banner-one.png" />
-        </swiper-item>
-        <swiper-item>
-          <image class="banner-img" src="/mobile-img/banner-two.png" />
-        </swiper-item>
-    	</swiper>
+    	<u-swiper :list="bannerList" :height="350" :effect3d="true"></u-swiper>
     </view>
     <view class="enjoy">
       <view @click="goApp(enjoy)" v-for="enjoy in enjoyApp.concat(addMore)" :key="enjoy.id" class="enjoy-list qui-fx-ac-jc">
         <view>
           <image class="app-icon" :src="enjoy.icon || '/mobile-img/app-auto-icon.png'" alt="">
         </view>
-        <text class="title">{{ enjoy.name.split('-')[0] }}</text>
+        <text class="title u-content-color u-font-01">{{ enjoy.name.split('-')[0] }}</text>
       </view>
     </view>
-    <view class="todo" v-if="false">
+    <view class="todo u-type-primary-dark">
       您还有5个待办事项需要处理, 请尽快处理...
     </view>
     <view class="tab-list">
@@ -42,7 +35,20 @@
   export default {
     data () {
       return {
-        show: true,
+				bannerList: [
+					{
+						image: '/mobile-img/banner-one.png',
+						title: '平安校园全面升级啦'
+					},
+					{
+						image: '/mobile-img/banner-two.png',
+						title: '平安校园保证中小学的生命财产安全'
+					},
+					{
+						image: '/mobile-img/banner-one.png',
+						title: '新品上线'
+					}
+				],
         newsType: 0,
         autoColor: 'rgba(0, 0, 0, .2)',
         actColor: '#ffffff',
@@ -127,7 +133,7 @@
   .banner {
     border-radius: 12rpx;
     overflow: hidden;
-    margin: 16rpx;
+    margin: 15rpx 0;
   	height: 350rpx;
   	.swiper {
       width: 100%;
@@ -146,27 +152,24 @@
   .todo {
     height: 78rpx;
     padding: 0 20rpx;
-    color: $main-color;
     line-height: 78rpx;
     background-color: #fff;
     margin: 20rpx 0;
   }
   .enjoy {
     background-color: #fff;
-    height: 260rpx;
+    height: 280rpx;
     .enjoy-list {
       width: 25%;
       float: left;
-      height: 130rpx;
+      height: 140rpx;
       .app-icon {
         width: 50rpx;
         height: 50rpx;
         display: block;
       }
       .title {
-        color: $des-color;
         padding-top: 10rpx;
-        font-size: 26rpx;
       }
     }
   }

@@ -1,5 +1,5 @@
 <template>
-	<scroll-view scroll-y="true" class="scroll-h bg-fff">
+	<scroll-view scroll-y="true" class="scroll-h u-bg-fff">
 		<view class="qui-fx-ac qui-bd-b qui-fx-jsb item-list">
 			<view>学校：</view>
 			<view class="qui-tx-r">{{ schoolName }}</view>
