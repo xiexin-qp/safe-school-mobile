@@ -1,6 +1,6 @@
 <template>
 	<view class="no-data qui-fx-ac-jc">
-		<img src="/mobile-img/no-data.png" alt="" />
+		<image class="no-data-icon" src="/mobile-img/no-data.png" alt="" />
     <text class="msg">{{ msg }}</text>
 	</view>
 </template>
@@ -26,7 +26,7 @@
   .no-data {
     padding: 40rpx 0;
     background-color: #fff;
-    img {
+    .no-data-icon {
       width: 280rpx;
       height: 220rpx;
       display: block;

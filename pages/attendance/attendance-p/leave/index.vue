@@ -104,7 +104,8 @@ export default {
 				size: 15
       },
       morePage: false,
-      studentCode: ''
+      studentCode: '',
+      studentName: ''
     }
   },
   watch: {
@@ -126,6 +127,7 @@ export default {
 	},
   mounted () {
     this.studentCode = store.childList[0].userCode
+    this.studentName = store.childList[0].userName
     this.leaveReasonGet()
     this.teacherLeaveGet()
   },
@@ -145,7 +147,7 @@ export default {
         value1 =  ''
       } else if ( this.value1 === '4' ) {
         value1 =  '0'
-      }else {
+      } else {
         value1 =  this.value1 
       }
       if (tag) {
@@ -180,7 +182,7 @@ export default {
 		},
     addLeave () {
 			this.$tools.navTo({
-				url: './add',
+        url: `./add?userName=${this.studentName}&userCode=${this.studentCode}`,
 				title: '新增请假单'
 			})
 		},
@@ -211,6 +213,7 @@ export default {
     childInfo (item) {
       if (item.userCode !== this.studentCode) {
         this.studentCode = item.userCode
+        this.studentName = item.userName
         this.teacherLeaveGet()
       }
     }
@@ -220,7 +223,7 @@ export default {
 
 <style lang="scss" scoped>
 .leave {
-  background-color: #f0f8ff;
+  background-color: $bor-color;
   position: relative;
   .select-box {
     background-color: #f1f8ff;
@@ -236,7 +239,7 @@ export default {
     height: calc(100vh - 110rpx);
     // height: 85vh;
     .record-box {
-      background-color: #f2f8fe;
+      background-color: $bor-color;
       padding: 5rpx 5rpx 0 5rpx; 
       .leave-box {
         margin: 20rpx;
