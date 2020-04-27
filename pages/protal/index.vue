@@ -1,5 +1,5 @@
 <template>
-	<view class="qui-page login">
+	<view class="qui-page login u-bg-fff">
 		<view><image src="/mobile-img/logo.png" class="auto-bg-img logo"></image></view>
 		<view class="qui-fx-ac login-tab">
 			<view @click="changTab(1)" class="qui-fx-f1 qui-tx-c" :class="{ act: type === 1 }">密码登录</view>
@@ -12,7 +12,9 @@
 		<view v-if="type === 1" class="qui-fx-ac input-box"><input type="text" v-model="phone" class="item-input" placeholder="请输入手机号" /></view>
 		<view v-if="type === 1" class="qui-fx-ac input-box"><input type="password" v-model="code" class="item-input" placeholder="请输入密码" /></view>
 		<view v-if="type === 0" class="qui-fx-ac input-box"><input type="text" v-model="code" class="item-input" placeholder="请输入验证码" /></view>
-		<view class="login-btn" @click="login"><text>登录</text></view>
+		<view style="width: 80%; margin: 40rpx auto">
+			<u-button type="primary" @click="login">登录</u-button>
+		</view>
 		<view @click="toReg" class="register">家长注册 ></view>
 	</view>
 </template>
@@ -174,7 +176,6 @@ export default {
 <style lang="scss">
 .login {
 	padding-top: 160rpx;
-	background-color: #fff;
 	.logo {
 		margin: 0 auto 100rpx auto;
 		width: 428rpx;
@@ -188,18 +189,19 @@ export default {
 		border-radius: 6rpx;
 		margin: 0 auto;
 		overflow: hidden;
-		background-color: #ccc;
-		color: #666;
+		letter-spacing: 2rpx;
+		background-color: $u-bg-color;
+		color: $u-content-color;
 		.act {
 			height: 68rpx;
-			background-color: $main-color;
+			background-color: $u-type-primary;
 			color: #fff;
 		}
 	}
 	.input-box {
 		width: 80%;
 		margin: 60rpx auto 60rpx;
-		border-bottom: 1px #eeeeee solid;
+		border-bottom: 1px $u-border-color-four solid;
 	}
 	.item-input {
 		width: 100%;
@@ -215,30 +217,19 @@ export default {
 		line-height: 60rpx;
 		height: 60rpx;
 		border-radius: 6rpx;
-		background-color: $main-color;
+		background-color: $u-type-primary-dark;
 		color: #fff;
 		&.act {
-			width: 100rpx;
-			background-color: #ccc;
+			width: 60rpx;
+			background-color: $u-type-primary-disabled;
 		}
-	}
-	.login-btn {
-		width: 80%;
-		height: 80rpx;
-		background-color: $main-color;
-		color: #fff;
-		text-align: center;
-		line-height: 80rpx;
-		margin: 80rpx auto;
-		border-radius: $radius;
-		letter-spacing: 4rpx;
 	}
 	.register {
 		position: fixed;
 		z-index: 99;
 		bottom: 80rpx;
 		right: 100rpx;
-		color: $main-color;
+		color: $u-type-primary-dark;
 	}
 }
 </style>

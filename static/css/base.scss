@@ -13,7 +13,7 @@ body {
 		Simsun, sans-serif, Helvetica !important;
 	font-size: 28rpx !important;
 	overflow-x: hidden;
-	background-color: #F3F4F6;
+	background-color: $u-bg-color;
 	padding-top: constant(safe-area-inset-top);
 	padding-left: constant(safe-area-inset-left);
 	padding-right: constant(safe-area-inset-right);
@@ -50,7 +50,7 @@ button {
 	width: 100%;
 	height: 100%;
 	z-index: 9;
-	background-color: #eee;
+	background-color: $u-bg-color;
 }
 
 .qui-fff {
@@ -82,7 +82,7 @@ button {
 	position: absolute;
 	top: 0;
 	left: 0;
-	border: 1px solid #dddddd;
+	border: 1px solid $u-border-color;
 	width: 200%;
 	height: 200%;
 	-webkit-transform: scale(0.5);
@@ -96,7 +96,7 @@ button {
 }
 
 .qui-bd-t:before {
-	border-top: 1px solid #dddddd;
+	border-top: 1px solid $u-border-color;
 	content: ' ';
 	display: block;
 	width: 100%;
@@ -113,7 +113,7 @@ button {
 }
 
 .qui-bd-b:after {
-	border-bottom: 1px solid #dddddd;
+	border-bottom: 1px solid $u-border-color;
 	content: ' ';
 	display: block;
 	width: 100%;
@@ -130,7 +130,7 @@ button {
 }
 
 .qui-bd-l:after {
-	border-left: 1px solid #dddddd;
+	border-left: 1px solid $u-border-color;
 	content: ' ';
 	display: block;
 	height: 100%;
@@ -147,7 +147,7 @@ button {
 }
 
 .qui-bd-r:after {
-	border-right: 1px solid #dddddd;
+	border-right: 1px solid $u-border-color;
 	content: ' ';
 	display: block;
 	height: 100%;
@@ -206,29 +206,6 @@ only screen and (min-device-pixel-ratio: 2) {
 		-webkit-transform: scaleX(0.25);
 		transform: scaleX(0.25);
 	}
-}
-
-/**
- * 字体
- */
-.qui-fs-01 {
-	font-size: 0.65rem;
-}
-
-.qui-fs-02 {
-	font-size: 0.6rem;
-}
-
-.qui-fs-1 {
-	font-size: 0.85rem;
-}
-
-.qui-fs-2 {
-	font-size: 1rem;
-}
-
-.qui-fs-3 {
-	font-size: 1.2rem;
 }
 
 /**

@@ -11,7 +11,7 @@
         <text class="title u-content-color u-font-01">{{ enjoy.name.split('-')[0] }}</text>
       </view>
     </view>
-    <view class="todo u-type-primary-dark">
+    <view class="todo u-type-primary-dark-bg u-type-error">
       您还有5个待办事项需要处理, 请尽快处理...
     </view>
     <view class="tab-list">
@@ -179,14 +179,14 @@
   }
   .tab-title {
     margin: 20rpx 0;
-    border: 1px #F5F5F5 solid;
+    border: 1px $u-border-color solid;
     overflow: hidden;
     border-radius: 10rpx;
     .tab {
       line-height: 60rpx;
       height: 60rpx;
       padding: 0 44rpx;
-      border-left: 1px #F5F5F5 solid;
+      border-left: 1px $u-border-color solid;
       &:first-child {
         border-left: none;
       }
