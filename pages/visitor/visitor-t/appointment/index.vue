@@ -22,7 +22,12 @@
 							<view>开始时间：{{ item.accessStartTime | getFullDate }}</view>
 							<!-- <view>结束时间：{{ item.accessEndTime | getFullDate }}</view> -->
 							<view>来访事由：{{ item.causeName }}</view>
-							<view>状态：<text :class="item.state === 2 ? 'refuse' : item.state === 1 ? 'agree' : item.state === 0 ? 'wait' : 'cancel'">{{ item.state | approveState }}</text></view>
+							<view>
+								状态：
+								<text :class="item.state === 2 ? 'refuse' : item.state === 1 ? 'agree' : item.state === 0 ? 'wait' : 'cancel'">
+									{{ item.state | approveState }}
+								</text>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -31,7 +36,7 @@
 					<text>{{ item.createTime | getFullDate }}</text>
 					<view class="qui-fx qui-fx-ac">
 						<text @click="goDetail(item.id)">查看详情</text>
-						<view class="icon right"><text class="iconfont">&#xe851;</text></view>
+						<view class="rit-icon"></view>
 					</view>
 				</view>
 			</view>
@@ -186,9 +191,9 @@ export default {
 						console.log(req);
 						actions.approval(req).then(res => {
 							this.$tools.toast('操作成功', 'success');
-							this.$tools.goNext(()=>{
+							this.$tools.goNext(() => {
 								this.showList();
-							})
+							});
 						});
 					});
 				}
@@ -213,9 +218,9 @@ export default {
 				actions.approval(req).then(res => {
 					this.$tools.toast('操作成功', 'success');
 					this.refuseText = '';
-					this.$tools.goNext(()=>{
+					this.$tools.goNext(() => {
 						this.showList();
-					})
+					});
 				});
 			});
 		}
@@ -338,12 +343,12 @@ export default {
 		color: #fff;
 	}
 }
-/deep/ uni-input{
-	    line-height: 2.1em;
-	    height: 2.1em;
-	    min-height: 2.1em;
+/deep/ uni-input {
+	line-height: 2.1em;
+	height: 2.1em;
+	min-height: 2.1em;
 }
-/deep/ .uni-popup__wrapper-box{
+/deep/ .uni-popup__wrapper-box {
 	width: 80%;
 	border-radius: 6rpx;
 }

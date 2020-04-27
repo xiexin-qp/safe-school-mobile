@@ -3,13 +3,13 @@
 		<view class="detail">
 			<view class="top qui-fx-jsb">
 			    <view class="info qui-fx-ac">
-							<image :src="comeLog.resUrl ? comeLog.resUrl : errorImg" alt="">
-							<view class="qui-fx-ver">
-								<text class="name">{{ comeLog.respondentName }}</text>
-								<text class="phone">{{ comeLog.resMobile }}</text>
-								<text class="times">{{ comeLog.causeName }}</text>
-							</view>
+					<image :src="comeLog.resUrl ? comeLog.resUrl : errorImg" alt="">
+					<view class="qui-fx-ver">
+						<text class="name">{{ comeLog.respondentName }}</text>
+						<text class="phone">{{ comeLog.resMobile }}</text>
+						<text class="times">{{ comeLog.causeName }}</text>
 					</view>
+				</view>
 			    <view class="state qui-fx">
 			    	<view class="trigon">
 			    	</view>
@@ -95,20 +95,20 @@ export default {
 		background: url('/mobile-img/person-bg.png') no-repeat;
 		background-size: 100% 362rpx;
 		margin: 20rpx 0 40rpx 0;
-		color: #fff;
+		color: $uni-bg-color;
 		.state {
 			margin: 30rpx 30rpx 0 0;
 			font-size: 28rpx;
 			height: 60rpx;
 			line-height: 60rpx;
-			.trigon{
-				border-width:30rpx 20rpx 30rpx 0;
-				border-style:solid;
-				border-color:transparent #fff transparent transparent;
-				position:relative;
+			.trigon {
+				border-width: 30rpx 20rpx 30rpx 0;
+				border-style: solid;
+				border-color: transparent $uni-bg-color transparent transparent;
+				position: relative;
 			}
-			text{
-				background-color: #fff;
+			text {
+				background-color: $uni-bg-color;
 				padding: 0 20rpx;
 			}
 		}
@@ -133,23 +133,23 @@ export default {
 		}
 	}
 	.log {
-		background: #fff;
+		background: $uni-bg-color;
 		padding: 40rpx 20rpx;
 		margin: 20rpx 0 40rpx 0;
-		border: 1px solid $bor-color;
+		border: 1px solid $u-border-color;
 		border-radius: 16rpx;
-		box-shadow: 2rpx 2rpx 1rpx 1rpx $bor-color;
+		box-shadow: 2rpx 2rpx 1rpx 1rpx $u-border-color;
 		.start,
 		.end {
 			margin: 10rpx 0;
 			text:first-child {
-				border: 1rpx solid $main-color;
+				border: 1rpx solid $u-type-primary;
 				padding: 6rpx 12rpx;
 				border-radius: 100%;
 				margin-right: 20rpx;
 			}
 		}
-		.myphoto{
+		.myphoto {
 			width: 100rpx;
 			height: 100rpx;
 			margin: 20rpx 20rpx 20rpx 60rpx;

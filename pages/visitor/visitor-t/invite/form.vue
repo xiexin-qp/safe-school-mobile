@@ -7,7 +7,9 @@
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view class="tip">访客手机：</view>
-				<view class="qui-fx-f1 qui-fx-je"><input :disabled="disabledTag" class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" /></view>
+				<view class="qui-fx-f1 qui-fx-je">
+					<input :disabled="disabledTag" class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" />
+				</view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view class="tip">预计到达时间：</view>
@@ -137,6 +139,7 @@ export default {
 					visitorName: this.formData.visitorName,
 					visitorMobile: this.formData.phone,
 					respondentCode: store.userInfo.userCode,
+					resMobile: store.userInfo.mobile,
 					respondentName: store.userInfo.userName,
 					causeId: cause.value,
 					causeName: cause.text,
@@ -144,7 +147,7 @@ export default {
 					type: 1,
 					respondentType: 1
 				};
-				console.log(req,2222)
+				console.log(req, 2222);
 				const res = await actions.addInviteInfo(req);
 				this.$tools.toast('提交成功', 'success');
 				this.$tools.goNext(() => {
@@ -167,7 +170,8 @@ export default {
 			this.formData.accessStartTime = this.formData.startDate + ' ' + this.formData.startTime;
 			this.formData.accessEndTime = this.formData.endDate + ' ' + this.formData.endTime;
 			console.log(new Date(this.formData.accessStartTime).getTime());
-			this.formData.duration = parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
+			this.formData.duration =
+				parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
 		},
 		chooseCause(e) {
 			this.formData.cause = e.target.value;
@@ -190,12 +194,12 @@ export default {
 }
 .item-list {
 	padding: 25rpx 10rpx 25rpx 30rpx;
-	background: #fff;
+	background: $uni-bg-color;
 }
 .item-input {
 	width: 100%;
 	font-size: 26rpx;
-	color: $second-color;
+	color: $u-tips-color;
 }
 .radio {
 	padding-left: 25rpx;
@@ -204,9 +208,9 @@ export default {
 	padding: 30rpx 10px 10px 2px;
 }
 .log {
-	background: #fff;
+	background: $uni-bg-color;
 	padding: 40rpx 0rpx;
 	margin: 20rpx 0 40rpx 0;
-	border-bottom: 1px solid $bor-color;
+	border-bottom: 1px solid $u-border-color;
 }
 </style>

@@ -72,14 +72,14 @@
  * 审批状态
  */
 .wait {
-	color: $uni-color-primary;
+	color: $u-type-primary;
 }
 .agree {
-	color: $uni-color-success;
+	color: $u-type-success;
 }
 .refuse {
-	color: $uni-color-error;
+	color: $u-type-error;
 }
 .cancel {
-	color: $uni-text-color;
+	color: $u-type-info;
 }

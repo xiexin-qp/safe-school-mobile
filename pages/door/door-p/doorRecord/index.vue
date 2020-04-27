@@ -2,7 +2,7 @@
   <view class="qui-page">
     <view class="head">
       <button type="default" @click="onShowDatePicker('rangetime')">
-        <span v-if="this.rangetime!= ''">{{rangetime[0]}}~{{rangetime[1]}}</span>
+        <span v-if="this.rangetime!= ''">{{getDateTime(new Date( rangetime[0]))}}~{{getDateTime(new Date( rangetime[1]))}}</span>
         <span v-else>选择日期时间范围搜索</span>
       </button>
     </view>
@@ -87,9 +87,9 @@ export default {
       if (e) {
         this[this.type] = e.value;
       }
-      const searchObj = {
-        startTime: e.value[0],
-        endTime: e.value[1]
+      const searchObj = { 
+        startTime: this.getDateTime(new Date(e.value[0])),
+        endTime:this.getDateTime(new Date(e.value[1]))
       };
 
       this.showList(searchObj);
