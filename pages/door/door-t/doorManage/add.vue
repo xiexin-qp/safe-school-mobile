@@ -23,9 +23,9 @@
 				</checkbox-group>
 			</scroll-view>
 		</view>
-		<view class="foot">
-			<button class="mini-btn" type="default" size="mini" @click="cancel()">取消</button>
-			<button class="mini-btn" type="primary" size="mini" @click="addInfo()">保存</button>
+		<view class="submit-box qui-fx">
+			<view class="btn1" @click="cancel()">取消</view>
+			<view class="btn2" @click="addInfo()">保存</view>
 		</view>
 	</view>
 </template>
@@ -43,7 +43,7 @@ export default {
 			userInfoList: [],
 			pageList: {
 				page: 1,
-				size: 20
+				size: 15
 			},
 			morePage: false,
 			ruleGroupCode: '',
@@ -111,6 +111,13 @@ export default {
 			});
 			console.log(this.hasUserList);
 		},
+		userReduce(data){
+			let hash = {}; 
+			data = data.reduce((preVal, curVal) => {
+				hash[curVal.userCode] ? '' : hash[curVal.userCode] = true && preVal.push(curVal); 
+				return preVal 
+			}, [])
+		},
 		cancel() {
 			this.userInfoList = [];
 			this.$tools.navTo({
@@ -121,23 +128,22 @@ export default {
 		checkUser(e) {
 			const data = e.target.value;
 			console.log(e)
-			this.userInfoList = [];
 			data.map(el => {
-				this.userInfoList.push({
+				this.hasUserList.push({
 					userCode: el.split('^')[0],
 					userName: el.split('^')[1].split('=')[0],
 					userType: '1'
 				});
-				console.log(this.userInfoList);
+				console.log(this.hasUserList);
 			});
 		},
 		addInfo() {
-			if (this.userInfoList.length != 0) {
+			if (this.hasUserList.length != 0) {
 				const req = {
 					schoolCode: store.userInfo.schoolCode,
 					ruleGroupCode: this.ruleGroupCode,
 					userGroupCode: this.userGroupCode,
-					userInfoList: this.userInfoList,
+					userInfoList: this.hasUserList,
 					userType: '1'
 				};
 				actions.addgroupuserList(req).then(res => {
@@ -167,13 +173,28 @@ export default {
 .head {
 	height: 100rpx;
 }
-.foot {
-	height: 150rpx;
-	text-align: center;
-	button {
-		margin: 0 30rpx;
-		background: #7b92f5;
+.submit-box {
+	height: 100rpx;
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	.btn1 {
+		width: 50%;
+		line-height: 100rpx;
+		text-align: center;
+		letter-spacing: 8rpx;
+		background-color: #fff;
+		color: #000;
+		border-radius: $radius;
+	}
+	.btn2 {
+		width: 50%;
+		line-height: 100rpx;
+		text-align: center;
+		letter-spacing: 8rpx;
+		background-color: $main-color;
 		color: #fff;
+		border-radius: $radius;
 	}
 }
 .title_ {

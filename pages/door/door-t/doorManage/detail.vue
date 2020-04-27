@@ -22,7 +22,7 @@
       </scroll-view>
     </view>
     <view class="foot">
-      <view class="add foot" @click="add">+</view>
+		<view class="float-add-btn" @click="add"></view>
     </view>
   </view>
 </template>
