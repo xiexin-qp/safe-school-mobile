@@ -25,13 +25,13 @@
         </view>
       </view>
     </view>
-    <uni-popup ref="popup" type="center">
+    <u-popup ref="popup" mode="center" length="65%">
       <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
         <view v-for="list in dataList" :key="list" class="list qui-bd-b">
           <text>{{ list | gmtToDate('date') }}</text>
         </view>
       </scroll-view>
-    </uni-popup>
+    </u-popup>
     <choose-child @change="childInfo"></choose-child>
   </view>
 </template>
@@ -271,8 +271,5 @@ export default {
       }
     }
   }
-}
-/deep/ .uni-popup__wrapper-box {
-  width: 70%;
 }
 </style>
