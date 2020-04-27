@@ -1,12 +1,12 @@
 <template>
 	<view class="invite qui-page">
-		<uni-popup ref="refuse" type="center">
+		<u-popup :maskCloseAble="true" ref="refuse" mode="center" length="80%">
 			<view class="pop qui-fx-ver">
 				<view class="title">请输入拒绝原因</view>
 				<input v-model="refuseText" focus placeholder="" />
 				<view class="btn" @click="sure(0)">确定</view>
 			</view>
-		</uni-popup>
+		</u-popup>
 		<uni-search-bar class="search" placeholder="输入姓名搜索" @confirm="search"></uni-search-bar>
 		<dropdown-menu :statusList="statusList" @value0Change="value0Change" @value1Change="value1Change" @value2Change="value2Change"></dropdown-menu>
 		<no-data v-if="appointList.length === 0" msg="暂无数据"></no-data>
@@ -350,9 +350,5 @@ export default {
 	line-height: 2.1em;
 	height: 2.1em;
 	min-height: 2.1em;
-}
-/deep/ .uni-popup__wrapper-box {
-	width: 80%;
-	border-radius: 6rpx;
 }
 </style>
