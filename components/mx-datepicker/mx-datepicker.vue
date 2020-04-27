@@ -229,7 +229,7 @@
 		formatTimeArray(t, s) {
 			let r = [...t];
 			if (!s) r.length = 2;
-			r.forEach((v, k) => r[k] = ('0' + v).slice(-2));
+			r.forEach((v, k) => r[k] = ('0' + v).slice(0));
 			return r.join(':');
 		}
 	};
@@ -308,7 +308,7 @@
 				this.date = new Date();
 				this.checkeds = [];
 				this.isMultiSelect = this.type.indexOf('range') >= 0;
-				this.isContainTime = this.type.indexOf('time') >= 0;
+				// this.isContainTime = this.type.indexOf('time') >= 0;
 				//将字符串解析为Date对象
 				let parseDateStr = (str) => (this.format ? DateTools.inverse(str, this.format) : DateTools.parse(str));
 				if (value) {
@@ -543,12 +543,12 @@
 		computed: {
 			BeginTitle() {
 				let value = '未选择';
-				if (this.checkeds.length) value = DateTools.format(this.checkeds[0], 'yy/mm/dd');
+				if (this.checkeds.length) value = DateTools.format(this.checkeds[0], 'yyyy/mm/dd');
 				return value;
 			},
 			EndTitle() {
 				let value = '未选择';
-				if (this.checkeds.length == 2) value = DateTools.format(this.checkeds[1], 'yy/mm/dd');
+				if (this.checkeds.length == 2) value = DateTools.format(this.checkeds[1], 'yyyy/mm/dd');
 				return value;
 			},
 			PickerTimeTitle() {

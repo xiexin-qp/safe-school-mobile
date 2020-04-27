@@ -2,9 +2,12 @@
   <view class="qui-page">
     <view class="head">
       <button type="default" @click="onShowDatePicker('rangetime')">
-        <span v-if="this.rangetime!= ''">{{getDateTime(new Date( rangetime[0]))}}~{{getDateTime(new Date( rangetime[1]))}}</span>
-        <span v-else>选择日期时间范围搜索</span>
+        <text v-if="this.rangetime.length !== 0">{{rangetime[0] | gmtToDate('date')}}~{{rangetime[1] | gmtToDate('date') }}</text>
+        <text v-else>选择日期时间范围搜索</text>
       </button>
+	  <view v-if="this.rangetime.length !== 0" class="clear" @click="clear">
+	  	<uni-icons class="u-type-info" size="24" type="clear" />
+	  </view>
     </view>
     <view class="">
       <mx-date-picker
@@ -29,8 +32,8 @@
         <text class="right">地点</text>
       </view>
       <no-data msg="暂无出入记录~" v-if="recordList.length === 0"></no-data>
-      <scroll-view scroll-y="true" class="scroll-h">
-        <view v-for="(item, i) in recordList" :key="i" class="tbody qui-bd-b qui-fx-jsb u-bg-fff">
+      <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore" >
+        <view v-for="(item, i) in recordList" :key="i" class="tbody qui-bd-b qui-fx-jsb qui-fx-ac">
           <text class="left">{{ getDateTime(new Date(item.accessTime)) }}</text>
           <text class="md">{{ item.accessType == '1' ? '进' : '出' }}</text>
           <text class="right">{{ item.accessPlace }}</text>
@@ -57,29 +60,53 @@ export default {
       recordList: [],
       pageList: {
         page: 1,
-        size: 20
-      }
+        size: 10
+      },
+	  morePage: false,
+	  searchObj: {}
     };
   },
   mounted() {
     this.showList();
   },
   methods: {
-    async showList(searchObj = {}) {
+    async showList(tag = false) {
+		if (tag) {
+			this.pageList.page += 1;
+		} else {
+			this.pageList.page = 1;
+		}
       const req = {
         schoolCode: store.userInfo.schoolCode,
         ruleGroupType: 2,
-        ...searchObj,
+        ...this.searchObj,
         pageNum: this.pageList.page,
         pageSize: this.pageList.size
       };
       const res = await actions.getrecordList(req);
-      this.recordList = res.data.list;
+	  if (tag) {
+	  	this.recordList = this.recordList.concat(res.data.list);
+	  } else {
+	  	this.recordList = res.data.list;
+	  }
+	  this.morePage = res.data.hasNextPage;
     },
+	loadMore() {
+		if (!this.morePage) {
+			this.$tools.toast('数据已加载完毕');
+			return;
+		}
+		this.showList(true);
+	},
+	clear() {
+		this.rangetime = []
+		this.searchObj = {}
+		this.showList()
+	},
     onShowDatePicker(type) {
       //显示
       this.type = type;
-      this.showPicker = true;
+      this.showPicker = !this.showPicker;
       this.value = this[type];
     },
     onSelected(e) {
@@ -87,14 +114,13 @@ export default {
       if (e) {
         this[this.type] = e.value;
       }
-      const searchObj = { 
+      this.searchObj = { 
         startTime: this.getDateTime(new Date(e.value[0])),
         endTime:this.getDateTime(new Date(e.value[1]))
       };
-
-      this.showList(searchObj);
+      this.showList();
     },
-    getDateTime(date) {
+    getDateTime(date, type) {
       if (date === "" || date === null) {
         return "--";
       }
@@ -113,15 +139,25 @@ export default {
         (d.getSeconds() > 9 ? d.getSeconds() : "0" + d.getSeconds())
       );
     }
-  }
+  },
+  
 };
 </script>
 <style lang="scss" scoped>
 .head {
   height: 80rpx;
+  position: relative;
   button {
     margin: 20upx;
     font-size: 28upx;
+  }
+  .clear {
+  	align-items: center;
+  	line-height: 24px;
+  	padding-left: 5px;
+  	position: absolute;
+  	right: 30rpx;
+	top:16rpx;
   }
 }
 
@@ -137,9 +173,10 @@ export default {
   .tbody {
     position: relative;
     padding: 25rpx 10rpx;
+	background: $uni-bg-color;
   }
   .tbody:nth-child(even) {
-    background: #f5f5f5;
+    background: $u-bg-color;
   }
   .left {
     width: 25%;
@@ -155,6 +192,7 @@ export default {
   }
 }
 .scroll-h {
-  height: calc(100vh - 80rpx);
+  height: calc(100vh - 240rpx);
 }
+
 </style>

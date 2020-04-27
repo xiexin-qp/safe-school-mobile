@@ -116,7 +116,9 @@ export default {
 			this.formData.cause = this.causeNameList.findIndex(item => {
 				return item === res.data.causeName;
 			});
-			this.imgList.push(res.data.visitorUrl)
+			if(res.data.visitorUrl !== ''){
+				this.imgList.push(res.data.visitorUrl)
+			}
 		}
 	},
 	methods: {
