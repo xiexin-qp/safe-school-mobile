@@ -11,7 +11,7 @@
         <text class="title u-content-color u-font-01">{{ enjoy.name.split('-')[0] }}</text>
       </view>
     </view>
-    <view class="todo u-type-primary-dark-bg u-type-error">
+    <view class="todo" v-if="false">
       您还有5个待办事项需要处理, 请尽快处理...
     </view>
     <view class="tab-list">

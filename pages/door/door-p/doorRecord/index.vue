@@ -28,9 +28,9 @@
         </view>
         <text class="right">地点</text>
       </view>
-      <no-data msg="暂无出入记录记录~" v-if="recordList.length === 0"></no-data>
+      <no-data msg="暂无出入记录~" v-if="recordList.length === 0"></no-data>
       <scroll-view scroll-y="true" class="scroll-h">
-        <view v-for="(item, i) in recordList" :key="i" class="tbody qui-bd-b qui-fx-jsb">
+        <view v-for="(item, i) in recordList" :key="i" class="tbody qui-bd-b qui-fx-jsb u-bg-fff">
           <text class="left">{{ getDateTime(new Date(item.accessTime)) }}</text>
           <text class="md">{{ item.accessType == '1' ? '进' : '出' }}</text>
           <text class="right">{{ item.accessPlace }}</text>

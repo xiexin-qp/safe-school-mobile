@@ -12,6 +12,7 @@
 <script>
 import { store } from './store/index.js'
 import FooterCom from './component/footer-com.vue'
+import apiFun from './store/apiFun.js'
 import home from './home.vue'
 import app from './app.vue'
 import mine from './mine.vue'
@@ -23,6 +24,9 @@ export default {
   computed: {
     tabIndex: () => store.tabIndex
   },
+	mounted () {
+		apiFun.getMenuList()
+	},
   components: {
     FooterCom,
     home,
