@@ -1,5 +1,5 @@
 <template>
-	<scroll-view scroll-y="true" class="scroll-h bg-fff">
+	<scroll-view scroll-y="true" class="scroll-h u-bg-fff">
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>学校：</view>
 			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="schoolName" :range="schoolList" @change="chooseSchool">{{ schoolName }}</picker>

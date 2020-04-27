@@ -3,16 +3,16 @@
 		"^u-(.*)": "@/uview/components/u-$1/u-$1.vue"
 	},
 	"pages": [
-		// {
-		// 	"path": "pages/index/index",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/demo/index"
-		// },
-		// {
-		// 	"path": "pages/demo/form"
-		// },
+		{
+			"path": "pages/index/index",
+			"style": {}
+		},
+		{
+			"path": "pages/demo/index"
+		},
+		{
+			"path": "pages/demo/form"
+		},
 		// 主页模块
 		{
 			"path": "pages/protal/index",

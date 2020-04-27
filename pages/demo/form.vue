@@ -93,7 +93,7 @@
           role: 0,
           healthy: ''
         },
-				imgList: []
+				imgList: ['http://canpointtest.com/mobile-img/logo.png']
 			}
 		},
 		components: {

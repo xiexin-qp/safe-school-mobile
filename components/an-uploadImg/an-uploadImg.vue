@@ -1,7 +1,7 @@
 <template>
 	<view class="an-uploadImg-group">
-		<view class="an-img" v-for="(item, index) in imgList" :key="index" @click="perviewImg(index)">
-			<image :src="item" v-if="item"></image>
+		<view class="an-img" v-for="(item, index) in imgBase64List" :key="index">
+			<image class="upload-icon" :src="item"  @click="perviewImg(index)" v-if="item"></image>
 			<view class="an-icon-close" @click.stop="handleRemove(index)"><view class="del">-</view></view>
 		</view>
 		<view v-if="imgBase64List.length < total" class="an-img-add" @click="chooseImage">+</view>
@@ -34,6 +34,9 @@ export default {
 			}
 		}
 	},
+	mounted () {
+		console.log(this.value)
+	},
 	data() {
 		return {
 			imgList: []
@@ -43,7 +46,6 @@ export default {
 		chooseImage() {
 			uni.chooseImage({
 				success: chooseImageRes => {
-					console.log(chooseImageRes);
 					for (let i = 0; i < chooseImageRes.tempFilePaths.length; i++) {
 						this.imgList.push(chooseImageRes.tempFilePaths[i]);
 						const file = chooseImageRes.tempFilePaths[i];
@@ -51,9 +53,11 @@ export default {
 						newImg.src = file;
 						newImg.onload = () => {
 							var canvas = document.createElement('canvas');
+							canvas.width = 300;
+							canvas.height = 400;
 							const context = canvas.getContext('2d');
-							context.drawImage(newImg, 0, 0, 80, 80);
-							const base64 = canvas.toDataURL('image/png');
+							context.drawImage(newImg, 0, 0, 300, 400);
+							const base64 = canvas.toDataURL('image/png', 0.8);
 							this.imgBase64List.push(base64);
 						};
 					}
@@ -108,9 +112,10 @@ export default {
 	text-align: center;
 	line-height: 100rpx;
 }
-.an-img > image {
+.upload-icon {
 	height: 100rpx;
 	width: 100rpx;
+	display: block;
 }
 .an-icon-close {
 	width: 30rpx;
