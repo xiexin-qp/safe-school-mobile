@@ -14,7 +14,7 @@
       <view class="btn save" @click="isEdit = false">完成</view>
     </view>
     <view v-if="isEdit" class="system-list edit-app qui-bd-t">
-      <div v-if="enjoyApp.length === 0" class="no-app">暂未添加常用模块...</div>
+      <div v-if="enjoyApp.length === 0" class="no-app u-tips-color">暂未添加常用模块...</div>
       <view @click="delEnjoy(enjoy.code)" v-for="enjoy in enjoyApp" :key="enjoy.id" class="app qui-fx-ac-jc" :class="{'act': isEdit}">
 				<image class="del-add-img" src="/mobile-img/del-app-icon.png"></image>
         <view>

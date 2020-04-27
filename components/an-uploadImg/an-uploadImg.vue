@@ -38,7 +38,6 @@ export default {
 	},
 	data() {
 		return {
-			imgList: []
 		};
 	},
 	methods: {
@@ -46,7 +45,6 @@ export default {
 			uni.chooseImage({
 				success: chooseImageRes => {
 					for (let i = 0; i < chooseImageRes.tempFilePaths.length; i++) {
-						this.imgList.push(chooseImageRes.tempFilePaths[i]);
 						const file = chooseImageRes.tempFilePaths[i];
 						const newImg = new Image();
 						newImg.src = file;
@@ -70,28 +68,13 @@ export default {
 			});
 		},
 		perviewImg(index) {
-			let urls = [];
-			if (index != -1) {
-				urls[0] = this.imgList[index];
-			} else {
-				urls = this.imgList;
-			}
+			let urls = this.imgBase64List[index];
 			uni.previewImage({
-				urls: urls
+				urls: [urls]
 			});
 		},
 		handleRemove(index) {
-			let il = [],
-				ibl = [];
-			for (var i = 0; i < this.imgList.length; i++) {
-				if (i != index) {
-					il.push(this.imgList[i]);
-					ibl.push(this.imgBase64List[i]);
-				}
-			}
-			this.imgList = il;
-			this.imgBase64List = ibl;
-			console.log(this.imgBase64List);
+			this.imgBase64List.splice(index, 1)
 		}
 	}
 };

@@ -72,7 +72,7 @@
     <view class="submit-box">
       <view class="btn" @click="submit">提交</view>
     </view>
-    <uni-popup ref="checkPopup" type="center" :maskClick="false">
+    <u-popup ref="checkPopup" mode="center" :mask-close-able="false" length="65%">
       <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore">
         <view>
           <checkbox-group @change="checkUser">
@@ -89,7 +89,7 @@
           </view>
         </view>
       </scroll-view>
-    </uni-popup>
+    </u-popup>
   </view>
 </template>
 
@@ -260,7 +260,11 @@
           this.$tools.toast('请选择正确时间段')
           return false
         }
+        const photoList = this.leaveInfo.photoList.map(el => {
+          return el.split(',')[1]
+        })
         const req = {
+          photoList: photoList,
           schoolCode: store.userInfo.schoolCode,
           leaveApprovalAddDto:{ },
           applicantCode: store.userInfo.userCode,
@@ -358,8 +362,5 @@
         }
     }
   }
-}
-/deep/ .uni-popup__wrapper-box {
-  width: 70%;
 }
 </style>

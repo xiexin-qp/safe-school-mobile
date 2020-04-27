@@ -28,7 +28,7 @@ export default {
 			type: 1, // 密码
 			phone: '',
 			code: '',
-			total: 5,
+			total: 60,
 			tip: '获取验证码'
 		};
 	},
