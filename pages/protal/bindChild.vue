@@ -22,7 +22,14 @@
 			<view>孩子学号：</view>
 			<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.workNo" placeholder="请输入学号" /></view>
 		</view>
-		<view class="submit-box" @click="bindChild">绑定</view>
+		<view class="qui-fx-ac qui-bd-b item-list">
+			<view>亲属关系：</view>
+			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="relationShip" :range="relationShipList" @change="chooseRelation">{{ relationShip }}</picker>
+			<view class="rit-icon"></view>
+		</view>
+		<view style="margin: 40rpx 20rpx">
+			<u-button type="primary" @click="bindChild">绑定</u-button>
+		</view>
 	</scroll-view>
 </template>
 
@@ -57,15 +64,24 @@ export default {
 		enjoyParentApp: () => store.enjoyParentApp,
 		relationShipList: () => store.relationShipList.map(item => item.relationShip)
 	},
+	onLoad (params) {
+		this.type = params.type
+	},
 	mounted() {
 		this.formData.schoolCode = this.userInfo.schoolCode
 		this.formData.parentName = this.userInfo.userName
 		this.formData.mobile = this.userInfo.mobile
 		this.schoolName = this.userInfo.schoolName
-		this.formData.relationShip =  1
+		this.formData.relationShip =  this.userInfo.relationShip || 1
 		this.getGradeList()
 	},
 	methods: {
+		// 选择关系
+		chooseRelation (item) {
+			const index = item.target.value
+			this.relationShip = this.relationShipList[index]
+			this.formData.relationShip = index + 1
+		},
 		// 获取年级
 		async getGradeList () {
 			const res = await actions.getGradeList({
@@ -109,16 +125,23 @@ export default {
 					return
 				}
 			}
-			await actions.bindChild({
-				...this.formData,
-				openid: this.userInfo.openid
-			})
+			if (this.type == 0) {
+				await actions.parentAdd({
+					...this.formData,
+					openid: this.userInfo.openid
+				})
+			} else {
+				await actions.bindChild({
+					...this.formData,
+					openid: this.userInfo.openid
+				})
+			}
 			this.$tools.toast('绑定成功')
 			if (this.userInfo.typeCode == 4) {
 				this.addLog('16', '家长')
 			} else {
-				eventBus.$emit('getChild')
 				this.$tools.goNext(() => {
+					eventBus.$emit('getChild')
 					this.$tools.goBack()
 				})
 			}
@@ -178,7 +201,7 @@ export default {
 	padding: 30rpx 10px 10px 2px;
 }
 .yzm-btn {
-	background-color: $main-color;
+	background-color: $u-type-primary;
 	height: 60rpx;
 	line-height: 60rpx;
 	width: 180rpx;
@@ -195,7 +218,7 @@ export default {
 	line-height: 80rpx;
 	text-align: center;
 	letter-spacing: 8rpx;
-	background-color: $main-color;
+	background-color: $u-type-primary;
 	color: #fff;
 	border-radius: $radius;
 }

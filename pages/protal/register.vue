@@ -62,7 +62,9 @@
 			<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.code" placeholder="请输入验证码" /></view>
 			<view class="yzm-btn">获取验证码</view>
 		</view>
-		<view class="submit-box" @click="register">注册</view>
+		<view style="margin: 40rpx 20rpx">
+			<u-button type="primary" @click="register">注册</u-button>
+		</view>
 		<view class="go-login" @click="goLogin">
 			已有账号,
 			<span class="act">直接登录></span>
@@ -180,7 +182,6 @@ export default {
 		},
 		// 注册
 		async register () {
-			console.log(this.formData)
 			for (let key in this.formData) {
 				if (!this.formData[key]) {
 					this.$tools.toast('请填写完整信息')
@@ -199,9 +200,7 @@ export default {
 			})
 			this.$tools.toast('注册成功')
 			this.$tools.goNext(() => {
-				this.$tools.navTo({
-					url: './index'
-				})
+				this.$tools.goBack()
 			})
 		}
 	}
@@ -231,7 +230,7 @@ export default {
 	padding: 30rpx 10px 10px 2px;
 }
 .yzm-btn {
-	background-color: $main-color;
+	background-color: $u-type-primary;
 	height: 60rpx;
 	line-height: 60rpx;
 	width: 180rpx;
@@ -240,18 +239,6 @@ export default {
 	text-align: center;
 	border-radius: 4rpx;
 }
-.submit-box {
-	margin: 50rpx 20rpx;
-	text-align: center;
-	padding: 0 20rpx;
-	height: 80rpx;
-	line-height: 80rpx;
-	text-align: center;
-	letter-spacing: 8rpx;
-	background-color: $main-color;
-	color: #fff;
-	border-radius: $radius;
-}
 .go-login {
 	text-align: center;
 	color: #666;
@@ -259,7 +246,7 @@ export default {
 	letter-spacing: 2rpx;
 	.act {
 		padding-left: 6rpx;
-		color: $main-color;
+		color: $u-type-primary;
 	}
 }
 </style>
