@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import eventBus from '@u/eventBus'
 import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue'
 import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue'
 import { store, actions } from '../store/index.js'
@@ -155,6 +156,9 @@ export default {
 			}
 	},
   mounted () {
+    eventBus.$on('getList', () => {
+			this.teacherLeaveGet()
+    })
     this.leaveReasonGet()
     this.teacherLeaveGet()
   },

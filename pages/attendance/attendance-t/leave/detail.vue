@@ -116,7 +116,6 @@ export default {
   .leave-remark {
     height: 100rpx;
     padding: 20rpx;
-   
   }
   .apply-box {
     height: 220rpx;

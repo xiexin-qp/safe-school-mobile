@@ -195,7 +195,7 @@ export default {
 .item-input {
 	width: 100%;
 	font-size: 26rpx;
-	color: #999;
+	color: $second-color;
 }
 .radio {
 	padding-left: 25rpx;
@@ -207,6 +207,6 @@ export default {
 	background: #fff;
 	padding: 40rpx 0rpx;
 	margin: 20rpx 0 40rpx 0;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid $bor-color;
 }
 </style>

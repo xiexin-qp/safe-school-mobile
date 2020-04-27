@@ -144,7 +144,7 @@ export default {
 	padding: 25rpx 20rpx;
 	font-size: 28rpx;
 	.th {
-		background: #7b92f5;
+		background: $main-color;
 		padding: 20rpx 0;
 		border-radius: 8rpx;
 		color: #fff;
@@ -163,7 +163,7 @@ export default {
 		}
 	}
 	.tbody:nth-child(even) {
-		background: #f5f5f5;
+		background: $uni-bg-color-grey;
 	}
 	.left {
 		width: 25%;

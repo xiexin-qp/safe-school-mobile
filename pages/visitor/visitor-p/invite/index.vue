@@ -50,7 +50,7 @@ export default {
 	},
 	data() {
 		return {
-			errorImg: '/mobile-img/person.png',
+			errorImg: '/mobile-img/person-auto.png',
 			statusList: [
 				{
 					text: '全部状态',
@@ -244,22 +244,10 @@ export default {
 		position: absolute;
 		font-size: 48rpx;
 	}
-	.wait {
-		color: #0079ff;
-	}
-	.agree {
-		color: #69c08f;
-	}
-	.refuse {
-		color: #e37e7e;
-	}
-	.cancel {
-		color: #999;
-	}
 	.see {
 		padding: 20rpx 10rpx 20rpx 20rpx;
 		text {
-			color: #999;
+			color: $second-color;
 			font-size: 24rpx;
 		}
 	}
@@ -271,7 +259,7 @@ export default {
 			image {
 				width: 160rpx;
 				height: 200rpx;
-				background-color: #ddd;
+				background-color: $bor-color;
 			}
 		}
 		.list {
@@ -299,7 +287,7 @@ export default {
 .dropdown-menu {
 	width: 50%;
 	padding: 2rpx 0;
-	border: 1rpx solid #ddd;
+	border: 1rpx solid $bor-color;
 }
 .dropdown-menu:first-child {
 	border-top-left-radius: 8rpx;
@@ -312,24 +300,11 @@ export default {
 .dropdown-item__selected {
 	padding: 10rpx;
 }
-@font-face {
-	font-family: 'iconfont'; /* project id 1564327 */
-	src: url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.eot');
-	src: url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.eot?#iefix') format('embedded-opentype'), url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.woff2') format('woff2'),
-		url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.woff') format('woff'), url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.ttf') format('truetype'),
-		url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.svg#iconfont') format('svg');
-}
+
 .icon {
 	margin-left: 10rpx;
 }
-.iconfont {
-	font-family: 'iconfont' !important;
-	font-size: 24rpx;
-	font-style: normal;
-	-webkit-font-smoothing: antialiased;
-	-webkit-text-stroke-width: 0.2px;
-	-moz-osx-font-smoothing: grayscale;
-}
+
 .down {
 	transition: transform 0.3s;
 	transform: rotateZ(0);
@@ -347,13 +322,13 @@ export default {
 		padding: 20rpx 0;
 	}
 	text:not(:last-child) {
-		border-bottom: 1rpx solid #ddd;
+		border-bottom: 1rpx solid $bor-color;
 	}
 	.title {
 		padding: 20rpx 0 0 0;
 	}
 	input {
-		border: 1rpx solid #ddd;
+		border: 1rpx solid $bor-color;
 		margin: 20rpx 0;
 	}
 	.btn {
