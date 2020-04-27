@@ -40,6 +40,13 @@
 					<text style="margin-left: 10rpx;">拒绝原因：{{ comeLog.reason }}</text>
 				</view>
 			</view>
+			<view v-if="state == '1'" class="log">
+				<view class="start qui-fx-ac">
+					<icon type="info" size="24" />
+					<text style="margin-left: 10rpx;">我的照片：</text>
+				</view>
+				<image class="myphoto" :src="comeLog.visitorUrl ? comeLog.visitorUrl : errorImg" alt="">
+			</view>
 			<view v-if="state == '0'" class="log">
 				<view class="item-list">
 					<view>我的照片：</view>
@@ -242,6 +249,11 @@ export default {
 		.sub-title {
 			font-size: 24rpx;
 			color: $u-tips-color;
+		}
+		.myphoto {
+			width: 100rpx;
+			height: 100rpx;
+			margin: 20rpx 20rpx 20rpx 60rpx;
 		}
 	}
 }
