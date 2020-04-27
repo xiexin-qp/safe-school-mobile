@@ -10,7 +10,7 @@
         <text class="right">工号</text>
         <text class="right">手机号</text>
       </view>
-      <scroll-view scroll-y="true" class="scroll-h">
+      <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
         <checkbox-group @change="checkUser">
           <label class="tbody qui-bd-b qui-fx-jsb" v-for="(item,index) in dataList" :key="index">
             <checkbox :value="`${item.userCode}^${item.userName}`" class="left"></checkbox>
@@ -49,8 +49,10 @@ export default {
         page: 1,
         size: 20
       },
+	  morePage: false,
       ruleGroupCode: "",
-      userGroupCode: ""
+      userGroupCode: "",
+	  keyword: ''
     };
   },
   onLoad(options) {
@@ -61,16 +63,33 @@ export default {
     this.showList();
   },
   methods: {
-    async showList() {
+    async showList(tag = false) {
+		if (tag) {
+			this.pageList.page += 1;
+		} else {
+			this.pageList.page = 1;
+		}
       const req = {
         ...this.pageList,
-        keyword: "",
+        keyword: this.keyword,
         orgCode: "",
         schoolCode: store.userInfo.schoolCode
       };
       const res = await actions.getOrgUser(req);
-      this.dataList = res.data.list;
+	  if (tag) {
+	  	this.dataList = this.dataList.concat(res.data.list);
+	  } else {
+	  	this.dataList = res.data.list;
+	  }
+	  this.morePage = res.data.hasNextPage;
     },
+	loadMore() {
+		if (!this.morePage) {
+			this.$tools.toast('数据已加载完毕');
+			return;
+		}
+		this.showList(true);
+	},
     cancel() {
       this.userInfoList = [];
       this.$tools.navTo({
@@ -102,7 +121,10 @@ export default {
         actions.addgroupuserList(req).then(res => {
           this.$tools.toast("操作成功");
           this.$tools.navTo({
-            url: "./detail",
+            url: "./detail?ruleGroupCode=" +
+			this.ruleGroupCode +
+			"&userGroupCode=" +
+			this.userGroupCode,
             title: ""
           });
         });
@@ -150,9 +172,10 @@ export default {
   .tbody {
     position: relative;
     padding: 25rpx 10rpx;
+	background: $uni-bg-color;
   }
   .tbody:nth-child(even) {
-    background: #f5f5f5;
+    background: $u-bg-color;
   }
   .left {
     width: 20%;

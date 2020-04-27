@@ -7,15 +7,15 @@
           <text>性别</text>
           <view class="icon qui-fx-ver"></view>
         </view>
-        <text class="right">组织机构</text>
+        <!-- <text class="right">组织机构</text> -->
         <text class="right">手机号</text>
         <text class="right">操作</text>
       </view>
-      <scroll-view scroll-y="true" class="scroll-h">
-        <view v-for="(item, i) in groupuserList" :key="i" class="tbody qui-bd-b qui-fx-jsb">
+      <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
+        <view v-for="(item, i) in groupuserList" :key="i" class="tbody qui-bd-b qui-fx-jsb qui-fx-ac">
           <text class="left">{{ item.userName }}</text>
           <text class="md">{{ item.sex =='1'?'男' : '女' }}</text>
-          <text class="right">{{ item.orgName }}</text>
+          <!-- <text class="right">{{ item.orgName }}</text> -->
           <text class="right">{{ item.mobile }}</text>
           <text class="right" @click="actionsheet(item)">删除</text>
         </view>
@@ -37,6 +37,7 @@ export default {
         page: 1,
         size: 20
       },
+	  morePage: false,
       groupuserList: [],
       ruleGroupCode: "",
       userGroupCode: ""
@@ -50,7 +51,12 @@ export default {
     this.showList();
   },
   methods: {
-    async showList() {
+    async showList(tag = false) {
+		if (tag) {
+			this.pageList.page += 1;
+		} else {
+			this.pageList.page = 1;
+		}
       const req = {
         schoolCode: store.userInfo.schoolCode,
         ruleGroupCode: this.ruleGroupCode,
@@ -59,9 +65,20 @@ export default {
         pageSize: this.pageList.size
       };
       const res = await actions.getgroupuserList(req);
-      this.groupuserList = res.data.list;
-      this.total = res.data.total;
+	  if (tag) {
+	  	this.groupuserList = this.groupuserList.concat(res.data.list);
+	  } else {
+	  	this.groupuserList = res.data.list;
+	  }
+	  this.morePage = res.data.hasNextPage;
     },
+	loadMore() {
+		if (!this.morePage) {
+			this.$tools.toast('数据已加载完毕');
+			return;
+		}
+		this.showList(true);
+	},
     //删除
     actionsheet(item) {
       const req = {
@@ -104,9 +121,10 @@ export default {
   .tbody {
     position: relative;
     padding: 25rpx 10rpx;
+	background: $uni-bg-color;
   }
   .tbody:nth-child(even) {
-    background: #f5f5f5;
+     background: $u-bg-color;
   }
   .left {
     width: 20%;

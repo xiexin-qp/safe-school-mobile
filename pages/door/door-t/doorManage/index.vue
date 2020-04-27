@@ -2,7 +2,7 @@
 	<view class="qui-page">
 		<view class="head">我创建的通行权限组</view>
 		<no-data msg="暂无数据" v-if="groupList.length === 0"></no-data>
-		<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
+		<scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
 			<view class="approve-list" v-for="(item, i) in groupList" :key="i">
 				<view class="detail qui-fx">
 					<view class="process-type">
@@ -47,8 +47,9 @@ export default {
     return {
       pageList: {
         page: 1,
-        size: 20
+        size: 15
       },
+	  morePage: false,
       groupList: [],
       userGroupCode: ""
     };
@@ -59,15 +60,31 @@ export default {
   },
   methods: {
     async showList(tag = false) {
+		if (tag) {
+			this.pageList.page += 1;
+		} else {
+			this.pageList.page = 1;
+		}
       const res = await actions.getgroupList({
         schoolCode: store.userInfo.schoolCode,
         ruleGroupType: 1,
         pageNum: this.pageList.page,
         pageSize: this.pageList.size
       });
-      this.groupList = res.data.list;
-      this.total = res.data.total;
+	  if (tag) {
+	  	this.groupList = this.groupList.concat(res.data.list);
+	  } else {
+	  	this.groupList = res.data.list;
+	  }
+	  this.morePage = res.data.hasNextPage;
     },
+	loadMore() {
+		if (!this.morePage) {
+			this.$tools.toast('数据已加载完毕');
+			return;
+		}
+		this.showList(true);
+	},
     goDetail(item) {
       this.$tools.navTo({
         url:
