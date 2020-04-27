@@ -336,7 +336,11 @@
           this.$tools.toast('请选择正确时间段')
           return false
         }
+        const photoList = this.leaveInfo.photoList.map(el => {
+          return el.split(',')[1]
+        })
         const req = {
+          photoList: photoList,
           schoolCode: store.userInfo.schoolCode,
           applicantCode: store.userInfo.userCode,
           applicantName: store.userInfo.userName,

@@ -302,7 +302,11 @@
           this.$tools.toast('请选择审批人')
           return false
         }
+        const photoList = this.leaveInfo.photoList.map(el => {
+          return el.split(',')[1]
+        })
         const req = {
+          photoList: photoList,
           userName: store.userInfo.userName,
           userCode: store.userInfo.userCode,
           schoolCode: store.userInfo.schoolCode,
