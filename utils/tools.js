@@ -73,6 +73,8 @@ const tools = {
 			return date.substring(0, 10)
 		} else if (type === 'time') {
 			return date.substring(11, 16)
+		} else if (type === 'noSecond') {
+			return date.substring(0, 16)
 		}
 	},
 	// 弹出确认框
