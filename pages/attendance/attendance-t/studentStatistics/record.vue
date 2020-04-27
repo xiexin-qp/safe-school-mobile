@@ -27,13 +27,13 @@
         <steps :studentCode="studentCode" :month="month"></steps>
       </scroll-view>
     </view>
-    <uni-popup ref="popup" type="center">
+    <u-popup ref="popup" mode="center" length="65%">
      	<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
         <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
           <text>{{ list | gmtToDate('date') }}</text>
         </view>
       </scroll-view>
-    </uni-popup>
+    </u-popup>
   </view>
 </template>
 
@@ -234,8 +234,5 @@ export default {
     background-color: $uni-bg-color;
     margin-top: 15rpx;
   }
-}
-/deep/ .uni-popup__wrapper-box {
-  width: 70%;
 }
 </style>

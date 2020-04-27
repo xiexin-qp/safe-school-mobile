@@ -72,7 +72,7 @@
     <view class="submit-box">
       <view class="btn" @click="submit">提交</view>
     </view>
-    <uni-popup ref="checkPopup" type="center" :maskClick="false">
+    <u-popup ref="checkPopup" mode="center" :mask-close-able="false" length="65%">
       <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore">
         <view>
           <checkbox-group @change="checkUser">
@@ -89,7 +89,7 @@
           </view>
         </view>
       </scroll-view>
-    </uni-popup>
+    </u-popup>
   </view>
 </template>
 
@@ -362,8 +362,5 @@
         }
     }
   }
-}
-/deep/ .uni-popup__wrapper-box {
-  width: 70%;
 }
 </style>
