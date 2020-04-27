@@ -11,9 +11,7 @@
 			</view>
 		</view>
 		<view>来访记录</view>
-		<scroll-view scroll-y="true" class="scroll-h">
-			<steps :talk="talk"></steps>
-		</scroll-view>
+		<scroll-view scroll-y="true" class="scroll-h"><steps :talk="talk"></steps></scroll-view>
 	</view>
 </template>
 
@@ -49,10 +47,11 @@ export default {
 		if (res.data.list.length === 0) {
 			return;
 		}
-		this.talk = res.data.list
-		this.photo = res.data.list[0].registPhoto
-		this.visitorName = res.data.list[0].userName		this.visitorPhone = res.data.list[0].mobile
-		this.visitSum = res.data.list[0].visitSum
+		this.talk = res.data.list;
+		this.photo = res.data.list[0].registPhoto;
+		this.visitorName = res.data.list[0].userName;
+		this.visitorPhone = res.data.list[0].mobile;
+		this.visitSum = res.data.list[0].visitSum;
 	},
 	methods: {}
 };

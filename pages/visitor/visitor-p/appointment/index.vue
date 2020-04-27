@@ -14,7 +14,12 @@
 							<view>预计到达时间：{{ item.accessStartTime | getFullDate }}</view>
 							<!-- <view>结束时间：{{ item.accessEndTime | getFullDate }}</view> -->
 							<view>来访事由：{{ item.causeName }}</view>
-							<view>状态：<text :class="item.state === 2 ? 'refuse' : item.state === 1 ? 'agree' : item.state === 0 ? 'wait' : 'cancel'">{{ item.state | approveState }}</text></view>
+							<view>
+								状态：
+								<text :class="item.state === 2 ? 'refuse' : item.state === 1 ? 'agree' : item.state === 0 ? 'wait' : 'cancel'">
+									{{ item.state | approveState }}
+								</text>
+							</view>
 						</view>
 					</view>
 				</view>

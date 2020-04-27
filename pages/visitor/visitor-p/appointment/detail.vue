@@ -3,13 +3,13 @@
 		<view class="detail">
 			<view class="top qui-fx-jsb">
 			    <view class="info qui-fx-ac">
-							<image :src="comeLog.resUrl ? comeLog.resUrl : errorImg" alt="">
-							<view class="qui-fx-ver">
-								<text class="name">{{ comeLog.respondentName }}</text>
-								<text class="phone">{{ comeLog.resMobile }}</text>
-								<text class="times">{{ comeLog.causeName }}</text>
-							</view>
+					<image :src="comeLog.resUrl ? comeLog.resUrl : errorImg" alt="">
+					<view class="qui-fx-ver">
+						<text class="name">{{ comeLog.respondentName }}</text>
+						<text class="phone">{{ comeLog.resMobile }}</text>
+						<text class="times">{{ comeLog.causeName }}</text>
 					</view>
+				</view>
 			    <view class="state qui-fx">
 			    	<view class="trigon">
 			    	</view>
@@ -101,13 +101,13 @@ export default {
 			font-size: 28rpx;
 			height: 60rpx;
 			line-height: 60rpx;
-			.trigon{
-				border-width:30rpx 20rpx 30rpx 0;
-				border-style:solid;
-				border-color:transparent $uni-bg-color transparent transparent;
-				position:relative;
+			.trigon {
+				border-width: 30rpx 20rpx 30rpx 0;
+				border-style: solid;
+				border-color: transparent $uni-bg-color transparent transparent;
+				position: relative;
 			}
-			text{
+			text {
 				background-color: $uni-bg-color;
 				padding: 0 20rpx;
 			}
@@ -149,7 +149,7 @@ export default {
 				margin-right: 20rpx;
 			}
 		}
-		.myphoto{
+		.myphoto {
 			width: 100rpx;
 			height: 100rpx;
 			margin: 20rpx 20rpx 20rpx 60rpx;

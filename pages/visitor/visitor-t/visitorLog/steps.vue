@@ -20,13 +20,12 @@
 </template>
 
 <script>
-
 export default {
 	props: {
 		talk: {
 			type: Array,
 			default: () => {
-				return []
+				return [];
 			}
 		}
 	},
@@ -76,8 +75,7 @@ export default {
 			] */
 		};
 	},
-	methods: {
-	}
+	methods: {}
 };
 </script>
 

@@ -16,7 +16,9 @@
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view class="tip">被访人手机号：</view>
-				<view class="qui-fx-f1 qui-fx-je"><input :disabled="disabledTag" class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" /></view>
+				<view class="qui-fx-f1 qui-fx-je">
+					<input :disabled="disabledTag" class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" />
+				</view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view class="tip">预计到达时间：</view>
@@ -97,11 +99,11 @@ export default {
 	computed: {},
 	created() {
 		// this.defaultDate = this.$tools.getDateTime(new Date(), 'date')
-		console.log(this.defaultDate)
+		console.log(this.defaultDate);
 	},
 	async mounted() {
 		await this.getSchool();
-		this.getCause()
+		this.getCause();
 		if (this.id) {
 			const res = await actions.getInviteDetail(this.id);
 			if (!res.data.id) {
@@ -126,7 +128,7 @@ export default {
 			const req = {
 				schoolCode: store.userInfo.schoolCode,
 				userCode: store.userInfo.userCode
-			}
+			};
 			const res = await actions.getSchoolList(req);
 			if (!res.data) {
 				this.$tools.toast('请绑定学校');
@@ -246,7 +248,8 @@ export default {
 			this.formData.accessStartTime = this.formData.startDate + ' ' + this.formData.startTime;
 			this.formData.accessEndTime = this.formData.endDate + ' ' + this.formData.endTime;
 			console.log(new Date(this.formData.accessStartTime).getTime());
-			this.formData.duration = parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
+			this.formData.duration =
+				parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
 		},
 		chooseSchool(e) {
 			if (!e.target) {

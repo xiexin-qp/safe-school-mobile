@@ -16,34 +16,37 @@
 					<text :class="state === '2' ? 'refuse' : state === '1' ? 'agree' : state === '0' ? 'wait' : 'cancel'">{{ state | approveState }}</text>
 				</view>
 			</view>
-				<view class="log qui-fx-jsb qui-fx-ac">
-					<view class="qui-fx-ver">
-						<view class="start qui-fx-ac">
-							<text>到</text>
-							<text>{{ comeLog.accessStartTime | gmtToDate }}</text>
-						</view>
-					</view>
-					<view class="qui-fx-ver">
-						<view class="end qui-fx-ac">
-							<icon type="info" size="24" />
-							<view style="margin-left: 10rpx;" v-if="state !== '0'">随行人数：{{ comeLog.togetherNum || 0 }}</view>
-							<view style="margin-left: 10rpx;" v-else class="qui-fx-ac togethernum">随行人数：<input type="number" v-model="comeLog.togetherNum" focus placeholder="" /></view>
-						</view>
-					</view>
-				</view>
-				<view v-if="refuseTag || state == '2'" class="log qui-fx-jsb">
+			<view class="log qui-fx-jsb qui-fx-ac">
+				<view class="qui-fx-ver">
 					<view class="start qui-fx-ac">
-						<icon type="cancel" size="24" />
-						<text style="margin-left: 10rpx;">拒绝原因：{{ comeLog.reason }}</text>
+						<text>到</text>
+						<text>{{ comeLog.accessStartTime | gmtToDate }}</text>
 					</view>
 				</view>
-				<view v-if="state == '0'" class="log">
-					<view class="item-list">
-						<view>我的照片：</view>
-						<view class="qui-fx-f1"><an-upload-img total="1" v-model="imgList" style="margin: 20rpx"></an-upload-img></view>
-						<view class="sub-title">请上传1张本人正脸清晰照片用于来访识别。</view>
+				<view class="qui-fx-ver">
+					<view class="end qui-fx-ac">
+						<icon type="info" size="24" />
+						<view style="margin-left: 10rpx;" v-if="state !== '0'">随行人数：{{ comeLog.togetherNum || 0 }}</view>
+						<view style="margin-left: 10rpx;" v-else class="qui-fx-ac togethernum">
+							随行人数：
+							<input type="number" v-model="comeLog.togetherNum" focus placeholder="" />
+						</view>
 					</view>
 				</view>
+			</view>
+			<view v-if="refuseTag || state == '2'" class="log qui-fx-jsb">
+				<view class="start qui-fx-ac">
+					<icon type="cancel" size="24" />
+					<text style="margin-left: 10rpx;">拒绝原因：{{ comeLog.reason }}</text>
+				</view>
+			</view>
+			<view v-if="state == '0'" class="log">
+				<view class="item-list">
+					<view>我的照片：</view>
+					<view class="qui-fx-f1"><an-upload-img total="1" v-model="imgList" style="margin: 20rpx"></an-upload-img></view>
+					<view class="sub-title">请上传1张本人正脸清晰照片用于来访识别。</view>
+				</view>
+			</view>
 		</view>
 		<view v-if="state == '0'" class="submit-box qui-fx">
 			<view class="btn1" @click="open">拒绝</view>
@@ -109,9 +112,9 @@ export default {
 		},
 		clickConfirm() {
 			this.$tools.confirm(`确定同意吗?`, () => {
-				if(this.imgList.length===0){
+				if (this.imgList.length === 0) {
 					this.$tools.toast('请上传访客人脸识别照片');
-					return
+					return;
 				}
 				const req = {
 					registPhoto: this.imgList[0].split(',')[1],
@@ -128,11 +131,11 @@ export default {
 				console.log(req);
 				actions.approval(req).then(res => {
 					this.$tools.toast('操作成功', 'success');
-					this.$tools.goNext(()=>{
+					this.$tools.goNext(() => {
 						this.$tools.navTo({
 							url: './index'
 						});
-					})
+					});
 				});
 			});
 		},
@@ -159,11 +162,11 @@ export default {
 				actions.approval(req).then(res => {
 					this.$tools.toast('操作成功', 'success');
 					this.refuseText = '';
-					this.$tools.goNext(()=>{
+					this.$tools.goNext(() => {
 						this.$tools.navTo({
 							url: './index'
-						});	
-					})
+						});
+					});
 				});
 			});
 		}
@@ -189,13 +192,13 @@ export default {
 			font-size: 28rpx;
 			height: 60rpx;
 			line-height: 60rpx;
-			.trigon{
-				border-width:30rpx 20rpx 30rpx 0;
-				border-style:solid;
-				border-color:transparent $uni-bg-color transparent transparent;
-				position:relative;
+			.trigon {
+				border-width: 30rpx 20rpx 30rpx 0;
+				border-style: solid;
+				border-color: transparent $uni-bg-color transparent transparent;
+				position: relative;
 			}
-			text{
+			text {
 				background-color: $uni-bg-color;
 				padding: 0 20rpx;
 			}
@@ -285,25 +288,25 @@ export default {
 		color: $uni-bg-color;
 	}
 }
-/deep/ uni-input{
-	    line-height: 2.1em;
-	    height: 2.1em;
-	    min-height: 2.1em;
+/deep/ uni-input {
+	line-height: 2.1em;
+	height: 2.1em;
+	min-height: 2.1em;
 }
-.togethernum{
-	/deep/ uni-input{
-		    line-height: 1.4em;
-		    height: 1.4em;
-		    min-height: 1.4em;
-				max-width: 60rpx;
-				.uni-input-input{
-					padding: 0 10rpx;
-					border: 1rpx solid $u-border-color;
-					border-radius: 4rpx;
-				}
+.togethernum {
+	/deep/ uni-input {
+		line-height: 1.4em;
+		height: 1.4em;
+		min-height: 1.4em;
+		max-width: 60rpx;
+		.uni-input-input {
+			padding: 0 10rpx;
+			border: 1rpx solid $u-border-color;
+			border-radius: 4rpx;
+		}
 	}
 }
-/deep/ .uni-popup__wrapper-box{
+/deep/ .uni-popup__wrapper-box {
 	width: 80%;
 	border-radius: 6rpx;
 }

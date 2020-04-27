@@ -97,13 +97,13 @@ export default {
 			font-size: 28rpx;
 			height: 60rpx;
 			line-height: 60rpx;
-			.trigon{
-				border-width:30rpx 20rpx 30rpx 0;
-				border-style:solid;
-				border-color:transparent $uni-bg-color transparent transparent;
-				position:relative;
+			.trigon {
+				border-width: 30rpx 20rpx 30rpx 0;
+				border-style: solid;
+				border-color: transparent $uni-bg-color transparent transparent;
+				position: relative;
 			}
-			text{
+			text {
 				background-color: $uni-bg-color;
 				padding: 0 20rpx;
 			}

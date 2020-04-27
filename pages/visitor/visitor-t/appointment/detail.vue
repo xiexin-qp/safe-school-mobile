@@ -16,26 +16,26 @@
 					<text :class="state === '2' ? 'refuse' : state === '1' ? 'agree' : state === '0' ? 'wait' : 'cancel'">{{ state | approveState }}</text>
 				</view>
 			</view>
-				<view class="log qui-fx-jsb">
-					<view class="qui-fx-ver">
-						<view class="start qui-fx-ac">
-							<text>到</text>
-							<text>{{ comeLog.accessStartTime | gmtToDate }}</text>
-						</view>
-					</view>
-					<view class="qui-fx-ver">
-						<view class="end qui-fx-ac">
-							<icon type="info" size="24" />
-							<view style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</view>
-						</view>
-					</view>
-				</view>
-				<view v-if="refuseTag || state == '2'" class="log qui-fx-jsb">
+			<view class="log qui-fx-jsb">
+				<view class="qui-fx-ver">
 					<view class="start qui-fx-ac">
-						<icon type="cancel" size="24" />
-						<text style="margin-left: 10rpx;">拒绝原因：{{ comeLog.reason }}</text>
+						<text>到</text>
+						<text>{{ comeLog.accessStartTime | gmtToDate }}</text>
 					</view>
 				</view>
+				<view class="qui-fx-ver">
+					<view class="end qui-fx-ac">
+						<icon type="info" size="24" />
+						<view style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</view>
+					</view>
+				</view>
+			</view>
+			<view v-if="refuseTag || state == '2'" class="log qui-fx-jsb">
+				<view class="start qui-fx-ac">
+					<icon type="cancel" size="24" />
+					<text style="margin-left: 10rpx;">拒绝原因：{{ comeLog.reason }}</text>
+				</view>
+			</view>
 		</view>
 		<view v-if="state == '0'" class="submit-box qui-fx">
 			<view class="btn1" @click="open">审批不通过</view>
@@ -92,7 +92,7 @@ export default {
 		this.causeName = res.data.causeName;
 		this.reason = res.data.reason;
 		this.state = res.data.state;
-		this.refuseTag = this.state === '2'
+		this.refuseTag = this.state === '2';
 	},
 	methods: {
 		clickCancel() {
@@ -113,11 +113,11 @@ export default {
 				console.log(req);
 				actions.approval(req).then(res => {
 					this.$tools.toast('操作成功', 'success');
-					this.$tools.goNext(()=>{
+					this.$tools.goNext(() => {
 						this.$tools.navTo({
 							url: './index'
 						});
-					})
+					});
 				});
 			});
 		},
@@ -144,11 +144,11 @@ export default {
 				actions.approval(req).then(res => {
 					this.$tools.toast('操作成功', 'success');
 					this.refuseText = '';
-					this.$tools.goNext(()=>{
+					this.$tools.goNext(() => {
 						this.$tools.navTo({
 							url: './index'
 						});
-					})
+					});
 				});
 			});
 		}
@@ -174,13 +174,13 @@ export default {
 			font-size: 28rpx;
 			height: 60rpx;
 			line-height: 60rpx;
-			.trigon{
-				border-width:30rpx 20rpx 30rpx 0;
-				border-style:solid;
-				border-color:transparent #fff transparent transparent;
-				position:relative;
+			.trigon {
+				border-width: 30rpx 20rpx 30rpx 0;
+				border-style: solid;
+				border-color: transparent #fff transparent transparent;
+				position: relative;
 			}
-			text{
+			text {
 				background-color: #fff;
 				padding: 0 20rpx;
 			}
@@ -270,25 +270,26 @@ export default {
 		background-color: $main-color;
 		color: #fff;
 	}
-}/deep/ uni-input{
-	    line-height: 2.1em;
-	    height: 2.1em;
-	    min-height: 2.1em;
 }
-.togethernum{
-	/deep/ uni-input{
-		    line-height: 1.4em;
-		    height: 1.4em;
-		    min-height: 1.4em;
-				max-width: 60rpx;
-				.uni-input-input{
-					padding: 0 10rpx;
-					border: 1rpx solid #ddd;
-					border-radius: 4rpx;
-				}
+/deep/ uni-input {
+	line-height: 2.1em;
+	height: 2.1em;
+	min-height: 2.1em;
+}
+.togethernum {
+	/deep/ uni-input {
+		line-height: 1.4em;
+		height: 1.4em;
+		min-height: 1.4em;
+		max-width: 60rpx;
+		.uni-input-input {
+			padding: 0 10rpx;
+			border: 1rpx solid #ddd;
+			border-radius: 4rpx;
+		}
 	}
 }
-/deep/ .uni-popup__wrapper-box{
+/deep/ .uni-popup__wrapper-box {
 	width: 80%;
 	border-radius: 6rpx;
 }
