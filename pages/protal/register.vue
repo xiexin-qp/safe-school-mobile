@@ -1,6 +1,6 @@
 <template>
 	<scroll-view scroll-y="true" class="scroll-h u-bg-fff">
-		<uni-select></uni-select>
+		<uni-select v-model="isShow" :items="selectList" @confirm="confirm"></uni-select>
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>学校：</view>
 			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="schoolName" :range="schoolList" @change="chooseSchool">
@@ -87,6 +87,21 @@ import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
 export default {
 	data() {
 		return {
+			isShow: true,
+			selectList: [
+				{
+					key: 1,
+					label: '星期一'
+				},
+				{
+					key: 2,
+					label: '星期二'
+				},
+				{
+					key: 3,
+					label: '星期三'
+				}
+			],
 			schoolList: [],
 			schoolName: '请选择学校',
 			gradeList: [],
@@ -127,6 +142,9 @@ export default {
 		})
 	},
 	methods: {
+		confirm (item) {
+			console.log(item)
+		},
 		// 返回登录
 		goLogin() {
 			this.$tools.navTo({

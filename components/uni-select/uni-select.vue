@@ -1,17 +1,16 @@
 <template>
-	<u-popup :maskCloseAble="maskCloseAble" mode="bottom" :popup="false" v-model="value" length="auto"
-	 :safeAreaInsetBottom="safeAreaInsetBottom" @close="close" :z-index="uZIndex">
+	<u-popup :maskCloseAble="true" mode="bottom" :popup="false" v-model="value" length="auto" @close="close" :z-index="uZIndex">
 		<view class="u-datetime-picker" @tap.stop>
 			<view class="u-picker-header" @touchmove.stop.prevent="stop" catchtouchmove="stop">
-				<view class="u-btn-picker u-tips-color" :style="{ color: cancelColor }" hover-class="u-opacity" :hover-stay-time="150"
+				<view class="u-btn-picker u-tips-color" hover-class="u-opacity" :hover-stay-time="150"
 				 @tap="getResult('cancel')">取消</view>
-				<view class="u-btn-picker u-type-primary" :style="{ color: confirmColor }" hover-class="u-opacity" :hover-stay-time="150"
+				<view class="u-btn-picker u-type-primary" hover-class="u-opacity" :hover-stay-time="150"
 				 @touchmove.stop="" @tap.stop="getResult('confirm')">确定</view>
 			</view>
 			<view class="u-picker-body">
 				<picker-view :value="valueArr" @change="change" class="u-picker-view">
 					<picker-view-column>
-						<view class="u-column-item" v-for="(item,index) in provinces" :key="index">
+						<view class="u-column-item" v-for="(item,index) in items" :key="index">
 							<view class="u-line-1">
 								{{item.label}}
 							</view>
@@ -25,42 +24,27 @@
 
 <script>
 	export default {
-		name: "uni-picker",
+		name: "uni-select",
 		props: {
 			// 通过双向绑定控制组件的弹出与收起
 			value: {
 				type: Boolean,
 				default: true
 			},
-			// 弹出的z-index值
-			zIndex: {
-				type: [String, Number],
-				default: 0
+			items: {
+				type: Array,
+				default: () => {
+					return []
+				}
 			}
 		},
 		data() {
 			return {
 				valueArr: '',
-				provinces: [
-					{
-						id: 1,
-						label: '星期一'
-					},
-					{
-						id: 2,
-						label: '星期二'
-					}
-				]
+				uZIndex: 9999
 			}
 		},
 		mounted() {
-			this.init();
-		},
-		computed: {
-			regionChange() {
-				// 引用这几个变量，是为了监听其变化
-				return `${this.province}-${this.city}`;
-			},
 		},
 		methods: {
 			close() {
@@ -69,25 +53,10 @@
 			// 用户更改picker的列选项
 			change(e) {
 				this.valueArr = e.detail.value;
-				let i = 0;
 			},
 			// 用户点击确定按钮
 			getResult(event = null) {
-				let result = {};
-				// 只返回用户在this.params中配置了为true的字段
-				if (this.mode == 'time') {
-					if (this.params.year) result.year = this.formatNumber(this.year || 0);;
-					if (this.params.month) result.month = this.formatNumber(this.month || 0);
-					if (this.params.day) result.day = this.formatNumber(this.day || 0);
-					if (this.params.hour) result.hour = this.formatNumber(this.hour || 0);
-					if (this.params.minute) result.minute = this.formatNumber(this.minute || 0);
-					if (this.params.second) result.second = this.formatNumber(this.second || 0);
-				} else {
-					if (this.params.province) result.province = provinces[this.province];
-					if (this.params.city) result.city = citys[this.province][this.city];
-					if (this.params.area) result.area = areas[this.province][this.city][this.area];
-				}
-				if (event) this.$emit(event, result);
+				if (event) this.$emit(event, this.items[this.valueArr]);
 				this.close();
 			}
 		}
@@ -115,6 +84,7 @@
 		box-sizing: border-box;
 		font-size: 32rpx;
 		background: #fff;
+		border-bottom: 1px #F5F5F5 solid;
 		position: relative;
 	}
 
