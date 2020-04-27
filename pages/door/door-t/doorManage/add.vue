@@ -93,7 +93,10 @@ export default {
     cancel() {
       this.userInfoList = [];
       this.$tools.navTo({
-        url: "./detail",
+        url: "./detail?ruleGroupCode=" +
+        this.ruleGroupCode +
+        "&userGroupCode=" +
+        this.userGroupCode,
         title: "查看人员列表"
       });
     },
