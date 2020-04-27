@@ -32,6 +32,7 @@
   import newList from './component/new-list.vue'
   import notice from './component/notice.vue'
   import { setStore, store, actions } from './store/index.js' 
+	import apiFun from './store/apiFun.js'
   export default {
     data () {
       return {
@@ -49,13 +50,6 @@
 						title: '新品上线'
 					}
 				],
-        newsType: 0,
-        autoColor: 'rgba(0, 0, 0, .2)',
-        actColor: '#ffffff',
-        indicatorDots: true,
-        autoplay: true,
-        interval: 3000,
-        dataList: [],
         tabIndex: 0,
         newsList: [],
         noticeList: [],
@@ -96,13 +90,16 @@
         this.tabIndex = tab.id
       },
       goApp (enjoy) {
-				console.log(enjoy)
 				if (enjoy.id === 0) {
 					setStore({
 					  key: 'tabIndex',
 					  data: 1
 					})
 				} else {
+					if (!apiFun.isRoleApp(enjoy.url)) {
+						this.$tools.toast('您没有访问权限')
+						return
+					}
 					this.$tools.navTo({
 						title: enjoy.name,
 						url: enjoy.url

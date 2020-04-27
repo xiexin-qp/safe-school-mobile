@@ -1,18 +1,25 @@
 <template>
 	<scroll-view scroll-y="true" class="scroll-h u-bg-fff">
+		<uni-select></uni-select>
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>学校：</view>
-			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="schoolName" :range="schoolList" @change="chooseSchool">{{ schoolName }}</picker>
+			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="schoolName" :range="schoolList" @change="chooseSchool">
+				<span class="u-content-color">{{ schoolName }}</span>
+			</picker>
 			<view class="rit-icon"></view>
 		</view>
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>年级：</view>
-			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="gradeName" :range="gradeList" @change="chooseGrade">{{ gradeName }}</picker>
+			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="gradeName" :range="gradeList" @change="chooseGrade">
+				<span class="u-content-color">{{ gradeName }}</span>
+			</picker>
 			<view class="rit-icon"></view>
 		</view>
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>班级：</view>
-			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="className" :range="classList" @change="chooseClass">{{ className }}</picker>
+			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="className" :range="classList" @change="chooseClass">
+			  <span class="u-content-color">{{ className }}</span>
+			</picker>
 			<view class="rit-icon"></view>
 		</view>
 		<view class="qui-fx-ac qui-bd-b item-list">
@@ -40,7 +47,9 @@
 		</view>
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>亲属关系：</view>
-			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="relationShip" :range="relationShipList" @change="chooseRelation">{{ relationShip }}</picker>
+			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="relationShip" :range="relationShipList" @change="chooseRelation">
+				<span class="u-content-color">{{ relationShip }}</span>
+		  </picker>
 			<view class="rit-icon"></view>
 		</view>
 		<view class="qui-fx-ac qui-bd-b item-list">
@@ -95,7 +104,7 @@ export default {
 				gradeCode: '',
 				classCode: '',
 				relationShip: '',
-				// photoUrl: []
+				photoUrl: []
 			}
 		}
 	},
@@ -193,9 +202,10 @@ export default {
 				this.$tools.toast('请输入正确手机号')
 				return
 			}
-			this.formData.photoUrl = ''
+			const photoUrl = this.formData.photoUrl.length > 0 ? this.formData.photoUrl[0].split(',')[1] : ''
 			await actions.parentAdd({
 				...this.formData,
+				photoUrl,
 				openid: this.openid
 			})
 			this.$tools.toast('注册成功')
@@ -217,11 +227,8 @@ export default {
 .item-input {
 	width: 100%;
 	font-size: 26rpx;
-	color: #666;
 	text-align: right;
-}
-.col-666 {
-	color: #999;
+	color: $u-content-color;
 }
 .radio {
 	padding-left: 25rpx;

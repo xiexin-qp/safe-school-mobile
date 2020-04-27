@@ -12,6 +12,12 @@ const apiFun = {
 			key: 'appList',
 			data: res.data
 		})
+	},
+	// 判断是否有菜单权限
+	isRoleApp (url) {
+		const menuStr = JSON.stringify(store.appList)
+		const tag = menuStr.indexOf(url) > -1 ? true : false
+		return tag
 	}
 }
 

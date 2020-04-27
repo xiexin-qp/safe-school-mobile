@@ -52,11 +52,17 @@ export default {
 						newImg.src = file;
 						newImg.onload = () => {
 							var canvas = document.createElement('canvas');
-							canvas.width = 300;
-							canvas.height = 400;
+							var scale = newImg.height / newImg.width;
+							if (newImg.width > 640) {
+								canvas.width = 640
+								canvas.height = 640 * scale
+							} else {
+								canvas.width = 120
+								canvas.height = 120 * scale
+							}
 							const context = canvas.getContext('2d');
-							context.drawImage(newImg, 0, 0, 300, 400);
-							const base64 = canvas.toDataURL('image/png', 0.8);
+							context.drawImage(newImg, 0, 0, canvas.width, canvas.height)
+							const base64 = canvas.toDataURL('image/png',0.8)
 							this.imgBase64List.push(base64);
 						};
 					}

@@ -220,7 +220,7 @@ export default {
 		background-color: $u-type-primary-dark;
 		color: #fff;
 		&.act {
-			width: 60rpx;
+			width: 120rpx;
 			background-color: $u-type-primary-disabled;
 		}
 	}

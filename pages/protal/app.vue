@@ -86,6 +86,10 @@
       },
       chooseEnjoy (item, tag) {
         if (!this.isEdit) {
+					if (!apiFun.isRoleApp(item.url)) {
+						this.$tools.toast('您没有访问权限')
+						return
+					}
 					this.$tools.navTo({
 						title: item.name,
 						url: item.url

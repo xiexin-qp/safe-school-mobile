@@ -47,7 +47,8 @@
 
 <script>
 import eventBus from '@u/eventBus'
-import { store, setStore, actions } from './store/index.js';
+import { store, setStore, actions } from './store/index.js'
+import apiFun from './store/apiFun.js'
 export default {
 	data() {
 		return {
@@ -139,6 +140,7 @@ export default {
 					data: this.enjoyParentApp
 				})
 			}
+			apiFun.getMenuList()
 		},
 		// 绑定孩子
 		bindChild (type) {
