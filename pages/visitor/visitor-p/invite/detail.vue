@@ -52,13 +52,13 @@
 			<view class="btn1" @click="open">拒绝</view>
 			<view class="btn2" @click="clickConfirm">同意</view>
 		</view>
-		<uni-popup ref="refuse" type="center">
+		<u-popup :maskCloseAble="true" ref="refuse" mode="center" length="80%">
 			<view class="pop qui-fx-ver">
 				<view class="title">请输入拒绝原因</view>
 				<input v-model="refuseText" focus placeholder="" />
 				<view class="btn" @click="sure(0)">确定</view>
 			</view>
-		</uni-popup>
+		</u-popup>
 	</view>
 </template>
 
@@ -305,9 +305,5 @@ export default {
 			border-radius: 4rpx;
 		}
 	}
-}
-/deep/ .uni-popup__wrapper-box {
-	width: 80%;
-	border-radius: 6rpx;
 }
 </style>
