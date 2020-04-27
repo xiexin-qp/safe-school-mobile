@@ -276,12 +276,12 @@ export default {
 }
 .item-list {
 	padding: 25rpx 10rpx 25rpx 30rpx;
-	background: #fff;
+	background: $uni-bg-color;
 }
 .item-input {
 	width: 100%;
 	font-size: 26rpx;
-	color: $second-color;
+	color: $u-tips-color;
 }
 .radio {
 	padding-left: 25rpx;
@@ -290,9 +290,9 @@ export default {
 	padding: 30rpx 10px 10px 2px;
 }
 .log {
-	background: #fff;
+	background: $uni-bg-color;
 	padding: 40rpx 0rpx;
 	margin: 20rpx 0 40rpx 0;
-	border-bottom: 1px solid $bor-color;
+	border-bottom: 1px solid $u-border-color;
 }
 </style>

@@ -70,7 +70,7 @@ export default {
 		background: url('/mobile-img/person-bg.png') no-repeat;
 		background-size: 100% 362rpx;
 		margin: 20rpx 0 40rpx 0;
-		color: #fff;
+		color: $uni-bg-color;
 		.info {
 			margin: 0 0 0 10%;
 			height: 300rpx;
@@ -78,7 +78,6 @@ export default {
 				width: 160rpx;
 				height: 160rpx;
 				margin-right: 38rpx;
-				background: rgba(255, 255, 255, 0.6);
 				padding: 6rpx;
 				border-radius: 100%;
 			}

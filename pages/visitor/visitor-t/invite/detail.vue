@@ -91,7 +91,7 @@ export default {
 		background: url('/mobile-img/person-bg.png') no-repeat;
 		background-size: 100% 362rpx;
 		margin: 20rpx 0 40rpx 0;
-		color: #fff;
+		color: $uni-bg-color;
 		.state {
 			margin: 30rpx 30rpx 0 0;
 			font-size: 28rpx;
@@ -100,11 +100,11 @@ export default {
 			.trigon{
 				border-width:30rpx 20rpx 30rpx 0;
 				border-style:solid;
-				border-color:transparent #fff transparent transparent;
+				border-color:transparent $uni-bg-color transparent transparent;
 				position:relative;
 			}
 			text{
-				background-color: #fff;
+				background-color: $uni-bg-color;
 				padding: 0 20rpx;
 			}
 		}
@@ -115,7 +115,6 @@ export default {
 				width: 160rpx;
 				height: 160rpx;
 				margin-right: 38rpx;
-				background: rgba(255, 255, 255, 0.6);
 				padding: 6rpx;
 				border-radius: 100%;
 			}
@@ -129,17 +128,17 @@ export default {
 		}
 	}
 	.log {
-		background: #fff;
+		background: $uni-bg-color;
 		padding: 40rpx 20rpx;
 		margin: 20rpx 0 40rpx 0;
-		border: 1px solid $bor-color;
+		border: 1px solid $u-border-color;
 		border-radius: 16rpx;
-		box-shadow: 2rpx 2rpx 1rpx 1rpx $bor-color;
+		box-shadow: 2rpx 2rpx 1rpx 1rpx $u-border-color;
 		.start,
 		.end {
 			margin: 10rpx 0;
 			text:first-child {
-				border: 1rpx solid $main-color;
+				border: 1rpx solid $u-type-primary;
 				padding: 6rpx 12rpx;
 				border-radius: 100%;
 				margin-right: 20rpx;

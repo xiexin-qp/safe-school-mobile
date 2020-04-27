@@ -118,7 +118,7 @@ export default {
 	/* 必须存在如果没有图标就留空 */
 	top: 0rpx;
 	/* 定位 距离*/
-	border-left: $dark-color 1px solid;
+	border-left: $u-light-color 1px solid;
 	/* 横线颜色 */
 	left: -44rpx;
 	/* 定位 距离*/

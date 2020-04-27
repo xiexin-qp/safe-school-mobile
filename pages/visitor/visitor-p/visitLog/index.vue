@@ -20,7 +20,7 @@
 					<text class="left">{{ item.userName }}</text>
 					<text class="md">{{ item.accessTime }}</text>
 					<text class="right">{{ item.visitState | visitState }}</text>
-					<view class="icon"><text class="iconfont">&#xe851;</text></view>
+					<view class="rit-icon"></view>
 				</view>
 			</scroll-view>
 		</view>
@@ -144,10 +144,10 @@ export default {
 	padding: 25rpx 20rpx;
 	font-size: 28rpx;
 	.th {
-		background: $main-color;
+		background: $u-type-primary;
 		padding: 20rpx 0;
 		border-radius: 8rpx;
-		color: #fff;
+		color: $uni-bg-color;
 	}
 	.tbody {
 		position: relative;
@@ -163,7 +163,7 @@ export default {
 		}
 	}
 	.tbody:nth-child(even) {
-		background: $uni-bg-color-grey;
+		background: $u-bg-color;
 	}
 	.left {
 		width: 25%;

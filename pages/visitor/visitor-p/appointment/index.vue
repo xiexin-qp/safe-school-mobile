@@ -23,7 +23,7 @@
 					<text>{{ item.createTime | getFullDate }}</text>
 					<view class="qui-fx qui-fx-ac">
 						<text @click="goDetail(item.id)">查看详情</text>
-						<view class="icon right"><text class="iconfont">&#xe851;</text></view>
+						<view class="rit-icon"></view>
 					</view>
 				</view>
 			</view>
@@ -202,7 +202,7 @@ export default {
 	height: 104rpx;
 }
 .approve-list {
-	background-color: #fff;
+	background-color: $uni-bg-color;
 	border-radius: 16rpx;
 	margin: 20rpx;
 	position: relative;
@@ -218,7 +218,7 @@ export default {
 	.see {
 		padding: 20rpx 10rpx 20rpx 20rpx;
 		text {
-			color: $second-color;
+			color: $u-tips-color;
 			font-size: 24rpx;
 		}
 	}
@@ -230,7 +230,7 @@ export default {
 			image {
 				width: 160rpx;
 				height: 200rpx;
-				background-color: $bor-color;
+				background-color: $u-border-color;
 			}
 		}
 		.list {
@@ -258,7 +258,7 @@ export default {
 .dropdown-menu {
 	width: 50%;
 	padding: 2rpx 0;
-	border: 1rpx solid $bor-color;
+	border: 1rpx solid $u-border-color;
 }
 .dropdown-menu:first-child {
 	border-top-left-radius: 8rpx;
@@ -291,13 +291,13 @@ export default {
 		padding: 20rpx 0;
 	}
 	text:not(:last-child) {
-		border-bottom: 1rpx solid $bor-color;
+		border-bottom: 1rpx solid $u-border-color;
 	}
 	.title {
 		padding: 20rpx 0 0 0;
 	}
 	input {
-		border: 1rpx solid $bor-color;
+		border: 1rpx solid $u-border-color;
 		margin: 20rpx 0;
 	}
 	.btn {
@@ -306,8 +306,8 @@ export default {
 		line-height: 80rpx;
 		text-align: center;
 		letter-spacing: 8rpx;
-		background-color: $main-color;
-		color: #fff;
+		background-color: $u-type-primary;
+		color: $uni-bg-color;
 	}
 }
 </style>
