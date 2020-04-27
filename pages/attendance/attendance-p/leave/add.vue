@@ -261,7 +261,11 @@
           return false
         }
         const photoList = this.leaveInfo.photoList.map(el => {
-          return el.split(',')[1]
+          if (el.indexOf('http') === -1) {
+            return el.split(',')[1]
+          } else {
+            return el
+          }
         })
         const req = {
           photoList: photoList,
