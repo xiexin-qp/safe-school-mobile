@@ -17,19 +17,19 @@
 		<view class="person-item">
 			<view class="item qui-fx-jsb qui-bd-b">
 				<text>手机号：</text>
-				<text class="qui-fx-f1 qui-tx-r">{{ userInfo.mobile }}</text>
+				<text class="qui-fx-f1 qui-tx-r u-content-color">{{ userInfo.mobile }}</text>
 			</view>
 		</view>
 		<view class="person-item">
 			<view class="item qui-fx-jsb qui-bd-b">
 				<text>我的身份：</text>
-				<text class="qui-fx-f1 qui-tx-r" @click="changeType">{{ userInfo.typeName }}</text>
+				<text class="qui-fx-f1 qui-tx-r u-content-color" @click="changeType">{{ userInfo.typeName }}</text>
 				<view class="rit-icon"></view>
 			</view>
 			<view class="item qui-fx-jsb qui-fx-ac qui-bd-b">
 				<text>当前绑定：</text>
-				<text v-if="userInfo.typeCode == 4" class="qui-fx-f1 qui-tx-r">{{ classInfo.gradeName }}{{ classInfo.className }}</text>
-				<view v-if="userInfo.typeCode == 16" @click="bindChild" class="bind-child">绑定</view>
+				<text v-if="userInfo.typeCode == 4" class="qui-fx-f1 qui-tx-r u-content-color">{{ classInfo.gradeName || '暂未绑定' }}{{ classInfo.className }}</text>
+				<view v-if="userInfo.typeCode == 16" @click="bindChild('1')" class="bind-child">绑定</view>
 			</view>
 		</view>
 		<view v-if="userInfo.typeCode == 16">
@@ -97,7 +97,7 @@ export default {
 					this.addLog('4', '教职工')
 				} else {
 					if (this.typeList.length === 1) {
-						this.bindChild()
+						this.bindChild('0')
 					} else {
 						this.addLog('16', '家长')
 					}
@@ -141,10 +141,10 @@ export default {
 			}
 		},
 		// 绑定孩子
-		bindChild () {
+		bindChild (type) {
 			this.$tools.navTo({
 				title: '绑定孩子',
-				url: './bindChild'
+				url: `./bindChild?type=${type}`
 			})
 		},
 		// 获取绑定的班级信息

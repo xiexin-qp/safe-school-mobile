@@ -14,7 +14,12 @@
 							<view>预计到达时间：{{ item.accessStartTime | getFullDate }}</view>
 							<!-- <view>结束时间：{{ item.accessEndTime | getFullDate }}</view> -->
 							<view>来访事由：{{ item.causeName }}</view>
-							<view>状态：<text :class="item.state === 2 ? 'refuse' : item.state === 1 ? 'agree' : item.state === 0 ? 'wait' : 'cancel'">{{ item.state | approveState }}</text></view>
+							<view>
+								状态：
+								<text :class="item.state === 2 ? 'refuse' : item.state === 1 ? 'agree' : item.state === 0 ? 'wait' : 'cancel'">
+									{{ item.state | approveState }}
+								</text>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -23,7 +28,7 @@
 					<text>{{ item.createTime | getFullDate }}</text>
 					<view class="qui-fx qui-fx-ac">
 						<text @click="goDetail(item.id)">查看详情</text>
-						<view class="icon right"><text class="iconfont">&#xe851;</text></view>
+						<view class="rit-icon"></view>
 					</view>
 				</view>
 			</view>
@@ -60,7 +65,7 @@ export default {
 				{
 					text: '拒绝',
 					value: '2'
-				}/* ,
+				} /* ,
 				{
 					text: '撤销',
 					value: '3'
@@ -189,7 +194,7 @@ export default {
 	height: 104rpx;
 }
 .approve-list {
-	background-color: #fff;
+	background-color: $uni-bg-color;
 	border-radius: 16rpx;
 	margin: 20rpx;
 	position: relative;
@@ -205,7 +210,7 @@ export default {
 	.see {
 		padding: 20rpx 10rpx 20rpx 20rpx;
 		text {
-			color: $second-color;
+			color: $u-tips-color;
 			font-size: 24rpx;
 		}
 	}
@@ -217,7 +222,7 @@ export default {
 			image {
 				width: 160rpx;
 				height: 200rpx;
-				background-color: $bor-color;
+				background-color: $u-border-color;
 			}
 		}
 		.list {
@@ -239,13 +244,13 @@ export default {
 .dropdown {
 	height: 86rpx;
 	padding: 4rpx 18rpx 18rpx 18rpx;
-	background: #fff;
+	background: $uni-bg-color;
 	font-size: 12px;
 }
 .dropdown-menu {
 	width: 50%;
 	padding: 2rpx 0;
-	border: 1rpx solid $bor-color;
+	border: 1rpx solid $u-border-color;
 }
 .dropdown-menu:first-child {
 	border-top-left-radius: 8rpx;
@@ -280,13 +285,13 @@ export default {
 		padding: 20rpx 0;
 	}
 	text:not(:last-child) {
-		border-bottom: 1rpx solid $bor-color;
+		border-bottom: 1rpx solid $u-border-color;
 	}
 	.title {
 		padding: 20rpx 0 0 0;
 	}
 	input {
-		border: 1rpx solid $bor-color;
+		border: 1rpx solid $u-border-color;
 		margin: 20rpx 0;
 	}
 	.btn {
@@ -295,8 +300,8 @@ export default {
 		line-height: 80rpx;
 		text-align: center;
 		letter-spacing: 8rpx;
-		background-color: $main-color;
-		color: #fff;
+		background-color: $u-type-primary;
+		color: $uni-bg-color;
 	}
 }
 </style>

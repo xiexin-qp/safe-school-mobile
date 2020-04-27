@@ -69,7 +69,9 @@ const tools = {
 			
 		if (type === 'dateTime') {
 			return date
-		} else if (type === 'date') {
+		} else if (type === 'dateTimeWithOutSecond') {
+			return date.substring(0, 16)
+		}else if (type === 'date') {
 			return date.substring(0, 10)
 		} else if (type === 'time') {
 			return date.substring(11, 16)

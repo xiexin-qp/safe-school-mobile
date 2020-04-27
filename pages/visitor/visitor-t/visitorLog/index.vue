@@ -20,7 +20,7 @@
 					<text class="left">{{ item.userName }}</text>
 					<text class="md">{{ item.accessTime | getFullDate }}</text>
 					<text class="right">{{ item.visitSum }}</text>
-					<view class="icon"><text class="iconfont">&#xe851;</text></view>
+					<view class="rit-icon"></view>
 				</view>
 			</scroll-view>
 		</view>
@@ -46,7 +46,7 @@ export default {
 				page: 1,
 				size: 15
 			},
-			morePage: false,
+			morePage: false
 		};
 	},
 	mounted() {
@@ -127,7 +127,7 @@ export default {
 		background: $main-color;
 		padding: 20rpx 0;
 		border-radius: 8rpx;
-		color: #fff;
+		color: $uni-bg-color;
 	}
 	.tbody {
 		position: relative;
@@ -137,13 +137,13 @@ export default {
 			right: 10rpx;
 			top: 24rpx;
 			transform: rotateZ(-90deg);
-			.iconfont{
-				font-size:28rpx;
+			.iconfont {
+				font-size: 28rpx;
 			}
-		}	
+		}
 	}
 	.tbody:nth-child(even) {
-		background: $uni-bg-color-grey;
+		background: $u-bg-color;
 	}
 	.left {
 		width: 25%;

@@ -16,7 +16,7 @@
     <view v-if="isEdit" class="system-list edit-app qui-bd-t">
       <div v-if="enjoyApp.length === 0" class="no-app">暂未添加常用模块...</div>
       <view @click="delEnjoy(enjoy.code)" v-for="enjoy in enjoyApp" :key="enjoy.id" class="app qui-fx-ac-jc" :class="{'act': isEdit}">
-        <i style="color: #999" class="iconfont">&#xe62b;</i>
+				<image class="del-add-img" src="/mobile-img/del-app-icon.png"></image>
         <view>
           <image class="app-icon" :src="enjoy.icon || '/mobile-img/app-auto-icon.png'" alt="">
         </view>
@@ -24,17 +24,18 @@
       </view>
     </view>
     <view class="app-module">
+			<no-data v-if="appList.length === 0"></no-data>
 			<view class="system-box">
 				<view class="system-list" v-for="app in appList" :key="app.id">
 					<view class="system u-font-1">{{ app.name }}</view>
 					<view @click="chooseEnjoy(module, isShow(module.id))" class="app qui-fx-ac-jc" :class="{'act': isEdit}" v-for="module in app.children" :key="module.id">
-						<i v-if="isShow(module.id) && isEdit" style="color: #999" class="iconfont">&#xe62b;</i>
-						<i v-if="!isShow(module.id) && isEdit" style="color: #7b92f5" class="iconfont">&#xe636;</i>
+						<image v-if="isShow(module.id) && isEdit" class="del-add-img" src="/mobile-img/del-app-icon.png"></image>
+						<image v-if="!isShow(module.id) && isEdit" class="del-add-img" src="/mobile-img/add-app-icon.png"></image>
 						<view>
 							<image class="app-icon" :src="module.icon || '/mobile-img/app-auto-icon.png'" alt="">
 						</view>
 						<view class="text u-content-color u-font-01">{{ module.name.split('-')[0] }}</view>
-						<view v-if="false" class="text u-tips-color u-font-02">({{ module.name.split('-')[1] }})</view>
+						<view class="text u-tips-color u-font-02">({{ module.name.split('-')[1] }})</view>
 					</view>
 				</view> 
 			</view>
@@ -43,20 +44,20 @@
 </template>
 
 <script>
-  import { store, setStore, actions } from './store/index.js'
+  import { store, setStore } from './store/index.js'
+	import apiFun from './store/apiFun.js'
   export default {
     data () {
       return {
-        isEdit: false,
-        appList: []
+        isEdit: false
       }
     },
     computed: {
 			userInfo: () => store.userInfo,
-			enjoyApp: () => store.enjoyApp
+			enjoyApp: () => store.enjoyApp,
+			appList: () => store.appList
     },
-    async mounted () {
-			this.getMenuList()
+    mounted () {
     },
     methods: {
 			// 获取菜单列表
@@ -212,12 +213,15 @@
       margin-bottom: 10rpx;
       padding: 20rpx 0;
       position: relative;
-      i {
-        position: absolute;
-        top: 10rpx;
-        right: 10rpx;
-        z-index: 88;
-      }
+			.del-add-img {
+				width: 36rpx;
+				height: 36rpx;
+				display: block;
+				position: absolute;
+				top: 4rpx;
+				right: 4rpx;
+				z-index: 88;
+			}
       &.act {
         border-radius: $radius;
         background-color: #e8e8e8;

@@ -16,19 +16,15 @@
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view class="tip">被访人手机号：</view>
-				<view class="qui-fx-f1 qui-fx-je"><input :disabled="disabledTag" class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" /></view>
+				<view class="qui-fx-f1 qui-fx-je">
+					<input :disabled="disabledTag" class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" />
+				</view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view class="tip">预计到达时间：</view>
-				<view class="qui-fx-f1 qui-fx-je">
-					<picker mode="date" :value="formData.startDate" @change="dateChange($event, 'startDate')">
-						<view class="uni-input">{{ formData.startDate }}</view>
-					</picker>
-				</view>
-				<view class="qui-fx-je" style="margin-left:10rpx">
-					<picker mode="time" :value="formData.startTime" @change="dateChange($event, 'startTime')">
-						<view class="uni-input">{{ formData.startTime }}</view>
-					</picker>
+				<view @click="show = true" class="qui-fx-f1 qui-fx-je">
+					<u-picker v-model="show" :start-year="startYear"  mode="time" :params="params" @confirm="timeChange"></u-picker>
+					<view class="uni-input">{{ formData.accessStartTime }}</view>
 				</view>
 				<view>></view>
 			</view>
@@ -65,6 +61,15 @@ export default {
 	data() {
 		return {
 			disabledTag: false,
+			show: false,
+			params: {
+				year: true,
+				month: true,
+				day: true,
+				hour: true,
+				minute: true,
+				second: false
+			},
 			causeNameList: [],
 			causeList: [],
 			schoolNameList: [],
@@ -78,14 +83,8 @@ export default {
 				school: 0,
 				visitorName: '',
 				phone: '',
-				startDate: this.$tools.getDateTime(new Date(), 'date'),
-				startTime: this.$tools.getDateTime(new Date(), 'time'),
-				endDate: this.$tools.getDateTime(new Date(), 'date'),
-				endTime: this.$tools.getDateTime(new Date(new Date().getTime() + 2 * 60 * 60 * 1000), 'time'),
-				duration: '2小时',
 				cause: '',
-				accessStartTime: '',
-				accessEndTime: '',
+				accessStartTime: this.$tools.getDateTime(new Date(), 'dateTimeWithOutSecond'),
 				togetherNum: ''
 			}
 		};
@@ -96,12 +95,10 @@ export default {
 	},
 	computed: {},
 	created() {
-		// this.defaultDate = this.$tools.getDateTime(new Date(), 'date')
-		console.log(this.defaultDate)
 	},
 	async mounted() {
 		await this.getSchool();
-		this.getCause()
+		this.getCause();
 		if (this.id) {
 			const res = await actions.getInviteDetail(this.id);
 			if (!res.data.id) {
@@ -119,6 +116,7 @@ export default {
 			this.formData.cause = this.causeNameList.findIndex(item => {
 				return item === res.data.causeName;
 			});
+			this.imgList.push(res.data.visitorUrl)
 		}
 	},
 	methods: {
@@ -126,7 +124,7 @@ export default {
 			const req = {
 				schoolCode: store.userInfo.schoolCode,
 				userCode: store.userInfo.userCode
-			}
+			};
 			const res = await actions.getSchoolList(req);
 			if (!res.data) {
 				this.$tools.toast('请绑定学校');
@@ -160,9 +158,6 @@ export default {
 			});
 		},
 		async confirm() {
-			this.formData.accessStartTime = this.formData.startDate + ' ' + this.formData.startTime;
-			this.formData.accessEndTime = this.formData.endDate + ' ' + this.formData.endTime;
-			console.log(this.formData);
 			if (this.formData.school === '') {
 				this.$tools.toast('请选择被访人学校');
 			} else if (this.formData.visitorName === '') {
@@ -246,7 +241,15 @@ export default {
 			this.formData.accessStartTime = this.formData.startDate + ' ' + this.formData.startTime;
 			this.formData.accessEndTime = this.formData.endDate + ' ' + this.formData.endTime;
 			console.log(new Date(this.formData.accessStartTime).getTime());
-			this.formData.duration = parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
+			this.formData.duration =
+				parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
+		},
+		timeChange(value) {
+			if (!value) {
+				return;
+			}
+			this.formData.accessStartTime = value.year + '-' + value.month + '-' + value.day + ' ' + value.hour + ':' + value.minute;
+			console.log(this.formData.accessStartTime);
 		},
 		chooseSchool(e) {
 			if (!e.target) {
@@ -276,12 +279,12 @@ export default {
 }
 .item-list {
 	padding: 25rpx 10rpx 25rpx 30rpx;
-	background: #fff;
+	background: $uni-bg-color;
 }
 .item-input {
 	width: 100%;
 	font-size: 26rpx;
-	color: $second-color;
+	color: $u-tips-color;
 }
 .radio {
 	padding-left: 25rpx;
@@ -290,9 +293,9 @@ export default {
 	padding: 30rpx 10px 10px 2px;
 }
 .log {
-	background: #fff;
+	background: $uni-bg-color;
 	padding: 40rpx 0rpx;
 	margin: 20rpx 0 40rpx 0;
-	border-bottom: 1px solid $bor-color;
+	border-bottom: 1px solid $u-border-color;
 }
 </style>
