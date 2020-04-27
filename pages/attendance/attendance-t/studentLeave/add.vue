@@ -4,12 +4,9 @@
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
 			  <view>请假学生：</view>
-			  <!-- <view class="qui-fx-f1  qui-fx-je">
-					{{leaveInfo.studentName}}
-			  </view> -->
         <view @click="check(1)" class="qui-fx-f1 qui-fx rit-icon">
           <view class="qui-fx-f1" style="text-align:right" >
-            {{leaveInfo.studentName}}
+            {{leaveInfo.userName}}
           </view>
           <view class="rit-icon"></view>
         </view>
@@ -27,32 +24,20 @@
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
         <view>开始时间：</view>
-        <view class="qui-fx-f1 qui-fx-je">
-          <picker mode="date" :value="leaveInfo.startDate" @change="dateChange($event, 1)">
-            <view class="uni-input">{{leaveInfo.startDate }}</view>
-          </picker>
+        <view class="qui-fx-f1 qui-fx-je"  @click="startShow = true">
+          <u-picker mode="time" v-model="startShow" :params="params" @confirm="startConfirm"></u-picker>
+          <view class="uni-input">{{leaveInfo.startDate}}</view>
+          <view class="rit-icon"></view>
         </view>
-        <view class="qui-fx-je" style="margin-left:10rpx">
-          <picker mode="time" :value="leaveInfo.startTime" @change="dateChange($event, 2)">
-            <view class="uni-input"> {{leaveInfo.startTime}}</view>
-          </picker>
-        </view>
-        <view class="rit-icon"></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
         <view>结束时间：</view>
-        <view class="qui-fx-f1 qui-fx-je">
-          <picker mode="date" :value="leaveInfo.endDate" @change="dateChange($event, 3)">
-            <view class="uni-input">{{leaveInfo.endDate}}</view>
-          </picker>
+        <view class="qui-fx-f1 qui-fx-je"  @click="endShow = true">
+          <u-picker mode="time" v-model="endShow" :params="params" @confirm="endConfirm"></u-picker>
+          <view class="uni-input">{{leaveInfo.endDate}}</view>
+          <view class="rit-icon"></view>
         </view>
-        <view class="qui-fx-je" style="margin-left:10rpx">
-          <picker mode="time" :value="leaveInfo.endTime" @change="dateChange($event, 4)">
-            <view class="uni-input"> {{leaveInfo.endTime}}</view>
-          </picker>
-        </view>
-        <view class="rit-icon"></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
@@ -73,29 +58,14 @@
           </radio-group>
         </view>
       </view>
-      <!-- <view class="qui-fx-ac qui-bd-b item-list">
-        <view class="must">*</view>
-			  <view>审批人：</view>
-			  <view class="qui-fx-f1  qui-fx-je">
-          {{teacherName}}
-			  </view>
-        <view ></view>
-			</view> -->
       <view class="qui-fx-ac qui-bd-b item-list">
 			  <view>抄送人：</view>
         <view @click="check(0)" class="qui-fx-f1 qui-fx rit-icon">
           <view class="qui-fx-f1" style="text-align:right" >
-            {{leaveInfo.copyUser}}
+            {{copyUser}}
           </view>
           <view class="rit-icon"></view>
         </view>
-			  <!-- <view class="qui-fx-f1  qui-fx-je">
-					{{leaveInfo.copyUser}}
-			  </view>
-        <view @click="check(0)" class="qui-fx-f1 qui-fx rit-icon">
-          <view class="qui-fx-f1" ></view>
-          <view class="rit-icon"></view>
-        </view> -->
 			</view>
       <view class="qui-bd-b item-list">
 			  <view>上传附图：</view>
@@ -113,14 +83,14 @@
           <radio-group @change="radioUser">
             <label class="list qui-bd-b qui-fx-jsb" v-for="(item,index) in studentList" :key="index">
               <label :for="item.userName">
-                  <text>{{item.userName}}</text>
+                <text>{{item.userName}}</text>
               </label>
               <radio :id="item.userCode" :value='`${item.userCode}^${item.userName}=${item.photoUrl}`' :checked="item.checked"></radio>
             </label>
           </radio-group>
           <view class="submit-btn qui-fx">
-             <button class="btn" @click="cancel(1)">取消</button>
-             <button class="btn" @click="ok(1)">确定</button>
+            <button class="btn" @click="cancel(1)">取消</button>
+            <button class="btn" @click="ok(1)">确定</button>
           </view>
         </view>
       </scroll-view>
@@ -159,26 +129,23 @@
         role: [],
         reasonList: [],
         dataList: [],
-        leaveCopyList: [],
+        copyUser: '',
         studentList: [],
         currentRole: 0,
         leaveInfo: {
-          startDate: this.$tools.getDateTime(new Date(), 'date'),
-          startTime: this.$tools.getDateTime(new Date(), 'time'),
-          endDate: this.$tools.getDateTime(new Date(), 'date'),
-          endTime: this.$tools.getDateTime(new Date(new Date().getTime() + 2 * 60 * 60 * 1000), 'time'),
+          startDate: this.$tools.getDateTime(new Date(), 'noSecond'),
+          endDate: this.$tools.getDateTime(new Date(new Date().getTime() + 2 * 60 * 60 * 1000), 'noSecond'),
           duration: '2',
           outSchool: '',
           remark: '',
-          copyUser: '',
           photoList:[],
           reasonId: '',
           reason: '',
-          studentCode: '',
-          studentName: ''
+          userCode: '',
+          userName: '',
+          leaveCopyList: []
         },
         oddNumbers: '',
-        // teacherName: '',
         pageList: {
           page: 1,
           size: 11
@@ -188,7 +155,17 @@
           size: 11
         },
         morePage: false,
-        OrgMorePage: false
+        OrgMorePage: false,
+        startShow: false,
+        endShow: false,
+        params: {
+					year: true,
+					month: true,
+					day: true,
+					hour: true,
+					minute: true,
+					second: false
+				}
 			}
     },
     onLoad(options) {
@@ -200,7 +177,6 @@
       }
 	  },
     mounted () {
-      // this.teacherName = store.userInfo.userName
       this.studentGet()
       this.orgUserGet()
     },
@@ -208,13 +184,9 @@
       async detailGet (id) {
         const res = await actions.studentLeaveDetail(id)
         this.leaveInfo = res.data
-        this.leaveInfo.startDate = this.$tools.getDateTime(new Date(this.leaveInfo.startTime), 'date')
-        this.leaveInfo.startTime = this.$tools.getDateTime(new Date(this.leaveInfo.startTime), 'time')
-        this.leaveInfo.endDate = this.$tools.getDateTime(new Date(this.leaveInfo.endTime), 'date')
-        this.leaveInfo.endTime = this.$tools.getDateTime(new Date(this.leaveInfo.endTime), 'time')
-        this.leaveInfo.copyUser = this.leaveInfo.leaveCopyList.map(el=>el.userName).join(',')
-        // this.teacherName = this.leaveInfo.leaveApprovalAddDto.userName
-        this.leaveCopyList = this.leaveInfo.leaveCopyList
+        this.leaveInfo.startDate = this.$tools.getDateTime(new Date(this.leaveInfo.startTime), 'noSecond')
+        this.leaveInfo.endDate = this.$tools.getDateTime(new Date(this.leaveInfo.endTime), 'noSecond')
+        this.copyUser =  this.leaveInfo.leaveCopyList.map(el=>el.userName).join(',')
         this.leaveReasonGet(1)
       },
       async studentGet (tag = false) {
@@ -269,19 +241,6 @@
       radioChange (e) {
         this.leaveInfo.outSchool = e.target.value
       },
-      dateChange (e, type) {
-        if (type === 1) {
-          this.leaveInfo.startDate = e.target.value;
-        } else if (type === 2) {
-          this.leaveInfo.startTime = e.target.value;
-        } else if (type === 3) {
-          this.leaveInfo.endDate = e.target.value;
-        } else if (type === 4) {
-          this.leaveInfo.endTime = e.target.value;
-        }
-        this.leaveInfo.duration = parseInt(Math.ceil(new Date(new Date(this.leaveInfo.endDate + ' ' + this.leaveInfo.endTime).getTime()).getTime() 
-                        - new Date(new Date(this.leaveInfo.startDate + ' ' + this.leaveInfo.startTime).getTime()).getTime()) / 1000 / 60 / 60)
-      },
       chooseRole (e) {
         this.currentRole = e.target.value
         this.leaveInfo.reasonId = this.reasonList[e.target.value].id
@@ -310,23 +269,21 @@
       },
       check (type) {
         if (type) {
-          this.leaveInfo.studentName = ''
-          this.leaveInfo.studenCode = ''
+          this.leaveInfo.userName = ''
           this.$refs.popup.open()
         } else {
-          this.leaveInfo.copyUser = ''
-          this.leaveCopyList = []
+          this.copyUser = ''
+          this.leaveInfo.leaveCopyList = []
           this.$refs.checkPopup.open()
         }
       },
       cancel (type) {
         if (type) {
-          this.leaveInfo.studentName = ''
-          this.leaveInfo.studenCode = ''
+          this.leaveInfo.userName = ''
           this.$refs.popup.close()
         } else {
-          this.leaveInfo.copyUser = ''
-          this.leaveCopyList = []
+          this.copyUser = ''
+          this.leaveInfo.leaveCopyList = []
           this.$refs.checkPopup.close()
         }
       },
@@ -335,7 +292,7 @@
           this.$refs.popup.close()
         } else {
           this.$refs.checkPopup.close()
-          this.leaveInfo.copyUser = this.leaveCopyList.map(el=>{
+          this.copyUser = this.leaveInfo.leaveCopyList.map(el=>{
             return  el.userName
           }).join(',')
         }
@@ -343,9 +300,9 @@
       checkUser (e){
         this.checkList = e
         const data = e.target.value
-        this.leaveCopyList = []
+        this.leaveInfo.leaveCopyList = []
         data.map(el=>{
-          this.leaveCopyList.push({
+          this.leaveInfo.leaveCopyList.push({
             userCode: el.split('^')[0],
             userName: el.split('^')[1].split('=')[0],
             photoUrl : el.split('^')[1].split('=')[1]
@@ -354,11 +311,22 @@
       },
       radioUser (e) {
         const data = e.target.value
-        this.leaveInfo.studentName = data.split('^')[1].split('=')[0]
-        this.leaveInfo.studentCode = data.split('^')[0]
+        this.leaveInfo.userName = data.split('^')[1].split('=')[0]
+        this.leaveInfo.userCode = data.split('^')[0]
       },
-      submit () {
-        if (this.leaveInfo.studentName === '') {
+      startConfirm (params) {
+        this.leaveInfo.startDate = `${params.year}-${params.month}-${params.day} ${params.hour}:${params.minute}`
+        this.leaveInfo.duration = parseInt(Math.ceil(new Date(new Date(this.leaveInfo.endDate).getTime()).getTime() 
+                        - new Date(new Date(this.leaveInfo.startDate).getTime()).getTime()) / 1000 / 60 / 60)
+      },
+      endConfirm (params) {
+        this.leaveInfo.endDate = `${params.year}-${params.month}-${params.day} ${params.hour}:${params.minute}`
+        this.leaveInfo.duration = parseInt(Math.ceil(new Date(new Date(this.leaveInfo.endDate).getTime()).getTime() 
+                        - new Date(new Date(this.leaveInfo.startDate).getTime()).getTime()) / 1000 / 60 / 60)
+
+      },
+      async submit () {
+        if (this.leaveInfo.userName === '') {
           this.$tools.toast('请选择学生')
           return false
         } else if (this.leaveInfo.outSchool === '') {
@@ -369,42 +337,33 @@
           return false
         }
         const req = {
+          schoolCode: store.userInfo.schoolCode,
           applicantCode: store.userInfo.userCode,
           applicantName: store.userInfo.userName,
-          duration: this.leaveInfo.duration,
-          startTime: new Date(this.leaveInfo.startDate + ' ' + this.leaveInfo.startTime).getTime(),
-          endTime: new Date(this.leaveInfo.endDate + ' ' + this.leaveInfo.endTime).getTime(),
-          outSchool: this.leaveInfo.outSchool,
-          leaveCopyList: [],
+          startTime: new Date(this.leaveInfo.startDate).getTime(),
+          endTime: new Date(this.leaveInfo.endDate).getTime(),
           leaveApprovalAddDto:{},
-          photoList: this.leaveInfo.photoList,
-          reason: this.leaveInfo.reason,
-          reasonId: this.leaveInfo.reasonId,
-          remark: this.leaveInfo.remark,
-          userName: this.leaveInfo.studentName,
-          userCode: this.leaveInfo.studentCode,
-          schoolCode: store.userInfo.schoolCode,
-          orgName: store.userInfo.orgName
         }
         if (this.oddNumbers) {
-          actions.updateStudentLeave({
+          await actions.updateStudentLeave({
              ...this.leaveInfo,
             ...req
-          }).then(res => {
+          })
             this.$tools.toast('操作成功')
-            eventBus.$emit('getList')
             this.$tools.goNext(() => {
+              eventBus.$emit('getList')
               this.$tools.goBack()
             })
-          })
         } else {
-          actions.addStudentLeave(req).then(res => {  
+          await actions.addStudentLeave({
+             ...this.leaveInfo,
+            ...req
+          })  
             this.$tools.toast('操作成功')
-            eventBus.$emit('getList')
             this.$tools.goNext(() => {
+              eventBus.$emit('getList')
               this.$tools.goBack()
             })
-          })
         }
       }
     }

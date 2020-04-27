@@ -22,15 +22,9 @@
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view class="tip">预计到达时间：</view>
-				<view class="qui-fx-f1 qui-fx-je">
-					<picker mode="date" :value="formData.startDate" @change="dateChange($event, 'startDate')">
-						<view class="uni-input">{{ formData.startDate }}</view>
-					</picker>
-				</view>
-				<view class="qui-fx-je" style="margin-left:10rpx">
-					<picker mode="time" :value="formData.startTime" @change="dateChange($event, 'startTime')">
-						<view class="uni-input">{{ formData.startTime }}</view>
-					</picker>
+				<view @click="show = true" class="qui-fx-f1 qui-fx-je">
+					<u-picker v-model="show" :start-year="startYear"  mode="time" :params="params" @confirm="timeChange"></u-picker>
+					<view class="uni-input">{{ formData.accessStartTime }}</view>
 				</view>
 				<view>></view>
 			</view>
@@ -67,6 +61,15 @@ export default {
 	data() {
 		return {
 			disabledTag: false,
+			show: false,
+			params: {
+				year: true,
+				month: true,
+				day: true,
+				hour: true,
+				minute: true,
+				second: false
+			},
 			causeNameList: [],
 			causeList: [],
 			schoolNameList: [],
@@ -80,14 +83,8 @@ export default {
 				school: 0,
 				visitorName: '',
 				phone: '',
-				startDate: this.$tools.getDateTime(new Date(), 'date'),
-				startTime: this.$tools.getDateTime(new Date(), 'time'),
-				endDate: this.$tools.getDateTime(new Date(), 'date'),
-				endTime: this.$tools.getDateTime(new Date(new Date().getTime() + 2 * 60 * 60 * 1000), 'time'),
-				duration: '2小时',
 				cause: '',
-				accessStartTime: '',
-				accessEndTime: '',
+				accessStartTime: this.$tools.getDateTime(new Date(), 'dateTimeWithOutSecond'),
 				togetherNum: ''
 			}
 		};
@@ -98,8 +95,6 @@ export default {
 	},
 	computed: {},
 	created() {
-		// this.defaultDate = this.$tools.getDateTime(new Date(), 'date')
-		console.log(this.defaultDate);
 	},
 	async mounted() {
 		await this.getSchool();
@@ -163,9 +158,6 @@ export default {
 			});
 		},
 		async confirm() {
-			this.formData.accessStartTime = this.formData.startDate + ' ' + this.formData.startTime;
-			this.formData.accessEndTime = this.formData.endDate + ' ' + this.formData.endTime;
-			console.log(this.formData);
 			if (this.formData.school === '') {
 				this.$tools.toast('请选择被访人学校');
 			} else if (this.formData.visitorName === '') {
@@ -251,6 +243,13 @@ export default {
 			console.log(new Date(this.formData.accessStartTime).getTime());
 			this.formData.duration =
 				parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
+		},
+		timeChange(value) {
+			if (!value) {
+				return;
+			}
+			this.formData.accessStartTime = value.year + '-' + value.month + '-' + value.day + ' ' + value.hour + ':' + value.minute;
+			console.log(this.formData.accessStartTime);
 		},
 		chooseSchool(e) {
 			if (!e.target) {
