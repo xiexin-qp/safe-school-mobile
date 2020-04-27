@@ -13,15 +13,9 @@
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view class="tip">预计到达时间：</view>
-				<view class="qui-fx-f1 qui-fx-je">
-					<picker mode="date" :value="formData.startDate" @change="dateChange($event, 'startDate')">
-						<view class="uni-input">{{ formData.startDate }}</view>
-					</picker>
-				</view>
-				<view class="qui-fx-je" style="margin-left:10rpx">
-					<picker mode="time" :value="formData.startTime" @change="dateChange($event, 'startTime')">
-						<view class="uni-input">{{ formData.startTime }}</view>
-					</picker>
+				<view @click="show = true" class="qui-fx-f1 qui-fx-je">
+					<u-picker v-model="show" :start-year="startYear"  mode="time" :params="params" @confirm="timeChange"></u-picker>
+					<view class="uni-input">{{ formData.accessStartTime }}</view>
 				</view>
 				<view>></view>
 			</view>
@@ -43,6 +37,16 @@ export default {
 	data() {
 		return {
 			disabledTag: false,
+			show: false,
+			params: {
+				year: true,
+				month: true,
+				day: true,
+				hour: true,
+				minute: true,
+				second: false
+			},
+			startYear: new Date().getFullYear(),
 			causeNameList: [],
 			causeList: [],
 			id: '',
@@ -51,14 +55,8 @@ export default {
 			formData: {
 				visitorName: '',
 				phone: '',
-				startDate: this.$tools.getDateTime(new Date(), 'date'),
-				startTime: this.$tools.getDateTime(new Date(), 'time'),
-				endDate: this.$tools.getDateTime(new Date(), 'date'),
-				endTime: this.$tools.getDateTime(new Date(new Date().getTime() + 2 * 60 * 60 * 1000), 'time'),
-				duration: '2小时',
 				cause: '',
-				accessStartTime: '',
-				accessEndTime: ''
+				accessStartTime: this.$tools.getDateTime(new Date(), 'dateTimeWithOutSecond')
 			}
 		};
 	},
@@ -109,9 +107,6 @@ export default {
 			});
 		},
 		async confirm() {
-			this.formData.accessStartTime = this.formData.startDate + ' ' + this.formData.startTime;
-			this.formData.accessEndTime = this.formData.endDate + ' ' + this.formData.endTime;
-			console.log(this.formData);
 			if (this.formData.visitorName === '') {
 				this.$tools.toast('请填写访客姓名');
 			} else if (this.formData.phone === '') {
@@ -122,9 +117,7 @@ export default {
 				this.$tools.toast('请选择来访事由');
 			} else if (new Date(this.formData.accessStartTime).getTime() < new Date().getTime()) {
 				this.$tools.toast('请填写正确到达时间');
-			} /* else if (new Date(this.formData.accessEndTime).getTime() <= new Date(this.formData.accessStartTime).getTime()) {
-				this.$tools.toast('请选择正确时间段');
-			} */ else {
+			} else {
 				let cause = this.causeList.filter(ele => {
 					return ele.text === this.causeNameList[this.formData.cause];
 				})[0];
@@ -134,7 +127,6 @@ export default {
 				}
 				const req = {
 					schoolCode: store.userInfo.schoolCode,
-					// accessEndTime: new Date(this.formData.accessEndTime),
 					accessStartTime: this.formData.accessStartTime + ':00',
 					visitorName: this.formData.visitorName,
 					visitorMobile: this.formData.phone,
@@ -172,6 +164,13 @@ export default {
 			console.log(new Date(this.formData.accessStartTime).getTime());
 			this.formData.duration =
 				parseInt(Math.ceil(new Date(this.formData.accessEndTime).getTime() - new Date(this.formData.accessStartTime).getTime()) / 1000 / 60 / 60) + '小时';
+		},
+		timeChange(value) {
+			if (!value) {
+				return;
+			}
+			this.formData.accessStartTime = value.year + '-' + value.month + '-' + value.day + ' ' + value.hour + ':' + value.minute;
+			console.log(this.formData.accessStartTime);
 		},
 		chooseCause(e) {
 			this.formData.cause = e.target.value;
