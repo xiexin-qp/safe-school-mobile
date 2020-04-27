@@ -4,6 +4,7 @@
 			<view class="u-picker-header" @touchmove.stop.prevent="stop" catchtouchmove="stop">
 				<view class="u-btn-picker u-tips-color" hover-class="u-opacity" :hover-stay-time="150"
 				 @tap="getResult('cancel')">取消</view>
+				 <view>{{ title }}</view>
 				<view class="u-btn-picker u-type-primary" hover-class="u-opacity" :hover-stay-time="150"
 				 @touchmove.stop="" @tap.stop="getResult('confirm')">确定</view>
 			</view>
@@ -29,7 +30,11 @@
 			// 通过双向绑定控制组件的弹出与收起
 			value: {
 				type: Boolean,
-				default: true
+				default: false
+			},
+			title: {
+				type: String,
+				default: ''
 			},
 			items: {
 				type: Array,
@@ -40,7 +45,7 @@
 		},
 		data() {
 			return {
-				valueArr: '',
+				valueArr: [],
 				uZIndex: 9999
 			}
 		},
@@ -56,14 +61,14 @@
 			},
 			// 用户点击确定按钮
 			getResult(event = null) {
-				if (event) this.$emit(event, this.items[this.valueArr]);
+				if (event) this.$emit(event, this.items[this.valueArr[0]]);
 				this.close();
 			}
 		}
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	.u-datetime-picker {
 		position: relative;
 		z-index: 999;
@@ -84,10 +89,9 @@
 		box-sizing: border-box;
 		font-size: 32rpx;
 		background: #fff;
-		border-bottom: 1px #F5F5F5 solid;
+		border-bottom: 1px #eaeef1 solid;
 		position: relative;
 	}
-
 	.u-picker-header::after {
 		content: '';
 		position: absolute;
@@ -128,6 +132,6 @@
 	}
 
 	.u-opacity {
-		opacity: 0.5;
+		opacity: 0.6;
 	}
 </style>
