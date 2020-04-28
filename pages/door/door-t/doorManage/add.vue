@@ -15,7 +15,7 @@
 						<label :for="item.userName">
 							<text class="right">{{ item.userName }}</text>
 						</label>
-						<label :for="item.workNo"><text class="right">11</text></label>
+						<label :for="item.workNo"><text class="right">{{ item.workNo || '--' }}</text></label>
 						<label :for="item.mobile">
 							<text class="right" style="margin-right: 20rpx;">{{ item.mobile }}</text>
 						</label>

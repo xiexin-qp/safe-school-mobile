@@ -9,7 +9,7 @@
         </view>
         <!-- <text class="right">组织机构</text> -->
         <text class="right">手机号</text>
-        <text class="right">操作</text>
+        <text class="right last">操作</text>
       </view>
       <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
         <view v-for="(item, i) in groupuserList" :key="i" class="tbody qui-bd-b qui-fx-jsb qui-fx-ac">
@@ -17,7 +17,8 @@
           <text class="md">{{ item.sex =='1'?'男' : '女' }}</text>
           <!-- <text class="right">{{ item.orgName }}</text> -->
           <text class="right">{{ item.mobile }}</text>
-          <text class="right" @click="actionsheet(item)">删除</text>
+		  <u-tag class="right last" text="删除" type="error" @click="actionsheet(item)" />
+         <!-- <text class="right" @click="actionsheet(item)">删除</text> -->
         </view>
       </scroll-view>
     </view>
@@ -35,7 +36,7 @@ export default {
     return {
       pageList: {
         page: 1,
-        size: 20
+        size: 15
       },
 	  morePage: false,
       groupuserList: [],
@@ -137,6 +138,10 @@ export default {
   .right {
     width: 35%;
     text-align: center;
+  }
+  .last{
+	  max-width: 120rpx;
+	  margin:0 20rpx;
   }
 }
 .scroll-h {
