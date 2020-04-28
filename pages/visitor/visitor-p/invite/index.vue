@@ -187,6 +187,7 @@ export default {
 							visitorMobile: store.userInfo.mobile,
 							schoolCode: store.userInfo.schoolCode,
 							openid: store.openid,
+							togetherNum: '0',
 							registPhoto: store.userInfo.photoUrl,
 							type: 1
 						};

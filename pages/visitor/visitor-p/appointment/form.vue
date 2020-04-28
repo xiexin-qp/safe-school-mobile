@@ -70,6 +70,7 @@ export default {
 				minute: true,
 				second: false
 			},
+			startYear: new Date().getFullYear(),
 			causeNameList: [],
 			causeList: [],
 			schoolNameList: [],
@@ -109,10 +110,6 @@ export default {
 			this.formData.address = res.data.address;
 			this.formData.phone = res.data.resMobile;
 			this.formData.duration = res.data.duration + '小时';
-			this.formData.startDate = this.$tools.getDateTime(res.data.accessStartTime).split(' ')[0];
-			this.formData.startTime = this.$tools.getDateTime(res.data.accessStartTime).split(' ')[1];
-			this.formData.endDate = this.$tools.getDateTime(res.data.accessEndTime).split(' ')[0];
-			this.formData.endTime = this.$tools.getDateTime(res.data.accessEndTime).split(' ')[1];
 			this.formData.cause = this.causeNameList.findIndex(item => {
 				return item === res.data.causeName;
 			});
