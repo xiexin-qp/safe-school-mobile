@@ -43,7 +43,7 @@ export default {
 			userInfoList: [],
 			pageList: {
 				page: 1,
-				size: 15
+				size: 99999
 			},
 			morePage: false,
 			ruleGroupCode: '',
@@ -132,20 +132,25 @@ export default {
 			console.log(1, this.userInfoList);
 		},
 		addInfo() {
-			// 去重
-			let object = {};
-			let objres = this.userInfoList.reduce((item, next) => {
-				object[next.userCode] ? '' : (object[next.userCode] = true && item.push(next));
-				return item;
-			}, []);
-			console.log(3, objres);
 			const req = {
 				schoolCode: store.userInfo.schoolCode,
 				ruleGroupCode: this.ruleGroupCode,
 				userGroupCode: this.userGroupCode,
-				userInfoList: objres,
 				userType: '1'
 			};
+			// 去重
+			let object = {};
+			let objres = [];
+			if(this.userInfoList.length === 0){
+				req.userInfoList = this.hasUserList
+			}else{
+				objres = this.userInfoList.reduce((item, next) => {
+					object[next.userCode] ? '' : (object[next.userCode] = true && item.push(next));
+					return item;
+				}, []);
+				console.log(3, objres);
+				req.userInfoList = objres
+			}
 			actions.addgroupuserList(req).then(res => {
 				this.$tools.toast('操作成功', 'success');
 				this.$tools.goNext(() => {
