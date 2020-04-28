@@ -104,11 +104,11 @@
       </scroll-view>
     </u-popup>
     <u-popup ref="checkPopup" mode="center" :mask-close-able="false" length="75%">
+      <view class="search"> 
+        <u-search placeholder="请输入姓名" v-model="keyword" shape="square" height="55" :show-action="false" :clearabled="false"></u-search>
+      </view>
       <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore(0)">
         <view>
-          <view class="search"> 
-            <u-search placeholder="请输入姓名" v-model="keyword" shape="square" height="55" :show-action="false" :clearabled="false"></u-search>
-          </view>
           <u-checkbox-group>
             <label class="list qui-bd-b qui-fx-jsb" v-for="item in dataList" :key="item.userCode">
               <label :for="item.userName">
@@ -158,11 +158,11 @@
         oddNumbers: '',
         pageList: {
           page: 1,
-          size: 11
+          size: 15
         },
         orgPageList: {
           page: 1,
-          size: 11
+          size: 15
         },
         morePage: false,
         OrgMorePage: false,
@@ -455,12 +455,12 @@
       border-radius: $radius;
     }
   }
+  .search {
+    padding: 20rpx;
+  }
   .scroll {
     height: 78vh;
     padding-bottom: 10vh;
-    .search {
-      padding: 20rpx;
-    }
     .list {
       padding: 15rpx 25rpx;
       image {
@@ -475,7 +475,7 @@
     .submit-btn {
       height: 80rpx;
       position: fixed;
-      bottom: 12vh;
+      bottom: 8vh;
       left: 27%;
       .btn {
         height: 50rpx;
