@@ -6,7 +6,7 @@
 				<text class="right">选择</text>
 				<text class="right">姓名</text>
 				<text class="right">工号</text>
-				<text class="right">手机号</text>
+				<text class="right" style="margin-right: 20rpx;">手机号</text>
 			</view>
 			<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
 				<checkbox-group @change="checkUser">
@@ -15,9 +15,9 @@
 						<label :for="item.userName">
 							<text class="right">{{ item.userName }}</text>
 						</label>
-						<label :for="item.workNo"><text class="right">11</text></label>
+						<label :for="item.workNo"><text class="right">{{ item.workNo || '--' }}</text></label>
 						<label :for="item.mobile">
-							<text class="right">{{ item.mobile }}</text>
+							<text class="right" style="margin-right: 20rpx;">{{ item.mobile }}</text>
 						</label>
 					</label>
 				</checkbox-group>
@@ -81,11 +81,11 @@ export default {
 			}
 			this.dataList.forEach(ele => {
 				this.hasUserList.forEach(item => {
-					if(ele.userCode === item.userCode){
-						ele.checked = true
+					if (ele.userCode === item.userCode) {
+						ele.checked = true;
 					}
-				})
-			})
+				});
+			});
 			this.morePage = res.data.hasNextPage;
 		},
 		loadMore() {
@@ -109,53 +109,54 @@ export default {
 					userType: ele.userType
 				});
 			});
-			console.log(this.hasUserList);
-		},
-		userReduce(data){
-			let hash = {}; 
-			data = data.reduce((preVal, curVal) => {
-				hash[curVal.userCode] ? '' : hash[curVal.userCode] = true && preVal.push(curVal); 
-				return preVal 
-			}, [])
+			// console.log(this.hasUserList);
 		},
 		cancel() {
 			this.userInfoList = [];
+			this.hasUserList = [];
 			this.$tools.navTo({
 				url: './detail?ruleGroupCode=' + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
 				title: '查看人员列表'
 			});
 		},
 		checkUser(e) {
+			this.userInfoList = [];
 			const data = e.target.value;
-			console.log(e)
 			data.map(el => {
-				this.hasUserList.push({
+				this.userInfoList.push({
 					userCode: el.split('^')[0],
 					userName: el.split('^')[1].split('=')[0],
 					userType: '1'
 				});
-				console.log(this.hasUserList);
 			});
+			console.log(1, this.userInfoList);
 		},
 		addInfo() {
-			if (this.hasUserList.length != 0) {
-				const req = {
-					schoolCode: store.userInfo.schoolCode,
-					ruleGroupCode: this.ruleGroupCode,
-					userGroupCode: this.userGroupCode,
-					userInfoList: this.hasUserList,
-					userType: '1'
-				};
-				actions.addgroupuserList(req).then(res => {
-					this.$tools.toast('操作成功');
+			// 去重
+			let object = {};
+			let objres = this.userInfoList.reduce((item, next) => {
+				object[next.userCode] ? '' : (object[next.userCode] = true && item.push(next));
+				return item;
+			}, []);
+			console.log(3, objres);
+			const req = {
+				schoolCode: store.userInfo.schoolCode,
+				ruleGroupCode: this.ruleGroupCode,
+				userGroupCode: this.userGroupCode,
+				userInfoList: objres,
+				userType: '1'
+			};
+			actions.addgroupuserList(req).then(res => {
+				this.$tools.toast('操作成功', 'success');
+				this.$tools.goNext(() => {
+					this.userInfoList = [];
+					this.hasUserList = [];
 					this.$tools.navTo({
 						url: './detail?ruleGroupCode=' + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
 						title: ''
 					});
 				});
-			} else {
-				this.$tools.toast('请选择人员');
-			}
+			});
 		},
 		search(value) {
 			console.log(value);

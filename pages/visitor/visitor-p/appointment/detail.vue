@@ -25,14 +25,14 @@
 				</view>
 				<view class="qui-fx-ver">
 					<view class="end qui-fx-ac">
-						<icon type="waiting" size="24" />
+						<icon type="info" size="24" />
 						<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</text>
 					</view>
 				</view>
 			</view>
 			<view class="log">
 				<view class="start qui-fx-ac">
-					<icon type="info" size="24" />
+					<u-icon name="photo" size="42" color="#10aeff" style="border: none;margin-right: 0;"></u-icon>
 					<text style="margin-left: 10rpx;">我的照片：</text>
 				</view>
 				<image class="myphoto" :src="comeLog.visitorUrl ? comeLog.visitorUrl : errorImg" alt="">
@@ -148,6 +148,7 @@ export default {
 				border-radius: 100%;
 				margin-right: 20rpx;
 			}
+
 		}
 		.myphoto {
 			width: 100rpx;
