@@ -61,8 +61,16 @@
       <view class="qui-fx-ac qui-bd-b item-list">
 			  <view>抄送人：</view>
         <view @click="check(0)" class="qui-fx-f1 qui-fx rit-icon">
-          <view class="qui-fx-f1 u-content-color" style="text-align:right" >
-            {{copyUser}}
+          <view class="copyer qui-fx-f1 u-content-color" style="text-align:right" >
+            <u-tag 
+              @close="tagClick(item)"
+              v-for="(item,index) in leaveInfo.leaveCopyList"
+              :key="index"
+              :text="item.userName"
+              mode="light" 
+              type="info" 
+              closeable 
+              style="margin-left:10rpx" />
           </view>
           <view class="rit-icon"></view>
         </view>
@@ -77,7 +85,7 @@
     <view class="submit-box">
       <view class="btn" @click="submit">提交</view>
     </view>
-    <u-popup ref="popup" mode="center" :mask-close-able="false" length="65%">
+    <u-popup ref="popup" mode="center" :mask-close-able="false" length="75%">
       <scroll-view scroll-y="true" class="scroll"  @scrolltolower="loadMore(1)">
         <view>
           <radio-group @change="radioUser">
@@ -89,26 +97,29 @@
             </label>
           </radio-group>
           <view class="submit-btn qui-fx">
-            <button class="btn" @click="cancel(1)">取消</button>
-            <button class="btn" @click="ok(1)">确定</button>
+            <u-button class="btn u-font-01" @click="cancel(1)">取消</u-button>
+            <u-button type="primary" class="btn u-font-01" @click="ok(1)">确定</u-button>
           </view>
         </view>
       </scroll-view>
     </u-popup>
-    <u-popup ref="checkPopup" mode="center" :mask-close-able="false" length="65%">
+    <u-popup ref="checkPopup" mode="center" :mask-close-able="false" length="75%">
       <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore(0)">
         <view>
-          <checkbox-group @change="checkUser">
-            <label  class="list qui-bd-b qui-fx-jsb" v-for="(item,index) in dataList" :key="index">
-                <label :for="item.userName">
-                  <text>{{item.userName}}</text>
-                </label>
-                <checkbox :value='`${item.userCode}^${item.userName}=${item.photoUrl}`'></checkbox>
+          <view class="search"> 
+            <u-search placeholder="请输入姓名" v-model="keyword" shape="square" height="55" :show-action="false" :clearabled="false"></u-search>
+          </view>
+          <u-checkbox-group>
+            <label class="list qui-bd-b qui-fx-jsb" v-for="item in dataList" :key="item.userCode">
+              <label :for="item.userName">
+                <text>{{item.userName}}</text>
+              </label>
+              <u-checkbox @change="checkBox" v-model="item.checked" :name="`${item.userCode}^${item.userName}=${item.photoUrl}`"></u-checkbox>
             </label>
-          </checkbox-group>
+          </u-checkbox-group>
           <view class="submit-btn qui-fx">
-             <button class="btn" @click="cancel(0)">取消</button>
-             <button class="btn" @click="ok(0)">确定</button>
+            <u-button class="btn u-font-01" @click="cancel(0)">取消</u-button>
+            <u-button type="primary" class="btn u-font-01" @click="ok(0)">确定</u-button>
           </view>
         </view>
       </scroll-view>
@@ -129,7 +140,6 @@
         role: [],
         reasonList: [],
         dataList: [],
-        copyUser: '',
         studentList: [],
         currentRole: 0,
         leaveInfo: {
@@ -165,8 +175,26 @@
 					hour: true,
 					minute: true,
 					second: false
-				}
+        },
+        keyword: '',
+        checkList: []
 			}
+    },
+    watch: {
+      keyword (val, oldval) {
+        this.keyword = val 
+        this.orgUserGet()
+      },
+      checkList (val, oldval){
+        this.leaveInfo.leaveCopyList = []
+        val.map( el => {
+          this.leaveInfo.leaveCopyList.push({
+            userCode: el.split('^')[0],
+            userName: el.split('^')[1].split('=')[0],
+            photoUrl : el.split('^')[1].split('=')[1]
+          })
+        })
+      }
     },
     onLoad(options) {
       if (options.oddNumbers) {
@@ -186,7 +214,10 @@
         this.leaveInfo = res.data
         this.leaveInfo.startDate = this.$tools.getDateTime(new Date(this.leaveInfo.startTime), 'noSecond')
         this.leaveInfo.endDate = this.$tools.getDateTime(new Date(this.leaveInfo.endTime), 'noSecond')
-        this.copyUser =  this.leaveInfo.leaveCopyList.map(el=>el.userName).join(',')
+        const data = this.leaveInfo.leaveCopyList
+        this.checkList = data.map( el => {
+          return `${el.userCode}^${el.userName}=${el.photoUrl}`
+        })
         this.leaveReasonGet(1)
       },
       async studentGet (tag = false) {
@@ -253,17 +284,25 @@
           this.orgPageList.page = 1
         }
         const req = {
-          keyword: '',
+          keyword: this.keyword,
           orgCode: '',
           page: this.orgPageList.page,
           size: this.orgPageList.size,
           schoolCode: store.userInfo.schoolCode
         }
         const res = await actions.getOrgUser(req)
+        const data = res.data.list
+        data.forEach(el => {
+          this.leaveInfo.leaveCopyList.forEach(element => {
+            if(element.userCode === el.userCode) {
+              el.checked = true
+            }
+          })
+        })
         if (tag) {
-          this.dataList = this.dataList.concat(res.data.list)
+          this.dataList = this.dataList.concat(data)
         } else {
-          this.dataList = res.data.list
+          this.dataList = data
         }
 			  this.OrgMorePage = res.data.hasNextPage
       },
@@ -272,8 +311,8 @@
           this.leaveInfo.userName = ''
           this.$refs.popup.open()
         } else {
-          this.copyUser = ''
-          this.leaveInfo.leaveCopyList = []
+          this.keyword = ''
+          this.orgUserGet()
           this.$refs.checkPopup.open()
         }
       },
@@ -282,8 +321,6 @@
           this.leaveInfo.userName = ''
           this.$refs.popup.close()
         } else {
-          this.copyUser = ''
-          this.leaveInfo.leaveCopyList = []
           this.$refs.checkPopup.close()
         }
       },
@@ -292,23 +329,19 @@
           this.$refs.popup.close()
         } else {
           this.$refs.checkPopup.close()
-          this.copyUser = this.leaveInfo.leaveCopyList.map(el=>{
-            return  el.userName
-          }).join(',')
         }
       },
-      checkUser (e){
-        this.checkList = e
-        const data = e.target.value
-        this.leaveInfo.leaveCopyList = []
-        data.map(el=>{
-          this.leaveInfo.leaveCopyList.push({
-            userCode: el.split('^')[0],
-            userName: el.split('^')[1].split('=')[0],
-            photoUrl : el.split('^')[1].split('=')[1]
-          })
-        })
+      checkBox(e){
+        if (e.value) {
+          this.checkList.push(e.name)
+        } else {
+          this.checkList.splice(this.checkList.indexOf(e.name),1)
+        }
       },
+      tagClick(item) {
+        const data = `${item.userCode}^${item.userName}=${item.photoUrl}`
+        this.checkList.splice(this.checkList.indexOf(data),1)
+			},
       radioUser (e) {
         const data = e.target.value
         this.leaveInfo.userName = data.split('^')[1].split('=')[0]
@@ -423,33 +456,38 @@
     }
   }
   .scroll {
-    height: 70vh;
+    height: 78vh;
     padding-bottom: 10vh;
+    .search {
+      padding: 20rpx;
+    }
     .list {
       padding: 15rpx 25rpx;
-      
       image {
         width: 60rpx;
         height: 60rpx;
       }
     }
+    .u-checkbox-group {
+      display: flex;
+      flex-direction: column;
+    }
     .submit-btn {
-       height: 80rpx;
-       position: fixed;
-       bottom: 15vh;
-       left: 27%;
-        .btn {
-          height: 50rpx;
-          line-height: 50rpx;
-          text-align: center;
-          letter-spacing: 8rpx;
-          margin: 0 20rpx;
-          background-color: $main-color;
-          color:$uni-bg-color;
-          border-radius: $radius;
-          font-size: 28rpx;
-        }
+      height: 80rpx;
+      position: fixed;
+      bottom: 12vh;
+      left: 27%;
+      .btn {
+        height: 50rpx;
+        line-height: 50rpx;
+        text-align: center;
+        letter-spacing: 8rpx;
+        margin: 0 20rpx;
+      }
     }
   }
+}
+.copyer .u-size-default {
+	padding: 10rpx 5rpx;
 }
 </style>
