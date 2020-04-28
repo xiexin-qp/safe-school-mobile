@@ -70,6 +70,7 @@ export default {
 				minute: true,
 				second: false
 			},
+			startYear: new Date().getFullYear(),
 			causeNameList: [],
 			causeList: [],
 			schoolNameList: [],
