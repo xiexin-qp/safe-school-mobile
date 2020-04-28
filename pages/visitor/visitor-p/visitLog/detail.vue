@@ -2,7 +2,7 @@
 	<view class="detail qui-page">
 		<view class="top qui-fx-jsb">
 			<view class="info qui-fx-ac">
-				<image :src="photo ? photo :errorImg" alt="">
+				<image :src="comeLog.visitorUrl ? comeLog.visitorUrl :errorImg" alt="">
 				<view class="qui-fx-ver">
 					<text class="name">{{ visitorName }}</text>
 					<text class="phone">{{ visitorPhone }}</text>
@@ -56,7 +56,6 @@ export default {
 			id: '',
 			visitorName: '',
 			visitorPhone: '',
-			photo: '',
 			visitSum: '',
 			visitState: '',
 			comeLog: {
@@ -65,7 +64,8 @@ export default {
 				outTime: '',
 				outPlace: '',
 				togetherNum: '',
-				duration: ''
+				duration: '',
+				visitorUrl: ''
 			}
 		};
 	},
@@ -78,7 +78,6 @@ export default {
 			return;
 		}
 		this.comeLog = res.data;
-		this.photo = res.data.registPhoto;
 		this.visitorName = res.data.userName;
 		this.visitorPhone = res.data.mobile;
 		this.visitSum = res.data.visitSum;

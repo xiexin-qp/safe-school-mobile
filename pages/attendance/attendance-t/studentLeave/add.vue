@@ -5,7 +5,7 @@
         <view class="must">*</view>
 			  <view>请假学生：</view>
         <view @click="check(1)" class="qui-fx-f1 qui-fx rit-icon">
-          <view class="qui-fx-f1" style="text-align:right" >
+          <view class="qui-fx-f1 u-content-color" style="text-align:right" >
             {{leaveInfo.userName}}
           </view>
           <view class="rit-icon"></view>
@@ -14,7 +14,7 @@
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
         <view>请假类型：</view>
-        <view class="qui-fx-f1 qui-fx-je">
+        <view class="qui-fx-f1 qui-fx-je u-content-color">
           <picker mode="selector" :value="currentRole" :range="role" @change="chooseRole">
             {{role[currentRole]}}
           </picker>
@@ -26,7 +26,7 @@
         <view>开始时间：</view>
         <view class="qui-fx-f1 qui-fx-je"  @click="startShow = true">
           <u-picker mode="time" v-model="startShow" :params="params" @confirm="startConfirm"></u-picker>
-          <view class="uni-input">{{leaveInfo.startDate}}</view>
+          <view class="uni-input u-content-color">{{leaveInfo.startDate}}</view>
           <view class="rit-icon"></view>
         </view>
       </view>
@@ -35,23 +35,23 @@
         <view>结束时间：</view>
         <view class="qui-fx-f1 qui-fx-je"  @click="endShow = true">
           <u-picker mode="time" v-model="endShow" :params="params" @confirm="endConfirm"></u-picker>
-          <view class="uni-input">{{leaveInfo.endDate}}</view>
+          <view class="uni-input u-content-color">{{leaveInfo.endDate}}</view>
           <view class="rit-icon"></view>
         </view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
         <view>请假时长：</view>
-        <view class="qui-fx-f1 qui-fx-je">{{ leaveInfo.duration }}小时</view>
+        <view class="qui-fx-f1 qui-fx-je u-content-color">{{ leaveInfo.duration }}小时</view>
       </view>
       <view class="qui-fx qui-bd-b item-list">
         <view>描述：</view>
-        <view class="qui-fx-f1"><textarea v-model="leaveInfo.remark" class="item-input" style="text-align: right;" placeholder="请输入描述" /></view>
+        <view class="qui-fx-f1"><textarea v-model="leaveInfo.remark" class="item-input u-content-color" style="text-align: right;" placeholder="请输入描述" /></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
         <view>是否出校：</view>
-        <view class="qui-fx-f1 qui-fx-je">
+        <view class="qui-fx-f1 qui-fx-je col-666">
           <radio-group @change="radioChange">
             <label><radio value="Y" :checked="leaveInfo.outSchool === 'Y'" />是</label>
             <label class="radio"><radio :checked="leaveInfo.outSchool === 'N'" value="N" />否</label>
@@ -61,7 +61,7 @@
       <view class="qui-fx-ac qui-bd-b item-list">
 			  <view>抄送人：</view>
         <view @click="check(0)" class="qui-fx-f1 qui-fx rit-icon">
-          <view class="qui-fx-f1" style="text-align:right" >
+          <view class="qui-fx-f1 u-content-color" style="text-align:right" >
             {{copyUser}}
           </view>
           <view class="rit-icon"></view>
@@ -316,14 +316,23 @@
       },
       startConfirm (params) {
         this.leaveInfo.startDate = `${params.year}-${params.month}-${params.day} ${params.hour}:${params.minute}`
-        this.leaveInfo.duration = parseInt(Math.ceil(new Date(new Date(this.leaveInfo.endDate).getTime()).getTime() 
-                        - new Date(new Date(this.leaveInfo.startDate).getTime()).getTime()) / 1000 / 60 / 60)
+        const time = (new Date(new Date(this.leaveInfo.endDate).getTime()).getTime() 
+                        - new Date(new Date(this.leaveInfo.startDate).getTime()).getTime()) / 1000 / 60 / 60
+        if (time > 0) {
+         this.leaveInfo.duration =  Math.ceil(time)
+        } else {
+          this.leaveInfo.duration =  Math.floor(time)
+        }
       },
       endConfirm (params) {
         this.leaveInfo.endDate = `${params.year}-${params.month}-${params.day} ${params.hour}:${params.minute}`
-        this.leaveInfo.duration = parseInt(Math.ceil(new Date(new Date(this.leaveInfo.endDate).getTime()).getTime() 
-                        - new Date(new Date(this.leaveInfo.startDate).getTime()).getTime()) / 1000 / 60 / 60)
-
+        const time = (new Date(new Date(this.leaveInfo.endDate).getTime()).getTime() 
+                        - new Date(new Date(this.leaveInfo.startDate).getTime()).getTime() )/ 1000 / 60 / 60
+        if (time > 0) {
+         this.leaveInfo.duration =  Math.ceil(time)
+        } else {
+          this.leaveInfo.duration =  Math.floor(time)
+        }
       },
       async submit () {
         if (this.leaveInfo.userName === '') {
@@ -332,12 +341,16 @@
         } else if (this.leaveInfo.outSchool === '') {
           this.$tools.toast('请选择是否出校')
           return false
-        } else if (new Date(this.leaveInfo.endDate + ' ' + this.leaveInfo.endTime).getTime() <= new Date(this.leaveInfo.startDate + ' ' + this.leaveInfo.startTime).getTime()) {
+        } else if (new Date(this.leaveInfo.endDate).getTime() <= new Date(this.leaveInfo.startDate).getTime()) {
           this.$tools.toast('请选择正确时间段')
           return false
         }
         const photoList = this.leaveInfo.photoList.map(el => {
-          return el.split(',')[1]
+          if (el.indexOf('http') === -1) {
+            return el.split(',')[1]
+          } else {
+            return el
+          }
         })
         const req = {
           photoList: photoList,

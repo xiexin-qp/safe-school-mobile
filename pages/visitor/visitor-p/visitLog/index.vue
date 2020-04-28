@@ -18,7 +18,7 @@
 			<scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
 				<view @click="goDetail(item.id)" v-for="(item, i) in dataList" :key="i" class="tbody qui-bd-b qui-fx-jsb">
 					<text class="left">{{ item.userName }}</text>
-					<text class="md">{{ item.accessTime }}</text>
+					<text class="md">{{ item.accessTime || '--'}}</text>
 					<text class="right">{{ item.visitState | visitState }}</text>
 					<view class="rit-icon"></view>
 				</view>
@@ -188,5 +188,9 @@ export default {
 .up {
 	transition: transform 0.3s;
 	transform: rotateZ(-180deg);
+}
+.rit-icon{
+	position: absolute;
+	right:10rpx;
 }
 </style>

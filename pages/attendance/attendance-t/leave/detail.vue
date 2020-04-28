@@ -29,11 +29,11 @@
       <view>
         <view style="margin:0 0 10rpx 20rpx">审批人</view>
         <view class="apply-box qui-fx-ac">
-          <view class="qui-fx-ver qui-fx-ac">
+          <view class="qui-fx-ver qui-fx-ac qui-fx-f1">
             <image :src="dayInfo.leaveApprovalAddDto && dayInfo.leaveApprovalAddDto.photoUrl ? dayInfo.leaveApprovalAddDto.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
             {{ dayInfo.leaveApprovalAddDto ? dayInfo.leaveApprovalAddDto.userName : '' }}
           </view>
-          <view class="apply-content qui-fx-ver">
+          <view class="apply-content qui-fx-ver qui-fx-f2">
             <view class="apply-status"> {{ dayInfo.state | approveState }} </view>
             <view class="apply-time"> {{ dayInfo.approvalTime | gmtToDate }} </view>
           </view>
@@ -42,11 +42,11 @@
       <view>
         <view style="margin:0 0 10rpx 20rpx">抄送人</view>
         <view class="apply-box qui-fx-ac" v-for="copyer in dayInfo.leaveCopyList" :key="copyer.userCode">
-          <view class="qui-fx-ver qui-fx-ac">
+          <view class="qui-fx-ver qui-fx-ac qui-fx-f1">
             <image :src="copyer.photoUrl ? copyer.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
             {{ copyer.userName }}
           </view>
-          <view class="apply-content qui-fx-ver">
+          <view class="apply-content qui-fx-ver qui-fx-f2">
             <view :class="['apply-status', { 'un-read' : copyer.state === '0' }]"> {{ copyer.state | getRead }} </view>
             <view class="apply-time"> {{ copyer.readTime | gmtToDate }} </view>
           </view>
