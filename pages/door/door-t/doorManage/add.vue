@@ -111,47 +111,54 @@ export default {
 			});
 			console.log(this.hasUserList);
 		},
-		userReduce(data){
-			let hash = {}; 
-			data = data.reduce((preVal, curVal) => {
-				hash[curVal.userCode] ? '' : hash[curVal.userCode] = true && preVal.push(curVal); 
-				return preVal 
-			}, [])
-		},
 		cancel() {
 			this.userInfoList = [];
+			this.hasUserList = [];
 			this.$tools.navTo({
 				url: './detail?ruleGroupCode=' + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
 				title: '查看人员列表'
 			});
 		},
 		checkUser(e) {
+			this.userInfoList =[]
 			const data = e.target.value;
-			console.log(e)
 			data.map(el => {
-				this.hasUserList.push({
+				this.userInfoList.push({
 					userCode: el.split('^')[0],
 					userName: el.split('^')[1].split('=')[0],
 					userType: '1'
 				});
-				console.log(this.hasUserList);
 			});
+			console.log(1,this.userInfoList)
 		},
 		addInfo() {
 			if (this.hasUserList.length != 0) {
+				this.hasUserList = this.hasUserList.concat(this.userInfoList)
+				console.log(this.hasUserList);
+				// 去重
+				let object = {};
+				let objres = this.hasUserList.reduce((item,next) => {
+				    object[next.userCode] ? "" : object[next.userCode] = true && item.push(next);
+				    return item;
+				},[]);
+				console.log(3,objres);
 				const req = {
 					schoolCode: store.userInfo.schoolCode,
 					ruleGroupCode: this.ruleGroupCode,
 					userGroupCode: this.userGroupCode,
-					userInfoList: this.hasUserList,
+					userInfoList: objres,
 					userType: '1'
 				};
 				actions.addgroupuserList(req).then(res => {
 					this.$tools.toast('操作成功');
-					this.$tools.navTo({
-						url: './detail?ruleGroupCode=' + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
-						title: ''
-					});
+					this.$tools.goNext(() => {
+						this.userInfoList = [];
+						this.hasUserList = [];
+						this.$tools.navTo({
+							url: './detail?ruleGroupCode=' + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
+							title: ''
+						});
+					})
 				});
 			} else {
 				this.$tools.toast('请选择人员');
