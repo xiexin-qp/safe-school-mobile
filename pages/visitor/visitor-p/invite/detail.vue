@@ -42,7 +42,7 @@
 			</view>
 			<view v-if="state == '1'" class="log">
 				<view class="start qui-fx-ac">
-					<icon type="info" size="24" />
+					<u-icon name="photo" size="42" color="#10aeff" style="border: none;margin-right: 0;"></u-icon>
 					<text style="margin-left: 10rpx;">我的照片：</text>
 				</view>
 				<image class="myphoto" :src="comeLog.visitorUrl ? comeLog.visitorUrl : errorImg" alt="">
