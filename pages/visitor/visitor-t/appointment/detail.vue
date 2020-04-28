@@ -26,14 +26,14 @@
 				<view class="qui-fx-ver">
 					<view class="end qui-fx-ac">
 						<icon type="info" size="24" />
-						<view style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</view>
+						<view class="mar-l20">随行人数：{{ comeLog.togetherNum || 0 }}</view>
 					</view>
 				</view>
 			</view>
 			<view v-if="refuseTag || state == '2'" class="log qui-fx-jsb">
 				<view class="start qui-fx-ac">
 					<icon type="cancel" size="24" />
-					<text style="margin-left: 10rpx;">拒绝原因：{{ comeLog.reason }}</text>
+					<text class="mar-l20">拒绝原因：{{ comeLog.reason }}</text>
 				</view>
 			</view>
 		</view>
@@ -165,7 +165,7 @@ export default {
 	.top {
 		width: 100%;
 		height: 362rpx;
-		background: url('/mobile-img/person-bg.png') no-repeat;
+		background: url('http://canpointtest.com/mobile-img/person-bg.png') no-repeat;
 		background-size: 100% 362rpx;
 		margin: 20rpx 0 40rpx 0;
 		color: #fff;

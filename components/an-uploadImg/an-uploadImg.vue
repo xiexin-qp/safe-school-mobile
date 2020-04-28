@@ -96,6 +96,7 @@ export default {
 	margin-right: 10rpx;
 	height: 100rpx;
 	width: 100rpx;
+	color:#666;
 	background-color: #c8c7cc;
 	text-align: center;
 	line-height: 100rpx;

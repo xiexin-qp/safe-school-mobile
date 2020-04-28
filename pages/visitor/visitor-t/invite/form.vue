@@ -3,12 +3,12 @@
 		<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view class="tip">访客姓名：</view>
-				<view class="qui-fx-f1"><input :disabled="disabledTag" class="item-input" v-model="formData.visitorName" style="text-align: right;" placeholder="请输入" /></view>
+				<view class="qui-fx-f1"><input :disabled="disabledTag" class="item-input al-r" v-model="formData.visitorName" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view class="tip">访客手机：</view>
 				<view class="qui-fx-f1 qui-fx-je">
-					<input :disabled="disabledTag" class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" />
+					<input :disabled="disabledTag" class="item-input al-r" v-model="formData.phone" placeholder="请输入" />
 				</view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
@@ -206,5 +206,8 @@ export default {
 	padding: 40rpx 0rpx;
 	margin: 20rpx 0 40rpx 0;
 	border-bottom: 1px solid $u-border-color;
+}
+.al-r{
+	text-align: right;
 }
 </style>

@@ -3,21 +3,23 @@
 		<view class="list">
 			<view class="head"><uni-search-bar class="search" placeholder="输入姓名/手机号/工号搜索" @confirm="search"></uni-search-bar></view>
 			<view class="th qui-fx-jsa qui-fx-ac qui-fx-jc title_">
-				<text class="right">选择</text>
-				<text class="right">姓名</text>
-				<text class="right">工号</text>
-				<text class="right" style="margin-right: 20rpx;">手机号</text>
+				<text class="left">选择</text>
+				<text class="mdl">姓名</text>
+				<text class="mdr">工号</text>
+				<text class="right">手机号</text>
 			</view>
 			<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
 				<checkbox-group @change="checkUser">
-					<label class="tbody qui-bd-b qui-fx-jsb" v-for="(item, index) in dataList" :key="index">
+					<label class="tbody qui-bd-b qui-fx" v-for="(item, index) in dataList" :key="index">
 						<checkbox :value="`${item.userCode}^${item.userName}`" class="left" :checked="item.checked"></checkbox>
-						<label :for="item.userName">
-							<text class="right">{{ item.userName }}</text>
+						<label :for="item.userName" class="mdl">
+							<text>{{ item.userName }}</text>
 						</label>
-						<label :for="item.workNo"><text class="right">{{ item.workNo || '--' }}</text></label>
-						<label :for="item.mobile">
-							<text class="right" style="margin-right: 20rpx;">{{ item.mobile }}</text>
+						<label :for="item.workNo" class="mdr">
+							<text>{{ item.workNo || '--' }}</text>
+						</label>
+						<label :for="item.mobile" class="right">
+							<text>{{ item.mobile }}</text>
 						</label>
 					</label>
 				</checkbox-group>
@@ -49,8 +51,37 @@ export default {
 			ruleGroupCode: '',
 			userGroupCode: '',
 			keyword: '',
-			hasUserList: []
+			hasUserList: [],
+			changeList: []
 		};
+	},
+	watch: {
+		dataList: {
+			handler: function(val, oldval) {
+				console.log(oldval);
+				oldval.forEach(ele => {
+					if (ele.checked) {
+						this.changeList.push({
+							userCode: ele.userCode,
+							userName: ele.userName,
+							userType: ele.userType
+						});
+					}
+				});
+				console.log(1111, this.changeList);
+				this.changeList.map(()=>{
+					val.forEach(ele => {
+						const index = this.changeList.findIndex(list => {
+							return list.userCode === ele.userCode;
+						});
+						this.changeList.splice(index, 1);
+					});
+				})
+
+				console.log(22222, this.changeList);
+			},
+			deep: true
+		}
 	},
 	onLoad(options) {
 		this.ruleGroupCode = options.ruleGroupCode;
@@ -81,8 +112,12 @@ export default {
 			}
 			this.dataList.forEach(ele => {
 				this.hasUserList.forEach(item => {
-					if (ele.userCode === item.userCode) {
-						ele.checked = true;
+					if(!ele.checked){
+						if (ele.userCode === item.userCode) {
+							ele.checked = true;
+						}else{
+							ele.checked = null;
+						}
 					}
 				});
 			});
@@ -120,8 +155,9 @@ export default {
 			});
 		},
 		checkUser(e) {
-			this.userInfoList = [];
 			const data = e.target.value;
+			console.log(data);
+			this.userInfoList = [];
 			data.map(el => {
 				this.userInfoList.push({
 					userCode: el.split('^')[0],
@@ -130,6 +166,13 @@ export default {
 				});
 			});
 			console.log(1, this.userInfoList);
+			this.dataList.forEach(ele => {
+				this.userInfoList.forEach(item => {
+					if (ele.userCode === item.userCode) {
+						ele.checked = true;
+					}
+				});
+			});
 		},
 		addInfo() {
 			const req = {
@@ -139,17 +182,18 @@ export default {
 				userType: '1'
 			};
 			// 去重
+			this.userInfoList = this.userInfoList.concat(this.changeList);
 			let object = {};
 			let objres = [];
-			if(this.userInfoList.length === 0){
-				req.userInfoList = this.hasUserList
-			}else{
+			if (this.userInfoList.length === 0) {
+				req.userInfoList = this.hasUserList;
+			} else {
 				objres = this.userInfoList.reduce((item, next) => {
 					object[next.userCode] ? '' : (object[next.userCode] = true && item.push(next));
 					return item;
 				}, []);
 				console.log(3, objres);
-				req.userInfoList = objres
+				req.userInfoList = objres;
 			}
 			actions.addgroupuserList(req).then(res => {
 				this.$tools.toast('操作成功', 'success');
@@ -211,24 +255,28 @@ export default {
 	font-size: 28rpx;
 	.th {
 		background: #7b92f5;
-		padding: 20rpx 0;
+		padding: 20rpx;
 		border-radius: 8rpx;
 		color: #fff;
 	}
 	.tbody {
 		position: relative;
-		padding: 25rpx 10rpx;
+		padding: 25rpx 20rpx;
 		background: $uni-bg-color;
 	}
 	.tbody:nth-child(even) {
 		background: $u-bg-color;
 	}
 	.left {
+		width: 15%;
+		text-align: center;
+	}
+	.mdl {
 		width: 20%;
 		text-align: center;
 	}
-	.md {
-		width: calc(35% - 40rpx);
+	.mdr {
+		width: 30%;
 		text-align: center;
 	}
 	.right {

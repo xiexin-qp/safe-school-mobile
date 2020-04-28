@@ -1,23 +1,22 @@
 <template>
   <view class="qui-page">
     <view class="list">
-      <view class="th qui-fx-jsa qui-fx-ac qui-fx-jc">
+      <view class="th qui-fx-ac">
         <text class="left">姓名</text>
-        <view class="md qui-fx-ac qui-fx-jc">
+        <view class="mdl qui-fx-ac qui-fx-jc">
           <text>性别</text>
-          <view class="icon qui-fx-ver"></view>
         </view>
         <!-- <text class="right">组织机构</text> -->
-        <text class="right">手机号</text>
-        <text class="right last">操作</text>
+        <text class="mdr">手机号</text>
+        <text class="right">操作</text>
       </view>
       <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
-        <view v-for="(item, i) in groupuserList" :key="i" class="tbody qui-bd-b qui-fx-jsb qui-fx-ac">
+        <view v-for="(item, i) in groupuserList" :key="i" class="tbody qui-bd-b qui-fx-ac">
           <text class="left">{{ item.userName }}</text>
-          <text class="md">{{ item.sex =='1'?'男' : '女' }}</text>
+          <text class="mdl">{{ item.sex =='1'?'男' : '女' }}</text>
           <!-- <text class="right">{{ item.orgName }}</text> -->
-          <text class="right">{{ item.mobile }}</text>
-		  <u-tag class="right last" text="删除" type="error" @click="actionsheet(item)" />
+          <text class="mdr">{{ item.mobile }}</text>
+		  <u-tag class="right" text="删除" type="error" @click="actionsheet(item)" />
          <!-- <text class="right" @click="actionsheet(item)">删除</text> -->
         </view>
       </scroll-view>
@@ -115,33 +114,34 @@ export default {
   font-size: 28rpx;
   .th {
     background: #7b92f5;
-    padding: 20rpx 0;
+    padding: 20rpx;
     border-radius: 8rpx;
     color: #fff;
   }
   .tbody {
     position: relative;
-    padding: 25rpx 10rpx;
+    padding: 25rpx 20rpx;
 	background: $uni-bg-color;
   }
   .tbody:nth-child(even) {
      background: $u-bg-color;
   }
   .left {
-    width: 20%;
-    text-align: center;
+  	width: 20%;
+  	text-align: center;
   }
-  .md {
-    width: calc(35% - 40rpx);
-    text-align: center;
+  .mdl {
+  	width: 20%;
+  	text-align: center;
+  }
+  .mdr {
+  	width: 40%;
+  	text-align: center;
   }
   .right {
-    width: 35%;
-    text-align: center;
-  }
-  .last{
-	  max-width: 120rpx;
-	  margin:0 20rpx;
+  	width: 20%;
+	max-width: 120rpx;
+  	text-align: center;
   }
 }
 .scroll-h {

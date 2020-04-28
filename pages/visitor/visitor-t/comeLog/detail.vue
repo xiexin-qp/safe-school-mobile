@@ -36,11 +36,11 @@
 		<view class="log qui-fx-jsb">
 			<view class="start qui-fx-ac">
 				<icon type="info" size="24" />
-				<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</text>
+				<text  class="mar-l20">随行人数：{{ comeLog.togetherNum || 0 }}</text>
 			</view>
 			<view class="end qui-fx-ac">
 				<icon type="waiting" size="24" />
-				<text style="margin-left: 10rpx;">来访时长：{{ comeLog.duration }}小时</text>
+				<text  class="mar-l20">来访时长：{{ comeLog.duration }}小时</text>
 			</view>
 		</view>
 	</view>
@@ -97,7 +97,7 @@ export default {
 	.top {
 		width: 100%;
 		height: 362rpx;
-		background: url('/mobile-img/person-bg.png') no-repeat;
+		background: url('http://canpointtest.com/mobile-img/person-bg.png') no-repeat;
 		background-size: 100% 362rpx;
 		margin: 20rpx 0 40rpx 0;
 		color: $uni-bg-color;

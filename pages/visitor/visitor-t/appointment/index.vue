@@ -13,8 +13,8 @@
 		<scroll-view v-else scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
 			<view class="approve-list" v-for="(item, i) in appointList" :key="i">
 				<view class="detail qui-fx">
-					<view class="process-type" style="right: 20rpx" v-if="item.state == '0'"><view class="wait" @click="appoint(item)">···</view></view>
-					<view class="process-type" style="right: 20rpx" v-else><view class="cancel">···</view></view>
+					<view class="process-type" v-if="item.state == '0'"><view class="wait" @click="appoint(item)">···</view></view>
+					<view class="process-type" v-else><view class="cancel">···</view></view>
 					<view class="info qui-fx-ac">
 						<view class="img"><image :src="item.registPhoto ? item.registPhoto : errorImg" alt="" /></view>
 						<view class="list qui-fx-f1">

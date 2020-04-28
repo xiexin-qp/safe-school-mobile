@@ -26,8 +26,8 @@
 				<view class="qui-fx-ver">
 					<view class="end qui-fx-ac">
 						<icon type="info" size="24" />
-						<view style="margin-left: 10rpx;" v-if="state !== '0'">随行人数：{{ comeLog.togetherNum || 0 }}</view>
-						<view style="margin-left: 10rpx;" v-else class="qui-fx-ac togethernum">
+						<view class="mar-l20" v-if="state !== '0'">随行人数：{{ comeLog.togetherNum || 0 }}</view>
+						<view v-else class="qui-fx-ac togethernum mar-l20">
 							随行人数：
 							<input type="number" v-model="comeLog.togetherNum" focus placeholder="" />
 						</view>
@@ -37,20 +37,20 @@
 			<view v-if="refuseTag || state == '2'" class="log qui-fx-jsb">
 				<view class="start qui-fx-ac">
 					<icon type="cancel" size="24" />
-					<text style="margin-left: 10rpx;">拒绝原因：{{ comeLog.reason }}</text>
+					<text class="mar-l20">拒绝原因：{{ comeLog.reason }}</text>
 				</view>
 			</view>
 			<view v-if="state == '1'" class="log">
 				<view class="start qui-fx-ac">
-					<u-icon name="photo" size="42" color="#10aeff" style="border: none;margin-right: 0;"></u-icon>
-					<text style="margin-left: 10rpx;">我的照片：</text>
+					<u-icon name="photo" size="42" color="#10aeff" class="icon"></u-icon>
+					<text class="mar-l20">我的照片：</text>
 				</view>
 				<image class="myphoto" :src="comeLog.visitorUrl ? comeLog.visitorUrl : errorImg" alt="">
 			</view>
 			<view v-if="state == '0'" class="log">
 				<view class="item-list">
 					<view>我的照片：</view>
-					<view class="qui-fx-f1"><an-upload-img total="1" v-model="imgList" style="margin: 20rpx"></an-upload-img></view>
+					<view class="qui-fx-f1"><an-upload-img total="1" v-model="imgList" class="mar-20"></an-upload-img></view>
 					<view class="sub-title">请上传1张本人正脸清晰照片用于来访识别。</view>
 				</view>
 			</view>
@@ -190,7 +190,7 @@ export default {
 	.top {
 		width: 100%;
 		height: 362rpx;
-		background: url('/mobile-img/person-bg.png') no-repeat;
+		background: url('http://canpointtest.com/mobile-img/person-bg.png') no-repeat;
 		background-size: 100% 362rpx;
 		margin: 20rpx 0 40rpx 0;
 		color: $uni-bg-color;
@@ -317,5 +317,9 @@ export default {
 			border-radius: 4rpx;
 		}
 	}
+}
+icon{
+	border: none;
+	margin-right: 0;
 }
 </style>

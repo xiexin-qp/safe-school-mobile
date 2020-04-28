@@ -12,12 +12,12 @@
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view class="tip">被访人姓名：</view>
-				<view class="qui-fx-f1"><input :disabled="disabledTag" class="item-input" v-model="formData.visitorName" style="text-align: right;" placeholder="请输入" /></view>
+				<view class="qui-fx-f1"><input :disabled="disabledTag" class="item-input al-r" v-model="formData.visitorName" placeholder="请输入" /></view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view class="tip">被访人手机号：</view>
 				<view class="qui-fx-f1 qui-fx-je">
-					<input :disabled="disabledTag" class="item-input" v-model="formData.phone" style="text-align: right;" placeholder="请输入" />
+					<input :disabled="disabledTag" class="item-input al-r" v-model="formData.phone" placeholder="请输入" />
 				</view>
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
@@ -37,12 +37,12 @@
 			</view>
 			<view class="qui-fx-ac qui-bd-b item-list">
 				<view>随行人数：</view>
-				<view class="qui-fx-f1"><input class="item-input" v-model="formData.togetherNum" style="text-align: right;" placeholder="0" /></view>
+				<view class="qui-fx-f1"><input class="item-input al-r" v-model="formData.togetherNum" placeholder="0" /></view>
 			</view>
 			<view class="log">
 				<view class="item-list">
 					<view class="tip">我的照片：</view>
-					<view class="qui-fx-f1"><an-upload-img total="1" v-model="imgList" style="margin: 20rpx"></an-upload-img></view>
+					<view class="qui-fx-f1"><an-upload-img total="1" v-model="imgList" class="mar-20"></an-upload-img></view>
 					<view class="sub-title">请上传1张本人正脸清晰照片用于来访识别。</view>
 				</view>
 			</view>
@@ -296,5 +296,8 @@ export default {
 	padding: 40rpx 0rpx;
 	margin: 20rpx 0 40rpx 0;
 	border-bottom: 1px solid $u-border-color;
+}
+.al-r{
+	text-align: right;
 }
 </style>
