@@ -25,7 +25,6 @@ if (ConfigEnv === 'production') {
 	zx_protal = '/zx_protal'
 	lz_attendance = '/lz_attendance'
 	lz_user_center = '/lz_user_center'
-	mobile_img = 'http://canpointlive.com/mobile-img/'
 } else if (ConfigEnv === 'development') {
 	zx_mobile_user = '/zx_mobile_user'
 	wxz_contorl = '/wxz_contorl'
@@ -36,7 +35,6 @@ if (ConfigEnv === 'production') {
 	zx_protal = '/zx_protal'
 	lz_attendance = '/lz_attendance'
 	lz_user_center = '/lz_user_center'
-	mobile_img = 'http://canpointtest.com/mobile-img/'
 }
 
 export default {

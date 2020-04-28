@@ -7,12 +7,12 @@
 		</view>
 		<view v-if="type === 0" class="qui-fx-ac input-box">
 			<input type="number" v-model="phone" class="item-input" placeholder="请输入手机号" />
-			<view class="yzm" :class="{ act: total !== 5 }" @click="getYzm">{{ tip }}</view>
+			<view class="yzm" :class="{ act: total !== 60 }" @click="getYzm">{{ tip }}</view>
 		</view>
 		<view v-if="type === 1" class="qui-fx-ac input-box"><input type="text" v-model="phone" class="item-input" placeholder="请输入手机号" /></view>
 		<view v-if="type === 1" class="qui-fx-ac input-box"><input type="password" v-model="code" class="item-input" placeholder="请输入密码" /></view>
 		<view v-if="type === 0" class="qui-fx-ac input-box"><input type="text" v-model="code" class="item-input" placeholder="请输入验证码" /></view>
-		<view style="width: 80%; margin: 40rpx auto">
+		<view class="btn-mar">
 			<u-button type="primary" @click="login">登录</u-button>
 		</view>
 		<view @click="toReg" class="register">家长注册 ></view>
@@ -59,7 +59,7 @@ export default {
 			const params = new URLSearchParams(url.substr(url.indexOf('?')).replace('#/', ''));
 			this.schoolCode = params.get('schoolCode') || '';
 			// 本地测试使用
-			if (!params.get('openid')) {
+			if (!params.get('openid') && !params.get('code')) {
 				this.$tools.toast('请在地址栏输入openid进行绑定');
 				return;
 			}
@@ -72,8 +72,8 @@ export default {
 			const code = params.get('code');
 			if (uni.getStorageSync('openid')) {
 				const openid = uni.getStorageSync('openid');
-				this.getUserInfo(openid);
 				this.setOpenid(openid);
+				this.getUserInfo(openid);
 			} else {
 				const res = await uniRequest.get('/getOpenid', {
 					params: {
@@ -190,7 +190,7 @@ export default {
 		color: $u-content-color;
 		.act {
 			height: 68rpx;
-			background-color: $u-type-primary;
+			background-color: $u-type-primary-dark;
 			color: #fff;
 		}
 	}
@@ -226,6 +226,9 @@ export default {
 		bottom: 80rpx;
 		right: 100rpx;
 		color: $u-type-primary-dark;
+	}
+	.btn-mar {
+		margin: 80rpx 100rpx;
 	}
 }
 </style>

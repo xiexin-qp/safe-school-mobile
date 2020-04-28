@@ -61,8 +61,8 @@
 		</view>
 		<view class="qui-bd-b item-list">
 		  <view>上传头像：</view>
-		  <view class="qui-fx-f1">
-				<an-upload-img total="1" v-model="formData.photoUrl" style="margin: 20rpx"></an-upload-img>
+		  <view class="qui-fx-f1 u-mar-t">
+				<an-upload-img total="1" v-model="formData.photoUrl"></an-upload-img>
 		  </view>
 		</view>
 		<view v-if="false" class="qui-fx-ac qui-bd-b item-list">
@@ -70,7 +70,7 @@
 			<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.code" placeholder="请输入验证码" /></view>
 			<view class="yzm-btn">获取验证码</view>
 		</view>
-		<view style="margin: 40rpx 20rpx">
+		<view class="btn-mar">
 			<u-button type="primary" @click="register">注册</u-button>
 		</view>
 		<view class="go-login" @click="goLogin">
@@ -247,6 +247,9 @@ export default {
 	margin-left: 30rpx;
 	text-align: center;
 	border-radius: 4rpx;
+}
+.btn-mar {
+	margin: 40rpx 20rpx;
 }
 .go-login {
 	text-align: center;

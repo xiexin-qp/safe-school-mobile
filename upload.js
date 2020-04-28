@@ -10,7 +10,8 @@ const path = require('path')
 const fs = require('fs')
 const AdmZip = require('adm-zip')
 var zip = new AdmZip()
-// const buildModule = process.argv[process.argv.length - 1]
+const env = process.argv[process.argv.length - 1]
+console.log(env)
 const buildModule = '云平台移动端'
 const envHost = {
   prod: {
@@ -23,8 +24,6 @@ const envHost = {
   }
 }
 
-console.log(`${buildModule}模块打包完成`)
-const env = 'test'
 const url = envHost[env].url + '?uploadPath=' + envHost[env].uploadPath
 const msg = env === 'prod' ? '正式环境' : '测试环境'
 console.log(`正在上传${buildModule}模块到${msg}`)
