@@ -14,13 +14,13 @@
       <view class="btn save" @click="isEdit = false">完成</view>
     </view>
     <view v-if="isEdit" class="system-list edit-app qui-bd-t">
-      <div v-if="enjoyApp.length === 0" class="no-app u-tips-color">暂未添加常用模块...</div>
+      <div v-if="enjoyApp.length === 0" class="no-app u-tips-color">暂未添加模块到首页，请点击添加</div>
       <view @click="delEnjoy(enjoy.code)" v-for="enjoy in enjoyApp" :key="enjoy.id" class="app qui-fx-ac-jc" :class="{'act': isEdit}">
 				<image class="del-add-img" src="/mobile-img/del-app-icon.png"></image>
         <view>
           <image class="app-icon" :src="enjoy.icon || '/mobile-img/app-auto-icon.png'" alt="">
         </view>
-        <text class="text">{{ enjoy.name.split('-')[0] }}</text>
+        <text class="text u-font-01 u-content-color">{{ enjoy.name.split('-')[0] }}</text>
       </view>
     </view>
     <view class="app-module">
@@ -149,7 +149,6 @@
     background-color: #fff;
     padding: 0 20rpx;
     .text {
-      color: #666;
       padding-right: 10rpx;
     }
     .app {

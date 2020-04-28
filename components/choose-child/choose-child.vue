@@ -37,7 +37,7 @@
 		width: 200rpx;
 		border-radius: 10rpx;
 		height: 80rpx;
-		background-color: $main-color;
+		background-color: $u-type-primary-dark;
 		color:#fff;
 		bottom: 20rpx;
 		left: -10rpx;

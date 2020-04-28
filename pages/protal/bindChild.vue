@@ -2,7 +2,7 @@
 	<scroll-view scroll-y="true" class="scroll-h u-bg-fff">
 		<view class="qui-fx-ac qui-bd-b qui-fx-jsb item-list">
 			<view>学校：</view>
-			<view class="qui-tx-r">{{ schoolName }}</view>
+			<view class="qui-tx-r u-content-color">{{ schoolName }}</view>
 		</view>
 		<view class="qui-fx-ac qui-bd-b item-list">
 			<view>年级：</view>
@@ -188,7 +188,7 @@ export default {
 .item-input {
 	width: 100%;
 	font-size: 26rpx;
-	color: #666;
+	color: $u-content-color;
 	text-align: right;
 }
 .col-666 {

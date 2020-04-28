@@ -21,7 +21,6 @@
 
 <script>
 import { setStore, actions } from './store/index.js';
-
 export default {
 	data() {
 		return {
@@ -35,9 +34,6 @@ export default {
 	computed: {},
 	components: {},
 	mounted() {
-		if (process.env.NODE_ENV === 'development') {
-			// new vConsole();
-		}
 		this.getOpenid();
 		// 处理界面错位问题
 		document.body.addEventListener('focusin', () => {
