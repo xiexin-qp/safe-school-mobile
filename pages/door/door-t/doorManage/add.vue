@@ -1,7 +1,7 @@
 <template>
 	<view class="qui-page">
 		<view class="list">
-			<!-- <view class="head"><uni-search-bar class="search" placeholder="输入姓名/手机号/工号搜索" @confirm="search"></uni-search-bar></view> -->
+			<view class="head"><uni-search-bar class="search" placeholder="输入姓名/手机号/工号搜索" @confirm="search"></uni-search-bar></view>
 			<view class="th qui-fx-jsa qui-fx-ac qui-fx-jc title_">
 				<text class="left">选择</text>
 				<text class="mdl">姓名</text>
@@ -218,7 +218,7 @@ export default {
 
 <style lang="scss">
 .scroll-h {
-	height: calc(100vh - 250rpx);
+	height: calc(100vh - 330rpx);
 }
 .head {
 	height: 100rpx;
