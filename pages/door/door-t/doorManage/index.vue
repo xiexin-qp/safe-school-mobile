@@ -5,8 +5,8 @@
 		<scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
 			<view class="approve-list" v-for="(item, i) in groupList" :key="i">
 				<view class="detail qui-fx">
-					<view class="process-type">
-						<view class="div-btn" @click="goDetail(item)">···</view>
+					<view class="process-type" @click="goDetail(item)">
+						<view class="div-btn">···</view>
 					</view>
 					<view class="info qui-fx-ac">
 						<view class="list qui-fx-f1">
@@ -14,17 +14,13 @@
 							<view class="normal-time qui-fx-ac" v-for="(ele, i) in item.timeRuleList" :key="i">
 								<text class="padd-r20">星期{{ toWeekName(ele.weekCode) }}</text>
 								<view class="padd-t20 padd-b20" v-for="(item, j) in ele.timeRuleList" :key="j">
-									<text>{{ item.accessStart }}</text>
+									<text>{{ item.accessStart.split(':')[0] }} : {{ item.accessStart.split(':')[1] }}</text>
 									<text>~</text>
-									<text>{{ item.accessEnd }}</text>
+									<text>{{ item.accessEnd.split(':')[0] }} : {{ item.accessEnd.split(':')[1] }}</text>
 								</view>
 							</view>
 							<view class="qui-fx-wp">
-								<view
-									class="work-title normal-equ"
-									v-for="item in item.controlGroupList"
-									:key="item.controlGroupCode"
-								>{{ item.controlGroupName }}</view>
+								<u-tag class="mar-r20 mar-b20" :text="item.controlGroupName" type="info" v-for="item in item.controlGroupList" :key="item.controlGroupCode"/>
 							</view>
 						</view>
 					</view>
@@ -97,13 +93,13 @@ export default {
     },
     toWeekName(day) {
       let week = new Map();
-      week.set(1, "一");
-      week.set(2, "二");
-      week.set(3, "三");
-      week.set(4, "四");
-      week.set(5, "五");
-      week.set(6, "六");
-      week.set(7, "日");
+      week.set(2, "一");
+      week.set(3, "二");
+      week.set(4, "三");
+      week.set(5, "四");
+      week.set(6, "五");
+      week.set(7, "六");
+      week.set(1, "日");
       return week.get(day);
     }
   }
@@ -160,6 +156,7 @@ export default {
     right: 20rpx;
     position: absolute;
     font-size: 48rpx;
+	z-index: 99;
   }
 }
 </style>

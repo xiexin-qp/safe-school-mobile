@@ -2,7 +2,7 @@
 	<view class="detail qui-page">
 		<view class="top qui-fx-jsb">
 			<view class="info qui-fx-ac">
-				<image :src="comeLog.visitorUrl ? comeLog.visitorUrl :errorImg" alt="">
+				<image :src="comeLog.resUrl ? comeLog.resUrl :errorImg" alt="">
 				<view class="qui-fx-ver">
 					<text class="name">{{ visitorName }}</text>
 					<text class="phone">{{ visitorPhone }}</text>
@@ -36,11 +36,11 @@
 		<view class="log qui-fx-jsb">
 			<view class="start qui-fx-ac">
 				<icon type="info" size="24" />
-				<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</text>
+				<text class="mar-l20">随行人数：{{ comeLog.togetherNum || 0 }}</text>
 			</view>
 			<view class="end qui-fx-ac">
 				<icon type="waiting" size="24" />
-				<text style="margin-left: 10rpx;">来访时长：{{ comeLog.duration }}小时</text>
+				<text class="mar-l20">来访时长：{{ comeLog.duration }}小时</text>
 			</view>
 		</view>
 	</view>
@@ -65,7 +65,7 @@ export default {
 				outPlace: '',
 				togetherNum: '',
 				duration: '',
-				visitorUrl: ''
+				resUrl: ''
 			}
 		};
 	},

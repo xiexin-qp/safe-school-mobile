@@ -26,21 +26,21 @@
 				<view class="qui-fx-ver">
 					<view class="end qui-fx-ac">
 						<icon type="info" size="24" />
-						<text style="margin-left: 10rpx;">随行人数：{{ comeLog.togetherNum || 0 }}</text>
+						<text class="mar-l20">随行人数：{{ comeLog.togetherNum || 0 }}</text>
 					</view>
 				</view>
 			</view>
 			<view class="log">
 				<view class="start qui-fx-ac">
-					<u-icon name="photo" size="42" color="#10aeff" style="border: none;margin-right: 0;"></u-icon>
-					<text style="margin-left: 10rpx;">我的照片：</text>
+					<u-icon name="photo" size="42" color="#10aeff" class="icon"></u-icon>
+					<text class="mar-l20">我的照片：</text>
 				</view>
 				<image class="myphoto" :src="comeLog.visitorUrl ? comeLog.visitorUrl : errorImg" alt="">
 			</view>
 			<view v-if="state == 2" class="log qui-fx-jsb">
 				<view class="start qui-fx-ac">
 					<icon type="cancel" size="24" />
-					<text style="margin-left: 10rpx;">拒绝原因：{{ comeLog.reason }}</text>
+					<text class="mar-l20">拒绝原因：{{ comeLog.reason }}</text>
 				</view>
 			</view>
 		</view>
@@ -155,6 +155,10 @@ export default {
 			height: 100rpx;
 			margin: 20rpx 20rpx 20rpx 60rpx;
 		}
+	}
+	.icon{
+		border: none;
+		margin-right: 0;
 	}
 }
 </style>

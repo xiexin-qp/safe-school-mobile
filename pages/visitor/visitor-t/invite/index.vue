@@ -6,7 +6,7 @@
 		<scroll-view v-else scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
 			<view class="approve-list" v-for="(item, i) in appointList" :key="i">
 				<view class="detail qui-fx">
-					<view class="process-type" style="right: 20rpx"><view class="wait" @click="appoint(item)">···</view></view>
+					<view class="process-type"><view class="wait" @click="appoint(item)">···</view></view>
 					<view class="info qui-fx-ac">
 						<view class="img"><image :src="item.registPhoto ? item.registPhoto : errorImg" alt="" /></view>
 						<view class="list qui-fx-f1">
