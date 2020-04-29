@@ -83,6 +83,23 @@
 			"path": "pages/door/door-t/doorManage/add",
 			"style": {}
 		},
+		// 宿管模块
+		{
+			"path": "pages/housemaster/housemaster-p/accessRecords/index",
+			"style": {}
+		},
+		{
+			"path": "pages/housemaster/housemaster-p/checkSleep/index",
+			"style": {}
+		},
+		{
+			"path": "pages/housemaster/housemaster-p/dormitoryRecords/index",
+			"style": {}
+		},
+		{
+			"path": "pages/housemaster/housemaster-p/statistics/index",
+			"style": {}
+		},
 		// 教师访客管理
 		{
 			"path": "pages/visitor/visitor-t/visitorLog/index",
