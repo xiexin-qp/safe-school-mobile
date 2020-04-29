@@ -51,7 +51,7 @@
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
 			  <view>审批人：</view>
-         <view @click="check(1)" class="qui-fx-f1 qui-fx rit-icon">
+          <view @click="check(1)" class="qui-fx-f1 qui-fx">
           <view class="qui-fx-f1 u-content-color qui-tx-r" >
             {{ leaveInfo.leaveApprovalAddDto.userName }}
           </view>
@@ -60,7 +60,7 @@
 			</view>
       <view class="qui-fx-ac qui-bd-b item-list">
 			  <view>抄送人：</view>
-        <view @click="check(2)" class="qui-fx-f1 qui-fx rit-icon">
+        <view @click="check(2)" class="qui-fx-f1 qui-fx">
           <view class="copyer qui-fx-f1 u-content-color qui-tx-r">
             <u-tag 
               @close="tagClick(item)"
@@ -468,11 +468,13 @@
     }
   }
 }
-.copyer .u-size-default {
-	padding: 10rpx 5rpx;
+.copyer {
+  .u-size-default {
+    padding: 10rpx 5rpx;
+  }
 }
 .img-margin {
-  margin: 40rpx
+  margin: 20rpx
 }
 .mar-l10 {
   margin-left: 10rpx;
