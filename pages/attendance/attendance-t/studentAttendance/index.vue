@@ -20,7 +20,7 @@
         </view>
       </view>
     </view>
-    <u-popup ref="popup" mode="center" length="65%">
+    <u-popup ref="popup" mode="center" length="75%">
      	<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
         <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
           <text> {{ list.userName }} </text>
