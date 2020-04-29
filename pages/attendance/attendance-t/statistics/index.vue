@@ -190,7 +190,7 @@ export default {
 <style lang="scss" scoped>
 .statistics {
 	.year-list {
-	    background-color:#0079ff;
+	    background-color: $u-type-primary;
 	    .title {
 	      color:$uni-bg-color;
 	      font-size: 34rpx;
@@ -209,8 +209,8 @@ export default {
 	        border-radius: 100%;
 	      }
 	      .act {
-	        background-color:$uni-bg-color;
-	        color: #0079ff;
+	        background-color: $uni-bg-color;
+	        color: $u-type-primary;
 	        font-weight: bold
 	      }
 	    }
@@ -242,7 +242,7 @@ export default {
           margin-bottom: 10rpx;
         }
          .attandence-num {
-          color: #ccc;
+          color: $u-light-color;
           font-size: 28rpx;
         }
       }

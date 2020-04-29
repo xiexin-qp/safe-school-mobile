@@ -237,7 +237,7 @@ export default {
         }
       }
       .active {
-        background-color: #dce6e6;
+        background-color: $u-border-color-one;
       }
     }
   };
