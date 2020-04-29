@@ -21,6 +21,7 @@
 
 <script>
 import { setStore, actions } from './store/index.js';
+import uniRequest from 'uni-request'
 export default {
 	data() {
 		return {
@@ -221,10 +222,9 @@ export default {
 		}
 	}
 	.register {
-		position: fixed;
-		z-index: 99;
-		bottom: 80rpx;
-		right: 100rpx;
+		margin-top: 100rpx;
+		text-align: right;
+		padding-right: 120rpx;
 		color: $u-type-primary-dark;
 	}
 	.btn-mar {
