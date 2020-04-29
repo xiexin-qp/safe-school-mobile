@@ -172,6 +172,7 @@
       },
       changeAction () {
         this.$tools.actionsheet(this.typeList, (item) => {
+					console.log(item)
 					this.formData.type = item.label
         })
       },
