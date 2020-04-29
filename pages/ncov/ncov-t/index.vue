@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { store, actions } from '../store/index.js';
+import { store, actions } from './store/index.js';
 export default {
 	data() {
 		return {};
