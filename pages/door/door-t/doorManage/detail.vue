@@ -10,7 +10,8 @@
         <text class="mdr">手机号</text>
         <text class="right">操作</text>
       </view>
-      <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
+	  <no-data msg="暂无数据" v-if="groupuserList.length === 0"></no-data>
+      <scroll-view v-else scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
         <view v-for="(item, i) in groupuserList" :key="i" class="tbody qui-bd-b qui-fx-ac">
           <text class="left">{{ item.userName }}</text>
           <text class="mdl">{{ item.sex =='1'?'男' : '女' }}</text>
