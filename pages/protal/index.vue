@@ -213,11 +213,11 @@ export default {
 		line-height: 60rpx;
 		height: 60rpx;
 		border-radius: 6rpx;
-		background-color: $u-type-primary-dark;
+		background-color: $u-type-info;
 		color: #fff;
 		&.act {
 			width: 120rpx;
-			background-color: $u-type-primary-disabled;
+			background-color: $u-type-info-disabled;
 		}
 	}
 	.register {

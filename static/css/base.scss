@@ -310,17 +310,20 @@ only screen and (min-device-pixel-ratio: 2) {
 .qui-fx-f1 {
 	min-width: 0px;
 	flex: 1;
+	min-height: 20rpx;
 	position: relative;
 }
 
 .qui-fx-f2 {
 	min-width: 0px;
 	flex: 2;
+	min-height: 20rpx;
 	position: relative;
 }
 
 .qui-fx-f3 {
 	min-width: 0px;
 	flex: 3;
+	min-height: 20rpx;
 	position: relative;
 }

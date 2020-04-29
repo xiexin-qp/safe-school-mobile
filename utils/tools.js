@@ -100,10 +100,23 @@ const tools = {
 	},
 	// 底部弹出菜单
 	actionsheet(arr, cb) {
+		if (arr.length === 0) return
+		let newArr
+		if (typeof arr[0] === 'object') {
+				newArr = arr.map(item => {
+					return item.label
+				})
+		} else {
+			newArr = arr
+		}
 		uni.showActionSheet({
-			itemList: arr,
+			itemList: newArr,
 			success: function(res) {
-				cb(res.tapIndex)
+				if (typeof arr[0] === 'object') {
+					cb(arr[res.tapIndex])
+				} else {
+					cb(res.tapIndex)
+				}
 			},
 			fail: function(res) {}
 		});

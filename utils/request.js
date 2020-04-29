@@ -30,7 +30,7 @@ function responseRes(res) {
 			resolve(res)
 		} else if (res.code === 401) {} else {
 			uni.showToast({
-				title: res.message,
+				title: res.message || '请求服务失败~',
 				icon: 'none'
 			});
 		}

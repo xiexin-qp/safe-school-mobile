@@ -108,7 +108,7 @@ import { store, actions } from '../store/index.js'
 	.set-2::before {
 		content: "\e64d";
 		/* 必须存在如果没有图标就留空 */
-		color: #007AFF;
+		color: $u-type-primary;
 		/* 设置颜色 */
 		position: absolute;
 		/* 定位 */

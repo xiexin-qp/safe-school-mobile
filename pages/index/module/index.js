@@ -4,6 +4,7 @@ import door from './door.js'
 import attendance from './attendance.js'
 import news from './news.js'
 import housemaster from './housemaster.js'
+import ncov from './ncov.js'
 
 const moduleList = [
   ...protal,
@@ -11,7 +12,9 @@ const moduleList = [
   ...attendance,
   ...door,
   ...news,
-  ...housemaster
+  ...housemaster,
+  ...ncov,
+  ...news
 ]
 
 export default moduleList
