@@ -227,10 +227,10 @@ export default {
 
 <style lang="scss" scoped>
 .leave {
-  background-color: $bor-color;
+  background-color: $u-bg-color;
   position: relative;
   .select-box {
-    background-color: #f1f8ff;
+    background-color: $u-bg-color;
     padding: 20rpx 0;
     .select {
       width: 30%;
@@ -265,7 +265,7 @@ export default {
           }
         }
         .leave-info {
-          color: #acafaf;
+          color: $u-tips-color;
           .leave-pur{
             padding: 6rpx 0;
             font-size: 28rpx;
@@ -275,9 +275,9 @@ export default {
           margin-top: 10rpx;
           padding-top: 10rpx;
           font-size: 28rpx;
-          border-top: 1rpx solid #f9fbfb;
+          border-top: 1rpx solid $u-border-color-four;
           .leave-time {
-            color:#cbcdcd;
+            color: $u-light-color;
           }
           .leave-detail {
             font-weight: bold;
@@ -295,7 +295,7 @@ export default {
   .dropdown-menu {
     width: 50%;
     padding: 2rpx 0;
-    border: 1rpx solid #ddd;
+    border: 1rpx solid $u-border-color;
     border-radius: 8rpx;
     margin-bottom: 10rpx;
   }

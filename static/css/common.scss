@@ -2,9 +2,6 @@
 /**
  * @des 盒子间距
  */
-.mar-20 {
-	margin: 20rpx
-}
 .mar-t20 {
 	margin-top: 20rpx
 }
@@ -15,7 +12,7 @@
 	margin-right: 20rpx
 }
 .mar-b20 {
-	margin-top: 20rpx
+	margin-bottom: 20rpx
 }
 .padd-t20 {
 	padding-top: 20rpx
@@ -51,7 +48,7 @@
 	height: 120rpx;
 	bottom: 80rpx;
 	right: 40rpx;
-	background: url(http://canpointtest.com/mobile-img/add-btn.png) no-repeat;
+	background: url(/mobile-img/add-btn.png) no-repeat;
 	background-size: 100%;
 	z-index: 88;
 }
@@ -61,7 +58,7 @@
 .rit-icon {
 	width: 34rpx;
 	height: 34rpx;
-	background: url(http://canpointtest.com/mobile-img/rit-icon.png) no-repeat;
+	background: url(/mobile-img/rit-icon.png);
 	background-size: 100%;
 }
 
@@ -75,14 +72,14 @@
  * 审批状态
  */
 .wait {
-	color: $u-type-primary;
+	color: $uni-color-primary;
 }
 .agree {
-	color: $u-type-success;
+	color: $uni-color-success;
 }
 .refuse {
-	color: $u-type-error;
+	color: $uni-color-error;
 }
 .cancel {
-	color: $u-type-info;
+	color: $uni-text-color;
 }

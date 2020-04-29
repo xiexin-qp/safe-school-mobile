@@ -1,9 +1,8 @@
 <template>
   <view class="add">
-    <scroll-view scroll-y="true" class="scroll-h">
+    <scroll-view scroll-y="true" class="scroll-h u-bg-fff">
       <view class="qui-fx-ac qui-bd-b item-list">
-        <view class="must">*</view>
-			  <view>请假学生：</view>
+			  <view class="tip">请假学生：</view>
         <view @click="check(1)" class="qui-fx-f1 qui-fx qui-tx-r">
           <view class="qui-fx-f1 u-content-color" >
             {{leaveInfo.userName}}
@@ -12,8 +11,7 @@
         </view>
 			</view>
       <view class="qui-fx-ac qui-bd-b item-list">
-        <view class="must">*</view>
-        <view>请假类型：</view>
+        <view class="tip">请假类型：</view>
         <view class="qui-fx-f1 qui-fx-je u-content-color">
           <picker mode="selector" :value="currentRole" :range="role" @change="chooseRole">
             {{role[currentRole]}}
@@ -22,8 +20,7 @@
         <view class="rit-icon"></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
-        <view class="must">*</view>
-        <view>开始时间：</view>
+        <view class="tip">开始时间：</view>
         <view class="qui-fx-f1 qui-fx-je"  @click="startShow = true">
           <u-picker mode="time" v-model="startShow" :params="params" @confirm="startConfirm"></u-picker>
           <view class="uni-input u-content-color">{{leaveInfo.startDate}}</view>
@@ -31,8 +28,7 @@
         </view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
-        <view class="must">*</view>
-        <view>结束时间：</view>
+        <view class="tip">结束时间：</view>
         <view class="qui-fx-f1 qui-fx-je"  @click="endShow = true">
           <u-picker mode="time" v-model="endShow" :params="params" @confirm="endConfirm"></u-picker>
           <view class="uni-input u-content-color">{{leaveInfo.endDate}}</view>
@@ -40,8 +36,7 @@
         </view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
-        <view class="must">*</view>
-        <view>请假时长：</view>
+        <view class="tip">请假时长：</view>
         <view class="qui-fx-f1 qui-fx-je u-content-color">{{ leaveInfo.duration }}小时</view>
       </view>
       <view class="qui-fx qui-bd-b item-list">
@@ -49,8 +44,7 @@
         <view class="qui-fx-f1 qui-tx-r"><textarea v-model="leaveInfo.remark" class="item-input u-content-color" placeholder="请输入描述" /></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
-        <view class="must">*</view>
-        <view>是否出校：</view>
+        <view class="tip">是否出校：</view>
         <view class="qui-fx-f1 qui-fx-je col-666">
           <radio-group @change="radioChange">
             <label><radio value="Y" :checked="leaveInfo.outSchool === 'Y'" />是</label>
@@ -97,12 +91,16 @@
               <radio :id="item.userCode" :value='`${item.userCode}^${item.userName}=${item.photoUrl}`' :checked="item.checked"></radio>
             </label>
           </radio-group>
-          <view class="submit-btn student-btn qui-fx">
+          <!-- <view class="submit-btn student-btn qui-fx">
             <u-button class="btn u-font-01" @click="cancel(1)">取消</u-button>
             <u-button type="primary" class="btn u-font-01" @click="ok(1)">确定</u-button>
-          </view>
+          </view> -->
         </view>
       </scroll-view>
+       <view class="submit-btn qui-fx-ac">
+        <u-button class="btn u-font-01" size="mini"  @click="cancel(1)">取消</u-button>
+        <u-button class="btn u-font-01" type="primary"  size="mini" @click="ok(1)">确定</u-button>
+      </view>
     </u-popup>
     <u-popup ref="checkPopup" mode="center" :mask-close-able="false" length="75%">
       <view class="search"> 
@@ -118,12 +116,16 @@
               <u-checkbox @change="checkBox" v-model="item.checked" :name="`${item.userCode}^${item.userName}=${item.photoUrl}`"></u-checkbox>
             </label>
           </u-checkbox-group>
-          <view class="submit-btn qui-fx">
+          <!-- <view class="submit-btn qui-fx">
             <u-button class="btn u-font-01" @click="cancel(0)">取消</u-button>
             <u-button type="primary" class="btn u-font-01" @click="ok(0)">确定</u-button>
-          </view>
+          </view> -->
         </view>
       </scroll-view>
+       <view class="submit-btn qui-fx-ac">
+        <u-button class="btn u-font-01" size="mini"  @click="cancel(0)">取消</u-button>
+        <u-button class="btn u-font-01" type="primary"  size="mini" @click="ok(0)">确定</u-button>
+      </view>
     </u-popup>
   </view>
 </template>
@@ -427,17 +429,21 @@
   .scroll-h {
     height: calc(100vh - 100rpx);
   }
-  .must {
-    color: red;
-    margin-right: 5rpx;
-  }
   .item-list {
-    padding: 25rpx 15rpx;
-    background-color: $uni-bg-color;
+    padding: 25rpx 15rpx 25rpx 25rpx;
+    .tip::before {
+			position: absolute;
+			z-index: 99;
+			content: "*";
+			top: 30rpx;
+			color: $u-type-error;
+			font-weight: bold;
+			left: 8rpx;
+		}
     .item-input {
       width: 100%;
       font-size: 26rpx;
-      color: #999;
+      color: $u-tips-color;
     }
     .radio {
       padding-left: 25rpx
@@ -460,8 +466,7 @@
     padding: 20rpx;
   }
   .scroll {
-    height: 78vh;
-    padding-bottom: 10vh;
+    height: 70vh;
     .list {
       padding: 15rpx 25rpx;
       image {
@@ -472,19 +477,6 @@
     .u-checkbox-group {
       display: flex;
       flex-direction: column;
-    }
-    .submit-btn {
-      height: 80rpx;
-      position: fixed;
-      bottom: 8vh;
-      left: 27%;
-      .btn {
-        height: 50rpx;
-        line-height: 50rpx;
-        text-align: center;
-        letter-spacing: 8rpx;
-        margin: 0 20rpx;
-      }
     }
     .student-btn {
       bottom: 12vh;
@@ -501,5 +493,13 @@
 }
 .mar-l10 {
   margin-left: 10rpx;
+}
+.submit-btn {
+  height: 80rpx;
+  justify-content: center;
+  .btn {
+    letter-spacing: 8rpx;
+    margin: 0 20rpx;
+  }
 }
 </style>

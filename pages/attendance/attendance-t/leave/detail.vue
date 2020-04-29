@@ -80,7 +80,7 @@ export default {
 .detail {
   .leave-detail {
     height: 250rpx;
-    background-color: #f3f9ff;
+    background-color: $u-bg-color;
     .leave-info {
       height: 120rpx;
       padding-left: 20rpx;
@@ -91,7 +91,7 @@ export default {
         width: 150rpx;
         height: 55rpx;
         line-height: 55rpx;
-        background-color: #6d7cff;
+        background-color: $u-type-primary;
         border-radius: 50rpx 0 0 50rpx;
         color: $uni-bg-color;
         font-size: 34rpx;
@@ -106,7 +106,7 @@ export default {
         text-align: center;
         width: 70rpx;
         border-radius: 50%;
-        background-color: #b5c7ff;
+        background-color: $u-type-primary-disabled;
         color: $uni-bg-color;
         font-size: 32rpx;
         margin-right: 20rpx;
@@ -121,7 +121,7 @@ export default {
     height: 220rpx;
     background-color: $uni-bg-color;
     padding: 0 40rpx 20rpx 40rpx;
-    margin-top: 1rpx solid #f0f1f2;
+    margin-top: 1rpx solid $u-border-color-one;
     image {
       width: 100rpx;
       height: 100rpx;
@@ -131,13 +131,13 @@ export default {
     .apply-content {
       margin-left: 40rpx;
       .apply-status {
-        color: #00b800;
+        color: $u-type-success;
       }
       .un-read {
-        color: red;
+        color: $u-type-error;
       }
       .apply-time {
-        color: #dadbdc;
+        color: $u-border-color;
         margin-top:10rpx;
       }
     }
