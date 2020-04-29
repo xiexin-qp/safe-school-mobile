@@ -97,7 +97,7 @@ export default {
     background-color: $uni-bg-color;
     .work-box {
       padding: 30rpx 40rpx;
-      border-bottom: 1rpx solid #cfd0d1;
+      border-bottom: 1rpx solid $u-border-color-one;
       image {
         height: 80rpx;
         width: 80rpx;
@@ -106,13 +106,13 @@ export default {
         margin-top: 20rpx;
       }
       .normal-title {
-        color: #48ce92;
+        color: $u-type-success;
       }
       .absence-title {
         color: $tip-color;
       }
       .unnormal-title {
-        color: #FFCC00;
+        color: $u-type-warning;
       }
     }
   }

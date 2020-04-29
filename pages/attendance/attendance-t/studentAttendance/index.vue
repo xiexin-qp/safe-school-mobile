@@ -201,7 +201,7 @@ export default {
         border-right: none;
       }
       .attandence-num {
-        color: #ccc;
+        color: $u-light-color;
         font-size: 28rpx;
       }
     }
