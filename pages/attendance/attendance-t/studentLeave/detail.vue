@@ -27,7 +27,7 @@
         <view class="leave-remark"> {{ dayInfo.remark ? dayInfo.remark : '暂无' }} </view>
       </scroll-view>
        <view>
-        <view style="margin:0 0 10rpx 20rpx">审批人</view>
+        <view class="apply-person">审批人</view>
         <view class="apply-box qui-fx-ac">
           <view class="qui-fx-ver qui-fx-ac qui-fx-f1">
             <image :src="dayInfo.leaveApprovalAddDto && dayInfo.leaveApprovalAddDto.photoUrl ? dayInfo.leaveApprovalAddDto.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
@@ -40,7 +40,7 @@
         </view>
       </view>
       <view>
-        <view style="margin:0 0 10rpx 20rpx">抄送人</view>
+        <view class="apply-person">抄送人</view>
         <view class="apply-box qui-fx-ac" v-for="copyer in dayInfo.leaveCopyList" :key="copyer.userCode">
           <view class="qui-fx-ver qui-fx-ac qui-fx-f1">
             <image :src="copyer.photoUrl ? copyer.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
@@ -145,5 +145,8 @@ export default {
 }
 .scroll-h{
   height: 100vh;
+}
+.apply-person {
+  margin: 0 0 10rpx 20rpx;
 }
 </style>

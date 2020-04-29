@@ -41,7 +41,7 @@
       </view>
       <view class="qui-fx qui-bd-b item-list">
         <view>描述：</view>
-        <view class="qui-fx-f1"><textarea v-model="leaveInfo.remark" class="item-input u-content-color" style="text-align: right;" placeholder="请输入描述" /></view>
+        <view class="qui-fx-f1 qui-tx-r"><textarea v-model="leaveInfo.remark" class="item-input u-content-color" placeholder="请输入描述" /></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
@@ -55,8 +55,8 @@
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
 			  <view>抄送人：</view>
-        <view @click="check" class="qui-fx-f1 qui-fx rit-icon">
-          <view class="copyer qui-fx-f1 u-content-color" style="text-align:right" >
+        <view @click="check" class="qui-fx-f1 qui-fx">
+          <view class="copyer qui-fx-f1 u-content-color qui-tx-r">
             <u-tag 
               @close="tagClick(item)"
               v-for="(item,index) in leaveInfo.leaveCopyList"
@@ -65,7 +65,8 @@
               mode="light" 
               type="info" 
               closeable 
-              style="margin-left:10rpx" />
+              class="mar-l10"
+              />
           </view>
           <view class="rit-icon"></view>
         </view>
@@ -73,7 +74,7 @@
       <view class="qui-bd-b item-list">
 			  <view>上传附图：</view>
 			  <view class="qui-fx-f1">
-					<an-upload-img total="3" v-model="leaveInfo.photoList" style="margin: 20rpx"></an-upload-img>
+					<an-upload-img total="3" v-model="leaveInfo.photoList" class="upload"></an-upload-img>
 			  </view>
 			</view>
     </scroll-view>
@@ -81,11 +82,11 @@
       <view class="btn" @click="submit">提交</view>
     </view>
     <u-popup ref="checkPopup" mode="center"  :mask-close-able="false" length="75%">
+      <view class="search"> 
+        <u-search placeholder="请输入姓名" v-model="keyword" shape="square" height="65" :show-action="false" :clearabled="false"></u-search>
+      </view>
       <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore">
         <view>
-          <view class="search"> 
-            <u-search placeholder="请输入姓名" v-model="keyword" shape="square" height="55" :show-action="false" :clearabled="false"></u-search>
-          </view>
           <u-checkbox-group>
             <label class="list qui-bd-b qui-fx-jsb" v-for="item in dataList" :key="item.userCode">
               <label :for="item.userName">
@@ -136,7 +137,7 @@
         oddNumbers: '',
         pageList: {
           page: 1,
-          size: 11
+          size: 15
         },
         morePage: false,
         startShow: false,
@@ -365,6 +366,9 @@
     .radio {
       padding-left: 25rpx
     }
+    .upload {
+      margin: 20rpx;
+    }
   }
   .submit-box {
     height: 100rpx;
@@ -379,11 +383,14 @@
       border-radius: $radius;
     }
   }
+  .search {
+    padding: 20rpx;
+  }
   .scroll {
     height: 78vh;
     padding-bottom: 10vh;
-    .search {
-      padding: 20rpx;
+    .user-box {
+      padding-top: 100rpx;
     }
     .list {
       padding: 15rpx 25rpx;
@@ -399,7 +406,7 @@
     .submit-btn {
       height: 80rpx;
       position: fixed;
-      bottom: 12vh;
+      bottom: 8vh;
       left: 27%;
       .btn {
         height: 50rpx;
@@ -411,7 +418,12 @@
     }
   }
 }
-.copyer .u-size-default {
-	padding: 10rpx 5rpx;
+.copyer {
+  .u-size-default {
+    padding: 10rpx 5rpx;
+  }
+}
+.mar-l10 {
+  margin-left: 10rpx;
 }
 </style>

@@ -4,8 +4,8 @@
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
 			  <view>请假学生：</view>
-        <view @click="check(1)" class="qui-fx-f1 qui-fx rit-icon">
-          <view class="qui-fx-f1 u-content-color" style="text-align:right" >
+        <view @click="check(1)" class="qui-fx-f1 qui-fx qui-tx-r">
+          <view class="qui-fx-f1 u-content-color" >
             {{leaveInfo.userName}}
           </view>
           <view class="rit-icon"></view>
@@ -46,7 +46,7 @@
       </view>
       <view class="qui-fx qui-bd-b item-list">
         <view>描述：</view>
-        <view class="qui-fx-f1"><textarea v-model="leaveInfo.remark" class="item-input u-content-color" style="text-align: right;" placeholder="请输入描述" /></view>
+        <view class="qui-fx-f1 qui-tx-r"><textarea v-model="leaveInfo.remark" class="item-input u-content-color" placeholder="请输入描述" /></view>
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
         <view class="must">*</view>
@@ -60,8 +60,8 @@
       </view>
       <view class="qui-fx-ac qui-bd-b item-list">
 			  <view>抄送人：</view>
-        <view @click="check(0)" class="qui-fx-f1 qui-fx rit-icon">
-          <view class="copyer qui-fx-f1 u-content-color" style="text-align:right" >
+        <view @click="check(0)" class="qui-fx-f1 qui-fx">
+          <view class="copyer qui-fx-f1 u-content-color qui-tx-r">
             <u-tag 
               @close="tagClick(item)"
               v-for="(item,index) in leaveInfo.leaveCopyList"
@@ -69,8 +69,9 @@
               :text="item.userName"
               mode="light" 
               type="info" 
-              closeable 
-              style="margin-left:10rpx" />
+              closeable
+              class="mar-l10"
+              />
           </view>
           <view class="rit-icon"></view>
         </view>
@@ -78,7 +79,7 @@
       <view class="qui-bd-b item-list">
 			  <view>上传附图：</view>
 			  <view class="qui-fx-f1">
-					<an-upload-img total="3" v-model="leaveInfo.photoList" style="margin: 20rpx"></an-upload-img>
+					<an-upload-img total="3" v-model="leaveInfo.photoList" class="img-margin"></an-upload-img>
 			  </view>
 			</view>
     </scroll-view>
@@ -96,7 +97,7 @@
               <radio :id="item.userCode" :value='`${item.userCode}^${item.userName}=${item.photoUrl}`' :checked="item.checked"></radio>
             </label>
           </radio-group>
-          <view class="submit-btn qui-fx">
+          <view class="submit-btn student-btn qui-fx">
             <u-button class="btn u-font-01" @click="cancel(1)">取消</u-button>
             <u-button type="primary" class="btn u-font-01" @click="ok(1)">确定</u-button>
           </view>
@@ -104,11 +105,11 @@
       </scroll-view>
     </u-popup>
     <u-popup ref="checkPopup" mode="center" :mask-close-able="false" length="75%">
+      <view class="search"> 
+        <u-search placeholder="请输入姓名" v-model="keyword" shape="square" height="55" :show-action="false" :clearabled="false"></u-search>
+      </view>
       <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore(0)">
         <view>
-          <view class="search"> 
-            <u-search placeholder="请输入姓名" v-model="keyword" shape="square" height="55" :show-action="false" :clearabled="false"></u-search>
-          </view>
           <u-checkbox-group>
             <label class="list qui-bd-b qui-fx-jsb" v-for="item in dataList" :key="item.userCode">
               <label :for="item.userName">
@@ -158,11 +159,11 @@
         oddNumbers: '',
         pageList: {
           page: 1,
-          size: 11
+          size: 15
         },
         orgPageList: {
           page: 1,
-          size: 11
+          size: 15
         },
         morePage: false,
         OrgMorePage: false,
@@ -455,12 +456,12 @@
       border-radius: $radius;
     }
   }
+  .search {
+    padding: 20rpx;
+  }
   .scroll {
     height: 78vh;
     padding-bottom: 10vh;
-    .search {
-      padding: 20rpx;
-    }
     .list {
       padding: 15rpx 25rpx;
       image {
@@ -475,7 +476,7 @@
     .submit-btn {
       height: 80rpx;
       position: fixed;
-      bottom: 12vh;
+      bottom: 8vh;
       left: 27%;
       .btn {
         height: 50rpx;
@@ -485,9 +486,20 @@
         margin: 0 20rpx;
       }
     }
+    .student-btn {
+      bottom: 12vh;
+    }
   }
 }
-.copyer .u-size-default {
-	padding: 10rpx 5rpx;
+.copyer {
+  .u-size-default {
+    padding: 10rpx 5rpx;
+  }
+}
+.img-margin {
+  margin: 20rpx;
+}
+.mar-l10 {
+  margin-left: 10rpx;
 }
 </style>

@@ -9,7 +9,21 @@
 				<text class="right">手机号</text>
 			</view>
 			<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
-				<checkbox-group @change="checkUser">
+				<u-checkbox-group class="qui-fx-ver">
+					<label class="tbody qui-bd-b qui-fx-jsa" v-for="(item, index) in dataList" :key="index">
+						<u-checkbox @change="checkBox" class="left" v-model="item.checked" :name="`${item.userCode}^${item.userName}`"></u-checkbox>
+						<label :for="item.userName" class="mdl">
+							<text>{{ item.userName }}</text>
+						</label>
+						<label :for="item.workNo" class="mdr">
+							<text>{{ item.workNo || '--' }}</text>
+						</label>
+						<label :for="item.mobile" class="right">
+							<text>{{ item.mobile }}</text>
+						</label>
+					</label>
+				</u-checkbox-group>
+				<!-- <checkbox-group @change="checkUser">
 					<label class="tbody qui-bd-b qui-fx" v-for="(item, index) in dataList" :key="index">
 						<checkbox :value="`${item.userCode}^${item.userName}`" class="left" :checked="item.checked"></checkbox>
 						<label :for="item.userName" class="mdl">
@@ -22,7 +36,7 @@
 							<text>{{ item.mobile }}</text>
 						</label>
 					</label>
-				</checkbox-group>
+				</checkbox-group> -->
 			</scroll-view>
 		</view>
 		<view class="submit-box qui-fx">
@@ -45,40 +59,28 @@ export default {
 			userInfoList: [],
 			pageList: {
 				page: 1,
-				size: 99999
+				size: 15
 			},
 			morePage: false,
 			ruleGroupCode: '',
 			userGroupCode: '',
 			keyword: '',
-			hasUserList: [],
-			changeList: []
+			checkList: [],
+			hasUserList: []
 		};
 	},
 	watch: {
-		dataList: {
+		checkList: {
 			handler: function(val, oldval) {
-				console.log(oldval);
-				oldval.forEach(ele => {
-					if (ele.checked) {
-						this.changeList.push({
-							userCode: ele.userCode,
-							userName: ele.userName,
-							userType: ele.userType
-						});
-					}
-				});
-				console.log(1111, this.changeList);
-				this.changeList.map(()=>{
-					val.forEach(ele => {
-						const index = this.changeList.findIndex(list => {
-							return list.userCode === ele.userCode;
-						});
-						this.changeList.splice(index, 1);
+				this.userInfoList = [];
+				val.map(el => {
+					this.userInfoList.push({
+						userCode: el.split('^')[0],
+						userName: el.split('^')[1],
+						userType: '1'
 					});
-				})
-
-				console.log(22222, this.changeList);
+				});
+				console.log(this.userInfoList)
 			},
 			deep: true
 		}
@@ -105,22 +107,18 @@ export default {
 				schoolCode: store.userInfo.schoolCode
 			};
 			const res = await actions.getOrgUser(req);
+			res.data.list.forEach(ele => {
+				this.hasUserList.forEach(item => {
+					if (ele.userCode === item.userCode) {
+						ele.checked = true;
+					}
+				});
+			});
 			if (tag) {
 				this.dataList = this.dataList.concat(res.data.list);
 			} else {
 				this.dataList = res.data.list;
 			}
-			this.dataList.forEach(ele => {
-				this.hasUserList.forEach(item => {
-					if(!ele.checked){
-						if (ele.userCode === item.userCode) {
-							ele.checked = true;
-						}else{
-							ele.checked = null;
-						}
-					}
-				});
-			});
 			this.morePage = res.data.hasNextPage;
 		},
 		loadMore() {
@@ -144,35 +142,24 @@ export default {
 					userType: ele.userType
 				});
 			});
-			// console.log(this.hasUserList);
+			this.checkList = this.hasUserList.map( el => {
+			  return `${el.userCode}^${el.userName}`
+			})
 		},
 		cancel() {
 			this.userInfoList = [];
-			this.hasUserList = [];
+			this.checkList = [];
 			this.$tools.navTo({
 				url: './detail?ruleGroupCode=' + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
 				title: '查看人员列表'
 			});
 		},
-		checkUser(e) {
-			const data = e.target.value;
-			console.log(data);
-			this.userInfoList = [];
-			data.map(el => {
-				this.userInfoList.push({
-					userCode: el.split('^')[0],
-					userName: el.split('^')[1].split('=')[0],
-					userType: '1'
-				});
-			});
-			console.log(1, this.userInfoList);
-			this.dataList.forEach(ele => {
-				this.userInfoList.forEach(item => {
-					if (ele.userCode === item.userCode) {
-						ele.checked = true;
-					}
-				});
-			});
+		checkBox(e) {
+			if (e.value) {
+				this.checkList.push(e.name);
+			} else {
+				this.checkList.splice(this.checkList.indexOf(e.name), 1);
+			}
 		},
 		addInfo() {
 			const req = {
@@ -182,19 +169,14 @@ export default {
 				userType: '1'
 			};
 			// 去重
-			this.userInfoList = this.userInfoList.concat(this.changeList);
 			let object = {};
 			let objres = [];
-			if (this.userInfoList.length === 0) {
-				req.userInfoList = this.hasUserList;
-			} else {
-				objres = this.userInfoList.reduce((item, next) => {
-					object[next.userCode] ? '' : (object[next.userCode] = true && item.push(next));
-					return item;
-				}, []);
-				console.log(3, objres);
-				req.userInfoList = objres;
-			}
+			objres = this.userInfoList.reduce((item, next) => {
+				object[next.userCode] ? '' : (object[next.userCode] = true && item.push(next));
+				return item;
+			}, []);
+			req.userInfoList = objres;
+			console.log(3, req.userInfoList);
 			actions.addgroupuserList(req).then(res => {
 				this.$tools.toast('操作成功', 'success');
 				this.$tools.goNext(() => {
@@ -283,5 +265,8 @@ export default {
 		width: 35%;
 		text-align: center;
 	}
+}
+.u-checkbox-group {
+	width: 100%;
 }
 </style>
