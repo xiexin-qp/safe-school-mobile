@@ -224,8 +224,34 @@
 		{
 			"path": "pages/attendance/attendance-p/leave/add",
 			"style": {}
+		},
+		// 教师疫情日报模块
+		{
+			"path": "pages/ncov/ncov-t/index",
+			"style": {}
+		},
+		{
+			"path": "pages/ncov/ncov-t/form",
+			"style": {}
+		},
+		{
+			"path": "pages/ncov/ncov-t/detail",
+			"style": {}
+		},
+		// 家长疫情日报模块
+		{
+			"path": "pages/ncov/ncov-p/index",
+			"style": {}
+		},
+		{
+			"path": "pages/ncov/ncov-p/form",
+			"style": {}
+		},
+		{
+			"path": "pages/ncov/ncov-p/detail",
+			"style": {}
 		}
-    ],
+  ],
 	"globalStyle": {
 		// 禁用头部导航栏
 		"h5": {
