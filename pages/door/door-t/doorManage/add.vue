@@ -171,19 +171,10 @@ export default {
 				});
 			});
 		},
-		async search(value) {
+		search(value) {
 			console.log(value);
 			this.keyword = value.value;
-			await this.showList();
-			console.log(this.checkList)
-			this.dataList.forEach(ele => {
-				this.checkList.map(item => {
-									console.log(item)
-					if (ele.userCode === item.spilt('^')[0]) {
-						ele.checked = true;
-					}
-				});
-			});
+			this.showList();
 		}
 	}
 };
