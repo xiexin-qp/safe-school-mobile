@@ -4,39 +4,23 @@
 			<view class="head"><uni-search-bar class="search" placeholder="输入姓名/手机号/工号搜索" @confirm="search"></uni-search-bar></view>
 			<view class="th qui-fx-jsa qui-fx-ac qui-fx-jc title_">
 				<text class="left">选择</text>
-				<text class="mdl">姓名</text>
-				<text class="mdr">工号</text>
-				<text class="right">手机号</text>
+				<view class="u-checkbox__label">
+					<text>姓名</text>
+					<text>工号</text>
+					<text>手机号</text>
+				</view>
 			</view>
 			<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
 				<u-checkbox-group class="qui-fx-ver">
 					<label class="tbody qui-bd-b qui-fx-jsa" v-for="(item, index) in dataList" :key="index">
-						<u-checkbox @change="checkBox" class="left" v-model="item.checked" :name="`${item.userCode}^${item.userName}`"></u-checkbox>
-						<label :for="item.userName" class="mdl">
-							<text>{{ item.userName }}</text>
-						</label>
-						<label :for="item.workNo" class="mdr">
-							<text>{{ item.workNo || '--' }}</text>
-						</label>
-						<label :for="item.mobile" class="right">
-							<text>{{ item.mobile }}</text>
-						</label>
+						<u-checkbox @change="checkBox" v-model="item.checked" class="qui-fx-jsb" :name="`${item.userCode}^${item.userName}`">
+								<text>{{ item.userName }}</text>
+								<text>{{ item.workNo || '--' }}</text>
+								<text>{{ item.mobile }}</text>
+						</u-checkbox>
+
 					</label>
 				</u-checkbox-group>
-				<!-- <checkbox-group @change="checkUser">
-					<label class="tbody qui-bd-b qui-fx" v-for="(item, index) in dataList" :key="index">
-						<checkbox :value="`${item.userCode}^${item.userName}`" class="left" :checked="item.checked"></checkbox>
-						<label :for="item.userName" class="mdl">
-							<text>{{ item.userName }}</text>
-						</label>
-						<label :for="item.workNo" class="mdr">
-							<text>{{ item.workNo || '--' }}</text>
-						</label>
-						<label :for="item.mobile" class="right">
-							<text>{{ item.mobile }}</text>
-						</label>
-					</label>
-				</checkbox-group> -->
 			</scroll-view>
 		</view>
 		<view class="submit-box qui-fx">
@@ -65,8 +49,7 @@ export default {
 			ruleGroupCode: '',
 			userGroupCode: '',
 			keyword: '',
-			checkList: [],
-			hasUserList: []
+			checkList: []
 		};
 	},
 	watch: {
@@ -80,7 +63,7 @@ export default {
 						userType: '1'
 					});
 				});
-				console.log(this.userInfoList)
+				console.log(this.userInfoList);
 			},
 			deep: true
 		}
@@ -108,7 +91,7 @@ export default {
 			};
 			const res = await actions.getOrgUser(req);
 			res.data.list.forEach(ele => {
-				this.hasUserList.forEach(item => {
+				this.userInfoList.forEach(item => {
 					if (ele.userCode === item.userCode) {
 						ele.checked = true;
 					}
@@ -136,15 +119,15 @@ export default {
 			};
 			const res = await actions.getgroupuserList(req);
 			res.data.list.forEach(ele => {
-				this.hasUserList.push({
+				this.userInfoList.push({
 					userCode: ele.userCode,
 					userName: ele.userName,
 					userType: ele.userType
 				});
 			});
-			this.checkList = this.hasUserList.map( el => {
-			  return `${el.userCode}^${el.userName}`
-			})
+			this.checkList = res.data.list.map(el => {
+				return `${el.userCode}^${el.userName}`;
+			});
 		},
 		cancel() {
 			this.userInfoList = [];
@@ -181,7 +164,6 @@ export default {
 				this.$tools.toast('操作成功', 'success');
 				this.$tools.goNext(() => {
 					this.userInfoList = [];
-					this.hasUserList = [];
 					this.$tools.navTo({
 						url: './detail?ruleGroupCode=' + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
 						title: ''
@@ -250,23 +232,35 @@ export default {
 		background: $u-bg-color;
 	}
 	.left {
-		width: 15%;
-		text-align: center;
-	}
-	.mdl {
-		width: 20%;
-		text-align: center;
-	}
-	.mdr {
-		width: 30%;
-		text-align: center;
-	}
-	.right {
-		width: 35%;
+		width: 10%;
 		text-align: center;
 	}
 }
-.u-checkbox-group {
+.u-checkbox-group,.u-checkbox {
 	width: 100%;
+}
+/deep/ .u-checkbox__label{
+	width: 90%;
+	margin: 0;
+	display: flex;
+	justify-content: space-between;	
+	text{
+		text-align: center;
+	}
+	text:nth-child(1){
+		width:30%;
+	}
+	text:nth-child(2){
+		width:30%;
+	}
+	text:nth-child(3){
+		width:40%;
+	}
+}
+/deep/ .u-checkbox__icon-wrap{
+	width: 10%;
+}
+/deep/ .u-checkbox__icon{
+	margin:0 auto;
 }
 </style>
