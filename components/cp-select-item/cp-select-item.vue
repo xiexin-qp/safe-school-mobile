@@ -45,7 +45,7 @@
 		},
 		data() {
 			return {
-				valueArr: [],
+				valueArr: [0],
 				uZIndex: 9999
 			}
 		},
@@ -61,7 +61,9 @@
 			},
 			// 用户点击确定按钮
 			getResult(event = null) {
-				if (event) this.$emit(event, this.items[this.valueArr[0]]);
+				if (event === 'confirm') {
+					this.$emit(event, this.items[this.valueArr[0]]);
+				} 
 				this.close();
 			}
 		}
