@@ -93,12 +93,16 @@
               <radio :id="item.userCode" :value='`${item.userCode}^${item.userName}=${item.photoUrl}`' :checked="item.checked"></radio>
             </label>
           </radio-group>
-          <view class="submit-btn qui-fx">
+          <!-- <view class="submit-btn qui-fx">
             <u-button class="btn u-font-01" @click="cancel(1)">取消</u-button>
             <u-button type="primary" class="btn u-font-01" @click="ok(1)">确定</u-button>
-          </view>
+          </view> -->
         </view>
       </scroll-view>
+      <view class="submit-btn qui-fx-ac">
+        <u-button class="btn u-font-01" size="mini"  @click="cancel(1)">取消</u-button>
+        <u-button class="btn u-font-01" type="primary"  size="mini" @click="ok(1)">确定</u-button>
+      </view>
     </u-popup>
     <u-popup ref="checkPopup" mode="center" :mask-close-able="false" length="75%">
       <view class="search"> 
@@ -114,12 +118,16 @@
               <u-checkbox @change="checkBox" v-model="item.checked" :name="`${item.userCode}^${item.userName}=${item.photoUrl}`"></u-checkbox>
             </label>
           </u-checkbox-group>
-          <view class="submit-btn qui-fx">
+          <!-- <view class="submit-btn qui-fx">
             <u-button class="btn u-font-01" @click="cancel(2)">取消</u-button>
             <u-button type="primary" class="btn u-font-01" @click="ok(2)">确定</u-button>
-          </view>
+          </view> -->
         </view>
       </scroll-view>
+      <view class="submit-btn qui-fx-ac">
+        <u-button class="btn u-font-01" size="mini"  @click="cancel(2)">取消</u-button>
+        <u-button class="btn u-font-01" type="primary"  size="mini" @click="ok(2)">确定</u-button>
+      </view>
     </u-popup>
   </view>
 </template>
@@ -438,8 +446,7 @@
     padding: 20rpx;
   }
   .scroll {
-    height: 78vh;
-    padding-bottom: 10vh;
+    height: 70vh;
     .list {
       padding: 15rpx 25rpx;
       image {
@@ -450,19 +457,6 @@
     .u-checkbox-group {
       display: flex;
       flex-direction: column;
-    }
-    .submit-btn {
-      height: 80rpx;
-      position: fixed;
-      bottom: 8vh;
-      left: 27%;
-      .btn {
-        height: 50rpx;
-        line-height: 50rpx;
-        text-align: center;
-        letter-spacing: 8rpx;
-        margin: 0 20rpx;
-      }
     }
   }
 }
@@ -476,5 +470,13 @@
 }
 .mar-l10 {
   margin-left: 10rpx;
+}
+.submit-btn {
+  height: 80rpx;
+  justify-content: center;
+  .btn {
+    letter-spacing: 8rpx;
+    margin: 0 20rpx;
+  }
 }
 </style>

@@ -89,12 +89,12 @@
               <u-checkbox @change="checkBox" v-model="item.checked" :name="`${item.userCode}^${item.userName}=${item.photoUrl}`"></u-checkbox>
             </label>
           </u-checkbox-group>
-          <view class="submit-btn qui-fx">
-            <u-button class="btn u-font-01" @click="cancel">取消</u-button>
-            <u-button type="primary" class="btn u-font-01" @click="ok">确定</u-button>
-          </view>
         </view>
       </scroll-view>
+      <view class="submit-btn qui-fx-ac">
+        <u-button class="btn u-font-01" size="mini"  @click="cancel">取消</u-button>
+        <u-button class="btn u-font-01" type="primary"  size="mini" @click="ok">确定</u-button>
+      </view>
     </u-popup>
   </view>
 </template>
@@ -385,11 +385,8 @@
     padding: 20rpx;
   }
   .scroll {
-    height: 78vh;
-    padding-bottom: 10vh;
-    .user-box {
-      padding-top: 100rpx;
-    }
+    height: 70vh;
+    // padding-bottom: 10vh;
     .list {
       padding: 15rpx 25rpx;
       image {
@@ -401,19 +398,7 @@
       display: flex;
       flex-direction: column;
     }
-    .submit-btn {
-      height: 80rpx;
-      position: fixed;
-      bottom: 8vh;
-      left: 27%;
-      .btn {
-        height: 50rpx;
-        line-height: 50rpx;
-        text-align: center;
-        letter-spacing: 8rpx;
-        margin: 0 20rpx;
-      }
-    }
+    
   }
 }
 .copyer {
@@ -423,5 +408,13 @@
 }
 .mar-l10 {
   margin-left: 10rpx;
+}
+.submit-btn {
+  height: 80rpx;
+  justify-content: center;
+  .btn {
+    letter-spacing: 8rpx;
+    margin: 0 20rpx;
+  }
 }
 </style>
