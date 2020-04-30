@@ -27,7 +27,9 @@
               <view class="leave-pur">开始时间：{{ item.startTime | gmtToDate }}</view>
               <view class="leave-pur">结束时间：{{ item.endTime | gmtToDate }}</view>
               <view class="leave-pur">描述：{{ item.remark }}</view>
-              <view class="leave-pur">状态：{{ item.state | approveState }}</view>
+              <view class="leave-pur">状态：
+                <text :class="item.state === '2' ? 'refuse' : item.state === '1' ? 'agree' : item.state === '0' ? 'wait' : 'cancel'">{{ item.state | approveState }}</text>
+              </view>
             </view>
             <view class="leave-bottom qui-fx-jsb">
               <view class="leave-time"> {{ item.initiationTime | gmtToDate }}</view>
