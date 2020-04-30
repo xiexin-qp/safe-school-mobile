@@ -104,16 +104,19 @@ export default {
 		this.id = options.id;
 		console.log(store);
 	},
-	async mounted() {
-		const res = await actions.getInviteDetail(this.id);
-		if (!res.data) {
-			return;
-		}
-		this.comeLog = res.data;
-		this.photo = res.data.registPhoto;
-		this.state = res.data.state;
+	mounted() {
+		this.showDetail()
 	},
 	methods: {
+		async showDetail(){
+			const res = await actions.getInviteDetail(this.id);
+			if (!res.data) {
+				return;
+			}
+			this.comeLog = res.data;
+			this.photo = res.data.registPhoto;
+			this.state = res.data.state;
+		},
 		clickCancel() {
 			this.showTag = false;
 		},
@@ -139,9 +142,7 @@ export default {
 				actions.approval(req).then(res => {
 					this.$tools.toast('操作成功', 'success');
 					this.$tools.goNext(() => {
-						this.$tools.navTo({
-							url: './index'
-						});
+						this.showDetail()
 					});
 				});
 			});
@@ -170,9 +171,7 @@ export default {
 					this.$tools.toast('操作成功', 'success');
 					this.refuseText = '';
 					this.$tools.goNext(() => {
-						this.$tools.navTo({
-							url: './index'
-						});
+						this.showDetail()
 					});
 				});
 			});

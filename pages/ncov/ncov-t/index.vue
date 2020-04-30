@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import eventBus from '@u/eventBus'
 import { store, actions } from './store/index.js';
 import steps from './steps.vue';
 export default {
@@ -101,6 +102,9 @@ export default {
 		steps
 	},
 	async mounted() {
+		eventBus.$on('getList', () => {
+			this.showList();
+		})
 		this.showList();
 	},
 	methods: {
