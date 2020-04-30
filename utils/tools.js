@@ -33,7 +33,6 @@ const tools = {
 	getQuery () {
 		const url = window.location.href
 		const params = url.substr(url.lastIndexOf('?')).replace('#/', '')
-		console.log(params)
 		return new URLSearchParams(params)
 	},
 	// 审批状态
