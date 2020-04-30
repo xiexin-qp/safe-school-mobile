@@ -75,9 +75,9 @@
     <view class="submit-box">
       <view class="btn" @click="submit">提交</view>
     </view>
-    <u-popup ref="checkPopup" mode="center"  :mask-close-able="false" length="75%">
+    <u-popup ref="checkPopup" mode="center" length="75%" :mask-close-able="false">
       <view class="search"> 
-        <u-search placeholder="请输入姓名" v-model="keyword" shape="square" height="65" :show-action="false" :clearabled="false"></u-search>
+        <u-search placeholder="请输入姓名" v-model="keyword" shape="square" height="75" :show-action="false" :clearabled="false"></u-search>
       </view>
       <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore">
         <view>
@@ -92,7 +92,7 @@
         </view>
       </scroll-view>
       <view class="submit-btn qui-fx-ac">
-        <u-button class="btn u-font-01" size="mini"  @click="cancel">取消</u-button>
+        <!-- <u-button class="btn u-font-01" size="mini"  @click="cancel">取消</u-button> -->
         <u-button class="btn u-font-01" type="primary"  size="mini" @click="ok">确定</u-button>
       </view>
     </u-popup>

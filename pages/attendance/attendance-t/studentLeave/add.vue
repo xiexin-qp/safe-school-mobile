@@ -80,7 +80,7 @@
     <view class="submit-box">
       <view class="btn" @click="submit">提交</view>
     </view>
-    <u-popup ref="popup" mode="center" :mask-close-able="false" length="75%">
+    <u-popup ref="popup" mode="center" length="75%" :mask-close-able="false">
       <scroll-view scroll-y="true" class="scroll"  @scrolltolower="loadMore(1)">
         <view>
           <radio-group @change="radioUser">
@@ -91,20 +91,16 @@
               <radio :id="item.userCode" :value='`${item.userCode}^${item.userName}=${item.photoUrl}`' :checked="item.checked"></radio>
             </label>
           </radio-group>
-          <!-- <view class="submit-btn student-btn qui-fx">
-            <u-button class="btn u-font-01" @click="cancel(1)">取消</u-button>
-            <u-button type="primary" class="btn u-font-01" @click="ok(1)">确定</u-button>
-          </view> -->
         </view>
       </scroll-view>
        <view class="submit-btn qui-fx-ac">
-        <u-button class="btn u-font-01" size="mini"  @click="cancel(1)">取消</u-button>
+        <!-- <u-button class="btn u-font-01" size="mini"  @click="cancel(1)">取消</u-button> -->
         <u-button class="btn u-font-01" type="primary"  size="mini" @click="ok(1)">确定</u-button>
       </view>
     </u-popup>
-    <u-popup ref="checkPopup" mode="center" :mask-close-able="false" length="75%">
+    <u-popup ref="checkPopup" mode="center" length="75%" :mask-close-able="false">
       <view class="search"> 
-        <u-search placeholder="请输入姓名" v-model="keyword" shape="square" height="55" :show-action="false" :clearabled="false"></u-search>
+        <u-search placeholder="请输入姓名" v-model="keyword" shape="square" height="75" :show-action="false" :clearabled="false"></u-search>
       </view>
       <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore(0)">
         <view>
@@ -116,14 +112,10 @@
               <u-checkbox @change="checkBox" v-model="item.checked" :name="`${item.userCode}^${item.userName}=${item.photoUrl}`"></u-checkbox>
             </label>
           </u-checkbox-group>
-          <!-- <view class="submit-btn qui-fx">
-            <u-button class="btn u-font-01" @click="cancel(0)">取消</u-button>
-            <u-button type="primary" class="btn u-font-01" @click="ok(0)">确定</u-button>
-          </view> -->
         </view>
       </scroll-view>
        <view class="submit-btn qui-fx-ac">
-        <u-button class="btn u-font-01" size="mini"  @click="cancel(0)">取消</u-button>
+        <!-- <u-button class="btn u-font-01" size="mini"  @click="cancel(0)">取消</u-button> -->
         <u-button class="btn u-font-01" type="primary"  size="mini" @click="ok(0)">确定</u-button>
       </view>
     </u-popup>
