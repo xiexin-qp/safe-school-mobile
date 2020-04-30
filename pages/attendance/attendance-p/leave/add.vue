@@ -278,7 +278,7 @@
         this.checkList.splice(this.checkList.indexOf(data),1)
 			},
       startConfirm (params) {
-        this.leaveInfo.startDate = `${params.year}-${params.month}-${params.day} ${params.hour}:${params.minute}`
+        this.leaveInfo.startDate = `${params.year}/${params.month}/${params.day} ${params.hour}:${params.minute}`
         const time = (new Date(new Date(this.leaveInfo.endDate).getTime()).getTime() 
                         - new Date(new Date(this.leaveInfo.startDate).getTime()).getTime()) / 1000 / 60 / 60
         if (time > 0) {
@@ -288,7 +288,7 @@
         }
       },
       endConfirm (params) {
-        this.leaveInfo.endDate = `${params.year}-${params.month}-${params.day} ${params.hour}:${params.minute}`
+        this.leaveInfo.endDate = `${params.year}/${params.month}/${params.day} ${params.hour}:${params.minute}`
         const time = (new Date(new Date(this.leaveInfo.endDate).getTime()).getTime() 
                         - new Date(new Date(this.leaveInfo.startDate).getTime()).getTime() )/ 1000 / 60 / 60
         if (time > 0) {
