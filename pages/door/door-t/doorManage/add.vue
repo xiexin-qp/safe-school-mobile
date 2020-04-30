@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import eventBus from '@u/eventBus'
 import { actions, store } from '../store/index';
 import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue';
 export default {
@@ -132,10 +133,12 @@ export default {
 		cancel() {
 			this.userInfoList = [];
 			this.checkList = [];
-			this.$tools.redirectTo({
+			eventBus.$emit('getList')
+			this.$tools.goBack();
+			/* this.$tools.redirectTo({
 				url: './detail?ruleGroupCode=' + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
 				title: '查看人员列表'
-			});
+			}); */
 		},
 		checkBox(e) {
 			if (e.value) {
@@ -164,10 +167,12 @@ export default {
 				this.$tools.toast('操作成功', 'success');
 				this.$tools.goNext(() => {
 					this.userInfoList = [];
-					this.$tools.redirectTo({
+					eventBus.$emit('getList')
+					this.$tools.goBack();
+/* 					this.$tools.redirectTo({
 						url: './detail?ruleGroupCode=' + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
 						title: ''
-					});
+					}); */
 				});
 			});
 		},
