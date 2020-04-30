@@ -6,7 +6,7 @@
 		'uni-calendar-item--multiple': weeks.multiple
 		}" @click="choiceDate(weeks)">
 		<view class="uni-calendar-item__weeks-box-item">
-			<text v-if="selected&&weeks.extraInfo" class="uni-calendar-item__weeks-box-circle"></text>
+			<text v-if="selected&&weeks.extraInfo" :class="['uni-calendar-item__weeks-box-circle',weeks.staue?'uni-calendar-item__weeks-box-error':'uni-calendar-item__weeks-box-success']"></text>
 			<text class="uni-calendar-item__weeks-box-text" :class="{
 				'uni-calendar-item--isDay-text': weeks.isDay,
 				'uni-calendar-item--isDay':calendar.fullDate === weeks.fullDate && weeks.isDay,
@@ -73,7 +73,7 @@
 	}
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 	.uni-calendar-item__weeks-box {
 		flex: 1;
 		/* #ifndef APP-NVUE */
@@ -113,10 +113,15 @@
 		width: 8px;
 		height: 8px;
 		border-radius: 8px;
-		background-color: #dd524d;
+		
 
 	}
-
+	.uni-calendar-item__weeks-box-success{	
+		background-color: $u-type-error;
+	}
+	.uni-calendar-item__weeks-box-error{	
+		background-color: $u-type-success;
+	}
 	.uni-calendar-item--disable {
 		background-color: rgba(249, 249, 249, 0.3);
 		color: #c0c0c0;

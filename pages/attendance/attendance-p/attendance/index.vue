@@ -2,7 +2,7 @@
   <view class="attendance qui-page">
     <view>
       <view class="calendar">
-        <uni-calendar @change="change"></uni-calendar>
+        <uni-calendar @change="change" @monthSwitch="monthSwitch" :selected = "selected"></uni-calendar>
       </view>
       <view class="record-box">
         <view class="work-box qui-fx-jsb">
@@ -49,7 +49,9 @@ export default {
     return {
       dayInfo: {},
       day: new Date(),
-      studentCode: ''
+      studentCode: '',
+      mounth: new Date(),
+      selected: []
     }
   },
   components: {
@@ -63,11 +65,30 @@ export default {
     let d = date.getDate()
     d = d < 10 ? ('0' + d) : d
     this.day = y + '-' + m + '-' + d
+    this.mounth = y + '-' + m
     this.studentCode = store.childList[0].userCode
+    this.showState()
     this.showList()
   },
   methods: {
     // 正常 迟到(早退) 缺卡 绿色 橙色 红色
+    async showState () {
+      const req ={
+        studentCode: this.studentCode,
+        month: this.mounth
+      }
+      const res = await actions.studentMonthState(req)
+      this.selected = res.data.map( el => {
+        el.date = this.$tools.getDateTime(el.date)
+        return el
+      })
+    },
+    monthSwitch (item) {
+      this.mounth=`${item.year}-${ item.month < 10 ? ('0' + item.month) : item.month }`
+      this.day = ''
+      this.showState()
+      this.showList()
+    },
     async showList (tag = false) {
       const req ={
         studentCode: this.studentCode,
