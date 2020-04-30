@@ -69,10 +69,8 @@ export default {
 			}
 		};
 	},
-	onLoad(options) {
-		this.id = options.id;
-	},
 	async mounted() {
+		this.id = this.$tools.getQuery().get('id')
 		const res = await actions.getComeLogDetail(this.id);
 		if (!res.data) {
 			return;
