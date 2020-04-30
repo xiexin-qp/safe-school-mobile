@@ -34,7 +34,7 @@
             {{ dayInfo.leaveApprovalAddDto ? dayInfo.leaveApprovalAddDto.userName : ''}}
           </view>
           <view class="apply-content qui-fx-ver qui-fx-f2">
-            <view class="apply-status"> {{ dayInfo.state | approveState }} </view>
+            <view :class="['apply-status', { 'un-read' : dayInfo.state === '2' }]"> {{ dayInfo.state | approveState }} </view>
             <view class="apply-time"> {{ dayInfo.approvalTime | gmtToDate }} </view>
           </view>
         </view>
@@ -64,8 +64,12 @@ export default {
       dayInfo: { }
     }
   },
-  onLoad(options) {
-    this.detailGet(options.id)
+  // onLoad(options) {
+  //   this.detailGet(options.id)
+  // },
+  mounted() {
+    const id = this.$tools.getQuery().get('id')
+    this.detailGet(id)
   },
   methods: {
     async detailGet (id) {

@@ -19,15 +19,15 @@
 			"style": {}
 		},
 		{
-				"path" : "pages/protal/main",
-				"style" : {}
-		}
-		,{
-				"path" : "pages/protal/register",
-				"style" : {}
-		},{
-				"path" : "pages/protal/bindChild",
-				"style" : {}
+			"path": "pages/protal/main",
+			"style": {}
+		},
+		{
+			"path": "pages/protal/register",
+			"style": {}
+		}, {
+			"path": "pages/protal/bindChild",
+			"style": {}
 		},
 		// 新闻公告
 		{
@@ -107,8 +107,7 @@
 		},
 		{
 			"path": "pages/visitor/visitor-t/visitorLog/detail",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/visitor/visitor-t/comeLog/index",
@@ -116,8 +115,7 @@
 		},
 		{
 			"path": "pages/visitor/visitor-t/comeLog/detail",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/visitor/visitor-t/appointment/index",
@@ -125,8 +123,7 @@
 		},
 		{
 			"path": "pages/visitor/visitor-t/appointment/detail",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/visitor/visitor-t/invite/index",
@@ -134,13 +131,11 @@
 		},
 		{
 			"path": "pages/visitor/visitor-t/invite/detail",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/visitor/visitor-t/invite/form",
-			"style": {
-			}
+			"style": {}
 		},
 		// 家长访客管理
 		{
@@ -149,13 +144,11 @@
 		},
 		{
 			"path": "pages/visitor/visitor-p/appointment/detail",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/visitor/visitor-p/appointment/form",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/visitor/visitor-p/invite/index",
@@ -163,18 +156,15 @@
 		},
 		{
 			"path": "pages/visitor/visitor-p/invite/detail",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/visitor/visitor-p/visitLog/index",
-			"style": {
-			}
+			"style": {}
 		},
 		{
 			"path": "pages/visitor/visitor-p/visitLog/detail",
-			"style": {
-			}
+			"style": {}
 		},
 		// 教师考勤模块
 		{
@@ -261,14 +251,14 @@
 			"style": {}
 		},
 		{
-			"path": "pages/ncov/ncov-p/form",
+			"path": "pages/ncov/ncov-p/detail",
 			"style": {}
 		},
 		{
-			"path": "pages/ncov/ncov-p/detail",
+			"path": "pages/ncov/ncov-p/form",
 			"style": {}
 		}
-  ],
+	],
 	"globalStyle": {
 		// 禁用头部导航栏
 		"h5": {

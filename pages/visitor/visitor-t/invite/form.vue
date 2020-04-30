@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import eventBus from '@u/eventBus'
 import { store, actions } from '../store/index.js';
 export default {
 	data() {
@@ -60,12 +61,11 @@ export default {
 			}
 		};
 	},
-	onLoad(options) {
-		this.id = options.id;
-		this.type = options.type;
-	},
 	computed: {},
-	created() {},
+	created() {
+		this.id = this.$tools.getQuery().get('id')
+		this.type = this.$tools.getQuery().get('type')
+	},
 	async mounted() {
 		await this.getCause();
 		if (this.id) {
@@ -138,9 +138,8 @@ export default {
 				const res = await actions.addInviteInfo(req);
 				this.$tools.toast('提交成功', 'success');
 				this.$tools.goNext(() => {
-					this.$tools.navTo({
-						url: './index'
-					});
+					eventBus.$emit('getList')
+					this.$tools.goBack();
 				});
 			}
 		},

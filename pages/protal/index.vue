@@ -21,6 +21,7 @@
 
 <script>
 import { setStore, actions } from './store/index.js';
+import vConsole from 'vconsole'
 import uniRequest from 'uni-request'
 export default {
 	data() {
@@ -35,6 +36,7 @@ export default {
 	computed: {},
 	components: {},
 	mounted() {
+		new vConsole()
 		this.getOpenid();
 		// 处理界面错位问题
 		document.body.addEventListener('focusin', () => {
@@ -64,14 +66,14 @@ export default {
 				this.$tools.toast('请在地址栏输入openid进行绑定');
 				return;
 			}
-			if (params.get('openid') || !params.get('code')) {
+			if (params.get('openid') && !params.get('code')) {
 				const openid = params.get('openid');
 				this.getUserInfo(openid);
 				this.setOpenid(openid);
 				return;
 			}
 			const code = params.get('code');
-			if (uni.getStorageSync('openid')) {
+			if (uni.getStorageSync('openid') && uni.getStorageSync('openid') !== 'undefined') {
 				const openid = uni.getStorageSync('openid');
 				this.setOpenid(openid);
 				this.getUserInfo(openid);

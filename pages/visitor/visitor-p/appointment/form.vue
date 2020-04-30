@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import eventBus from '@u/eventBus'
 import anUploadImg from '@/components/an-uploadImg/an-uploadImg';
 import { store, actions } from '../store/index.js';
 export default {
@@ -90,12 +91,10 @@ export default {
 			}
 		};
 	},
-	onLoad(options) {
-		this.id = options.id;
-		this.type = options.type;
-	},
 	computed: {},
 	created() {
+		this.id = this.$tools.getQuery().get('id')
+		this.type = this.$tools.getQuery().get('type')
 	},
 	async mounted() {
 		await this.getSchool();
@@ -219,9 +218,8 @@ export default {
 					actions.addInviteInfo(req).then(res => {
 						this.$tools.toast('提交成功', 'success');
 						this.$tools.goNext(() => {
-							this.$tools.navTo({
-								url: './index'
-							});
+							eventBus.$emit('getList')
+							this.$tools.goBack();
 						});
 					});
 				});

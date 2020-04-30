@@ -93,14 +93,10 @@
               <radio :id="item.userCode" :value='`${item.userCode}^${item.userName}=${item.photoUrl}`' :checked="item.checked"></radio>
             </label>
           </radio-group>
-          <!-- <view class="submit-btn qui-fx">
-            <u-button class="btn u-font-01" @click="cancel(1)">取消</u-button>
-            <u-button type="primary" class="btn u-font-01" @click="ok(1)">确定</u-button>
-          </view> -->
         </view>
       </scroll-view>
       <view class="submit-btn qui-fx-ac">
-        <u-button class="btn u-font-01" size="mini"  @click="cancel(1)">取消</u-button>
+        <!-- <u-button class="btn u-font-01" size="mini"  @click="cancel(1)">取消</u-button> -->
         <u-button class="btn u-font-01" type="primary"  size="mini" @click="ok(1)">确定</u-button>
       </view>
     </u-popup>
@@ -118,14 +114,10 @@
               <u-checkbox @change="checkBox" v-model="item.checked" :name="`${item.userCode}^${item.userName}=${item.photoUrl}`"></u-checkbox>
             </label>
           </u-checkbox-group>
-          <!-- <view class="submit-btn qui-fx">
-            <u-button class="btn u-font-01" @click="cancel(2)">取消</u-button>
-            <u-button type="primary" class="btn u-font-01" @click="ok(2)">确定</u-button>
-          </view> -->
         </view>
       </scroll-view>
       <view class="submit-btn qui-fx-ac">
-        <u-button class="btn u-font-01" size="mini"  @click="cancel(2)">取消</u-button>
+        <!-- <u-button class="btn u-font-01" size="mini"  @click="cancel(2)">取消</u-button> -->
         <u-button class="btn u-font-01" type="primary"  size="mini" @click="ok(2)">确定</u-button>
       </view>
     </u-popup>
@@ -197,15 +189,21 @@
         })
       }
     },
-    onLoad(options) {
-      if (options.oddNumbers) {
-        this.oddNumbers = options.oddNumbers
-        this.detailGet(options.oddNumbers)
+    // onLoad(options) {
+    //   if (options.oddNumbers) {
+    //     this.oddNumbers = options.oddNumbers
+    //     this.detailGet(options.oddNumbers)
+    //   } else {
+    //     this.leaveReasonGet(0)
+    //   }
+	  // },
+    mounted () {
+      this.oddNumbers = this.$tools.getQuery().get('oddNumbers')
+      if (this.oddNumbers) {
+        this.detailGet(this.oddNumbers)
       } else {
         this.leaveReasonGet(0)
       }
-	  },
-    mounted () {
       this.orgUserGet()
     },
     methods: {

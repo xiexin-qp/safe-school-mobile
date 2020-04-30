@@ -45,7 +45,7 @@
 					// await actions.addReport(this.formData)
 					this.$tools.toast('操作成功')
           this.$tools.goNext(() => {
-            // eventBus.$emit('getList')
+            eventBus.$emit('getList')
             this.$tools.goBack()
           })
 				})

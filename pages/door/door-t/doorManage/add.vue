@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import eventBus from '@u/eventBus'
 import { actions, store } from '../store/index';
 import uniSearchBar from '@/components/uni-search-bar/uni-search-bar.vue';
 export default {
@@ -68,11 +69,9 @@ export default {
 			deep: true
 		}
 	},
-	onLoad(options) {
-		this.ruleGroupCode = options.ruleGroupCode;
-		this.userGroupCode = options.userGroupCode;
-	},
 	async mounted() {
+		this.ruleGroupCode = this.$tools.getQuery().get('ruleGroupCode');
+		this.userGroupCode = this.$tools.getQuery().get('userGroupCode');
 		await this.hasUser();
 		this.showList();
 	},
@@ -132,10 +131,12 @@ export default {
 		cancel() {
 			this.userInfoList = [];
 			this.checkList = [];
-			this.$tools.navTo({
+			eventBus.$emit('getList')
+			this.$tools.goBack();
+			/* this.$tools.redirectTo({
 				url: './detail?ruleGroupCode=' + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
 				title: '查看人员列表'
-			});
+			}); */
 		},
 		checkBox(e) {
 			if (e.value) {
@@ -164,10 +165,12 @@ export default {
 				this.$tools.toast('操作成功', 'success');
 				this.$tools.goNext(() => {
 					this.userInfoList = [];
-					this.$tools.navTo({
+					eventBus.$emit('getList')
+					this.$tools.goBack();
+/* 					this.$tools.redirectTo({
 						url: './detail?ruleGroupCode=' + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
 						title: ''
-					});
+					}); */
 				});
 			});
 		},

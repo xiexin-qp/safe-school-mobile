@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import eventBus from '@u/eventBus'
 import DropdownMenu from '../component/DropdownMenu.vue';
 import noData from '@/components/no-data/no-data.vue';
 import { store, actions } from '../store/index.js';
@@ -84,6 +85,9 @@ export default {
 		};
 	},
 	mounted() {
+		eventBus.$on('getList', () => {
+			this.showList();
+		})
 		this.showList();
 	},
 	methods: {

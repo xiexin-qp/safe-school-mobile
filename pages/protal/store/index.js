@@ -46,7 +46,8 @@ const store = Vue.observable({
 	enjoyParentApp: getState('enjoyParentApp', []),
 	userInfo: getState('userInfo', {}),
 	childList: getState('childList', []),
-	openid: getState('openid', [])
+	openid: getState('openid', []),
+	appList: getState('appLis', [])
 })
 
 // 修改数据

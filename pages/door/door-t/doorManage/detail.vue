@@ -28,6 +28,7 @@
   </view>
 </template>
 <script>
+import eventBus from '@u/eventBus'
 import noData from "@/components/no-data/no-data.vue";
 import { store, actions } from "../store/index.js";
 export default {
@@ -44,12 +45,13 @@ export default {
       userGroupCode: ""
     };
   },
-  onLoad(options) {
-    this.ruleGroupCode = options.ruleGroupCode;
-    this.userGroupCode = options.userGroupCode;
-  },
   mounted() {
-    this.showList();
+		this.ruleGroupCode = this.$tools.getQuery().get('ruleGroupCode');
+		this.userGroupCode = this.$tools.getQuery().get('userGroupCode');
+		eventBus.$on('getList', () => {
+			this.showList();
+		})
+		this.showList();
   },
   methods: {
     async showList(tag = false) {

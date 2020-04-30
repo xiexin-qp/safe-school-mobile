@@ -77,24 +77,25 @@ export default {
 			}
 		};
 	},
-	onLoad(options) {
-		this.id = options.id;
-	},
 	async mounted() {
-		const res = await actions.getInviteDetail(this.id);
-		if (!res.data) {
-			return;
-		}
-		this.comeLog = res.data;
-		this.visitorName = res.data.visitorName;
-		this.visitorCode = res.data.visitorCode;
-		this.visitorPhone = res.data.visitorMobile;
-		this.causeName = res.data.causeName;
-		this.reason = res.data.reason;
-		this.state = res.data.state;
-		this.refuseTag = this.state === '2';
+		this.id = this.$tools.getQuery().get('id')
+		this.showDetail()
 	},
 	methods: {
+		async showDetail(){
+			const res = await actions.getInviteDetail(this.id);
+			if (!res.data) {
+				return;
+			}
+			this.comeLog = res.data;
+			this.visitorName = res.data.visitorName;
+			this.visitorCode = res.data.visitorCode;
+			this.visitorPhone = res.data.visitorMobile;
+			this.causeName = res.data.causeName;
+			this.reason = res.data.reason;
+			this.state = res.data.state;
+			this.refuseTag = this.state === '2';
+		},
 		clickCancel() {
 			this.showTag = false;
 		},
@@ -114,9 +115,7 @@ export default {
 				actions.approval(req).then(res => {
 					this.$tools.toast('操作成功', 'success');
 					this.$tools.goNext(() => {
-						this.$tools.navTo({
-							url: './index'
-						});
+						this.showDetail()
 					});
 				});
 			});
@@ -145,9 +144,7 @@ export default {
 					this.$tools.toast('操作成功', 'success');
 					this.refuseText = '';
 					this.$tools.goNext(() => {
-						this.$tools.navTo({
-							url: './index'
-						});
+						this.showDetail()
 					});
 				});
 			});
