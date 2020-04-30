@@ -5,7 +5,7 @@
 			<text>{{ date }}</text>
 		</view>
 		<view class="person-info">
-			<view class="info qui-fx-ac-jc" style="background: url('/mobile-img/person-bg-two.png') no-repeat; backgroundSize: 100% 312rpx">
+			<view class="info qui-fx-ac-jc" style="background: url('/mobile-img/person-bg-two.png') no-repeat; backgroundSize: contain">
 				<view><image class="person-icon" :src="userInfo.photoUrl || '/mobile-img/person-auto.png'" alt="" /></view>
 				<view class="qui-fx-ac">
 					<text>{{ userInfo.userName }}</text>
@@ -54,24 +54,24 @@ export default {
 		return {
 			date: this.$tools.getDateTime().substr(0, 10),
 			classInfo: {},
-			childList: [],
 			typeList: []
 		};
 	},
 	computed: {
 		userInfo: () => store.userInfo,
+		childList: () => store.childList,
 		enjoyParentApp: () => store.enjoyParentApp,
 		enjoyTeacherApp: () => store.enjoyTeacherApp
 	},
 	async mounted() {
 		eventBus.$on('getChild', () => {
-			this.getChildList()
+			apiFun.getChildList()
 			apiFun.getMenuList()
 		})
 		if (this.userInfo.typeCode == 4) {
 			this.getClassInfo()
 		} else {
-			this.getChildList()
+			apiFun.getChildList()
 		}
 		this.getTypeList()
 	},
@@ -135,7 +135,7 @@ export default {
 					data: this.enjoyTeacherApp
 				})
 			} else {
-				this.getChildList()
+				apiFun.getChildList()
 				setStore({
 					key: 'enjoyApp',
 					data: this.enjoyParentApp
@@ -158,20 +158,6 @@ export default {
 				userCode: this.userInfo.userCode
 			});
 			this.classInfo = res.data;
-		},
-		// 获取绑定的孩子
-		async getChildList () {
-			const {schoolCode, userCode, typeCode} = this.userInfo
-			const res = await actions.getChildList({
-				schoolCode,
-				userCode,
-				userType: typeCode
-			})
-			this.childList = res.data
-			setStore({
-				key: 'childList',
-				data: res.data
-			})
 		}
 	}
 };

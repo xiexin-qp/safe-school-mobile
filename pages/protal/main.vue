@@ -22,9 +22,13 @@ export default {
 		}
 	},
   computed: {
-    tabIndex: () => store.tabIndex
+    tabIndex: () => store.tabIndex,
+		userInfo: () => store.userInfo
   },
 	mounted () {
+		if (this.userInfo.typeCode == 16) {
+			apiFun.getChildList()
+		}
 		apiFun.getMenuList()
 	},
   components: {
