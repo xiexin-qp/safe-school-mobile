@@ -64,8 +64,12 @@ export default {
       dayInfo: { }
     }
   },
-  onLoad(options) {
-    this.detailGet(options.id)
+  // onLoad(options) {
+  //   this.detailGet(options.id)
+  // },
+  mounted() {
+    const id = this.$tools.getQuery().get('id')
+    this.detailGet(id)
   },
   methods: {
     async detailGet (id) {

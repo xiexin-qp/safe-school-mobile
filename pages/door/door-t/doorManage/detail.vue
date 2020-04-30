@@ -45,11 +45,9 @@ export default {
       userGroupCode: ""
     };
   },
-  onLoad(options) {
-    this.ruleGroupCode = options.ruleGroupCode;
-    this.userGroupCode = options.userGroupCode;
-  },
   mounted() {
+		this.ruleGroupCode = this.$tools.getQuery().get('ruleGroupCode');
+		this.userGroupCode = this.$tools.getQuery().get('userGroupCode');
 		eventBus.$on('getList', () => {
 			this.showList();
 		})

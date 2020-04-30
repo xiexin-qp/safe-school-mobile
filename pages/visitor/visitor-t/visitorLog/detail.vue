@@ -33,10 +33,8 @@ export default {
 			talk: []
 		};
 	},
-	onLoad(options) {
-		this.visitorCode = options.userCode;
-	},
 	async mounted() {
+		this.visitorCode = this.$tools.getQuery().get('userCode')
 		const req = {
 			schoolCode: store.userInfo.schoolCode,
 			userCode: this.visitorCode,
