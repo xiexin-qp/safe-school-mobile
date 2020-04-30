@@ -91,10 +91,6 @@
               <radio :id="item.userCode" :value='`${item.userCode}^${item.userName}=${item.photoUrl}`' :checked="item.checked"></radio>
             </label>
           </radio-group>
-          <!-- <view class="submit-btn student-btn qui-fx">
-            <u-button class="btn u-font-01" @click="cancel(1)">取消</u-button>
-            <u-button type="primary" class="btn u-font-01" @click="ok(1)">确定</u-button>
-          </view> -->
         </view>
       </scroll-view>
        <view class="submit-btn qui-fx-ac">
@@ -116,10 +112,6 @@
               <u-checkbox @change="checkBox" v-model="item.checked" :name="`${item.userCode}^${item.userName}=${item.photoUrl}`"></u-checkbox>
             </label>
           </u-checkbox-group>
-          <!-- <view class="submit-btn qui-fx">
-            <u-button class="btn u-font-01" @click="cancel(0)">取消</u-button>
-            <u-button type="primary" class="btn u-font-01" @click="ok(0)">确定</u-button>
-          </view> -->
         </view>
       </scroll-view>
        <view class="submit-btn qui-fx-ac">

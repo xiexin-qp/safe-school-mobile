@@ -45,7 +45,6 @@ import { store, actions } from '../store/index.js'
 export default {
   data () {
     return {
-			hostEnv,
       dayInfo: {},
       day: new Date(),
       mounth: new Date(),
