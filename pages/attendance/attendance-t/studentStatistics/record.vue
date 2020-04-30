@@ -60,14 +60,18 @@ export default {
       photo: ''
     }
   },
-   onLoad(options) {
-    console.log('options',decodeURIComponent(options.photo))
-    this.studentCode = options.userCode
-    this.studentName = options.name
-    this.month = options.month
-    this.photo = decodeURIComponent(options.photo)
-  },
+  //  onLoad(options) {
+  //   console.log('options',decodeURIComponent(options.photo))
+  //   this.studentCode = options.userCode
+  //   this.studentName = options.name
+  //   this.month = options.month
+  //   this.photo = decodeURIComponent(options.photo)
+  // },
   mounted() {
+    this.studentCode =  this.$tools.getQuery().get('userCode') 
+    this.studentName = this.$tools.getQuery().get('name') 
+    this.month = this.$tools.getQuery().get('month') 
+    this.photo = decodeURIComponent(this.$tools.getQuery().get('photo') )
     this.showList()
   },
   methods: {
