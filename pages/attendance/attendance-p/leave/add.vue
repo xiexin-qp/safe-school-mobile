@@ -116,8 +116,8 @@
         currentRole: 0,
         currentChild: 0,
         leaveInfo: {
-          startDate: this.$tools.getDateTime(new Date(), 'noSecond'),
-          endDate: this.$tools.getDateTime(new Date(new Date().getTime() + 2 * 60 * 60 * 1000), 'noSecond'),
+          startDate: this.$tools.getIosTime(new Date(), 'noSecond'),
+          endDate: this.$tools.getIosTime(new Date(new Date().getTime() + 2 * 60 * 60 * 1000), 'noSecond'),
           duration: '2',
           outSchool: '',
           remark: '',
@@ -164,16 +164,6 @@
         })
       }
     },
-    // onLoad(options) {
-    //   if (options.oddNumbers) {
-    //     this.oddNumbers = options.oddNumbers
-    //     this.detailGet(options.oddNumbers)
-    //   } else {
-    //     this.leaveReasonGet(0)
-    //   }
-    //     this.leaveInfo.userName = options.userName
-    //     this.leaveInfo.userCode = options.userCode
-	  // },
     mounted () {
       this.oddNumbers = this.$tools.getQuery().get('oddNumbers')
       if (this.oddNumbers) {
@@ -189,8 +179,8 @@
       async detailGet (id) {
         const res = await actions.studentLeaveDetail(id)
         this.leaveInfo = res.data
-        this.leaveInfo.startDate = this.$tools.getDateTime(new Date(this.leaveInfo.startTime), 'noSecond')
-        this.leaveInfo.endDate = this.$tools.getDateTime(new Date(this.leaveInfo.endTime), 'noSecond')
+        this.leaveInfo.startDate = this.$tools.getIosTime(new Date(this.leaveInfo.startTime), 'noSecond')
+        this.leaveInfo.endDate = this.$tools.getIosTime(new Date(this.leaveInfo.endTime), 'noSecond')
         const data = this.leaveInfo.leaveCopyList
         this.checkList = data.map( el => {
           return `${el.userCode}^${el.userName}=${el.photoUrl}`
@@ -279,8 +269,8 @@
 			},
       startConfirm (params) {
         this.leaveInfo.startDate = `${params.year}/${params.month}/${params.day} ${params.hour}:${params.minute}`
-        const time = (new Date(new Date(this.leaveInfo.endDate).getTime()).getTime() 
-                        - new Date(new Date(this.leaveInfo.startDate).getTime()).getTime()) / 1000 / 60 / 60
+        const time = new Date(new Date(this.leaveInfo.endDate).getTime()
+                        - new Date(this.leaveInfo.startDate).getTime()) / 1000 / 60 / 60
         if (time > 0) {
          this.leaveInfo.duration =  Math.ceil(time)
         } else {
@@ -289,8 +279,8 @@
       },
       endConfirm (params) {
         this.leaveInfo.endDate = `${params.year}/${params.month}/${params.day} ${params.hour}:${params.minute}`
-        const time = (new Date(new Date(this.leaveInfo.endDate).getTime()).getTime() 
-                        - new Date(new Date(this.leaveInfo.startDate).getTime()).getTime() )/ 1000 / 60 / 60
+        const time = new Date(new Date(this.leaveInfo.endDate).getTime()
+                        - new Date(this.leaveInfo.startDate).getTime()) / 1000 / 60 / 60
         if (time > 0) {
          this.leaveInfo.duration =  Math.ceil(time)
         } else {

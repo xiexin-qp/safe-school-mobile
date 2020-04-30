@@ -68,6 +68,33 @@ const tools = {
 		}, 1200)
 	},
 	// 时间转化
+	getIosTime(t = new Date().getTime(), type = 'dateTime') {
+		let d = new Date(t)
+		const date =
+			d.getFullYear() +
+			'/' +
+			(d.getMonth() + 1 > 9 ? d.getMonth() + 1 : '0' + (d.getMonth() + 1)) +
+			'/' +
+			(d.getDate() > 9 ? d.getDate() : '0' + d.getDate()) +
+			' ' +
+			(d.getHours() > 9 ? d.getHours() : '0' + d.getHours()) +
+			':' +
+			(d.getMinutes() > 9 ? d.getMinutes() : '0' + d.getMinutes()) +
+			':' +
+			(d.getSeconds() > 9 ? d.getSeconds() : '0' + d.getSeconds())
+			
+		if (type === 'dateTime') {
+			return date
+		} else if (type === 'dateTimeWithOutSecond') {
+			return date.substring(0, 16)
+		}else if (type === 'date') {
+			return date.substring(0, 10)
+		} else if (type === 'time') {
+			return date.substring(11, 16)
+		} else if (type === 'noSecond') {
+			return date.substring(0, 16)
+		}
+	},
 	getDateTime(t = new Date().getTime(), type = 'dateTime') {
 		let d = new Date(t)
 		const date =
