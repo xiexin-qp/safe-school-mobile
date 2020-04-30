@@ -13,6 +13,19 @@ const apiFun = {
 			data: res.data
 		})
 	},
+	// 获取绑定的孩子
+	async getChildList () {
+		const {schoolCode, userCode, typeCode} = store.userInfo
+		const res = await actions.getChildList({
+			schoolCode,
+			userCode,
+			userType: typeCode
+		})
+		setStore({
+			key: 'childList',
+			data: res.data
+		})
+	},
 	// 判断是否有菜单权限
 	isRoleApp (url) {
 		const menuStr = JSON.stringify(store.appList)

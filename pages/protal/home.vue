@@ -97,9 +97,6 @@
 		mounted () {
 		},
     methods: {
-			childInfo (item) {
-				console.log(item)
-			},
       changTab (tab) {
         this.tabIndex = tab.id
       },
