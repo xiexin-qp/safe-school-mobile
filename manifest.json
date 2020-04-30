@@ -86,63 +86,72 @@
             "port" : "",
             "proxy" : {
                 "/zx_mobile_user" : {
-                    "target" : "http://192.168.1.24:10166/", // 朱旭-移动端用户系统
+                    // "target" : "http://192.168.1.24:10166/", // 朱旭-移动端用户系统
+										"target": "http://canpointtest.com/zx_mobile_user/",
                     "changeOrigin" : true,
                     "pathRewrite" : {
                         "^/zx_mobile_user" : ""
                     }
                 },
                 "/wxz_control" : {
-                    "target" : "http://192.168.1.123:10090/", // 王选章-控制中心
+                   // "target" : "http://192.168.1.123:10090/", // 王选章-控制中心
+										"target": "http://canpointtest.com/wxz_control/",
                     "changeOrigin" : true,
                     "pathRewrite" : {
                         "^/wxz_control" : ""
                     }
                 },
                 "/zk_school" : {
-                    "target" : "http://192.168.1.23:10050/", // 张坤-学校管理
+                    // "target" : "http://192.168.1.23:10050/", // 张坤-学校管理
+										"target": "http://canpointtest.com/zk_school/",
                     "changeOrigin" : true,
                     "pathRewrite" : {
                         "^/zk_school" : ""
                     }
                 },
                 "/zk_leave" : {
-                    "target" : "http://192.168.1.23:10054/", // 张坤-校历请假
+                   // "target" : "http://192.168.1.23:10054/", // 张坤-校历请假
+										"target": "http://canpointtest.com/zk_leave/",
                     "changeOrigin" : true,
                     "pathRewrite" : {
                         "^/zk_leave" : ""
                     }
                 },
                 "/zx_protal" : {
-                    "target" : "http://192.168.1.24:10060/", // 朱旭-平台应用管理
+                    // "target" : "http://192.168.1.24:10060/", // 朱旭-平台应用管理
+										"target": "http://canpointtest.com/zx_protal/",
                     "changeOrigin" : true,
                     "pathRewrite" : {
                         "^/zx_protal" : ""
                     }
                 },
                 "/zx_door" : {
-                    "target" : "http://192.168.1.24:10162/", // 朱旭-门禁系统
+                    // "target" : "http://192.168.1.24:10162/", // 朱旭-门禁系统
+										"target" : "http://192.168.1.24:10162/zx_door/",
                     "changeOrigin" : true,
                     "pathRewrite" : {
                         "^/zx_door" : ""
                     }
                 },
                 "/zx_visitor" : {
-                    "target" : "http://192.168.1.24:10160/", // 朱旭-访客系统
+                    // "target" : "http://192.168.1.24:10160/", // 朱旭-访客系统
+										"target" : "http://192.168.1.24:10162/zx_visitor/",
                     "changeOrigin" : true,
                     "pathRewrite" : {
                         "^/zx_visitor" : ""
                     }
                 },
                 "/lz_attendance" : {
-                    "target" : "http://192.168.1.46:11004/", // 吕卓-考勤
+                    // "target" : "http://192.168.1.46:11004/", // 吕卓-考勤
+										"target" : "http://192.168.1.24:10162/lz_attendance/",
                     "changeOrigin" : true,
                     "pathRewrite" : {
                         "^/lz_attendance" : ""
                     }
                 },
                 "/lz_user_center" : {
-                    "target" : "http://192.168.1.46:11002/", // 吕卓-用户中心
+                    // "target" : "http://192.168.1.46:11002/", // 吕卓-用户中心
+										"target" : "http://192.168.1.46:11002/lz_user_center/",
                     "changeOrigin" : true,
                     "pathRewrite" : {
                         "^/lz_user_center" : ""
