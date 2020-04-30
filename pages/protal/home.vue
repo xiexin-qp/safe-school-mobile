@@ -1,7 +1,16 @@
 <template>
   <view class="home">
     <view class="banner">
-    	<u-swiper :list="bannerList" :height="350" :effect3d="true"></u-swiper>
+    	 <view class="banner">
+					<swiper class="swiper" :indicator-active-color="actColor" :indicator-color="autoColor" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval">
+						<swiper-item>
+							<image class="banner-img" src="/mobile-img/banner-one.png" />
+						</swiper-item>
+						<swiper-item>
+							<image class="banner-img" src="/mobile-img/banner-two.png" />
+						</swiper-item>
+					</swiper>
+				</view>
     </view>
     <view class="enjoy">
       <view @click="goApp(enjoy)" v-for="enjoy in enjoyApp.concat(addMore)" :key="enjoy.id" class="enjoy-list qui-fx-ac-jc">
@@ -36,6 +45,11 @@
   export default {
     data () {
       return {
+				autoColor: 'rgba(0, 0, 0, .2)',
+				actColor: '#ffffff',
+				indicatorDots: true,
+				autoplay: true,
+				interval: 3000,
 				bannerList: [
 					{
 						image: '/mobile-img/banner-one.png',
@@ -130,8 +144,7 @@
   .banner {
     border-radius: 12rpx;
     overflow: hidden;
-    margin: 15rpx 0;
-  	height: 350rpx;
+    margin: 5rpx;
   	.swiper {
       width: 100%;
       overflow: hidden;
