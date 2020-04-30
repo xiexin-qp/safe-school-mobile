@@ -24,29 +24,22 @@ import { store, actions } from '../store/index.js'
 		data() {
 			return {
 				talk: [],
-				attandenceInfo:[]
-			}
-		},
-		props: {
-			studentCode: {
-				type: String,
-				default: ''
-			},
-			month: {
-				type: String,
-				default: ''
+				attandenceInfo:[],
+				month: '',
+				studentCode: ''
 			}
 		},
 		mounted() {
+			this.studentCode =  this.$tools.getQuery().get('userCode') 
+    	this.month = this.$tools.getQuery().get('month') 
 			this.showList()
 		},
 		methods: {
-			// studentMonthRecord
-				async showList () {
-					const req = {
-						month: this.month,
-						studentCode: this.studentCode
-					}
+			async showList () {
+				const req = {
+					month: this.month,
+					studentCode: this.studentCode
+				}
 				const res = await actions.studentMonthRecord(req)
 				this.attandenceInfo = res.data
 			}
