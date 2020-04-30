@@ -1,13 +1,13 @@
 <template>
   <view class="student-attendance qui-page">
-    <view>
+     <scroll-view scroll-y="true" class="scroll-h">
       <view>
         <uni-calendar @change="change"></uni-calendar>
       </view>
         <view class="record-box">
           <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
           <view class="attandence-box">
-            <scroll-view scroll-y="true" class="scroll-h">
+           
               <view 
                 class="attandence-info qui-fx-ac-jc" 
                 v-for="item in attandenceInfo" 
@@ -18,10 +18,10 @@
                 <view> {{item.title}}</view>
                 <view class="attandence-num"> {{item.num}}人</view>
               </view>
-            </scroll-view>
+           
           </view>
         </view>
-    </view>
+    </scroll-view>
     <u-popup ref="popup" mode="center" length="75%">
      	<scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore">
         <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
@@ -175,6 +175,9 @@ export default {
 
 <style lang="scss" scoped>
 .student-attendance {
+  .scroll-h{
+    height: 100vh;
+  }
   .record-box {
     padding-top: 10rpx;
     background-color: $bor-color;
@@ -184,9 +187,7 @@ export default {
       font-size: 36rpx;
     }
     .attandence-box {
-      .scroll-h{
-         height: calc(100vh - 860rpx);
-      }
+      
       .attandence-info {
         width: 30%;
         float: left;  
