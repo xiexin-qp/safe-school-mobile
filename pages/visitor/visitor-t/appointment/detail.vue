@@ -77,10 +77,8 @@ export default {
 			}
 		};
 	},
-	onLoad(options) {
-		this.id = options.id;
-	},
 	async mounted() {
+		this.id = this.$tools.getQuery().get('id')
 		this.showDetail()
 	},
 	methods: {

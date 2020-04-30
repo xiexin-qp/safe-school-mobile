@@ -69,11 +69,9 @@ export default {
 			deep: true
 		}
 	},
-	onLoad(options) {
-		this.ruleGroupCode = options.ruleGroupCode;
-		this.userGroupCode = options.userGroupCode;
-	},
 	async mounted() {
+		this.ruleGroupCode = this.$tools.getQuery().get('ruleGroupCode');
+		this.userGroupCode = this.$tools.getQuery().get('userGroupCode');
 		await this.hasUser();
 		this.showList();
 	},

@@ -61,12 +61,11 @@ export default {
 			}
 		};
 	},
-	onLoad(options) {
-		this.id = options.id;
-		this.type = options.type;
-	},
 	computed: {},
-	created() {},
+	created() {
+		this.id = this.$tools.getQuery().get('id')
+		this.type = this.$tools.getQuery().get('type')
+	},
 	async mounted() {
 		await this.getCause();
 		if (this.id) {

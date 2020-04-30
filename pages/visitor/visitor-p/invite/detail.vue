@@ -100,11 +100,8 @@ export default {
 			}
 		};
 	},
-	onLoad(options) {
-		this.id = options.id;
-		console.log(store);
-	},
 	mounted() {
+		this.id = this.$tools.getQuery().get('id')
 		this.showDetail()
 	},
 	methods: {
