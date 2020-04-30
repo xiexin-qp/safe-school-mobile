@@ -138,7 +138,7 @@ export default {
 				const res = await actions.addInviteInfo(req);
 				this.$tools.toast('提交成功', 'success');
 				this.$tools.goNext(() => {
-					this.$tools.navTo({
+					this.$tools.redirectTo({
 						url: './index'
 					});
 				});

@@ -219,7 +219,7 @@ export default {
 					actions.addInviteInfo(req).then(res => {
 						this.$tools.toast('提交成功', 'success');
 						this.$tools.goNext(() => {
-							this.$tools.navTo({
+							this.$tools.redirectTo({
 								url: './index'
 							});
 						});
