@@ -64,10 +64,8 @@ export default {
 		enjoyParentApp: () => store.enjoyParentApp,
 		relationShipList: () => store.relationShipList.map(item => item.relationShip)
 	},
-	onLoad (params) {
-		this.type = params.type
-	},
 	mounted() {
+		this.type = this.$tools.getQuery().get('type')
 		this.formData.schoolCode = this.userInfo.schoolCode
 		this.formData.parentName = this.userInfo.userName
 		this.formData.mobile = this.userInfo.mobile
@@ -138,7 +136,9 @@ export default {
 			}
 			this.$tools.toast('绑定成功')
 			if (this.userInfo.typeCode == 4) {
-				this.addLog('16', '家长')
+				this.$tools.goNext(() => {
+					this.addLog('16', '家长')
+				})
 			} else {
 				this.$tools.goNext(() => {
 					eventBus.$emit('getChild')
@@ -159,6 +159,7 @@ export default {
 				userCode,
 				userName
 			})
+			eventBus.$emit('getChild')
 			setStore({
 				key: 'userInfo',
 				data: {
@@ -171,7 +172,6 @@ export default {
 				key: 'enjoyApp',
 				data: this.enjoyParentApp
 			})
-			eventBus.$emit('getChild')
 			this.$tools.goBack()
 		},
 	}

@@ -66,6 +66,7 @@ export default {
 	async mounted() {
 		eventBus.$on('getChild', () => {
 			this.getChildList()
+			apiFun.getMenuList()
 		})
 		if (this.userInfo.typeCode == 4) {
 			this.getClassInfo()
