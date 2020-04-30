@@ -2,7 +2,7 @@
   <view class="attendance qui-page">
     <view>
       <view class="calendar">
-        <uni-calendar @change="change"></uni-calendar>
+        <uni-calendar @change="change" @monthSwitch="monthSwitch" :selected="selected"></uni-calendar>
       </view>
       <view class="record-box">
         <view class="work-box qui-fx-jsb">
@@ -17,7 +17,7 @@
                 'work-title']"> {{dayInfo.onState | getState}}</view>
           </view>
           <view>
-            <image :src="(dayInfo && dayInfo.onSnacpUrl) ? dayInfo.onSnacpUrl : hostEnv.mobile_img + 'child-auto-icon.png'"></image>
+            <image :src="(dayInfo && dayInfo.onSnacpUrl) ? dayInfo.onSnacpUrl : '/mobile-img/child-auto-icon.png'"></image>
           </view>
         </view>
         <view class="work-box qui-fx-jsb">
@@ -32,7 +32,7 @@
                 'work-title']"> {{dayInfo.offState | getState}}</view>
           </view>
           <view>
-            <image :src="(dayInfo && dayInfo.offSnacpUrl) ? dayInfo.offSnacpUrl : hostEnv.mobile_img + 'child-auto-icon.png'"></image>
+            <image :src="(dayInfo && dayInfo.offSnacpUrl) ? dayInfo.offSnacpUrl : '/mobile-img/child-auto-icon.png'"></image>
           </view>
         </view>
       </view>
@@ -41,14 +41,15 @@
 </template>
 
 <script>
-import hostEnv from '@config/index'
 import { store, actions } from '../store/index.js'
 export default {
   data () {
     return {
 			hostEnv,
       dayInfo: {},
-      day: new Date()
+      day: new Date(),
+      mounth: new Date(),
+      selected: []
     }
   },
   mounted () {
@@ -59,11 +60,30 @@ export default {
     let d = date.getDate()
     d = d < 10 ? ('0' + d) : d
     this.day = y + '-' + m + '-' + d
+    this.mounth = y + '-' + m
+    this.showState()
     this.showList()
   },
   methods: {
     // 正常 迟到(早退) 缺卡 绿色 橙色 红色
-    async showList (tag = false) {
+    async showState () {
+      const req ={
+        userCode: store.userInfo.userCode,
+        month: this.mounth
+      }
+      const res = await actions.teacherStaticState(req)
+      this.selected = res.data.map( el => {
+        el.date = this.$tools.getDateTime(el.date)
+        return el
+      })
+    },
+    monthSwitch (item) {
+      this.mounth=`${item.year}-${ item.month < 10 ? ('0' + item.month) : item.month }`
+      this.day = ''
+      this.showState()
+      this.showList()
+    },
+    async showList () {
       const req ={
         userCode: store.userInfo.userCode,
         day: this.day
@@ -99,7 +119,6 @@ export default {
       }
       .absence-title {
         color: $tip-color;
-        background-color: $main-color;
       }
       .unnormal-title {
         color: $u-type-warning;
