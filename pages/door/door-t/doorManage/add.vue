@@ -132,7 +132,7 @@ export default {
 		cancel() {
 			this.userInfoList = [];
 			this.checkList = [];
-			this.$tools.navTo({
+			this.$tools.redirectTo({
 				url: './detail?ruleGroupCode=' + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
 				title: '查看人员列表'
 			});
@@ -164,7 +164,7 @@ export default {
 				this.$tools.toast('操作成功', 'success');
 				this.$tools.goNext(() => {
 					this.userInfoList = [];
-					this.$tools.navTo({
+					this.$tools.redirectTo({
 						url: './detail?ruleGroupCode=' + this.ruleGroupCode + '&userGroupCode=' + this.userGroupCode,
 						title: ''
 					});
