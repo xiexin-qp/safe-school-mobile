@@ -164,17 +164,25 @@
         })
       }
     },
-    onLoad(options) {
-      if (options.oddNumbers) {
-        this.oddNumbers = options.oddNumbers
-        this.detailGet(options.oddNumbers)
+    // onLoad(options) {
+    //   if (options.oddNumbers) {
+    //     this.oddNumbers = options.oddNumbers
+    //     this.detailGet(options.oddNumbers)
+    //   } else {
+    //     this.leaveReasonGet(0)
+    //   }
+    //     this.leaveInfo.userName = options.userName
+    //     this.leaveInfo.userCode = options.userCode
+	  // },
+    mounted () {
+      this.oddNumbers = this.$tools.getQuery().get('oddNumbers')
+      if (this.oddNumbers) {
+        this.detailGet(this.oddNumbers)
       } else {
         this.leaveReasonGet(0)
       }
-        this.leaveInfo.userName = options.userName
-        this.leaveInfo.userCode = options.userCode
-	  },
-    mounted () {
+      this.leaveInfo.userName = this.$tools.getQuery().get('userName')
+      this.leaveInfo.userCode = this.$tools.getQuery().get('userCode')
       this.orgUserGet()
     },
     methods: {

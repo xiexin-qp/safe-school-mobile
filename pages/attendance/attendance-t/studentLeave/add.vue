@@ -191,15 +191,21 @@
         })
       }
     },
-    onLoad(options) {
-      if (options.oddNumbers) {
-        this.oddNumbers = options.oddNumbers
-        this.detailGet(options.oddNumbers)
+    // onLoad(options) {
+    //   if (options.oddNumbers) {
+    //     this.oddNumbers = options.oddNumbers
+    //     this.detailGet(options.oddNumbers)
+    //   } else {
+    //     this.leaveReasonGet(0)
+    //   }
+	  // },
+    mounted () {
+      this.oddNumbers = this.$tools.getQuery().get('oddNumbers')
+      if (this.oddNumbers) {
+        this.detailGet(this.oddNumbers)
       } else {
         this.leaveReasonGet(0)
       }
-	  },
-    mounted () {
       this.studentGet()
       this.orgUserGet()
     },
