@@ -29,6 +29,13 @@ const tools = {
 			delta
 		});
 	},
+	// 获取url传到参数
+	getQuery () {
+		const url = window.location.href
+		const params = url.substr(url.lastIndexOf('?')).replace('#/', '')
+		console.log(params)
+		return new URLSearchParams(params)
+	},
 	// 审批状态
 	approveState(val) {
 		if (val === '0') {
