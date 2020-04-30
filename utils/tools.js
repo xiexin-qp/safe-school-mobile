@@ -13,6 +13,16 @@ const tools = {
 			url
 		})
 	},
+	// 路由跳转关闭当前页面
+	redirectTo({
+		url,
+		title = '平安校园'
+	} = params) {
+		document.title = title
+		uni.redirectTo({
+			url
+		})
+	},
 	// 路由返回
 	goBack(delta = 1) {
 		uni.navigateBack({

@@ -1,27 +1,29 @@
 <template>
   <view class="student-attendance qui-page">
-    <view>
+     <scroll-view scroll-y="true" class="scroll-h">
       <view>
         <uni-calendar @change="change"></uni-calendar>
       </view>
-      <view class="record-box">
-        <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
-        <view class="attandence-box">
-          <view 
-            class="attandence-info qui-fx-ac-jc" 
-            v-for="item in attandenceInfo" 
-            :key="item.id"
-            @click="detail(item)"
-          >
-            <image :src="`/mobile-img/${item.img}.png`" mode=""></image>
-            <view> {{item.title}}</view>
-            <view class="attandence-num"> {{item.num}}人</view>
+        <view class="record-box">
+          <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
+          <view class="attandence-box">
+           
+              <view 
+                class="attandence-info qui-fx-ac-jc" 
+                v-for="item in attandenceInfo" 
+                :key="item.id"
+                @click="detail(item)"
+              >
+                <image :src="`/mobile-img/${item.img}.png`" mode=""></image>
+                <view> {{item.title}}</view>
+                <view class="attandence-num"> {{item.num}}人</view>
+              </view>
+           
           </view>
         </view>
-      </view>
-    </view>
+    </scroll-view>
     <u-popup ref="popup" mode="center" length="75%">
-     	<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
+     	<scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore">
         <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
           <text> {{ list.userName }} </text>
           <image :src="list.photoUrl ? list.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
@@ -173,8 +175,11 @@ export default {
 
 <style lang="scss" scoped>
 .student-attendance {
+  .scroll-h{
+    height: 100vh;
+  }
   .record-box {
-    padding-top: 20rpx;
+    padding-top: 10rpx;
     background-color: $bor-color;
     .attandence-title {
       height: 60rpx;
@@ -182,13 +187,13 @@ export default {
       font-size: 36rpx;
     }
     .attandence-box {
-      height: 320rpx;
+      
       .attandence-info {
-        width: 31%;
+        width: 30%;
         float: left;  
         margin-bottom: 30rpx;
         background-color: $uni-bg-color;
-        margin: 15rpx 0 5rpx 15rpx;
+        margin: 20rpx 0 5rpx 20rpx;
         padding: 20rpx 0;
         border-radius: 15rpx;
         image {
@@ -206,7 +211,7 @@ export default {
       }
     }
   }
-  .scroll-h {
+  .scroll {
     height: 70vh;
     .list {
       padding: 15rpx;

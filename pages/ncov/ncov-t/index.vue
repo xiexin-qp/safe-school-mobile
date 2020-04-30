@@ -9,25 +9,25 @@
 		<view v-else class="qui-bd-1px"></view>
 		<scroll-view v-if="current === 0" scroll-y="true" class="scroll-h"><steps :talk="talk"></steps></scroll-view>
 		<view class="report qui-fx-jsa" v-else>
-			<view class="info qui-fx-ac-jc" @click="countDetail(2)">
+			<view class="info qui-fx-ac-jc" @click="countDetail(1, 32)">
 				<text>上报</text>
 				<text>32人</text>
 			</view>
-			<view class="info qui-fx-ac-jc" @click="countDetail(2)">
+			<view class="info qui-fx-ac-jc" @click="countDetail(0, 3)">
 				<text>未上报</text>
 				<text>3人</text>
 			</view>
-			<view class="info qui-fx-ac-jc err" @click="countDetail(2)">
+			<view class="info qui-fx-ac-jc err" @click="countDetail(2, 30)">
 				<text>异常</text>
 				<text>30人</text>
 			</view>
-			<view class="info qui-fx-ac-jc err" @click="countDetail(2)">
+			<view class="info qui-fx-ac-jc err" @click="countDetail(3, 2)">
 				<text>发热</text>
 				<text>2人</text>
 			</view>
 		</view>
 		<u-popup ref="popup" mode="center" length="75%" border-radius="8" :mask-close-able="false">
-			<view class="common-btn bg-top">未上报10人</view>
+			<view class="common-btn bg-top">{{ title }}{{ count }}人</view>
 			<scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore">
 				<view class="student-list">
 					<view class="qui-fx-jsb qui-fx-ac" v-for="(item, i) in 10" :key="i" @click="reportDetail(item)">
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import eventBus from '@u/eventBus'
 import { store, actions } from './store/index.js';
 import steps from './steps.vue';
 export default {
@@ -92,13 +93,18 @@ export default {
 					heat: '36.1',
 					status: 0
 				}
-			]
+			],
+			title: '未上报',
+			count: 0
 		};
 	},
 	components: {
 		steps
 	},
 	async mounted() {
+		eventBus.$on('getList', () => {
+			this.showList();
+		})
 		this.showList();
 	},
 	methods: {
@@ -135,8 +141,10 @@ export default {
 				url: './detail?id=' + record.id
 			});
 		},
-		countDetail(type = 0) {
+		countDetail(type = 0, count) {
 			console.log(type);
+			this.count = count
+			this.title = type === 0 ? '未上报' : type === 1 ? '上报'  : type === 2 ? '异常' :  '发热' 
 			this.$refs.popup.open();
 		},
 		confirm() {

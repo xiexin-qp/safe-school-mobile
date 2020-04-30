@@ -30,7 +30,6 @@
 	</view>
 </template>
 <script>
-import eventBus from "@u/eventBus.js";
 import { store, actions } from "../store/index.js";
 import noData from "@/components/no-data/no-data.vue";
 

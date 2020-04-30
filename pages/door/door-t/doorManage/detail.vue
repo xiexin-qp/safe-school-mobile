@@ -28,6 +28,7 @@
   </view>
 </template>
 <script>
+import eventBus from '@u/eventBus'
 import noData from "@/components/no-data/no-data.vue";
 import { store, actions } from "../store/index.js";
 export default {
@@ -49,7 +50,10 @@ export default {
     this.userGroupCode = options.userGroupCode;
   },
   mounted() {
-    this.showList();
+		eventBus.$on('getList', () => {
+			this.showList();
+		})
+		this.showList();
   },
   methods: {
     async showList(tag = false) {
