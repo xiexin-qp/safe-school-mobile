@@ -2,8 +2,8 @@
 	<view class="qui-page login u-bg-fff">
 		<view><image src="/mobile-img/logo.png" class="auto-bg-img logo"></image></view>
 		<view class="qui-fx-ac login-tab">
-			<view @click="changTab(1)" class="qui-fx-f1 qui-tx-c" :class="{ act: type === 1 }">密码登录</view>
 			<view @click="changTab(0)" class="qui-fx-f1 qui-tx-c" :class="{ act: type === 0 }">短信登录</view>
+			<view @click="changTab(1)" class="qui-fx-f1 qui-tx-c" :class="{ act: type === 1 }">密码登录</view>
 		</view>
 		<view v-if="type === 0" class="qui-fx-ac input-box">
 			<input type="number" v-model="phone" class="item-input" placeholder="请输入手机号" />
@@ -26,7 +26,7 @@ import uniRequest from 'uni-request'
 export default {
 	data() {
 		return {
-			type: 1, // 密码
+			type: 0, // 短信
 			phone: '',
 			code: '',
 			total: 60,

@@ -27,7 +27,7 @@
 			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="relationShip" :range="relationShipList" @change="chooseRelation">{{ relationShip }}</picker>
 			<view class="rit-icon"></view>
 		</view>
-		<view style="margin: 40rpx 20rpx">
+		<view class="bind-mar">
 			<u-button type="primary" @click="bindChild">绑定</u-button>
 		</view>
 	</scroll-view>
@@ -181,6 +181,9 @@ export default {
 <style lang="scss">
 .scroll-h {
 	height: 100vh;
+}
+.bind-mar {
+	margin: 50rpx 20rpx;
 }
 .item-list {
 	padding: 28rpx 15rpx;
