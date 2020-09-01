@@ -74,7 +74,7 @@
               "
               class="u-fx-jc u-mar-t20"
             >
-              <image src="../../static/img/arrow.png"></image>
+              <image src="/mobile-img/arrow.png"></image>
               <u-tag text="调课" mode="light" type="primary"
             /></view>
             <view class="u-fx-jc u-mar-t20" v-if="item.category === 2">

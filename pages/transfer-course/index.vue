@@ -47,7 +47,7 @@
                 <view>
                   第{{ item.fromLesson }}节{{ item.fromSubjectName }}
                   <text class="u-padd-40">
-                    <image src="../../static/img/exchange.png"></image>
+                    <image src="/mobile-img/exchange.png"></image>
                   </text>
                   <text v-if="item.category === 2">
                     第{{ item.toLesson }}节{{ item.toSubjectName }}

@@ -103,7 +103,7 @@
             }}</text
           >
           <view class="u-fx-jc u-mar-t20 u-mar-b20">
-            <image src="../../static/img/form.png"></image>
+            <image src="/mobile-img/form.png"></image>
           </view>
           <view
             class="u-padd-40 u-fx-jc u-bd-1px u-mar-b20"
