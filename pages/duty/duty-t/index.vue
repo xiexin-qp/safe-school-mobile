@@ -21,17 +21,19 @@ export default {
 		dutyList
   },
 	computed: {
-		schoolYearId: () => store.schoolYear.schoolYearId
+		schoolYear: () => store.schoolYear
 	},
   data() {
     return {
       recordList: [],
       classCode: "",
       gradeCode: "",
+      schoolYearId: "",
       userType: "0", //1班主任，0教职工
     };
   },
   async created() {
+		this.schoolYearId = store.schoolYear.schoolYearId;
     if (store.isBZR) {
       this.userType = "1";
       this.gradeCode = store.isBZR.gradeCode;
@@ -48,6 +50,7 @@ export default {
 			this.showList()
 		})
     this.showList();
+    console.log(store.userInfo.userCode)
   },
   methods: {
     async showList() {

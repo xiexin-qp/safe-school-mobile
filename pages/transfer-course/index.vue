@@ -74,7 +74,7 @@
         </view>
       </view>
     </scroll-view>
-    <view class="float-add-btn" @click="add"></view>
+    <view class="float-add-btn" @click="add" v-if="this.current === 0"></view>
   </view>
 </template>
 <script>
