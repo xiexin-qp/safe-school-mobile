@@ -11,19 +11,19 @@
         <view class="div-btn">
           <image
             v-if="item.state === '0'"
-            src="../../../static/img/not_started.png"
+            src="/mobile-img/not_started.png"
             mode=""
             class="img"
           ></image>
           <image
             v-if="item.state === '1'"
-            src="../../../static/img/processing.png"
+            src="/mobile-img/processing.png"
             mode=""
             class="img"
           ></image>
           <image
             v-if="item.state === '2'"
-            src="../../../static/img/end.png"
+            src="/mobile-img/end.png"
             mode=""
             class="img"
           ></image>

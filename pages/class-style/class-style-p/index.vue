@@ -34,6 +34,13 @@
 							<text class="padd-l20 mar-l20">{{ classIntro }}</text>
 						</view>
 					</view>
+					<view class="class-card">
+						<u-icon name="calendar" color="#2979ff" size="38"></u-icon>
+						<text class="mar-l20">班级全家福：</text>
+					</view>
+					<view class="u-fx-ver">
+						<image class="class-image" src="" mode=""></image>
+					</view>
 				</scroll-view>
 			</swiper-item>
 			<swiper-item class="swiper-item"><class-album ref="child"></class-album></swiper-item>

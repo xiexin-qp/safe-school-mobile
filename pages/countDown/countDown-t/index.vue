@@ -25,16 +25,12 @@
                 class="u-bg-fff u-padd-b"
                 v-if="item.endTime >= new Date().getTime()"
               >
-                <view class="approve-list">
-                  <view class="detail u-fx">
-                    <view class="process-type">
-                      <view class="div-btn" @click="actionsheet(item.id)">
-                        ...
-                      </view>
-                    </view>
-                    <view class="info u-fx-ac u-font-1">
-                      应用于{{ item.outCountDownClassDtoList.length }}个班级
-                    </view>
+                <view class="u-fx-jsb u-padd-40">
+                  <view class="info u-fx-ac u-font-1">
+                    应用于{{ item.outCountDownClassDtoList.length }}个班级
+                  </view>
+                  <view class="u-font-24" @click="actionsheet(item.id)">
+                    ...
                   </view>
                 </view>
                 <view class="down">
@@ -70,16 +66,14 @@
                 class="u-bg-fff u-padd-b"
                 v-if="item.endTime < new Date().getTime()"
               >
-                <view class="approve-list">
-                  <view class="detail u-fx">
-                    <!-- <view class="process-type">
+                <view class="u-fx-jsb u-padd-40">
+                  <!-- <view class="process-type">
                       <view class="div-btn" @click="deList(item.id)">
                         <u-icon name="trash" color="red" size="38"></u-icon>
                       </view>
                     </view> -->
-                    <view class="info u-fx-ac u-font-1">
-                      应用于{{ item.outCountDownClassDtoList.length }}个班级
-                    </view>
+                  <view class="info u-fx-ac u-font-1">
+                    应用于{{ item.outCountDownClassDtoList.length }}个班级
                   </view>
                 </view>
                 <view class="down">
@@ -230,21 +224,6 @@ export default {
 .scroll-h {
   height: calc(100vh - 100rpx);
 }
-.approve-list {
-  background: $u-type-white;
-  border-radius: $u-border-radius;
-  margin: $u-mp-20;
-  .detail {
-    padding: 15rpx;
-  }
-  .process-type {
-    top: 10rpx;
-    right: 20rpx;
-    position: absolute;
-    font-size: 48rpx;
-    z-index: 99;
-  }
-}
 .down {
   background: $u-bg-color;
   border-radius: $u-border-radius;
@@ -278,5 +257,9 @@ export default {
       padding-top: 20rpx;
     }
   }
+}
+.u-font-24 {
+  font-size: 48rpx;
+  line-height: 0px;
 }
 </style>

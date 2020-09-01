@@ -609,22 +609,30 @@
 			"path": "pages/transfer-course/detail"
 		},
 		//班级圈
-		// {
-		//   "path": "pages/class-circle/index",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-circle/newList",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-circle/detail",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-circle/form",
-		//   "style": {}
-		// },
+		{
+		  "path": "pages/class-circle/class-circle-t/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-circle/class-circle-t/detail",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-circle/class-circle-t/form",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-circle/class-circle-p/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-circle/class-circle-p/detail",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-circle/class-circle-p/form",
+		  "style": {}
+		},
 		// 学习园地
 		{
 			"path": "pages/study-ground/study-ground-p/index"
@@ -665,33 +673,7 @@
 		},
 		{
 			"path": "pages/safe/task"
-		},
-		// 专项检查
-		{
-			"path": "pages/special/index"
-		},
-		{
-			"path": "pages/special/add"
-		},
-		{
-			"path": "pages/special/submit"
-		},
-		{
-			"path": "pages/special/detail"
 		}
-		// 安全事故
-		// {
-		// 	"path": "pages/accident/index"
-		// },
-		// {
-		// 	"path": "pages/accident/add"
-		// },
-		// {
-		// 	"path": "pages/accident/submit"
-		// },
-		// {
-		// 	"path": "pages/accident/detail"
-		// }
 	],
 	"globalStyle": {
 		// 禁用头部导航栏

@@ -47,9 +47,8 @@ export default {
     eventBus.$on("getList", () => {
       this.showList();
     });
-		this.userCode = store.userInfo.userCode;
+    this.userCode = store.userInfo.userCode;
     this.showList();
-   
   },
   methods: {
     async showList(tag = false) {

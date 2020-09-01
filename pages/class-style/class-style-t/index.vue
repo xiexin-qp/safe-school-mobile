@@ -42,6 +42,23 @@
 							<text class="padd-l20 mar-l20 u-content-color">{{ classIntro }}</text>
 						</view>
 					</view>
+					<view class="class-card">
+						<u-icon name="calendar" color="#2979ff" size="38"></u-icon>
+						<text class="mar-l20">班级全家福：</text>
+					</view>
+					<view class="u-fx-ver">
+						<view class="u-fx-f1">
+							<video-upload
+								class="u-fx-f1 u-padd-l20 u-padd-r10 u-padd-b20"
+								:uploadUrl="uploadUrl"
+								types="image"
+								:uploadCount="1"
+								:upload_max="10"
+								@success="success"
+								@delImage="delImage"
+							></video-upload>
+						</view>
+					</view>
 				</scroll-view>
 				<!-- <view v-if="showTag" class="common-btn" @click="submit">确定</view> -->
 			</swiper-item>
@@ -55,6 +72,7 @@ import eventBus from '@u/eventBus';
 import DropdownMenu from './component/DropdownMenu.vue';
 import ClassAlbum from './component/ClassAlbum.vue';
 import { store, actions } from './store/index.js';
+import hostEnv from '../../../config/index.js';
 export default {
 	name: 'ClassStyle',
 	components: {
@@ -67,6 +85,7 @@ export default {
 				page: 1,
 				size: 9999
 			},
+			uploadUrl: '',
 			showTag: false,
 			current: 0,
 			swiperCurrent: 0,
@@ -86,7 +105,8 @@ export default {
 			userType: '0', //1班主任，0教职工
 			classCode: '',
 			gradeCode: '',
-			schoolYearId: ''
+			schoolYearId: '',
+			photoList: []
 		};
 	},
 	watch: {
@@ -113,6 +133,7 @@ export default {
 		}
 	},
 	async created() {
+		this.uploadUrl = `${hostEnv.zk_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		this.length = this.classMotto.length;
 		this.schoolYearId = store.schoolYear.schoolYearId;
 		if (store.isBZR) {
@@ -128,6 +149,17 @@ export default {
 	},
 	mounted() {},
 	methods: {
+		success(e) {
+			this.photoList.push(e.data.url);
+		},
+		delImage(value) {
+			console.log(value);
+			const index = this.photoList.findIndex(list => {
+				return list === value.url;
+			});
+			this.photoList.splice(index, 1);
+			actions.delFile(value.id);
+		},
 		value0Change(val) {
 			console.log(val);
 			this.gradeCode = val;
