@@ -1,5 +1,23 @@
 <template>
   <view class="add">
+    <teacher-tree
+      isCheck
+      :teacherTag="teacherTag"
+      v-show="teacherTag"
+      :schoolInfo="schoolInfo"
+      @close="teacherClose"
+      @confirm="teacherSelcet"
+      :classChecked="[]"
+    ></teacher-tree>
+    <class-tree
+      isCheck
+      v-show="classTag"
+      :classTag="classTag"
+      :schoolInfo="schoolInfo"
+      @close="classClose"
+      @confirm="classSelcet"
+      :classChecked="[]"
+    ></class-tree>
     <scroll-view scroll-y="true" class="scroll-h u-bg-fff">
       <view class="u-fx-ac u-bd-b item-list">
         <view class="tip">公告标题：</view>
@@ -18,38 +36,30 @@
         </view>
       </view>
       <view class="u-fx-ac u-bd-b item-list">
-        <view>选择教职工:</view>
-        <view @click="check" class="u-fx-f1 u-fx">
-          <view class="copyer u-fx-f1 u-content-color u-tx-r">
-            <view v-for="(item, index) in userCodeList" :key="index">
-              <u-tag
-                v-if="item.userCode != userCode"
-                @close="tagClick(item)"
-                :text="item.userName"
-                mode="light"
-                type="info"
-                closeable
-                class="mar-l10"
-              />
-            </view>
+        <view class="tip">选择教职工:</view>
+        <view @click="chooseTeacher" class="u-fx-f1 u-fx-je u-content-color">
+          <text v-if="userCodeList.length === 0">请选择</text>
+          <view v-for="(item, index) in userCodeList" :key="index">
+            <u-tag
+              :text="item.userName"
+              mode="light"
+              type="info"
+              class="mar-l10"
+            />
           </view>
         </view>
         <view class="rit-icon"></view>
       </view>
       <view class="u-fx-ac u-bd-b item-list">
-        <view>选择班级:</view>
-        <view @click="check1" class="u-fx-f1 u-fx">
-          <view class="copyer u-fx-f1 u-content-color u-tx-r">
+        <view class="tip">选择班级:</view>
+        <view @click="chooseClass" class="u-fx-f1 u-fx-je u-content-color">
+          <text v-if="classList.length === 0">请选择</text>
+          <view v-for="(item, index) in classList" :key="index">
             <u-tag
-              @close="tagClass(item)"
-              v-for="(item, index) in classList"
-              :key="index"
               :text="item.gradeName + item.className"
               mode="light"
               type="info"
-              closeable
               class="mar-l10"
-              style="margin: 4px"
             />
           </view>
         </view>
@@ -103,81 +113,6 @@
         >提交</u-button
       >
     </view>
-    <u-popup
-      ref="checkPopup1"
-      mode="center"
-      length="75%"
-      :mask-close-able="false"
-    >
-      <view class="search"
-        ><u-search
-          placeholder="请输入姓名"
-          v-model="keyword"
-          shape="square"
-          height="75"
-          :show-action="false"
-          :clearabled="false"
-        ></u-search
-      ></view>
-      <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore">
-        <view>
-          <u-checkbox-group>
-            <label
-              class="list u-bd-b u-fx-jsb"
-              v-for="item in dataList"
-              :key="item.userCode"
-            >
-              <label :for="item.userName">
-                <text>{{ item.userName }}</text>
-              </label>
-              <u-checkbox
-                :disabled="disabled"
-                @change="checkBox"
-                v-model="item.checked"
-                :name="`${item.userCode}^${item.userName}`"
-              ></u-checkbox>
-            </label>
-          </u-checkbox-group>
-        </view>
-      </scroll-view>
-      <view class="submit-btn u-fx-ac"
-        ><u-button class="btn u-font-01" type="primary" size="mini" @click="ok"
-          >确定</u-button
-        ></view
-      >
-    </u-popup>
-    <u-popup
-      ref="checkPopup2"
-      mode="center"
-      length="75%"
-      :mask-close-able="false"
-    >
-      <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore">
-        <view>
-          <u-checkbox-group>
-            <label
-              class="list u-bd-b u-fx-jsb"
-              v-for="item in selectList"
-              :key="item.classCode"
-            >
-              <label :for="item.className">
-                <text>{{ item.gradeName }}{{ item.className }}</text>
-              </label>
-              <u-checkbox
-                @change="checkclass"
-                v-model="item.checked"
-                :name="`${item.classCode}^${item.className}=${item.schoolYearId}=${item.gradeName}`"
-              ></u-checkbox>
-            </label>
-          </u-checkbox-group>
-        </view>
-      </scroll-view>
-      <view class="submit-btn u-fx-ac"
-        ><u-button class="btn u-font-01" type="primary" size="mini" @click="ok"
-          >确定</u-button
-        ></view
-      >
-    </u-popup>
   </view>
 </template>
 
@@ -185,8 +120,10 @@
 import { actions, store } from "../store/index";
 import eventBus from "@u/eventBus";
 import tools from ".../../../utils/tools";
+import teacherTree from "@/components/teacher-tree/teacher-tree";
+import classTree from "@/components/class-tree/class-tree";
 export default {
-  components: {},
+  components: { teacherTree, classTree },
   data() {
     return {
       newsInfo: {
@@ -200,17 +137,10 @@ export default {
         ),
       },
       id: "",
-      keyword: "",
-      dataList: [],
-      selectList: [],
       pageList: {
         page: 1,
         size: 20,
       },
-      checkList: [],
-      getList: [],
-      userList: [],
-      classCode: [],
       userCodeList: [],
       classList: [],
       schoolYearId: "",
@@ -226,39 +156,19 @@ export default {
       },
       isShow: false,
       disabled: false,
+      teacherTag: false,
+      classTag: false,
+      schoolInfo: {
+        schoolYearId: 0,
+        schoolCode: "",
+      },
     };
   },
-  watch: {
-    keyword(val, oldval) {
-      this.keyword = val;
-      this.orgUserGet();
-    },
-    checkList(val, oldval) {
-      this.userCodeList = [];
-      this.userList = [];
-      val.map((el) => {
-        this.userCodeList.push({
-          userCode: el.split("^")[0],
-          userName: el.split("^")[1].split("=")[0],
-        });
-        this.userList.push(el.split("^")[0]);
-      });
-    },
-    getList(val, oldval) {
-      this.classList = [];
-      this.classCode = [];
-      val.map((el) => {
-        this.classList.push({
-          classCode: el.split("^")[0],
-          className: el.split("^")[1].split("=")[0],
-          schoolYearId: el.split("^")[1].split("=")[1],
-          gradeName: el.split("^")[1].split("=")[2],
-        });
-        this.classCode.push(el.split("^")[0]);
-      });
-      console.log(this.classList);
-    },
+  created() {
+    this.schoolInfo.schoolCode = store.userInfo.schoolCode;
+    this.schoolInfo.schoolYearId = store.schoolYear.schoolYearId;
   },
+  watch: {},
   computed: {},
   async mounted() {
     this.userCode = store.userInfo.userCode;
@@ -266,10 +176,36 @@ export default {
     if (this.id) {
       this.detailGet(this.id);
     }
-    // this.orgUserGet();
-    // this.getclassList();
   },
   methods: {
+    classClose() {
+      this.classTag = false;
+    },
+    chooseClass() {
+      this.classTag = true;
+    },
+    classSelcet(value) {
+      this.classTag = false;
+      this.classList = value.map((el) => {
+        return {
+          ...el,
+        };
+      });
+    },
+    chooseTeacher() {
+      this.teacherTag = true;
+    },
+    teacherClose() {
+      this.teacherTag = false;
+    },
+    teacherSelcet(value) {
+      this.teacherTag = false;
+      this.userCodeList = value.map((el, index) => {
+        return {
+          ...el,
+        };
+      });
+    },
     showTime() {
       if (this.newsInfo.showFull === false) {
         this.isShow = false;
@@ -303,126 +239,16 @@ export default {
         60;
       if (time > 0) {
         this.newsInfo.duration = Math.ceil(time);
+        s;
       } else {
         this.newsInfo.duration = Math.floor(time);
       }
     },
-    //获取教职工
-    async orgUserGet(tag = false) {
-      if (tag) {
-        this.pageList.page += 1;
-      } else {
-        this.pageList.page = 1;
-      }
-      const req = {
-        keyword: this.keyword,
-        orgCode: "",
-        schoolCode: store.userInfo.schoolCode,
-        page: this.pageList.page,
-        size: this.pageList.size,
-      };
-      const res = await actions.getOrgUser(req);
-      const data = res.data.list;
-      data.forEach((el) => {
-        this.userCodeList.forEach((element) => {
-          if (element.userCode === el.userCode) {
-            el.checked = true;
-          }
-        });
-      });
-      if (tag) {
-        this.dataList = this.dataList.concat(data);
-      } else {
-        this.dataList = data;
-      }
-      this.morePage = res.data.hasNextPage;
-    },
-    //获取班级
-    async getclassList(tag = false) {
-      if (tag) {
-        this.pageList.page += 1;
-      } else {
-        this.pageList.page = 1;
-      }
-      const req = {
-        schoolYearId: this.schoolYearId,
-        gradeCode: "",
-        schoolCode: store.userInfo.schoolCode,
-        page: this.pageList.page,
-        size: this.pageList.size,
-      };
-      const res = await actions.classList(req);
-      const data = res.data.list;
-      data.forEach((el) => {
-        this.classList.forEach((element) => {
-          if (element.classCode === el.classCode) {
-            el.checked = true;
-          }
-        });
-      });
-      if (tag) {
-        this.selectList = this.selectList.concat(data);
-      } else {
-        this.selectList = data;
-      }
-      this.morePage = res.data.hasNextPage;
-    },
-    loadMore() {
-      if (!this.morePage) {
-        this.$tools.toast("数据已加载完毕");
-        return;
-      }
-      this.orgUserGet(true);
-      this.getclassList(true);
-    },
-    check() {
-      this.keyword = "";
-      this.orgUserGet();
-      this.$refs.checkPopup1.open();
-    },
-    check1() {
-      this.getclassList();
-      this.$refs.checkPopup2.open();
-    },
-    cancel() {
-      this.$refs.checkPopup1.close();
-      this.$refs.checkPopup2.close();
-    },
-    ok() {
-      this.$refs.checkPopup1.close();
-      this.$refs.checkPopup2.close();
-    },
-    checkBox(e) {
-      if (this.userCode === e.name.split("^")[0]) {
-        this.$tools.toast("发布对象不能为自己!");
-        return;
-      }
-      if (e.value) {
-        this.checkList.push(e.name);
-      } else {
-        this.checkList.splice(this.checkList.indexOf(e.name), 1);
-      }
-    },
-    checkclass(e) {
-      if (e.value) {
-        this.getList.push(e.name);
-      } else {
-        this.getList.splice(this.getList.indexOf(e.name), 1);
-      }
-    },
-    tagClick(item) {
-      const data = `${item.userCode}^${item.userName}`;
-      this.checkList.splice(this.checkList.indexOf(data), 1);
-    },
-    tagClass(item) {
-      const data = `${item.classCode}^${item.className}=${item.schoolYearId}=${item.gradeName}`;
-      this.getList.splice(this.getList.indexOf(data), 1);
-    },
     async detailGet(id) {
       const res = await actions.getNoticeDetail(id);
       this.newsInfo = res.data;
-      const data1 = this.newsInfo.noticeUserList;
-      const data = this.newsInfo.noticeClassList;
+      this.classList = res.data.noticeClassList;
+      this.userCodeList = res.data.noticeUserList;
       if (this.newsInfo.showFull === "1") {
         this.newsInfo.showFull = true;
         this.isShow = true;
@@ -452,12 +278,6 @@ export default {
           "noSecond"
         );
       }
-      this.checkList = data1.map((el) => {
-        return `${el.userCode}^${el.userName}`;
-      });
-      this.getList = data.map((item) => {
-        return `${item.classCode}^${item.className}=${item.schoolYearId}=${item.gradeName}`;
-      });
     },
     async submit() {
       if (this.newsInfo.title === "") {
@@ -466,7 +286,10 @@ export default {
       } else if (this.newsInfo.content === "") {
         this.$tools.toast("请输入正文");
         return false;
-      } else if (this.userList.length === 0 && this.classCode.length === 0) {
+      } else if (
+        this.classList.length === 0 &&
+        this.userCodeList.length === 0
+      ) {
         this.$tools.toast("请选择发布对象");
         return;
       } else if (
@@ -479,12 +302,20 @@ export default {
       if (this.classList.length != 0) {
         this.schoolYearId = this.classList[0].schoolYearId;
       }
+      let classCode = [];
+      this.classList.forEach((ele) => {
+        classCode.push(ele.classCode);
+      });
+      let userList = [];
+      this.userCodeList.forEach((ele) => {
+        userList.push(ele.userCode);
+      });
       const req = {
         createBy: store.userInfo.userName,
         creatorCode: store.userInfo.userCode,
         schoolCode: store.userInfo.schoolCode,
-        userCodes: this.userList,
-        classCodes: this.classCode,
+        userCodes: userList,
+        classCodes: classCode,
         schoolYearId: this.schoolYearId,
         fullStart: this.newsInfo.startDate,
         fullEnd: this.newsInfo.endDate,

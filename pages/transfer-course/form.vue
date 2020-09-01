@@ -106,7 +106,7 @@
             <image src="../../static/img/form.png"></image>
           </view>
           <view
-            class="u-padd-40 u-fx-jc u-bd-1px"
+            class="u-padd-40 u-fx-jc u-bd-1px u-mar-b20"
             @click="changeSiteType([...arguments, item, index])"
             >{{ item.type }}</view
           >

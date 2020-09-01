@@ -33,7 +33,7 @@ export default {
     };
   },
   async created() {
-    this.schoolYearId = this.schoolYearId;
+		this.schoolYearId = store.schoolYear.schoolYearId;
     if (store.isBZR) {
       this.userType = "1";
       this.gradeCode = store.isBZR.gradeCode;
@@ -50,6 +50,7 @@ export default {
 			this.showList()
 		})
     this.showList();
+    console.log(store.userInfo.userCode)
   },
   methods: {
     async showList() {
