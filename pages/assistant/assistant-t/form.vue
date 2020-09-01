@@ -113,7 +113,7 @@ import TreeDrawer from '@/components/tree-drawer/tree-drawer.vue';
 import ChooseControl from '@/components/choose-control/choose-control.vue';
 import { store, actions } from './store/index.js';
 const yzForm = {
-	remark: '请输入预定说明',
+	remark: '请输入预订说明',
 	room: '请选择房间',
 	floor: '请选择楼层',
 	building: '请选择场地',
@@ -613,7 +613,7 @@ export default {
 					return;
 				}
 				if (this.yzTime(this.timeList) === 2) {
-					this.$tools.toast('预定时间段重复，请重新选择');
+					this.$tools.toast('预订时间段重复，请重新选择');
 					this.canClick = true;
 					return;
 				}
@@ -700,7 +700,7 @@ export default {
 					this.$tools.goNext(() => {
 						this.canClick = true;
 						actions.addReserve(req).then(res => {
-							this.$tools.toast('预定成功', 'success');
+							this.$tools.toast('预订成功', 'success');
 							this.$tools.goNext(() => {
 								eventBus.$emit('getList');
 								this.$tools.goBack();

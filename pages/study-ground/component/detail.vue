@@ -10,13 +10,13 @@
 				<view class="title u-fx-ac-jc u-font-3 u-bold">{{ studyInfo.name }}</view>
 				<view class="u-fx u-mar-20 u-font-02">
 					<view class="u-fx-ac">
-						<u-icon name="http://canpointtest.com/mobile-img/study-ground-icon2.png" size="32" class="u-mar-r20"></u-icon>
+						<image src="http://canpointtest.com/mobile-img/study-ground-icon2.png" class="u-mar-r20 icon-32"></image>
 						上传人：{{ studyInfo.ownerName }}
 					</view>
 				</view>
 				<view class="u-fx u-mar-20 u-font-02">
 					<view class="u-fx-ac">
-						<u-icon name="http://canpointtest.com/mobile-img/study-ground-icon1.png" size="32" class="u-mar-r20"></u-icon>
+						<image src="http://canpointtest.com/mobile-img/study-ground-icon1.png" class="u-mar-r20 icon-32"></image>
 						上传时间：{{ studyInfo.createTime | gmtToDate('no-second') }}
 					</view>
 				</view>
@@ -25,7 +25,7 @@
 		<view class="detail-file u-type-white-bg u-mar-b20 u-border-radius u-auto">
 			<view class="file-title u-mar-t20 u-mar-l20 u-padd-l10 u-bold">资源列表</view>
 			<view class="u-fx-ac u-bd-b item-list u-padd-20" v-for="(item, i) in studyInfo.fileList" :key="item.id">
-				<u-icon name="http://canpointtest.com/mobile-img/study-ground-icon3.png" size="32" class="u-mar-r20"></u-icon>
+				<image src="http://canpointtest.com/mobile-img/study-ground-icon3.png" class="u-mar-r20 icon-32"></u-icon>
 				<text class="file-name" @click="showFile(item.fileType, item.url)">{{ item.fileName }}({{ item.fileSize }}{{ item.sizeUnit }})</text>
 			</view>
 		</view>
@@ -154,5 +154,9 @@ export default {
 	.video {
 		max-width: 650rpx;
 	}
+}
+.icon-32{
+	width: 32rpx;
+	height:32rpx;
 }
 </style>

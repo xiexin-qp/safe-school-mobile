@@ -5,7 +5,7 @@
 			<view class="dropdown u-fx">
 				<ms-dropdown-menu v-if="userType !== 3 && showClass"><ms-dropdown-item v-model="value0" :list="classList" :title="defTitle"></ms-dropdown-item></ms-dropdown-menu>
 			</view>
-			<u-icon class="camera u-mar-r10" size="46" name="camera-fill" color="white" @tap="goAdd"></u-icon>
+			<u-icon class="u-icon-46 camera u-mar-r10" name="camera-fill" color="white" @tap="goAdd"></u-icon>
 		</view>
 		<scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
 			<y-refresh ref="mixPulldownRefresh" @refresh="onPulldownReresh" class="u-auto">
@@ -288,5 +288,7 @@ export default {
 		}
 	}
 }
-
+.u-icon-46{
+	font-size: 46rpx;
+}
 </style>

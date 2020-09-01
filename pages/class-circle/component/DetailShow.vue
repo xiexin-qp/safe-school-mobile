@@ -2,7 +2,7 @@
 	<view class="content-circle u-padd-20 u-border-radius u-auto">
 		<view v-if="parseInt(unReadCommentInfo.unReadCommentCount) > 0" class="u-type-white-bg u-padd-t20 u-fx-jc u-border-radius">
 			<view class="new-tips u-fx-ac u-type-white u-bg-000 u-padd-10 u-border-radius" @tap.stop="goNewList">
-				<u-icon class="u-mar-r20 u-mar-l10 u-bg-fff" size="35" :name="unReadCommentInfo.lastReplyPhotoUrl"></u-icon>
+				<u-icon class="u-icon-35 u-mar-r20 u-mar-l10 u-bg-fff" :name="unReadCommentInfo.lastReplyPhotoUrl"></u-icon>
 				<text class="u-font-02">{{ unReadCommentInfo.unReadCommentCount }}条新消息</text>
 			</view>
 		</view>
@@ -44,11 +44,11 @@
 					<transition name="fade">
 						<view v-show="item.showAction" class="show-action u-fx-ac u-bg-color u-padd-20 u-padd-t10 u-padd-b10 u-border-radius">
 							<view class="u-fx u-font-02" @tap.stop="clickThumb(item, index)">
-								<u-icon class="u-bold-border u-mar-r10" color="red" size="32" :name="item.isLike ? 'heart-fill' : 'heart'"></u-icon>
+								<u-icon class="u-icon-35 u-bold-border u-mar-r10" color="red" :name="item.isLike ? 'heart-fill' : 'heart'"></u-icon>
 								<text>{{ item.isLike ? '取消' : '赞' }}</text>
 							</view>
 							<view class="u-fx u-font-02" @tap.stop="handleComment(item, null)">
-								<u-icon class="u-mar-l20 u-mar-r10" name="chat" size="32"></u-icon>
+								<u-icon class="u-icon-35 u-mar-l20 u-mar-r10" name="chat"></u-icon>
 								<text>评论</text>
 							</view>
 						</view>
@@ -58,7 +58,7 @@
 				<!-- 点赞人 评论 -->
 				<view class="msg-box u-bg-color u-mar-t10 u-type-primary-dark u-font-02">
 					<view class="u-fx-wp u-fx-ac u-padd-20" v-if="item.likeList.length > 0">
-						<u-icon class="u-bold-border u-mar-r10" size="32" name="heart"></u-icon>
+						<u-icon class="u-icon-35 u-bold-border u-mar-r10" name="heart"></u-icon>
 						<text class="u-te2" v-for="(userInfo, index) in item.likeList" :key="userInfo.id">{{ userInfo.createUsername }}{{ index != item.likeList.length-1 ? '，' : '' }}</text>
 					</view>
 					<view class="u-padd-20 thumbinfo " v-if="item.commentList.length > 0">
@@ -280,5 +280,8 @@ export default {
 }
 /deep/ .u-showmore-wrap{
 	justify-content: left;
+}
+.u-icon-35{
+	font-size: 35rpx;
 }
 </style>

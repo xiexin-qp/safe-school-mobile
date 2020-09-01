@@ -49,7 +49,7 @@ export default {
 			value0: '0',
 			dateValue: '',
 			showPicker: false,
-			title: '选择预定日期',
+			title: '选择预订日期',
 			searchObj: {},
 			typeList: [
 				{

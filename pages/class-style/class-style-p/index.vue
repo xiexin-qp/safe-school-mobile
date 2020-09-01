@@ -1,50 +1,53 @@
 <template>
 	<view class=" u-page">
-		<choose-child @change="childInfo"></choose-child>
-		<view class="">
-			<u-tabs-swiper
-				ref="uTabs"
-				:bold="false"
-				:bar-style="{ transform: 'scale(3)', height: '1rpx' }"
-				:current="current"
-				@change="changeMenu"
-				:list="tabList"
-				:is-scroll="false"
-				active-color="#2979ff"
-			></u-tabs-swiper>
+		<no-data v-if="noDataTag" msg="请绑定学生"></no-data>
+		<view v-else>
+			<choose-child @change="childInfo"></choose-child>
+			<view class="">
+				<u-tabs-swiper
+					ref="uTabs"
+					:bold="false"
+					:bar-style="{ transform: 'scale(3)', height: '1rpx' }"
+					:current="current"
+					@change="changeMenu"
+					:list="tabList"
+					:is-scroll="false"
+					active-color="#2979ff"
+				></u-tabs-swiper>
+			</view>
+			<swiper class="u-page u-bg-fff" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
+				<swiper-item class="swiper-item scroll-h">
+					<scroll-view class="class-style scroll-h">
+						<view class="class-card">
+							<u-icon class="u-icon-38" name="calendar" color="#2979ff" size="38"></u-icon>
+							<text class="mar-l20">班级格言：</text>
+						</view>
+						<view class="u-fx-ver">
+							<view class="input motto">
+								<text class="padd-l20 mar-l20">{{ classMotto }}</text>
+							</view>
+						</view>
+						<view class="class-card">
+							<u-icon class="u-icon-38" name="calendar" color="#2979ff" size="38"></u-icon>
+							<text class="mar-l20">班级简介：</text>
+						</view>
+						<view class="u-fx-ver">
+							<view class="input motto area auto">
+								<text class="padd-l20 mar-l20">{{ classIntro }}</text>
+							</view>
+						</view>
+						<!-- <view class="class-card">
+							<u-icon class="u-icon-38" name="calendar" color="#2979ff" size="38"></u-icon>
+							<text class="mar-l20">班级全家福：</text>
+						</view>
+						<view class="u-fx-ver">
+							<image class="class-image" src="" mode=""></image>
+						</view> -->
+					</scroll-view>
+				</swiper-item>
+				<swiper-item class="swiper-item"><class-album ref="child"></class-album></swiper-item>
+			</swiper>
 		</view>
-		<swiper class="u-page u-bg-fff" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
-			<swiper-item class="swiper-item scroll-h">
-				<scroll-view class="class-style scroll-h">
-					<view class="class-card">
-						<u-icon name="calendar" color="#2979ff" size="38"></u-icon>
-						<text class="mar-l20">班级格言：</text>
-					</view>
-					<view class="u-fx-ver">
-						<view class="input motto">
-							<text class="padd-l20 mar-l20">{{ classMotto }}</text>
-						</view>
-					</view>
-					<view class="class-card">
-						<u-icon name="calendar" color="#2979ff" size="38"></u-icon>
-						<text class="mar-l20">班级简介：</text>
-					</view>
-					<view class="u-fx-ver">
-						<view class="input motto area auto">
-							<text class="padd-l20 mar-l20">{{ classIntro }}</text>
-						</view>
-					</view>
-					<view class="class-card">
-						<u-icon name="calendar" color="#2979ff" size="38"></u-icon>
-						<text class="mar-l20">班级全家福：</text>
-					</view>
-					<view class="u-fx-ver">
-						<image class="class-image" src="" mode=""></image>
-					</view>
-				</scroll-view>
-			</swiper-item>
-			<swiper-item class="swiper-item"><class-album ref="child"></class-album></swiper-item>
-		</swiper>
 	</view>
 </template>
 
@@ -64,6 +67,7 @@ export default {
 				page: 1,
 				size: 15
 			},
+			noDataTag: false,
 			showTag: false,
 			current: 0,
 			swiperCurrent: 0,
@@ -92,6 +96,10 @@ export default {
 	},
 	async created() {
 		this.schoolYearId = store.schoolYear.schoolYearId;
+		if(!store.childList || store.childList.length === 0){
+			this.noDataTag = true
+			return
+		}
 		this.classCode = store.childList[0].classCode;
 	},
 	mounted() {},
@@ -176,5 +184,8 @@ export default {
 }
 .auto {
 	overflow: auto;
+}
+.u-icon-38{
+	font-size: 38rpx;
 }
 </style>
