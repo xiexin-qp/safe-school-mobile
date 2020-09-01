@@ -1,6 +1,8 @@
 <script>
+	// import vConsole from 'vconsole'
 	export default {
 		onLaunch: function() {
+			// new vConsole()
 			console.log('App Launch')
 		},
 		onShow: function() {

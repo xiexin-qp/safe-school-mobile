@@ -29,7 +29,7 @@
     height: 100vh;
   }
   .btn {
-    background-color: $main-color;
+    background-color: $u-type-primary;
     height: 60rpx;
     text-align: center;
     line-height: 60rpx;

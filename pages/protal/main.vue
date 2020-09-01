@@ -1,9 +1,10 @@
 <template>
-	<view class="qui-fx-ver">
+	<view class="u-fx-ver">
 		<scroll-view scroll-y="true" class="scroll-h">
 			<home v-if="tabIndex === 0"></home>
       <app v-else-if="tabIndex === 1"></app>
-      <mine v-else-if="tabIndex === 2"></mine>
+			<message v-else-if="tabIndex === 2"></message>
+      <mine v-else-if="tabIndex === 3"></mine>
 		</scroll-view>
 		<footer-com></footer-com>
 	</view>
@@ -15,6 +16,7 @@ import FooterCom from './component/footer-com.vue'
 import apiFun from './store/apiFun.js'
 import home from './home.vue'
 import app from './app.vue'
+import message from './message.vue'
 import mine from './mine.vue'
 export default {
 	data() {
@@ -35,6 +37,7 @@ export default {
     FooterCom,
     home,
     app,
+		message,
     mine
   },
 	methods: {
@@ -42,7 +45,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .scroll-h {
   	height: calc(100vh - 100rpx);
   }

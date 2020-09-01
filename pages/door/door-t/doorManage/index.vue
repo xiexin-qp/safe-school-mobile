@@ -1,17 +1,17 @@
 <template>
-	<view class="qui-page">
-		<view class="head">我创建的通行权限组</view>
+	<view class="u-page">
+		<!-- <view class="head">我创建的通行权限组</view> -->
 		<no-data msg="暂无数据" v-if="groupList.length === 0"></no-data>
 		<scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
 			<view class="approve-list" v-for="(item, i) in groupList" :key="i">
-				<view class="detail qui-fx">
+				<view class="detail u-fx">
 					<view class="process-type" @click="goDetail(item)">
 						<view class="div-btn">···</view>
 					</view>
-					<view class="info qui-fx-ac">
-						<view class="list qui-fx-f1">
+					<view class="info u-fx-ac">
+						<view class="list u-fx-f1">
 							<view class="name">{{ item.ruleGroupName }}</view>
-							<view class="normal-time qui-fx-ac" v-for="(ele, i) in item.timeRuleList" :key="i">
+							<view class="normal-time u-fx-ac" v-for="(ele, i) in item.timeRuleList" :key="i">
 								<text class="padd-r20">星期{{ toWeekName(ele.weekCode) }}</text>
 								<view class="padd-t20 padd-b20" v-for="(item, j) in ele.timeRuleList" :key="j">
 									<text>{{ item.accessStart.split(':')[0] }} : {{ item.accessStart.split(':')[1] }}</text>
@@ -19,7 +19,7 @@
 									<text>{{ item.accessEnd.split(':')[0] }} : {{ item.accessEnd.split(':')[1] }}</text>
 								</view>
 							</view>
-							<view class="qui-fx-wp">
+							<view class="u-fx-wp">
 								<u-tag class="mar-r20 mar-b20" :text="item.controlGroupName" type="info" v-for="item in item.controlGroupList" :key="item.controlGroupCode"/>
 							</view>
 						</view>
@@ -129,8 +129,8 @@ export default {
     font-size: 15px;
     color: #fff;
     text-align: center;
-    background-color: $main-color;
-    border-radius: $radius;
+    background-color: $u-type-primary;
+    border-radius: $u-border-radius;
     padding: 10rpx 20rpx;
   }
 }

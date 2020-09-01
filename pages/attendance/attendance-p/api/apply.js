@@ -6,6 +6,7 @@
 import hostEnv from '../../../../config/index.js'
 
 let applyApi = {
+  getTeacher: '/classManage/query/class/teacher/by/usercode#get', // 根据学生查班主任
   getOrgUser: '/userinfo/teacher/user/queryTeacherInfo#post' // 获取教职工信息列表
 }
 

@@ -1,9 +1,8 @@
 <template>
-	<view v-if="childList.length > 1" class="choose-child qui-fx-ac-jc" @click="changeChild">
+	<view v-if="childList.length > 1" class="choose-child u-fx-ac-jc" @click="changeChild">
 		{{ childList[index].userName }}
 	</view>
 </template>
-
 <script>
 	export default {
     props: {
@@ -30,7 +29,6 @@
 		}
 	}
 </script>
-
 <style lang="scss">
   .choose-child {
 		position: fixed;

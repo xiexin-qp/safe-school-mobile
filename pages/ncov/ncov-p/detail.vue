@@ -1,20 +1,20 @@
 <template>
-  <div class="set qui-page qui-fx-ver qui-fff">
-    <div class="qui-fx-ac qui-fx-jsb set-info div-shadow">
-      <div class="set-img">
-        <image :src="detailInfo.profilePhoto || '/mobile-img/person-auto.png'" alt="" />
-      </div>
-      <div class="qui-fx-ver">
-        <div class="set-name">{{detailInfo.userName}}</div>
-        <div class="set-class u-font-2">{{detailInfo.className}}</div>
-        <div class="set-class u-font-2">ID: {{detailInfo.userCode}}</div>
-      </div>
-      <div>
-        <u-button v-if="detailInfo.feverMark === '1'" type="success" size="mini">正常</u-button>
+  <view class="set u-page u-fx-ver u-fff">
+    <view class="u-fx-ac u-fx-jsb set-info div-shadow">
+      <view class="set-img">
+        <image :src="detailInfo.photoUrl || '/mobile-img/person-auto.png'" alt="" />
+      </view>
+      <view class="u-fx-ver">
+        <view class="set-name">{{detailInfo.userName}}</view>
+        <view class="set-class u-font-2">{{detailInfo.gradeName}}{{detailInfo.className}}</view>
+        <view class="set-class u-font-2">ID: {{detailInfo.id}}</view>
+      </view>
+      <view>
+        <u-button v-if="!detailInfo.enableFever" type="success" size="mini">正常</u-button>
         <u-button v-else type="error" size="mini">发热</u-button>
-      </div>
-    </div>
-    <div class="set-info div-shadow">
+      </view>
+    </view>
+    <view class="set-info div-shadow">
       <u-cell-group :border="false">
         <u-cell-item :arrow="false"
           title="体温"
@@ -22,14 +22,14 @@
         />
         <u-cell-item :arrow="false"
           title="发热状态"
-          :value="detailInfo.feverMark === '1' ? '正常' : '发热' "
-          :value-style='{ color: detailInfo.feverMark === "1" ? "#19be6b" : "#fa3534"}'
+          :value="detailInfo.enableFever ? '发热' : '正常' "
+          :value-style='{ color: detailInfo.enableFever ? "#fa3534" : "#19be6b"}'
         />
-        <u-cell-item :arrow="false" title="上报人" :value="detailInfo.reportPersonName" />
+        <u-cell-item :arrow="false" title="上报人" :value="detailInfo.reportUserName" />
         <u-cell-item :arrow="false" title="上报时间" :value="detailInfo.reportTime" />
       </u-cell-group>
-    </div>
-  </div>
+    </view>
+  </view>
 </template>
 
 <script>
@@ -40,13 +40,13 @@ export default {
   data() {
     return {
       detailInfo: {
-        temperature: '36.3',
-        feverMark: '1',
-        userName: '张三',
-        className: '高一(6)班',
-        userCode: '2019000827',
-        reportPersonName: '张三',
-        reportTime: '2020-04-20 09:17:20',
+        temperature: '',
+        feverMark: '',
+        userName: '',
+        className: '',
+        userCode: '',
+        reportPersonName: '',
+        reportTime: '',
       },
       id: ''
     }
@@ -55,10 +55,10 @@ export default {
     
   },
   async mounted() {
-    // this.id = this.$route.query.id
-    // const res = await actions.reportDetail(this.id)
-    // this.detailInfo = res.result
-    // this.detailInfo.reportTime = this.$tools.gmtToDate(this.detailInfo.reportTime)
+    this.id = this.$tools.getQuery().get('id')
+    const res = await actions.getReportDetail(this.id)
+    this.detailInfo = res.data
+    this.detailInfo.reportTime = this.$tools.getDateTime(this.detailInfo.reportTime)
   }
 }
 </script>
@@ -90,7 +90,7 @@ export default {
     }
   }
   .div-shadow {
-    box-shadow: 2rpx 2rpx 8rpx $u-border-color-one;
+    box-shadow: 2rpx 2rpx 8rpx ￥u-border-color-dark;
     overflow: hidden;
   }
 }

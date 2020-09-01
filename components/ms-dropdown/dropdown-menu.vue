@@ -1,7 +1,7 @@
 <template>
-	<div class="dropdown-menu">
+	<view class="dropdown-menu">
 		<slot></slot>
-	</div>
+	</view>
 </template>
 
 <script>

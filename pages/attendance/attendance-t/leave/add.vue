@@ -1,61 +1,62 @@
 <template>
   <view class="add">
     <scroll-view scroll-y="true" class="scroll-h u-bg-fff">
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="u-fx-ac u-bd-b item-list">
         <view class="tip">请假类型：</view>
-        <view class="qui-fx-f1 qui-fx-je u-content-color">
+        <view class="u-fx-f1 u-fx-je u-content-color">
           <picker mode="selector" :value="currentRole" :range="role" @change="chooseRole">
             {{role[currentRole]}}
           </picker>
         </view>
         <view class="rit-icon"></view>
       </view>
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="u-fx-ac u-bd-b item-list">
         <view class="tip">开始时间：</view>
-        <view class="qui-fx-f1 qui-fx-je"  @click="startShow = true">
+        <view class="u-fx-f1 u-fx-je"  @click="startShow = true">
           <u-picker mode="time" v-model="startShow" :params="params" @confirm="startConfirm"></u-picker>
           <view class="uni-input u-content-color">{{leaveInfo.startDate}}</view>
           <view class="rit-icon"></view>
         </view>
       </view>
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="u-fx-ac u-bd-b item-list">
         <view class="tip">结束时间：</view>
-        <view class="qui-fx-f1 qui-fx-je"  @click="endShow = true">
+        <view class="u-fx-f1 u-fx-je"  @click="endShow = true">
           <u-picker mode="time" v-model="endShow" :params="params" @confirm="endConfirm"></u-picker>
           <view class="uni-input u-content-color">{{leaveInfo.endDate}}</view>
           <view class="rit-icon"></view>
         </view>
       </view>
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="u-fx-ac u-bd-b item-list">
         <view class="tip">请假时长：</view>
-        <view class="qui-fx-f1 qui-fx-je u-content-color">{{ leaveInfo.duration }}小时</view>
+        <view class="u-fx-f1 u-fx-je u-content-color">{{ leaveInfo.duration }}小时</view>
       </view>
-      <view class="qui-fx qui-bd-b item-list">
+      <view class="u-fx u-bd-b item-list">
         <view>描述：</view>
-        <view class="qui-fx-f1 qui-tx-r"><textarea v-model="leaveInfo.remark" class="item-input u-content-color" placeholder="请输入描述" /></view>
+        <view class="u-fx-f1 u-tx-r"><textarea v-model="leaveInfo.remark" class="item-input u-content-color" placeholder="请输入描述" /></view>
       </view>
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="u-fx-ac u-bd-b item-list">
         <view class="tip">是否出校：</view>
-        <view class="qui-fx-f1 qui-fx-je col-666">
+        <view class="u-fx-f1 u-fx-je col-666">
           <radio-group @change="radioChange">
             <label><radio value="Y" :checked="leaveInfo.outSchool === 'Y'" />是</label>
-            <label class="radio"><radio :checked="leaveInfo.outSchool === 'N'" value="N" />否</label>
+            <label class="u-padd-l20"><radio :checked="leaveInfo.outSchool === 'N'" value="N" />否</label>
           </radio-group>
         </view>
       </view>
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="u-fx-ver u-bd-b item-list">
 			  <view class="tip">审批人：</view>
-          <view @click="check(1)" class="qui-fx-f1 qui-fx">
-          <view class="qui-fx-f1 u-content-color qui-tx-r" >
-            {{ leaveInfo.leaveApprovalAddDto.userName }}
-          </view>
-          <view class="rit-icon"></view>
-        </view>
+        <view class="u-fx-f1 u-mar-t20">
+          <view v-if="JSON.stringify(this.leaveInfo.leaveApprovalAddDto) === '{}' " class="an-img-add u-mar-l20" @click="check(1)">+</view>
+          <view v-else class="an-img u-mar-l20" @click="check(1)">
+            <image class="upload-icon" :src="this.leaveInfo.leaveApprovalAddDto.photoUrl "></image>
+            <div class="u-text-center">{{this.leaveInfo.leaveApprovalAddDto.userName}}</div>
+		      </view>
+			  </view>
 			</view>
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="u-fx-ac u-bd-b item-list">
 			  <view>抄送人：</view>
-        <view @click="check(2)" class="qui-fx-f1 qui-fx">
-          <view class="copyer qui-fx-f1 u-content-color qui-tx-r">
+        <view @click="check(2)" class="u-fx-f1 u-fx">
+          <view class="copyer u-fx-f1 u-content-color u-tx-r">
             <u-tag 
               @close="tagClick(item)"
               v-for="(item,index) in leaveInfo.leaveCopyList"
@@ -69,58 +70,17 @@
           <view class="rit-icon"></view>
         </view>
 			</view>
-      <view class="qui-bd-b item-list">
+      <view class="u-bd-b item-list">
 			  <view>上传附图：</view>
-			  <view class="qui-fx-f1">
-					<an-upload-img total="3" v-model="leaveInfo.photoList" class="img-margin"></an-upload-img>
+			  <view class="u-fx-f1">
+					<an-upload-img total="3" v-model="leaveInfo.photoList" class="u-mar-20"></an-upload-img>
 			  </view>
 			</view>
     </scroll-view>
-    <view class="submit-box">
-      <view class="btn" @click="submit">提交</view>
-    </view>
-    <u-popup ref="popup" mode="center" :mask-close-able="false" length="75%">
-      <view class="search"> 
-        <u-search placeholder="请输入姓名" v-model="keyword" shape="square" height="55" :show-action="false" :clearabled="false"></u-search>
-      </view>
-      <scroll-view scroll-y="true" class="scroll"  @scrolltolower="loadMore">
-        <view>
-          <radio-group @change="radioUser">
-            <label class="list qui-bd-b qui-fx-jsb" v-for="(item,index) in dataList" :key="index">
-              <label :for="item.userName">
-                  <text>{{item.userName}}</text>
-              </label>
-              <radio :id="item.userCode" :value='`${item.userCode}^${item.userName}=${item.photoUrl}`' :checked="item.checked"></radio>
-            </label>
-          </radio-group>
-        </view>
-      </scroll-view>
-      <view class="submit-btn qui-fx-ac">
-        <!-- <u-button class="btn u-font-01" size="mini"  @click="cancel(1)">取消</u-button> -->
-        <u-button class="btn u-font-01" type="primary"  size="mini" @click="ok(1)">确定</u-button>
-      </view>
-    </u-popup>
-    <u-popup ref="checkPopup" mode="center" :mask-close-able="false" length="75%">
-      <view class="search"> 
-        <u-search placeholder="请输入姓名" v-model="keyword" shape="square" height="65" :show-action="false" :clearabled="false"></u-search>
-      </view>
-      <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore">
-        <view>
-          <u-checkbox-group>
-            <label class="list qui-bd-b qui-fx-jsb" v-for="item in dataList" :key="item.userCode">
-              <label :for="item.userName">
-                <text>{{item.userName}}</text>
-              </label>
-              <u-checkbox @change="checkBox" v-model="item.checked" :name="`${item.userCode}^${item.userName}=${item.photoUrl}`"></u-checkbox>
-            </label>
-          </u-checkbox-group>
-        </view>
-      </scroll-view>
-      <view class="submit-btn qui-fx-ac">
-        <!-- <u-button class="btn u-font-01" size="mini"  @click="cancel(2)">取消</u-button> -->
-        <u-button class="btn u-font-01" type="primary"  size="mini" @click="ok(2)">确定</u-button>
-      </view>
-    </u-popup>
+    <view class="submit-btn"><u-button type="primary" @click="submit">提交</u-button></view>
+    <teacher-tree :isRadio="isRadio" :isCheck="isCheck" :teacherTag="teacherTag" v-if="teacherTag" :schoolInfo="schoolInfo" @close="teacherTag = false"
+		 @confirm="teacherSelcet" :classChecked="[]">
+		</teacher-tree>
   </view>
 </template>
 
@@ -128,19 +88,21 @@
   import eventBus from '@u/eventBus'
 	import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
   import { actions, store } from '../store/index'
+  import teacherTree from "@/components/teacher-tree/teacher-tree"
 	export default {
     components: {
-			anUploadImg
+      anUploadImg,
+      teacherTree
 		},
 		data() {
 			return {
+        teacherTag: false,
         role: [],
         reasonList: [],
-        dataList: [],
         currentRole: 0,
         leaveInfo: {
-          startDate: this.$tools.getIosTime(new Date(), 'noSecond'),
-          endDate: this.$tools.getIosTime(new Date(new Date().getTime() + 2 * 60 * 60 * 1000), 'noSecond'),
+          startDate: this.$tools.getPhoneTime(new Date(), 'noSecond'),
+          endDate: this.$tools.getPhoneTime(new Date(new Date().getTime() + 2 * 60 * 60 * 1000), 'noSecond'),
           duration: '2',
           outSchool: '',
           remark: '',
@@ -153,11 +115,6 @@
           leaveCopyList: []
         },
         oddNumbers: '',
-        pageList: {
-          page: 1,
-          size: 15
-        },
-        morePage: false,
         startShow: false,
         endShow: false,
         params: {
@@ -168,46 +125,50 @@
 					minute: true,
 					second: false
 				},
-        keyword: '',
-        checkList: [],
-        current: ''
+        current: '',
+        schoolInfo: {
+          schoolYearId: 0,
+          schoolCode: "",
+        },
+        isCheck: false,
+        isRadio: false
 			}
     },
-    watch: {
-      keyword (val, oldval) {
-        this.keyword = val 
-        this.orgUserGet()
-      },
-      checkList (val, oldval){
-        this.leaveInfo.leaveCopyList = []
-        val.map( el => {
-          this.leaveInfo.leaveCopyList.push({
-            userCode: el.split('^')[0],
-            userName: el.split('^')[1].split('=')[0],
-            photoUrl : el.split('^')[1].split('=')[1]
-          })
-        })
-      }
+    created() {
+      this.schoolInfo.schoolCode = store.userInfo.schoolCode
+      this.schoolInfo.schoolYearId = store.schoolYear.schoolYearId
     },
     mounted () {
       this.oddNumbers = this.$tools.getQuery().get('oddNumbers')
       if (this.oddNumbers) {
         this.detailGet(this.oddNumbers)
       } else {
+        this.dutyPersonGet()
         this.leaveReasonGet(0)
       }
-      this.orgUserGet()
     },
     methods: {
+      //获取主管
+      async dutyPersonGet () {
+        const req = {
+          schoolCode: store.userInfo.schoolCode,
+          userCode: store.userInfo.userCode
+        }
+        const res = await actions.getDutyPerson(req)
+        if (res.data) {
+          this.leaveInfo.leaveApprovalAddDto.userName = res.data.dutyPersonName
+          this.leaveInfo.leaveApprovalAddDto.userCode = res.data.dutyPersonCode
+          this.leaveInfo.leaveApprovalAddDto.photoUrl = res.data.dutyPersonPhotoUrl
+        } else {
+          this.leaveInfo.leaveApprovalAddDto = {}
+        }
+      },
       async detailGet (id) {
         const res = await actions.getLeaveDetail(id)
         this.leaveInfo = res.data
-        this.leaveInfo.startDate = this.$tools.getIosTime(new Date(this.leaveInfo.startTime), 'noSecond')
-        this.leaveInfo.endDate = this.$tools.getIosTime(new Date(this.leaveInfo.endTime), 'noSecond')
-        const data = this.leaveInfo.leaveCopyList
-        this.checkList = data.map( el => {
-          return `${el.userCode}^${el.userName}=${el.photoUrl}`
-        })
+        this.leaveInfo.startDate = this.$tools.getPhoneTime(new Date(this.leaveInfo.startTime), 'noSecond')
+        this.leaveInfo.endDate = this.$tools.getPhoneTime(new Date(this.leaveInfo.endTime), 'noSecond')
+        this.leaveInfo.leaveApprovalAddDto = this.leaveInfo.leaveApprovalAddDto[0]
         this.leaveReasonGet(1)
       },
       async leaveReasonGet (type) {
@@ -224,6 +185,31 @@
           this.leaveInfo.reason = this.reasonList[0].name
         }
       },
+      teacherSelcet(value) {
+        if (this.current === 1) {
+          if(value.length === 0 ){
+            this.$tools.toast("请选择人员")
+            return
+          }
+          if (value[0].userCode === store.userInfo.userCode) {
+            this.$tools.toast('审批人不可选自己')
+            return false
+          }
+          this.leaveInfo.leaveApprovalAddDto.userCode = value[0].userCode
+          this.leaveInfo.leaveApprovalAddDto.userName = value[0].userName
+          this.leaveInfo.leaveApprovalAddDto.photoUrl = value[0].photoUrl
+          this.teacherTag = false
+        } else {
+          this.leaveInfo.leaveCopyList = value.map(el=>{
+            return {
+              userCode: el.userCode,
+              userName: el.userName,
+              photoUrl : el.photoUrl
+            }
+          })
+          this.teacherTag = false
+        }
+      },
       radioChange (e) {
         this.leaveInfo.outSchool = e.target.value
       },
@@ -232,109 +218,37 @@
         this.leaveInfo.reasonId = this.reasonList[e.target.value].id
         this.leaveInfo.reason = this.reasonList[e.target.value].name
       },
-      async orgUserGet ( tag = false ){
-        if (tag) {
-          this.pageList.page += 1
-        } else {
-          this.pageList.page = 1
-        }
-        const req = {
-          keyword: this.keyword,
-          orgCode: '',
-          schoolCode: store.userInfo.schoolCode,
-          page: this.pageList.page,
-				  size: this.pageList.size
-        }
-        const res = await actions.getOrgUser(req)
-        const data = res.data.list
-        if( this.current === 2){
-          data.forEach(el => {
-            this.leaveInfo.leaveCopyList.forEach(element => {
-              if(element.userCode === el.userCode) {
-                el.checked = true
-              }
-            })
-          })
-        } else {
-          data.forEach(el => {
-            if(el.userCode === this.leaveInfo.leaveApprovalAddDto.userCode) {
-              el.checked = true
-            }
-          })
-        }
-        if (tag) {
-          this.dataList = this.dataList.concat(data)
-        } else {
-          this.dataList = data
-        }
-			  this.morePage = res.data.hasNextPage
-      },
-      loadMore() {
-        if (!this.morePage) {
-          this.$tools.toast('数据已加载完毕')
-          return
-        }
-        this.orgUserGet(true)
-      },
       check (type) {
         this.current = type
         if (type === 1) {
-          this.keyword = ''
-          this.orgUserGet()
-          this.$refs.popup.open()
+          this.isRadio = true
+          this.isCheck = false
         } else {
-          this.keyword = ''
-          this.orgUserGet()
-          this.$refs.checkPopup.open()
+          this.isRadio = false
+          this.isCheck = true
         }
-      },
-      cancel (type) {
-         if (type === 1) {
-          this.$refs.popup.close()
-        } else {
-          this.$refs.checkPopup.close()
-        }
-      },
-      ok (type) {
-        if (type === 1) {
-          this.$refs.popup.close()
-        } else {
-          this.$refs.checkPopup.close()
-        }
-      },
-      radioUser (e) {
-        const data = e.target.value
-        this.leaveInfo.leaveApprovalAddDto = {
-          userCode: data.split('^')[0],
-          userName: data.split('^')[1].split('=')[0],
-          photoUrl : data.split('^')[1].split('=')[1]
-        }
-      },
-      checkBox(e){
-        if (e.value) {
-          this.checkList.push(e.name)
-        } else {
-          this.checkList.splice(this.checkList.indexOf(e.name),1)
-        }
+        this.teacherTag =  true
       },
       tagClick(item) {
-        const data = `${item.userCode}^${item.userName}=${item.photoUrl}`
-        this.checkList.splice(this.checkList.indexOf(data),1)
+        this.leaveInfo.leaveCopyList = this.leaveInfo.leaveCopyList.filter(el => el !== item)
       },
       startConfirm (params) {
         this.leaveInfo.startDate = `${params.year}/${params.month}/${params.day} ${params.hour}:${params.minute}`
-        const time = new Date(new Date(this.leaveInfo.endDate).getTime()
-                        - new Date(this.leaveInfo.startDate).getTime()) / 1000 / 60 / 60
+        this.leaveInfo.endDate =  this.leaveInfo.endDate.replace(/-/g, '/')
+        const time = (new Date(new Date(this.leaveInfo.endDate).getTime()).getTime() 
+                        - new Date(new Date(this.leaveInfo.startDate).getTime()).getTime()) / 1000 / 60 / 60
         if (time > 0) {
          this.leaveInfo.duration =  Math.ceil(time)
         } else {
           this.leaveInfo.duration =  Math.floor(time)
         }
+        console.log('leaveInfo',this.leaveInfo.startDate)
       },
       endConfirm (params) {
         this.leaveInfo.endDate = `${params.year}/${params.month}/${params.day} ${params.hour}:${params.minute}`
-        const time = new Date(new Date(this.leaveInfo.endDate).getTime()
-                        - new Date(this.leaveInfo.startDate).getTime()) / 1000 / 60 / 60
+        this.leaveInfo.startDate =  this.leaveInfo.startDate.replace(/-/g, '/')
+        const time = (new Date(new Date(this.leaveInfo.endDate).getTime()).getTime() 
+                        - new Date(new Date(this.leaveInfo.startDate).getTime()).getTime() )/ 1000 / 60 / 60
         if (time > 0) {
          this.leaveInfo.duration =  Math.ceil(time)
         } else {
@@ -365,7 +279,7 @@
           userCode: store.userInfo.userCode,
           schoolCode: store.userInfo.schoolCode,
           startTime: new Date(this.leaveInfo.startDate).getTime(),
-          endTime: new Date(this.leaveInfo.endDate).getTime(),
+          endTime: new Date(this.leaveInfo.endDate).getTime()
         }
         if (this.oddNumbers) {
           await actions.updateTeacherLeave({
@@ -374,7 +288,7 @@
           })
             this.$tools.toast('操作成功')
             this.$tools.goNext(() => {
-              eventBus.$emit('getList')
+              eventBus.$emit('getLeaveList')
               this.$tools.goBack()
             })
         } else {
@@ -384,7 +298,7 @@
           })  
             this.$tools.toast('操作成功')
             this.$tools.goNext(() => {
-              eventBus.$emit('getList')
+              eventBus.$emit('getLeaveList')
               this.$tools.goBack()
             })
         }
@@ -415,25 +329,6 @@
       font-size: 26rpx;
       color: $u-tips-color;
     }
-    .radio {
-      padding-left: 25rpx
-    }
-  }
-  .submit-box {
-    height: 100rpx;
-    .btn {
-      height: 80rpx;
-      line-height: 80rpx;
-      text-align: center;
-      letter-spacing: 8rpx;
-      margin: 0 20rpx;
-      background-color: $main-color;
-      color:$uni-bg-color;
-      border-radius: $radius;
-    }
-  }
-  .search {
-    padding: 20rpx;
   }
   .scroll {
     height: 70vh;
@@ -455,18 +350,32 @@
     padding: 10rpx 5rpx;
   }
 }
-.img-margin {
-  margin: 20rpx
-}
 .mar-l10 {
   margin-left: 10rpx;
 }
-.submit-btn {
-  height: 80rpx;
-  justify-content: center;
-  .btn {
-    letter-spacing: 8rpx;
-    margin: 0 20rpx;
-  }
+.an-uploadImg-group {
+	overflow: auto;
+	height: 100%;
+}
+.an-img {
+	float: left;
+	position: relative;
+}
+.an-img-add {
+	float: left;
+	font-size: 50rpx;
+	height: 80rpx;
+	width: 80rpx;
+	color:#666;
+	text-align: center;
+	line-height: 80rpx;
+}
+.upload-icon {
+	height: 100rpx;
+	width: 100rpx;
+	display: block;
+}
+.u-text-center {
+  text-align: center;
 }
 </style>

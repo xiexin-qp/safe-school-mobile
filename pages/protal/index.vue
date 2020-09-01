@@ -1,31 +1,34 @@
 <template>
-	<view class="qui-page login u-bg-fff">
+	<view class="u-page login u-bg-fff">
 		<view><image src="/mobile-img/logo.png" class="auto-bg-img logo"></image></view>
-		<view class="qui-fx-ac login-tab">
-			<view @click="changTab(0)" class="qui-fx-f1 qui-tx-c" :class="{ act: type === 0 }">短信登录</view>
-			<view @click="changTab(1)" class="qui-fx-f1 qui-tx-c" :class="{ act: type === 1 }">密码登录</view>
+		<view class="u-fx-ac login-tab" v-if="isPass">
+			<view @click="changTab(0)" class="u-fx-f1 u-tx-c" :class="{ act: type === 0 }">短信登录</view>
+			<view @click="changTab(1)" class="u-fx-f1 u-tx-c" :class="{ act: type === 1 }">密码登录</view>
 		</view>
-		<view v-if="type === 0" class="qui-fx-ac input-box">
+		<view v-if="type === 0" class="u-fx-ac input-box u-bd-b u-padd-b20">
 			<input type="number" v-model="phone" class="item-input" placeholder="请输入手机号" />
 			<view class="yzm" :class="{ act: total !== 60 }" @click="getYzm">{{ tip }}</view>
 		</view>
-		<view v-if="type === 1" class="qui-fx-ac input-box"><input type="text" v-model="phone" class="item-input" placeholder="请输入手机号" /></view>
-		<view v-if="type === 1" class="qui-fx-ac input-box"><input type="password" v-model="code" class="item-input" placeholder="请输入密码" /></view>
-		<view v-if="type === 0" class="qui-fx-ac input-box"><input type="text" v-model="code" class="item-input" placeholder="请输入验证码" /></view>
-		<view class="btn-mar">
-			<u-button type="primary" @click="login">登录</u-button>
+		<view v-if="type === 1" class="u-fx-ac input-box"><input type="text" v-model="phone" class="item-input" placeholder="请输入手机号" /></view>
+		<view v-if="type === 1" class="u-fx-ac input-box"><input type="password" v-model="code" class="item-input" placeholder="请输入密码" /></view>
+		<view v-if="type === 0" class="u-fx-ac input-box u-bd-b u-padd-b20"><input type="text" v-model="code" class="item-input" placeholder="请输入验证码" /></view>
+		<view class="btn-mar"><u-button type="primary" @click="login">登录</u-button></view>
+		<view @click="toReg" class="register u-fx-ac u-fx-je">
+			家长注册
+			<view class="rit-icon"></view>
 		</view>
-		<view @click="toReg" class="register">家长注册 ></view>
 	</view>
 </template>
 
 <script>
 import { setStore, actions } from './store/index.js';
-import vConsole from 'vconsole'
-import uniRequest from 'uni-request'
+import wx from 'weixin-js-sdk';
+import uniRequest from 'uni-request';
+import config from '@config';
 export default {
 	data() {
 		return {
+			isPass: false,
 			type: 0, // 短信
 			phone: '',
 			code: '',
@@ -36,31 +39,54 @@ export default {
 	computed: {},
 	components: {},
 	mounted() {
-		new vConsole()
+		if (process.env.NODE_ENV === 'development') {
+			this.isPass  = true
+		}
 		this.getOpenid();
-		// 处理界面错位问题
-		document.body.addEventListener('focusin', () => {
-			this.isReset = false;
-		});
-		document.body.addEventListener('focusout', () => {
-			this.isReset = true;
-			setTimeout(() => {
-				if (this.isReset) {
-					window.scrollTo(0, 0);
-				}
-			}, 200);
-		});
+		this.getConfig();
+		this.$tools.inputScroll();
 	},
 	methods: {
 		changTab(type) {
 			this.type = type;
 			this.code = '';
 		},
+		// 微信js-api授权
+		getConfig() {
+			const url = '/getTicket';
+			uniRequest
+				.get(url, {
+					params: {
+						path: window.location.href.split('#')[0]
+					}
+				})
+				.then(response => {
+					const res = response.data;
+					wx.config({
+						// debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+						appId: res.appId, // 必填，公众号的唯一标识
+						timestamp: res.timestamp, // 必填，生成签名的时间戳
+						nonceStr: res.nonceStr, // 必填，生成签名的随机串
+						signature: res.signature, // 必填，签名
+						jsApiList: ['openLocation', 'getLocation', 'scanQRCode', 'chooseImage', 'getLocalImgData', 'updateAppMessageShareData', 'updateTimelineShareData'] // 必填，需要使用的JS接口列表
+					});
+					wx.error(function(res) {});
+					wx.ready(function() {});
+				})
+				.catch(error => {
+					console.log(error); //异常
+				});
+		},
 		// 获取openid
 		async getOpenid() {
 			const url = window.location.href;
 			const params = new URLSearchParams(url.substr(url.indexOf('?')).replace('#/', ''));
 			this.schoolCode = params.get('schoolCode') || '';
+			if (this.schoolCode) {
+				uni.setStorageSync('schoolCode', this.schoolCode);
+			} else {
+				uni.removeStorageSync('schoolCode');
+			}
 			// 本地测试使用
 			if (!params.get('openid') && !params.get('code')) {
 				this.$tools.toast('请在地址栏输入openid进行绑定');
@@ -114,7 +140,7 @@ export default {
 				this.timer = setInterval(() => {
 					if (this.total === 1) {
 						this.tip = '获取验证码';
-						this.total = 5;
+						this.total = 60;
 						clearInterval(this.timer);
 						return;
 					}
@@ -131,7 +157,7 @@ export default {
 					key: 'userInfo',
 					data: res.data
 				});
-				this.$tools.navTo({
+				this.$tools.redirectTo({
 					url: './main'
 				});
 			}
@@ -157,7 +183,7 @@ export default {
 			});
 			this.$tools.toast('登录成功');
 			this.$tools.goNext(() => {
-				this.$tools.navTo({
+				this.$tools.redirectTo({
 					url: './main'
 				});
 			});
@@ -172,7 +198,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .login {
 	padding-top: 160rpx;
 	.logo {
@@ -200,7 +226,7 @@ export default {
 	.input-box {
 		width: 80%;
 		margin: 60rpx auto 60rpx;
-		border-bottom: 1px $u-border-color-four solid;
+		border-bottom: 1px ￥u-border-color solid;
 	}
 	.item-input {
 		width: 100%;
@@ -227,10 +253,10 @@ export default {
 		margin-top: 100rpx;
 		text-align: right;
 		padding-right: 120rpx;
-		color: $u-type-primary-dark;
+		color: #999;
 	}
 	.btn-mar {
-		margin: 80rpx 100rpx;
+		margin: 80rpx;
 	}
 }
 </style>

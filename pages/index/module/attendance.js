@@ -19,8 +19,12 @@ const attendance = [
 			  url: '/pages/attendance/attendance-t/studentStatistics/index'
 			},
 			{
-			  title: '我的请假-教职',
+			  title: '我的请假-教职工',
 			  url: '/pages/attendance/attendance-t/leave/index'
+			},
+			{
+			  title: '学生请假-教职工',
+			  url: '/pages/attendance/attendance-t/studentLeave/index'
 			},
 			{
 			  title: '学生考勤-家长',

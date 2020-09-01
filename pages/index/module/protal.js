@@ -9,7 +9,11 @@ const protal = [
 	  {
 	    title: '访客预约',
 	    url: '/pages/visitor/appoint/index'
-	  }
+	  },
+		{
+		  title: '家长管理',
+		  url: '/pages/parent-manage/index'
+		}
     ]
   }
 ]

@@ -6,31 +6,36 @@ import $ajax from '@u/request.js'
  * @param {res} 返回结果
  */
 function resultBack(res) {
-  return new Promise(resolve => {
-    resolve(res)
-  })
+	return new Promise(resolve => {
+		resolve(res)
+	})
 }
 
 // 响应式数据
 const projectName = 'ncov-p' // 此处写项目名作为存储值
 const localData = uni.getStorageSync(projectName) || '{}'
 const getState = (state, val) => {
-  return JSON.parse(localData)[state] || val
+	return JSON.parse(localData)[state] || val
 }
- 
+
 const store = Vue.observable({
   userInfo: JSON.parse(uni.getStorageSync('protal')).userInfo,
+	childList: JSON.parse(uni.getStorageSync('protal')).childList,
 	openid: JSON.parse(uni.getStorageSync('protal')).openid
 })
 
 // 修改数据
-const setStore = ({ key, data, isLocal = true }) => {
-  if (isLocal) {
-    const localData = JSON.parse(uni.getStorageSync(projectName) || '{}')
-    localData[key] = data
-    uni.setStorageSync(projectName, JSON.stringify(localData))
-  }
-  store[key] = data
+const setStore = ({
+	key,
+	data,
+	isLocal = true
+}) => {
+	if (isLocal) {
+		const localData = JSON.parse(uni.getStorageSync(projectName) || '{}')
+		localData[key] = data
+		uni.setStorageSync(projectName, JSON.stringify(localData))
+	}
+	store[key] = data
 }
 
 /**
@@ -41,27 +46,30 @@ const setStore = ({ key, data, isLocal = true }) => {
  */
 const actions = Object.create(null)
 for (const key in apiList) {
-  const url = apiList[key].split('#')[0]
-  const type = apiList[key].split('#')[1]
-  actions[key] = async function(params = {}) {
-    // 是否显示加载提示
-    const isLoad = apiList[key].split('#')[2] === undefined
-    let reqType = type === 'getUrl' ? 'get' : type
-    const isGetUrl = type === 'getUrl'
-    const res = await $ajax[reqType](
-      {
-        url: isGetUrl || type === 'del' ? url + '/' + params : url,
-        params: isGetUrl ? {} : params
-      },
-      isLoad
-    )
-    /**
-     * @des 数据请求成功后，设置全局vuex属性
-     * @param {key} 请求的url路径
-     * @param {res} 请求返回的结果
-     */
-    return resultBack(res)
-  }
+	const url = apiList[key].split('#')[0]
+	const type = apiList[key].split('#')[1]
+	actions[key] = async function(params = {}) {
+		// 是否显示加载提示
+		const isLoad = apiList[key].split('#')[2] === undefined
+		let reqType = type === 'getUrl' ? 'get' : type
+		const isGetUrl = type === 'getUrl'
+		const res = await $ajax[reqType]({
+				url: isGetUrl || type === 'del' ? url + '/' + params : url,
+				params: isGetUrl ? {} : params
+			},
+			isLoad
+		)
+		/**
+		 * @des 数据请求成功后，设置全局vuex属性
+		 * @param {key} 请求的url路径
+		 * @param {res} 请求返回的结果
+		 */
+		return resultBack(res)
+	}
 }
 
-export { store, setStore, actions }
+export {
+	store,
+	setStore,
+	actions
+}

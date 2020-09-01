@@ -7,11 +7,12 @@ import hostEnv from '../../../../config/index.js'
 
 let applyApi = {
   getOrgUser: '/userinfo/teacher/user/queryTeacherInfo#post', // 获取教职工信息列表
-  getClassStudent: '/classManage/query/bind/student#get' // 班级学生列表查询
+  getClassStudent: '/classManage/query/bind/student#get', // 班级学生列表查询
+  getDutyPerson: '/school/org/getdutyPerson/by/usercode#get' // 查询用户主管
 }
 
 for (let val in applyApi) {
-  applyApi[val] = `${hostEnv.lz_user_center}${applyApi[val]}`
+  applyApi[val] = `${hostEnv.ljj_user_center}${applyApi[val]}`
 }
 
 export default applyApi

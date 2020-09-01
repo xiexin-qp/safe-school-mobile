@@ -7,7 +7,7 @@
 			<!-- 步骤条 -->
 			<view class="set-1">
 				<view class="set-2">
-					<view class="right qui-fx-ver">
+					<view class="right u-fx-ver">
 						<text class="detail">来访事由： {{ item.causeName }}</text>
 						<text class="detail">来访时间： {{ item.inTime }}</text>
 						<text class="detail">签离时间： {{ item.outTime }}</text>
@@ -51,7 +51,7 @@ export default {
 		width: 100%;
 		position: absolute;
 		margin: 30rpx 0 0 20rpx;
-		color: $second-color;
+		color: $u-content-color;
 	}
 }
 /* 右侧内容 */

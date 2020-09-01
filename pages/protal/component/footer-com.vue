@@ -1,6 +1,6 @@
 <template>
-	<view class="footer-com qui-fx qui-bd-t">
-		<view @click="switchTab(foot.id)" class="qui-fx-f1 qui-fx-ac-jc u-content-color" :class="{ 'act': foot.id == tabIndex }" v-for="foot in footList" :key="foot.id">
+	<view class="footer-com u-fx u-bd-t">
+		<view @click="switchTab(foot.id)" class="u-fx-f1 u-fx-ac-jc u-content-color" :class="{ 'act': foot.id == tabIndex }" v-for="foot in footList" :key="foot.id">
 			<image :src="foot.id === tabIndex ? foot.iconAct : foot.icon" class="foot-img"></image>
 			<text class="tip">{{ foot.name }}</text>
 		</view>
@@ -27,6 +27,12 @@ export default {
 				},
 				{
 					id: 2,
+					name: '消息',
+					icon: '/mobile-img/shop-icon.png',
+					iconAct: '/mobile-img/shop-icon-act.png'
+				},
+				{
+					id: 3,
 					name: '我的',
 					icon: '/mobile-img/mine-icon.png',
 					iconAct: '/mobile-img/mine-icon-act.png'
@@ -39,6 +45,10 @@ export default {
   },
 	methods: {
 		switchTab (index) {
+			if (index !== 3 && store.userInfo.typeCode === '16' && store.childList.length === 0) {
+				this.$tools.toast('请先绑定孩子')
+				return
+			}
       setStore({
         key: 'tabIndex',
         data: index

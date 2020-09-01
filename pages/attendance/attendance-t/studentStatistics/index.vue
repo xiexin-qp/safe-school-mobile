@@ -1,46 +1,45 @@
 <template>
-  <view class="statistics qui-page">
+  <view class="statistics u-page">
     <view>
       <view class="year-list">
         <view class="title">{{yearTitle.split('-')[0]}}年</view>
-        <view class="last-month qui-fx qui-fx-jsa" >
+        <view class="last-month u-fx u-fx-jsa" >
 					<view @click="searchMonth(month)" :class="{'act': yearTitle === month}" v-for="month in lastMonth" :key="month">
 						{{ month.split('-')[1] }}月
 					</view>
 				</view>
       </view>
-      <view class="record-box">
-        <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
-        <view class="attandence-box">
-          <view 
-            :class="['attandence-info', 'qui-fx-ac-jc', {'active': currentIndex === index} ]" 
-            v-for="(item, index) in attandenceInfo" 
-            :key="item.id"
-            @click="detail(item, index)"
-          >
-            <image :src="`/mobile-img/${item.img}.png`" mode=""></image>
+      <view class="attandence-title u-fx-ac-jc">上下学考勤统计</view>
+      <scroll-view scroll-y="true" class="attandence-box">
+        <view 
+          class="attandence-info u-fx-jsb" 
+          v-for="(item, index) in attandenceInfo" 
+          :key="item.id"
+          @click="detail(item, index)"
+        >
+          <image :src="`/mobile-img/${item.img}.png`" mode=""></image>
+          <view class="attandence-word u-fx-f1"> 
             <view> {{item.title}}</view>
             <view class="attandence-num"> {{item.num}}次</view>
           </view>
         </view>
-      </view>
-      <view class="qui-fx-ac-jc">
-        <scroll-view  scroll-y="true" class="scroll-h">
-          <no-data msg="暂无数据~" v-if="!dataList || dataList.length === 0"></no-data>
-          <view v-else  v-for="(list, index) in dataList" :key="index" class="list qui-fx-ac-jc qui-fx-ac" @click="check(list)">
-            <image :src=" list.photoUrl ? list.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
-            <text>{{ list.userName }}</text>
-          </view>
-        </scroll-view>
-      </view>
+      </scroll-view>
     </view>
-    <!-- <uni-popup ref="popup" type="center">
-      <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
-        <view v-for="list in dataList" :key="list" class="list qui-bd-b">
-          <text>{{ list | gmtToDate('date') }}</text>
+    <u-popup class="popup" ref="popup" mode="center" length="75%" :mask-close-able="false" border-radius="20">
+      <image src="/mobile-img/popovers_heard.png" mode="" class="img"></image>
+      <view class="detail"> {{ title }}详情</view>
+      <scroll-view  scroll-y="true" class="scroll-h">
+        <no-data msg="暂无数据~" v-if="!dataList || dataList.length === 0"></no-data>
+        <view v-else  v-for="(list, index) in dataList" :key="index" class="list u-bd-b u-fx-ac-jc u-fx-ac" @click="check(list)">
+          <image :src=" list.photoUrl ? list.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
+          <text class="u-font-02">{{ list.userName }}</text>
         </view>
       </scroll-view>
-    </uni-popup> -->
+      <view class="tip">点击学生头像查看考勤记录~</view>
+      <view class="submit-btn u-fx-ac">
+        <u-button class="btn u-font-01" type="primary"  size="mini" @click="close" >知道了</u-button>
+      </view>
+    </u-popup>
   </view>
 </template>
 
@@ -53,7 +52,8 @@ export default {
       attandenceInfo:[],
 			lastMonth: this.lastFiveMonth(),
       yearTitle: this.lastFiveMonth().pop(),
-      currentIndex: 0
+      currentIndex: 0,
+      title:''
     }
   },
   mounted () {
@@ -99,7 +99,7 @@ export default {
           title: '上学缺卡',
           state: '3',
           num: res.data.onNoRecordCount,
-          img: 'kq-qk-icon'
+          img: 'kq-sbqk-icon'
         },{
           title: '迟到',
           state: '1',
@@ -114,12 +114,17 @@ export default {
           title: '放学缺卡',
           state: '6',
           num: res.data.offNoRecordCount,
-          img: 'kq-qk-icon'
+          img: 'kq-xbqk-icon'
         },{
           title: '缺勤',
           state: '7',
           num: res.data.noRecord,
           img: 'kq-qq-icon'
+        },{
+          title: '请假',
+          state: '4',
+          num: res.data.leaveCount,
+          img: 'kq-qj-icon'
         }]
       } else {
         this.attandenceInfo = [{
@@ -131,7 +136,7 @@ export default {
           title: '上学缺卡',
           state: '3',
           num: 0,
-          img: 'kq-qk-icon'
+          img: 'kq-sbqk-icon'
         },{
           title: '迟到',
           state: '1',
@@ -146,41 +151,54 @@ export default {
           title: '放学缺卡',
           state: '6',
           num: 0,
-          img: 'kq-qk-icon'
+          img: 'kq-xbqk-icon'
         },{
           title: '缺勤',
           state: '7',
           num: 0,
           img: 'kq-qq-icon'
+        },{
+          title: '请假',
+          state: '4',
+          num: 0,
+          img: 'kq-qj-icon'
         }]
       }
       this.currentIndex = 0
-      this.detail(this.attandenceInfo[0], this.currentIndex)
 		},
     async detail(item, index){
+      this.title = item.title
       this.currentIndex = index
-        const req = {
-          month: this.yearTitle,
-          teacherCode: store.userInfo.userCode,
-          state: item.state
-        }
-        const res = await actions.classStaticDetail(req)
-        this.dataList = res.data
+      const req = {
+        month: this.yearTitle,
+        teacherCode: store.userInfo.userCode,
+        state: item.state
+      }
+      const res = await actions.classStaticDetail(req)
+      this.dataList = res.data
+      this.$refs.popup.open()
     },
     check (record) {
       this.$tools.navTo({
 				url: `./record?userCode=${record.userCode}&month=${this.yearTitle}&name=${record.userName}&photo=${encodeURIComponent(record.photoUrl)}`,
 				title: ''
       })
+    },
+    close () {
+      this.$refs.popup.close()
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.u-page {
+  background-color: #fff;
+  color: $u-main-color;
+}
 .statistics {
 	.year-list {
-	    background-color: $uni-color-primary;
+	    background-color: $u-type-primary;
 	    .title {
 	      color: $uni-bg-color;
 	      font-size: 34rpx;
@@ -205,57 +223,86 @@ export default {
 	      }
 	    }
 	  }
-  .record-box {
-    padding-top: 20rpx;
-    background-color: $bor-color;
     .attandence-title {
       height: 60rpx;
       line-height: 60rpx;
-      font-size: 36rpx;
+      font-size: 32rpx;
+      font-weight: bold;
+      margin-top: 20rpx;
     }
     .attandence-box {
-      height: 430rpx;
+      height: calc(100vh - 300rpx);
       :nth-child(3n) {
         border-right: none;
       }
       .attandence-info {
-        width: 31%;
+        width: 43.5%;
         float: left;  
         margin-bottom: 30rpx;
         background-color: $uni-bg-color;
-        margin: 15rpx 0 5rpx 15rpx;
-        padding: 20rpx 0;
+        margin: 25rpx 25rpx 5rpx 25rpx;
+        padding: 50rpx 40rpx;
         border-radius: 15rpx;
+        box-shadow: 0px 1px 6px #ddedef;
         image {
-          width: 60rpx;
-          height: 60rpx;
-          margin-bottom: 10rpx;
+           width: 80rpx;
+          height: 80rpx;
         }
-         .attandence-num {
-          color: $dark-color;
-          font-size: 28rpx;
+        .attandence-word {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: inherit;
+          .attandence-num {
+            margin-top: 4rpx;
+            color: $u-content-color;
+            font-size: 28rpx;
+          }
         }
-      }
-      .active {
-        background-color: $u-border-color-one;
       }
     }
-  };
-  .scroll-h {
-    height: calc(100vh - 700rpx);
-    background-color: $uni-bg-color;
-    .list {
-      width: 20%;
-      float: left;
-      padding: 15rpx 25rpx;
-      font-size: 26rpx;
-      image {
-        width: 50rpx;
-        height: 50rpx;
-        border-radius: 50%;
+    .popup {
+      .img {
+        width: 100%;
+        height: 220rpx;
+      }
+      .scroll-h {
+        height: 50vh;
+        background-color: $uni-bg-color;
+        .list {
+          width: 25%;
+          float: left;
+          padding: 15rpx 25rpx;
+          font-size: 26rpx;
+          image {
+            width: 50rpx;
+            height: 50rpx;
+            border-radius: 50%;
+          }
+        }
+      }
+    .detail {
+      color: #4F8AFF;
+      text-align: center;
+      letter-spacing: 2rpx;
+      margin-bottom: 5rpx;
+      // font-size: 30rpx;
+      // font-weight: bold;
+    }
+    .tip {
+      color: #ccc;
+      text-align: center;
+      font-size: 24rpx;
+    }
+    .submit-btn {
+      height: 80rpx;
+      justify-content: center;
+      .btn {
+        letter-spacing: 8rpx;
+        margin: 0 20rpx;
+        width: 90%;
       }
     }
   }
 }
-
 </style>

@@ -1,9 +1,9 @@
 <template>
-	<view class="detail qui-page">
-		<view class="top qui-fx-jsb">
-			<view class="info qui-fx-ac">
+	<view class="detail u-page">
+		<view class="top u-fx-jsb">
+			<view class="info u-fx-ac">
 				<image :src="photo ? photo :errorImg" alt="">
-				<view class="qui-fx-ver">
+				<view class="u-fx-ver">
 					<text class="name">{{ visitorName }}</text>
 					<text class="phone">{{ visitorPhone }}</text>
 					<text class="times">来访{{ visitSum }}次</text>

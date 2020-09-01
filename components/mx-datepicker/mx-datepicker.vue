@@ -54,6 +54,7 @@
 					</block>
 				</view>
 				<view class="picker-modal-footer-btn">
+					<view class="picker-btn" v-if="showAll" :hover-stay-time="100" hover-class="picker-btn-active" @click="showAllTime">重置</view>
 					<view class="picker-btn" :hover-stay-time="100" hover-class="picker-btn-active" @click="onCancel">取消</view>
 					<view class="picker-btn" :style="{color}" :hover-stay-time="100" hover-class="picker-btn-active" @click="onConfirm">确定</view>
 				</view>
@@ -255,6 +256,11 @@
 			},
 			//是否显示
 			show: {
+				type: Boolean,
+				default: false
+			},
+			//选择全部时间
+			showAll: {
 				type: Boolean,
 				default: false
 			},
@@ -473,6 +479,11 @@
 				this.showTimePicker = false;
 				this.type == 'time' && this.onCancel();
 			},
+			//时间选择全部取消
+			showAllTime() {
+				this.$emit('cancel', false);
+				this.$emit('all', false);
+			},
 			//时间选择确定
 			onConfirmTime() {
 				if (this.timeType == 'begin') this.beginTime = this.timeValue;
@@ -492,7 +503,7 @@
 				};
 				//定义默认格式
 				let defaultFormat = {
-					'date': 'yyyy/mm/dd',
+					'date': 'yyyy-mm-dd',
 					'time': 'hh:ii' + (this.showSeconds ? ':ss' : ''),
 					'datetime': ''
 				};

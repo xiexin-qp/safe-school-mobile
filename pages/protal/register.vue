@@ -1,33 +1,33 @@
 <template>
 	<scroll-view scroll-y="true" class="scroll-h u-bg-fff">
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view v-if="isSchool" class="u-fx-ac u-bd-b item-list">
 			<view>学校：</view>
-			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="schoolName" :range="schoolList" @change="chooseSchool">
+			<picker class="u-fx-f1 u-tx-r col-666" mode="selector" :value="schoolName" :range="schoolList" @change="chooseSchool">
 				<span class="u-content-color">{{ schoolName }}</span>
 			</picker>
 			<view class="rit-icon"></view>
 		</view>
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view class="u-fx-ac u-bd-b item-list">
 			<view>年级：</view>
-			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="gradeName" :range="gradeList" @change="chooseGrade">
+			<picker class="u-fx-f1 u-tx-r col-666" mode="selector" :value="gradeName" :range="gradeList" @change="chooseGrade">
 				<span class="u-content-color">{{ gradeName }}</span>
 			</picker>
 			<view class="rit-icon"></view>
 		</view>
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view class="u-fx-ac u-bd-b item-list">
 			<view>班级：</view>
-			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="className" :range="classList" @change="chooseClass">
+			<picker class="u-fx-f1 u-tx-r col-666" mode="selector" :value="className" :range="classList" @change="chooseClass">
 			  <span class="u-content-color">{{ className }}</span>
 			</picker>
 			<view class="rit-icon"></view>
 		</view>
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view class="u-fx-ac u-bd-b item-list">
 			<view>孩子姓名：</view>
-			<view class="qui-fx-f1"><input class="item-input" v-model="formData.userName" placeholder="请输入姓名" /></view>
+			<view class="u-fx-f1"><input class="item-input" v-model="formData.userName" placeholder="请输入姓名" /></view>
 		</view>
-		<view v-if="false" class="qui-fx-ac qui-bd-b item-list">
+		<view v-if="false" class="u-fx-ac u-bd-b item-list">
 			<view>孩子性别：</view>
-			<view class="qui-fx-f1 qui-fx-je col-666">
+			<view class="u-fx-f1 u-fx-je col-666">
 				<radio-group @change="changeRadio">
 					<label>
 						<radio value="1" checked="true" />
@@ -40,35 +40,38 @@
 				</radio-group>
 			</view>
 		</view>
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view class="u-fx-ac u-bd-b item-list">
 			<view>孩子学号：</view>
-			<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.workNo" placeholder="请输入学号" /></view>
+			<view class="u-fx-f1 u-fx-je"><input class="item-input" v-model="formData.workNo" placeholder="请输入学号" /></view>
 		</view>
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view class="u-fx-ac u-bd-b item-list">
 			<view>亲属关系：</view>
-			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="relationShip" :range="relationShipList" @change="chooseRelation">
+			<picker class="u-fx-f1 u-tx-r col-666" mode="selector" :value="relationShip" :range="relationShipList" @change="chooseRelation">
 				<span class="u-content-color">{{ relationShip }}</span>
 		  </picker>
 			<view class="rit-icon"></view>
 		</view>
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view class="u-fx-ac u-bd-b item-list">
 			<view>家长姓名：</view>
-			<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.parentName" placeholder="请输入姓名" /></view>
+			<view class="u-fx-f1 u-fx-je"><input class="item-input" v-model="formData.parentName" placeholder="请输入姓名" /></view>
 		</view>
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view class="u-fx-ac u-bd-b item-list">
 			<view>手机号：</view>
-			<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.mobile" placeholder="请输入手机号" /></view>
+			<view class="u-fx-f1 u-fx-je"><input class="item-input" v-model="formData.mobile" placeholder="请输入手机号" /></view>
 		</view>
-		<view class="qui-bd-b item-list">
-		  <view>上传头像：</view>
-		  <view class="qui-fx-f1 u-mar-t">
-				<an-upload-img total="1" v-model="formData.photoUrl"></an-upload-img>
-		  </view>
-		</view>
-		<view v-if="false" class="qui-fx-ac qui-bd-b item-list">
+		<view class="u-fx-ac u-bd-b item-list">
 			<view>验证码：</view>
-			<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.code" placeholder="请输入验证码" /></view>
-			<view class="yzm-btn">获取验证码</view>
+			<view class="u-fx-f1 u-fx-je"><input class="item-input" v-model="formData.captchaCode" placeholder="请输入验证码" /></view>
+			<view class="yzm-btn" @tap="getCode">{{ total === 60 ? '获取验证码' : total + 'S' }}</view>
+		</view>
+		<view class="u-bd-b item-list">
+		  <view>上传头像：</view>
+		  <view class="u-fx-f1 u-mar-t">
+				<div class="upload-user-img" @click="chooseImg">
+					<image v-if="formData.photoUrl" :src="formData.photoUrl" class="upload-user-img"></image>
+					<view v-if="!formData.photoUrl" class="upload-user-img">+</view>
+				</div>
+		  </view>
 		</view>
 		<view class="btn-mar">
 			<u-button type="primary" @click="register">注册</u-button>
@@ -86,6 +89,8 @@ import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
 export default {
 	data() {
 		return {
+			total: 60,
+			isSchool: false,
 			schoolList: [],
 			schoolName: '请选择学校',
 			gradeList: [],
@@ -95,6 +100,7 @@ export default {
 			relationShip: '请选择关系',
 			formInfo: {},
 			formData: {
+				captchaCode: '',
 				userName: '',
 				workNo: '',
 				parentName: '',
@@ -103,7 +109,7 @@ export default {
 				gradeCode: '',
 				classCode: '',
 				relationShip: '',
-				photoUrl: []
+				photoUrl: ''
 			}
 		}
 	},
@@ -115,16 +121,28 @@ export default {
 		relationShipList: () => store.relationShipList.map(item => item.relationShip)
 	},
 	async mounted() {
-		const res = await actions.getSchoolList({
-			page: 1,
-			size: 100
-		})
-		this.schoolTotal = res.data.list
-		this.schoolList = res.data.list.map(item => {
-			return item.schoolName
-		})
+		const schoolCode = uni.getStorageSync('schoolCode')
+		if (schoolCode) {
+			this.chooseSchool(schoolCode)
+		} else {
+			this.isSchool = true
+			const res = await actions.getSchoolList({
+				page: 1,
+				size: 100
+			})
+			this.schoolTotal = res.data.list
+			this.schoolList = res.data.list.map(item => {
+				return item.schoolName
+			})
+		}
 	},
 	methods: {
+		// 上传图片
+		chooseImg () {
+			this.$tools.choosePhoto((baseImg) => {
+				this.formData.photoUrl = baseImg
+			})
+		},
 		// 返回登录
 		goLogin() {
 			this.$tools.navTo({
@@ -134,10 +152,14 @@ export default {
 		},
 		// 选择学校
 		async chooseSchool(item) {
-			if (this.schoolList.length === 0) return
-			const index = item.target.value
-			this.schoolName = this.schoolList[index]
-			this.formData.schoolCode = this.schoolTotal[index].schoolCode
+			if (typeof item === 'string') {
+				this.formData.schoolCode = item
+			} else {
+				if (this.schoolList.length === 0) return
+				const index = item.target.value
+				this.schoolName = this.schoolList[index]
+				this.formData.schoolCode = this.schoolTotal[index].schoolCode
+			}
 			const res = await actions.getGradeList({
 				schoolCode: this.formData.schoolCode,
 				page: 1,
@@ -187,6 +209,26 @@ export default {
 			this.relationShip = this.relationShipList[index]
 			this.formData.relationShip = index + 1
 		},
+		async getCode() {
+			if (!this.formData.mobile || !/^1[3456789]\d{9}$/.test(this.formData.mobile)) {
+				this.$tools.toast('请输入正确手机号')
+				return
+			}
+			if (this.total != 60) return
+			try {
+				await actions.getCode(this.formData.mobile)
+				this.$tools.toast('获取成功')
+				this.timer = setInterval(() => {
+					this.total--
+					if (this.total <= 0) {
+						this.total = 60
+						clearInterval(this.timer)
+					}
+				}, 1000)
+			} catch (err) {
+				this.$tools.toast('获取失败')
+			}
+		},
 		// 注册
 		async register () {
 			for (let key in this.formData) {
@@ -215,7 +257,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .scroll-h {
 	height: 100vh;
 }

@@ -1,11 +1,11 @@
 <template>
-  <view class="attendance qui-page">
+  <view class="attendance u-page">
     <view>
       <view class="calendar">
         <uni-calendar @change="change" @monthSwitch="monthSwitch" :selected = "selected"></uni-calendar>
       </view>
       <view class="record-box">
-        <view class="work-box qui-fx-jsb">
+        <view class="work-box u-fx-jsb">
           <view>
             <view v-if="dayInfo && dayInfo.onTime"> 上学打卡 {{ dayInfo.onTime  | gmtToDate('time') }} </view>
             <view v-else> 上学打卡 --:-- </view>
@@ -20,7 +20,7 @@
             <image :src="(dayInfo && dayInfo.onSnacpUrl) ? dayInfo.onSnacpUrl : '/mobile-img/child-auto-icon.png'"></image>
           </view>
         </view>
-        <view class="work-box qui-fx-jsb">
+        <view class="work-box u-fx-jsb">
           <view>
             <view v-if="dayInfo && dayInfo.offTime"> 放学打卡 {{ dayInfo.offTime | gmtToDate('time') }} </view>
             <view v-else> 放学打卡 --:-- </view>
@@ -118,7 +118,7 @@ export default {
     background-color: $uni-bg-color;
     .work-box {
       padding: 30rpx 40rpx;
-      border-bottom: 1rpx solid $u-border-color-one;
+      border-bottom: 1rpx solid ￥u-border-color-dark;
       image {
         height: 80rpx;
         width: 80rpx;
@@ -130,7 +130,7 @@ export default {
         color: $u-type-success;
       }
       .absence-title {
-        color: $tip-color;
+        color: $u-tips-color;
       }
       .unnormal-title {
         color: $u-type-warning;

@@ -1,21 +1,21 @@
 <template>
   <view class="app">
-    <view v-if="!isEdit" class="qui-fx-ac enjoy-app">
+    <view v-if="!isEdit" class="u-fx-ac enjoy-app">
       <text class="text">常用模块</text>
-      <view class="qui-fx-f1 qui-fx">
+      <view class="u-fx-f1 u-fx">
         <view v-for="enjoy in enjoyApp" :key="enjoy.id" class="app">
           <image class="app-icon" :src="enjoy.icon || '/mobile-img/app-auto-icon.png'" alt="">
         </view>
       </view>
       <view class="btn edit" @click="isEdit = true">编辑</view>
     </view>
-    <view v-if="isEdit" class="enjoy-app qui-fx-jsb qui-fx-ac">
+    <view v-if="isEdit" class="enjoy-app u-fx-jsb u-fx-ac">
       <text class="text">常用模块</text>
       <view class="btn save" @click="isEdit = false">完成</view>
     </view>
-    <view v-if="isEdit" class="system-list edit-app qui-bd-t">
-      <div v-if="enjoyApp.length === 0" class="no-app u-tips-color">暂未添加模块到首页，请点击添加</div>
-      <view @click="delEnjoy(enjoy.code)" v-for="enjoy in enjoyApp" :key="enjoy.id" class="app qui-fx-ac-jc" :class="{'act': isEdit}">
+    <view v-if="isEdit" class="system-list edit-app u-bd-t">
+      <view v-if="enjoyApp.length === 0" class="no-app u-tips-color">暂未添加模块到首页，请点击添加</view>
+      <view @click="delEnjoy(enjoy.id)" v-for="enjoy in enjoyApp" :key="enjoy.id" class="app u-fx-ac-jc" :class="{'act': isEdit}">
 				<image class="del-add-img" src="/mobile-img/del-app-icon.png"></image>
         <view>
           <image class="app-icon" :src="enjoy.icon || '/mobile-img/app-auto-icon.png'" alt="">
@@ -28,14 +28,14 @@
 			<view class="system-box">
 				<view class="system-list" v-for="app in appList" :key="app.id">
 					<view class="system u-font-1">{{ app.name }}</view>
-					<view @click="chooseEnjoy(module, isShow(module.id))" class="app qui-fx-ac-jc" :class="{'act': isEdit}" v-for="module in app.children" :key="module.id">
+					<view @click="chooseEnjoy(module, isShow(module.id))" class="app u-fx-ac-jc" :class="{'act': isEdit}" v-for="module in app.children" :key="module.id">
 						<image v-if="isShow(module.id) && isEdit" class="del-add-img" src="/mobile-img/del-app-icon.png"></image>
 						<image v-if="!isShow(module.id) && isEdit" class="del-add-img" src="/mobile-img/add-app-icon.png"></image>
 						<view>
 							<image class="app-icon" :src="module.icon || '/mobile-img/app-auto-icon.png'" alt="">
 						</view>
 						<view class="text u-content-color u-font-01">{{ module.name.split('-')[0] }}</view>
-						<view class="text u-tips-color u-font-02">({{ module.name.split('-')[1] }})</view>
+						<view v-if="false" class="text u-tips-color u-font-02">({{ module.name.split('-')[1] }})</view>
 					</view>
 				</view> 
 			</view>
@@ -90,10 +90,14 @@
 						this.$tools.toast('您没有访问权限')
 						return
 					}
-					this.$tools.navTo({
-						title: item.name,
-						url: item.url
-					})
+					if (item.url.indexOf('#') > -1) {
+						window.location.href= item.url
+					} else {
+						this.$tools.navTo({
+							title: item.name.split('-')[0],
+							url: item.url
+						})
+					}
 					return
 				}
         if (tag) {
@@ -160,7 +164,7 @@
       }
     }
     .btn {
-      border-radius: $radius;
+      border-radius: $u-border-radius;
       width: 100rpx;
       height: 50rpx;
       line-height: 48rpx;
@@ -173,7 +177,7 @@
     }
     .save {
       color: #fff;
-      background-color: $main-color;
+      background-color: $u-type-primary;
     }
   }
   .app-module {
@@ -206,8 +210,8 @@
       height: 34rpx;
       line-height: 34rpx;
       padding-left: 16rpx;
-      border-radius: $radius;
-      border-left: 8rpx solid $main-color;
+      border-radius: $u-border-radius;
+      border-left: 8rpx solid $u-type-primary;
     }
     .app {
       float: left;
@@ -226,8 +230,8 @@
 				z-index: 88;
 			}
       &.act {
-        border-radius: $radius;
-        background-color: #e8e8e8;
+        border-radius: $u-border-radius;
+        background-color: $u-bg-color;
       }
       .app-icon {
         width: 52rpx;

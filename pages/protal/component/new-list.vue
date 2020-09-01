@@ -1,19 +1,20 @@
 <template>
 	<view class="news">
 		<no-data v-if="newsList.length === 0"></no-data>
-    <view v-for="news in newsList" :key="news.id" class="news-list qui-bd-b qui-fx">
-      <view class="qui-fx-f1 qui-fx-ver qui-fx-jsb">
-        <view class="qui-te2">{{ news.title }}</view>
-        <text class="time">{{ news.createDate }}</text>
+    <view v-for="news in newsList" :key="news.id" class="news-list u-bd-b u-fx" @click="detail(news.id)">
+      <view class="u-fx-f1 u-fx-ver u-fx-jsb">
+        <view class="u-te2">{{ news.title }}</view>
+        <text class="time u-font-02 u-tips-color">{{ news.createTime | getToDate }}</text>
       </view>
       <view>
-        <img :src="news.coverPhoto" alt="">
+        <img :src="getImg(news.imgUrl)" alt="">
       </view>
     </view>
 	</view>
 </template>
 
 <script>
+import autoImg from '@s/img/news_bg.png'
 import noData from '@/components/no-data/no-data.vue'
 export default {
 	components: {
@@ -32,6 +33,15 @@ export default {
     }
 	},
 	methods: {
+		getImg (url) {
+			return url.indexOf('http') > -1 ? url : autoImg
+		},
+    detail (id) {
+      this.$tools.navTo({
+				url: `../news/news-t/SchoolNews/detail?id=${id}`,
+				title: '详情'
+			})
+    }
 	}
 }
 </script>
@@ -43,7 +53,7 @@ export default {
     img {
       margin-left: 10rpx;
       width: 220rpx;
-      height: 150rpx;
+      height: 140rpx;
       display: block;
     }
     .time {

@@ -1,15 +1,17 @@
 <template>
   <view>
+		<class-tree isCheck v-show="classTag" :classTag="classTag" :schoolInfo="schoolInfo" @close="classClose" @confirm="classSelcet" :classChecked="[]"></class-tree>
+		<teacher-tree isClear isRadio v-show="teacherTag" :teacherTag="teacherTag" :schoolInfo="schoolInfo" @close="teacherClose" @confirm="teacherSelcet" :classChecked="[]"></teacher-tree>
 		<u-picker @confirm="changeTime" v-model="birthdayTag" mode="time"></u-picker>
 		<cp-select-item :items="roleList" @confirm="changeRole" v-model="roleTag"></cp-select-item>
     <scroll-view scroll-y="true"  class="scroll-h u-bg-fff">
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="u-fx-ac u-bd-b item-list">
         <view class="tip">姓名：</view>
-        <view class="qui-fx-f1"><input class="item-input" v-model="formData.userName" style="text-align: right;" placeholder="请输入姓名" /></view>
+        <view class="u-fx-f1"><input class="item-input" v-model="formData.userName" style="text-align: right;" placeholder="请输入姓名" /></view>
       </view>
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="u-fx-ac u-bd-b item-list">
         <view class="tip">性别：</view>
-        <view class="qui-fx-f1 qui-fx-je">
+        <view class="u-fx-f1 u-fx-je">
           <u-radio-group v-model="formData.value" @change="changeSex">
 						<u-radio 
 							shape="circle"
@@ -22,36 +24,51 @@
 					</u-radio-group>
         </view>
       </view>
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="u-fx-ac u-bd-b item-list">
         <view>是否已婚：</view>
-        <view class="qui-fx-f1 qui-fx-je">
+        <view class="u-fx-f1 u-fx-je">
           <u-switch v-model="formData.isMarry"></u-switch>
         </view>
       </view>
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="u-fx-ac u-bd-b item-list">
         <view class="tip">出生日期：</view>
-        <view class="qui-fx-f1 qui-fx-je u-content-color" @click="birthdayTag =  true">
+        <view class="u-fx-f1 u-fx-je u-content-color" @click="birthdayTag =  true">
 					{{formData.birthday}}
         </view>
         <view class="rit-icon"></view>
       </view>
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="u-fx-ac u-bd-b item-list">
         <view class="tip">角色：</view>
-        <view class="qui-fx-f1 qui-fx-je u-content-color" @click="roleTag =  true">
+        <view class="u-fx-f1 u-fx-je u-content-color" @click="roleTag =  true">
 					{{ formData.role }}
         </view>
         <view class="rit-icon"></view>
       </view>
-			<view class="qui-fx-ac qui-bd-b item-list">
+			<view class="u-fx-ac u-bd-b item-list">
 			  <view class="tip">类型：</view>
-			  <view class="qui-fx-f1 qui-fx-je u-content-color" @click="changeAction">
+			  <view class="u-fx-f1 u-fx-je u-content-color" @click="changeAction">
 					{{ formData.type }}
 			  </view>
 			  <view class="rit-icon"></view>
 			</view>
-      <view class="qui-bd-b item-list">
+			<view class="u-fx-ac u-bd-b item-list">
+				<view class="tip">选择班级:</view>
+				<view @click="chooseClass" class="u-fx-f1 u-fx-je u-content-color">请选择</view>
+				<view class="rit-icon"></view>
+			</view>
+			<view class="u-fx-ac u-bd-b item-list">
+				<view class="tip">选择教职工1:</view>
+				<view @click="chooseTeacher(1)" class="u-fx-f1 u-fx-je u-content-color">请选择</view>
+				<view class="rit-icon"></view>
+			</view>
+			<view class="u-fx-ac u-bd-b item-list">
+				<view class="tip">选择教职工2:</view>
+				<view @click="chooseTeacher(2)" class="u-fx-f1 u-fx-je u-content-color">请选择</view>
+				<view class="rit-icon"></view>
+			</view>
+      <view class="u-bd-b item-list">
         <view class="tip">身体状况：</view>
-        <view class="qui-fx-f1 u-padd-t">
+        <view class="u-fx-f1 u-padd-t">
           <u-checkbox-group @change="changeHealth">
 						<u-checkbox 
 							v-model="item.checked" 
@@ -61,15 +78,15 @@
 					</u-checkbox-group>
         </view>
       </view>
-			<view class="qui-bd-b item-list">
+			<view class="u-bd-b item-list">
 			  <view class="tip">上传图片：</view>
-			  <view class="qui-fx-f1">
+			  <view class="u-fx-f1">
 					<an-upload-img total="3" v-model="formData.imgList" style="margin: 20rpx"></an-upload-img>
 			  </view>
 			</view>
-			<view class="qui-bd-b item-list">
+			<view class="u-bd-b item-list">
 			  <view>备注：</view>
-			  <view class="qui-fx-f1"><textarea class="item-text-area" v-model="formData.mark" placeholder="请输入备注" /></textarea></view>
+			  <view class="u-fx-f1"><textarea class="item-text-area" v-model="formData.mark" placeholder="请输入备注" /></textarea></view>
 			</view>
     </scroll-view>
 		<view class="submit-btn">
@@ -80,6 +97,8 @@
 
 <script>
 	import validateForm from '@u/validate'
+	import classTree from '@/components/class-tree/class-tree'
+	import teacherTree from '@/components/teacher-tree/teacher-tree'
 	import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
 	const yzForm = {
 		userName: '请输入用户名',
@@ -93,6 +112,8 @@
 	export default {
 		data() {
 			return {
+				classTag: false,
+				teacherTag: false,
 				roleTag: false,
 				birthdayTag: false,
 				healthyList: [
@@ -142,6 +163,10 @@
 						label: '管理员'
 					}
 				],
+				schoolInfo: {
+					schoolYearId: 53,
+					schoolCode: 'CANPOINTAI'
+				},
 				formData: {
 					userName: '',
 					healthy: [],
@@ -150,16 +175,38 @@
 					isMarry: true,
 					role: '请选择',
 					type: '请选择',
-					imgList: []
+					imgList: [],
 				}
 			}
 		},
 		components: {
-			anUploadImg
+			anUploadImg,
+			classTree,
+			teacherTree
 		},
     methods: {
+			classSelcet(value){
+				this.classTag = false
+				console.log(value)
+			},
+			classClose(){
+				this.classTag = false
+			},
+			teacherSelcet(value){
+				this.teacherTag = false
+				console.log(123, value)
+			},
+			teacherClose(){
+				this.teacherTag = false
+			},
 			changeHealth (item) {
 				this.formData.healthy = item
+			},
+			chooseTeacher (type) {
+				this.teacherTag = true
+			},
+			chooseClass () {
+				this.classTag = true
 			},
 			changeSex (item) {
 				this.formData.sex = item

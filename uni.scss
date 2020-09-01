@@ -12,29 +12,99 @@
  * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
  */
 
+@import '@/uview/theme.scss';
 @import '@/uview/libs/css/color.scss';
 
-/* 颜色变量 */
-$main-color: #2979ff;
-$title-color: #333;
-$des-color: #666;
-$second-color: #999;
-$dark-color: #ccc;
-$bor-color: #eee;
-$tip-color: #ff0000;
+/**间距 背景 圆角**/
+$u-mp-10: 10rpx;
+$u-mp-20: 20rpx;
+$u-mp-30: 30rpx;
+$u-mp-40: 40rpx;
+$u-type-white: #fff;
 
-/**
- * @box-mar 元素与界面左右间距 普通块之间的间距
- * @box-padd 元素内间距
- */
-$box-mar: 20rpx;
-$box-padd: 20rpx 30rpx;
+$u-border-radius: 8rpx;
+$u-border-radius-middle: 16rpx;
+$u-border-radius-big: 32rpx;
+$u-border-radius-all: 100%;
 
-/**
- * @radius 圆角大小
- */
-$radius: 8rpx;
+/* 字体大小 */
+$u-font-01: 26rpx;
+$u-font-02: 24rpx;
+$u-font-03: 20rpx;
+$u-font-1: 32rpx;
+$u-font-2: 34rpx;
+$u-font-3: 36rpx;
 
+/* 边框颜色 */
+$u-border-color-dark: #dcdfe6;
+$u-border-color-disabled: #ebeef5;
+$u-border-color-light: #e4e7ed;
+
+/* 颜色 */
+.u-type-primary-disabled-bg {
+	background-color: $u-type-primary-disabled;
+}
+.u-type-warning-disabled-bg {
+	background-color: $u-type-warning-disabled;
+}
+.u-type-success-disabled-bg {
+	background-color: $u-type-success-disabled;
+}
+.u-type-error-disabled-bg {
+	background-color: $u-type-error-disabled;
+}
+.u-type-info-disabled-bg {
+	background-color: $u-type-info-disabled;
+}
+.u-type-white {
+	color:$u-type-white !important;
+}
+.u-type-white-bg, .u-bg-fff {
+	background-color: $u-type-white !important;
+}
+.u-bg-color {
+	background-color: $u-bg-color!important;
+}
+.u-border-radius {
+	border-radius: $u-border-radius !important;
+}
+.u-border-radius-middle {
+	border-radius: $u-border-radius-middle !important;
+}
+.u-border-radius-big {
+	border-radius: $u-border-radius-big !important;
+}
+.u-border-radius-all {
+	border-radius: $u-border-radius-all !important;
+}
+.u-border-color {
+	border-color: $u-border-color !important;
+}
+.u-border-color-dark {
+	border-color: $u-border-color-dark !important;
+}
+.u-border-color-disabled {
+	border-color: $u-border-color-disabled !important;
+}
+.u-border-color-light {
+	border-color: $u-border-color-light !important;
+}
+/* 图像相关 */
+.u-user-img-small {
+	width: 60rpx;
+	height: 60rpx;
+	display: block;
+}
+.u-user-img {
+	width: 80rpx;
+	height: 80rpx;
+	display: block;
+}
+.u-user-img-big {
+	width: 120rpx;
+	height: 120rpx;
+	display: block;
+}
 /* 行为相关颜色 */
 $uni-color-primary: #007aff;
 $uni-color-success: #4cd964;

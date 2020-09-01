@@ -1,10 +1,9 @@
 <template>
   <view class="notice">
 		<no-data v-if="noticeList.length === 0"></no-data>
-    <view v-for="notice in noticeList" :key="notice.id" class="notice-list qui-bd-b">
-      <text class="title qui-te">{{ notice.title }}</text>
-      <view class="content qui-fx qui-te2">{{ notice.content }}</view>
-      <text class="time">{{ notice.createDate }}</text>
+    <view v-for="notice in noticeList" :key="notice.id" class="notice-list u-bd-b" @click="detail(notice.id)">
+      <text class="title u-te">{{ notice.title }}</text>
+      <text class="time u-font-02 u-content-color">{{ notice.createTime | getToDate }}</text>
     </view>
   </view>
 </template>
@@ -26,6 +25,14 @@
     data () {
       return {
       }
+    },
+    methods: {
+      detail (id) {
+        this.$tools.navTo({
+          url:`../news/news-t/SchoolNotice/detail?id=${id}`,
+          title:'详情'
+        })
+      }
     }
   }
 </script>
@@ -33,13 +40,9 @@
 <style lang="scss" scoped>
   .notice-list {
     background-color: #fff;
-    padding: 20rpx;
+    padding: $u-mp-20;
     .title {
-    }
-    .content {
-      padding: 20rpx 0;
-      text-indent: 50rpx;
-      line-height: 40rpx;
+      margin-bottom: $u-mp-20;
     }
     .time {
     }

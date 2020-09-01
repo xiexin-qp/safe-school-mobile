@@ -1,34 +1,35 @@
 <template>
-  <view class="student-attendance qui-page">
-     <scroll-view scroll-y="true" class="scroll-h">
+  <view class="student-attendance u-page">
       <view>
         <uni-calendar @change="change"></uni-calendar>
       </view>
-        <view class="record-box">
-          <view class="attandence-title qui-fx-ac-jc">上下学考勤统计</view>
-          <view class="attandence-box">
-           
-              <view 
-                class="attandence-info qui-fx-ac-jc" 
-                v-for="item in attandenceInfo" 
-                :key="item.id"
-                @click="detail(item)"
-              >
-                <image :src="`/mobile-img/${item.img}.png`" mode=""></image>
-                <view> {{item.title}}</view>
-                <view class="attandence-num"> {{item.num}}人</view>
-              </view>
-           
+      <view class="record-box">
+        <view class="attandence-bgc"></view>
+        <view class="attandence-title u-fx-ac-jc">上下学考勤统计</view>
+          <scroll-view scroll-y="true" class="attandence-box">
+          <view 
+            class="attandence-info u-fx-ac-jc" 
+            v-for="item in attandenceInfo" 
+            :key="item.id"
+            @click="detail(item)"
+          >
+            <image :src="`/mobile-img/${item.img}.png`" mode=""></image>
+            <view> {{item.title}}</view>
+            <view class="attandence-num"> {{item.num}}人</view>
           </view>
-        </view>
-    </scroll-view>
-    <u-popup ref="popup" mode="center" length="75%">
-     	<scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore">
-        <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
+         </scroll-view>
+      </view>
+    <u-popup class="popup" ref="popup" mode="center" length="75%" :mask-close-able="false" border-radius="20">
+     	<image src="/mobile-img/popovers_heard.png" mode="" class="img"></image>
+      <scroll-view scroll-y="true" class="scroll" @scrolltolower="loadMore">
+        <view v-for="list in dataList" :key="list.id" class="list u-bd-b u-fx-jsb u-fx-ac">
           <text> {{ list.userName }} </text>
           <image :src="list.photoUrl ? list.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
         </view>
       </scroll-view>
+      <view class="submit-btn u-fx-ac">
+          <u-button class="btn u-font-01" type="primary"  size="mini" @click="close" >知道了</u-button>
+        </view>
     </u-popup>
   </view>
 </template>
@@ -76,7 +77,7 @@ export default {
           title: '上学缺卡',
           state: '3',
           num: res.data.onNoRecordCount,
-          img: 'kq-qk-icon'
+          img: 'kq-sbqk-icon'
         },{
           title: '迟到',
           state: '1',
@@ -91,12 +92,17 @@ export default {
           title: '放学缺卡',
           state: '6',
           num: res.data.offNoRecordCount,
-          img: 'kq-qk-icon'
+          img: 'kq-xbqk-icon'
         },{
           title: '缺勤',
           state: '7',
           num: res.data.noRecord,
           img: 'kq-qq-icon'
+        },{
+          title: '请假',
+          state: '4',
+          num: res.data.leaveCount,
+          img: 'kq-qj-icon'
         }]
       } else {
         this.attandenceInfo = [{
@@ -108,7 +114,7 @@ export default {
           title: '上学缺卡',
           state: '3',
           num: 0,
-          img: 'kq-qk-icon'
+          img: 'kq-sbqk-icon'
         },{
           title: '迟到',
           state: '1',
@@ -123,12 +129,17 @@ export default {
           title: '放学缺卡',
           state: '6',
           num: 0,
-          img: 'kq-qk-icon'
+          img: 'kq-xbqk-icon'
         },{
           title: '缺勤',
           state: '7',
           num: 0,
           img: 'kq-qq-icon'
+        },{
+          title: '请假',
+          state: '4',
+          num: 0,
+          img: 'kq-qj-icon'
         }]
       }
 			
@@ -168,26 +179,37 @@ export default {
 				return
 			}
 			this.detail(this.num, true)
-		}
+    },
+    close () {
+      this.$refs.popup.close()
+    }
 	}
 };
 </script>
 
 <style lang="scss" scoped>
+.u-page{
+  color: $u-main-color;
+  background-color: #fff;
+}
 .student-attendance {
   .scroll-h{
     height: 100vh;
   }
   .record-box {
-    padding-top: 10rpx;
-    background-color: $bor-color;
+    .attandence-bgc{
+      height: 20rpx;
+      background-color: #F4F7FC;
+    }
     .attandence-title {
       height: 60rpx;
       line-height: 60rpx;
-      font-size: 36rpx;
+      font-size: 32rpx;
+      font-weight: bold;
+      margin-top: 10rpx;
     }
     .attandence-box {
-      
+      height: calc(100vh - 880rpx);
       .attandence-info {
         width: 30%;
         float: left;  
@@ -196,6 +218,7 @@ export default {
         margin: 20rpx 0 5rpx 20rpx;
         padding: 20rpx 0;
         border-radius: 15rpx;
+        border-right: 6rpx solid #F4F7FC;
         image {
           width: 60rpx;
           height: 60rpx;
@@ -211,13 +234,30 @@ export default {
       }
     }
   }
-  .scroll {
-    height: 70vh;
-    .list {
-      padding: 15rpx;
-      image {
-        width: 60rpx;
-        height: 60rpx;
+  .popup {
+    .img {
+      width: 100%;
+      height: 220rpx;
+      margin-bottom: 10rpx;
+    }
+    .scroll {
+      height: 50vh;
+      .list {
+        padding: 15rpx 25rpx;
+          text-align: center;
+        image {
+          width: 60rpx;
+          height: 60rpx;
+        }
+      }
+    }
+    .submit-btn {
+      height: 80rpx;
+      justify-content: center;
+      .btn {
+        letter-spacing: 8rpx;
+        margin: 0 20rpx;
+        width: 90%;
       }
     }
   }

@@ -83,11 +83,11 @@ export default {
 <style lang="scss">
 .an-uploadImg-group {
 	overflow: auto;
-	height: 110rpx;
+	height: 100%;
 }
 .an-img {
 	float: left;
-	margin-right: 40rpx;
+	margin: 0 40rpx 20rpx 0;
 	position: relative;
 }
 .an-img-add {
@@ -97,7 +97,6 @@ export default {
 	height: 100rpx;
 	width: 100rpx;
 	color:#666;
-	background-color: #c8c7cc;
 	text-align: center;
 	line-height: 100rpx;
 }

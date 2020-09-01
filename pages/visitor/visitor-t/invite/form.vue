@@ -1,27 +1,27 @@
 <template>
 	<view>
 		<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
-			<view class="qui-fx-ac qui-bd-b item-list">
+			<view class="u-fx-ac u-bd-b item-list">
 				<view class="tip">访客姓名：</view>
-				<view class="qui-fx-f1"><input :disabled="disabledTag" class="item-input al-r" v-model="formData.visitorName" placeholder="请输入" /></view>
+				<view class="u-fx-f1"><input :disabled="disabledTag" class="item-input al-r" v-model="formData.visitorName" placeholder="请输入" /></view>
 			</view>
-			<view class="qui-fx-ac qui-bd-b item-list">
+			<view class="u-fx-ac u-bd-b item-list">
 				<view class="tip">访客手机：</view>
-				<view class="qui-fx-f1 qui-fx-je">
+				<view class="u-fx-f1 u-fx-je">
 					<input :disabled="disabledTag" class="item-input al-r" v-model="formData.phone" placeholder="请输入" />
 				</view>
 			</view>
-			<view class="qui-fx-ac qui-bd-b item-list">
+			<view class="u-fx-ac u-bd-b item-list">
 				<view class="tip">预计到达时间：</view>
-				<view @click="show = true" class="qui-fx-f1 qui-fx-je">
+				<view @click="show = true" class="u-fx-f1 u-fx-je">
 					<u-picker v-model="show" :start-year="startYear"  mode="time" :params="params" @confirm="timeChange"></u-picker>
 					<view class="uni-input">{{ formData.accessStartTime }}</view>
 				</view>
 				<view>></view>
 			</view>
-			<view class="qui-fx-ac qui-bd-b item-list">
+			<view class="u-fx-ac u-bd-b item-list">
 				<view class="tip">来访事由：</view>
-				<view class="qui-fx-f1 qui-fx-je">
+				<view class="u-fx-f1 u-fx-je">
 					<picker mode="selector" :value="formData.cause" :range="causeNameList" @change="chooseCause">{{ causeNameList[formData.cause] || '请选择' }}</picker>
 				</view>
 				<view>></view>

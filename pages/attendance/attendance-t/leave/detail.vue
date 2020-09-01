@@ -1,159 +1,143 @@
 <template>
-  <view class="detail qui-page qui-fff">
-    <scroll-view scroll-y="true" class="scroll-h">
-      <view class="leave-detail qui-fx-ver">
-        <view class="leave-info qui-fx-jsb qui-fx-ac">
-          <view class="leave-name"> {{ dayInfo.userName }} {{ dayInfo.reason }} {{ dayInfo.duration }}小时 </view>
-          <view class="leave-state"> {{dayInfo.outSchool === 'Y' ? '出校' : '不出校'}} </view>
-        </view>
-        <view class="leave-time qui-fx-jsb">
-          <view class="qui-fx"> 
-            <view class="leave-icon"> 起 </view>
-            <view>
-              <view> {{ dayInfo.startTime | gmtToDate('date') }} </view>
-              <view> {{ dayInfo.startTime | gmtToDate('time') }} </view>
-            </view>
-          </view>
-          <view class="qui-fx"> 
-            <view class="leave-icon"> 止 </view>
-            <view>
-              <view> {{ dayInfo.endTime | gmtToDate('date') }} </view>
-              <view> {{ dayInfo.endTime | gmtToDate('time') }} </view>
-            </view>
-          </view>
-        </view>
-      </view>
-      <scroll-view scroll-y="true" class="scroll">
-        <view class="leave-remark"> {{ dayInfo.remark ? dayInfo.remark : '暂无' }} </view>
-      </scroll-view>
-      <view>
-        <view class="apply-person">审批人</view>
-        <view class="apply-box qui-fx-ac">
-          <view class="qui-fx-ver qui-fx-ac qui-fx-f1">
-            <image :src="dayInfo.leaveApprovalAddDto && dayInfo.leaveApprovalAddDto.photoUrl ? dayInfo.leaveApprovalAddDto.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
-            {{ dayInfo.leaveApprovalAddDto ? dayInfo.leaveApprovalAddDto.userName : '' }}
-          </view>
-          <view class="apply-content qui-fx-ver qui-fx-f2">
-            <view :class="dayInfo.state === '2' ? 'refuse' : dayInfo.state === '1' ? 'agree' : dayInfo.state === '0' ? 'wait' : 'cancel'">{{ dayInfo.state | approveState }}</view>
-            <view class="apply-time"> {{ dayInfo.approvalTime | gmtToDate }} </view>
-          </view>
-        </view>
-      </view>
-      <view>
-        <view class="apply-person">抄送人</view>
-        <view class="apply-box qui-fx-ac" v-for="copyer in dayInfo.leaveCopyList" :key="copyer.userCode">
-          <view class="qui-fx-ver qui-fx-ac qui-fx-f1">
-            <image :src="copyer.photoUrl ? copyer.photoUrl : '/mobile-img/child-auto-icon.png'" mode=""></image>
-            {{ copyer.userName }}
-          </view>
-          <view class="apply-content qui-fx-ver qui-fx-f2">
-            <view :class="['apply-status', { 'un-read' : copyer.state === '0' }]"> {{ copyer.state | getRead }} </view>
-            <view class="apply-time"> {{ copyer.readTime | gmtToDate }} </view>
-          </view>
-        </view>
-      </view>
-     </scroll-view>
-  </view>
+	<view class="class-detail">
+		<scroll-view scroll-y="true" class="scroll-h">
+			<detail-show :detail="detail"></detail-show>
+			<view class="u-padd">
+				<approval-step :data-list="dataList"></approval-step>
+			</view>
+      <view class="u-padd">
+				<approval-step :data-list="copyList"></approval-step>
+			</view>
+		</scroll-view>
+		<view class="footer-btn u-fx-ac" v-if="show">
+			<u-button class="u-fx-f1 u-mar-l u-mar-r u-type-info-dark-bg u-type-white" @click="operate(0)">拒绝</u-button>
+			<u-button type="primary" class="u-fx-f1 u-mar-r u-type-primary-dark-bg" @click="operate(1)">通过</u-button>
+			<u-button type="primary" class="u-mar-r u-type-primary-dark-bg" @click="operate(2)">同意并转交</u-button>
+		</view>
+		<teacher-tree v-if="show" isRadio :teacherTag="teacherTag" v-show="teacherTag" :schoolInfo="schoolInfo" @close="teacherTag = false"
+		 @confirm="teacherSelcet" :classChecked="[]">
+		</teacher-tree>
+	</view>
 </template>
 
 <script>
-import { actions } from '../store'
+import DetailShow from '../../component/DetailShow.vue'
+import eventBus from '@u/eventBus';
+import { store, actions } from '../store/index.js'
+import teacherTree from "@/components/teacher-tree/teacher-tree"
 export default {
-  data () {
-    return {
-      dayInfo: { }
-    }
-  },
-  // onLoad(options) {
-  //   this.detailGet(options.id)
-  // },
-  mounted() {
-    const id = this.$tools.getQuery().get('id')
-    this.detailGet(id)
-  },
-  methods: {
-    async detailGet (id) {
-      const res = await actions.getLeaveDetail(id)
-      this.dayInfo = res.data
-    }
-  }
+	components: {
+		DetailShow,
+		teacherTree
+	},
+	data() {
+		return {
+			detail: {
+			},
+			dataList: [],
+			id: '',  
+			teacherTag: false,
+			schoolInfo: {
+				schoolYearId: 0,
+				schoolCode: "",
+			},
+      show: false,
+			copyList: []
+		}
+	},
+	created() {
+		this.schoolInfo.schoolCode = store.userInfo.schoolCode;
+    this.schoolInfo.schoolYearId = store.schoolYear.schoolYearId;
+	},
+	mounted() {
+		this.show = this.$tools.getQuery().get("state") === '0' &&  this.$tools.getQuery().get("current") === '2'
+		this.id = this.$tools.getQuery().get("id");
+		this.getDetail()
+	},
+	methods: {
+    async getDetail () {
+      const res = await actions.getLeaveDetail(this.id)
+      this.detail = res.data
+      this.copyList = res.data.leaveCopyList.map(el => {
+				return {
+					dateTime: el.readTime ? this.$tools.getDateTime(el.readTime, 'dateTime') : '',
+					label: '抄送人',
+					labelName: el.userName, 
+					statusName: el.state === '1' ? '已读' : '未读' , 
+					state: el.state === '1' ? 1 : 0,// 此状态只有两种值，1：为已审批的  0：为其他状态
+					photoUrl: el.photoUrl
+				}
+			})
+      this.dataList = res.data.leaveApprovalAddDto.map(el => {
+				return {
+					dateTime: el.updateTime ? this.$tools.getDateTime(el.updateTime, 'dateTime') : '',
+					label: '审批人',
+					labelName: el.userName,
+					statusName: el.state === '0' ? '待审批' : el.state === '1' ? '审批通过' : el.state === '2' ? '审批未通过' : el.state === '4' ? '审批中' : '',
+					state: el.state === '1' ? 1 : 0,// 此状态只有两种值，1：为已审批的  0：为其他状态
+					photoUrl: el.photoUrl
+				}
+			})
+    },
+		teacherSelcet(value) {
+			if(value.length === 0 ){
+				this.$tools.toast("请选择人员")
+				return
+			}
+			if (value[0].userCode === store.userInfo.userCode) {
+				this.$tools.toast('转交人不可选自己')
+				return false
+			}
+			this.teacherTag = false;
+			this.approvalList = [];
+			this.approvalList = value.map((el) => {
+				return {
+					currentApproverCode: store.userInfo.userCode,
+					oddNumbers: this.id,
+					photoUrl: el.photoUrl, // 照片
+					schoolCode: store.userInfo.schoolCode,
+					approverCode: el.userCode,
+					approverName: el.userName
+				}
+			})
+			actions.forwardLeave(this.approvalList[0]).then((res) => {
+				this.$tools.toast("操作成功");
+				this.$tools.goNext(() => {
+					eventBus.$emit('getList')
+					this.$tools.goBack()
+				})
+			});
+		},
+		operate (type) {
+			if (type === 1 || !type) {
+				const title = type ? '通过' : '拒绝'
+				const req = {
+					oddNumbers: this.id,
+					newState: type === 0 ? '2' : '1',
+					schoolCode: store.userInfo.schoolCode,
+					approverCode: store.userInfo.userCode
+				}
+				this.$tools.confirm(`确定${title}这条请假申请吗?`, () => {
+					actions.approvalLeave(req).then(res => {
+						this.$tools.toast('操作成功')
+						this.$tools.goNext(() => {
+							eventBus.$emit('getList')
+							this.$tools.goBack()
+						})
+					})
+				})
+			} else {
+				this.teacherTag = true
+			}
+		}
+	}
 }
 </script>
 
 <style lang="scss" scoped>
-.detail {
-  .leave-detail {
-    height: 250rpx;
-    background-color: $u-bg-color;
-    .leave-info {
-      height: 120rpx;
-      padding-left: 20rpx;
-      .leave-name {
-        font-size: 36rpx;
-      }
-      .leave-state {
-        width: 150rpx;
-        height: 55rpx;
-        line-height: 55rpx;
-        background-color: $u-type-primary;
-        border-radius: 50rpx 0 0 50rpx;
-        color: $uni-bg-color;
-        font-size: 34rpx;
-        text-align: center;
-      }
-    }
-    .leave-time {
-      padding: 20rpx;
-      .leave-icon {
-        height: 70rpx;
-        line-height: 70rpx;
-        text-align: center;
-        width: 70rpx;
-        border-radius: 50%;
-        background-color: $u-type-primary-disabled;
-        color: $uni-bg-color;
-        font-size: 32rpx;
-        margin-right: 20rpx;
-      }
-    }  
-  }
-  .leave-remark {
-    height: 100rpx;
-    padding: 20rpx;
-  }
-  .apply-box {
-    height: 220rpx;
-    background-color: $uni-bg-color;
-    padding: 0 40rpx 20rpx 40rpx;
-    margin-top: 1rpx solid $u-border-color-one;
-    image {
-      width: 100rpx;
-      height: 100rpx;
-      margin: 25rpx 20rpx;
-      border-radius: 50%;
-    }
-    .apply-content {
-      margin-left: 40rpx;
-      .apply-status {
-        color: $u-type-success;
-      }
-      .un-read {
-        color: $u-type-error;
-      }
-      .apply-time {
-        color: $u-border-color;
-        margin-top:10rpx;
-      }
-    }
-  }
-}
-.scroll-h{
-  height: 100vh;
-}
-.scroll{
-  height: 100rpx;
-}
-.apply-person {
-  margin: 0 0 10rpx 20rpx;
+.class-detail {
+	.scroll-h {
+		height: calc(100vh - 100rpx);
+	}
 }
 </style>

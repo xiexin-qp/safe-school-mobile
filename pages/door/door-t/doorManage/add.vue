@@ -1,8 +1,8 @@
 <template>
-	<view class="qui-page">
+	<view class="u-page">
 		<view class="list">
 			<view class="head"><uni-search-bar class="search" placeholder="输入姓名/手机号/工号搜索" @confirm="search"></uni-search-bar></view>
-			<view class="th qui-fx-jsa qui-fx-ac qui-fx-jc title_">
+			<view class="th u-fx-jsa u-fx-ac u-fx-jc title_">
 				<text class="left">选择</text>
 				<view class="u-checkbox__label">
 					<text>姓名</text>
@@ -11,9 +11,9 @@
 				</view>
 			</view>
 			<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
-				<u-checkbox-group class="qui-fx-ver">
-					<label class="tbody qui-bd-b qui-fx-jsa" v-for="(item, index) in dataList" :key="index">
-						<u-checkbox @change="checkBox" v-model="item.checked" class="qui-fx-jsb" :name="`${item.userCode}^${item.userName}`">
+				<u-checkbox-group class="u-fx-ver" width="100%">
+					<label class="tbody u-bd-b u-fx-jsa" v-for="(item, index) in dataList" :key="index">
+						<u-checkbox @change="checkBox" v-model="item.checked" class="u-fx-jsb" :name="`${item.userCode}^${item.userName}`">
 								<text>{{ item.userName }}</text>
 								<text>{{ item.workNo || '--' }}</text>
 								<text>{{ item.mobile }}</text>
@@ -23,7 +23,7 @@
 				</u-checkbox-group>
 			</scroll-view>
 		</view>
-		<view class="submit-box qui-fx">
+		<view class="submit-box u-fx">
 			<view class="btn1" @click="cancel()">取消</view>
 			<view class="btn2" @click="addInfo()">保存</view>
 		</view>
@@ -202,16 +202,16 @@ export default {
 		letter-spacing: 8rpx;
 		background-color: #fff;
 		color: #000;
-		border-radius: $radius;
+		border-radius: $u-border-radius;
 	}
 	.btn2 {
 		width: 50%;
 		line-height: 100rpx;
 		text-align: center;
 		letter-spacing: 8rpx;
-		background-color: $main-color;
+		background-color: $u-type-primary;
 		color: #fff;
-		border-radius: $radius;
+		border-radius: $u-border-radius;
 	}
 }
 .title_ {

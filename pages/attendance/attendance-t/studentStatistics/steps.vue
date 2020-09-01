@@ -8,7 +8,7 @@
 			<!-- 步骤条 -->
 			<view class="set-1">
 				<view class="set-2">
-          <view class="right qui-fx-ver">
+          <view class="right u-fx-ver">
             <text class="detail">上学打卡： {{item.onTime | gmtToDate('time')}}  <text class="set-state">{{ item.onState | getState }} </text> </text>
             <text class="detail">放学打卡： {{item.offTime | gmtToDate('time')}} <text class="set-state">{{ item.offState | getState }} </text></text>
           </view>

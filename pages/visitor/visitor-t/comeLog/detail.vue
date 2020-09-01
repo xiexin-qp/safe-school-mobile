@@ -1,9 +1,9 @@
 <template>
-	<view class="detail qui-page">
-		<view class="top qui-fx-jsb">
-			<view class="info qui-fx-ac">
+	<view class="detail u-page">
+		<view class="top u-fx-jsb">
+			<view class="info u-fx-ac">
 				<image :src="photo ? photo :errorImg" alt="">
-				<view class="qui-fx-ver">
+				<view class="u-fx-ver">
 					<text class="name">{{ visitorName }}</text>
 					<text class="phone">{{ visitorPhone }}</text>
 					<text class="name">{{ comeLog.causeName }}</text>
@@ -11,34 +11,34 @@
 		    </view>
 			<view class="state">{{ visitState | visitState }}</view>
 		</view>
-		<view class="log qui-fx-jsb">
-			<view class="qui-fx-ver">
-				<view class="start qui-fx-ac">
+		<view class="log u-fx-jsb">
+			<view class="u-fx-ver">
+				<view class="start u-fx-ac">
 					<text>起</text>
 					<text>{{ comeLog.inTime }}</text>
 				</view>
-				<view class="in qui-fx-ac">
+				<view class="in u-fx-ac">
 					<text>入</text>
 					<text>{{ comeLog.inPlace }}</text>
 				</view>
 			</view>
-			<view class="qui-fx-ver">
-				<view class="end qui-fx-ac">
+			<view class="u-fx-ver">
+				<view class="end u-fx-ac">
 					<text>止</text>
 					<text>{{ comeLog.outTime }}</text>
 				</view>
-				<view class="out qui-fx-ac">
+				<view class="out u-fx-ac">
 					<text>出</text>
 					<text>{{ comeLog.outPlace }}</text>
 				</view>
 			</view>
 		</view>
-		<view class="log qui-fx-jsb">
-			<view class="start qui-fx-ac">
+		<view class="log u-fx-jsb">
+			<view class="start u-fx-ac">
 				<icon type="info" size="24" />
 				<text  class="mar-l20">随行人数：{{ comeLog.togetherNum || 0 }}</text>
 			</view>
-			<view class="end qui-fx-ac">
+			<view class="end u-fx-ac">
 				<icon type="waiting" size="24" />
 				<text  class="mar-l20">来访时长：{{ comeLog.duration }}小时</text>
 			</view>
@@ -76,7 +76,7 @@ export default {
 			return;
 		}
 		this.comeLog = res.data;
-		this.photo = res.data.registPhoto;
+		this.photo = res.data.visitorUrl;
 		this.visitorName = res.data.userName;
 		this.visitorPhone = res.data.mobile;
 		this.visitSum = res.data.visitSum;

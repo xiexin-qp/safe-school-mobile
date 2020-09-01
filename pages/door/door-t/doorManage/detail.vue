@@ -1,34 +1,48 @@
 <template>
-  <view class="qui-page">
+  <view class="u-page">
     <view class="list">
-      <view class="th qui-fx-ac">
+      <view class="th u-fx-ac">
         <text class="left">姓名</text>
-        <view class="mdl qui-fx-ac qui-fx-jc">
+        <view class="mdl u-fx-ac u-fx-jc">
           <text>性别</text>
         </view>
         <!-- <text class="right">组织机构</text> -->
         <text class="mdr">手机号</text>
         <text class="right">操作</text>
       </view>
-	  <no-data msg="暂无数据" v-if="groupuserList.length === 0"></no-data>
-      <scroll-view v-else scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
-        <view v-for="(item, i) in groupuserList" :key="i" class="tbody qui-bd-b qui-fx-ac">
+      <no-data msg="暂无数据" v-if="groupuserList.length === 0"></no-data>
+      <scroll-view
+        v-else
+        scroll-y="true"
+        class="scroll-h"
+        @scrolltolower="loadMore"
+      >
+        <view
+          v-for="(item, i) in groupuserList"
+          :key="i"
+          class="tbody u-bd-b u-fx-ac"
+        >
           <text class="left">{{ item.userName }}</text>
-          <text class="mdl">{{ item.sex =='1'?'男' : '女' }}</text>
+          <text class="mdl">{{ item.sex == "1" ? "男" : "女" }}</text>
           <!-- <text class="right">{{ item.orgName }}</text> -->
           <text class="mdr">{{ item.mobile }}</text>
-		  <u-tag class="right" text="删除" type="error" @click="actionsheet(item)" />
-         <!-- <text class="right" @click="actionsheet(item)">删除</text> -->
+          <u-tag
+            class="right"
+            text="删除"
+            type="error"
+            @click="actionsheet(item)"
+          />
+          <!-- <text class="right" @click="actionsheet(item)">删除</text> -->
         </view>
       </scroll-view>
     </view>
     <view class="foot">
-		<view class="float-add-btn" @click="add"></view>
+      <view class="float-add-btn" @click="add"></view>
     </view>
   </view>
 </template>
 <script>
-import eventBus from '@u/eventBus'
+import eventBus from "@u/eventBus";
 import noData from "@/components/no-data/no-data.vue";
 import { store, actions } from "../store/index.js";
 export default {
@@ -37,61 +51,62 @@ export default {
     return {
       pageList: {
         page: 1,
-        size: 15
+        size: 15,
       },
-	  morePage: false,
+      morePage: false,
       groupuserList: [],
       ruleGroupCode: "",
-      userGroupCode: ""
+      userGroupCode: "",
     };
   },
   mounted() {
-		this.ruleGroupCode = this.$tools.getQuery().get('ruleGroupCode');
-		this.userGroupCode = this.$tools.getQuery().get('userGroupCode');
-		eventBus.$on('getList', () => {
-			this.showList();
-		})
-		this.showList();
+    this.ruleGroupCode = this.$tools.getQuery().get("ruleGroupCode");
+    this.userGroupCode = this.$tools.getQuery().get("userGroupCode");
+    eventBus.$on("getList", () => {
+      this.showList();
+    });
+    this.showList();
   },
   methods: {
     async showList(tag = false) {
-		if (tag) {
-			this.pageList.page += 1;
-		} else {
-			this.pageList.page = 1;
-		}
+      if (tag) {
+        this.pageList.page += 1;
+      } else {
+        this.pageList.page = 1;
+      }
       const req = {
         schoolCode: store.userInfo.schoolCode,
         ruleGroupCode: this.ruleGroupCode,
         userGroupCode: this.userGroupCode,
         pageNum: this.pageList.page,
-        pageSize: this.pageList.size
+        pageSize: this.pageList.size,
       };
       const res = await actions.getgroupuserList(req);
-	  if (tag) {
-	  	this.groupuserList = this.groupuserList.concat(res.data.list);
-	  } else {
-	  	this.groupuserList = res.data.list;
-	  }
-	  this.morePage = res.data.hasNextPage;
+      if (tag) {
+        this.groupuserList = this.groupuserList.concat(res.data.list);
+      } else {
+        this.groupuserList = res.data.list;
+      }
+      this.morePage = res.data.hasNextPage;
     },
-	loadMore() {
-		if (!this.morePage) {
-			this.$tools.toast('数据已加载完毕');
-			return;
-		}
-		this.showList(true);
-	},
+    loadMore() {
+      if (!this.morePage) {
+        this.$tools.toast("数据已加载完毕");
+        return;
+      }
+      this.showList(true);
+    },
     //删除
     actionsheet(item) {
+      console.log(item);
       const req = {
         schoolCode: store.userInfo.schoolCode,
-        ruleGroupCode: item.ruleGroupCode,
+        ruleGroupCode: this.ruleGroupCode,
         userGroupCode: item.userGroupCode,
-        userCode: item.userCode
+        userCode: item.userCode,
       };
       this.$tools.confirm("确定删除吗", () => {
-        actions.delgroupuserList(req).then(res => {
+        actions.delgroupuserList(req).then((res) => {
           this.$tools.toast("删除成功");
           this.showList();
         });
@@ -104,10 +119,10 @@ export default {
           this.ruleGroupCode +
           "&userGroupCode=" +
           this.userGroupCode,
-        title: "添加成员"
+        title: "添加成员",
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -124,27 +139,27 @@ export default {
   .tbody {
     position: relative;
     padding: 25rpx 20rpx;
-	background: $uni-bg-color;
+    background: $uni-bg-color;
   }
   .tbody:nth-child(even) {
-     background: $u-bg-color;
+    background: $u-bg-color;
   }
   .left {
-  	width: 20%;
-  	text-align: center;
+    width: 20%;
+    text-align: center;
   }
   .mdl {
-  	width: 20%;
-  	text-align: center;
+    width: 20%;
+    text-align: center;
   }
   .mdr {
-  	width: 40%;
-  	text-align: center;
+    width: 40%;
+    text-align: center;
   }
   .right {
-  	width: 20%;
-	max-width: 120rpx;
-  	text-align: center;
+    width: 20%;
+    max-width: 120rpx;
+    text-align: center;
   }
 }
 .scroll-h {

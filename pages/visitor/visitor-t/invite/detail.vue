@@ -1,37 +1,37 @@
 <template>
-	<view class="qui-page">
+	<view class="u-page">
 		<view class="detail">
-			<view class="top qui-fx-jsb">
-			    <view class="info qui-fx-ac">
+			<view class="top u-fx-jsb">
+			    <view class="info u-fx-ac">
 							<image :src="photo ? photo :errorImg" alt="">
-							<view class="qui-fx-ver">
+							<view class="u-fx-ver">
 								<text class="name">{{ visitorName }}</text>
 								<text class="phone">{{ visitorPhone }}</text>
 								<text class="times">{{ causeName }}</text>
 							</view>
 					</view>
-			    <view class="state qui-fx">
+			    <view class="state u-fx">
 						<view class="trigon">
 						</view>
 						<text :class="state === '2' ? 'refuse' : state === '1' ? 'agree' : state === '0' ? 'wait' : 'cancel'">{{ state | approveState }}</text>
 					</view>
 			</view>
-			<view class="log qui-fx-jsb">
-				<view class="qui-fx-ver">
-					<view class="start qui-fx-ac">
+			<view class="log u-fx-jsb">
+				<view class="u-fx-ver">
+					<view class="start u-fx-ac">
 						<text>到</text>
-						<text>{{ comeLog.accessStartTime | gmtToDate }}</text>
+						<text>{{ comeLog.accessStartTime }}</text>
 					</view>
 				</view>
-				<view class="qui-fx-ver">
-					<view class="end qui-fx-ac">
+				<view class="u-fx-ver">
+					<view class="end u-fx-ac">
 						<icon type="info" size="24" />
 						<text  class="mar-l20">随行人数：{{ comeLog.togetherNum || 0 }}</text>
 					</view>
 				</view>
 			</view>
-			<view v-if="state == 2" class="log qui-fx-jsb">
-				<view class="start qui-fx-ac">
+			<view v-if="state == 2" class="log u-fx-jsb">
+				<view class="start u-fx-ac">
 					<icon type="cancel" size="24" />
 					<text  class="mar-l20">拒绝原因：{{ comeLog.reason }}</text>
 				</view>

@@ -1,14 +1,14 @@
 <template>
-  <view class="stundent-statistics qui-page">
+  <view class="stundent-statistics u-page">
     <view>
-      <view class="title qui-fx-ac">
+      <view class="title u-fx-ac">
         <image :src="photo ? photo : '/mobile-img/child-auto-icon.png'" mode=""></image>
         <view>{{studentName}} {{month}} 考勤统计</view>
       </view>
       <view class="record-box">
         <view class="attandence-box">
           <view 
-            class="attandence-info qui-fx-ac-jc" 
+            class="attandence-info u-fx-ac-jc" 
             v-for="item in attandenceInfo" 
             :key="item.id"
             @click="detail(item)"
@@ -19,21 +19,25 @@
           </view>
         </view>
       </view>
-      <view class="title qui-fx-ac">
+      <view class="title u-fx-ac">
         <image :src="photo ? photo : '/mobile-img/child-auto-icon.png'" mode=""></image>
         <view>{{studentName}}  {{month}} 考勤记录</view>
       </view>
       <scroll-view scroll-y="true" class="scroll">
-        <steps></steps>
+        <steps :studentCode="studentCode" :month="month"></steps>
       </scroll-view>
     </view>
-    <u-popup ref="popup" mode="center" length="75%">
-     	<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
-        <view v-for="list in dataList" :key="list.id" class="list qui-bd-b qui-fx-jsb qui-fx-ac">
+    <u-popup class="popup" ref="popup" mode="center" length="75%" :mask-close-able="false" border-radius="20">
+      <image src="/mobile-img/popovers_heard.png" mode="" class="img"></image>
+      <scroll-view scroll-y="true" class="scroll-h">
+        <view v-for="list in dataList" :key="list.id" class="list u-bd-b">
           <text>{{ list | gmtToDate('date') }}</text>
         </view>
       </scroll-view>
-    </u-popup>
+      <view class="submit-btn u-fx-ac">
+        <u-button class="btn u-font-01" type="primary"  size="mini" @click="close" >知道了</u-button>
+      </view>
+  </u-popup>
   </view>
 </template>
 
@@ -60,6 +64,13 @@ export default {
       photo: ''
     }
   },
+  //  onLoad(options) {
+  //   console.log('options',decodeURIComponent(options.photo))
+  //   this.studentCode = options.userCode
+  //   this.studentName = options.name
+  //   this.month = options.month
+  //   this.photo = decodeURIComponent(options.photo)
+  // },
   mounted() {
     this.studentCode =  this.$tools.getQuery().get('userCode') 
     this.studentName = this.$tools.getQuery().get('name') 
@@ -84,7 +95,7 @@ export default {
           title: '上学缺卡',
           state: '3',
           num: `${res.data.onNoRecordCount}次`,
-          img: 'kq-qk-icon'
+          img: 'kq-sbqk-icon'
         },{
           title: '迟到',
           state: '1',
@@ -99,12 +110,17 @@ export default {
           title: '放学缺卡',
           state: '6',
           num:  `${res.data.offNoRecordCount}次`,
-          img: 'kq-qk-icon'
+          img: 'kq-xbqk-icon'
         },{
           title: '缺勤',
           state: '7',
           num:  `${res.data.noRecord}天`,
           img: 'kq-qq-icon'
+        },{
+          title: '请假',
+          state: '4',
+          num:  `${res.data.leaveCount}次`,
+          img: 'kq-qj-icon'
         }]
       } else {
         this.attandenceInfo = [{
@@ -116,7 +132,7 @@ export default {
           title: '上学缺卡',
           state: '3',
           num: '0次',
-          img: 'kq-qk-icon'
+          img: 'kq-sbqk-icon'
         },{
           title: '迟到',
           state: '1',
@@ -131,47 +147,36 @@ export default {
           title: '放学缺卡',
           state: '6',
           num:  '0次',
-          img: 'kq-qk-icon'
+          img: 'kq-xbqk-icon'
         },{
           title: '缺勤',
           state: '7',
           num:  '0天',
           img: 'kq-qq-icon'
+        },{
+          title: '请假',
+          state: '4',
+          num:  '0次',
+          img: 'kq-qj-icon'
         }]
       }
-		},
-    async detail (item, tag = false) {
+    },
+    close () {
+      this.$refs.popup.close()
+    },
+    async detail (item) {
       this.num = item.num
       if (item.num !== '0次' && item.num !== '0天') {
-        if (tag) {
-          this.pageList.page += 1;
-        } else {
-          this.pageList.page = 1;
-        }
         const req = {
           month: this.month,
           studentCode: this.studentCode,
-          state: item.state,
-          page: this.pageList.page,
-				  size: this.pageList.size
+          state: item.state
         }
         const res = await actions.childStaticDetail(req)
-        if (tag) {
-          this.dataList = this.dataList.concat(res.data)
-        } else {
-          this.dataList = res.data
-        }
-			  this.morePage = res.data.hasNextPage
+        this.dataList = res.data
         this.$refs.popup.open()
       }
-    },
-    loadMore() {
-			if (!this.morePage) {
-				this.$tools.toast('数据已加载完毕')
-				return
-			}
-			this.detail(this.num, true)
-		}
+    }
   }
 }
 </script>
@@ -179,6 +184,7 @@ export default {
 <style lang="scss" scoped>
 .stundent-statistics {
   background-color: $uni-bg-color-grey;
+  color: $u-main-color;
   .title {
     height: 80rpx;
     background-color: $uni-bg-color;
@@ -193,7 +199,7 @@ export default {
   .record-box {
     background-color:$uni-bg-color-hover;
     .attandence-box {
-      height: 425rpx;
+      height: 625rpx;
       .attandence-info {
         width: 29.8%;
         float: left;  
@@ -207,7 +213,7 @@ export default {
           margin-bottom: 10rpx;
         }
         .attandence-num {
-          color: $dark-color;
+          color: $u-content-color;
           font-size: 28rpx;
         }
       }
@@ -216,20 +222,40 @@ export default {
       }
     }
   }
-  .scroll-h {
-    height: 70vh;
-    .list {
-      padding: 15rpx 25rpx;
-      image {
-        width: 60rpx;
-        height: 60rpx;
-      }
-    }
-  }
   .scroll {
-    height: calc(100vh - 620rpx);
+    height: calc(100vh - 820rpx);
     background-color: $uni-bg-color;
     margin-top: 15rpx;
+  }
+  .popup {
+    .img {
+      width: 100%;
+      height: 220rpx;
+      margin-bottom: 10rpx;
+    }
+    .scroll-h {
+      height: 50vh;
+      .list {
+        padding: 15rpx 25rpx;
+        text-align: center;
+        &:first-of-type {
+          padding-top: 0rpx;
+        }
+        image {
+          width: 60rpx;
+          height: 60rpx;
+        }
+      }
+    }
+    .submit-btn {
+      height: 80rpx;
+      justify-content: center;
+      .btn {
+        letter-spacing: 8rpx;
+        margin: 0 20rpx;
+        width: 90%;
+      }
+    }
   }
 }
 </style>

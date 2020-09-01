@@ -11,25 +11,34 @@ function resultBack(res) {
   })
 }
 
+const protal = JSON.stringify({
+	userInfo: {
+		schoolCode: 'CANPOINTLIVE'
+	}
+})
+
 // 响应式数据
-const projectName = 'news' // 此处写项目名作为存储值
+const projectName = 'news-t' // 此处写项目名作为存储值
 const localData = uni.getStorageSync(projectName) || '{}'
 const getState = (state, val) => {
   return JSON.parse(localData)[state] || val
 }
 const store = Vue.observable({
-  tabIndex: 0,
-  enjoyApp: getState('enjoyApp', [])
+  userInfo: JSON.parse(uni.getStorageSync('protal') || protal).userInfo,
 })
 
 // 修改数据
-const setStore = ({ key, data, isLocal = true }) => {
+const setStore = ({
+  key,
+  data,
+  isLocal = true
+}) => {
   if (isLocal) {
     const localData = JSON.parse(uni.getStorageSync(projectName) || '{}')
     localData[key] = data
     uni.setStorageSync(projectName, JSON.stringify(localData))
   }
-  store[key] = data
+  store[key] = data1
 }
 
 /**
@@ -42,13 +51,12 @@ const actions = Object.create(null)
 for (const key in apiList) {
   const url = apiList[key].split('#')[0]
   const type = apiList[key].split('#')[1]
-  actions[key] = async function(params = {}) {
+  actions[key] = async function (params = {}) {
     // 是否显示加载提示
     const isLoad = apiList[key].split('#')[2] === undefined
     let reqType = type === 'getUrl' ? 'get' : type
     const isGetUrl = type === 'getUrl'
-    const res = await $ajax[reqType](
-      {
+    const res = await $ajax[reqType]({
         url: isGetUrl || type === 'del' ? url + '/' + params : url,
         params: isGetUrl ? {} : params
       },
@@ -63,4 +71,8 @@ for (const key in apiList) {
   }
 }
 
-export { store, setStore, actions }
+export {
+  store,
+  setStore,
+  actions
+}

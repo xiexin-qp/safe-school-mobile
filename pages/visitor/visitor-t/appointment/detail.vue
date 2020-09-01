@@ -1,48 +1,48 @@
 <template>
-	<view class="qui-page">
+	<view class="u-page">
 		<view class="detail">
-			<view class="top qui-fx-jsb">
-				<view class="info qui-fx-ac">
+			<view class="top u-fx-jsb">
+				<view class="info u-fx-ac">
 					<image :src="comeLog.visitorUrl ? comeLog.visitorUrl :errorImg" alt="">
-					<view class="qui-fx-ver">
+					<view class="u-fx-ver">
 						<text class="name">{{ visitorName }}</text>
 						<text class="phone">{{ visitorPhone }}</text>
 						<text class="times">{{ comeLog.causeName }}</text>
 					</view>
 				</view>
-				<view class="state qui-fx">
+				<view class="state u-fx">
 					<view class="trigon">
 					</view>
 					<text :class="state === '2' ? 'refuse' : state === '1' ? 'agree' : state === '0' ? 'wait' : 'cancel'">{{ state | approveState }}</text>
 				</view>
 			</view>
-			<view class="log qui-fx-jsb">
-				<view class="qui-fx-ver">
-					<view class="start qui-fx-ac">
+			<view class="log u-fx-jsb">
+				<view class="u-fx-ver">
+					<view class="start u-fx-ac">
 						<text>到</text>
-						<text>{{ comeLog.accessStartTime | gmtToDate }}</text>
+						<text>{{ comeLog.accessStartTime }}</text>
 					</view>
 				</view>
-				<view class="qui-fx-ver">
-					<view class="end qui-fx-ac">
+				<view class="u-fx-ver">
+					<view class="end u-fx-ac">
 						<icon type="info" size="24" />
 						<view class="mar-l20">随行人数：{{ comeLog.togetherNum || 0 }}</view>
 					</view>
 				</view>
 			</view>
-			<view v-if="refuseTag || state == '2'" class="log qui-fx-jsb">
-				<view class="start qui-fx-ac">
+			<view v-if="refuseTag || state == '2'" class="log u-fx-jsb">
+				<view class="start u-fx-ac">
 					<icon type="cancel" size="24" />
 					<text class="mar-l20">拒绝原因：{{ comeLog.reason }}</text>
 				</view>
 			</view>
 		</view>
-		<view v-if="state == '0'" class="submit-box qui-fx">
+		<view v-if="state == '0'" class="submit-box u-fx">
 			<view class="btn1" @click="open">审批不通过</view>
 			<view class="btn2" @click="clickConfirm">审批通过</view>
 		</view>
 		<u-popup :maskCloseAble="true" ref="refuse" mode="center" length="80%">
-			<view class="pop qui-fx-ver">
+			<view class="pop u-fx-ver">
 				<view class="title">请输入拒绝原因</view>
 				<input v-model="refuseText" focus placeholder="" />
 				<view class="btn" @click="sure(0)">确定</view>
@@ -206,14 +206,14 @@ export default {
 		background: #fff;
 		padding: 40rpx 20rpx;
 		margin: 20rpx 0 40rpx 0;
-		border: 1px solid $bor-color;
+		border: 1px solid $u-border-color;
 		border-radius: 16rpx;
-		box-shadow: 2rpx 2rpx 1rpx 1rpx $bor-color;
+		box-shadow: 2rpx 2rpx 1rpx 1rpx $u-border-color;
 		.start,
 		.end {
 			margin: 10rpx 0;
 			text:first-child {
-				border: 1rpx solid $main-color;
+				border: 1rpx solid $u-type-primary;
 				padding: 6rpx 12rpx;
 				border-radius: 100%;
 				margin-right: 20rpx;
@@ -221,7 +221,7 @@ export default {
 		}
 		.sub-title {
 			font-size: 24rpx;
-			color: $second-color;
+			color: $u-content-color;
 		}
 	}
 }
@@ -237,16 +237,16 @@ export default {
 		letter-spacing: 8rpx;
 		background-color: #fff;
 		color: #000;
-		border-radius: $radius;
+		border-radius: $u-border-radius;
 	}
 	.btn2 {
 		width: 50%;
 		line-height: 100rpx;
 		text-align: center;
 		letter-spacing: 8rpx;
-		background-color: $main-color;
+		background-color: $u-type-primary;
 		color: #fff;
-		border-radius: $radius;
+		border-radius: $u-border-radius;
 	}
 }
 .pop {
@@ -264,7 +264,7 @@ export default {
 		line-height: 80rpx;
 		text-align: center;
 		letter-spacing: 8rpx;
-		background-color: $main-color;
+		background-color: $u-type-primary;
 		color: #fff;
 	}
 }

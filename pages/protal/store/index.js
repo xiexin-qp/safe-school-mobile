@@ -18,7 +18,7 @@ const getState = (state, val) => {
   return JSON.parse(localData)[state] || val
 }
 const store = Vue.observable({
-  tabIndex: 0,
+  tabIndex: getState('tabIndex', 0),
 	relationShipList: [
 		{
 			id: 1,
@@ -41,6 +41,8 @@ const store = Vue.observable({
 			relationShip: '其他'
 		}
 	],
+	schoolYear: getState('schoolYear', []),
+	isBZR: getState('isBZR', {}),
 	enjoyApp: getState('enjoyApp', []),
   enjoyTeacherApp: getState('enjoyTeacherApp', []),
 	enjoyParentApp: getState('enjoyParentApp', []),

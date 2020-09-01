@@ -1,14 +1,14 @@
 <template>
-  <view class="leave qui-page">
+  <view class="leave u-page">
     <view class="nav-tab">
       <view :class="['nav-item',{'active':item.id === currentIndex}]" v-for="item in navs" :key="item.id" @click="tabChange(item.id)">{{item.name}}</view>
     </view>
-    <view class="dropDown qui-fx">
+    <view class="dropDown u-fx">
       <ms-dropdown-menu>
         <ms-dropdown-item v-model="value0" :list="casueList"></ms-dropdown-item>
       </ms-dropdown-menu>
       <ms-dropdown-menu>
-        <ms-dropdown-item v-model="value1" :list="dateList"></ms-dropdown-item>
+        <ms-dropdown-item v-model="value1" :list="currentIndex === '2' ? myList : dateList"></ms-dropdown-item>
       </ms-dropdown-menu>
         <ms-dropdown-menu>
         <ms-dropdown-item v-model="value2" :list="dataList"></ms-dropdown-item>
@@ -18,22 +18,25 @@
     <scroll-view v-else scroll-y="true" class="scroll-h" @scrolltolower="loadMore" >
       <view class="content">
         <view class="record-box">
-          <view class="leave-box" v-for="(item,index) in leaveList" :key="index">
-            <view class="leave-top qui-fx-jsb">
+          <view class="leave-box" v-for="(item,index) in leaveList" :key="index" @click="detail(item.oddNumbers, item.optState)">
+            <view class="leave-top u-fx-jsb">
               <view class="leave-title"> {{ item.reason }} </view>
-              <view v-if=" currentIndex !== '3'  && item.state === '0'  " class="leave-icon" @click="check(item.oddNumbers)"> ...</view>
+              <view v-if=" currentIndex === '1'  && item.state === '0'  " class="leave-icon" @click.stop="check(item.oddNumbers)"> ...</view>
             </view>
             <view class="leave-info"> 
               <view class="leave-pur">开始时间：{{ item.startTime | gmtToDate }}</view>
               <view class="leave-pur">结束时间：{{ item.endTime | gmtToDate }}</view>
               <view class="leave-pur">描述：{{ item.remark }}</view>
               <view class="leave-pur">状态：
-                <text :class="item.state === '2' ? 'refuse' : item.state === '1' ? 'agree' : item.state === '0' ? 'wait' : 'cancel'">{{ item.state | approveState }}</text>
+                <text :style="{color: item.state === '0' ? '#2979ff' : item.state === '1' ? '#19be6b' : item.state === '2' ? '#fa3534' : '#ff9900'}">
+									{{ item.state | leaveState }}
+								</text>
               </view>
             </view>
-            <view class="leave-bottom qui-fx-jsb">
+            <view class="leave-bottom u-fx-jsb">
               <view class="leave-time"> {{ item.initiationTime | gmtToDate }}</view>
-              <view class="leave-detail" @click="detail(item.oddNumbers)"> 查看详情 > </view>
+              <view class="leave-detail"> 查看详情 > </view>
+              <!-- <view class="leave-detail" @click="detail(item.oddNumbers, item.optState)"> 查看详情 > </view> -->
             </view>
           </view>
         </view>
@@ -73,12 +76,12 @@ export default {
       casueList: [{text:'全部请假',value:'0'}],
       dateList: [
         {
-          text: '全部审批',
+          text: '审批状态',
           value: '0'
         },
         {
           text: '待审批',
-          value: '4'
+          value: '5'
         },
         {
           text: '审批通过',
@@ -89,8 +92,8 @@ export default {
           value: '2'
         },
         {
-          text: '撤回',
-          value: '3'
+          text: '审批中',
+          value: '4'
         }
       ],
       dataList: [
@@ -109,6 +112,20 @@ export default {
         {
             text: '六个月内',
             value: '180'
+        }
+      ],
+      myList: [
+        {
+          text: '操作状态',
+          value: '0'
+        },
+        {
+          text: '待审批',
+          value: '2'
+        },
+        {
+          text: '已审批',
+          value: '1'
         }
       ],
       value0: '0',
@@ -155,10 +172,13 @@ export default {
            this.copyLeaveGet()
         }
 			}
-			}
+		}
 	},
   mounted () {
     eventBus.$on('getList', () => {
+			this.approvalLeaveGet()
+    })
+    eventBus.$on('getLeaveList', () => {
 			this.teacherLeaveGet()
     })
     this.leaveReasonGet()
@@ -178,7 +198,7 @@ export default {
       let value1 = ''
       if (this.value1 === '0') {
         value1 =  ''
-      } else if ( this.value1 === '4' ) {
+      } else if ( this.value1 === '5' ) {
         value1 =  '0'
       }else {
         value1 =  this.value1 
@@ -209,7 +229,7 @@ export default {
       let value1 = ''
         if (this.value1 === '0') {
           value1 =  ''
-        } else if ( this.value1 === '4' ) {
+        } else if ( this.value1 === '2' ) {
           value1 =  '0'
         }else {
           value1 =  this.value1 
@@ -221,7 +241,7 @@ export default {
         }
        const req = {
         applicantCode: '',
-        state: value1,
+        optState: value1,
         page: this.pageList.page,
         size: this.pageList.size,
         userCode: store.userInfo.userCode,
@@ -300,44 +320,28 @@ export default {
 		},
     check (oddNumbers) {
       const arr1 = ['修改', '撤回']
-      const arr2 = ['审批通过', '审批不通过']
-      if (this.currentIndex === '1') {
-        this.$tools.actionsheet(arr1, (index) => {
-          if (index === 0) {
-            this.$tools.navTo({
-              url: `./add?oddNumbers=${oddNumbers}`,
-              title: '编辑请假单'
-            })
-          } else {
-            this.$tools.confirm(`确定${arr1[index]}吗?`, () => {
-              actions.recallLeave(oddNumbers).then(res => {
-                this.$tools.toast('操作成功')
-                this.teacherLeaveGet()
-              })
-            })
-          }
-        })
-      } else if (this.currentIndex === '2') {
-        this.$tools.actionsheet(arr2, (index) => {
-          const req = {
-            oddNumbers: oddNumbers,
-            newState: index === 0 ? '1' : '2'
-          }
-          this.$tools.confirm(`确定${arr2[index]}吗?`, () => {
-            actions.approvalLeave(req).then(res => {
+      this.$tools.actionsheet(arr1, (index) => {
+        if (index === 0) {
+          this.$tools.navTo({
+            url: `./add?oddNumbers=${oddNumbers}`,
+            title: '编辑请假单'
+          })
+        } else if (index === 1){
+          this.$tools.confirm(`确定${arr1[index]}吗?`, () => {
+            actions.recallLeave(oddNumbers).then(res => {
               this.$tools.toast('操作成功')
-              this.approvalLeaveGet()
+              this.teacherLeaveGet()
             })
           })
-        })
-      }
+        }
+      })
     },
-    detail (id) {
-      if(this.currentIndex==='3' ){
+    detail (id,state) {
+      if(this.currentIndex==='3'){
         this.leaveRead(id) 
       }
       this.$tools.navTo({
-				url: `./detail?id=${id}`,
+				url: `./detail?id=${id}&state=${state}&current=${this.currentIndex}`,
 				title: '查看详情'
 			})
     },
@@ -370,7 +374,7 @@ export default {
       }
     }
     .active {
-      border-bottom: 1rpx solid $u-light-color;
+      border-bottom: 4rpx solid $u-type-info-disabled;
     }
   }
   .select-box {
@@ -387,7 +391,7 @@ export default {
     height: calc(100vh - 190rpx);
     // height: 85vh;
     .record-box {
-      background-color: $bor-color;
+      background-color: $u-border-color;
       padding: 5rpx 5rpx 0 5rpx; 
       .leave-box {
         margin: 20rpx;
@@ -419,7 +423,7 @@ export default {
           margin-top: 10rpx;
           padding-top: 10rpx;
           font-size: 28rpx;
-          border-top: 1rpx solid $u-border-color-four;
+          border-top: 1rpx solid ￥u-border-color;
           .leave-time {
             color:$u-light-color;
           }

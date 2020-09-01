@@ -1,5 +1,5 @@
 <template>
-	<view class="dropDown qui-fx">
+	<view class="dropDown u-fx">
 		<ms-dropdown-menu><ms-dropdown-item v-model="value0" :list="casueList"></ms-dropdown-item></ms-dropdown-menu>
 		<ms-dropdown-menu><ms-dropdown-item v-model="value1" :list="dateList"></ms-dropdown-item></ms-dropdown-menu>
 		<ms-dropdown-menu v-if="hasStatus"><ms-dropdown-item v-model="value2" :list="statusList"></ms-dropdown-item></ms-dropdown-menu>
@@ -105,7 +105,7 @@ export default {
 .dropdown-menu {
 	width: 50%;
 	padding: 2rpx 0;
-	border: 1rpx solid $bor-color;
+	border: 1rpx solid $u-border-color;
 	border-radius: 8rpx;
 }
 .dropdown-menu:first-child {

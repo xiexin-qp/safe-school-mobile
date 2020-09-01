@@ -1,0 +1,56 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview/components/u-$1/u-$1.vue"
+	},
+	"pages": [
+		// 安防系统-安全巡检
+		{
+			"path": "pages/safe/index"
+		},
+		{
+			"path": "pages/safe/detail"
+		},
+		{
+			"path": "pages/safe/add"
+		},
+		{
+			"path": "pages/safe/item"
+		},
+		{
+			"path": "pages/safe/list"
+		},
+		{
+			"path": "pages/safe/my"
+		},
+		{
+			"path": "pages/safe/record"
+		},
+		{
+			"path": "pages/safe/schedule"
+		},
+		{
+			"path": "pages/safe/task"
+		}
+	],
+	"globalStyle": {
+		// 禁用头部导航栏
+		"h5": {
+			"titleNView": false
+		},
+		"usingComponents": {
+			"ly-tree-node": "/components/ly-tree/ly-tree-node"
+		},
+		//#ifdef H5
+		"pullToRefresh": {
+			"style": "circle",
+			"color": "#FC3F78",
+			"offset": "0px"
+		},
+		//#endif
+		"onReachBottomDistance": 200,
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "平安校园",
+		"navigationBarBackgroundColor": "#007aff",
+		"backgroundColor": "#F8F8F8"
+	}
+}

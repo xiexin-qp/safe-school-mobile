@@ -9,7 +9,8 @@ let schoolApi = {
 }
 let gradeApi = {
 	getGradeList: `${hostEnv.lz_user_center}/grade/manage/list#postQuery`, // 获取年级列表
-	getClassList: `${hostEnv.lz_user_center}/classManage/list#post` // 获取班级列表
+	getClassList: `${hostEnv.lz_user_center}/classManage/list#post`, // 获取班级列表
+	getClassListByTeacher: `${hostEnv.lz_user_center}/userinfo/teacher/user/classinfo#get`, // 获取教职工任课班级
 }
 let homeApi = {
 	login: '/mobile/user/info/login#post', // 用户登录
@@ -19,21 +20,28 @@ let homeApi = {
 	getCode: '/mobile/user/info/code/send#getUrl', // 获取验证码
 	parentAdd: '/mobile/user/info/parent/add#post', // 家长注册
 	bindChild: '/mobile/user/info/parent/student/add#post', // 家长绑定学生
+	addBindChild: '/mobile/user/info/parent/addAndbind#post', // 家长先注册再绑定孩子
 	delChild: '/mobile/user/info/parent/student/del#del', // 家长删除绑定学生
 	typeList: '/mobile/user/info/type/list#get', // 查询身份类型
-	getChildList: '/mobile/user/info/bind/stu/info#get#false', // 查询绑定学生信息
+	getChildList: '/mobile/user/info/bind/stu/info#get#false', // 查询绑定学生信息/mobile/user/info/parent/addAndbindbindChild
 	getClassInfo: '/mobile/user/info/bind/clazz/info#get', // 查询绑定的班级信息
 	getTypeList: '/mobile/user/info/type/list#get#false', // 查询用户拥有的身份
+	changePhone: '/mobile/user/info/mobile/update#postQuery'
 }
-
+let newsApi = {
+	getNewsList: `${hostEnv.zq_news}/news/list#post`, // 新闻列表
+	getlistByUser: `${hostEnv.zq_news}/notice/listByUser#post`, // 用户查询公告列表
+	getlistByTeacher: `${hostEnv.zq_news}/notice/listByTeacher#post` // 老师查询公告列表
+}
 for (let val in homeApi) {
-  homeApi[val] = `${hostEnv.zx_mobile_user}${homeApi[val]}`
+	homeApi[val] = `${hostEnv.zx_mobile_user}${homeApi[val]}`
 }
 
 homeApi = {
 	...homeApi,
 	...schoolApi,
 	...gradeApi,
+	...newsApi,
 	getMenuList: `${hostEnv.zx_protal}/role/manage/menu/multiple/tree/list#get`
 }
 

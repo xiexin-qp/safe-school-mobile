@@ -1,47 +1,47 @@
 <template>
-	<view class="qui-page">
+	<view class="u-page">
 		<view class="detail">
-			<view class="top qui-fx-jsb">
-				<view class="info qui-fx-ac">
+			<view class="top u-fx-jsb">
+				<view class="info u-fx-ac">
 					<image :src="comeLog.resUrl ? comeLog.resUrl : errorImg" alt="">
-					<view class="qui-fx-ver">
+					<view class="u-fx-ver">
 						<text class="name">{{ comeLog.respondentName }}</text>
 						<text class="phone">{{ comeLog.resMobile }}</text>
 						<text class="name">{{ comeLog.causeName }}</text>
 					</view>
 				</view>
-				<view class="state qui-fx">
+				<view class="state u-fx">
 					<view class="trigon">
 					</view>
 					<text :class="state === '2' ? 'refuse' : state === '1' ? 'agree' : state === '0' ? 'wait' : 'cancel'">{{ state | approveState }}</text>
 				</view>
 			</view>
-			<view class="log qui-fx-jsb qui-fx-ac">
-				<view class="qui-fx-ver">
-					<view class="start qui-fx-ac">
+			<view class="log u-fx-jsb u-fx-ac">
+				<view class="u-fx-ver">
+					<view class="start u-fx-ac">
 						<text>到</text>
-						<text>{{ comeLog.accessStartTime | gmtToDate }}</text>
+						<text>{{ comeLog.accessStartTime }}</text>
 					</view>
 				</view>
-				<view class="qui-fx-ver">
-					<view class="end qui-fx-ac">
+				<view class="u-fx-ver">
+					<view class="end u-fx-ac">
 						<icon type="info" size="24" />
 						<view class="mar-l20" v-if="state !== '0'">随行人数：{{ comeLog.togetherNum || 0 }}</view>
-						<view v-else class="qui-fx-ac togethernum mar-l20">
+						<view v-else class="u-fx-ac togethernum mar-l20">
 							随行人数：
 							<input type="number" v-model="comeLog.togetherNum" focus placeholder="" />
 						</view>
 					</view>
 				</view>
 			</view>
-			<view v-if="refuseTag || state == '2'" class="log qui-fx-jsb">
-				<view class="start qui-fx-ac">
+			<view v-if="refuseTag || state == '2'" class="log u-fx-jsb">
+				<view class="start u-fx-ac">
 					<icon type="cancel" size="24" />
 					<text class="mar-l20">拒绝原因：{{ comeLog.reason }}</text>
 				</view>
 			</view>
 			<view v-if="state == '1'" class="log">
-				<view class="start qui-fx-ac">
+				<view class="start u-fx-ac">
 					<u-icon name="photo" size="42" color="#10aeff" class="icon"></u-icon>
 					<text class="mar-l20">我的照片：</text>
 				</view>
@@ -50,17 +50,22 @@
 			<view v-if="state == '0'" class="log">
 				<view class="item-list">
 					<view>我的照片：</view>
-					<view class="qui-fx-f1"><an-upload-img total="1" v-model="imgList" class="mar-20"></an-upload-img></view>
+					<view class="u-fx-f1 u-mar-t u-mar-b">
+						<view class="upload-user-img" @click="chooseImg">
+							<image v-if="photo" :src="photo" class="upload-user-img"></image>
+							<view v-if="!photo" class="upload-user-img">+</view>
+						</view> 
+					</view>
 					<view class="sub-title">请上传1张本人正脸清晰照片用于来访识别。</view>
 				</view>
 			</view>
 		</view>
-		<view v-if="state == '0'" class="submit-box qui-fx">
+		<view v-if="state == '0'" class="submit-box u-fx">
 			<view class="btn1" @click="open">拒绝</view>
 			<view class="btn2" @click="clickConfirm">同意</view>
 		</view>
 		<u-popup :maskCloseAble="true" ref="refuse" mode="center" length="80%">
-			<view class="pop qui-fx-ver">
+			<view class="pop u-fx-ver">
 				<view class="title">请输入拒绝原因</view>
 				<input v-model="refuseText" focus placeholder="" />
 				<view class="btn" @click="sure(0)">确定</view>
@@ -88,7 +93,7 @@ export default {
 			visitorPhone: '',
 			causeName: '',
 			state: '',
-			photo: ',',
+			photo: '',
 			comeLog: {
 				accessStartTime: '',
 				accessEndTime: '',
@@ -105,6 +110,12 @@ export default {
 		this.showDetail()
 	},
 	methods: {
+		// 上传图片
+		chooseImg () {
+			this.$tools.choosePhoto((baseImg) => {
+				this.photo = baseImg
+			})
+		},
 		async showDetail(){
 			const res = await actions.getInviteDetail(this.id);
 			if (!res.data) {
@@ -119,12 +130,12 @@ export default {
 		},
 		clickConfirm() {
 			this.$tools.confirm(`确定同意吗?`, () => {
-				if (this.imgList.length === 0) {
+				if (!this.photo) {
 					this.$tools.toast('请上传访客人脸识别照片');
 					return;
 				}
 				const req = {
-					registPhoto: this.imgList[0].split(',')[1],
+					registPhoto: this.photo,
 					id: this.id,
 					state: '1',
 					visitorCode: store.userInfo.userCode,
@@ -265,7 +276,7 @@ export default {
 		letter-spacing: 8rpx;
 		background-color: $uni-bg-color;
 		color: $u-main-color;
-		border-radius: $radius;
+		border-radius: $u-border-radius;
 	}
 	.btn2 {
 		width: 50%;
@@ -274,7 +285,7 @@ export default {
 		letter-spacing: 8rpx;
 		background-color: $u-type-primary;
 		color: $uni-bg-color;
-		border-radius: $radius;
+		border-radius: $u-border-radius;
 	}
 }
 .pop {

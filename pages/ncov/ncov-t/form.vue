@@ -1,15 +1,15 @@
 <template>
   <view>
     <scroll-view scroll-y="true"  class="scroll-h u-bg-fff">
-      <view class="qui-fx-ac qui-bd-b item-list">
+      <view class="u-fx-ac u-bd-b item-list">
         <view class="tip">姓名：</view>
-        <view class="qui-fx-f1 qui-fx-je u-content-color"> 
+        <view class="u-fx-f1 u-fx-je u-content-color"> 
 					{{formData.userName}}
 				</view>
       </view>
-			<view class="qui-fx-ac qui-bd-b item-list">
+			<view class="u-fx-ac u-bd-b item-list">
         <view class="tip">体温：</view>
-        <view class="qui-fx-f1"><input class="item-input u-font-01 u-content-color qui-tx-r" v-model="formData.temperature" placeholder="请输入测量值，正常值为36.3~37.3" /></view>
+        <view class="u-fx-f1"><input class="item-input u-font-01 u-content-color u-tx-r" v-model="formData.temperature" placeholder="请输入测量值，正常值为36.3~37.3" /></view>
       </view>
     </scroll-view>
 		<view class="submit-btn">
@@ -42,12 +42,20 @@
 			async submitForm () {
 				validateForm(yzForm, this.formData, () => {
 					console.log(this.formData)
-					// await actions.addReport(this.formData)
-					this.$tools.toast('操作成功')
-          this.$tools.goNext(() => {
-            eventBus.$emit('getList')
-            this.$tools.goBack()
-          })
+					const req = {
+						...this.formData,
+						userCode: store.userInfo.userCode,
+						userType: store.userInfo.typeCode,
+						schoolCode: store.userInfo.schoolCode,
+						reportName: store.userInfo.userName,
+					}
+					actions.addReport(req).then(res=>{
+						this.$tools.toast('提交成功', 'success')
+						this.$tools.goNext(() => {
+						  eventBus.$emit('getList')
+						  this.$tools.goBack()
+						})
+					})	
 				})
 			}
     }

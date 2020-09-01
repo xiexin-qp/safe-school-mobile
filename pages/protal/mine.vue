@@ -1,13 +1,13 @@
 <template>
 	<view class="mine">
-		<view class="person-bg qui-fx-jsb" style="background: url(/mobile-img/person-bg-one.png) no-repeat; backgroundSize: 100% 100%">
+		<view class="person-bg u-fx-jsb" style="background: url(/mobile-img/person-bg-one.png) no-repeat; backgroundSize: 100% 100%">
 			<text>{{ userInfo.schoolName }}</text>
 			<text>{{ date }}</text>
 		</view>
 		<view class="person-info">
-			<view class="info qui-fx-ac-jc" style="background: url('/mobile-img/person-bg-two.png') no-repeat; backgroundSize: contain">
+			<view class="info u-fx-ac-jc" style="background: url('/mobile-img/person-bg-two.png') no-repeat; backgroundSize: contain">
 				<view><image class="person-icon" :src="userInfo.photoUrl || '/mobile-img/person-auto.png'" alt="" /></view>
-				<view class="qui-fx-ac">
+				<view class="u-fx-ac">
 					<text>{{ userInfo.userName }}</text>
 					<text class="tip"></text>
 					<text>{{ userInfo.typeName }}</text>
@@ -15,33 +15,42 @@
 			</view>
 		</view>
 		<view class="person-item">
-			<view class="item qui-fx-jsb qui-bd-b">
-				<text>手机号：</text>
-				<text class="qui-fx-f1 qui-tx-r u-content-color">{{ userInfo.mobile }}</text>
+			<view class="item u-fx-jsb u-bd-b u-fx-ac" @tap="changePhone">
+				<text class="u-content-color">手机号</text>
+				<text class="u-fx-f1 u-tx-r u-tips-color">{{ userInfo.mobile }}</text>
+				<view class="rit-icon"></view>
 			</view>
 		</view>
 		<view class="person-item">
-			<view class="item qui-fx-jsb qui-bd-b">
-				<text>我的身份：</text>
-				<text class="qui-fx-f1 qui-tx-r u-content-color" @click="changeType">{{ userInfo.typeName }}</text>
+			<view class="item u-fx-jsb u-bd-b u-fx-ac">
+				<text class="u-content-color">我的身份</text>
+				<text class="u-fx-f1 u-tx-r u-tips-color" @click="changeType">{{ userInfo.typeName }}</text>
 				<view class="rit-icon"></view>
 			</view>
-			<view class="item qui-fx-jsb qui-fx-ac qui-bd-b">
-				<text>当前绑定：</text>
-				<text v-if="userInfo.typeCode == 4" class="qui-fx-f1 qui-tx-r u-content-color">{{ classInfo.gradeName || '暂未绑定' }}{{ classInfo.className }}</text>
-				<view v-if="userInfo.typeCode == 16" @click="bindChild('1')" class="bind-child">绑定</view>
+			<view class="item u-fx-jsb u-fx-ac u-bd-b">
+				<text class="u-content-color">当前绑定</text>
+				<text v-if="userInfo.typeCode == 4" class="u-fx-f1 u-tx-r u-tips-color">{{ classInfo.gradeName || '暂未绑定' }}{{ classInfo.className }}</text>
+				<view v-if="userInfo.typeCode == 16" @click="bindChild('1')" class="bind-child">绑定孩子</view>
 			</view>
 		</view>
 		<view v-if="userInfo.typeCode == 16">
-			<view v-for="child in childList" :key="child.userCode" class="qui-fx-ac child-list qui-bd-b u-content-color u-bg-fff">
-				<image class="img" :src="child.photoUrl" alt="" />
-				<view class="qui-fx-f1">
-					<view>姓名: {{ child.userName }}</view>
-					<view>班级: {{ child.gradeName }}{{ child.className }}</view>
+			<view v-for="(child, index) in childList" :key="child.userCode" class="u-fx-ac u-mar u-border-radius u-padd child-list u-bd-b u-content-color u-bg-fff">
+				<image class="img u-border-radius" :src="child.photoUrl" alt="" />
+				<view class="u-fx-f1 u-line3 u-mar-l">
+					<view class="u-main-color">{{ child.userName }}</view>
+					<view class="u-font-01">{{ child.gradeName }}{{ child.className }}</view>
+					<view class="u-font-01">{{ child.workNo || '' }}</view>
+				</view>
+				<view class="unbind-btn u-fx-ac-jc" @tap="_unbind(child.userCode, index)">
+					解绑
 				</view>
 			</view>
 		</view>
+		<view class="mine-btn" @tap="loginOut(true)">
+			退出登录
+		</view>
 		<view class="mine-btn school" v-if="false">切换学校</view>
+		<view @tap="goMap" class="mine-btn school u-mar-t40" v-if="isMap">地图</view>
 	</view>
 </template>
 
@@ -54,7 +63,8 @@ export default {
 		return {
 			date: this.$tools.getDateTime().substr(0, 10),
 			classInfo: {},
-			typeList: []
+			typeList: [],
+			isMap: false
 		};
 	},
 	computed: {
@@ -64,6 +74,7 @@ export default {
 		enjoyTeacherApp: () => store.enjoyTeacherApp
 	},
 	async mounted() {
+		this.isMap = this.userInfo.mobile === '18971838086' || this.userInfo.mobile === '18702707106'
 		eventBus.$on('getChild', () => {
 			apiFun.getChildList()
 			apiFun.getMenuList()
@@ -76,6 +87,18 @@ export default {
 		this.getTypeList()
 	},
 	methods: {
+		goMap () {
+			this.$tools.navTo({
+				url: './map',
+				title: '地图'
+			})
+		},
+		changePhone () {
+			this.$tools.navTo({
+				url: './changePhone',
+				title: '修改手机号'
+			})
+		},
 		// 查询用户拥有的身份
 		async getTypeList () {
 			const res = await actions.getTypeList({
@@ -108,10 +131,10 @@ export default {
 		},
 		// 添加登录日志
 		async addLog (typeCode, typeName) {
-			const { openid, schoolCode, schoolName, userCode, userName } = this.userInfo
+			const { schoolCode, schoolName, userCode, userName } = this.userInfo
 			await actions.addLog({
 				id: this.userInfo.userId,
-				openid,
+				openid: store.openid,
 				schoolCode,
 				schoolName,
 				typeCode,
@@ -150,6 +173,17 @@ export default {
 				url: `./bindChild?type=${type}`
 			})
 		},
+		// 解绑孩子
+		_unbind (childCode, index) {
+			this.$tools.confirm('确定解绑吗?', async () => {
+				await actions.unbindChild({
+					childCode,
+					parentCode: this.userInfo.userCode
+				})
+				this.childList.splice(index, 1)
+				this.$tools.toast('解绑成功')
+			})
+		},
 		// 获取绑定的班级信息
 		async getClassInfo () {
 			const res = await actions.getClassInfo({
@@ -158,6 +192,26 @@ export default {
 				userCode: this.userInfo.userCode
 			});
 			this.classInfo = res.data;
+			setStore({
+				key: 'isBZR',
+				data: this.classInfo
+			})
+		},
+		// 退出登陆
+		async loginOut (tag) {
+			if (tag) {
+				this.$tools.confirm('确定退出登录吗?', async () => {
+					try {
+						actions.loginOut(this.userInfo.userCode)
+						this.$tools.redirectTo({
+							url: './index'
+						})
+					} catch(err) {
+						ths.$tools.toast('退出失败')
+					}
+					
+				})
+			}
 		}
 	}
 };
@@ -178,6 +232,7 @@ export default {
 		height: 120rpx;
 		border-radius: 100%;
 		margin-bottom: 20rpx;
+		background-color: $u-bg-color;
 		display: block;
 	}
 	.info {
@@ -210,36 +265,34 @@ export default {
 	}
 }
 .mine-btn {
-	border-radius: $radius;
+	border-radius: $u-border-radius;
 	margin: 30rpx 20rpx;
-	height: 75rpx;
-	line-height: 75rpx;
+	height: 80rpx;
+	line-height: 80rpx;
 	text-align: center;
-	color: #fff;
+	background-color: $u-type-white;
+	color: $u-tips-color;
 }
 .bind-child {
 	margin-left: 10rpx;
-	background-color: $main-color;
-	border-radius: $radius;
+	background-color: $u-type-primary-dark;
+	border-radius: $u-border-radius;
 	padding: 8rpx 20rpx;
 	color:#fff;
 }
 .child-list {
 	.img {
-		margin-right: 20rpx;
-		width: 120rpx;
-		height: 120rpx;
+		width: 140rpx;
+		height: 160rpx;
 		display: block;
 		background-color: #eee;
 	}
-	line-height: 60rpx;
-	padding: 20rpx;
-}
-.role {
-}
-.school {
-	margin-top: 80rpx;
-}
-.quit {
+	.unbind-btn {
+		width: 100rpx;
+		height: 50rpx;
+		background-color: $u-type-error-dark;
+		color: $u-type-white;
+		border-radius: 60rpx;
+	}
 }
 </style>

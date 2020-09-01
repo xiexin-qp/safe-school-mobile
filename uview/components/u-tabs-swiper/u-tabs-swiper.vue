@@ -16,7 +16,7 @@
 </template>
 
 <script>
-	import colorGradient from '@/uview/libs/function/colorGradient';
+	import colorGradient from '../../libs/function/colorGradient';
 	let color = colorGradient;
 	const {
 		windowWidth
@@ -210,7 +210,11 @@
 					};
 					if(index == this.getCurrent) {
 						// 给选中的tab item添加外部自定义的样式
-						style = Object.assign(style, this.activeItemStyle);
+						// style = Object.assign(style, this.activeItemStyle);
+						style = {
+							...style,
+							...this.activeItemStyle
+						}
 					}
 					return style;
 				}
@@ -219,12 +223,15 @@
 			tabBarStyle() {
 				let style = {
 					width: this.barWidthPx + 'px',
-					height: this.barHeight + 'rpx',
+					height:  '1rpx',
 					borderRadius: '100px',
 					backgroundColor: this.activeColor,
 					left: this.scrollBarLeft + 'px'
 				};
-				return Object.assign(style, this.barStyle);
+				return {
+					...style,
+					...this.barStyle
+				}
 			}
 		},
 		watch: {
@@ -277,7 +284,7 @@
 			countLine3Dx() {
 				const tab = this.tabsInfo[this.animationFinishCurrent];
 				// 让滑块中心点和当前tab中心重合
-				if (tab) this.line3Dx = tab.left + tab.width / 2 - this.barWidthPx / 2;
+				if (tab) this.line3Dx = tab.left + tab.width / 2 - this.barWidthPx / 2 - this.tabsInfo[0].left;
 			},
 			countPx() {
 				// swiper宽度由rpx转为px单位，因为dx等，都是px单位
@@ -371,6 +378,8 @@
 </script>
 
 <style scoped lang="scss">
+	@import "../../libs/css/style.components.scss";
+	
 	view,
 	scroll-view {
 		box-sizing: border-box;
@@ -419,10 +428,23 @@
 	}
 
 	.u-tabs-scorll-flex .u-tabs-item {
+		height: 80rpx;
+		line-height: 80rpx;
+		padding: 0 20rpx;
+		color:rgb(48, 50, 53);
+		font-size: 30rpx;
+		z-index: 3;
 		flex: 1;
+		font-weight: normal;
 	}
 
 	.u-tabs-item {
+		height: 80rpx;
+		line-height: 80rpx;
+		padding: 0 20rpx;
+		color:rgb(48, 50, 53);
+		font-size: 30rpx;
+		z-index: 3;
 		position: relative;
 		display: inline-block;
 		text-align: center;

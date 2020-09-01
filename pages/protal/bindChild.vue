@@ -1,30 +1,30 @@
 <template>
 	<scroll-view scroll-y="true" class="scroll-h u-bg-fff">
-		<view class="qui-fx-ac qui-bd-b qui-fx-jsb item-list">
+		<view class="u-fx-ac u-bd-b u-fx-jsb item-list">
 			<view>学校：</view>
-			<view class="qui-tx-r u-content-color">{{ schoolName }}</view>
+			<view class="u-tx-r u-content-color">{{ schoolName }}</view>
 		</view>
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view class="u-fx-ac u-bd-b item-list">
 			<view>年级：</view>
-			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="gradeName" :range="gradeList" @change="chooseGrade">{{ gradeName }}</picker>
+			<picker class="u-fx-f1 u-tx-r col-666" mode="selector" :value="gradeName" :range="gradeList" @change="chooseGrade">{{ gradeName }}</picker>
 			<view class="rit-icon"></view>
 		</view>
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view class="u-fx-ac u-bd-b item-list">
 			<view>班级：</view>
-			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="className" :range="classList" @change="chooseClass">{{ className }}</picker>
+			<picker class="u-fx-f1 u-tx-r col-666" mode="selector" :value="className" :range="classList" @change="chooseClass">{{ className }}</picker>
 			<view class="rit-icon"></view>
 		</view>
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view class="u-fx-ac u-bd-b item-list">
 			<view>孩子姓名：</view>
-			<view class="qui-fx-f1"><input class="item-input" v-model="formData.userName" placeholder="请输入姓名" /></view>
+			<view class="u-fx-f1"><input class="item-input" v-model="formData.userName" placeholder="请输入姓名" /></view>
 		</view>
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view class="u-fx-ac u-bd-b item-list">
 			<view>孩子学号：</view>
-			<view class="qui-fx-f1 qui-fx-je"><input class="item-input" v-model="formData.workNo" placeholder="请输入学号" /></view>
+			<view class="u-fx-f1 u-fx-je"><input class="item-input" v-model="formData.workNo" placeholder="请输入学号" /></view>
 		</view>
-		<view class="qui-fx-ac qui-bd-b item-list">
+		<view class="u-fx-ac u-bd-b item-list">
 			<view>亲属关系：</view>
-			<picker class="qui-fx-f1 qui-tx-r col-666" mode="selector" :value="relationShip" :range="relationShipList" @change="chooseRelation">{{ relationShip }}</picker>
+			<picker class="u-fx-f1 u-tx-r col-666" mode="selector" :value="relationShip" :range="relationShipList" @change="chooseRelation">{{ relationShip }}</picker>
 			<view class="rit-icon"></view>
 		</view>
 		<view class="bind-mar">
@@ -124,7 +124,7 @@ export default {
 				}
 			}
 			if (this.type == 0) {
-				await actions.parentAdd({
+				await actions.addBindChild({
 					...this.formData,
 					openid: this.userInfo.openid
 				})
@@ -159,7 +159,6 @@ export default {
 				userCode,
 				userName
 			})
-			eventBus.$emit('getChild')
 			setStore({
 				key: 'userInfo',
 				data: {
@@ -172,13 +171,16 @@ export default {
 				key: 'enjoyApp',
 				data: this.enjoyParentApp
 			})
-			this.$tools.goBack()
+			eventBus.$emit('getChild')
+			setTimeout(() => {
+				this.$tools.goBack()
+			})
 		},
 	}
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .scroll-h {
 	height: 100vh;
 }
@@ -223,7 +225,7 @@ export default {
 	letter-spacing: 8rpx;
 	background-color: $u-type-primary;
 	color: #fff;
-	border-radius: $radius;
+	border-radius: $u-border-radius;
 }
 .go-login {
 	text-align: center;
@@ -232,7 +234,7 @@ export default {
 	letter-spacing: 2rpx;
 	.act {
 		padding-left: 6rpx;
-		color: $main-color;
+		color: $u-type-primary;
 	}
 }
 </style>

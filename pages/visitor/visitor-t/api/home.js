@@ -16,7 +16,6 @@ let homeApi = {
   addInviteInfo: '/invite/appoint/mobile/add#post', // 添加修改邀预约信息
   approval: '/invite/appoint/update#post', // 审批邀预约信息
 }
-
 for (let val in homeApi) {
   homeApi[val] = `${hostEnv.zx_visitor}${homeApi[val]}`
 }

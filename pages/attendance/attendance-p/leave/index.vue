@@ -1,6 +1,6 @@
 <template>
-  <view class="leave qui-page">
-    <view class="dropDown qui-fx">
+  <view class="leave u-page">
+    <view class="dropDown u-fx">
       <ms-dropdown-menu>
         <ms-dropdown-item v-model="value0" :list="casueList"></ms-dropdown-item>
       </ms-dropdown-menu>
@@ -15,22 +15,24 @@
     <scroll-view v-else scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
       <view class="content">
         <view class="record-box">
-          <view class="leave-box" v-for="(item,index) in leaveList" :key="index">
-            <view class="leave-top qui-fx-jsb">
+          <view class="leave-box" v-for="(item,index) in leaveList" :key="index" @click="detail(item.oddNumbers)">
+            <view class="leave-top u-fx-jsb">
               <view class="leave-title"> {{ item.reason }} </view>
-              <view v-if=" item.state === '0'  " class="leave-icon" @click="check(item.oddNumbers)"> ...</view>
+              <view v-if=" item.state === '0'  " class="leave-icon" @click.stop="check(item.oddNumbers)"> ...</view>
             </view>
             <view class="leave-info"> 
               <view class="leave-pur">开始时间：{{ item.startTime | gmtToDate }}</view>
               <view class="leave-pur">结束时间：{{ item.endTime | gmtToDate }}</view>
               <view class="leave-pur">描述：{{ item.remark }}</view>
               <view class="leave-pur">状态：
-                <text :class="item.state === '2' ? 'refuse' : item.state === '1' ? 'agree' : item.state === '0' ? 'wait' : 'cancel'">{{ item.state | approveState }}</text>
+                <text :style="{color: item.state === '0' ? '#2979ff' : item.state === '1' ? '#19be6b' : item.state === '2' ? '#fa3534' : '#ff9900'}">
+									{{ item.state | leaveState }}
+								</text>
               </view>
             </view>
-            <view class="leave-bottom qui-fx-jsb">
+            <view class="leave-bottom u-fx-jsb">
               <view class="leave-time"> {{ item.initiationTime | gmtToDate }}</view>
-              <view class="leave-detail" @click="detail(item.oddNumbers)"> 查看详情 > </view>
+              <view class="leave-detail" > 查看详情 > </view>
             </view>
           </view>
         </view>
@@ -66,7 +68,7 @@ export default {
         },
         {
           text: '待审批',
-          value: '4'
+          value: '5'
         },
         {
           text: '审批通过',
@@ -77,8 +79,8 @@ export default {
           value: '2'
         },
         {
-          text: '撤回',
-          value: '3'
+          text: '审批中',
+          value: '4'
         }
       ],
       dataList: [
@@ -106,9 +108,7 @@ export default {
 				page: 1,
 				size: 15
       },
-      morePage: false,
-      studentCode: '',
-      studentName: ''
+      morePage: false
     }
   },
   watch: {
@@ -131,13 +131,25 @@ export default {
   mounted () {
     this.studentCode = store.childList[0].userCode
     this.studentName = store.childList[0].userName
+    this.schoolCode = store.childList[0].schoolCode
 	  eventBus.$on('getList', () => {
 			this.teacherLeaveGet()
     })
     this.leaveReasonGet()
     this.teacherLeaveGet()
+    this.teacherGet(store.childList[0])
   },
   methods: {
+    // 查询孩子是否有班主任
+    async teacherGet(record) {
+			const req = {
+				userCode: record.userCode,
+				schoolYearId: store.schoolYear.schoolYearId,
+				schoolCode: record.schoolCode
+			}
+			const res = await actions.getTeacher(req)
+			this.teacherInfo = res.data
+		},
     async leaveReasonGet () {
       const res = await actions.getLeaveReason()
       const data = res.data.map(el => {
@@ -151,7 +163,7 @@ export default {
       let value1 = ''
       if (this.value1 === '0') {
         value1 =  ''
-      } else if ( this.value1 === '4' ) {
+      } else if ( this.value1 === '5' ) {
         value1 =  '0'
       } else {
         value1 =  this.value1 
@@ -187,8 +199,12 @@ export default {
 			this.teacherLeaveGet(true)
 		},
     addLeave () {
+      if (!this.teacherInfo) {
+				this.$tools.toast('暂无班主任，请联系学校管理员设置')
+				return false
+			}
 			this.$tools.navTo({
-        url: `./add?userName=${this.studentName}&userCode=${this.studentCode}`,
+        url: `./add?userName=${this.studentName}&userCode=${this.studentCode}&schoolCode=${this.schoolCode}`,
 				title: '新增请假单'
 			})
 		},
@@ -217,10 +233,13 @@ export default {
       })
     },
     childInfo (item) {
+      console.log('aaa',item)
       if (item.userCode !== this.studentCode) {
         this.studentCode = item.userCode
         this.studentName = item.userName
+        this.schoolCode = item.schoolCode
         this.teacherLeaveGet()
+        this.teacherGet(item)
       }
     }
   }
@@ -245,7 +264,7 @@ export default {
     height: calc(100vh - 110rpx);
     // height: 85vh;
     .record-box {
-      background-color: $bor-color;
+      background-color: $u-border-color;
       padding: 5rpx 5rpx 0 5rpx; 
       .leave-box {
         margin: 20rpx;
@@ -277,7 +296,7 @@ export default {
           margin-top: 10rpx;
           padding-top: 10rpx;
           font-size: 28rpx;
-          border-top: 1rpx solid $u-border-color-four;
+          border-top: 1rpx solid ￥u-border-color;
           .leave-time {
             color: $u-light-color;
           }

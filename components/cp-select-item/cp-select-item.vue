@@ -11,7 +11,7 @@
 			<view class="u-picker-body">
 				<picker-view :value="valueArr" @change="change" class="u-picker-view">
 					<picker-view-column>
-						<view class="u-column-item" v-for="(item,index) in items" :key="index">
+						<view class="u-column-item" v-for="item in items" :key="item.key">
 							<view class="u-line-1">
 								{{item.label}}
 							</view>
@@ -34,7 +34,7 @@
 			},
 			title: {
 				type: String,
-				default: ''
+				default: '请选择'
 			},
 			items: {
 				type: Array,
@@ -46,7 +46,7 @@
 		data() {
 			return {
 				valueArr: [0],
-				uZIndex: 9999
+				uZIndex: 10076
 			}
 		},
 		mounted() {
@@ -73,7 +73,7 @@
 <style lang="scss">
 	.u-datetime-picker {
 		position: relative;
-		z-index: 999;
+		z-index: 10074;
 	}
 
 	.u-picker-view {

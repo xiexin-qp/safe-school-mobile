@@ -6,12 +6,16 @@
 import hostEnv from '../../../../config/index.js'
 
 let homeApi = {
-  getIndex: 'http://yapi.demo.qunar.com/mock/5691/getDemoList#get', // 获取列表
-  getDetail: 'http://yapi.demo.qunar.com/mock/5691/getDemoInfo#get' // 获取详情
+  addReport: '/day/record/add#post', // 疫情上报
+  getDaily: '/mobile/day/report/getUserReportRecordList#post', // 获取疫情日报
+  getDayFever: '/mobile/day/report/getDayFever#post', // 获取异常日期
+  getReportDetail: '/mobile/day/report/getRecordDetailsById#getUrl', // 获取上报详情
+  getPersonalStatic: '/mobile/day/report/getPersonalStatic/by/userCode#postQuery', // 健康档案
+  getTemperatureData: '/day/report/user/detail#get', // 个人体温走势
 }
 
 for (let val in homeApi) {
-  homeApi[val] = `${hostEnv}${homeApi[val]}`
+  homeApi[val] = `${hostEnv.zk_ncov}${homeApi[val]}`
 }
 
 export default homeApi

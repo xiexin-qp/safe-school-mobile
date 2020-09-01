@@ -1,7 +1,7 @@
 <template>
-	<view class="invite qui-page">
+	<view class="invite u-page">
 		<u-popup :maskCloseAble="true" ref="refuse" mode="center" length="80%">
-			<view class="pop qui-fx-ver">
+			<view class="pop u-fx-ver">
 				<view class="title">请输入拒绝原因</view>
 				<input v-model="refuseText" focus placeholder="" />
 				<view class="btn" @click="sure(0)">确定</view>
@@ -12,12 +12,12 @@
 		<no-data v-if="appointList.length === 0" msg="暂无数据"></no-data>
 		<scroll-view v-else scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
 			<view class="approve-list" v-for="(item, i) in appointList" :key="i">
-				<view class="detail qui-fx">
+				<view class="detail u-fx">
 					<view class="process-type" v-if="item.state == '0'"><view class="wait" @click="appoint(item)">···</view></view>
 					<view class="process-type" v-else><view class="cancel">···</view></view>
-					<view class="info qui-fx-ac">
+					<view class="info u-fx-ac">
 						<view class="img"><image :src="item.registPhoto ? item.registPhoto : errorImg" alt="" /></view>
-						<view class="list qui-fx-f1">
+						<view class="list u-fx-f1">
 							<view class="name">{{ item.respondentName }}</view>
 							<view>开始时间：{{ item.accessStartTime | getFullDate }}</view>
 							<!-- <view>结束时间：{{ item.accessEndTime | getFullDate }}</view> -->
@@ -31,10 +31,10 @@
 						</view>
 					</view>
 				</view>
-				<view class="line qui-bd-t"></view>
-				<view class="see qui-fx-jsb">
+				<view class="line u-bd-t"></view>
+				<view class="see u-fx-jsb">
 					<text>{{ item.createTime | getFullDate }}</text>
-					<view class="qui-fx qui-fx-ac">
+					<view class="u-fx u-fx-ac">
 						<text @click="goDetail(item.id)">查看详情</text>
 						<view class="rit-icon"></view>
 					</view>

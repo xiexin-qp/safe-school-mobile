@@ -19,8 +19,8 @@ const getState = (state, val) => {
 }
  
 const store = Vue.observable({
-  userInfo: JSON.parse(uni.getStorageSync('protal')).userInfo,
-	openid: JSON.parse(uni.getStorageSync('protal')).openid
+  userInfo: JSON.parse(uni.getStorageSync('protal') || '{}').userInfo,
+	openid: JSON.parse(uni.getStorageSync('protal')|| '{}').openid
 })
 
 // 修改数据

@@ -1,5 +1,5 @@
 <template>
-	<view class="no-data qui-fx-ac-jc">
+	<view class="no-data u-fx-ac-jc">
 		<image class="no-data-icon" src="/mobile-img/no-data.png" alt="" />
     <text class="msg">{{ msg }}</text>
 	</view>
@@ -10,7 +10,7 @@
     props: {
       msg: {
         type: String,
-        default: '暂无数据~~'
+        default: '暂无数据~'
       }
     },
 		data() {

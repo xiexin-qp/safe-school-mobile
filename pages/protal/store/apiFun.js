@@ -12,6 +12,32 @@ const apiFun = {
 			key: 'appList',
 			data: res.data
 		})
+		// 初次进入默认显示前7个菜单
+		let allApp = []
+		res.data.forEach((item, index) => {
+			if (item.children) {
+				item.children.forEach((it, ind) => {
+					allApp.push(it)
+				})
+			}
+		})
+		allApp = allApp.slice(0,7)
+		const autoData = JSON.parse(uni.getStorageSync('protal'))
+		if (store.userInfo.typeCode === '16' && !autoData.enjoyParentApp) {
+			this.setAppData('enjoyApp', allApp)
+			this.setAppData('enjoyParentApp', allApp)
+		}
+		if (store.userInfo.typeCode === '4' && !autoData.enjoyTeacherApp) {
+			this.setAppData('enjoyApp', allApp)
+			this.setAppData('enjoyTeacherApp', allApp)
+		}
+	},
+	// 存储值
+	setAppData (key, data) {
+		setStore({
+			key: key,
+			data: data
+		})
 	},
 	// 获取绑定的孩子
 	async getChildList () {
@@ -23,7 +49,9 @@ const apiFun = {
 		})
 		setStore({
 			key: 'childList',
-			data: res.data
+			data: res.data.filter(item => {
+				return item.userCode !== ''
+			})
 		})
 	},
 	// 判断是否有菜单权限

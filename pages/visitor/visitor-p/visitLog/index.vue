@@ -1,14 +1,14 @@
 <template>
-	<view class="qui-page qui-fff">
+	<view class="u-page u-fff">
 		<uni-search-bar placeholder="输入姓名搜索" @confirm="search"></uni-search-bar>
 		<dropdown-menu :statusList="statusList" @value0Change="value0Change" @value1Change="value1Change" @value2Change="value2Change"></dropdown-menu>
 		<no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
 		<view v-else class="list">
-			<view class="th qui-fx-jsa qui-fx-ac qui-fx-jc">
-				<text class="left">访客姓名</text>
-				<view class="md qui-fx-ac qui-fx-jc">
-					<text>最近来访时间</text>
-					<!-- <view class="icon qui-fx-ver">
+			<view class="th u-fx-jsa u-fx-ac u-fx-jc">
+				<text class="left">拜访对象</text>
+				<view class="md u-fx-ac u-fx-jc">
+					<text>最近拜访时间</text>
+					<!-- <view class="icon u-fx-ver">
 						<view class="up"><text class="iconfont">&#xe851;</text></view>
 						<view class="down"><text class="iconfont">&#xe851;</text></view>
 					</view> -->
@@ -16,7 +16,7 @@
 				<text class="right">状态</text>
 			</view>
 			<scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
-				<view @click="goDetail(item.id)" v-for="(item, i) in dataList" :key="i" class="tbody qui-bd-b qui-fx-jsb">
+				<view @click="goDetail(item.id)" v-for="(item, i) in dataList" :key="i" class="tbody u-bd-b u-fx-jsb">
 					<text class="left">{{ item.respondentName }}</text>
 					<text class="md">{{ item.accessTime || '--'}}</text>
 					<text class="right">{{ item.visitState | visitState }}</text>

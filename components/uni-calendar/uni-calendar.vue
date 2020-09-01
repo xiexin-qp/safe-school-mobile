@@ -397,7 +397,7 @@
 		justify-content: center;
 		align-items: center;
 		height: 45px;
-		border-bottom-color: #F5F5F5;
+		border-bottom-color: $u-border-color;
 		border-bottom-style: solid;
 		border-bottom-width: 1px;
 	}
