@@ -3,7 +3,7 @@
 		<view class="upload">
 			<block v-for="(upload,index) in uploads" :key="index">
 				<view class="uplode-file">
-					<image v-if="types == 'image'" class="uploade-img" :src="upload.url" :data-src="upload" @tap="previewImage"></image>
+					<image v-if="types == 'image'" class="uploade-img" :src="upload.url" :data-src="upload" @tap="previewImage($event, index)"></image>
 					<image v-if="types == 'image'" class="clear-one-icon" :src="clearIcon" @tap="delImage(upload, index)"></image>
 					<video v-if="types == 'video'" class="uploade-video" :src="upload.url" controls enable-play-gesture>
 						<cover-image v-if="types == 'video'" class="clear-one-icon" :src="clearIcon" @tap="delImage(upload, index)"></cover-image>
@@ -12,11 +12,16 @@
 			</block>
 			<view v-if="uploads.length < uploadCount" class="an-img-add u-fx-ac-jc" @tap="chooseUploads">+</view>
 		</view>
+		<w-compress ref='wCompress' />
 	</view>
 </template>
 
 <script>
+	import WCompress from '@/components/w-compress/w-compress.vue'
 	export default{
+		components: {
+			WCompress
+		},
 		props: {
 			types: {
 				type: String,
@@ -68,11 +73,12 @@
 			this.uploads = this.dataList
 		},
 		methods:{
-			previewImage (e) {
-				var current = e.target.dataset.src
+			previewImage (e, index) {
 				uni.previewImage({
-					current: current,
-					urls: this.dataList
+					current: index,
+					urls: this.uploads.map(el => {
+						return el.url;
+					})
 				})
 			},
 			chooseUploads(){
@@ -80,7 +86,7 @@
 					case 'image': 
 						uni.chooseImage({
 							count: this.uploadCount - this.uploads.length, //默认9
-							sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+							sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
 							sourceType: ['album', 'camera'], //从相册选择
 							success: (res) => {
 								for(let i = 0; i< res.tempFiles.length; i++){
@@ -88,24 +94,31 @@
 										uni.showLoading({
 											title: '上传中'
 										});
-										this.$emit('progress', false);
-										this.uploadTask = uni.uploadFile({
-											url: this.uploadUrl, //仅为示例，非真实的接口地址
-											filePath: res.tempFiles[i].path,
-											name: 'fileList',
-											success: (uploadFileRes) => {
-												uni.hideLoading();
-												this.successTag = true;
-												this.uploads.push(JSON.parse(uploadFileRes.data).data)
-												this.$emit('success',JSON.parse(uploadFileRes.data))
-												this.$emit('progress', true);
-											},
-											fail: (err) => {
-												console.log(err)
-												uni.showModal({
-													content: JSON.stringify(err)
-												});
-											}
+										this.$refs.wCompress.start(res.tempFiles[i].path, {
+											pixels: 500000,  // 最大分辨率，默认二百万
+											quality: 0.8,     // 压缩质量，默认0.8
+											type: 'png',      // 图片类型，默认jpg
+											base64: true,     // 是否返回base64，默认false，非H5有效
+										}).then(data => {
+											this.$emit('progress', false);
+											this.uploadTask = uni.uploadFile({
+												url: this.uploadUrl, //仅为示例，非真实的接口地址
+												filePath: data,
+												name: 'fileList',
+												success: (uploadFileRes) => {
+													uni.hideLoading();
+													this.successTag = true;
+													this.uploads.push(JSON.parse(uploadFileRes.data).data)
+													this.$emit('success',JSON.parse(uploadFileRes.data))
+													this.$emit('progress', true);
+												},
+												fail: (err) => {
+													console.log(err)
+													uni.showModal({
+														content: JSON.stringify(err)
+													});
+												}
+											})
 										})
 									}else {
 										this.exceeded_list.push(i === 0 ? 1 : i + 1);

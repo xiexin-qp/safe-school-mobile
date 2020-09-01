@@ -12,7 +12,7 @@ function resultBack(res) {
 }
 
 // 响应式数据
-const projectName = 'class-circle-t' // 此处写项目名作为存储值
+const projectName = 'class-circle' // 此处写项目名作为存储值
 const localData = uni.getStorageSync(projectName) || '{}'
 const getState = (state, val) => {
   return JSON.parse(localData)[state] || val
@@ -23,7 +23,8 @@ const store = Vue.observable({
 	openid: JSON.parse(uni.getStorageSync('protal')).openid,
 	schoolYear: JSON.parse(uni.getStorageSync('protal')).schoolYear,
 	isBZR: JSON.parse(uni.getStorageSync('protal')).isBZR,
-	teachClassList: JSON.parse(uni.getStorageSync('protal')).teachClassList
+	teachClassList: JSON.parse(uni.getStorageSync('protal')).teachClassList,
+	childList: JSON.parse(uni.getStorageSync('protal')).childList
 })
 
 // 修改数据

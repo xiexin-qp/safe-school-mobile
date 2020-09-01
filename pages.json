@@ -29,10 +29,6 @@
 			"path": "pages/protal/changePhone",
 			"style": {}
 		},
-		{
-			"path": "pages/protal/messageDetail",
-			"style": {}
-		},
 		// 课程表
 		{
 			"path": "pages/class-schedule/class-schedule-t/index",
@@ -614,31 +610,19 @@
 		},
 		//班级圈
 		{
-		  "path": "pages/class-circle/class-circle-t/index",
+		  "path": "pages/class-circle/index",
 		  "style": {}
 		},
 		{
-		  "path": "pages/class-circle/class-circle-t/newList",
+		  "path": "pages/class-circle/newList",
 		  "style": {}
 		},
 		{
-		  "path": "pages/class-circle/class-circle-t/detail",
+		  "path": "pages/class-circle/detail",
 		  "style": {}
 		},
 		{
-		  "path": "pages/class-circle/class-circle-t/form",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-circle/class-circle-p/index",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-circle/class-circle-p/detail",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-circle/class-circle-p/form",
+		  "path": "pages/class-circle/form",
 		  "style": {}
 		},
 		// 学习园地
