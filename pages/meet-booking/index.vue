@@ -142,7 +142,7 @@ export default {
 			}
 			this.$tools.navTo({
 				url: `./form?type=${type}&id=${id}`,
-				title: '场地预订'
+				title: '会议发布'
 			});
 		}
 	}

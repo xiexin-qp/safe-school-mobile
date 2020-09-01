@@ -708,7 +708,7 @@ export default {
 							.addReserve(req)
 							.then(res => {
 								console.log(res);
-								this.$tools.toast('预订成功', 'success');
+								this.$tools.toast('发布成功', 'success');
 								this.$tools.goNext(() => {
 									eventBus.$emit('getList');
 									this.$tools.goBack();

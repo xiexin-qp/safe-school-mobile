@@ -300,90 +300,6 @@ export default {
 		close() {
 			this.showTree = false;
 		},
-		/* 		selcet(classInfo, teacherInfo) {
-			console.log(teacherInfo);
-			const allClassList = [];
-			const allTeacherList = [];
-			classInfo.forEach(ele => {
-				if (ele.type === '1') {
-					allClassList.push(
-						actions.getClassData({
-							schoolYearId: this.schoolYearId,
-							schoolCode: store.userInfo.schoolCode,
-							gradeCode: ele.gradeCode
-						})
-					);
-				}
-			});
-			Promise.all(allClassList).then(res => {
-				const list = res.map(item => {
-					return item.data.list;
-				});
-				let hash = {};
-				this.classList = classInfo.filter(item => item.type !== '1').concat([].concat.apply([], list));
-				this.classList = this.classList.reduceRight((item, next) => {
-					hash[next.classCode] ? '' : (hash[next.classCode] = true && item.push(next));
-					return item;
-				}, []);
-				console.log(this.classList);
-			});
-			teacherInfo.forEach(ele => {
-				if (ele.type === '1') {
-					allTeacherList.push(
-						actions.getTeacherList({
-							schoolCode: store.userInfo.schoolCode,
-							orgCode: ele.orgCode,
-							page: 1,
-							size: 99999
-						})
-					);
-				}else if (ele.type === '3') {
-					allTeacherList.push(
-						actions.getNoneTeacher({
-							schoolCode: store.userInfo.schoolCode,
-							orgCode: ele.orgCode,
-							page: 1,
-							size: 99999
-						})
-					);
-				}
-			});
-			Promise.all(allTeacherList).then(res => {
-				const list = res.map(item => {
-					return item.data.list;
-				});
-				let hash = {};
-				this.teacherList = teacherInfo.filter(item => item.type === '2').concat([].concat.apply([], list));
-				this.teacherList = this.teacherList.reduceRight((item, next) => {
-					hash[next.userCode] ? '' : (hash[next.userCode] = true && item.push(next));
-					return item;
-				}, []);
-				console.log(this.teacherList);
-				this.$tools.goNext(() => {
-					this.classList = this.classList.map(el => {
-						return {
-							classCode: el.classCode,
-							className: el.className,
-							gradeName: el.gradeName,
-							gradeCode: el.gradeCode,
-							classId: el.id,
-							schoolYearId: el.schoolYearId
-						};
-					});
-					this.teacherList = this.teacherList.map(el => {
-						return {
-							workNo: el.mobile,
-							userCode: el.userCode,
-							userName: el.userName,
-							orgCode: el.orgCode,
-							orgName: el.orgName
-						};
-					});
-					this.classTitle = `已选择${this.classList.length}个班，${this.teacherList.length}个教职工`;
-				});
-			});
-			this.showTree = false;
-		}, */
 		selcet(classInfo, teacherInfo) {
 			console.log(teacherInfo);
 			this.classList = classInfo.filter(item => item.type !== '1');
@@ -726,7 +642,7 @@ export default {
 					this.$tools.goNext(() => {
 						this.canClick = true;
 						actions.addReserve(req).then(res => {
-							this.$tools.toast('预订成功', 'success');
+							this.$tools.toast('发布成功', 'success');
 							this.$tools.goNext(() => {
 								eventBus.$emit('getList');
 								this.$tools.goBack();
