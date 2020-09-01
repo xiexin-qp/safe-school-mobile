@@ -52,14 +52,12 @@
           </view>
         </view>
       </view>
-      <view class="u-mar-t20 u-padd-30 u-type-white-bg">
-        <view v-for="(item, i) in detail.substituteInfoList" :key="i">
-          <view
-            class="u-mar-t20 u-mar-b20 u-type-primary-light-bg u-padd-20 u-border-radius"
-            v-if="item.category !== null"
-          >
+      <view v-for="(item, i) in detail.substituteInfoList" :key="i" v-if="item.category !== null">
+        <view class="u-mar-t20 u-padd-30 u-type-white-bg">
+          <view >
             <view class="u-fx-jc">
-              <text>
+              <text>{{ item.fromTeacherName }}</text>
+              <text class="u-padd-l40">
                 {{ item.fromGradeName }}{{ item.fromClassName }}第{{
                   item.fromLesson
                 }}节{{ item.fromSubjectName
@@ -67,13 +65,21 @@
                   convertToChinese(item.fromWeek)
                 }}</text
               >
-              <text class="u-padd-l40">{{ item.fromTeacherName }}</text>
             </view>
-            <view v-if="item.category === 2" class="u-fx-jc u-mar-t20">
+            <view
+              v-if="
+                item.category === 2 ||
+                item.category === 3 ||
+                item.category === 4
+              "
+              class="u-fx-jc u-mar-t20"
+            >
+              <image src="../../static/img/arrow.png"></image>
               <u-tag text="调课" mode="light" type="primary"
             /></view>
             <view class="u-fx-jc u-mar-t20" v-if="item.category === 2">
-              <text
+              <text>{{ item.toTeacherName }}</text>
+              <text class="u-padd-l40"
                 >{{ item.toGradeName }}{{ item.toClassName }}第{{
                   item.toLesson
                 }}节{{ item.toSubjectName
@@ -81,21 +87,18 @@
                   convertToChinese(item.toWeek)
                 }}</text
               >
-              <text class="u-padd-l40">{{ item.toTeacherName }}</text>
-            </view>
-            <view class="u-fx-jc u-mar-t20" v-if="item.category === 1">
-              <u-tag
-                :text="item.toTeacherName + '代课'"
-                mode="light"
-                type="primary"
-              />
             </view>
             <view class="u-fx-jc u-mar-t20" v-if="item.category === 3">
-              <u-tag text="自修" mode="light" type="primary" />
+              <text>自修</text>
             </view>
             <view class="u-fx-jc u-mar-t20" v-if="item.category === 4">
-              <u-tag text="教务处理" mode="light" type="primary" />
+              <text>教务处理</text>
             </view>
+            <view class="u-fx-jc u-mar-t20" v-if="item.category === 1">
+              <image src="../../static/img/arrow.png"></image>
+              <u-tag text="代课" mode="light" type="primary" />
+            </view>
+            <view class="u-fx-jc u-mar-t20" v-if="item.category === 1">{{ item.toTeacherName }}</view>
           </view>
         </view>
       </view>
@@ -287,7 +290,7 @@ export default {
       });
       this.dataList = this.detail.substituteApproversList.map((el, index) => {
         return {
-          dateTime: el.createTime,
+          dateTime: el.approvalState !== 1 ? el.approvalTime : undefined,
           label: "审批人",
           labelName: el.approverName,
           statusName:
@@ -302,7 +305,8 @@ export default {
       res.data.substituteApproversList.forEach((el) => {
         if (
           store.userInfo.userCode === el.approverCode &&
-          el.approvalState === 1
+          el.approvalState === 1 &&
+          this.detail.substituteForm.approvalState === 1
         ) {
           this.approverId = el.id;
           this.isApproval = true;
@@ -332,6 +336,12 @@ export default {
   height: calc(100vh - 100rpx);
   .u-mar-5 {
     margin-top: 5px;
+  }
+  image {
+    width: 35rpx;
+    height: 40rpx;
+    margin-top: 8rpx;
+    margin-right: 20rpx;
   }
 }
 .pop {

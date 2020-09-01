@@ -23,12 +23,12 @@ const classCard = [{
 			title: '作业-家长',
 			url: '/pages/class-homework/class-homework-p/index'
 		}, {
-			title: '留言-家长',
+			title: '家校互通-家长',
 			url: '/pages/class-message/class-message-p/index'
-		},{
+		}, {
 			title: '班级圈',
 			url: '/pages/class-circle/index'
-		},
+		}
 	]
 }]
 
