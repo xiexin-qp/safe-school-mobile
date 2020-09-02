@@ -86,36 +86,36 @@
       "port": "",
       "proxy": {
         "/zx_mobile_user": {
-          "target": "http://192.168.2.134:10166/", // 朱旭-移动端用户系统
+          "target": "http://192.168.2.242:10166/", // 朱旭-移动端用户系统
           "changeOrigin": true,
           "pathRewrite": {
             "^/zx_mobile_user": ""
           }
         },
         "/wxz_control": {
-          "target": "http://192.168.2.147:10090/", // 王选章-控制中心
+          "target": "http://192.168.2.242:10090/", // 王选章-控制中心
           "changeOrigin": true,
           "pathRewrite": {
             "^/wxz_control": ""
           }
         },
         "/zk_school": {
-          "target": "http://192.168.2.147:10050/", // 张坤-学校管理
+          "target": "http://192.168.2.242:10050/", // 张坤-学校管理
           "changeOrigin": true,
           "pathRewrite": {
             "^/zk_school": ""
           }
         },
         "/zk_leave": {
-         //  "target": "http://192.168.2.242:10054/", // 张坤-校历请假
-          "target": "http://192.168.1.125:10054/", // 张坤-校历请假
+         "target": "http://192.168.2.242:10054/", // 张坤-校历请假
+          //  "target": "http://192.168.1.125:10054/", // 张坤-校历请假
           "changeOrigin": true,
           "pathRewrite": {
             "^/zk_leave": ""
           }
         },
         "/zk_ncov": {
-          "target": "http://192.168.2.147:11005/", // 张坤-疫情日报
+          "target": "http://192.168.2.242:11005/", // 张坤-疫情日报
           //"target": "http://192.168.1.125:11005/",
           "changeOrigin": true,
           "pathRewrite": {
@@ -123,14 +123,14 @@
           }
         },
         "/zx_protal": {
-          "target": "http://192.168.2.147:10060/", // 朱旭-平台应用管理
+          "target": "http://192.168.2.242:10060/", // 朱旭-平台应用管理
           "changeOrigin": true,
           "pathRewrite": {
             "^/zx_protal": ""
           }
         },
         "/lz_protal": {
-          "target": "http://192.168.2.147:10060/", // 吕卓-平台应用管理
+          "target": "http://192.168.2.242:10060/", // 吕卓-平台应用管理
           "changeOrigin": true,
           "pathRewrite": {
             "^/lz_protal": ""
@@ -144,14 +144,14 @@
           }
         },
         "/zx_visitor": {
-          "target": "http://192.168.2.134:10160/", // 朱旭-访客系统
+          "target": "http://192.168.2.242:10160/", // 朱旭-访客系统
           "changeOrigin": true,
           "pathRewrite": {
             "^/zx_visitor": ""
           }
         },
         "/ljj_visitor": {
-          "target": "http://192.168.2.134:10160/", // 柳继杰-访客系统
+          "target": "http://192.168.2.242:10160/", // 柳继杰-访客系统
           "changeOrigin": true,
           "pathRewrite": {
             "^/ljj_visitor": ""
@@ -166,7 +166,7 @@
           }
         },
         "/lz_user_center": {
-          "target": "http://192.168.2.147:11002/", // 吕卓-用户中心
+          "target": "http://192.168.2.242:11002/", // 吕卓-用户中心
           "changeOrigin": true,
           "pathRewrite": {
             "^/lz_user_center": ""
@@ -174,7 +174,7 @@
         },
 				"/ljj_user_center": {
 				  // "target": "http://192.168.1.125:11002/", // 柳继杰-用户中心
-					"target": "http://192.168.2.147:11002/", // 吕卓-用户中心
+					"target": "http://192.168.2.242:11002/", // 吕卓-用户中心
 				  "changeOrigin": true,
 				  "pathRewrite": {
 				    "^/ljj_user_center": ""
@@ -207,13 +207,6 @@
           "changeOrigin": true,
           "pathRewrite": {
             "^/ljj_dorm": ""
-          }
-        },
-        "/baseEnv": {
-          "target": "http://ai2.canpoint.net/baseEnv",
-          "changeOrigin": true,
-          "pathRewrite": {
-            "^/baseEnv": ""
           }
         },
         "/hpb_face": {
@@ -270,14 +263,14 @@
           }
         },
         "/zk_oa": {
-          "target": "http://192.168.1.23:11014/", //张坤-物品管理
+          "target": "http://192.168.2.242:11014/", //张坤-物品管理
           "changeOrigin": true,
           "pathRewrite": {
             "^/zk_oa": ""
           }
         },
 				"/cl_oa": {
-				  "target": "http://192.168.1.193:11014/", //陈琳-调代课
+				  "target": "http://192.168.2.242:11014/", //陈琳-调代课
 				  "changeOrigin": true,
 				  "pathRewrite": {
 				    "^/cl_oa": ""
