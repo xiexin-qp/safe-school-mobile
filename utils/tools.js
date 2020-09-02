@@ -462,7 +462,13 @@ const tools = {
 			break;
 		}
 		return msg
-	}
+  },
+  //截取base64
+  splitBase64(photoUrls){
+    return photoUrls.map(el=>{
+      return el.split(',')[1]
+    })
+  }
 }
 
 export default tools

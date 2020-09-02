@@ -346,6 +346,24 @@ const filters = {
     } else if (val === '3') {
       return '已结案'
     }
+  },
+  //隐患转态
+  getDangerState: val => {
+    const text = parseInt(val)
+    if (parseInt(text) === 1) {
+      return '已上报'
+    } else if (parseInt(text) === 2) {
+      return '已指派'
+    } else if (parseInt(text) === 3) {
+      return '已处理'
+    } else if (parseInt(text) === 4) {
+      return '已验收'
+    } else if (parseInt(text) === 5) {
+      return '已撤销'
+    }
+  },
+  getHour(data) {
+    return Math.ceil(data / 360000)
   }
 }
 for (let key in filters) {
