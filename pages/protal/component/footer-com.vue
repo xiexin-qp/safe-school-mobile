@@ -25,14 +25,14 @@ export default {
 					icon: '/mobile-img/shop-icon.png',
 					iconAct: '/mobile-img/shop-icon-act.png'
 				},
+				// {
+				// 	id: 2,
+				// 	name: '消息',
+				// 	icon: '/mobile-img/message-icon.png',
+				// 	iconAct: '/mobile-img/message-icon-act.png'
+				// },
 				{
 					id: 2,
-					name: '消息',
-					icon: '/mobile-img/shop-icon.png',
-					iconAct: '/mobile-img/shop-icon-act.png'
-				},
-				{
-					id: 3,
 					name: '我的',
 					icon: '/mobile-img/mine-icon.png',
 					iconAct: '/mobile-img/mine-icon-act.png'

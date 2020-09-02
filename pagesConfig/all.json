@@ -469,7 +469,7 @@
 		{
 			"path": "pages/parent-manage/index"
 		},
-		// 班级管理
+		// 班级学生管理
 		{
 			"path": "pages/class-student/index"
 		},

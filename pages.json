@@ -5,11 +5,6 @@
 	"pages": [
 		// 主页模块
 		{
-		  "path": "pages/index/index",
-		  "style": {}
-		},
-		// 主页模块
-		{
 			"path": "pages/protal/index",
 			"style": {}
 		},
@@ -30,7 +25,7 @@
 			"style": {}
 		},
 		{
-			"path": "pages/protal/messageDetail",
+			"path": "pages/protal/map",
 			"style": {}
 		},
 		// 课程表
@@ -140,7 +135,7 @@
 			"path": "pages/news/news-p/parentNotice/detail",
 			"style": {}
 		},
-		// 门禁模块
+		// 门禁管理
 		{
 			"path": "pages/door/door-p/doorRecord/index",
 			"style": {}
@@ -161,7 +156,7 @@
 			"path": "pages/door/door-t/doorManage/add",
 			"style": {}
 		},
-		// 宿管模块
+		// 宿舍管理
 		{
 			"path": "pages/dorm/check-total/index",
 			"style": {}
@@ -313,7 +308,7 @@
 			"path": "pages/attendance/attendance-t/studentLeave/add",
 			"style": {}
 		},
-		// 家长考勤模块
+		// 家长考勤管理
 		{
 			"path": "pages/attendance/attendance-p/attendance/index",
 			"style": {}
@@ -334,7 +329,7 @@
 			"path": "pages/attendance/attendance-p/leave/add",
 			"style": {}
 		},
-		// 教师疫情日报模块
+		// 教师疫情防控
 		{
 			"path": "pages/ncov/ncov-t/index",
 			"style": {}
@@ -351,7 +346,7 @@
 			"path": "pages/ncov/ncov-t/archives",
 			"style": {}
 		},
-		// 家长疫情日报模块
+		// 家长疫情防控
 		{
 			"path": "pages/ncov/ncov-p/index",
 			"style": {}
@@ -368,7 +363,7 @@
 			"path": "pages/ncov/ncov-p/archives",
 			"style": {}
 		},
-		// 人像采集
+		// 人脸采集
 		{
 			"path": "pages/face/face-p/index",
 			"style": {}
@@ -380,44 +375,6 @@
 		{
 			"path": "pages/face/face-t/faceStudent/index",
 			"style": {}
-		},
-		//考试计划
-		{
-		  "path": "pages/examPlan/examPlan-t/index",
-		  "style": {}
-		},
-		{
-		  "path": "pages/examPlan/examPlan-p/index",
-		  "style": {}
-		},
-		{
-		  "path": "pages/examPlan/examPlan-p/detail",
-		  "style": {}
-		},
-		//物品管理报修
-		{
-		  "path": "pages/goods-repair/index",
-		  "style": {}
-		},
-		{
-		  "path": "pages/goods-repair/detail",
-		  "style": {}
-		},
-		{
-		  "path": "pages/goods-repair/form",
-		  "style": {}
-		},
-		{
-		  "path": "pages/collect-repair/index",
-		  "style": {}
-		},
-		{
-		  "path": "pages/collect-repair/detail",
-		  "style": {}
-		},
-		{
-		  "path": "pages/collect-repair/form",
-		  "style": {}
 		},
 		// 班级德育
 		{
@@ -520,167 +477,6 @@
 		{
 			"path": "pages/assistant/assistant-p/dorm/detail",
 			"style": {}
-		},
-		// 留言
-		{
-		  "path": "pages/class-message/class-message-p/index",
-		  "style": {}
-		},
-		//场地预定
-		{
-		  "path": "pages/site-booking/index",
-		  "style": {}
-		},
-		{
-		  "path": "pages/site-booking/detail",
-		  "style": {}
-		},
-		{
-		  "path": "pages/site-booking/form",
-		  "style": {}
-		},
-		//活动发布
-		{
-		  "path": "pages/activity-booking/index",
-		  "style": {}
-		},
-		{
-		  "path": "pages/activity-booking/detail",
-		  "style": {}
-		},
-		{
-		  "path": "pages/activity-booking/form",
-		  "style": {}
-		},
-		{
-		  "path": "pages/activity-booking/meetRecord",
-		  "style": {}
-		},
-		{
-		  "path": "pages/activity-booking/sign",
-		  "style": {}
-		},
-		//会议管理
-		{
-		  "path": "pages/meet-booking/index",
-		  "style": {}
-		},
-		{
-		  "path": "pages/meet-booking/detail",
-		  "style": {}
-		},
-		{
-		  "path": "pages/meet-booking/form",
-		  "style": {}
-		},
-		{
-		  "path": "pages/meet-booking/meetRecord",
-		  "style": {}
-		},
-		// 作业
-		{
-		  "path": "pages/class-homework/class-homework-t/index",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-homework/class-homework-t/detail",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-homework/class-homework-t/form",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-homework/class-homework-p/index",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-homework/class-homework-p/detail",
-		  "style": {}
-		},
-		{
-			"path": "pages/class-homework/class-homework-p/form",
-			"style": {}
-		},
-		// 调代课
-		{
-			"path": "pages/transfer-course/index"
-		},
-		{
-			"path": "pages/transfer-course/form"
-		},
-		{
-			"path": "pages/transfer-course/detail"
-		},
-		//班级圈
-		{
-		  "path": "pages/class-circle/class-circle-t/index",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-circle/class-circle-t/newList",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-circle/class-circle-t/detail",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-circle/class-circle-t/form",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-circle/class-circle-p/index",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-circle/class-circle-p/detail",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-circle/class-circle-p/form",
-		  "style": {}
-		},
-		// 学习园地
-		{
-			"path": "pages/study-ground/study-ground-p/index"
-		},
-		{
-			"path": "pages/study-ground/study-ground-t/index"
-		},
-		{
-			"path": "pages/study-ground/study-ground-t/form"
-		},
-		{
-			"path": "pages/study-ground/component/detail"
-		},
-		// 安防系统-安全巡检
-		{
-			"path": "pages/safe/index"
-		},
-		{
-			"path": "pages/safe/detail"
-		},
-		{
-			"path": "pages/safe/add"
-		},
-		{
-			"path": "pages/safe/item"
-		},
-		{
-			"path": "pages/safe/list"
-		},
-		{
-			"path": "pages/safe/my"
-		},
-		{
-			"path": "pages/safe/record"
-		},
-		{
-			"path": "pages/safe/schedule"
-		},
-		{
-			"path": "pages/safe/task"
 		}
 	],
 	"globalStyle": {

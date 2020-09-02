@@ -215,10 +215,14 @@ export default {
 					this.$tools.toast('您没有访问权限');
 					return;
 				}
-				this.$tools.navTo({
-					title: enjoy.name,
-					url: enjoy.url
-				});
+				if (enjoy.url.indexOf('#') > -1) {
+					window.location.href= enjoy.url
+				} else {
+					this.$tools.navTo({
+						title: enjoy.name,
+						url: enjoy.url
+					})
+				}
 			}
 		},
 		// 获取绑定的孩子
