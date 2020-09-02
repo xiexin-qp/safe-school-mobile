@@ -1,6 +1,6 @@
 <template>
 	<view class=" u-page">
-		<scroll-view scroll-y :class="userType === '1' ? 'scroll-h' : 'scroll'" @scrolltolower="loadMore">
+		<scroll-view scroll-y class="scroll-h" @scrolltolower="loadMore">
 			<no-data v-if="albumList.length === 0" msg="暂无相册"></no-data>
 			<view class="album-list u-fx">
 				<view class="album-item u-fx-ver" v-if="userType === '1'" @click="addAlbum">
@@ -157,7 +157,7 @@ export default {
 
 <style lang="scss" scoped>
 .scroll-h {
-	height: calc(100vh - 108rpx);
+	height: calc(100vh - 158rpx);
 }
 .scroll {
 	height: calc(100vh - 180rpx);

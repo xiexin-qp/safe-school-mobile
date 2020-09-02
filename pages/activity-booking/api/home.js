@@ -45,7 +45,9 @@ let zqApi = {
 	// 会议发布
 	addMeetRecord: '/place/reserve/summary/add#post', // 新增会议纪要
 	getMeetRecordById: '/place/reserve/summary/detail#getUrl', // 会议纪要
-	signInById: '/place/reserve/addActiveUser#postQuery' // 签到人员录入
+	signInById: '/place/reserve/addActiveUser#postQuery' ,// 签到人员录入
+	
+	delFile: '/study/theme/file/delete#delWithQuery' // 文件删除
 }
 
 for (const val in baseData1Api) {

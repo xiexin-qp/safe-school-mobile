@@ -123,6 +123,7 @@ export default {
 	}
 }
 .u-icon-20{
-	font-size: 20rpx;
+	width: 20rpx;
+	height: 20rpx;
 }
 </style>

@@ -3,20 +3,22 @@
 		<dropdown-menu @value0Change="value0Change" @searchChange="searchChange"></dropdown-menu>
 		<no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
 		<scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
-			<view class="approve-list" v-for="(item, i) in dataList" :key="i">
-				<view class="detail u-fx" @click.stop="add(item.status, item.id)">
-					<view class="process-type">
-						<u-tag v-if="item.status === '使用中'" mode="dark" type="primary" text="使用中" />
-						<u-tag v-if="item.status === '未使用'" mode="dark" type="success" text="未使用" />
-						<u-tag v-if="item.status === '已结束'" mode="dark" type="info" text="已结束" />
-					</view>
-					<view class="info u-fx-ac">
-						<view class="list u-fx-f1">
-							<view class="name u-main-color u-font-1">场地：{{ item.placeName }}</view>
-							<view class="u-tips-color">场地类型：{{ item.placeType | getPlaceType() }}</view>
-							<view class="u-tips-color">预订时间：{{ item.reserveDate | gmtToDate('date')}} {{ item.startTime }}-{{ item.endTime }}</view>
-							<view v-if="item.openSign === '1'">
-								<u-button plain @click="goSignDetail(item.id)" class="sign-num mar-b0" type="primary" size="mini">签到统计：{{ item.signNum }}/{{ item.totalNum }}</u-button >
+			<view class="u-auto">
+				<view class="approve-list" v-for="(item, i) in dataList" :key="i">
+					<view class="detail u-fx" @click.stop="add(item.status, item.id)">
+						<view class="process-type">
+							<u-tag v-if="item.status === '使用中'" mode="dark" type="primary" text="使用中" />
+							<u-tag v-if="item.status === '未使用'" mode="dark" type="success" text="未使用" />
+							<u-tag v-if="item.status === '已结束'" mode="dark" type="info" text="已结束" />
+						</view>
+						<view class="info u-fx-ac">
+							<view class="list u-fx-f1">
+								<view class="name u-main-color u-font-1">场地：{{ item.placeName }}</view>
+								<view class="u-tips-color">场地类型：{{ item.placeType | getPlaceType() }}</view>
+								<view class="u-tips-color">预订时间：{{ item.reserveDate | gmtToDate('date')}} {{ item.startTime }}-{{ item.endTime }}</view>
+								<view v-if="item.openSign === '1'">
+									<u-button plain @click="goSignDetail(item.id)" class="sign-num mar-b0" type="primary" size="mini">签到统计：{{ item.signNum }}/{{ item.totalNum }}</u-button >
+								</view>
 							</view>
 						</view>
 					</view>

@@ -107,8 +107,8 @@
           }
         },
         "/zk_leave": {
-         //  "target": "http://192.168.2.242:10054/", // 张坤-校历请假
-          "target": "http://192.168.1.125:10054/", // 张坤-校历请假
+         "target": "http://192.168.2.242:10054/", // 张坤-校历请假
+          //  "target": "http://192.168.1.125:10054/", // 张坤-校历请假
           "changeOrigin": true,
           "pathRewrite": {
             "^/zk_leave": ""
@@ -151,7 +151,7 @@
           }
         },
         "/ljj_visitor": {
-          "target": "http://192.168.2.134:10160/", // 柳继杰-访客系统
+          "target": "http://192.168.2.242:10160/", // 柳继杰-访客系统
           "changeOrigin": true,
           "pathRewrite": {
             "^/ljj_visitor": ""
@@ -174,7 +174,7 @@
         },
 				"/ljj_user_center": {
 				  // "target": "http://192.168.1.125:11002/", // 柳继杰-用户中心
-					"target": "http://192.168.2.147:11002/", // 吕卓-用户中心
+					"target": "http://192.168.2.242:11002/", // 吕卓-用户中心
 				  "changeOrigin": true,
 				  "pathRewrite": {
 				    "^/ljj_user_center": ""
@@ -207,13 +207,6 @@
           "changeOrigin": true,
           "pathRewrite": {
             "^/ljj_dorm": ""
-          }
-        },
-        "/baseEnv": {
-          "target": "http://ai2.canpoint.net/baseEnv",
-          "changeOrigin": true,
-          "pathRewrite": {
-            "^/baseEnv": ""
           }
         },
         "/hpb_face": {
