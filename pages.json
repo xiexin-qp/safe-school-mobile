@@ -669,7 +669,20 @@
 		},
 		{
 			"path": "pages/safe/task"
-		}
+		},
+		// 隐患管理
+				{
+					"path": "pages/hazard-mgt/index"
+				},
+				{
+					"path": "pages/hazard-mgt/assignDetail"
+				},
+				{
+					"path": "pages/hazard-mgt/addDanger"
+				},
+				{
+					"path": "pages/hazard-mgt/dealWithDetail"
+				}
 	],
 	"globalStyle": {
 		// 禁用头部导航栏

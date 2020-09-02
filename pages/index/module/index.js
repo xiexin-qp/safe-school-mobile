@@ -20,9 +20,11 @@ import assistant from './assistant.js'
 import transferCourse from './transferCourse.js'
 import classCard from './classCard.js'
 import safe from './safe.js'
+import parentManage from './parentManage.js'
 const moduleList = [
   ...protal,
 	...safe,
+	...parentManage,
   ...assistant,
   ...visitor,
   ...attendance,
