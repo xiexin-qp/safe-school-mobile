@@ -113,6 +113,7 @@ export default {
 		}
 		// 教职工任课班级列表
 		if (this.userInfo.typeCode === '4') {
+			return
 			let classList = [];
 			actions
 				.getClassListByTeacher({
