@@ -12,7 +12,7 @@
 							<view class="u-tips-color u-font-02 u-mar-b10 u-fx-ac">
 								上传人：{{ item.ownerName }}
 								<view class="u-fx-ac u-mar-l20 u-border-radius-big u-type-primary u-type-primary-light-bg u-padd-l20 u-padd-r20 u-font-02">
-									<u-icon name="http://canpointtest.com/mobile-img/study-ground-icon5.png" size="20" class="u-mar-r10"></u-icon>
+									<image src="http://canpointtest.com/mobile-img/study-ground-icon5.png" class="u-mar-r10 u-icon-20"></u-icon>
 									{{ item.fileCount }}
 								</view>
 							</view>
@@ -121,5 +121,8 @@ export default {
 			height: 40rpx;
 		}
 	}
+}
+.u-icon-20{
+	font-size: 20rpx;
 }
 </style>

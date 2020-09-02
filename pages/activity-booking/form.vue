@@ -90,10 +90,10 @@
 					</picker>
 					<view class="action u-fx u-fx-ac">
 						<view v-if="index === timeList.length - 1 && type === '0'" class="mar-lt10" @click="addTime(true, index)">
-							<u-icon name="http://canpointtest.com/mobile-img/add.png" color="#2979ff" size="40"></u-icon>
+							<image class="u-icon-40" src="http://canpointtest.com/mobile-img/add.png"></image>
 						</view>
 						<view v-if="type === '0'" class="mar-lt10" @click="addTime(false, index)">
-							<u-icon name="http://canpointtest.com/mobile-img/delete_2.png" color="#fa3534" size="36"></u-icon>
+							<image class="u-icon-36" src="http://canpointtest.com/mobile-img/delete_2.png"></image>
 						</view>
 					</view>
 				</view>
@@ -147,7 +147,7 @@
 			</view>
 		</scroll-view>
 		<view v-if="type !== '1'" class="submit-btn"><u-button type="primary" @click="submitForm">提交</u-button></view>
-		<view v-else class="submit-btn"><u-button type="info" @click="goBack">关闭</u-button></view>
+		<!-- <view v-else class="submit-btn"><u-button type="info" @click="goBack">关闭</u-button></view> -->
 	</view>
 </template>
 
@@ -615,7 +615,7 @@ export default {
 					return;
 				}
 				if (this.yzTime(this.timeList) === 2) {
-					this.$tools.toast('预定时间段重复，请重新选择');
+					this.$tools.toast('预订时间段重复，请重新选择');
 					this.canClick = true;
 					return;
 				}
@@ -708,7 +708,7 @@ export default {
 							.addReserve(req)
 							.then(res => {
 								console.log(res);
-								this.$tools.toast('预定成功', 'success');
+								this.$tools.toast('发布成功', 'success');
 								this.$tools.goNext(() => {
 									eventBus.$emit('getList');
 									this.$tools.goBack();
@@ -827,5 +827,13 @@ export default {
 }
 .mar-lt10 {
 	margin: 10rpx 0 0 10rpx;
+}
+.u-icon-40{
+	width: 40rpx;
+	height: 40rpx;
+}
+.u-icon-36{
+	width: 36rpx;
+	height: 36rpx;
 }
 </style>

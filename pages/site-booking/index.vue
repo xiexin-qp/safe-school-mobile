@@ -14,7 +14,7 @@
 						<view class="list u-fx-f1">
 							<view class="name u-main-color u-font-1">场地：{{ item.placeName }}</view>
 							<view class="u-tips-color">场地类型：{{ item.placeType | getPlaceType() }}</view>
-							<view class="u-tips-color">预定时间：{{ item.reserveDate | gmtToDate('date')}} {{ item.startTime }}-{{ item.endTime }}</view>
+							<view class="u-tips-color">预订时间：{{ item.reserveDate | gmtToDate('date')}} {{ item.startTime }}-{{ item.endTime }}</view>
 							<view v-if="item.openSign === '1'">
 								<u-button plain @click="goSignDetail(item.id)" class="sign-num mar-b0" type="primary" size="mini">签到统计：{{ item.signNum }}/{{ item.totalNum }}</u-button >
 							</view>
@@ -112,7 +112,7 @@ export default {
 			type = (type === '已结束' || type === '使用中') ? '1' : type === '未使用' ? '2' : '0'
 			this.$tools.navTo({
 				url: `./form?type=${type}&id=${id}`,
-				title: '场地预定'
+				title: '场地预订'
 			});
 		}
 	}

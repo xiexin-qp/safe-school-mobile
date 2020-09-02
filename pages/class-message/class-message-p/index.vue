@@ -20,9 +20,6 @@
 							<view class="content contentType3 u-padd-0" v-if="item.contentType == 3" @tap="viewImg([item.content])">
 								<image :src="item.content" class="img" mode="widthFix"></image>
 							</view>
-							<!-- <view v-if="item.isItMe && !item.sendTag" class="u-fx-ac u-mar-r10">
-							<u-icon name="close-circle-fill" color="error" size="32"></u-icon>
-						</view> -->
 						</view>
 					</view>
 				</view>
