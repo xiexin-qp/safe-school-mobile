@@ -220,7 +220,7 @@ const tools = {
     return client;
   },
   // 微信api上次图片
-  wxPhoto(cb) {
+  wxPhoto(cb, tag = false) {
     let isiOS = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) //ios终端
     const _self = this
     wx.chooseImage({
@@ -228,6 +228,10 @@ const tools = {
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: res => {
+				if (tag) {
+					cb(res.localIds[0])
+					return
+				}
         var localId = res.localIds[0]
         wx.getLocalImgData({
           localId: localId, // 图片的localID
@@ -243,15 +247,19 @@ const tools = {
     })
   },
   // 选择照片
-  choosePhoto(cb) {
+  choosePhoto(cb, tag = false) {
     if (this.isWx()) {
-      this.wxPhoto(cb)
+      this.wxPhoto(cb, tag)
       return
     }
     uni.chooseImage({
       success: chooseImageRes => {
         for (let i = 0; i < chooseImageRes.tempFilePaths.length; i++) {
           const file = chooseImageRes.tempFilePaths[i];
+					if (tag) {
+						cb(file)
+						return
+					}
           const img = new Image();
           img.src = file;
           const _self = this

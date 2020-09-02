@@ -1,5 +1,5 @@
 <template>
-	<view class="u-bg-fff">
+	<view class="u-page u-bg-fff">
 		<tree-drawer
 			v-show="showTree"
 			:show="showTree"
@@ -110,7 +110,7 @@
 						</view>
 					</view>
 					<view class="box" v-else>
-						<view class="list u-fx-ac-jc"><view class="">无预约记录</view></view>
+						<view class="list u-fx-ac-jc"><view class="">无活动记录</view></view>
 					</view>
 				</view>
 			</view>
@@ -615,7 +615,7 @@ export default {
 					return;
 				}
 				if (this.yzTime(this.timeList) === 2) {
-					this.$tools.toast('预订时间段重复，请重新选择');
+					this.$tools.toast('选择时间段重复，请重新选择');
 					this.canClick = true;
 					return;
 				}

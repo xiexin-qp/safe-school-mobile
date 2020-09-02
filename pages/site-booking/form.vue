@@ -1,5 +1,5 @@
 <template>
-	<view class="u-bg-fff">
+	<view class="u-page u-bg-fff">
 		<tree-drawer
 			v-show="showTree"
 			:show="showTree"

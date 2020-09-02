@@ -80,6 +80,10 @@
 		  "path": "pages/activity-booking/sign",
 		  "style": {}
 		},
+		{
+			"path": "pages/activity-booking/poster",
+			"style": {}
+		},
 		//会议管理
 		{
 		  "path": "pages/meet-booking/index",

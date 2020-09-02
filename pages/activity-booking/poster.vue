@@ -21,7 +21,7 @@
 				<tki-qrcode
 					cid="qrcode2"
 					ref="qrcode2"
-					:val="`http://canpointtest.com/mobile-protal/protal/#/pages/activity-booking/sign?id=${record.id}&schoolCode=${schoolCode}`"
+					:val="`http://canpointlive.com/mobile-protal/protal-card/#/pages/activity-booking/sign?id=${record.id}&schoolCode=${schoolCode}`"
 					background="#f67b29"
 					foreground="#fff"
 					pdground="#fff"
