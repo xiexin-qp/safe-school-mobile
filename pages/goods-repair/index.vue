@@ -132,7 +132,6 @@ export default {
       this.current = item;
       this.pageList.page = 1;
       this.showList();
-      console.log(this.current);
     },
     value0Change(val) {
       console.log(val);
