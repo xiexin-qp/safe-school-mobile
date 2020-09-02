@@ -28,9 +28,14 @@
         ></view>
       </view>
     </scroll-view>
-    <view class="submit-box u-fx-ac"
-      ><view class="btn u-fx-f1" @click="submit">提交</view></view
-    >
+    <view class="footer-btn u-fx-ac">
+      <u-button
+        type="primary"
+        class="u-fx-f1 u-mar-l u-mar-r u-type-primary-dark-bg"
+        @click="submit"
+        >提交</u-button
+      >
+    </view>
   </view>
 </template>
 

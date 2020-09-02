@@ -65,10 +65,10 @@
 					</picker>
 					<view class="action u-fx u-fx-ac">
 						<view v-if="index === timeList.length - 1 && type === '0'" class="mar-lt10" @click="addTime(true, index)">
-							<u-icon name="http://canpointtest.com/mobile-img/add.png" color="#2979ff" size="40"></u-icon>
+							<image class="u-icon-40" src="http://canpointtest.com/mobile-img/add.png"></image>
 						</view>
 						<view v-if="type === '0'" class="mar-lt10" @click="addTime(false, index)">
-							<u-icon name="http://canpointtest.com/mobile-img/delete_2.png" color="#fa3534" size="36"></u-icon>
+							<image class="u-icon-36" src="http://canpointtest.com/mobile-img/delete_2.png"></image>
 						</view>
 					</view>
 				</view>
@@ -111,7 +111,7 @@
 			</view>
 		</scroll-view>
 		<view v-if="type !== '1'" class="submit-btn"><u-button type="primary" @click="submitForm">提交</u-button></view>
-		<view v-else class="submit-btn"><u-button type="info" @click="goBack">关闭</u-button></view>
+		<!-- <view v-else class="submit-btn"><u-button type="info" @click="goBack">关闭</u-button></view> -->
 	</view>
 </template>
 
@@ -122,7 +122,7 @@ import TreeDrawer from '@/components/tree-drawer/tree-drawer.vue';
 import ChooseControl from '@/components/choose-control/choose-control.vue';
 import { store, actions } from './store/index.js';
 const yzForm = {
-	remark: '请输入预定说明',
+	remark: '请输入预订说明',
 	room: '请选择房间',
 	floor: '请选择楼层',
 	building: '请选择场地',
@@ -300,90 +300,6 @@ export default {
 		close() {
 			this.showTree = false;
 		},
-		/* 		selcet(classInfo, teacherInfo) {
-			console.log(teacherInfo);
-			const allClassList = [];
-			const allTeacherList = [];
-			classInfo.forEach(ele => {
-				if (ele.type === '1') {
-					allClassList.push(
-						actions.getClassData({
-							schoolYearId: this.schoolYearId,
-							schoolCode: store.userInfo.schoolCode,
-							gradeCode: ele.gradeCode
-						})
-					);
-				}
-			});
-			Promise.all(allClassList).then(res => {
-				const list = res.map(item => {
-					return item.data.list;
-				});
-				let hash = {};
-				this.classList = classInfo.filter(item => item.type !== '1').concat([].concat.apply([], list));
-				this.classList = this.classList.reduceRight((item, next) => {
-					hash[next.classCode] ? '' : (hash[next.classCode] = true && item.push(next));
-					return item;
-				}, []);
-				console.log(this.classList);
-			});
-			teacherInfo.forEach(ele => {
-				if (ele.type === '1') {
-					allTeacherList.push(
-						actions.getTeacherList({
-							schoolCode: store.userInfo.schoolCode,
-							orgCode: ele.orgCode,
-							page: 1,
-							size: 99999
-						})
-					);
-				}else if (ele.type === '3') {
-					allTeacherList.push(
-						actions.getNoneTeacher({
-							schoolCode: store.userInfo.schoolCode,
-							orgCode: ele.orgCode,
-							page: 1,
-							size: 99999
-						})
-					);
-				}
-			});
-			Promise.all(allTeacherList).then(res => {
-				const list = res.map(item => {
-					return item.data.list;
-				});
-				let hash = {};
-				this.teacherList = teacherInfo.filter(item => item.type === '2').concat([].concat.apply([], list));
-				this.teacherList = this.teacherList.reduceRight((item, next) => {
-					hash[next.userCode] ? '' : (hash[next.userCode] = true && item.push(next));
-					return item;
-				}, []);
-				console.log(this.teacherList);
-				this.$tools.goNext(() => {
-					this.classList = this.classList.map(el => {
-						return {
-							classCode: el.classCode,
-							className: el.className,
-							gradeName: el.gradeName,
-							gradeCode: el.gradeCode,
-							classId: el.id,
-							schoolYearId: el.schoolYearId
-						};
-					});
-					this.teacherList = this.teacherList.map(el => {
-						return {
-							workNo: el.mobile,
-							userCode: el.userCode,
-							userName: el.userName,
-							orgCode: el.orgCode,
-							orgName: el.orgName
-						};
-					});
-					this.classTitle = `已选择${this.classList.length}个班，${this.teacherList.length}个教职工`;
-				});
-			});
-			this.showTree = false;
-		}, */
 		selcet(classInfo, teacherInfo) {
 			console.log(teacherInfo);
 			this.classList = classInfo.filter(item => item.type !== '1');
@@ -639,7 +555,7 @@ export default {
 					return;
 				}
 				if (this.yzTime(this.timeList) === 2) {
-					this.$tools.toast('预定时间段重复，请重新选择');
+					this.$tools.toast('预订时间段重复，请重新选择');
 					this.canClick = true;
 					return;
 				}
@@ -726,7 +642,7 @@ export default {
 					this.$tools.goNext(() => {
 						this.canClick = true;
 						actions.addReserve(req).then(res => {
-							this.$tools.toast('预定成功', 'success');
+							this.$tools.toast('发布成功', 'success');
 							this.$tools.goNext(() => {
 								eventBus.$emit('getList');
 								this.$tools.goBack();
@@ -842,5 +758,13 @@ export default {
 }
 .mar-lt10 {
 	margin: 10rpx 0 0 10rpx;
+}
+.u-icon-40{
+	width: 40rpx;
+	height: 40rpx;
+}
+.u-icon-36{
+	width: 36rpx;
+	height: 36rpx;
 }
 </style>

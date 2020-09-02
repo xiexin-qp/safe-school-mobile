@@ -1,60 +1,58 @@
 <template>
 	<view class="content">
-		<u-navbar :is-back="false" v-if="showDropdown">
-			<ms-dropdown-menu><ms-dropdown-item :title="userName" v-model="userCode" :list="childList"></ms-dropdown-item></ms-dropdown-menu>
-		</u-navbar>
-		<u-navbar :is-back="false" v-else :title="userName"></u-navbar>
-		<scroll-view scroll-y="true":scrollTop="scrollTop" @scrolltoupper="showMore" :class="showFunBtn ? 'scroll-y' : 'scroll-h'">
-		<view class="content-box u-bg-color" @touchstart="touchstart">
-			<view class="message u-padd-l20 u-padd-r20 u-padd-t10 u-padd-b10" v-for="(item, index) in messageList" :key="index" :id="`msg-${item.hasBeenSentId}`">
-				<view class="time u-mar-b10 u-font-02 u-tips-color">{{ item.createTime | gmtToDate }}</view>
-				<view class="message-item u-fx" :class="item.isItMe ? 'right' : 'left'">
-					<image class="img u-border-radius" :src="item.fromUserHeadImg" mode=""></image>
-					<!-- contentType = 1 文本 -->
-					<view class="content u-padd-20 u-border-radius" v-if="item.contentType == 1">{{ item.content }}</view>
-					<!-- contentType = 2 视频 -->
-					<video v-if="item.contentType == 2" class="content contentType2 u-padd-r20" :src="item.content" controls enable-play-gesture object-fit="contain"></video>
-					<!-- contentType = 3 图片 -->
-					<view class="content contentType3 u-padd-0" v-if="item.contentType == 3" @tap="viewImg([item.content])">
-						<image :src="item.content" class="img" mode="widthFix"></image>
+		<no-data v-if="noDataTag" msg="请绑定学生"></no-data>
+		<view v-else>
+			<u-navbar :is-back="false" v-if="showDropdown">
+				<ms-dropdown-menu><ms-dropdown-item :title="userName" v-model="userCode" :list="childList"></ms-dropdown-item></ms-dropdown-menu>
+			</u-navbar>
+			<u-navbar :is-back="false" v-else :title="userName"></u-navbar>
+			<scroll-view scroll-y="true" :scrollTop="scrollTop" @scrolltoupper="showMore" :class="showFunBtn ? 'scroll-y' : 'scroll-h'">
+				<view class="content-box u-bg-color" @touchstart="touchstart">
+					<view class="message u-padd-l20 u-padd-r20 u-padd-t10 u-padd-b10" v-for="(item, index) in messageList" :key="index" :id="`msg-${item.hasBeenSentId}`">
+						<view class="time u-mar-b10 u-font-02 u-tips-color">{{ item.createTime | gmtToDate }}</view>
+						<view class="message-item u-fx" :class="item.isItMe ? 'right' : 'left'">
+							<image class="img u-border-radius" :src="item.fromUserHeadImg" mode=""></image>
+							<!-- contentType = 1 文本 -->
+							<view class="content u-padd-20 u-border-radius" v-if="item.contentType == 1">{{ item.content }}</view>
+							<!-- contentType = 2 视频 -->
+							<video v-if="item.contentType == 2" class="content contentType2 u-padd-r20" :src="item.content" controls enable-play-gesture object-fit="contain"></video>
+							<!-- contentType = 3 图片 -->
+							<view class="content contentType3 u-padd-0" v-if="item.contentType == 3" @tap="viewImg([item.content])">
+								<image :src="item.content" class="img" mode="widthFix"></image>
+							</view>
+						</view>
 					</view>
-					<!-- <view v-if="item.isItMe && !item.sendTag" class="u-fx-ac u-mar-r10">
-						<u-icon name="close-circle-fill" color="error" size="32"></u-icon>
-					</view> -->
 				</view>
-			</view>
-		</view>
-		</scroll-view>
-		<!-- 底部聊天输入框 -->
-		<view class="input-box">
-			<view class="input-box-flex u-fx-ac u-flex-nowrap u-padd-20">
-				<view class="input-box-flex-grow u-fx-f1 u-bg-fff u-border-radius-big">
-					<input
-						type="text"
-						class="content u-bg-fff u-padd-l20 u-padd-r20 u-border-radius-big"
-						id="input"
-						v-model="message"
-						:confirm-type="'发送'"
-						placeholder-style="color:#DDD;"
-						:cursor-spacing="6"
-						:maxlength="100"
-						@focus="focusInput"
-						@blur="blurInput"
-						@confirm="sendMsg"
-					/>
+			</scroll-view>
+			<!-- 底部聊天输入框 -->
+			<view class="input-box">
+				<view class="input-box-flex u-fx-ac u-flex-nowrap u-padd-20">
+					<view class="input-box-flex-grow u-fx-f1 u-bg-fff u-border-radius-big">
+						<input
+							type="text"
+							class="content u-bg-fff u-padd-l20 u-padd-r20 u-border-radius-big"
+							id="input"
+							v-model="message"
+							:confirm-type="'发送'"
+							placeholder-style="color:#DDD;"
+							:cursor-spacing="6"
+							:maxlength="100"
+							@focus="focusInput"
+							@blur="blurInput"
+							@confirm="sendMsg"
+						/>
+					</view>
+					<view class="icon-size u-fx-jc"><u-icon class="icon_btn_add u-mar-l20" name="plus-circle" @tap="switchFun"></u-icon></view>
+					<button class="btn u-mar-l20" type="primary" size="mini" @touchend.prevent="sendMsg(null)">发送</button>
 				</view>
-				<view class="icon-size u-fx-jc">
-					<u-icon class="icon_btn_add u-mar-l20" name="plus-circle" @tap="switchFun"></u-icon>
+				<view class="fun-box" :class="{ 'show-fun-box': showFunBtn }">
+					<u-grid :col="4" :border="false" @click="clickGrid">
+						<u-grid-item v-for="(item, index) in funList" :index="index" :key="index" bg-color="#eaeaea">
+							<view class="icon-size u-fx-jc"><u-icon :name="item.icon"></u-icon></view>
+							<view class="grid-text u-padd-t10">{{ item.title }}</view>
+						</u-grid-item>
+					</u-grid>
 				</view>
-				<button class="btn u-mar-l20" type="primary" size="mini" @touchend.prevent="sendMsg(null)">发送</button>
-			</view>
-			<view class="fun-box" :class="{ 'show-fun-box': showFunBtn }">
-				<u-grid :col="4" :border="false" @click="clickGrid">
-					<u-grid-item v-for="(item, index) in funList" :index="index" :key="index" bg-color="#eaeaea">
-						<view class="icon-size u-fx-jc"><u-icon :name="item.icon"></u-icon></view>
-						<view class="grid-text u-padd-t10">{{ item.title }}</view>
-					</u-grid-item>
-				</u-grid>
 			</view>
 		</view>
 	</view>
@@ -74,6 +72,7 @@ export default {
 	},
 	data() {
 		return {
+			noDataTag: false,
 			timer: null,
 			showDropdown: false,
 			childList: [],
@@ -128,7 +127,7 @@ export default {
 	},
 	async created() {
 		if (!store.childList || store.childList.length === 0) {
-			this.$tools.toast('请绑定学生');
+			this.noDataTag = true;
 			return;
 		}
 		this.userCode = store.childList[0].userCode;
@@ -158,7 +157,7 @@ export default {
 		focusInput() {
 			this.showFunBtn = false;
 			this.$nextTick(() => {
-				this.scrollTop = 9999
+				this.scrollTop = 9999;
 			});
 		},
 		blurInput() {
@@ -230,7 +229,7 @@ export default {
 				case 'video':
 					uni.chooseVideo({
 						sourceType: ['camera', 'album'],
-						maxDuration:60,
+						maxDuration: 60,
 						success: res => {
 							console.log(res);
 							uni.showLoading({
@@ -267,8 +266,8 @@ export default {
 							} else {
 								uni.hideLoading();
 								uni.showToast({
-								    title: '视频超出限制,限制大小为100MB内',
-										icon: 'none'
+									title: '视频超出限制,限制大小为100MB内',
+									icon: 'none'
 								});
 							}
 						},
@@ -348,7 +347,7 @@ export default {
 				return;
 			}
 			this.morePage = res.data.hasNextPage;
-			let arr = []
+			let arr = [];
 			res.data.list.forEach(ele => {
 				arr.unshift({
 					hasBeenSentId: ele.id,
@@ -359,18 +358,18 @@ export default {
 					createTime: ele.createTime,
 					contentType: ele.type
 				});
-			})
-				if (tag) {
-					this.messageList = arr.concat(this.messageList);
-				} else {
-					this.messageList = arr;
-					this.$nextTick(() => {
-						this.scrollTop = 9999
-					});
-				}
+			});
+			if (tag) {
+				this.messageList = arr.concat(this.messageList);
+			} else {
+				this.messageList = arr;
+				this.$nextTick(() => {
+					this.scrollTop = 9999;
+				});
+			}
 		},
 		showMore() {
-			console.log(this.morePage)
+			console.log(this.morePage);
 			if (!this.morePage) {
 				return;
 			}
@@ -497,7 +496,7 @@ export default {
 				background-color: $u-type-success;
 			}
 		}
-		.icon-size{
+		.icon-size {
 			font-size: 26px;
 		}
 		.fun-box {

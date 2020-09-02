@@ -45,7 +45,7 @@ export default {
   },
 	methods: {
 		switchTab (index) {
-			if (index !== 3 && store.userInfo.typeCode === '16' && store.childList.length === 0) {
+			if (index !== 2 && store.userInfo.typeCode === '16' && store.childList.length === 0) {
 				this.$tools.toast('请先绑定孩子')
 				return
 			}

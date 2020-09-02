@@ -58,7 +58,8 @@ export default {
 			pageList: {
 				page: 1,
 				size: 9999
-			}
+			},
+			editTag: false
 		};
 	},
 	watch:{
@@ -102,6 +103,7 @@ export default {
 		},
 		choose(type) {
 			if(!this.canClick) return
+			this.editTag = true
 			if (type === 1) {
 				this.chooseType = '1';
 				this.photoList.forEach(ele => {
@@ -215,6 +217,9 @@ export default {
 			}
 		},
 		goImgList(index) {
+			if(this.editTag){
+				return
+			}
 			uni.setStorageSync('imgPreviewPicList', this.photoList);
 			this.$tools.navTo({
 				url: './imgList?index=' + index

@@ -12,7 +12,6 @@ import behavior from './behavior.js'
 import studentMoral from './studentMoral.js'
 import goodsRepair from './goodsRepair.js'
 import siteBooking from './siteBooking.js'
-import message from './message.js'
 import meetBooking from './meetBooking.js'
 import studyGround from './studyGround.js'
 import activityBooking from './activityBooking.js'
@@ -41,7 +40,6 @@ const moduleList = [
   ...siteBooking,
   ...meetBooking,
   ...activityBooking,
-  ...message,
   ...studyGround,
   ...examPlan,
   ...transferCourse

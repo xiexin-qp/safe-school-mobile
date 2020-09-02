@@ -21,22 +21,9 @@
             :key="index"
           >
             <u-checkbox
-              v-if="item.count != 0"
               @change="checkBox"
               v-model="item.checked"
-              :disabled="true"
-              class="u-fx-jsb"
-              :name="`${item.userCode}^${item.userName}=${item.photoUrl}`"
-            >
-              <text>{{ item.userName }}</text>
-              <text>{{ item.count }}</text>
-              <view><image class="img" :src="item.photoUrl" alt="" /></view>
-            </u-checkbox>
-            <u-checkbox
-              v-else
-              @change="checkBox"
-              v-model="item.checked"
-              :disabled="false"
+              :disabled="item.disabled"
               class="u-fx-jsb"
               :name="`${item.userCode}^${item.userName}=${item.photoUrl}`"
             >
@@ -78,6 +65,7 @@ export default {
       classCode: "",
       schoolYearId: "",
       disabled: false,
+      ratedPersonList: [],
     };
   },
   watch: {
@@ -127,6 +115,7 @@ export default {
         this.dataList = res.data.list;
       }
       this.dutyList();
+      this._getdutyList();
       this.morePage = res.data.hasNextPage;
     },
     loadMore() {
@@ -135,6 +124,33 @@ export default {
         return;
       }
       this.showList(true);
+    },
+    async _getdutyList() {
+      const req = {
+        schoolCode: store.userInfo.schoolCode,
+        classCode: this.classCode,
+        schoolYearId: this.schoolYearId,
+      };
+      const res = await actions.getdutyList(req);
+      if (!res.data.countInfo) {
+        this.ratedPersonList = [];
+        return;
+      }
+      this.ratedPersonList = res.data.countInfo;
+      this.dataList.forEach((ele) => {
+        ele.count = 0;
+        this.$set(this.dataList, "ele", {
+          ...ele,
+        });
+        this.ratedPersonList.forEach((item) => {
+          if (ele.userCode === item.userCode) {
+            ele.count = item.count;
+            this.$set(this.dataList, "ele", {
+              ...ele,
+            });
+          }
+        });
+      });
     },
     async dutyList() {
       const req = {
@@ -150,17 +166,10 @@ export default {
       }
       this.countInfoList = res.data;
       this.dataList.forEach((item) => {
-        item.count = 0;
-        this.$set(this.dataList, "item", {
-          ...item,
-        });
         this.countInfoList.forEach((ele) => {
           if (item.userCode === ele.userCode) {
             item.checked = true;
-            item.count = ele.count;
-            this.$set(this.dataList, "item", {
-              ...item,
-            });
+            item.disabled = true;
           }
         });
       });
@@ -279,9 +288,9 @@ export default {
 .img {
   width: 40px;
   height: 40px;
-	background-color: $u-bg-color;
-	display: block;
-	margin: 0 auto;
+  background-color: $u-bg-color;
+  display: block;
+  margin: 0 auto;
 }
 .u-fx-jsb text {
   padding-top: 10px;

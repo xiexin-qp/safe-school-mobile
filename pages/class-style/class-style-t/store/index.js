@@ -22,7 +22,8 @@ const store = Vue.observable({
   userInfo: JSON.parse(uni.getStorageSync('protal')).userInfo,
 	openid: JSON.parse(uni.getStorageSync('protal')).openid,
 	schoolYear: JSON.parse(uni.getStorageSync('protal')).schoolYear,
-	isBZR: JSON.parse(uni.getStorageSync('protal')).isBZR
+	isBZR: JSON.parse(uni.getStorageSync('protal')).isBZR,
+	teachClassList: JSON.parse(uni.getStorageSync('protal')).teachClassList,
 })
 
 // 修改数据

@@ -283,6 +283,18 @@ const filters = {
       return '审批中'
     } 
   },
+  // 专项检查状态
+  specialState: val => {
+    if (val == '1') {
+      return '为检查'
+    } else if (val == '2') {
+      return '检查待审核'
+    } else if (val == '3') {
+      return '小组已审核'
+    } else if (val == '4') {
+      return '督查完成'
+    }
+  }
 }
 
 for (let key in filters) {

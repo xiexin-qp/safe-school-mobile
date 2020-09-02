@@ -32,5 +32,6 @@ for (let val in showApi) {
 
 export default {
   ...gradeApi,
-	...showApi
+	...showApi,
+	delFile: `${hostEnv.zk_oa}/study/theme/file/delete#delWithQuery` // 文件删除
 }

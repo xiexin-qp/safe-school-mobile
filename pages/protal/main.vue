@@ -15,7 +15,6 @@ import FooterCom from './component/footer-com.vue'
 import apiFun from './store/apiFun.js'
 import home from './home.vue'
 import app from './app.vue'
-import message from './message.vue'
 import mine from './mine.vue'
 export default {
 	data() {
@@ -36,7 +35,6 @@ export default {
     FooterCom,
     home,
     app,
-		message,
     mine
   },
 	methods: {

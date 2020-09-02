@@ -7,7 +7,7 @@
       :schoolInfo="schoolInfo"
       @close="teacherClose"
       @confirm="teacherSelcet1"
-      :classChecked="[]"
+      :classChecked="repairApprovalList"
     ></teacher-tree>
     <teacher-tree
       isClear
@@ -87,53 +87,42 @@
         <view>共{{ this.scheduleList.length }}节</view>
       </view>
       <view
-        class="u-fx-ac u-bd-b item-list"
+        class="u-bd-b item-list u-fx-jc"
         v-for="(item, index) in scheduleList"
         :key="index"
       >
         <view>
-          <view
-            class="u-mar-b20 u-type-info-light-bg u-padd-20 u-border-radius"
+          <text>{{ item.fromTeacherName }}</text>
+          <text> {{ item.fromGradeName }}{{ item.fromClassName }}</text>
+          <text> {{ item.fromSubjectName }}</text>
+          <text> 第{{ item.fromLesson }}节</text>
+          <text> {{ item.fromCourseTime }}</text>
+          <text>
+            星期{{
+              convertToChinese(parseInt(new Date(item.fromCourseTime).getDay()))
+            }}</text
           >
-            <view class="sel-sub">
-              <text> {{ item.fromGradeName }}{{ item.fromClassName }}</text>
-              <text> {{ item.fromSubjectName }}</text>
-              <text> 第{{ item.fromLesson }}节</text>
-            </view>
-            <view class="sel-sub">
-              <text> {{ item.fromCourseTime }}</text>
-              <text>
-                星期{{
-                  convertToChinese(
-                    parseInt(new Date(item.fromCourseTime).getDay())
-                  )
-                }}</text
-              >
-            </view></view
+          <view class="u-fx-jc u-mar-t20 u-mar-b20">
+            <image src="/mobile-img/form.png"></image>
+          </view>
+          <view
+            class="u-padd-40 u-fx-jc u-bd-1px u-mar-b20"
+            @click="changeSiteType([...arguments, item, index])"
+            >{{ item.type }}</view
           >
           <view
-            class="u-type-primary-bg u-type-white u-border-radius u-padd-20"
             v-for="(ele, index) in item.list"
             :key="index"
             v-if="item.list.length !== 0"
           >
-            <view class="sel-sub">
-              <text> {{ ele.toGradeName }}{{ ele.toClassName }}</text>
-              <text> {{ ele.toSubjectName }}</text>
-              <text> 第{{ ele.toLesson }}节</text>
-            </view>
-            <view class="sel-sub">
-              <text> {{ ele.to_course_time }}</text>
-              <text> 星期{{ convertToChinese(ele.toWeek) }}</text>
-            </view>
+            <text>{{ ele.toTeacherName }}</text>
+            <text> {{ ele.toGradeName }}{{ ele.toClassName }}</text>
+            <text> {{ ele.toSubjectName }}</text>
+            <text> 第{{ ele.toLesson }}节</text>
+            <text> {{ ele.to_course_time }}</text>
+            <text> 星期{{ convertToChinese(ele.toWeek) }}</text>
           </view>
         </view>
-        <view
-          class="u-fx-f1 u-fx-je u-content-color"
-          @click="changeSiteType([...arguments, item, index])"
-          >{{ item.type }}</view
-        >
-        <view class="rit-icon"></view>
       </view>
       <view class="qui―fx u-bd-b item-list u-mar-t20">
         <view class="tip"> 调代课原因：</view>
@@ -168,6 +157,7 @@
               mode="light"
               type="info"
               class="mar-l10"
+              style="margin-left: 4px"
             />
           </view>
         </view>
@@ -321,6 +311,7 @@ export default {
         type: "请选择调课类型",
         value: "",
       },
+      substituteInfo: [],
     };
   },
   created() {
@@ -354,6 +345,8 @@ export default {
     },
     changeDate([e, type]) {
       if (type === 1) {
+        this.scheduleList = [];
+        this.classList = [];
         this.formData.startDate = e.target.value;
       } else {
         this.formData.endDate = e.target.value;
@@ -423,14 +416,13 @@ export default {
       };
       const res = await actions.getClassList(req);
       const data = res.data;
-
       this.dateList = [];
       data.forEach((el) => {
         this.classList.forEach((element) => {
           if (element.classCode === el.classCode) {
             this.dateList.push({
               fromWeek: el.week,
-              fromLesson: el.timeInterval,
+              fromLesson: el.classNode,
               fromTeacherCode: el.userCode,
               fromTeacherName: el.userName,
               fromSubjectCode: el.subjectCode,
@@ -476,12 +468,9 @@ export default {
     chooseClass() {
       this.classTag = true;
     },
-    valChange(e) {
-      console.log(e.value);
-    },
+    valChange(e) {},
     teacherSelcet1(value) {
       this.teacherTag1 = false;
-      this.repairApprovalList = [];
       this.repairApprovalList = value.map((el, index) => {
         return {
           approverCode: el.userCode,
@@ -526,7 +515,7 @@ export default {
         this.recordList = res.data.map((el) => {
           return {
             toWeek: el.week,
-            toLesson: el.timeInterval,
+            toLesson: el.classNode,
             toTeacherCode: el.userCode,
             toTeacherName: el.userName,
             toSubjectCode: el.subjectCode,
@@ -582,18 +571,25 @@ export default {
       this.siteTag = true;
     },
     teacherClose() {
-      this.repairApprovalList = [];
-      this.substituteList = [];
-      this.transferList = [];
       this.teacherTag1 = false;
       this.teacherTag2 = false;
-      console.log(this.substituteList);
     },
     chooseTeacher() {
       this.teacherTag1 = true;
     },
     submit: tools.throttle(async function () {
-      if (this.scheduleList.length === 0) {
+      this.scheduleList.forEach((el) => {
+        for (var key in el.list[0]) {
+          el[key] = el.list[0][key];
+        }
+        for (var key in el.infoList[0]) {
+          el[key] = el.infoList[0][key];
+        }
+      });
+      this.substituteInfo = this.scheduleList.filter(
+        (item) => item.type !== "请选择调课类型"
+      );
+      if (this.substituteInfo.length === 0) {
         this.$tools.toast("请选择要调的课程!");
         return;
       }
@@ -605,14 +601,6 @@ export default {
         this.$tools.toast("请选择审批人!");
         return;
       }
-      this.scheduleList.forEach((el) => {
-        for (var key in el.list[0]) {
-          el[key] = el.list[0][key];
-        }
-        for (var key in el.infoList[0]) {
-          el[key] = el.infoList[0][key];
-        }
-      });
       this.$tools.goNext(() => {
         const req = {
           substituteForm: {
@@ -630,7 +618,7 @@ export default {
             return ele.url.split(",")[1];
           }),
           substituteApprovers: this.repairApprovalList,
-          substituteInfo: this.scheduleList.map((el) => {
+          substituteInfo: this.substituteInfo.map((el) => {
             return {
               ...el,
               infoList: undefined,
@@ -640,7 +628,6 @@ export default {
             };
           }),
         };
-        console.log(req);
         actions.addSub(req).then((res) => {
           this.$tools.toast("操作成功");
           this.$tools.goNext(() => {
@@ -680,18 +667,11 @@ export default {
       font-weight: bold;
       left: 8rpx;
     }
+    image {
+      width: 35rpx;
+      height: 40rpx;
+    }
   }
-}
-.u-padd-20 {
-  padding: 20rpx;
-}
-.sel-sub {
-  text {
-    padding-left: 20rpx;
-  }
-}
-.set-ba {
-  background: transparent !important;
 }
 .scroll {
   height: 70vh;
@@ -699,9 +679,6 @@ export default {
     display: flex;
     flex-direction: column;
   }
-}
-.tea-name {
-  line-height: 28px;
 }
 .choose-input {
   width: 100%;
