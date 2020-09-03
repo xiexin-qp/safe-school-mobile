@@ -11,10 +11,15 @@
 		<view class="u-bd-b item-list">
 		  <view class="tip">上传头像：</view>
 		  <view class="u-fx-f1 u-mar-t">
-				<div class="upload-user-img" @click="chooseImg">
-					<image v-if="formData.base64Url" :src="formData.base64Url" class="upload-user-img"></image>
-					<view v-if="!formData.base64Url" class="upload-user-img">+</view>
-				</div>
+				<video-upload
+					class="u-fx-f1 u-padd-l20 u-padd-r10 u-padd-b20"
+					isCheck
+					:uploadUrl="uploadUrl"
+					 types="image"
+					:uploadCount="1"
+					:upload_max="10"
+					@success="success"
+				></video-upload>
 		  </view>
 		</view>
 		<view class="btn-mar">
@@ -35,22 +40,22 @@ export default {
 				userName: '',
 				phone: '',
 				base64Url: ''
-			}
+			},
+			uploadUrl: ''
 		}
 	},
 	components: {
 		anUploadImg
 	},
 	async mounted() {
+		this.uploadUrl = ``;
 		this.id = this.$tools.getQuery().get('id');
 		this.schoolCode = this.$tools.getQuery().get('schoolCode');
 	},
 	methods: {
-		// 上传图片
-		chooseImg () {
-			this.$tools.choosePhoto((baseImg) => {
-				this.formData.base64Url = baseImg
-			})
+		success(e) {
+			console.log(e);
+			this.formData.base64Url = e
 		},
 		async sign () {
 			for (let key in this.formData) {

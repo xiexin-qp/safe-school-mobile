@@ -553,6 +553,10 @@
 			"style": {}
 		},
 		{
+			"path": "pages/activity-booking/poster",
+			"style": {}
+		},
+		{
 			"path": "pages/activity-booking/sign",
 			"style": {}
 		},
