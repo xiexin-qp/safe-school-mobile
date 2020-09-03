@@ -7,9 +7,10 @@ import hostEnv from '../../../config/index'
 
 let homeApi = {
   getAccidentList: '/accident/page/mobile#post', // 移动端分页条件查询事故列表
-  getSpecialDetail: '/specialTask/info#getUrl', // 局端/校端查看任务详情
-  getGroupDetail: '/danger/group/info#get', // 隐患小组详情
-  reportDanger: '/dangerTask/add/special/mobile#post' // 专项检查-移动端上报隐患
+  getAccidentDetail: '/accident/info/mobile#getUrl', // 移动端根据id查询事故详情
+  addAccident: '/accident/add#post', // 添加事故
+  reportAccident: '/instructReport/add#post', // 添加批示或续报
+  finishAccident: '/accident/finish#post' // 结案
 
 }
 for (let val in homeApi) {

@@ -1,183 +1,202 @@
 <template>
-	<view class="detail u-page">
-		<no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
-		<scroll-view scroll-y="true" class="scroll-h" v-else>
-			<view class="u-type-primary-bg detail-top u-fx-ac-jc">
-				<view class="u-font-3 u-type-white"> {{ dataList.taskName }} </view>
-				<view class="u-font-1 u-mar-t20 u-mar-b20">
-					<u-tag :text="dataList.schoolName" shape="circle" />
-				</view>
-				<view class="u-font-01 u-type-white"> 检查时间：{{ dataList.checkTime }} </view>
-			</view>
-			<view class="u-type-white-bg u-padd-20 u-padd-t40 u-mar-b20 u-mar-l20 u-mar-r20">
-				<ul class="detail-list u-fx">
-					<li class="u-tx-c u-fx-ac-jc" v-for="(list,index) in titleList" :key="index"> {{ list }} </li>
-				</ul>
-				<view class="u-fx">
-					<ul class="detail-info info-wth info-bd u-fx-ver">
-						<li class="u-tx-c u-fx-ac-jc" :style="{flex: list.standardList.length}" v-for="(list,index) in dataList.itemList" :key="index"> {{ list.name }} </li>
-					</ul>
-					<ul class="detail-info u-fx-f1">
-						<li class="u-tx-c u-fx-ac-jc" v-for="item in standardList" :key="item.id"> {{ item.itemName }} </li>
-					</ul>
-					<ul class="detail-info info-wth" v-if="state !== '1'">
-						<li class="u-tx-c u-fx-ac-jc" v-for="item in standardList" :key="item.id"> {{ item.selfResult === '1' ? '符合' : '不符合' }} </li>
-					</ul>
-					<ul class="detail-info info-wth" v-if="state !== '2'">
-						<li class="u-tx-c u-fx-ac-jc" v-for="item in standardList" :key="item.id"> {{ item.examineResult === '1' ? '符合' : '不符合' }} </li>
-					</ul>
-					<ul class="detail-info info-wth" v-if="state === '4'">
-						<li class="u-tx-c u-fx-ac-jc" v-for="item in standardList" :key="item.id"> {{ item.inspectionResult === '1' ? '符合' : '不符合' }} </li>
-					</ul>
-				</view>
-			</view>
-			<view class="u-padd-t20 u-padd-b20">
-				<view class="step">
-					<view
-						class="step-list u-fx-ac"
-						v-for="(data, index) in dataList.processList"
-						:key="index"
-					>
-						<view class="left-w" style="position: relative;">
-							<view class="tips"></view>
-						</view>
-						<view
-							class="u-fx-ac u-fx-f1 step-item u-padd-20 u-type-white-bg u-border-radius"
-						>
-							<view class="sjx"></view>
-							<view class="u-fx-f1 u-mar-l">
-								<view class="u-mar-t10">{{ data.content }}</view>
-							</view>
-							<view class="u-padd-l40">{{ data.time | gmtToDate("dateTime") }}</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</scroll-view>
-	</view>
+  <view class="detail">
+    <scroll-view scroll-y="true" class="scroll-h">
+      <view class="u-bg-fff">
+        <view class="detail-top u-fx-ver u-padd-t20 u-padd-b20 u-mar-l30 u-mar-r30">
+          <view class="u-content-color">事故详情：</view>
+          <view class="u-mar-t20 u-mar-b20"> {{ detailInfo.details }}</view>
+          <view class="img-box">
+            <image class="u-mar-r20" :src="url" v-for="(url, index) in detailInfo.pictures" :key="index"></image>
+          </view>
+        </view>
+      </view>
+      <view class="u-padd-l30 u-padd-r30 u-padd-t20 u-padd-b20 u-bg-fff">
+        <view class="u-fx-jsb u-mar-b20" v-for="(list, index) in detail" :key="index">
+          <view class="u-tips-color">{{ list.title }}</view>
+          <view class="u-content-color">{{ list.content }} </view>
+        </view>
+      </view>
+      <view class="line" v-if="detailInfo.instructReports && detailInfo.instructReports.length > 0"></view>
+      <view class="u-padd u-bg-fff" v-if="detailInfo.instructReports && detailInfo.instructReports.length > 0">
+        <view class="u-mar-b20" v-for="item in detailInfo.instructReports" :key="item.id">
+          <view class="u-tips-color">{{ item.userName }} 批示 （{{ item.time | gmtToDate }}）:</view>
+          <view class="u-mar-t10 u-main-color"> {{ item.content }} </view>
+        </view>
+      </view>
+      <view class="line"></view>
+      <view class="u-padd u-bg-fff" v-if="state === '已结案未批示' || state === '已结案已批示'">
+        <view class="u-mar-b20">
+          <view class="u-tips-color">结案报告:</view>
+          <view class="u-mar-t10 u-main-color"> {{ detailInfo.finishInfo }} </view>
+        </view>
+      </view>
+      <view class="u-fx-jsb u-padd u-bg-fff" v-if="state === '处理中未批示' || state === '处理中已批示'">
+        <view class="u-fx-f1">
+          <view>学校续报：</view>
+          <textarea class="item-text-area u-padd-t20 u-font-02" v-model="content" placeholder="请填写续报内容" />
+        </view>
+        <u-button class="custom-style" :hair-line="false" :loading="loading" @click="submit(1)">续报</u-button>
+      </view>
+      <view class="line"></view>
+      <view class="u-fx-jsb u-padd u-bg-fff" v-if="state === '处理中未批示' || state === '处理中已批示'">
+        <view class="u-fx-f1">
+          <view>结案报告：</view>
+          <textarea class="item-text-area u-padd-t20 u-font-02" v-model="finishInfo" placeholder="请填写结案内容" />
+        </view>
+        <u-button class="custom-style" :hair-line="false" :loading="conformLoading" @click="submit(2)">结案</u-button>
+      </view>
+    </scroll-view>
+  </view>
 </template>
 
 <script>
-	import eventBus from '@u/eventBus'
-	import noData from '@/components/no-data/no-data.vue'
-	import { store, actions } from './store/index.js'
-	export default {
-		components: {
-			noData
-		},
-		data() {
-			return {
-				dataList: [{
-					id:1,
-					taskName:'123',
-					state:'1'
-				}],
-				titleList: [], 
-				standardList: [],
-				state: ''
-			};
-		},
-		async mounted() {
-			this.taskId = this.$tools.getQuery().get('id')
-			this.state = this.$tools.getQuery().get('state')
-			this.titleList = 
-				this.state === '4' ? ['检查项目','检查标准','自查结果','小组结果','督查结果'] :
-				this.state === '3' ?
-				['检查项目','检查标准','自查结果','小组结果'] :
-				this.state === '2' ? 
-				['检查项目','检查标准','自查结果'] : []
-			eventBus.$on('getList', () => {
-				this.showList()
-			})
-			this.showList()
-		},
-		methods: {
-			//详情
-			detail(item) {
-				this.$tools.navTo({
-					url: `./submit?&id=${item.id}`
-				})
-			},
-			async showList() {
-				const res = await actions.getSpecialDetail(this.taskId)
-				this.dataList = res.data
-				this.standardList = []
-				res.data.itemList.map(el => {
-					el.standardList.map(item => {
-						this.standardList.push(item)
-					})
-				})
-			}
-		}
-	}
+import eventBus from '@u/eventBus'
+import { actions, store } from './store/index'
+export default {
+  data() {
+    return {
+      loading: false,
+      state: '',
+      detailInfo: {},
+      detail: {},
+      content: '',
+      finishInfo: '',
+      conformLoading: false
+    }
+  },
+  mounted() {
+    this.detailId = this.$tools.getQuery().get('id')
+    this.state = this.$tools.getQuery().get('state')
+    this.accidentDetailGet()
+  },
+  methods: {
+    async accidentDetailGet() {
+      const res = await actions.getAccidentDetail(this.detailId)
+      this.detailInfo = res.data
+      this.detail = [
+        {
+          title: '事故填报学校：',
+          content: res.data.schoolName
+        },
+        {
+          title: '事故发生地点：',
+          content: res.data.location
+        },
+        {
+          title: '事故发生时间：',
+          content: this.$tools.getDateTime(res.data.happenTime, 'date')
+        },
+        {
+          title: '事故分类：',
+          content: this.$tools.accidentType(res.data.type)
+        },
+        {
+          title: '事故性质：',
+          content: this.$tools.accidentNature(res.data.nature)
+        },
+        {
+          title: '事故等级：',
+          content: this.$tools.accidentLevel(res.data.level)
+        },
+        {
+          title: '事故现状态：',
+          content: res.data.nowStatus
+        }
+      ]
+    },
+    async submit(type) {
+      if (type === 1 && !this.content) {
+        this.$tools.toast('请填写续报内容')
+        return
+      }
+      if (type === 2 && !this.finishInfo) {
+        this.$tools.toast('请填写结案内容')
+        return
+      }
+      if (type === 1) {
+        this.loading = true
+        const req = {
+          accidentId: this.detailId,
+          content: this.content,
+          type: '2',
+          userCode: store.userInfo.userCode,
+          userName: store.userInfo.userName
+        }
+        this.$tools.confirm('确定进行续报吗？', () => {
+          actions
+            .reportAccident(req)
+            .then((res) => {
+              this.$tools.toast('续报成功')
+              this.$tools.goNext(() => {
+                eventBus.$emit('getList')
+                this.$tools.navTo({
+                  url: './index'
+                })
+              })
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        })
+      } else {
+        this.conformLoading = true
+        const req = {
+          finishInfo: this.finishInfo,
+          id: this.detailId
+        }
+        this.$tools.confirm('确定进行结案吗？', () => {
+          actions
+            .finishAccident(req)
+            .then((res) => {
+              this.$tools.toast('结案成功')
+              this.$tools.goNext(() => {
+                eventBus.$emit('getList')
+                this.$tools.navTo({
+                  url: './index'
+                })
+              })
+            })
+            .catch(() => {
+              this.conformLoading = false
+            })
+        })
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss">
-	.detail {
-		.detail-top {
-			height: 200rpx;
-		}
-		.detail-list {
-			li {
-				width: 80rpx;
-				border: 1px solid #eee;
-				height: 100rpx;
-				border-left: none;
-				&:nth-child(1) {
-					border-left: 1px solid #eee;
-				}
-				&:nth-child(2) {
-					flex: 1;
-				}
-			}
-		}
-		.info-wth {
-			li {
-				width: 80rpx;
-			}
-		}
-		.detail-info {
-			li {
-				height: 140rpx;
-				border-bottom: 1px solid #eee;
-				border-right: 1px solid #eee;
-				overflow-y: scroll;
-			}
-		}
-		.info-bd {
-			border-left: 1px solid #eee;
-		}
-	}
-	.scroll-h {
-		height: calc(100vh - 20rpx);
-	}
-	.step-list {
-		.left-w {
-			width: 50rpx;
-		}
-		border-left: 1px $u-light-color solid;
-		margin: 0 $u-mp-30;
-		.tips {
-			z-index: 99;
-			top: -10rpx;
-			position: absolute;
-			left: -12rpx;
-			width: 20rpx;
-			height: 20rpx;
-			border-radius: 100%;
-			background-color: $u-type-primary;
-		}
-		min-height: 120rpx;
-		.sjx {
-			left: -40rpx;
-			position: absolute;
-			z-index: 99;
-			width: 0px;
-			height: 0px;
-			border-left: 20rpx transparent solid;
-			border-right: 20rpx $u-type-white solid;
-			border-top: 20rpx transparent solid;
-			border-bottom: 20rpx transparent solid;
-		}
-	}
+.custom-style {
+  color: $u-type-primary;
+  width: 150rpx;
+  height: 50rpx;
+  background-color: $u-type-primary-light;
+  border: none;
+}
+.detail {
+  .scroll-h {
+    background-color: #f4f7fc;
+    height: calc(100vh - 10rpx);
+    .detail-top {
+      border-bottom: 1px dashed #ccc;
+    }
+    .img-box {
+      image {
+        width: 152rpx;
+        height: 152rpx;
+      }
+    }
+  }
+  .line {
+    height: 20rpx;
+    background-color: #f4f7fc;
+  }
+  .item-text-area {
+    height: 120rpx;
+    width: 100%;
+    line-height: 40rpx;
+    color: $u-content-color;
+  }
+}
 </style>

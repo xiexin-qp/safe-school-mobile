@@ -2,55 +2,29 @@
   <view class="accident u-page">
     <view class="dropDown u-fx">
       <ms-dropdown-menu>
-        <ms-dropdown-item
-          v-model="type"
-          :list="searchData.accidentType"
-        ></ms-dropdown-item>
+        <ms-dropdown-item v-model="type" :list="searchData.accidentType"></ms-dropdown-item>
       </ms-dropdown-menu>
       <ms-dropdown-menu>
-        <ms-dropdown-item
-          v-model="state"
-          :list="searchData.accidentState"
-        ></ms-dropdown-item>
+        <ms-dropdown-item v-model="state" :list="searchData.accidentState"></ms-dropdown-item>
       </ms-dropdown-menu>
       <ms-dropdown-menu>
-        <ms-dropdown-item
-          v-model="level"
-          :list="searchData.accidentLevel"
-        ></ms-dropdown-item>
+        <ms-dropdown-item v-model="level" :list="searchData.accidentLevel"></ms-dropdown-item>
       </ms-dropdown-menu>
     </view>
     <no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
-    <scroll-view
-      scroll-y="true"
-      @scrolltolower="loadMore"
-      class="scroll-h u-padd-t10"
-      v-else
-    >
-      <view
-        class="accident-list u-mar-b20 u-mar-l20 u-mar-r20"
-        v-for="item in dataList"
-        :key="item.id"
-      >
+    <scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h u-padd-t10" v-else>
+      <view class="accident-list u-mar-b20 u-mar-l20 u-mar-r20" v-for="item in dataList" :key="item.id">
         <view class="detail u-fx u-padd-20 u-mar-b20">
           <view class="info u-fx-ac" @click="detail(item)">
             <view class="list u-fx-f1 u-line3">
               <view class="name u-fx-jsb u-font-1">
                 <view class="u-padd-l20"> {{ item.title }} </view>
                 <view class="state">
-                  <view class="state-title u-font-01 u-type-white"
-                    >{{ item.level | accidentLevel }}
-                  </view>
+                  <view class="state-title u-font-01 u-type-white">{{ item.level | accidentLevel }} </view>
                   <image
                     class="state-img"
                     :src="`/mobile-img/accident-${
-                      item.level === '1'
-                        ? 'td'
-                        : item.level === '2'
-                        ? 'zd'
-                        : item.level === '3'
-                        ? 'jd'
-                        : 'yb'
+                      item.level === '1' ? 'td' : item.level === '2' ? 'zd' : item.level === '3' ? 'jd' : 'yb'
                     }.png`"
                   ></image>
                 </view>
@@ -66,7 +40,7 @@
                 </view>
                 <view class="u-fx-jsb u-mar-t10">
                   <text class="u-tips-color"> 事故发生时间： </text>
-                  <text>{{ item.happenTime | gmtToDate("date") }} </text>
+                  <text>{{ item.happenTime | gmtToDate('date') }} </text>
                 </view>
                 <view class="u-fx-jsb u-mar-t10">
                   <text class="u-tips-color"> 死亡人数： </text>
@@ -89,10 +63,7 @@
                   <text>{{ item.nowStatus }} </text>
                 </view>
               </view>
-              <view
-                class="check u-fx-jsb u-mar-t10 u-padd-t10"
-                @click="goDetail(item)"
-              >
+              <view class="check u-fx-jsb u-mar-t10 u-padd-t10" @click="goDetail(item)">
                 <view> 查看详情 </view>
                 <view class="u-tips-color"> > </view>
               </view>
@@ -106,94 +77,105 @@
 </template>
 
 <script>
-import eventBus from "@u/eventBus";
-import noData from "@/components/no-data/no-data.vue";
-import { store, actions } from "./store/index.js";
-import searchData from "./assets/search.js";
-import msDropdownMenu from "@/components/ms-dropdown/dropdown-menu.vue";
-import msDropdownItem from "@/components/ms-dropdown/dropdown-item.vue";
+import eventBus from '@u/eventBus'
+import noData from '@/components/no-data/no-data.vue'
+import { store, actions } from './store/index.js'
+import searchData from './assets/search.js'
+import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue'
+import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue'
 export default {
   components: {
     noData,
     msDropdownMenu,
-    msDropdownItem,
+    msDropdownItem
   },
   data() {
     return {
       searchData,
       pageList: {
         page: 1,
-        size: 15,
+        size: 15
       },
       morePage: false,
       dataList: [],
-      dayInfo: [],
-      leaveList: [],
-      dataList: [],
-      type: "0",
-      state: "0",
-      level: "0",
-    };
+      type: '0',
+      state: '0',
+      level: '0'
+    }
+  },
+  watch: {
+    type(val, old) {
+      if (val !== old) {
+        this.showList()
+      }
+    },
+    state(val, old) {
+      if (val !== old) {
+        this.showList()
+      }
+    },
+    level(val, old) {
+      if (val !== old) {
+        this.showList()
+      }
+    }
   },
   async mounted() {
-    eventBus.$on("getList", () => {
-      this.showList();
-    });
-    this.showList();
+    eventBus.$on('getList', () => {
+      this.showList()
+    })
+    this.showList()
   },
   methods: {
-    //详情
-    detail(item) {
-      const url =
-        item.state === "3" || item.state === "4"
-          ? // ||
-            // item.state === '2' && (item.teamLeaderCode !== store.userInfo.userCode)
-            `./detail?id=${item.id}&state=${item.state}`
-          : `./submit?id=${item.id}&state=${item.state}`;
-      this.$tools.navTo({
-        url: url,
-      });
-    },
     async showList(tag = false) {
       if (tag) {
-        this.pageList.page += 1;
+        this.pageList.page += 1
       } else {
-        this.pageList.page = 1;
+        this.pageList.page = 1
       }
       const req = {
         ...this.pageList,
-      };
-      const res = await actions.getAccidentList(req);
-      this.total = res.data.total;
-      if (tag) {
-        this.dataList = this.dataList.concat(res.data.records);
-      } else {
-        this.dataList = res.data.records;
+        accidentType: this.type === '0' ? '' : this.type,
+        accidentNature: this.state === '0' ? '' : this.state,
+        accidentLevel: this.level === '0' ? '' : this.level
       }
-      this.morePage = res.data.hasNextPage;
+      const res = await actions.getAccidentList(req)
+      this.total = res.data.total
+      if (tag) {
+        this.dataList = this.dataList.concat(res.data.records)
+      } else {
+        this.dataList = res.data.records
+      }
+      this.morePage = res.data.hasNextPage
     },
     loadMore() {
       if (!this.morePage) {
-        this.$tools.toast("数据已加载完毕");
-        return;
+        this.$tools.toast('数据已加载完毕')
+        return
       }
-      this.showList(true);
+      this.showList(true)
+    },
+    //详情
+    detail(item) {
+      this.$tools.navTo({
+        url: `./detail?id=${item.id}&state=${item.nowStatus}`
+      })
     },
     addAccident() {
       this.$tools.navTo({
-        url: "./add",
-        title: "上报事故",
-      });
+        url: './add',
+        title: '上报事故'
+      })
     },
-    goDetail() {},
-  },
-};
+    goDetail() {}
+  }
+}
 </script>
 
 <style lang="scss">
 .accident {
   .scroll-h {
-    height: calc(100vh - 100rpx);
+    height: calc(100vh - 130rpx);
     .accident-list {
       background-color: $uni-bg-color;
       border-radius: 16rpx;
@@ -207,7 +189,7 @@ export default {
             position: relative;
             &::before {
               position: absolute;
-              content: "";
+              content: '';
               background-color: #0088ff;
               width: 8rpx;
               height: 36rpx;
@@ -218,13 +200,14 @@ export default {
               position: relative;
               .state-title {
                 position: absolute;
-                right: -20rpx;
-                width: 120rpx;
+                right: -15rpx;
+                width: 180rpx;
                 top: -5rpx;
                 z-index: 99;
+                text-align: right;
               }
               .state-img {
-                width: 160rpx;
+                width: 180rpx;
                 height: 58rpx;
                 position: absolute;
                 right: -30rpx;
@@ -239,7 +222,6 @@ export default {
     }
   }
 }
-
 .dropdown {
   padding: 4rpx 18rpx 18rpx 18rpx;
   background: $uni-bg-color;
@@ -265,15 +247,12 @@ export default {
   padding: 10rpx;
 }
 @font-face {
-  font-family: "iconfont"; /* project id 1564327 */
-  src: url("https://at.alicdn.com/t/font_1564327_fcszez4n5i.eot");
-  src: url("https://at.alicdn.com/t/font_1564327_fcszez4n5i.eot?#iefix")
-      format("embedded-opentype"),
-    url("https://at.alicdn.com/t/font_1564327_fcszez4n5i.woff2") format("woff2"),
-    url("https://at.alicdn.com/t/font_1564327_fcszez4n5i.woff") format("woff"),
-    url("https://at.alicdn.com/t/font_1564327_fcszez4n5i.ttf")
-      format("truetype"),
-    url("https://at.alicdn.com/t/font_1564327_fcszez4n5i.svg#iconfont")
-      format("svg");
+  font-family: 'iconfont'; /* project id 1564327 */
+  src: url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.eot');
+  src: url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.eot?#iefix') format('embedded-opentype'),
+    url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.woff2') format('woff2'),
+    url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.woff') format('woff'),
+    url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.ttf') format('truetype'),
+    url('https://at.alicdn.com/t/font_1564327_fcszez4n5i.svg#iconfont') format('svg');
 }
 </style>

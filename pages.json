@@ -3,7 +3,7 @@
 		"^u-(.*)": "@/uview/components/u-$1/u-$1.vue"
 	},
 	"pages": [
-		// 主页模块
+		// 应用列表页
 		{
 			"path": "pages/index/index",
 			"style": {}
@@ -27,6 +27,10 @@
 		},
 		{
 			"path": "pages/protal/changePhone",
+			"style": {}
+		},
+		{
+			"path": "pages/protal/messageDetail",
 			"style": {}
 		},
 		// 课程表
@@ -560,6 +564,10 @@
 			"path": "pages/activity-booking/sign",
 			"style": {}
 		},
+		{
+			"path": "pages/activity-booking/poster",
+			"style": {}
+		},
 		//会议管理
 		{
 			"path": "pages/meet-booking/index",
@@ -682,18 +690,41 @@
 			"path": "pages/safe/task"
 		},
 		// 隐患管理
-				{
-					"path": "pages/hazard-mgt/index"
-				},
-				{
-					"path": "pages/hazard-mgt/assignDetail"
-				},
-				{
-					"path": "pages/hazard-mgt/addDanger"
-				},
-				{
-					"path": "pages/hazard-mgt/dealWithDetail"
-				}
+		{
+			"path": "pages/hazard-mgt/index"
+		},
+		{
+			"path": "pages/hazard-mgt/assignDetail"
+		},
+		{
+			"path": "pages/hazard-mgt/addDanger"
+		},
+		{
+			"path": "pages/hazard-mgt/dealWithDetail"
+		},
+		// 专项检查
+		{
+			"path": "pages/special/index"
+		},
+		{
+			"path": "pages/special/add"
+		},
+		{
+			"path": "pages/special/detail"
+		},
+		{
+			"path": "pages/special/submit"
+		},
+		// 安全事故
+		{
+			"path": "pages/accident/index"
+		},
+		{
+			"path": "pages/accident/add"
+		},
+		{
+			"path": "pages/accident/detail"
+		}
 	],
 	"globalStyle": {
 		// 禁用头部导航栏
