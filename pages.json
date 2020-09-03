@@ -5,8 +5,8 @@
 	"pages": [
 		// 主页模块
 		{
-		  "path": "pages/index/index",
-		  "style": {}
+			"path": "pages/index/index",
+			"style": {}
 		},
 		// 主页模块
 		{
@@ -27,6 +27,10 @@
 		},
 		{
 			"path": "pages/protal/changePhone",
+			"style": {}
+		},
+		{
+			"path": "pages/protal/messageDetail",
 			"style": {}
 		},
 		// 课程表
@@ -379,41 +383,41 @@
 		},
 		//考试计划
 		{
-		  "path": "pages/examPlan/examPlan-t/index",
-		  "style": {}
+			"path": "pages/examPlan/examPlan-t/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/examPlan/examPlan-p/index",
-		  "style": {}
+			"path": "pages/examPlan/examPlan-p/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/examPlan/examPlan-p/detail",
-		  "style": {}
+			"path": "pages/examPlan/examPlan-p/detail",
+			"style": {}
 		},
 		//物品管理报修
 		{
-		  "path": "pages/goods-repair/index",
-		  "style": {}
+			"path": "pages/goods-repair/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/goods-repair/detail",
-		  "style": {}
+			"path": "pages/goods-repair/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/goods-repair/form",
-		  "style": {}
+			"path": "pages/goods-repair/form",
+			"style": {}
 		},
 		{
-		  "path": "pages/collect-repair/index",
-		  "style": {}
+			"path": "pages/collect-repair/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/collect-repair/detail",
-		  "style": {}
+			"path": "pages/collect-repair/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/collect-repair/form",
-		  "style": {}
+			"path": "pages/collect-repair/form",
+			"style": {}
 		},
 		// 班级德育
 		{
@@ -433,37 +437,37 @@
 		},
 		// 个人德育
 		{
-		  "path": "pages/class-moral/index",
-		  "style": {}
+			"path": "pages/class-moral/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-moral/detail",
-		  "style": {}
+			"path": "pages/class-moral/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-moral/add",
-		  "style": {}
+			"path": "pages/class-moral/add",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-moral/record",
-		  "style": {}
+			"path": "pages/class-moral/record",
+			"style": {}
 		},
 		// 行为评价
 		{
-		  "path": "pages/behavior/index",
-		  "style": {}
+			"path": "pages/behavior/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/behavior/detail",
-		  "style": {}
+			"path": "pages/behavior/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/behavior/add",
-		  "style": {}
+			"path": "pages/behavior/add",
+			"style": {}
 		},
 		{
-		  "path": "pages/behavior/record",
-		  "style": {}
+			"path": "pages/behavior/record",
+			"style": {}
 		},
 		// 家长管理
 		{
@@ -519,21 +523,21 @@
 		},
 		// 留言
 		{
-		  "path": "pages/class-message/class-message-p/index",
-		  "style": {}
+			"path": "pages/class-message/class-message-p/index",
+			"style": {}
 		},
 		//场地预定
 		{
-		  "path": "pages/site-booking/index",
-		  "style": {}
+			"path": "pages/site-booking/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/site-booking/detail",
-		  "style": {}
+			"path": "pages/site-booking/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/site-booking/form",
-		  "style": {}
+			"path": "pages/site-booking/form",
+			"style": {}
 		},
 		//活动发布
 		{
@@ -556,43 +560,47 @@
 		  "path": "pages/activity-booking/sign",
 		  "style": {}
 		},
+		{
+			"path": "pages/activity-booking/poster",
+			"style": {}
+		},
 		//会议管理
 		{
-		  "path": "pages/meet-booking/index",
-		  "style": {}
+			"path": "pages/meet-booking/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/meet-booking/detail",
-		  "style": {}
+			"path": "pages/meet-booking/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/meet-booking/form",
-		  "style": {}
+			"path": "pages/meet-booking/form",
+			"style": {}
 		},
 		{
-		  "path": "pages/meet-booking/meetRecord",
-		  "style": {}
+			"path": "pages/meet-booking/meetRecord",
+			"style": {}
 		},
 		// 作业
 		{
-		  "path": "pages/class-homework/class-homework-t/index",
-		  "style": {}
+			"path": "pages/class-homework/class-homework-t/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-homework/class-homework-t/detail",
-		  "style": {}
+			"path": "pages/class-homework/class-homework-t/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-homework/class-homework-t/form",
-		  "style": {}
+			"path": "pages/class-homework/class-homework-t/form",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-homework/class-homework-p/index",
-		  "style": {}
+			"path": "pages/class-homework/class-homework-p/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-homework/class-homework-p/detail",
-		  "style": {}
+			"path": "pages/class-homework/class-homework-p/detail",
+			"style": {}
 		},
 		{
 			"path": "pages/class-homework/class-homework-p/form",
@@ -610,28 +618,20 @@
 		},
 		//班级圈
 		{
-		  "path": "pages/class-circle/class-circle-t/index",
-		  "style": {}
+			"path": "pages/class-circle/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-circle/class-circle-t/detail",
-		  "style": {}
+			"path": "pages/class-circle/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-circle/class-circle-t/form",
-		  "style": {}
+			"path": "pages/class-circle/form",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-circle/class-circle-p/index",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-circle/class-circle-p/detail",
-		  "style": {}
-		},
-		{
-		  "path": "pages/class-circle/class-circle-p/form",
-		  "style": {}
+			"path": "pages/class-circle/newList",
+			"style": {}
 		},
 		// 学习园地
 		{

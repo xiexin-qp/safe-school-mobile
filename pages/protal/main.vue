@@ -3,7 +3,8 @@
 		<scroll-view scroll-y="true" class="scroll-h">
 			<home v-if="tabIndex === 0"></home>
       <app v-else-if="tabIndex === 1"></app>
-      <mine v-else-if="tabIndex === 2"></mine>
+			<message v-else-if="tabIndex === 2"></message>
+      <mine v-else-if="tabIndex === 3"></mine>
 		</scroll-view>
 		<footer-com></footer-com>
 	</view>
@@ -16,6 +17,7 @@ import apiFun from './store/apiFun.js'
 import home from './home.vue'
 import app from './app.vue'
 import mine from './mine.vue'
+import message from './message.vue'
 export default {
 	data() {
 		return {
@@ -35,7 +37,8 @@ export default {
     FooterCom,
     home,
     app,
-    mine
+    mine,
+		message
   },
 	methods: {
   }

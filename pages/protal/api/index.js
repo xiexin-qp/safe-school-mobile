@@ -3,10 +3,12 @@
  */
 
 import home from './home'
+import message from './message'
 import hostEnv from '@config/index.js'
 
 let apiList = {
   ...home,
+	...message,
 	unbindChild: `${hostEnv.ljj_user_center}/parent/children/unbind/by/childcode/and/parentcode#get`
 }
 
