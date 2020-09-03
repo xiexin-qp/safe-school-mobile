@@ -228,10 +228,10 @@ const tools = {
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: res => {
-				if (tag) {
-					cb(res.localIds[0])
-					return
-				}
+        if (tag) {
+          cb(res.localIds[0])
+          return
+        }
         var localId = res.localIds[0]
         wx.getLocalImgData({
           localId: localId, // 图片的localID
@@ -256,10 +256,10 @@ const tools = {
       success: chooseImageRes => {
         for (let i = 0; i < chooseImageRes.tempFilePaths.length; i++) {
           const file = chooseImageRes.tempFilePaths[i];
-					if (tag) {
-						cb(file)
-						return
-					}
+          if (tag) {
+            cb(file)
+            return
+          }
           const img = new Image();
           img.src = file;
           const _self = this
@@ -361,12 +361,12 @@ const tools = {
     } else {
       schoolYearInfo = null
     }
-		if (callBack) callBack(schoolYearInfo)
+    if (callBack) callBack(schoolYearInfo)
     return schoolYearInfo
   },
   // 验证是否是校医
   async isDoctor(userInfo) {
-    let userDetail = {}   
+    let userDetail = {}
     let res = await $ajax.get({
       url: `${hostEnv.zk_ncov}/mobile/day/report/getSchoolDoctor`,
       params: {
@@ -391,12 +391,12 @@ const tools = {
     if (res.data.classCode) {
       userDetail.classCode = res.data.classCode;
       userDetail.gradeCode = res.data.gradeCode;
-			userDetail.gradeName = res.data.gradeName;
-			userDetail.className = res.data.className;
+      userDetail.gradeName = res.data.gradeName;
+      userDetail.className = res.data.className;
     } else {
       userDetail = null
     }
-		if (callBack) callBack(userDetail)
+    if (callBack) callBack(userDetail)
     return userDetail
   },
   // 验证是否是宿管
@@ -417,57 +417,122 @@ const tools = {
     }
     return userDetail
   },
-	// // 获取家长类型
-	getParentType (type) {
-		let msg = ''
-		switch(parseInt(type)) {
-			case 1: msg = '爸爸'
-			break;
-			case 2: msg = '妈妈'
-			break;
-			case 3: msg = '爷爷'
-			break;
-			case 4: msg = '奶奶'
-			break;
-			case 5: msg = '其他'
-			break;
-			default: msg = '其他'
-			break;
-		}
-		return msg
-	},
-	inputScroll () {
-		// 处理界面错位问题
-		document.body.addEventListener('focusin', () => {
-			this.isReset = false
-		})
-		document.body.addEventListener('focusout', () => {
-			this.isReset = true
-			setTimeout(() => {
-				if (this.isReset) {
-					window.scrollTo(0, 0)
-				}
-			}, 100)
-		})
-	},
-	// 判断男女
-	getSex (type) {
-		let msg = ''
-		switch(parseInt(type)) {
-			case 1: msg = '男'
-			break;
-			case 2: msg = '女'
-			break;
-			default: msg = '未知'
-			break;
-		}
-		return msg
+  // // 获取家长类型
+  getParentType(type) {
+    let msg = ''
+    switch (parseInt(type)) {
+      case 1:
+        msg = '爸爸'
+        break;
+      case 2:
+        msg = '妈妈'
+        break;
+      case 3:
+        msg = '爷爷'
+        break;
+      case 4:
+        msg = '奶奶'
+        break;
+      case 5:
+        msg = '其他'
+        break;
+      default:
+        msg = '其他'
+        break;
+    }
+    return msg
+  },
+  inputScroll() {
+    // 处理界面错位问题
+    document.body.addEventListener('focusin', () => {
+      this.isReset = false
+    })
+    document.body.addEventListener('focusout', () => {
+      this.isReset = true
+      setTimeout(() => {
+        if (this.isReset) {
+          window.scrollTo(0, 0)
+        }
+      }, 100)
+    })
+  },
+  // 判断男女
+  getSex(type) {
+    let msg = ''
+    switch (parseInt(type)) {
+      case 1:
+        msg = '男'
+        break;
+      case 2:
+        msg = '女'
+        break;
+      default:
+        msg = '未知'
+        break;
+    }
+    return msg
   },
   //截取base64
-  splitBase64(photoUrls){
-    return photoUrls.map(el=>{
+  splitBase64(photoUrls) {
+    return photoUrls.map(el => {
       return el.split(',')[1]
     })
+  },
+  // 事故等级
+  accidentLevel(text) {
+    text = parseInt(text)
+    if (text === 1) {
+      return '特大重大事故'
+    } else if (text === 2) {
+      return '重大事故'
+    } else if (text === 3) {
+      return '较大事故'
+    } else if (text === 4) {
+      return '一般事故'
+    }
+  },
+  // 事故性质
+  accidentNature(text) {
+    text = parseInt(text)
+    if (text === 1) {
+      return '责任事故'
+    } else if (text === 2) {
+      return '自然事故'
+    } else if (text === 3) {
+      return '技术事故'
+    } else if (text === 4) {
+      return '其它'
+    }
+  },
+  // 事故类型
+  accidentType(text) {
+    text = parseInt(text)
+    if (text === 1) {
+      return '交通事故'
+    } else if (text === 2) {
+      return '踩踏事故'
+    } else if (text === 3) {
+      return '溺水事故'
+    } else if (text === 4) {
+      return '火灾事故'
+    } else if (text === 5) {
+      return '触电事故'
+    } else if (text === 6) {
+      return '校园伤害'
+    } else if (text === 7) {
+      return '其它'
+    }
+  },
+  // 事故状态
+  accidentStatus(text) {
+    text = parseInt(text)
+    if (text === 1) {
+      return '新填报'
+    } else if (text === 2) {
+      return '处理中'
+    } else if (text === 3) {
+      return '已结案'
+    }
   }
 }
 
