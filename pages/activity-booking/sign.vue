@@ -18,6 +18,7 @@
 					 types="image"
 					:uploadCount="1"
 					:upload_max="10"
+					:pixels="200000"
 					@success="success"
 				></video-upload>
 		  </view>
@@ -25,6 +26,14 @@
 		<view class="btn-mar">
 			<u-button type="primary" @click="sign">提交</u-button>
 		</view>
+		<u-modal v-model="show" :zoom="show" :show-title="false" :show-confirm-button="false">
+			<view class="slot-content">
+				<view class="u-fx-ac-jc success">
+					<image src="http://canpointtest.com/mobile-img/sign_in.png" mode=""></image>
+					<text>签到成功</text>
+				</view>
+			</view>
+		</u-modal>
 	</scroll-view>
 </template>
 
@@ -41,7 +50,8 @@ export default {
 				phone: '',
 				base64Url: ''
 			},
-			uploadUrl: ''
+			uploadUrl: '',
+			show: false
 		}
 	},
 	components: {
@@ -73,10 +83,7 @@ export default {
 				...this.formData,
 				placeReserveId: this.id
 			})
-			this.$tools.toast('签到成功', 'success')
-			this.$tools.goNext(() => {
-				this.$tools.goBack()
-			})
+			this.show = true
 		}
 	}
 };
@@ -109,5 +116,13 @@ export default {
 	bottom: 0;
 	width: calc(100% - 40rpx);
 	margin: 40rpx 20rpx;
+}
+.success{
+	padding: 60rpx;
+	image{
+		width: 160rpx;
+		height: 160rpx;
+		margin-bottom: 20rpx;
+	}
 }
 </style>

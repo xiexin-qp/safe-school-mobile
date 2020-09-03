@@ -53,6 +53,10 @@ export default {
 			type: Number,
 			default: 1
 		},
+		pixels: {
+			type: Number,
+			default: 500000
+		},
 		//上传内容大小 默认3M
 		upload_max: {
 			type: Number,
@@ -100,7 +104,7 @@ export default {
 									});
 									this.$refs.wCompress
 										.start(res.tempFiles[i].path, {
-											pixels: 500000, // 最大分辨率，默认二百万
+											pixels: this.pixels, // 最大分辨率，默认二百万
 											quality: 0.8, // 压缩质量，默认0.8
 											type: 'png', // 图片类型，默认jpg
 											base64: true // 是否返回base64，默认false，非H5有效
