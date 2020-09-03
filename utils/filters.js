@@ -181,7 +181,7 @@ const filters = {
       return '审批未通过'
     } else if (val == 4) {
       return '审批中'
-    } 
+    }
   },
   // 审批状态
   changeClassApproveState: val => {
@@ -281,7 +281,7 @@ const filters = {
       return '撤回'
     } else if (val == '4') {
       return '审批中'
-    } 
+    }
   },
   // 专项检查状态
   specialState: val => {
@@ -294,9 +294,78 @@ const filters = {
     } else if (val == '4') {
       return '督查完成'
     }
+  },
+  // 事故等级
+  accidentLevel: val => {
+    if (val === '1') {
+      return '特大重大事故'
+    } else if (val === '2') {
+      return '重大事故'
+    } else if (val === '3') {
+      return '较大事故'
+    } else if (val === '4') {
+      return '一般事故'
+    }
+  },
+  // 事故性质
+  accidentNature: val => {
+    if (val === '1') {
+      return '责任事故'
+    } else if (val === '2') {
+      return '自然事故'
+    } else if (val === '3') {
+      return '技术事故'
+    } else if (val === '4') {
+      return '其它'
+    }
+  },
+  // 事故类型
+  accidentType: val => {
+    if (val === '1') {
+      return '交通事故'
+    } else if (val === '2') {
+      return '踩踏事故'
+    } else if (val === '3') {
+      return '溺水事故'
+    } else if (val === '4') {
+      return '火灾事故'
+    } else if (val === '5') {
+      return '触电事故'
+    } else if (val === '6') {
+      return '校园伤害'
+    } else if (val === '7') {
+      return '其它'
+    }
+  },
+  // 事故状态
+  accidentStatus: val => {
+    if (val === '1') {
+      return '新填报'
+    } else if (val === '2') {
+      return '处理中'
+    } else if (val === '3') {
+      return '已结案'
+    }
+  },
+  //隐患转态
+  getDangerState: val => {
+    const text = parseInt(val)
+    if (parseInt(text) === 1) {
+      return '已上报'
+    } else if (parseInt(text) === 2) {
+      return '已指派'
+    } else if (parseInt(text) === 3) {
+      return '已处理'
+    } else if (parseInt(text) === 4) {
+      return '已验收'
+    } else if (parseInt(text) === 5) {
+      return '已撤销'
+    }
+  },
+  getHour(data) {
+    return Math.ceil(data / 360000)
   }
 }
-
 for (let key in filters) {
   Vue.filter(key, filters[key])
 }
