@@ -151,29 +151,21 @@
 		// },
 		// //班级圈
 		// {
-		//   "path": "pages/class-circle/class-circle-t/index",
-		//   "style": {}
+		// 	"path": "pages/class-circle/index",
+		// 	"style": {}
 		// },
 		// {
-		//   "path": "pages/class-circle/class-circle-t/detail",
-		//   "style": {}
+		// 	"path": "pages/class-circle/detail",
+		// 	"style": {}
 		// },
 		// {
-		//   "path": "pages/class-circle/class-circle-t/form",
-		//   "style": {}
+		// 	"path": "pages/class-circle/form",
+		// 	"style": {}
 		// },
 		// {
-		//   "path": "pages/class-circle/class-circle-p/index",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-circle/class-circle-p/detail",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-circle/class-circle-p/form",
-		//   "style": {}
-		// },
+		// 	"path": "pages/class-circle/newList",
+		// 	"style": {}
+		// }
 	],
 	"globalStyle": {
 		// 禁用头部导航栏

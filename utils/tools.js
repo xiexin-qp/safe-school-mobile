@@ -2,21 +2,18 @@
  * @description 公共函数模块
  */
 import wx from 'weixin-js-sdk'
-import $ajax from '@u/request.js';
+import $ajax from '@u/request.js'
 import EXIF from 'exif-js'
-import hostEnv from '../config/index.js';
+import hostEnv from '../config/index.js'
 
 function resultBack(res) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     resolve(res)
   })
 }
 const tools = {
   // 路由跳转
-  navTo({
-    url,
-    title = '平安校园'
-  }) {
+  navTo({ url, title = '平安校园' }) {
     uni.navigateTo({
       url
     })
@@ -25,10 +22,7 @@ const tools = {
     })
   },
   // 路由跳转关闭当前页面
-  redirectTo({
-    url,
-    title = '平安校园'
-  } = params) {
+  redirectTo({ url, title = '平安校园' } = params) {
     uni.redirectTo({
       url
     })
@@ -40,18 +34,18 @@ const tools = {
   goBack(delta = 1) {
     uni.navigateBack({
       delta
-    });
+    })
   },
   //函数节流
   throttle(func, wait) {
-    let previous = 0;
+    let previous = 0
     return function () {
-      let now = Date.now();
-      let context = this;
-      let args = arguments;
+      let now = Date.now()
+      let context = this
+      let args = arguments
       if (now - previous > wait) {
-        func.apply(context, args);
-        previous = now;
+        func.apply(context, args)
+        previous = now
       }
     }
   },
@@ -85,10 +79,10 @@ const tools = {
           cb()
         }
       }
-    });
+    })
   },
   // 延迟执行
-  goNext: fn => {
+  goNext: (fn) => {
     setTimeout(() => {
       fn()
     }, 1200)
@@ -163,21 +157,21 @@ const tools = {
           if (cb) cb()
         }
       }
-    });
+    })
   },
   // 轻提示
   toast(title, cb = 'none') {
     uni.showToast({
       title: title,
       icon: cb
-    });
+    })
   },
   // 底部弹出菜单
   actionsheet(arr, cb) {
     if (arr.length === 0) return
     let newArr
     if (typeof arr[0] === 'object') {
-      newArr = arr.map(item => {
+      newArr = arr.map((item) => {
         return item.label
       })
     } else {
@@ -193,31 +187,33 @@ const tools = {
         }
       },
       fail: function (res) {}
-    });
+    })
   },
   /**
    * 判断微信还是普通浏览器
    */
   isWx() {
-    var ua = navigator.userAgent.toLowerCase();
-    var isWeixin = ua.indexOf('micromessenger') != -1;
+    var ua = navigator.userAgent.toLowerCase()
+    var isWeixin = ua.indexOf('micromessenger') != -1
     if (isWeixin) {
-      return true;
+      return true
     } else {
-      return false;
+      return false
     }
   },
   /*判断客户端*/
   getClient() {
-    let client = '';
-    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { //判断iPhone|iPad|iPod|iOS
-      client = 'IOS';
-    } else if (/(Android)/i.test(navigator.userAgent)) { //判断Android
-      client = 'Android';
+    let client = ''
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+      //判断iPhone|iPad|iPod|iOS
+      client = 'IOS'
+    } else if (/(Android)/i.test(navigator.userAgent)) {
+      //判断Android
+      client = 'Android'
     } else {
-      client = 'PC';
+      client = 'PC'
     }
-    return client;
+    return client
   },
   // 微信api上次图片
   wxPhoto(cb, tag = false) {
@@ -227,11 +223,7 @@ const tools = {
       count: 1, // 默认9
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-      success: res => {
-        if (tag) {
-          cb(res.localIds[0])
-          return
-        }
+      success: (res) => {
         var localId = res.localIds[0]
         wx.getLocalImgData({
           localId: localId, // 图片的localID
@@ -239,6 +231,10 @@ const tools = {
             let localData = res.localData // localData是图片的base64数据，可以用img标签显示
             if (!isiOS) {
               localData = 'data:image/jpeg;base64,' + localData
+            }
+            if (tag) {
+              cb(res.localIds[0])
+              return
             }
             _self.checkUserPhoto(localData, cb)
           }
@@ -253,25 +249,25 @@ const tools = {
       return
     }
     uni.chooseImage({
-      success: chooseImageRes => {
+      success: (chooseImageRes) => {
         for (let i = 0; i < chooseImageRes.tempFilePaths.length; i++) {
-          const file = chooseImageRes.tempFilePaths[i];
+          const file = chooseImageRes.tempFilePaths[i]
           if (tag) {
             cb(file)
             return
           }
-          const img = new Image();
-          img.src = file;
+          const img = new Image()
+          img.src = file
           const _self = this
           img.onload = function () {
             if (_self.getClient() === 'IOS') {
               EXIF.getData(img, function () {
                 // 获取图片旋转标志位
-                var orientation = parseInt(EXIF.getTag(this, "Orientation"))
+                var orientation = parseInt(EXIF.getTag(this, 'Orientation'))
                 // 根据旋转角度，在画布上对图片进行旋转
                 if (orientation === 3 || orientation === 6 || orientation === 8) {
-                  const canvas = document.createElement("canvas");
-                  const ctx = canvas.getContext("2d");
+                  const canvas = document.createElement('canvas')
+                  const ctx = canvas.getContext('2d')
                   if (img.width > 800 || img.height > 800) {
                     if (img.width > img.height) {
                       img.width = parseInt(700 * (img.height / img.width))
@@ -280,35 +276,35 @@ const tools = {
                     }
                     img.height = 700
                   }
-                  canvas.width = img.width;
-                  canvas.height = 700;
+                  canvas.width = img.width
+                  canvas.height = 700
                   switch (orientation) {
                     case 3: // 旋转180°
-                      ctx.rotate((180 * Math.PI) / 180);
-                      ctx.drawImage(img, -img.width, -img.height, img.width, img.height);
-                      break;
+                      ctx.rotate((180 * Math.PI) / 180)
+                      ctx.drawImage(img, -img.width, -img.height, img.width, img.height)
+                      break
                     case 6: // 旋转90°
-                      ctx.rotate((90 * Math.PI) / 180);
-                      ctx.drawImage(img, 0, -img.width, img.height, img.width);
-                      break;
+                      ctx.rotate((90 * Math.PI) / 180)
+                      ctx.drawImage(img, 0, -img.width, img.height, img.width)
+                      break
                     case 8: // 旋转-90°
-                      ctx.rotate((-90 * Math.PI) / 180);
-                      ctx.drawImage(img, -img.height, 0, img.height, img.width);
-                      break;
+                      ctx.rotate((-90 * Math.PI) / 180)
+                      ctx.drawImage(img, -img.height, 0, img.height, img.width)
+                      break
                   }
                   const base64 = canvas.toDataURL('image/jpeg')
                   _self.checkUserPhoto(base64, cb)
                 } else {
                   _self.compressImg(img, cb)
                 }
-              });
+              })
             } else {
               _self.compressImg(img, cb)
             }
-          };
+          }
         }
       }
-    });
+    })
   },
   // 压缩图片
   compressImg(img, cb) {
@@ -324,7 +320,7 @@ const tools = {
       canvas.width = img.width
       canvas.height = img.height
     }
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext('2d')
     context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height)
     const base64 = canvas.toDataURL('image/jpeg')
     this.checkUserPhoto(base64, cb)
@@ -354,7 +350,7 @@ const tools = {
       params: {
         schoolCode: userInfo.schoolCode
       }
-    });
+    })
     if (res.data) {
       schoolYearInfo.schoolYear = res.data.list[0].schoolYear
       schoolYearInfo.schoolYearId = res.data.list[0].id
@@ -373,7 +369,7 @@ const tools = {
         userCode: userInfo.userCode,
         schoolCode: userInfo.schoolCode
       }
-    });
+    })
     userDetail.isDoctor = res.data
     return userDetail
   },
@@ -387,12 +383,12 @@ const tools = {
         userType: userInfo.typeCode,
         userCode: userInfo.userCode
       }
-    });
+    })
     if (res.data.classCode) {
-      userDetail.classCode = res.data.classCode;
-      userDetail.gradeCode = res.data.gradeCode;
-      userDetail.gradeName = res.data.gradeName;
-      userDetail.className = res.data.className;
+      userDetail.classCode = res.data.classCode
+      userDetail.gradeCode = res.data.gradeCode
+      userDetail.gradeName = res.data.gradeName
+      userDetail.className = res.data.className
     } else {
       userDetail = null
     }
@@ -408,10 +404,10 @@ const tools = {
         schoolCode: userInfo.schoolCode,
         staffCode: userInfo.userCode
       }
-    });
+    })
     if (res.data) {
-      userDetail.buildingCode = res.data.buildingCode;
-      userDetail.buildingName = res.data.buildingName;
+      userDetail.buildingCode = res.data.buildingCode
+      userDetail.buildingName = res.data.buildingName
     } else {
       userDetail = null
     }
@@ -423,22 +419,22 @@ const tools = {
     switch (parseInt(type)) {
       case 1:
         msg = '爸爸'
-        break;
+        break
       case 2:
         msg = '妈妈'
-        break;
+        break
       case 3:
         msg = '爷爷'
-        break;
+        break
       case 4:
         msg = '奶奶'
-        break;
+        break
       case 5:
         msg = '其他'
-        break;
+        break
       default:
         msg = '其他'
-        break;
+        break
     }
     return msg
   },
@@ -462,19 +458,19 @@ const tools = {
     switch (parseInt(type)) {
       case 1:
         msg = '男'
-        break;
+        break
       case 2:
         msg = '女'
-        break;
+        break
       default:
         msg = '未知'
-        break;
+        break
     }
     return msg
   },
   //截取base64
   splitBase64(photoUrls) {
-    return photoUrls.map(el => {
+    return photoUrls.map((el) => {
       return el.split(',')[1]
     })
   },

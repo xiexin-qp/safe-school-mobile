@@ -25,6 +25,10 @@
 			"style": {}
 		},
 		{
+			"path": "pages/protal/messageDetail",
+			"style": {}
+		},
+		{
 			"path": "pages/protal/map",
 			"style": {}
 		},
