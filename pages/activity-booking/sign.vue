@@ -12,7 +12,7 @@
 		  <view class="tip">上传头像：</view>
 		  <view class="u-fx-f1 u-mar-t">
 				<video-upload
-					class="u-fx-f1 u-padd-l20 u-padd-r10 u-padd-b20"
+					class="u-fx-f1"
 					isCheck
 					:uploadUrl="uploadUrl"
 					 types="image"
