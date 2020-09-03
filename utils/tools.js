@@ -389,10 +389,7 @@ const tools = {
       }
     });
     if (res.data.classCode) {
-      userDetail.classCode = res.data.classCode;
-      userDetail.gradeCode = res.data.gradeCode;
-			userDetail.gradeName = res.data.gradeName;
-			userDetail.className = res.data.className;
+      userDetail = res.data
     } else {
       userDetail = null
     }

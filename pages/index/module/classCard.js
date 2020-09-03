@@ -28,6 +28,12 @@ const classCard = [{
 		}, {
 			title: '班级圈',
 			url: '/pages/class-circle/index'
+		}, {
+			title: '校园概况',
+			url: '/pages/school-intro/index'
+		}, {
+			title: '师生风采',
+			url: '/pages/teacher-show/index'
 		}
 	]
 }]

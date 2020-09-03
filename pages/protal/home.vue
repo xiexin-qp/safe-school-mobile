@@ -113,7 +113,6 @@ export default {
 		}
 		// 教职工任课班级列表
 		if (this.userInfo.typeCode === '4') {
-			return
 			let classList = [];
 			actions
 				.getClassListByTeacher({
@@ -131,7 +130,8 @@ export default {
 								gradeCode: el.gradeCode,
 								subjectList: el.subjectList,
 								className: el.className,
-								gradeName: el.gradeName
+								gradeName: el.gradeName,
+								classId: el.classId
 							});
 						});
 					}
@@ -150,10 +150,12 @@ export default {
 								className: store.isBZR.className,
 								gradeName: store.isBZR.gradeName,
 								gradeCode: store.isBZR.gradeCode,
-								isBZR: false
+								classId: store.isBZR.classId,
+								isBZR: true
 							});
 						}
 					}
+					console.log(classList)
 					setStore({
 						key: 'teachClassList',
 						data: classList

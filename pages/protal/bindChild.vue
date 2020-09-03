@@ -102,7 +102,7 @@ export default {
 				page: 1,
 				size: 100,
 				gradeCode: this.formData.gradeCode,
-				schoolYearId: ''
+				schoolYearId: store.schoolYear.schoolYearId
 			})
 			this.classTotal = res.data.list
 			this.classList = res.data.list.map(item => {

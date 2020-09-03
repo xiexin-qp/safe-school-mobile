@@ -638,6 +638,17 @@
 		{
 			"path": "pages/study-ground/component/detail"
 		},
+		//校园概况
+		{
+			"path": "pages/school-intro/index"
+		},
+		//师生风采
+		{
+			"path": "pages/teacher-show/index"
+		},
+		{
+			"path": "pages/teacher-show/add-teacher"
+		},
 		// 安防系统-安全巡检
 		{
 			"path": "pages/safe/index"
