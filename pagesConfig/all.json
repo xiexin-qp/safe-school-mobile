@@ -673,6 +673,29 @@
 		},
 		{
 			"path": "pages/safe/task"
+		},
+		// 专项检查
+		{
+			"path": "pages/special/index"
+		},
+		{
+			"path": "pages/special/add"
+		},
+		{
+			"path": "pages/special/detail"
+		},
+		{
+			"path": "pages/special/submit"
+		},
+		// 安全事故
+		{
+			"path": "pages/accident/index"
+		},
+		{
+			"path": "pages/accident/add"
+		},
+		{
+			"path": "pages/accident/detail"
 		}
 	],
 	"globalStyle": {
