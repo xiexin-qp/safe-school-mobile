@@ -39,7 +39,6 @@
 
 <script>
 import { store, actions } from './store/index.js'
-import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
 export default {
 	data() {
 		return {
@@ -53,9 +52,6 @@ export default {
 			uploadUrl: '',
 			show: false
 		}
-	},
-	components: {
-		anUploadImg
 	},
 	async mounted() {
 		this.uploadUrl = ``;
