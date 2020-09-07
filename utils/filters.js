@@ -137,25 +137,25 @@ const filters = {
 	chnNumChar: (val) => {
 		let num = ''
 		switch (val) {
-			case '2':
+			case '1':
 				num = '星期一'
 				break
-			case '3':
+			case '2':
 				num = '星期二'
 				break
-			case '4':
+			case '3':
 				num = '星期三'
 				break
-			case '5':
+			case '4':
 				num = '星期四'
 				break
-			case '6':
+			case '5':
 				num = '星期五'
 				break
-			case '7':
+			case '6':
 				num = '星期六'
 				break
-			case '1':
+			case '7':
 				num = '星期日'
 				break
 		}
