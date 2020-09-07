@@ -3,9 +3,8 @@
     <u-select v-model="userTag" :list="causeNameList" @confirm="confirm"></u-select>
 		<scroll-view scroll-y="true" class="scroll-h ">
 			<view class="u-type-white-bg">
-				<view class="u-fx  u-padd-20">
-          <view >检查项：</view>
-          <input class="u-font-01" v-model="formData.description" />
+				<view class="u-fx u-padd-20">
+          <textarea class="item-text-area u-font-01" v-model="formData.description" placeholder="请描述您发现的隐患" />
 				</view>
         	<an-upload-img v-model="formData.photoUrl" total="9" style="margin: 20rpx"></an-upload-img>
 			</view>
@@ -13,7 +12,7 @@
         <view class="u-fx-ac u-bd-b u-padd-20">
           <view >隐患地点：</view>
           <view class="u-fx-f1 u-fx-je u-light-color u-tx-r">
-            <input class="u-font-01 " v-model="formData.address" placeholder="请填写您发现的隐患地点" />
+            <input class="u-font-01" v-model="formData.address" placeholder="请填写您发现的隐患地点" />
           </view>
         </view>
         <view class="u-fx-ac u-bd-b u-padd-20">
@@ -27,7 +26,7 @@
           <view >是否已处理：</view>
           <view class="u-fx-f1 u-fx-je ">
             <view >否</view>
-            <u-switch size='40' class="u-mar-l10 u-mar-r10" v-model="formData.hasDispose"></u-switch>
+            <u-switch size='40' class="u-mar-l10 u-mar-r10" v-model="formData.hasComplete"></u-switch>
             <view >是</view>
           </view>
         </view>
@@ -64,17 +63,14 @@
         formData: {
           description:"",
           address:'',
-          hasDispose: false,
+          hasComplete: false,
           photoUrl: [],
-          leaderName: '请选择隐患处理负责人',
+          leaderName: '',
         },
-        specialResultId: '',
         userTag: false
       }
     },
     mounted () {
-      this.formData.description = this.$tools.getQuery().get('name')
-      this.specialResultId = this.$tools.getQuery().get('id')
       this.getUserList()
     },
     methods: {
@@ -105,8 +101,7 @@
               schoolName: store.userInfo.schoolName,
               reporterCode: store.userInfo.userCode,
               reporterName: store.userInfo.userName,
-              reporterPhotoUrl: store.userInfo.photoUrl,
-              specialResultId: this.specialResultId
+              reporterPhotoUrl: store.userInfo.photoUrl
             }
             req.photoUrl = this.formData.photoUrl.map(el => {
               if (el.indexOf('http') === -1) {
@@ -115,9 +110,11 @@
                 return el
               }
             })
-            actions.reportDanger(req).then(res => {
+            actions.addInspectTask(req).then(res => {
               this.$tools.toast('上报成功')
               this.$tools.goNext(() => {
+                const dangerList = store.dangerList.push(res.data)
+                uni.setStorageSync('dangerList', dangerList)
                 this.$tools.goBack()
               })
             })
@@ -132,7 +129,13 @@
 .scroll-h {
   height: calc(100vh - 120rpx)
 }
-.uni-input-placeholder {
+.uni-input-placeholder,
+.uni-textarea-placeholder {
   color: $u-light-color;
+}
+.item-text-area {
+  height: 120rpx;
+  width: 100%;
+  line-height: 40rpx;
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
-  <view class="special u-pages">
+  <view class="inspect u-pages">
     <scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h u-padd-t20">
       <no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
-      <view class="special-list u-mar-b20 u-mar-l20 u-mar-r20" v-for="(item, i) in dataList" :key="i" v-else>
+      <view class="inspect-list u-mar-b20 u-mar-l20 u-mar-r20" v-for="(item, i) in dataList" :key="i" v-else>
         <view class="detail u-fx u-padd-20 u-mar-b20">
           <view class="info u-fx-ac" @click="detail(item)">
             <view class="list u-fx-f1 u-line3">
@@ -70,19 +70,15 @@ export default {
     }
   },
   async mounted() {
-    // eventBus.$on('getList', () => {
-    // 	this.showList()
-    // })
+    eventBus.$on('getList', () => {
+    	this.showList()
+    })
     this.showList()
   },
   methods: {
     detail(item) {
-      const url =
-        item.state === '3' || item.state === '4' || !item.label
-          ? `./detail?id=${item.id}&state=${item.state}`
-          : `./submit?id=${item.id}&state=${item.state}`
       this.$tools.navTo({
-        url: url
+        url: `./detail?id=${item.id}`
       })
     },
     async showList(tag = false) {
@@ -120,7 +116,7 @@ export default {
 <style lang="scss">
 .scroll-h {
   height: calc(100vh - 100rpx);
-  .special-list {
+  .inspect-list {
     background-color: $uni-bg-color;
     border-radius: 16rpx;
     position: relative;

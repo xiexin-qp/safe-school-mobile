@@ -35,36 +35,87 @@
         <view class="u-fx-ac u-bd-b u-padd-20">
           <view>巡查状态：</view>
           <view class="u-fx-f1 u-fx-je u-tx-r">
-            <view>{{formData.patrolStatus === '1' ? '正常' : '异常'}}</view>
+            <view>异常</view>
+            <u-switch size='40' class="u-mar-l10 u-mar-r10" v-model="formData.status"></u-switch>
+            <view >正常</view>
           </view>
         </view>
 				<view class="u-fx-ver u-bd-b u-padd">
           <view>内容上报：</view>
           <view>
-             <textarea class="item-text-area u-font-01" v-model="formData.reportContent" />
+             <textarea class="item-text-area u-font-01" v-model="formData.content" placeholder="请填写详细的问题描述" />
           </view>
+         <an-upload-img v-model="formData.photoUrl" total="9" style="margin: 20rpx"></an-upload-img>
 				</view>
       </view>
 		</scroll-view>
+    <view class="footer-btn u-fx-ac u-bg-color">
+      <u-button
+        type="primary"
+        class="u-fx-f1 u-mar-l u-mar-r "
+        @click="submitForm"
+      >
+        上报
+      </u-button>
+    </view>
   </view>
 </template>
 
 <script>
+  import eventBus from '@u/eventBus'
+  import validateForm from '@u/validate';
+  import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
   import { store, actions } from './store/index.js'
+  const yzForm = {
+    content: '请输入你的隐患描述'
+  }
   export default {
+    components: {
+      anUploadImg
+    },
     data () {
       return {
         formData: {}
       }
     },
     mounted () {
-      this.inspectId = this.$tools.getQuery().get('id') 
+      this.inspectId = this.$tools.getQuery().get('inspectId')
+      this.track = JSON.parse(this.$tools.getQuery().get('track')) 
       this.inspectDetailGet()
     },
     methods: {
        async inspectDetailGet () {
         const res =await actions.getInspectDetail(this.inspectId)
         this.formData = res.data
+      },
+      submitForm () {
+        validateForm(yzForm, this.formData, () => {
+          if (!this.formData.leaderCode) {
+            return this.$tools.toast('请选择负责人')
+          }
+          this.$tools.confirm("确定上报隐患吗？", () => {
+             let req = {
+              ...this.formData,
+              track: this.track
+            }
+            req.pictureList = this.formData.photoUrl.map(el => {
+              if (el.indexOf('http') === -1) {
+                return el.split(',')[1]
+              } else {
+                return el
+              }
+            })
+            actions.endInspect(req).then(res => {
+              this.$tools.toast('上报成功')
+              this.$tools.goNext(() => {
+                eventBus.$emit('getList')
+                this.$tools.navTo({
+                  url: './index'
+                })
+              })
+            })
+          })
+        })
       }
     }
   }
@@ -72,6 +123,15 @@
 
 <style lang="scss" scoped>
 .scroll-h {
-  height: calc(100vh - 10rpx)
+  height: calc(100vh - 120rpx)
+}
+.uni-input-placeholder,
+.uni-textarea-placeholder{
+  color: $u-light-color;
+}
+.item-text-area {
+  height: 120rpx;
+  width: 100%;
+  line-height: 40rpx;
 }
 </style>
