@@ -13,7 +13,7 @@
 			    <view class="state u-fx">
 			    	<view class="trigon">
 			    	</view>
-			    	<text :class="state === '2' ? 'refuse' : state === '1' ? 'agree' : state === '0' ? 'wait' : 'cancel'">{{ state | approveState }}</text>
+			    	<text :class="state === '2' ? 'refuse' : state === '1' ? 'agree' : state === '0' ? 'wait' : 'cancel'">{{ state | visitApproveState }}</text>
 			    </view>
 			</view>
 			<view class="log u-fx-jsb">

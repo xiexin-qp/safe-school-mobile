@@ -2,7 +2,7 @@
 	<view class="content-circle u-padd-20 u-border-radius u-auto">
 		<view v-if="parseInt(unReadCommentInfo.unReadCommentCount) > 0" class="u-type-white-bg u-padd-t20 u-fx-jc u-border-radius">
 			<view class="new-tips u-fx-ac u-type-white u-bg-000 u-padd-10 u-border-radius" @tap.stop="goNewList">
-				<image class="u-icon-image u-mar-r20 u-mar-l10 u-bg-fff" :src="unReadCommentInfo.lastReplyPhotoUrl"></image>
+				<u-icon class="u-icon-35 u-mar-r20 u-mar-l10 u-bg-fff" :name="unReadCommentInfo.lastReplyPhotoUrl"></u-icon>
 				<text class="u-font-02">{{ unReadCommentInfo.unReadCommentCount }}条新消息</text>
 			</view>
 		</view>
@@ -283,9 +283,5 @@ export default {
 }
 .u-icon-35{
 	font-size: 35rpx;
-}
-.u-icon-image{
-	width: 36rpx;
-	height: 36rpx;
 }
 </style>
