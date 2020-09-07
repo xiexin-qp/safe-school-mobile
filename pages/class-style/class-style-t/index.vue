@@ -44,25 +44,28 @@
 							<text class="padd-l20 mar-l20 u-content-color">{{ classIntro }}</text>
 						</view>
 					</view>
-					<!-- <view class="class-card">
+					<view class="class-card">
 						<u-icon class="u-icon-38" name="calendar" color="#2979ff"></u-icon>
 						<text class="mar-l20">班级全家福：</text>
 					</view>
 					<view class="u-fx-ver">
-						<view class="u-fx-f1">
+						<view v-if="userType === '1'" class="u-fx-f1">
 							<video-upload
 								class="u-fx-f1 u-padd-l20 u-padd-r10 u-padd-b20"
 								:uploadUrl="uploadUrl"
 								types="image"
+								v-model="photoList"
 								:uploadCount="1"
 								:upload_max="10"
 								@success="success"
 								@delImage="delImage"
 							></video-upload>
 						</view>
-					</view> -->
+						<view v-else class="u-fx-f1 u-mar-l20">
+							<image v-if="photoList.length>0" class="class-image" :src="photoList[0].url" mode="" @tap="previewImage()"></image>
+						</view>
+					</view>
 				</scroll-view>
-				<!-- <view v-if="showTag" class="common-btn" @click="submit">确定</view> -->
 			</swiper-item>
 			<swiper-item class="swiper-item"><class-album ref="child" :userType="userType"></class-album></swiper-item>
 		</swiper>
@@ -179,8 +182,15 @@ export default {
 	},
 	mounted() {},
 	methods: {
+		previewImage(e) {
+			uni.previewImage({
+				urls: this.photoList.map(el => {
+					return el.url;
+				})
+			});
+		},
 		success(e) {
-			this.photoList.push(e.data.url);
+			this.submit()
 		},
 		delImage(value) {
 			console.log(value);
@@ -188,7 +198,8 @@ export default {
 				return list === value.url;
 			});
 			this.photoList.splice(index, 1);
-			actions.delFile(value.id);
+			actions.delFile(value.id || this.photoList[0].id);
+			this.submit()
 		},
 		changeMenu(item) {
 			this.swiperCurrent = item;
@@ -222,8 +233,13 @@ export default {
 				motto: this.classMotto,
 				introduce: this.classIntro,
 				schoolCode: store.userInfo.schoolCode,
-				schoolYearId: this.schoolYearId
+				schoolYearId: this.schoolYearId,
+				photoUrl: ''
 			};
+			if (this.photoList.length > 0) {
+				req.photoUrl = this.photoList[0].url
+				req.photoId = this.photoList[0].id
+			}
 			actions.addClassMotto(req).then(() => {
 				this.$tools.toast('编辑成功', 'success');
 				this.$tools.goNext(() => {
@@ -243,10 +259,12 @@ export default {
 			if (!res.data) {
 				this.classMotto = '';
 				this.classIntro = '';
+				this.photoList = []
 				return;
 			}
 			this.classMotto = res.data.motto;
 			this.classIntro = res.data.introduce;
+			this.photoList = res.data.photoUrl ? [{ url: res.data.photoUrl, id: res.data.photoId }] : []
 		},
 		goDetail(id) {
 			this.$tools.navTo({
@@ -266,7 +284,7 @@ export default {
 	width: 100%;
 }
 .scroll-h {
-	height: calc(100vh - 168rpx);
+	height: calc(100vh - 188rpx);
 }
 .class-card {
 	margin: 40rpx 40rpx 20rpx 40rpx;
@@ -309,5 +327,9 @@ export default {
 }
 .u-icon-38{
 	font-size: 38rpx;
+}
+.class-image{
+	width: 210rpx;
+	height: 210rpx;
 }
 </style>

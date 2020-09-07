@@ -140,6 +140,17 @@
 			"path": "pages/news/news-p/parentNotice/detail",
 			"style": {}
 		},
+		//失物招领
+		{
+			"path": "pages/lost-found/lost-found-p/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/form",
+			"style": {}
+		},
 		// 门禁模块
 		{
 			"path": "pages/door/door-p/doorRecord/index",
@@ -661,6 +672,14 @@
 		{
 			"path": "pages/teacher-show/add-teacher"
 		},
+		//班级荣誉
+		{
+			"path": "pages/class-honor/index"
+		},
+		{
+			"path": "pages/class-honor/form"
+		},
+		
 		// 安防系统-安全巡检
 		{
 			"path": "pages/safe/index"

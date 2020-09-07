@@ -27,7 +27,7 @@ export default {
 			type: String,
 			default: 'image'
 		},
-		dataList: {
+		value: {
 			type: Array,
 			default: function() {
 				return [];
@@ -63,10 +63,18 @@ export default {
 			default: 3
 		}
 	},
+	computed: {
+		uploads: {
+			get () {
+				return this.value
+			},
+			set (val) {
+				this.$emit('input', val)
+			}
+		}
+	},
 	data() {
 		return {
-			//展示的图片地址
-			uploads: [],
 			// 超出限制数组
 			exceeded_list: [],
 			successTag: false
@@ -78,7 +86,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.uploads = this.dataList;
+		console.log(this.uploads)
 	},
 	methods: {
 		previewImage(e, index) {
