@@ -17,7 +17,7 @@
 							<view>
 								状态：
 								<text :class="item.state === 2 ? 'refuse' : item.state === 1 ? 'agree' : item.state === 0 ? 'wait' : 'cancel'">
-									{{ item.state | approveState }}
+									{{ item.state | visitApproveState }}
 								</text>
 							</view>
 						</view>

@@ -13,7 +13,7 @@
 			    <view class="state u-fx">
 						<view class="trigon">
 						</view>
-						<text :class="state === '2' ? 'refuse' : state === '1' ? 'agree' : state === '0' ? 'wait' : 'cancel'">{{ state | approveState }}</text>
+						<text :class="state === '2' ? 'refuse' : state === '1' ? 'agree' : state === '0' ? 'wait' : 'cancel'">{{ state | visitApproveState }}</text>
 					</view>
 			</view>
 			<view class="log u-fx-jsb">
@@ -33,7 +33,7 @@
 			<view v-if="state == 2" class="log u-fx-jsb">
 				<view class="start u-fx-ac">
 					<icon type="cancel" size="24" />
-					<text  class="mar-l20">拒绝原因：{{ comeLog.reason }}</text>
+					<text class="mar-l20">拒绝原因：{{ comeLog.reason }}</text>
 				</view>
 			</view>
 		</view>
