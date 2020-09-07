@@ -136,6 +136,17 @@
 			"path": "pages/news/news-p/parentNotice/detail",
 			"style": {}
 		},
+		//失物招领
+		{
+			"path": "pages/lost-found/lost-found-p/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/form",
+			"style": {}
+		},
 		// 门禁模块
 		{
 			"path": "pages/door/door-p/doorRecord/index",
