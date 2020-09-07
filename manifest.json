@@ -108,7 +108,6 @@
                 },
                 "/zk_leave" : {
                     "target" : "http://192.168.2.242:10054/", // 张坤-校历请假
-
                     //  "target": "http://192.168.1.125:10054/", // 张坤-校历请假
                     "changeOrigin" : true,
                     "pathRewrite" : {
