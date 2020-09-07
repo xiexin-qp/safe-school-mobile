@@ -27,6 +27,12 @@ export default {
 				},
 				{
 					id: 2,
+					name: '消息',
+					icon: '/mobile-img/message-icon.png',
+					iconAct: '/mobile-img/message-icon-act.png'
+				},
+				{
+					id: 3,
 					name: '我的',
 					icon: '/mobile-img/mine-icon.png',
 					iconAct: '/mobile-img/mine-icon-act.png'
@@ -39,7 +45,7 @@ export default {
   },
 	methods: {
 		switchTab (index) {
-			if (index !== 2 && store.userInfo.typeCode === '16' && store.childList.length === 0) {
+			if (index !== 3 && store.userInfo.typeCode === '16' && store.childList.length === 0) {
 				this.$tools.toast('请先绑定孩子')
 				return
 			}

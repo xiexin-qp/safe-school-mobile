@@ -4,23 +4,25 @@
 		<!-- <dropdown-menu @value0Change="value0Change" @searchChange="searchChange"></dropdown-menu> -->
 		<no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
 		<scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h u-mar-t20">
-			<view class="approve-list" v-for="(item, i) in dataList" :key="i">
-				<view class="detail u-fx" @click.stop="add(item.status, item.id)">
-					<view class="process-type">
-						<u-tag v-if="item.status === '使用中'" mode="dark" type="primary" text="进行中" />
-						<u-tag v-if="item.status === '未使用'" mode="dark" type="success" text="未开始" />
-						<u-tag v-if="item.status === '已结束'" mode="dark" type="info" text="已结束" />
-					</view>
-					<view class="info u-fx-ac">
-						<view class="list u-fx-f1">
-							<view class="name u-main-color">{{ item.description }}</view>
-							<view class="u-tips-color">会议地点：{{ item.placeName }}</view>
-							<view class="u-tips-color">会议时间：{{ item.reserveDate | gmtToDate('date') }} {{ item.startTime }}-{{ item.endTime }}</view>
-							<view>
-								<u-button v-if="item.status !== '未使用'" plain @click="goMeetRecord(item.id)" class="sign-num mar-button" type="primary" size="mini">会议纪要</u-button>
-								<u-button v-if="item.openSign === '1'" plain @click="goSignDetail(item.id)" class="sign-num mar-button" type="primary" size="mini">
-									签到统计：{{ item.signNum }}/{{ item.totalNum }}
-								</u-button>
+			<view class="u-auto">
+				<view class="approve-list" v-for="(item, i) in dataList" :key="i">
+					<view class="detail u-fx" @click.stop="add(item.status, item.id)">
+						<view class="process-type">
+							<u-tag v-if="item.status === '使用中'" mode="dark" type="primary" text="进行中" />
+							<u-tag v-if="item.status === '未使用'" mode="dark" type="success" text="未开始" />
+							<u-tag v-if="item.status === '已结束'" mode="dark" type="info" text="已结束" />
+						</view>
+						<view class="info u-fx-ac">
+							<view class="list u-fx-f1">
+								<view class="name u-main-color">{{ item.description }}</view>
+								<view class="u-tips-color">会议地点：{{ item.placeName }}</view>
+								<view class="u-tips-color">会议时间：{{ item.reserveDate | gmtToDate('date') }} {{ item.startTime }}-{{ item.endTime }}</view>
+								<view>
+									<u-button v-if="item.status !== '未使用'" plain @click="goMeetRecord(item.id)" class="sign-num mar-button" type="primary" size="mini">会议纪要</u-button>
+									<u-button v-if="item.openSign === '1'" plain @click="goSignDetail(item.id)" class="sign-num mar-button" type="primary" size="mini">
+										签到统计：{{ item.signNum }}/{{ item.totalNum }}
+									</u-button>
+								</view>
 							</view>
 						</view>
 					</view>

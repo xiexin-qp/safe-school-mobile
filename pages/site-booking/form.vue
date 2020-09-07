@@ -1,5 +1,5 @@
 <template>
-	<view class="u-bg-fff">
+	<view class="u-page u-bg-fff">
 		<tree-drawer
 			v-show="showTree"
 			:show="showTree"
@@ -40,9 +40,7 @@
 				<view v-if="type !== '1'" class="u-fx-f1 mar-r20">
 					<input :disabled="type === '1'" class="item-input" maxlength="20" v-model="formData.remark" style="text-align: right;" placeholder="请输入" />
 				</view>
-				<view v-else class="u-fx-f1 u-fx-je">
-					{{formData.remark}}
-				</view>
+				<view v-else class="u-fx-f1 u-fx-je">{{ formData.remark }}</view>
 			</view>
 			<view v-show="formData.room !== '请选择' && type !== '1'" class="u-bd-b item-list">
 				<view class="tip mar-b20">预订时间：</view>
@@ -67,9 +65,7 @@
 						<view v-if="index === timeList.length - 1 && type === '0'" class="mar-lt10" @click="addTime(true, index)">
 							<image class="u-icon-40" src="http://canpointtest.com/mobile-img/add.png"></image>
 						</view>
-						<view v-if="type === '0'" class="mar-lt10" @click="addTime(false, index)">
-							<image class="u-icon-36" src="http://canpointtest.com/mobile-img/delete_2.png"></image>
-						</view>
+						<view v-if="type === '0'" class="mar-lt10" @click="addTime(false, index)"><image class="u-icon-36" src="http://canpointtest.com/mobile-img/delete_2.png"></image></view>
 					</view>
 				</view>
 				<view class="sign-list u-padd-t u-fx" v-for="(item, index) in signList" :key="index + 'a'">
@@ -91,9 +87,7 @@
 			</view>
 			<view v-show="type === '1'" class="u-fx-ac u-bd-b item-list">
 				<view class="tip">预订时间：</view>
-				<view class="u-fx-f1 u-fx-je" v-for="(item, index) in timeList" :key="index">
-					{{ item.date }} {{ item.startTime }}至{{ item.endTime }}
-				</view>
+				<view class="u-fx-f1 u-fx-je" v-for="(item, index) in timeList" :key="index">{{ item.date }} {{ item.startTime }}至{{ item.endTime }}</view>
 			</view>
 			<view v-show="formData.room !== '请选择'" class="u-fx-ac u-bd-b item-list">
 				<view>开启签到：</view>
@@ -208,10 +202,10 @@ export default {
 		}
 	},
 	watch: {
-		formData:{
+		formData: {
 			handler(newValue, oldValue) {
 				if (newValue.roomCode !== '') {
-					this.signList = []
+					this.signList = [];
 					this.dateList.map(el => {
 						this.showReserveList(el, value => {
 							this.signList.push({
@@ -477,7 +471,7 @@ export default {
 						this.$tools.toast('该楼层房间列表为空');
 					}
 				});
-				console.log(this.formData.placeId)
+				console.log(this.formData.placeId);
 			}
 		},
 		// 验证时间是否重叠
@@ -540,116 +534,113 @@ export default {
 			if (!this.canClick) {
 				return;
 			}
-			validateForm(yzForm, this.formData, () => {
+			validateForm(yzForm, this.formData, async () => {
 				this.canClick = false;
 				console.log(1, this.formData);
 				console.log(1, this.timeList);
-				if (this.yzTime(this.timeList) === 4) {
+				let yzRes = await this.yzTime(this.timeList);
+				if (yzRes === 4) {
 					this.$tools.toast('请选择时间');
 					this.canClick = true;
-					return;
-				}
-				if (this.yzTime(this.timeList) === 3) {
+				} else if (yzRes === 3) {
 					this.$tools.toast('开始时间不能大于结束时间');
 					this.canClick = true;
-					return;
-				}
-				if (this.yzTime(this.timeList) === 2) {
+				} else if (yzRes === 2) {
 					this.$tools.toast('预订时间段重复，请重新选择');
 					this.canClick = true;
-					return;
-				}
-				const dateList = [];
-				const checkTagList = [];
-				this.timeList.forEach((ele, index) => {
-					dateList.push({
-						reserveDate: ele.date,
-						startTime: ele.startTime,
-						endTime: ele.endTime
-					});
-					actions
-						.checkReserve({
-							placeId: this.formData.placeId,
-							startTime: ele.startTime,
-							endTime: ele.endTime,
+				} else {
+					const dateList = [];
+					const checkTagList = [];
+					this.timeList.forEach((ele, index) => {
+						dateList.push({
 							reserveDate: ele.date,
-							id: this.type === '2' ? this.id : undefined
-						})
-						.then(res => {
-							console.log(res);
-							checkTagList.push(res.message);
+							startTime: ele.startTime,
+							endTime: ele.endTime
 						});
-				});
-				this.classList = this.classList.map(el => {
-					return {
-						classCode: el.classCode,
-						className: el.className,
-						gradeName: el.gradeName,
-						gradeCode: el.gradeCode,
-						classId: el.id,
-						schoolYearId: el.schoolYearId
-					};
-				});
-				this.teacherList = this.teacherList.map(el => {
-					return {
-						workNo: el.mobile,
-						userCode: el.userCode,
-						userName: el.userName,
-						orgCode: el.orgCode,
-						orgName: el.orgName
-					};
-				});
-				this.$tools.goNext(() => {
-					console.log(checkTagList);
-					if (checkTagList.length !== dateList.length) {
-						this.canClick = true;
-						return;
-					}
-					const req = {
-						schoolCode: store.userInfo.schoolCode,
-						createName: store.userInfo.userName,
-						createCode: store.userInfo.userCode,
-						placeId: this.formData.placeId,
-						placeType: this.formData.typeCode,
-						placeName: this.formData.placeName,
-						description: this.formData.remark,
-						placeReserveDateDtoList: dateList,
-						openSign: this.formData.isSign ? '1' : '2',
-						type: '1'
-					};
-					if (this.formData.isSign) {
-						if (this.controlList.length === 0 || (this.classList.length === 0 && this.teacherList.length === 0)) {
-							this.$tools.toast('请完善签到信息');
+						actions
+							.checkReserve({
+								placeId: this.formData.placeId,
+								startTime: ele.startTime,
+								endTime: ele.endTime,
+								reserveDate: ele.date,
+								id: this.type === '2' ? this.id : undefined
+							})
+							.then(res => {
+								console.log(res);
+								checkTagList.push(res.message);
+							});
+					});
+					this.classList = this.classList.map(el => {
+						return {
+							classCode: el.classCode,
+							className: el.className,
+							gradeName: el.gradeName,
+							gradeCode: el.gradeCode,
+							classId: el.id,
+							schoolYearId: el.schoolYearId
+						};
+					});
+					this.teacherList = this.teacherList.map(el => {
+						return {
+							workNo: el.mobile,
+							userCode: el.userCode,
+							userName: el.userName,
+							orgCode: el.orgCode,
+							orgName: el.orgName
+						};
+					});
+					this.$tools.goNext(() => {
+						console.log(checkTagList);
+						if (checkTagList.length !== dateList.length) {
 							this.canClick = true;
 							return;
 						}
-						req.classList = this.classList;
-						req.teacherList = this.teacherList;
-						req.placeReserveDeviceList = this.controlList;
-					} else {
-						req.placeReserveDeviceList = [];
-						req.classList = [];
-						req.teacherList = [];
-					}
-					if (this.type === '2') {
-						req.id = this.id;
-						req.placeReserveDateDtoList = undefined;
-						req.reserveDate = dateList[0].reserveDate;
-						req.startTime = dateList[0].startTime;
-						req.endTime = dateList[0].endTime;
-					}
-					console.log(req);
-					this.$tools.goNext(() => {
-						this.canClick = true;
-						actions.addReserve(req).then(res => {
-							this.$tools.toast('发布成功', 'success');
-							this.$tools.goNext(() => {
-								eventBus.$emit('getList');
-								this.$tools.goBack();
+						const req = {
+							schoolCode: store.userInfo.schoolCode,
+							createName: store.userInfo.userName,
+							createCode: store.userInfo.userCode,
+							placeId: this.formData.placeId,
+							placeType: this.formData.typeCode,
+							placeName: this.formData.placeName,
+							description: this.formData.remark,
+							placeReserveDateDtoList: dateList,
+							openSign: this.formData.isSign ? '1' : '2',
+							type: '1'
+						};
+						if (this.formData.isSign) {
+							if (this.controlList.length === 0 || (this.classList.length === 0 && this.teacherList.length === 0)) {
+								this.$tools.toast('请完善签到信息');
+								this.canClick = true;
+								return;
+							}
+							req.classList = this.classList;
+							req.teacherList = this.teacherList;
+							req.placeReserveDeviceList = this.controlList;
+						} else {
+							req.placeReserveDeviceList = [];
+							req.classList = [];
+							req.teacherList = [];
+						}
+						if (this.type === '2') {
+							req.id = this.id;
+							req.placeReserveDateDtoList = undefined;
+							req.reserveDate = dateList[0].reserveDate;
+							req.startTime = dateList[0].startTime;
+							req.endTime = dateList[0].endTime;
+						}
+						console.log(req);
+						this.$tools.goNext(() => {
+							this.canClick = true;
+							actions.addReserve(req).then(res => {
+								this.$tools.toast('发布成功', 'success');
+								this.$tools.goNext(() => {
+									eventBus.$emit('getList');
+									this.$tools.goBack();
+								});
 							});
 						});
 					});
-				});
+				}
 			});
 		},
 		goBack() {
@@ -759,11 +750,11 @@ export default {
 .mar-lt10 {
 	margin: 10rpx 0 0 10rpx;
 }
-.u-icon-40{
+.u-icon-40 {
 	width: 40rpx;
 	height: 40rpx;
 }
-.u-icon-36{
+.u-icon-36 {
 	width: 36rpx;
 	height: 36rpx;
 }

@@ -13,7 +13,7 @@
 				<view class="state u-fx">
 					<view class="trigon">
 					</view>
-					<text :class="state === '2' ? 'refuse' : state === '1' ? 'agree' : state === '0' ? 'wait' : 'cancel'">{{ state | approveState }}</text>
+					<text :class="state === '2' ? 'refuse' : state === '1' ? 'agree' : state === '0' ? 'wait' : 'cancel'">{{ state | visitApproveState }}</text>
 				</view>
 			</view>
 			<view class="log u-fx-jsb">
@@ -41,13 +41,11 @@
 			<view class="btn1" @click="open">审批不通过</view>
 			<view class="btn2" @click="clickConfirm">审批通过</view>
 		</view>
-		<u-popup :maskCloseAble="true" ref="refuse" mode="center" length="80%">
-			<view class="pop u-fx-ver">
-				<view class="title">请输入拒绝原因</view>
-				<input v-model="refuseText" focus placeholder="" />
-				<view class="btn" @click="sure(0)">确定</view>
+		<u-modal v-model="showTag" show-cancel-button @confirm="sure(0)" title="请输入拒绝原因">
+			<view class="pop u-fx-ver u-mar-l20 u-mar-r20">
+				<input class="u-border-radius" v-model="refuseText" focus placeholder="" />
 			</view>
-		</u-popup>
+		</u-modal>
 	</view>
 </template>
 
@@ -121,7 +119,7 @@ export default {
 			});
 		},
 		open() {
-			this.$refs.refuse.open();
+			this.showTag = true
 		},
 		sure() {
 			this.$tools.confirm(`确定拒绝吗?`, () => {

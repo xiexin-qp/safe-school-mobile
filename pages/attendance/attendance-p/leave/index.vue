@@ -262,9 +262,7 @@ export default {
   }
   .scroll-h {
     height: calc(100vh - 110rpx);
-    // height: 85vh;
     .record-box {
-      background-color: $u-border-color;
       padding: 5rpx 5rpx 0 5rpx; 
       .leave-box {
         margin: 20rpx;

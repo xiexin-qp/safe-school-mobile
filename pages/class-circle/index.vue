@@ -159,11 +159,14 @@ export default {
 			}
 			const req = {
 				...this.pageList,
-				category: this.userType === 3 ? '3' : '1',
+				category: this.userType === 3 ? 3 : 1,
 				schoolCode: store.userInfo.schoolCode,
 				classCode: this.classCode,
-				userCode: this.userCode
+				createUsercode: store.userInfo.userCode,
 			};
+			if(this.userType === 3){
+				req.childrenCode = this.userCode
+			}
 			console.log(req);
 			const res = await actions.getMomentList(req);
 			if (tag) {
