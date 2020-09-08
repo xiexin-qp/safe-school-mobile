@@ -21,6 +21,10 @@ import transferCourse from './transferCourse.js'
 import classCard from './classCard.js'
 import safe from './safe.js'
 import parentManage from './parentManage.js'
+import special from './special.js'
+import accident from './accident.js'
+import inspect from './inspect.js'
+
 const moduleList = [
   ...protal,
 	...safe,
@@ -44,7 +48,10 @@ const moduleList = [
   ...activityBooking,
   ...studyGround,
   ...examPlan,
-  ...transferCourse
+  ...transferCourse,
+  ...special,
+  ...accident,
+  ...inspect
 ]
 
 export default moduleList
