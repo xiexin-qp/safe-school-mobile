@@ -24,10 +24,10 @@
         </view>
       </view>
 			<view class="u-type-white-bg u-mar-t20">
-			  <view class="u-fx-jsb u-bd-b u-padd">
+			  <view class="u-fx-ver u-bd-b u-padd">
           <view class="tip">值班轨迹：</view>
           <view class="u-fx-f1 u-fx-je">
-            <image></image>
+            <view class="u-fx-f1" id="container"> </view>
           </view>
         </view>
 			</view>
@@ -39,7 +39,7 @@
           </view>
         </view>
 				<view class="u-fx-ver u-bd-b u-padd">
-          <view>内容上报：</view>
+          <view class="u-mar-t10">内容上报：</view>
           <view>
              <textarea class="item-text-area u-font-01" v-model="formData.reportContent" />
           </view>
@@ -59,12 +59,25 @@
     },
     mounted () {
       this.inspectId = this.$tools.getQuery().get('id') 
-      this.inspectDetailGet()
+			this.inspectDetailGet()
     },
     methods: {
        async inspectDetailGet () {
         const res =await actions.getInspectDetail(this.inspectId)
         this.formData = res.data
+        this.map = new qq.maps.Map(document.getElementById("container"), {
+          center: new qq.maps.LatLng(),
+          zoom: 16
+        })
+				const arr = res.data.track.map(item => {
+					return new qq.maps.LatLng(item.latitude, item.longitude)
+				})
+				var polyline = new qq.maps.Polyline({
+					path: arr,
+					strokeColor: '#3385ff',
+					strokeWeight: 4,
+					map: this.map
+				});
       }
     }
   }

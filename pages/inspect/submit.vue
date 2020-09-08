@@ -86,7 +86,7 @@ export default {
         this.formData.watch = value[0].name
         this.formData.watchAvatar = value[0].photoUrl
         this.formData.watchPhone = value[0].mobile
-        this.formData.watchJob =  value[0].postVOList //	值班人职务
+        this.formData.watchJob =  value[0].postDTOList ? value[0].postDTOList.map(el => el.postName) : [] //	值班人职务
       } else {
         this.formData.leader = value[0].name
         this.formData.leaderPhone = value[0].mobile

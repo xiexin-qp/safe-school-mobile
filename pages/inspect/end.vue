@@ -24,10 +24,10 @@
         </view>
       </view>
 			<view class="u-type-white-bg u-mar-t20">
-			  <view class="u-fx-jsb u-bd-b u-padd">
+			  <view class="u-fx-ver u-bd-b u-padd">
           <view class="tip">值班轨迹：</view>
           <view class="u-fx-f1 u-fx-je">
-            <image></image>
+            <view class="u-fx-f1" id="container"> </view>
           </view>
         </view>
 			</view>
@@ -42,7 +42,7 @@
         </view>
 				<view class="u-fx-ver u-bd-b u-padd">
           <view>内容上报：</view>
-          <view>
+          <view class="u-mar-t10">
              <textarea class="item-text-area u-font-01" v-model="formData.content" placeholder="请填写详细的问题描述" />
           </view>
          <an-upload-img v-model="formData.photoUrl" total="9" style="margin: 20rpx"></an-upload-img>
@@ -81,10 +81,23 @@
     mounted () {
       this.inspectId = this.$tools.getQuery().get('inspectId')
       this.track = JSON.parse(this.$tools.getQuery().get('track')) 
+      this.map = new qq.maps.Map(document.getElementById("container"), {
+        center: new qq.maps.LatLng(),      // 地图的中心地理坐标。
+        zoom: 16
+      });
+      const arr = this.track.map(item => {
+        return new qq.maps.LatLng(item.latitude, item.longitude)
+      })
+      var polyline = new qq.maps.Polyline({
+        path: arr,
+        strokeColor: '#3385ff',
+        strokeWeight: 4,
+        map: this.map
+      });
       this.inspectDetailGet()
     },
     methods: {
-       async inspectDetailGet () {
+      async inspectDetailGet () {
         const res =await actions.getInspectDetail(this.inspectId)
         this.formData = res.data
       },
@@ -133,5 +146,9 @@
   height: 120rpx;
   width: 100%;
   line-height: 40rpx;
+}
+#container {
+  width: 300rpx;
+  height: 300rpx;
 }
 </style>
