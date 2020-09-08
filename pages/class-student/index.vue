@@ -47,7 +47,7 @@
 import { store, actions } from './store/index.js'
 export default {
 	computed: {
-		isBZR: () => store.isBZR,
+		isBZR: () => JSON.parse(uni.getStorageSync('protal')).isBZR,
 		userInfo: () => store.userInfo,
 		schoolYearId: () => store.schoolYear.schoolYearId,
 	},
@@ -71,6 +71,8 @@ export default {
 		};
 	},
 	async mounted() {
+		console.log(this.isBZR)
+		console.log(JSON.parse(uni.getStorageSync('protal')).isBZR)
 		const sRes = await actions.getStudentList({
 			classId: this.isBZR.classCode,
 			gradeId: this.isBZR.gradeCode,
