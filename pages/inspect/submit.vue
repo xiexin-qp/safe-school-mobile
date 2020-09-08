@@ -10,7 +10,7 @@
         <view class="u-fx-jsb u-bd-b u-padd">
           <view class="tip">值班员电话：</view>
           <view class="u-fx-f1 u-fx-je">
-            <input type="number" class="u-font-01 u-tx-r u-padd-r10" v-model="formData.watchPhone" />
+            <view class="u-fx-f1 u-fx-je u-light-color">{{ formData.watchPhone }}</view>
           </view>
         </view>
         <view class="u-fx-ac u-bd-b u-padd-20">
@@ -21,7 +21,7 @@
         <view class="u-fx-jsb u-bd-b u-padd">
           <view class="tip">带班领导电话：</view>
           <view class="u-fx-f1 u-fx-je">
-            <input type="number" class="u-font-01 u-tx-r u-padd-r10" v-model="formData.leaderPhone" />
+            <view class="u-fx-f1 u-fx-je u-light-color">{{ formData.leaderPhone }}</view>
           </view>
         </view>
       </view>

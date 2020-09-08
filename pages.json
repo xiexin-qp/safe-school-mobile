@@ -5,6 +5,11 @@
 	"pages": [
 		// 主页模块
 		{
+			"path": "pages/index/index",
+			"style": {}
+		},
+		// 主页模块
+		{
 			"path": "pages/protal/index",
 			"style": {}
 		},
@@ -26,10 +31,6 @@
 		},
 		{
 			"path": "pages/protal/messageDetail",
-			"style": {}
-		},
-		{
-			"path": "pages/protal/map",
 			"style": {}
 		},
 		// 课程表
@@ -139,7 +140,7 @@
 			"path": "pages/news/news-p/parentNotice/detail",
 			"style": {}
 		},
-		// 门禁管理
+		// 门禁模块
 		{
 			"path": "pages/door/door-p/doorRecord/index",
 			"style": {}
@@ -160,7 +161,7 @@
 			"path": "pages/door/door-t/doorManage/add",
 			"style": {}
 		},
-		// 宿舍管理
+		// 宿管模块
 		{
 			"path": "pages/dorm/check-total/index",
 			"style": {}
@@ -312,7 +313,7 @@
 			"path": "pages/attendance/attendance-t/studentLeave/add",
 			"style": {}
 		},
-		// 家长考勤管理
+		// 家长考勤模块
 		{
 			"path": "pages/attendance/attendance-p/attendance/index",
 			"style": {}
@@ -333,7 +334,7 @@
 			"path": "pages/attendance/attendance-p/leave/add",
 			"style": {}
 		},
-		// 教师疫情防控
+		// 教师疫情日报模块
 		{
 			"path": "pages/ncov/ncov-t/index",
 			"style": {}
@@ -350,7 +351,7 @@
 			"path": "pages/ncov/ncov-t/archives",
 			"style": {}
 		},
-		// 家长疫情防控
+		// 家长疫情日报模块
 		{
 			"path": "pages/ncov/ncov-p/index",
 			"style": {}
@@ -367,7 +368,7 @@
 			"path": "pages/ncov/ncov-p/archives",
 			"style": {}
 		},
-		// 人脸采集
+		// 人像采集
 		{
 			"path": "pages/face/face-p/index",
 			"style": {}
@@ -378,6 +379,44 @@
 		},
 		{
 			"path": "pages/face/face-t/faceStudent/index",
+			"style": {}
+		},
+		//考试计划
+		{
+			"path": "pages/examPlan/examPlan-t/index",
+			"style": {}
+		},
+		{
+			"path": "pages/examPlan/examPlan-p/index",
+			"style": {}
+		},
+		{
+			"path": "pages/examPlan/examPlan-p/detail",
+			"style": {}
+		},
+		//物品管理报修
+		{
+			"path": "pages/goods-repair/index",
+			"style": {}
+		},
+		{
+			"path": "pages/goods-repair/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/goods-repair/form",
+			"style": {}
+		},
+		{
+			"path": "pages/collect-repair/index",
+			"style": {}
+		},
+		{
+			"path": "pages/collect-repair/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/collect-repair/form",
 			"style": {}
 		},
 		// 班级德育
@@ -398,43 +437,43 @@
 		},
 		// 个人德育
 		{
-		  "path": "pages/class-moral/index",
-		  "style": {}
+			"path": "pages/class-moral/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-moral/detail",
-		  "style": {}
+			"path": "pages/class-moral/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-moral/add",
-		  "style": {}
+			"path": "pages/class-moral/add",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-moral/record",
-		  "style": {}
+			"path": "pages/class-moral/record",
+			"style": {}
 		},
 		// 行为评价
 		{
-		  "path": "pages/behavior/index",
-		  "style": {}
+			"path": "pages/behavior/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/behavior/detail",
-		  "style": {}
+			"path": "pages/behavior/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/behavior/add",
-		  "style": {}
+			"path": "pages/behavior/add",
+			"style": {}
 		},
 		{
-		  "path": "pages/behavior/record",
-		  "style": {}
+			"path": "pages/behavior/record",
+			"style": {}
 		},
 		// 家长管理
 		{
 			"path": "pages/parent-manage/index"
 		},
-		// 班级管理
+		// 班级学生管理
 		{
 			"path": "pages/class-student/index"
 		},
@@ -502,6 +541,7 @@
 		},
 		//活动发布
 		{
+<<<<<<< HEAD
 			"path": "pages/activity-booking/index",
 			"style": {}
 		},
@@ -523,6 +563,29 @@
 		},
 		{
 			"path": "pages/activity-booking/sign",
+=======
+		  "path": "pages/activity-booking/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/activity-booking/detail",
+		  "style": {}
+		},
+		{
+		  "path": "pages/activity-booking/form",
+		  "style": {}
+		},
+		{
+		  "path": "pages/activity-booking/meetRecord",
+		  "style": {}
+		},
+		{
+		  "path": "pages/activity-booking/sign",
+		  "style": {}
+		},
+		{
+			"path": "pages/activity-booking/poster",
+>>>>>>> 01791b5f6ffb65aad83bb602e69246355bc5b93a
 			"style": {}
 		},
 		//会议管理

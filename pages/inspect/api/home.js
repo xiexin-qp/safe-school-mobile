@@ -6,6 +6,7 @@
 import hostEnv from '../../../config/index'
 
 let homeApi = {
+  getInspectList: '/patrol/page/mobile#post', // 移动端巡查值班分页查询
   startDuty: '/patrol/start#post', // 开始巡查值班
   addInspectTask: '/dangerTask/add/patrol/mobile#post', // 巡查值班-移动端上报隐患
   getGroupDetail: '/danger/group/info#get', // 隐患小组详情

@@ -67,7 +67,7 @@
   import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
   import { store, actions } from './store/index.js'
   const yzForm = {
-    content: '请输入你的隐患描述'
+    content: '请填写详细的问题描述'
   }
   export default {
     components: {
@@ -103,8 +103,8 @@
       },
       submitForm () {
         validateForm(yzForm, this.formData, () => {
-          if (!this.formData.leaderCode) {
-            return this.$tools.toast('请选择负责人')
+          if (!this.formData.content) {
+            return this.$tools.toast('请填写详细的问题描述')
           }
           this.$tools.confirm("确定上报隐患吗？", () => {
              let req = {

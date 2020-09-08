@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import vConsole from 'vconsole'
 import wx from 'weixin-js-sdk'
 import validateForm from '@u/validate'
 import { store, actions } from './store/index.js'
@@ -30,8 +31,10 @@ export default {
     }
   },
   mounted () {
+    new vConsole()
     this.inspectId = this.$tools.getQuery().get('inspectId')
     this.getLocation(true, (data) => {
+      console.log('data',data)
       this.map = new qq.maps.Map(document.getElementById("container"), {
         center: new qq.maps.LatLng(data.latitude, data.longitude),      // 地图的中心地理坐标。
         zoom: 16
@@ -43,6 +46,7 @@ export default {
   },
   methods: {
     showMap () {
+      console.log('this.locationList',this.locationList)
       const arr = this.locationList.map(item => {
         return new qq.maps.LatLng(item.latitude, item.longitude)
       })
@@ -54,10 +58,12 @@ export default {
       });
     },
     getLocation (tag, callback) {
+      console.log('tag',tag)
       wx.getLocation({
         type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
         success: (res) => {
           if (res) {
+            console.log('res',res)
             const location = {
               latitude: res.latitude, // 纬度，浮点数，范围为90 ~ -90
               longitude: res.longitude,
@@ -93,7 +99,7 @@ export default {
       } else {
         this.$tools.confirm('确定结束值班吗？', () => {
           this.$tools.navTo({
-            url: `./end?inspectId=${this.inspectId}&map=${JSON.stringify(this.locationList)}`,
+            url: `./end?inspectId=${this.inspectId}&track=${JSON.stringify(this.locationList)}`,
             title: '巡查值班'
           })
         })

@@ -14,7 +14,7 @@ const AdmZip = require("adm-zip");
 var zip = new AdmZip();
 const env = process.argv[process.argv.length - 2];
 const system = process.argv[process.argv.length - 1];
-if (system !== 'protal' && system !== 'protal-card') {
+if (system !== 'protal' && system !== 'protal-card' && system !== 'protal-safe') {
 	console.log('请输入正确的打包模块')
 	process.exit();
 }
