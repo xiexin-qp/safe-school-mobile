@@ -1,141 +1,134 @@
 <template>
-	<view class="u-page u-bg-fff">
+	<view>
+		<u-picker @confirm="changeTime" v-model="dateTimeTag" mode="time"></u-picker>
 		<scroll-view scroll-y="true" class="scroll-h">
-			<no-data v-if="subjectList.length === 0" msg="暂无数据~"></no-data>
-			<u-collapse v-else @change="change" ref="collapse">
-				<u-collapse-item class="u-bd-b u-padd-l20 u-padd-r20 u-padd-t10 u-padd-b10" :title="item.subjectName" v-for="(item, index) in subjectList" :key="index">
-					<view class="collapse-item u-padd-b20">
-						<u-radio-group v-model="item.chooseTeacher" @change="radioGroupChange($event, item)" :wrap="true" width="100%">
-							<u-radio class="u-padd-10" v-for="(elem, index) in item.teacherList" :key="index" :name="elem.teacherCode">{{ elem.teacherName }}</u-radio>
-						</u-radio-group>
+			<view class="u-fx u-bd-b item-list input-area">
+				<view class="tip">荣誉名称：</view>
+				<view class="u-fx-f1 mar-r20">
+					<textarea class="item-input u-content-color" maxlength="50" v-model="formData.name" placeholder="请输入荣誉名称" />
+				</view>
+			</view>
+			<view class="u-bd-b item-list">
+				<view class="mar-b20">上传图片</view>
+				<view class="u-fx-f1">
+					<view class="u-fx-f1">
+						<video-upload
+							class="u-fx-f1 u-padd-l20 u-padd-r10 u-padd-b20"
+							:uploadUrl="uploadUrl"
+							types="image"
+							v-model="fileList"
+							:uploadCount="1"
+							:upload_max="10"
+							@success="success"
+							@delImage="delImage"
+						></video-upload>
 					</view>
-				</u-collapse-item>
-			</u-collapse>
+				</view>
+			</view>
+			<view class="u-fx-ac u-bd-b item-list">
+				<view class="tip">获奖日期：</view>
+				<view class="u-fx-f1 u-fx-je u-content-color" @click="dateTimeTag = true">{{ formData.dateTime }}</view>
+				<view class="rit-icon"></view>
+			</view>
 		</scroll-view>
-		<view class="footer-btn u-fx-ac"><u-button @click="confirm" type="primary" class="u-fx-f1 u-mar-l u-mar-r u-type-primary-dark-bg">提交</u-button></view>
+		<view class="footer-btn u-fx-ac"><u-button @click="confirm" type="primary" class="u-fx-f1 u-mar-l u-mar-r u-type-primary-dark-bg">确定</u-button></view>
 	</view>
 </template>
 
 <script>
 import eventBus from '@u/eventBus';
-import noData from '@/components/no-data/no-data.vue';
+import anUploadImg from '@/components/an-uploadImg/an-uploadImgWithName';
 import { store, actions } from './store/index.js';
+import hostEnv from '../../config/index.js';
 export default {
-	name: 'add-teacher',
 	components: {
-		noData
+		anUploadImg
 	},
 	data() {
 		return {
-			subjectList: [],
-			chooseList: []
+			dateTimeTag: false,
+			uploadUrl: '',
+			type: 0, // 0.新增，1编辑
+			fileList: [],
+			formData: {
+				name: '',
+				dateTime: ''
+			}
 		};
 	},
-	async created() {
-		this.classId = this.$tools.getQuery().get('classId');
-		this.getSubjectList();
+	computed: {},
+	created() {
+		this.uploadUrl = `${hostEnv.zk_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
+		this.type = this.$tools.getQuery().get('type');
+		if (this.type === '1') {
+			this.id = this.$tools.getQuery().get('id');
+			this.showData();
+		}
 	},
+	async mounted() {},
 	methods: {
-		async getSubjectList() {
-			const req = {
-				schoolCode: store.userInfo.schoolCode,
-				enable: '1'
-			};
-			const res = await actions.getSubList(req);
-			this.subjectList = res.data.map(el => {
-				return {
-					...el,
-					teacherList: [],
-					chooseTeacher: ''
-				};
-			});
-			this.showTeaList();
-		},
-		async showTeaList() {
-			const req = {
-				classId: this.classId,
-				pageNum: 1,
-				pageSize: 999,
-				schoolCode: store.userInfo.schoolCode
-			};
-			const res = await actions.getClassTeacherList(req);
-			res.data.list.forEach(ele => {
-				if (ele.subjectName.split(',').length > 1) {
-					ele.subjectName.split(',').forEach(item => {
-						this.chooseList.push({
-							teacherCode: ele.teacherCode,
-							subjectName: item,
-							subjectCode: this.subjectList.filter(el=> el.subjectName === item)[0].subjectCode
-						});
-					});
-				} else {
-					this.chooseList.push({
-						teacherCode: ele.teacherCode,
-						subjectName: ele.subjectName,
-						subjectCode: this.subjectList.filter(el=> el.subjectName === ele.subjectName)[0].subjectCode
-					});
+		// 表单回填
+		async showData() {
+			const res = await actions.getClassHonorDetail(this.id);
+			this.formData.name = res.data.content;
+			this.formData.dateTime = this.$tools.getDateTime(res.data.awardTime, 'date');
+			this.fileList = [
+				{
+					url: res.data.photoUrl,
+					id: res.data.photoId
 				}
-			});
-			console.log(this.chooseList);
+			];
 		},
-		async getTeacherList(index) {
-			const req = {
-				pageNum: 1,
-				pageSize: 999,
-				schoolCode: store.userInfo.schoolCode,
-				subjectCode: this.subjectCode
-			};
-			const res = await actions.getSubTeacherList(req);
-			this.subjectList[index].teacherList = res.data.list.map(item => {
-				return {
-					...item,
-					id: item.teacherCode,
-					subjectName: this.subjectName,
-					subjectCode: this.subjectCode
-				};
-			});
-		},
-		async change(index) {
-			if(this.subjectList[index].teacherList.length > 0){
-				return
-			}
-			this.subjectCode = this.subjectList[index].subjectCode;
-			const i = this.chooseList.findIndex(list => {
-				return list.subjectName === this.subjectList[index].subjectName;
-			});
-			if(i !== -1){
-				this.subjectList[index].chooseTeacher = this.chooseList[i].teacherCode;
-			}
-			await this.getTeacherList(index);
-			this.$refs.collapse.init();
-		},
-		radioGroupChange(e, item) {
-			const i = this.chooseList.findIndex(list => {
-				return list.subjectName === item.subjectName;
-			});
-			if(i !== -1){
-				this.chooseList[i].teacherCode = e
-			}else{
-				this.chooseList.push({
-					teacherCode: e,
-					subjectName: item.subjectName,
-					subjectCode: item.subjectCode
+		previewImage(e) {
+			uni.previewImage({
+				urls: this.fileList.map(el => {
+					return el.url;
 				})
-			}
+			});
+		},
+		success(e) {
+			console.log(e);
+			this.photoId = e.data.id;
+		},
+		delImage(value) {
+			console.log(value);
+			const index = this.fileList.findIndex(list => {
+				return list === value.url;
+			});
+			this.fileList.splice(index, 1);
+			actions.delFile(value.id || this.fileList[0].id);
+		},
+		changeTime(item) {
+			this.formData.dateTime = `${item.year}-${item.month}-${item.day}`;
 		},
 		async confirm() {
-			const req = [];
-			await this.chooseList.forEach(ele => {
-				req.push({
-					classId: this.classId,
-					schoolCode: store.userInfo.schoolCode,
-					subjectCode: ele.subjectCode,
-					teacherCode: ele.teacherCode
-				});
-			});
-			console.log(req)
-			await actions.addClassTeacher(req)
-			this.$tools.toast('操作成功', 'success');
+			if (this.formData.name === '') {
+				this.$tools.toast('请输入荣誉名称');
+				return;
+			}
+			if (this.formData.dateTime === '') {
+				this.$tools.toast('请选择获奖时间');
+				return;
+			}
+			const req = {
+				awardTime: this.formData.dateTime,
+				content: this.formData.name,
+				createUsercode: store.userInfo.userCode,
+				createUsername: store.userInfo.userName,
+				schoolYearId: store.schoolYear.schoolYearId,
+				schoolCode: store.userInfo.schoolCode,
+				gradeCode: uni.getStorageSync('bindInfo').gradeCode,
+				classCode: uni.getStorageSync('bindInfo').classCode,
+				photoUrl: this.fileList.length > 0 ? this.fileList[0].url : '',
+				photoId: this.fileList.length > 0 ? this.photoId : ''
+			};
+			console.log(req);
+			if (this.type === '0') {
+				const res = await actions.addClassHonor(req);
+			} else {
+				const res = await actions.editClassHonor(req);
+			}
+			this.$tools.toast('提交成功', 'success');
 			this.$tools.goNext(() => {
 				eventBus.$emit('getList');
 				this.$tools.goBack();
@@ -145,8 +138,41 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .scroll-h {
 	height: calc(100vh - 100rpx);
+}
+.tip::before {
+	position: absolute;
+	content: '*';
+	color: red;
+	left: 10rpx;
+	width: 10rpx;
+	height: 10rpx;
+}
+.item-list {
+	padding: 25rpx 10rpx 25rpx 30rpx;
+	background: $uni-bg-color;
+}
+.item-input {
+	width: 100%;
+	font-size: 26rpx;
+	color: $u-tips-color;
+}
+.al-r {
+	text-align: right;
+}
+.input-area {
+	height: 400rpx;
+}
+/deep/ .uni-textarea-textarea {
+	border: 1rpx solid $u-border-color;
+	padding: 20rpx;
+	height: 350rpx;
+	line-height: 50rpx;
+	color: $u-content-color;
+}
+/deep/ .uni-textarea-placeholder {
+	padding: 20rpx;
 }
 </style>
