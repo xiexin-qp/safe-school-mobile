@@ -541,7 +541,6 @@
 		},
 		//活动发布
 		{
-<<<<<<< HEAD
 			"path": "pages/activity-booking/index",
 			"style": {}
 		},
@@ -563,29 +562,6 @@
 		},
 		{
 			"path": "pages/activity-booking/sign",
-=======
-		  "path": "pages/activity-booking/index",
-		  "style": {}
-		},
-		{
-		  "path": "pages/activity-booking/detail",
-		  "style": {}
-		},
-		{
-		  "path": "pages/activity-booking/form",
-		  "style": {}
-		},
-		{
-		  "path": "pages/activity-booking/meetRecord",
-		  "style": {}
-		},
-		{
-		  "path": "pages/activity-booking/sign",
-		  "style": {}
-		},
-		{
-			"path": "pages/activity-booking/poster",
->>>>>>> 01791b5f6ffb65aad83bb602e69246355bc5b93a
 			"style": {}
 		},
 		//会议管理
