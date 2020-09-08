@@ -67,11 +67,12 @@ export default {
         onlyFromCamera: true,
         success: function (res) {
           let result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-          const schoolCode = result.split('&')[0].substring(11)
-          const code = result.split('&')[1].substring(5)
+          const schoolCode = result.split('&')[0]
+          const code = result.split('&')[1].split('?')[0]
+          const name = result.split('&')[1].split('?')[1]
           this.$tools.navTo({
             url: `./task?date=${this.date}&schoolCode=${schoolCode}&code=${code}`,
-            title: '校园周边'
+            title: name
           })
         }
       })

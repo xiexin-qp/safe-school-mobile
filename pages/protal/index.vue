@@ -157,6 +157,10 @@ export default {
 					key: 'userInfo',
 					data: res.data
 				});
+				setStore({
+					key: 'dangerList',
+					data:  []
+				})
 				this.$tools.redirectTo({
 					url: './main'
 				});

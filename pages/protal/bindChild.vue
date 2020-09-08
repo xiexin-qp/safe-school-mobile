@@ -61,6 +61,7 @@ export default {
 	components: {},
 	computed: {
 		userInfo: () => store.userInfo,
+		schoolYear: () => store.schoolYear,
 		enjoyParentApp: () => store.enjoyParentApp,
 		relationShipList: () => store.relationShipList.map(item => item.relationShip)
 	},
@@ -102,7 +103,7 @@ export default {
 				page: 1,
 				size: 100,
 				gradeCode: this.formData.gradeCode,
-				schoolYearId: store.schoolYear.schoolYearId
+				schoolYearId: this.schoolYear.schoolYearId
 			})
 			this.classTotal = res.data.list
 			this.classList = res.data.list.map(item => {
