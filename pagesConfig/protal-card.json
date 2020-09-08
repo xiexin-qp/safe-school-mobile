@@ -113,59 +113,81 @@
 		},
 		{
 			"path": "pages/study-ground/component/detail"
+		},
+		// 作业
+		{
+		  "path": "pages/class-homework/class-homework-t/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-homework/class-homework-t/detail",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-homework/class-homework-t/form",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-homework/class-homework-p/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-homework/class-homework-p/detail",
+		  "style": {}
+		},
+		{
+			"path": "pages/class-homework/class-homework-p/form",
+			"style": {}
+		},
+		// 调代课
+		{
+			"path": "pages/transfer-course/index"
+		},
+		{
+			"path": "pages/transfer-course/form"
+		},
+		{
+			"path": "pages/transfer-course/detail"
+		},
+		//班级圈
+		{
+			"path": "pages/class-circle/index",
+			"style": {}
+		},
+		{
+			"path": "pages/class-circle/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/class-circle/form",
+			"style": {}
+		},
+		{
+			"path": "pages/class-circle/newList",
+			"style": {}
+		},
+		//校园概况
+		{
+			"path": "pages/school-intro/index"
+		},
+		//师生风采
+		{
+			"path": "pages/teacher-show/index"
+		},
+		{
+			"path": "pages/teacher-show/add-teacher"
+		},
+		//班级荣誉
+		{
+			"path": "pages/class-honor/index"
+		},
+		{
+			"path": "pages/class-honor/form"
+		},
+		//电子板报
+		{
+			"path": "pages/class-newspaper/index"
 		}
-		// // 作业
-		// {
-		//   "path": "pages/class-homework/class-homework-t/index",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-homework/class-homework-t/detail",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-homework/class-homework-t/form",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-homework/class-homework-p/index",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-homework/class-homework-p/detail",
-		//   "style": {}
-		// },
-		// {
-		// 	"path": "pages/class-homework/class-homework-p/form",
-		// 	"style": {}
-		// },
-		// // 调代课
-		// {
-		// 	"path": "pages/transfer-course/index"
-		// },
-		// {
-		// 	"path": "pages/transfer-course/form"
-		// },
-		// {
-		// 	"path": "pages/transfer-course/detail"
-		// },
-		// //班级圈
-		// {
-		// 	"path": "pages/class-circle/index",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/class-circle/detail",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/class-circle/form",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/class-circle/newList",
-		// 	"style": {}
-		// }
 	],
 	"globalStyle": {
 		// 禁用头部导航栏
