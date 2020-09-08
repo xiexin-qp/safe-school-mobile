@@ -36,6 +36,7 @@ import apiFun from './store/apiFun.js';
 export default {
 	data() {
 		return {
+			currentClass: uni.getStorageSync('currentClass') || 0,
 			isModule: false,
 			autoColor: 'rgba(0, 0, 0, .2)',
 			actColor: '#ffffff',
@@ -85,7 +86,7 @@ export default {
 	computed: {
 		userInfo: () => store.userInfo,
 		enjoyApp: () => store.enjoyApp,
-		appList: () => store.appList
+		appList: () => store.appList,
 	},
 	components: {
 		newList,
@@ -105,9 +106,16 @@ export default {
 		// 判断是否是班主任
 		if (this.userInfo.typeCode === '4') {
 			this.$tools.isBZR(this.userInfo, data => {
+				console.log(data)
+				let classInfo = {}
+				if (parseInt(this.currentClass) > data.lenght) {
+					classInfo = data[0]
+				} else {
+					classInfo = data[this.currentClass]
+				}
 				setStore({
 					key: 'isBZR',
-					data: data
+					data: classInfo
 				});
 			});
 		}

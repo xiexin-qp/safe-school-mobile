@@ -31,7 +31,7 @@
 				<text class="u-content-color">当前绑定</text>
 				<text @tap="changeClass" v-if="userInfo.typeCode == 4" class="u-fx-f1 u-tx-r u-tips-color">{{ classInfo.gradeName || '暂未绑定' }}{{ classInfo.className }}</text>
 				<view v-if="userInfo.typeCode == 16" @click="bindChild('1')" class="bind-child">绑定孩子</view>
-				<view class="rit-icon" v-if="classList.length > 0 && userInfo.typeCode == 4"></view>
+				<view class="rit-icon" v-if="classList.length > 0"></view>
 			</view>
 		</view>
 		<view v-if="userInfo.typeCode == 16">
@@ -73,6 +73,7 @@ export default {
 	computed: {
 		userInfo: () => store.userInfo,
 		childList: () => store.childList,
+		teachClassList: () => store.teachClassList,
 		enjoyParentApp: () => store.enjoyParentApp,
 		enjoyTeacherApp: () => store.enjoyTeacherApp
 	},
@@ -129,6 +130,21 @@ export default {
 					setStore({
 						key: 'isBZR',
 						data: this.classInfo
+					})
+					const i = this.teachClassList.findIndex(list => list.isBZR)
+					console.log(i)
+					if(i !== -1){
+						this.teachClassList.splice(index, 1)
+					}
+					this.teachClassList.unshift({
+						...this.classInfo,
+						text: this.classInfo.gradeName + this.classInfo.className,
+						value: this.classInfo.classCode,
+						isBZR: true
+					})
+					setStore({
+						key: 'teachClassList',
+						data: this.teachClassList
 					})
 				})
 			}
@@ -222,6 +238,21 @@ export default {
 			setStore({
 				key: 'isBZR',
 				data: this.classInfo
+			})
+			const i = this.teachClassList.findIndex(list => list.isBZR)
+			if(i !== -1){
+				this.teachClassList.splice(i, 1)
+			}
+			this.teachClassList.unshift({
+				...this.classInfo,
+				text: this.classInfo.gradeName + this.classInfo.className,
+				value: this.classInfo.classCode,
+				isBZR: true
+			})
+			console.log(this.teachClassList)
+			setStore({
+				key: 'teachClassList',
+				data: this.teachClassList
 			})
 		},
 		// 退出登陆

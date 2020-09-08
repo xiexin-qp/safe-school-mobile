@@ -384,8 +384,8 @@ const tools = {
         userCode: userInfo.userCode
       }
     })
-    if (res.data.classCode) {
-      userDetail = res.data
+    if (res.data.classInfos) {
+      userDetail = res.data.classInfos
     } else {
       userDetail = null
     }

@@ -153,6 +153,7 @@ export default {
 		},
 	},
 	async created() {
+		console.log(store.teachClassList)
 		this.uploadUrl = `${hostEnv.zk_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		this.length = this.classMotto.length;
 		this.schoolYearId = store.schoolYear.schoolYearId;
