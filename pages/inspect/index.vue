@@ -2,44 +2,34 @@
   <view class="inspect u-pages">
     <scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h u-padd-t20">
       <no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
-      <view class="inspect-list u-mar-b20 u-mar-l20 u-mar-r20" v-for="(item, i) in dataList" :key="i" v-else>
+      <view class="inspect-list u-mar-b20 u-mar-l20 u-mar-r20 u-border-radius" v-for="(item, i) in dataList" :key="i" v-else>
         <view class="detail u-fx u-padd-20 u-mar-b20">
           <view class="info u-fx-ac" @click="detail(item)">
             <view class="list u-fx-f1 u-line3">
-              <view class="name u-fx-jsb u-main-color u-font-1">
-                <view> {{ item.taskName }} </view>
-                <view
-                  class="u-font-01"
-                  :style="{ color: item.state === '1' || item.state === '2' ? '#fa3534' : '#2979ff' }"
-                >
-                  {{ item.state | specialState }}
+              <view class="name u-fx u-main-color u-font-1">
+                <image :src="item.watchAvatar"></image>
+                <view class="u-mar-l20">
+                  <view> {{item.watch}} </view>
+                  <view class="u-mar-l10 u-font-02 u-tips-color"> {{item.watchJob.length > 0 ? item.watchJob.join(',') : '暂无'}} </view>
                 </view>
               </view>
               <view class="u-fx-jsb">
                 <view>
                   <view class="u-mar-t10">
-                    <text class="u-tips-color"> 检查时间： </text>
+                    <text class="u-tips-color"> 开始时间： </text>
                     {{ item.checkTime }}
                   </view>
                   <view class="u-mar-t10">
-                    <text class="u-tips-color"> 小组长： </text>
+                    <text class="u-tips-color"> 结束时间： </text>
                     {{ item.teamLeaderName }}
                   </view>
-                  <view class="u-mar-t10">
-                    <text class="u-tips-color"> 检查项目： </text>
-                    {{ item.itemNum }}
-                  </view>
-                  <view class="u-mar-t10">
-                    <text class="u-tips-color"> 检查标准： </text>
-                    {{ item.standardNum }}
-                  </view>
-                </view>
-                <view class="u-fx-ac" v-if="item.label">
-                  <image src="/mobile-img/special-check.png"></image>
                 </view>
               </view>
             </view>
           </view>
+        </view>
+        <view :class="['status', 'u-tx-c', 'u-type-white','u-border-radius', item.patrolStatus === '1' ? 'u-type-primary-bg' : item.patrolStatus === '0' ? 'u-type-error-bg' : 'u-type-warning-bg']">
+          {{ item.patrolStatus === '1' ? '正常' : item.patrolStatus === '0' ? '异常' : '--'}}
         </view>
       </view>
     </scroll-view>
@@ -118,7 +108,6 @@ export default {
   height: calc(100vh - 100rpx);
   .inspect-list {
     background-color: $uni-bg-color;
-    border-radius: 16rpx;
     position: relative;
     .detail {
       position: relative;
@@ -126,13 +115,21 @@ export default {
         width: 100%;
       }
     }
+    .status {
+      position: absolute;
+      top: 2rpx;
+      right: 2rpx;
+      width: 110rpx;
+      height: 50rpx;
+      line-height: 50rpx;
+    }
   }
   .name {
-    border-bottom: 1px dashed #ccc;
-  }
-  image {
-    width: 100rpx;
-    height: 100rpx;
+    image {
+      width: 100rpx;
+      height: 100rpx;
+      border-radius: 50%;
+    }
   }
 }
 </style>

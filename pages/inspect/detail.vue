@@ -23,27 +23,29 @@
           </view>
         </view>
       </view>
-			<view class="u-type-white-bg u-mar-t20">
-			  <view class="u-fx-ver u-bd-b u-padd">
-          <view class="tip">值班轨迹：</view>
-          <view class="u-fx-f1 u-fx-je">
-            <view class="u-fx-f1" id="container"> </view>
+      <view v-if="formData.track && formData.track.length > 0">
+        <view class="u-type-white-bg u-mar-t20">
+          <view class="u-fx-ver u-bd-b u-padd">
+            <view class="tip">值班轨迹：</view>
+            <view class="u-fx-f1 u-fx-je">
+              <view class="u-fx-f1" id="container"> </view>
+            </view>
           </view>
         </view>
-			</view>
-      <view class="u-type-white-bg u-mar-t20">
-        <view class="u-fx-ac u-bd-b u-padd-20">
-          <view>巡查状态：</view>
-          <view class="u-fx-f1 u-fx-je u-tx-r">
-            <view>{{formData.patrolStatus === '1' ? '正常' : '异常'}}</view>
+        <view class="u-type-white-bg u-mar-t20">
+          <view class="u-fx-ac u-bd-b u-padd-20">
+            <view>巡查状态：</view>
+            <view class="u-fx-f1 u-fx-je u-tx-r">
+              <view>{{formData.patrolStatus === '1' ? '正常' : '异常'}}</view>
+            </view>
+          </view>
+          <view class="u-fx-ver u-bd-b u-padd">
+            <view class="u-mar-t10">内容上报：</view>
+            <view>
+              <textarea class="item-text-area u-font-01" v-model="formData.reportContent" />
+            </view>
           </view>
         </view>
-				<view class="u-fx-ver u-bd-b u-padd">
-          <view class="u-mar-t10">内容上报：</view>
-          <view>
-             <textarea class="item-text-area u-font-01" v-model="formData.reportContent" />
-          </view>
-				</view>
       </view>
 		</scroll-view>
   </view>
@@ -65,19 +67,21 @@
        async inspectDetailGet () {
         const res =await actions.getInspectDetail(this.inspectId)
         this.formData = res.data
-        this.map = new qq.maps.Map(document.getElementById("container"), {
-          center: new qq.maps.LatLng(),
-          zoom: 16
-        })
-				const arr = res.data.track.map(item => {
-					return new qq.maps.LatLng(item.latitude, item.longitude)
-				})
-				var polyline = new qq.maps.Polyline({
-					path: arr,
-					strokeColor: '#3385ff',
-					strokeWeight: 4,
-					map: this.map
-				});
+        if(this.formData.track.length>0){
+          this.map = new qq.maps.Map(document.getElementById("container"), {
+            center: new qq.maps.LatLng(),
+            zoom: 16
+          })
+          const arr = res.data.track.map(item => {
+            return new qq.maps.LatLng(item.latitude, item.longitude)
+          })
+          var polyline = new qq.maps.Polyline({
+            path: arr,
+            strokeColor: '#3385ff',
+            strokeWeight: 4,
+            map: this.map
+          })
+        }
       }
     }
   }
@@ -86,5 +90,9 @@
 <style lang="scss" scoped>
 .scroll-h {
   height: calc(100vh - 10rpx)
+}
+#container {
+  width: 300rpx;
+  height: 300rpx;
 }
 </style>
