@@ -12,7 +12,10 @@
         <view class="u-fx-jsb u-bd-b u-padd">
           <view class="tip">值班员电话：</view>
           <view class="u-fx-f1 u-fx-je">
-            <input type="number" class="u-font-01 u-tx-r u-padd-r10" v-model="formData.watchPhone"
+            <input
+              type="number"
+              class="u-font-01 u-tx-r u-padd-r10"
+              v-model="formData.watchPhone"
           /></view>
         </view>
         <view class="u-fx-ac u-bd-b u-padd-20">
@@ -25,13 +28,20 @@
         <view class="u-fx-jsb u-bd-b u-padd">
           <view class="tip">带班领导电话：</view>
           <view class="u-fx-f1 u-fx-je">
-            <input type="number" class="u-font-01 u-tx-r u-padd-r10" v-model="formData.leaderPhone"
+            <input
+              type="number"
+              class="u-font-01 u-tx-r u-padd-r10"
+              v-model="formData.leaderPhone"
           /></view>
         </view>
       </view>
     </scroll-view>
     <view class="footer-btn u-fx-ac">
-      <u-button type="primary" class="u-fx-f1 u-mar-l u-mar-r u-type-primary-dark-bg" @click="submitForm">
+      <u-button
+        type="primary"
+        class="u-fx-f1 u-mar-l u-mar-r u-type-primary-dark-bg"
+        @click="submitForm"
+      >
         开始值班
       </u-button>
     </view>
@@ -49,58 +59,58 @@
 </template>
 
 <script>
-import teacherTree from '@/components/teacher-tree/teacher-tree'
-import validateForm from '@u/validate'
-import { store, actions } from './store/index.js'
+import teacherTree from "@/components/teacher-tree/teacher-tree";
+import validateForm from "@u/validate";
+import { store, actions } from "./store/index.js";
 const yzForm = {
-  watchName: '请选择值班员',
-  leaderName: '请选择带班领导'
-}
+  watchName: "请选择值班员",
+  leaderName: "请选择带班领导",
+};
 export default {
   components: {
-    teacherTree
+    teacherTree,
   },
   data() {
     return {
       detailInfo: {},
       formData: {
-        watchName: '请选择值班员',
-        leaderName: '请选择带班领导'
+        watchName: "请选择值班员",
+        leaderName: "请选择带班领导",
       },
       teacherTag: false,
       causeNameList: [],
       schoolInfo: {
         schoolYearId: 0,
-        schoolCode: ''
+        schoolCode: "",
       },
-      type: '1'
-    }
+      type: "1",
+    };
   },
   created() {
-    this.schoolInfo.schoolCode = store.userInfo.schoolCode
-    this.schoolInfo.schoolYearId = store.schoolYear.schoolYearId
+    this.schoolInfo.schoolCode = store.userInfo.schoolCode;
+    this.schoolInfo.schoolYearId = store.schoolYear.schoolYearId;
   },
   methods: {
     teacherSelcet(value) {
       if (value.length === 0) {
-        this.$tools.toast('请选择人员')
-        return
+        this.$tools.toast("请选择人员");
+        return;
       }
-      console.log('1111', value)
-      this.teacherTag = false
-      if (this.type === '1') {
-        this.formData.watch = value[0].name
-        this.formData.watchAvatar = value[0].photoUrl
-        this.formData.watchPhone = value[0].mobile
-        this.formData.watchJob = '' //	值班人职务
+      console.log("1111", value);
+      this.teacherTag = false;
+      if (this.type === "1") {
+        this.formData.watch = value[0].name;
+        this.formData.watchAvatar = value[0].photoUrl;
+        this.formData.watchPhone = value[0].mobile;
+        this.formData.watchJob = ""; //	值班人职务
       } else {
-        this.formData.leader = value[0].name
-        this.formData.leaderPhone = value[0].mobile
+        this.formData.leader = value[0].name;
+        this.formData.leaderPhone = value[0].mobile;
       }
     },
     add(type) {
-      this.type = type
-      this.teacherTag = true
+      this.type = type;
+      this.teacherTag = true;
     },
     submitForm() {
       validateForm(yzForm, this.formData, () => {
@@ -123,7 +133,7 @@ export default {
         //       this.$tools.goBack()
         //     })
         //   })
-      })
+      });
     },
 
     confirm() {
@@ -151,9 +161,9 @@ export default {
       //     })
       //   })
       // })
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -171,7 +181,7 @@ export default {
 .tip::before {
   position: absolute;
   z-index: 99;
-  content: '*';
+  content: "*";
   top: 30rpx;
   color: red;
   font-weight: bold;
