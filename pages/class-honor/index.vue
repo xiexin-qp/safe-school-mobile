@@ -10,7 +10,7 @@
 				<view class="approve-list u-bg-fff u-mar-20 u-border-radius" v-for="(item, i) in dataList" :key="i">
 					<view class="detail u-padd-20">
 						<view class="u-fx-ac u-mar-b20">
-							<image class="u-border-radius u-mar-r20" :src="item.photoUrl || 'http://canpointtest.com/mobile-img/person-bg-two.png'" mode=""></image>
+							<image class="u-border-radius u-mar-r20" :src="item.photoUrl || 'http://canpointtest.com/mobile-img/default.png'" mode=""></image>
 							<view class="info">
 								<view class="name u-main-color u-mar-b10 u-te3">
 									{{ item.content }}

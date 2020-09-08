@@ -15,6 +15,7 @@ import siteBooking from './siteBooking.js'
 import meetBooking from './meetBooking.js'
 import studyGround from './studyGround.js'
 import activityBooking from './activityBooking.js'
+import schoolActivity from './schoolActivity.js'
 import examPlan from './examPlan.js'
 import assistant from './assistant.js'
 import transferCourse from './transferCourse.js'
@@ -42,6 +43,7 @@ const moduleList = [
   ...siteBooking,
   ...meetBooking,
   ...activityBooking,
+	...schoolActivity,
   ...studyGround,
   ...examPlan,
   ...transferCourse

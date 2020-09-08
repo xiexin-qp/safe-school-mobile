@@ -35,7 +35,7 @@ export default {
 		},
 		clearIcon: {
 			type: String,
-			default: 'http://canpointtest.com/mobile-img/del-app-icon.png'
+			default: 'http://canpointtest.com/mobile-img/deletephoto.png'
 		},
 		isCheck: {
 			type: Boolean,
@@ -258,8 +258,8 @@ export default {
 	position: absolute;
 	width: 20px;
 	height: 20px;
-	top: 0;
-	right: 0;
+	top: -10rpx;
+	right: -10rpx;
 	z-index: 9;
 }
 </style>

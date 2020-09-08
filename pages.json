@@ -575,10 +575,6 @@
 			"path": "pages/activity-booking/sign",
 			"style": {}
 		},
-		{
-			"path": "pages/activity-booking/poster",
-			"style": {}
-		},
 		//会议管理
 		{
 			"path": "pages/meet-booking/index",
@@ -682,6 +678,15 @@
 		//电子板报
 		{
 			"path": "pages/class-newspaper/index"
+		},
+		//校园活动
+		{
+			"path": "pages/school-activity/index",
+			"style": {}
+		},
+		{
+			"path": "pages/school-activity/form",
+			"style": {}
 		},
 		// 安防系统-安全巡检
 		{
