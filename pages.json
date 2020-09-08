@@ -3,7 +3,7 @@
 		"^u-(.*)": "@/uview/components/u-$1/u-$1.vue"
 	},
 	"pages": [
-		// 应用列表页
+		// 主页模块
 		{
 			"path": "pages/index/index",
 			"style": {}
@@ -541,28 +541,24 @@
 		},
 		//活动发布
 		{
-			"path": "pages/activity-booking/index",
-			"style": {}
+		  "path": "pages/activity-booking/index",
+		  "style": {}
 		},
 		{
-			"path": "pages/activity-booking/detail",
-			"style": {}
+		  "path": "pages/activity-booking/detail",
+		  "style": {}
 		},
 		{
-			"path": "pages/activity-booking/form",
-			"style": {}
+		  "path": "pages/activity-booking/form",
+		  "style": {}
 		},
 		{
-			"path": "pages/activity-booking/meetRecord",
-			"style": {}
+		  "path": "pages/activity-booking/meetRecord",
+		  "style": {}
 		},
 		{
-			"path": "pages/activity-booking/poster",
-			"style": {}
-		},
-		{
-			"path": "pages/activity-booking/sign",
-			"style": {}
+		  "path": "pages/activity-booking/sign",
+		  "style": {}
 		},
 		{
 			"path": "pages/activity-booking/poster",
@@ -650,25 +646,6 @@
 		{
 			"path": "pages/study-ground/component/detail"
 		},
-		//校园概况
-		{
-			"path": "pages/school-intro/index"
-		},
-		//师生风采
-		{
-			"path": "pages/teacher-show/index"
-		},
-		{
-			"path": "pages/teacher-show/add-teacher"
-		},
-		//班级荣誉
-		{
-			"path": "pages/class-honor/index"
-		},
-		{
-			"path": "pages/class-honor/form"
-		},
-		
 		// 安防系统-安全巡检
 		{
 			"path": "pages/safe/index"
@@ -696,19 +673,6 @@
 		},
 		{
 			"path": "pages/safe/task"
-		},
-		// 隐患管理
-		{
-			"path": "pages/hazard-mgt/index"
-		},
-		{
-			"path": "pages/hazard-mgt/assignDetail"
-		},
-		{
-			"path": "pages/hazard-mgt/addDanger"
-		},
-		{
-			"path": "pages/hazard-mgt/dealWithDetail"
 		},
 		// 专项检查
 		{
