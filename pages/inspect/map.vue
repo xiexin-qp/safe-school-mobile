@@ -93,7 +93,7 @@ export default {
       } else {
         this.$tools.confirm('确定结束值班吗？', () => {
           this.$tools.navTo({
-            url: `./end?inspectId=${this.inspectId}&map=${JSON.stringify(this.map)}`,
+            url: `./end?inspectId=${this.inspectId}&map=${JSON.stringify(this.locationList)}`,
             title: '巡查值班'
           })
         })
