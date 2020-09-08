@@ -155,7 +155,6 @@ export default {
 							});
 						}
 					}
-					console.log(classList)
 					setStore({
 						key: 'teachClassList',
 						data: classList

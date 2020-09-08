@@ -29,8 +29,9 @@
 			</view>
 			<view class="item u-fx-jsb u-fx-ac u-bd-b">
 				<text class="u-content-color">当前绑定</text>
-				<text v-if="userInfo.typeCode == 4" class="u-fx-f1 u-tx-r u-tips-color">{{ classInfo.gradeName || '暂未绑定' }}{{ classInfo.className }}</text>
+				<text @tap="changeClass" v-if="userInfo.typeCode == 4" class="u-fx-f1 u-tx-r u-tips-color">{{ classInfo.gradeName || '暂未绑定' }}{{ classInfo.className }}</text>
 				<view v-if="userInfo.typeCode == 16" @click="bindChild('1')" class="bind-child">绑定孩子</view>
+				<view class="rit-icon" v-if="classList.length > 0 && userInfo.typeCode == 4"></view>
 			</view>
 		</view>
 		<view v-if="userInfo.typeCode == 16">
@@ -61,8 +62,10 @@ import apiFun from './store/apiFun.js'
 export default {
 	data() {
 		return {
+			currentClass: uni.getStorageSync('currentClass') || 0,
 			date: this.$tools.getDateTime().substr(0, 10),
 			classInfo: {},
+			classList: [],
 			typeList: [],
 			isMap: false
 		};
@@ -111,6 +114,23 @@ export default {
 				this.typeMenuList = []
 			} else {
 				this.typeMenuList = ['教职工', '家长']
+			}
+		},
+		// 切换班级
+		changeClass () {
+			if (this.classList.length !== 0) {
+				const arr = this.classList.map(item => {
+					return item.gradeName + item.className
+				})
+				this.$tools.actionsheet(arr, index => {
+					this.currentClass = index
+					uni.setStorageSync('currentClass', index)
+					this.classInfo = this.classList[index]
+					setStore({
+						key: 'isBZR',
+						data: this.classInfo
+					})
+				})
 			}
 		},
 		// 切换身份
@@ -191,7 +211,14 @@ export default {
 				userType: this.userInfo.typeCode,
 				userCode: this.userInfo.userCode
 			});
-			this.classInfo = res.data;
+			this.classList = res.data.classInfos || []
+			if (res.data.classInfos && res.data.classInfos.length > 0) {
+				if (parseInt(this.currentClass) > res.data.lenght) {
+					this.classInfo = res.data.classInfos[0]
+				} else {
+					this.classInfo = res.data.classInfos[this.currentClass]
+				}
+			}
 			setStore({
 				key: 'isBZR',
 				data: this.classInfo
