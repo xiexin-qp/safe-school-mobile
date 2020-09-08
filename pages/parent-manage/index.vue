@@ -79,7 +79,7 @@ import wx from 'weixin-js-sdk'
 import { store, actions } from './store/index.js'
 export default {
 	computed: {
-		isBZR: () => store.isBZR,
+		isBZR: () => JSON.parse(uni.getStorageSync('protal')).isBZR,
 		userInfo: () => store.userInfo,
 		schoolYearId: () => store.schoolYear.schoolYearId,
 	},

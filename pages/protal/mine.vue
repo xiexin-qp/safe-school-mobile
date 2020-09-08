@@ -31,7 +31,7 @@
 				<text class="u-content-color">当前绑定</text>
 				<text @tap="changeClass" v-if="userInfo.typeCode == 4" class="u-fx-f1 u-tx-r u-tips-color">{{ classInfo.gradeName || '暂未绑定' }}{{ classInfo.className }}</text>
 				<view v-if="userInfo.typeCode == 16" @click="bindChild('1')" class="bind-child">绑定孩子</view>
-				<view class="rit-icon" v-if="classList.length > 0"></view>
+				<view class="rit-icon" v-if="classList.length > 0 && userInfo.typeCode == 4"></view>
 			</view>
 		</view>
 		<view v-if="userInfo.typeCode == 16">
