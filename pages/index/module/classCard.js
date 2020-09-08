@@ -34,6 +34,12 @@ const classCard = [{
 		}, {
 			title: '师生风采',
 			url: '/pages/teacher-show/index'
+		}, {
+			title: '班级荣誉',
+			url: '/pages/class-honor/index'
+		}, {
+			title: '电子板报',
+			url: '/pages/class-newspaper/index'
 		}
 	]
 }]

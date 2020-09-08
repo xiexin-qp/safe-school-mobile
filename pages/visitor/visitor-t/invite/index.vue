@@ -54,7 +54,7 @@
                       : 'cancel'
                   "
                 >
-                  {{ item.state | approveState }}
+                  {{ item.state | visitApproveState }}
                 </text>
               </view>
             </view>

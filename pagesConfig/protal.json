@@ -28,10 +28,6 @@
 			"path": "pages/protal/messageDetail",
 			"style": {}
 		},
-		{
-			"path": "pages/protal/map",
-			"style": {}
-		},
 		// 课程表
 		{
 			"path": "pages/class-schedule/class-schedule-t/index",
