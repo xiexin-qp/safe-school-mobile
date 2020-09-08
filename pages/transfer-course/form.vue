@@ -503,7 +503,7 @@ export default {
           };
         });
         const req = {
-          schoolCode: this.transferList[0].schoolCode,
+          schoolCode: store.userInfo.schoolCode,
           userCode: this.transferList[0].userCode,
           schoolYearId: this.classList[0].schoolYearId,
         };

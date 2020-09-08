@@ -125,7 +125,6 @@ export default {
 			this.$tools.confirm(`确定拒绝吗?`, () => {
 				console.log(this.refuseText);
 				this.refuseTag = true;
-				this.$refs.refuse.close();
 				const req = {
 					id: this.id,
 					state: '2',
