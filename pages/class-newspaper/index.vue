@@ -4,31 +4,24 @@
 		<view class="dropdown u-bd-b">
 			<ms-dropdown-menu v-if="userType !== 3 && showClass"><ms-dropdown-item v-model="value0" :list="classList" :title="defTitle"></ms-dropdown-item></ms-dropdown-menu>
 		</view>
-		<scroll-view scroll-y="true" @scrolltolower="loadMore" :class="showClass ? 'scroll-h' : 'scroll'">
-			<no-data v-if="dataList.length === 0" msg="暂无数据~"></no-data>
+		<scroll-view scroll-y="true" :class="showClass ? 'scroll-h' : 'scroll'">
+			<no-data v-if="fileList.length === 0 && userType !== 1" msg="暂无数据~"></no-data>
 			<view class="u-auto">
-				<view class="approve-list u-bg-fff u-mar-20 u-border-radius" v-for="(item, i) in dataList" :key="i">
-					<view class="detail u-padd-20">
-						<view class="u-fx-ac u-mar-b20">
-							<image class="u-border-radius u-mar-r20" :src="item.photoUrl || 'http://canpointtest.com/mobile-img/person-bg-two.png'" mode=""></image>
-							<view class="info">
-								<view class="name u-main-color u-mar-b10 u-te3">
-									{{ item.content }}
-								</view>
-								<view class="u-fx-ac u-mar-t20">
-									<u-icon name="clock-fill"></u-icon>
-									<text class="u-tips-color u-font-02 u-mar-l10">获奖日期：{{ item.awardTime | gmtToDate('date') }}</text>
-								</view>
-							</view>
-						</view>
-						<view class="u-bd-t"></view>
-						<view class="u-fx-jsb u-fx-ac u-padd-t20 u-tips-color u-font-02">
-							<text>发布于：{{ item.createTime | gmtToDate('date') }}</text>
-							<view class="u-fx u-fx-ac">
-								<text @click="add(1, item.id)">发布人：{{ item.createUsername }}</text>
-								<view class="rit-icon"></view>
-							</view>
-						</view>
+				<view class="u-mar-t20" v-if="userType === 1">
+					<video-upload
+						class="u-fx-f1 u-padd-l20 u-padd-r20"
+						:uploadUrl="uploadUrl"
+						types="image"
+						v-model="fileList"
+						:uploadCount="9"
+						:upload_max="10"
+						@success="success"
+						@delImage="delImage"
+					></video-upload>
+				</view>
+				<view class="u-fx-wp u-mar-t20 u-padd-l20 u-padd-r20" v-else>
+					<view class="uplode-file" v-for="(item, index) in fileList" :key="index">
+						<image class="uploade-img" :src="item.url" @tap="previewImage($event, index)"></image>
 					</view>
 				</view>
 			</view>
@@ -44,8 +37,9 @@ import noData from '@/components/no-data/no-data.vue';
 import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue';
 import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue';
 import { store, actions } from './store/index.js';
+import hostEnv from '../../config/index.js';
 export default {
-	name: 'class-honor',
+	name: 'class-newspaper',
 	components: {
 		msDropdownMenu,
 		msDropdownItem,
@@ -58,13 +52,8 @@ export default {
 			value0: '',
 			classList: [],
 			defTitle: '',
-			pageList: {
-				page: 1,
-				size: 20
-			},
-			morePage: false,
 			showClass: false,
-			dataList: []
+			fileList: []
 		};
 	},
 	watch: {
@@ -84,20 +73,12 @@ export default {
 				this.defTitle = choose.text;
 				this.gradeCode = choose.gradeCode;
 				this.classCode = val;
-				uni.setStorageSync('bindInfo', {
-					...this.classList.filter(el => {
-						return el.value === val;
-					})[0],
-					classCode: val
-				});
-				eventBus.$on('getList', () => {
-					this.showList();
-				});
 				this.showList();
 			}
 		}
 	},
 	async created() {
+		this.uploadUrl = `${hostEnv.zk_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		if (store.userInfo.typeCode === '4') {
 			this.userType = 2;
 			if (store.teachClassList.length === 0) {
@@ -110,17 +91,10 @@ export default {
 			this.showClass = true;
 			this.defTitle = store.teachClassList[0].text;
 			this.value0 = store.teachClassList[0].value;
-			uni.setStorageSync('bindInfo', {
-				...store.teachClassList[0],
-				classCode: store.teachClassList[0].value
-			});
 		} else if (store.userInfo.typeCode === '16') {
 			this.userType = 3;
 			this.classCode = store.childList[0].classCode;
 			this.gradeCode = store.childList[0].gradeCode;
-			uni.setStorageSync('bindInfo', {
-				...store.childList[0]
-			});
 			this.showList();
 		}
 	},
@@ -129,43 +103,60 @@ export default {
 			if (item.userCode !== this.userCode) {
 				this.classCode = item.classCode;
 				this.classId = item.classId;
-				uni.setStorageSync('bindInfo', {
-					...item
-				});
 				this.showList();
 			}
 		},
-		async showList(tag = false) {
-			if (tag) {
-			  this.pageList.page += 1;
-			} else {
-			  this.pageList.page = 1;
-			}
+		async showList() {
 			const req = {
-				...this.pageList,
 				schoolCode: store.userInfo.schoolCode,
 				schoolYearId: store.schoolYear.schoolYearId,
 				classCode: this.classCode,
 				gradeCode: this.gradeCode
 			};
-			const res = await actions.getClassHonorList(req);
-			if (tag) {
-			  this.dataList = this.dataList.concat(res.data.list);
-			} else {
-			  this.dataList = res.data.list;
+			const res = await actions.getNewspaperList(req);
+			 this.fileList = res.data.map(el => {
+        return {
+          id: el.photoId,
+          url: el.photoUrl,
+          createTime: el.createTime,
+          recordId: el.id
+        }
+      });
+		},
+		previewImage(e, index) {
+			uni.previewImage({
+				current: index,
+				urls: this.fileList.map(el => {
+					return el.url;
+				})
+			});
+		},
+		async success(e) {
+			console.log(e);
+			this.photoId = e.data.id;
+			const req = {
+				schoolCode: store.userInfo.schoolCode,
+				schoolYearId: store.schoolYear.schoolYearId,
+				classCode: this.classCode,
+				gradeCode: this.gradeCode,
+				createUsercode: store.userInfo.userCode,
+				createUsername: store.userInfo.userName,
+				photoUrl: e.data.url,
+				photoId: e.data.id
 			}
-			this.morePage = res.data.hasNextPage;
+			await actions.addNewspaper(req)
+			this.$tools.toast('添加成功', 'success');
+			this.$tools.goNext(() => {
+				this.showList()
+			});
 		},
-		loadMore() {
-		  if (!this.morePage) {
-		    this.$tools.toast("数据已加载完毕");
-		    return;
-		  }
-		  this.showList(true);
-		},
-		add(type, id) {
-			this.$tools.navTo({
-				url: `./form?type=${type}&id=${id}`
+		async delImage(value) {
+			console.log(value);
+			await actions.delFile(value.id);
+			await actions.deleNewspaper(value.recordId)
+			this.$tools.toast('删除成功', 'success');
+			this.$tools.goNext(() => {
+				this.showList()
 			});
 		}
 	}
@@ -182,15 +173,15 @@ export default {
 .dropdown {
 	width: 100%;
 }
-.approve-list {
-	.detail {
-		image {
-			width: 240rpx;
-			height: 180rpx;
-		}
-		.info {
-			max-width: calc(100% - 260rpx);
-		}
-	}
+.uplode-file {
+	margin: 10rpx;
+	width: calc(33.3% - 20rpx);
+	height: 210rpx;
+	position: relative;
+}
+.uploade-img {
+	display: block;
+	width: 100%;
+	height: 210rpx;
 }
 </style>

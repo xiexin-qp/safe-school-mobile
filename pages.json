@@ -668,7 +668,10 @@
 		{
 			"path": "pages/class-honor/form"
 		},
-		
+		//电子板报
+		{
+			"path": "pages/class-newspaper/index"
+		},
 		// 安防系统-安全巡检
 		{
 			"path": "pages/safe/index"
