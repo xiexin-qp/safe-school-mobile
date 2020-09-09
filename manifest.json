@@ -226,7 +226,7 @@
           }
         },
         "/zk_examplan": {
-          "target": "http://canpointtest.com/zk_examplan/", // 考试计划
+          "target": "http://192.168.1.23:11013/", // 考试计划
           "changeOrigin": true,
           "pathRewrite": {
             "^/zk_examplan": ""

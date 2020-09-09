@@ -1,7 +1,12 @@
 <template>
   <view class="u-page">
-  <dropdown-menu class="u-mar-b20" ref="dropdown" @value0Change="value0Change" @searchChange="searchChange"></dropdown-menu>
-   <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
+    <dropdown-menu
+      class="u-mar-b20"
+      ref="dropdown"
+      @value0Change="value0Change"
+      @searchChange="searchChange"
+    ></dropdown-menu>
+    <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
       <no-data v-if="recordList.length === 0" msg="暂无数据"></no-data>
       <view
         class="list u-padd-20 u-mar-b20 u-mar-l20 u-mar-r20 u-bg-fff u-border-radius"
@@ -20,7 +25,7 @@
               }}</view>
             </view>
           </view>
-          <view class="tag" > <view class="rit-icon"></view> </view>
+          <view class="tag"> <view class="rit-icon"></view> </view>
         </view>
       </view>
     </scroll-view>
@@ -30,9 +35,9 @@
 <script>
 import { store, actions } from "./store/index.js";
 import eventBus from "@u/eventBus";
-import DropdownMenu from './component/DropdownMenu.vue';
+import DropdownMenu from "./component/DropdownMenu.vue";
 export default {
-  components: {DropdownMenu},
+  components: { DropdownMenu },
   data() {
     return {
       recordList: [],
@@ -41,22 +46,30 @@ export default {
         page: 1,
         size: 20,
       },
-      id:''
+      id: "",
+      gradeCode: "",
+      classCode: "",
+      schoolYearId: "",
+      subjectCode:''
     };
   },
-  mounted() {
+  created() {
     this.id = this.$tools.getQuery().get("id");
+    this.schoolYearId = uni.getStorageSync("classInfo").schoolYearId;
+    this.classCode = uni.getStorageSync("classInfo").classCode;
+    this.gradeCode = uni.getStorageSync("classInfo").gradeCode;
+  },
+  mounted() {
     this.getDetail();
   },
   methods: {
-    		value0Change(val) {
-			this.classCode = val;
-    this.getDetail();
-		},
-		searchChange(val) {
-			// this.dateTime = val === '选择日期' ? '' : val;
-    this.getDetail();
-		},
+    value0Change(val) {
+      this.classCode = val;
+      this.getDetail();
+    },
+    searchChange(val) {
+      this.getDetail();
+    },
     async getDetail() {
       const req = {
         schoolCode: store.userInfo.schoolCode,
@@ -65,7 +78,7 @@ export default {
         gradeCode: this.gradeCode,
         classCode: this.classCode,
         planId: this.id,
-        subjectCode: this.subjectCode
+        subjectCode: this.subjectCode,
       };
       const res = await actions.getscoreList(req);
       this.recordList = res.data.list;
