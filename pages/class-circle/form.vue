@@ -50,7 +50,7 @@ export default {
 	},
 	computed: {},
 	created() {
-		this.uploadUrl = `${hostEnv.zk_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
+		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		this.type = this.$tools.getQuery().get('type');
 		this.userType = this.$tools.getQuery().get('category');
 	},

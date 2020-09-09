@@ -1,5 +1,6 @@
 <template>
 	<view class="site u-page">
+		<choose-child v-if="userType === 3" @change="childInfo"></choose-child>
 		<no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
 		<scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h u-mar-t20">
 			<view class="u-auto">
@@ -24,37 +25,52 @@
 				</view>
 			</view>
 		</scroll-view>
-		<view v-if="" class="float-add-btn" @click="add('0', '')"></view>
+		<view v-if="userType === 1" class="float-add-btn" @click="add('0', '')"></view>
 	</view>
 </template>
 
 <script>
 import eventBus from '@u/eventBus';
+import chooseChild from '@/components/choose-child/choose-child.vue';
 import noData from '@/components/no-data/no-data.vue';
 import { store, actions } from './store/index.js';
 export default {
 	components: {
-		noData
+		noData,
+		chooseChild
 	},
 	data() {
 		return {
-			url: '',
+			userType: 2, // 0.超管，1.班主任，2.教职工，3.家长
 			pageList: {
 				page: 1,
 				size: 15
 			},
 			morePage: false,
-			record: {},
 			dataList: []
 		};
 	},
 	async created() {
+		if (store.userInfo.typeCode === '4') {
+			this.userType = store.isBZR.classCode ? 1 : 2;
+			this.userCode = store.userInfo.userCode
+		} else if (store.userInfo.typeCode === '16') {
+			this.userType = 3;
+			this.userCode = store.childList[0].userCode;
+		}
+		console.log(this.userType)
 		eventBus.$on('getList', () => {
 			this.showList();
 		});
 		this.showList();
 	},
 	methods: {
+		childInfo(item) {
+			if (item.userCode !== this.userCode) {
+				this.userCode = item.userCode;
+				this.showList();
+			}
+		},
 		async showList(tag = false) {
 			if (tag) {
 				this.pageList.page += 1;

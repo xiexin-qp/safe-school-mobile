@@ -13,7 +13,7 @@ let showApi = {
 }
 
 for (let val in showApi) {
-	showApi[val] = `${hostEnv.zk_oa}${showApi[val]}`
+	showApi[val] = `${hostEnv.cl_oa}${showApi[val]}`
 }
 
 export default {

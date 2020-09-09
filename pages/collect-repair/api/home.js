@@ -43,7 +43,7 @@ for (const val in baseData2Api) {
   baseData2Api[val] = `${hostEnv.lz_user_center}${baseData2Api[val]}`
 }
 for (let val in zkApi) {
-  zkApi[val] = `${hostEnv.zk_oa}${zkApi[val]}`
+  zkApi[val] = `${hostEnv.cl_oa}${zkApi[val]}`
 }
 
 export default {
