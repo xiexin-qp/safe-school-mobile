@@ -16,10 +16,19 @@
 								<view class="name u-main-color">{{ item.description }}</view>
 								<view class="u-tips-color">活动地点：{{ item.placeName }}</view>
 								<view class="u-tips-color">活动时间：{{ item.reserveDate | gmtToDate('date') }} {{ item.startTime }}-{{ item.endTime }}</view>
+								<view class="u-tips-color">报名截止时间：{{ item.reserveDate | gmtToDate }}</view>
 								<view>
-									<!-- <u-button v-if="item.status !== '未使用'" plain @click="goMeetRecord(item.id)" class="sign-num mar-button" type="primary" size="mini">活动心得</u-button> -->
+									<u-button v-if="userType === 3" plain @click="goSign(item.id)" class="sign-num mar-button" type="primary" size="mini">我要报名</u-button>
 								</view>
 							</view>
+						</view>
+					</view>
+					<view class="u-bd-t"></view>
+					<view class="u-fx-jsb u-fx-ac u-padd-20 u-tips-color u-font-02">
+						<text>发起人：{{ item.createName }}</text>
+						<text>上传时间：{{ item.reserveDate | gmtToDate }}</text>
+						<view class="u-fx u-fx-ac">
+							
 						</view>
 					</view>
 				</view>
@@ -111,6 +120,9 @@ export default {
 				url: `./form?type=${type}&id=${id}`,
 				title: '活动发布'
 			});
+		},
+		goSign() {
+			
 		}
 	}
 };
