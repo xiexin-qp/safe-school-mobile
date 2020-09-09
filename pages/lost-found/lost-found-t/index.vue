@@ -1,9 +1,7 @@
 <template>
   <view class="u-page">
-    <scroll-view scroll-y="true" class="scroll-h">
-      <lost-list
-        :data-list="recordList"
-      ></lost-list>
+    <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
+      <lost-list :data-list="recordList"></lost-list>
     </scroll-view>
     <view class="foot">
       <view class="float-add-btn" @click="add"></view>

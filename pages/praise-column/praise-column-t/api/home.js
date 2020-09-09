@@ -8,30 +8,31 @@ import hostEnv from '../../../../config/index.js'
 let gradeApi = {
   getGradeList: '/grade/manage/list#postForm', //
   getClassList: '/classManage/list#post', // 获取班级
+  getStudentList: '/userinfo/student/user/queryStudentInfoList#post', // 获取所有学生
 }
 let showApi = {
-	getClassMotto: '/class/info/list#get', // 班级格言
-	addClassMotto: '/class/info/add#postQuery', // 新增班级格言
-	addNewAlbum: '/album/add#postQuery', // 创建相册
-	editAlbumById: '/album/update#put', // 修改相册名称
-	delAlbumById: '/album/delete#del', // 删除相册
-	getAlbumList: '/album/list#post', // 相册列表
-	addPhotos: '/album/batchUploadAlbumContent#postWithQueryAndBody', // 批量新增相片
-	editPhotoById: '/album/updateAlbumContent#putWithQuery', // 修改照片名称
-	delPhotoById: '/album/deleteAlbumContent#delele', // 删除照片
-	getAlbumPhotoList: '/album/albumContentlist#postWithQuery', // 相册相片列表
-	setCovers: '/album/updateIsCover#putJson', // 轮播图设置
+  // 表扬语
+  addPraise: '/praise/label/set/add#post', // 添加表扬语
+  delPraise: '/praise/label/set/delete#delForm', // 删除
+  praiseList: '/praise/label/set/list#post', // 表扬语列表
+  updatePraise: '/praise/label/set/update#putJson', // 更新表扬语
+  //表扬栏
+  addsetPraise: '/praise/add#post', // 添加
+  delsetPraise: '/praise/delete#delForm', // 删除
+  praisesetList: '/praise/list#post', // 列表
+  updatesetPraise: '/praise/update#putJson', // 更新
+  getpraiseDetail:'/praise/detail#getUrl',//详情
+  getfindPraise:'/praise/findCountByUserId#post'//查看学生表扬
 }
 
 for (let val in gradeApi) {
   gradeApi[val] = `${hostEnv.lz_user_center}${gradeApi[val]}`
 }
 for (let val in showApi) {
-  showApi[val] = `${hostEnv.zq_class}${showApi[val]}`
+  showApi[val] = `${hostEnv.cl_class}${showApi[val]}`
 }
 
 export default {
   ...gradeApi,
 	...showApi,
-	delFile: `${hostEnv.zk_oa}/study/theme/file/delete#delWithQuery` // 文件删除
 }
