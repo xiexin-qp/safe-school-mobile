@@ -23,6 +23,7 @@
 <script>
 import { setStore, actions } from './store/index.js';
 import uniRequest from 'uni-request';
+import wxApi from '@u/wxApi'
 import config from '@config';
 export default {
 	data() {
@@ -42,7 +43,7 @@ export default {
 			this.isPass  = true
 		}
 		this.getOpenid();
-		this.getConfig();
+		wxApi.getConfig();
 		this.$tools.inputScroll();
 	},
 	methods: {

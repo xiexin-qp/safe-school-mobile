@@ -51,7 +51,7 @@
 					<view class="u-fx-ver">
 						<view v-if="userType === '1'" class="u-fx-f1">
 							<video-upload
-								class="u-fx-f1 u-padd-l20 u-padd-r10 u-padd-b20"
+								class="u-fx-f1 u-padd-l40 u-padd-r10 u-padd-b20"
 								:uploadUrl="uploadUrl"
 								types="image"
 								v-model="photoList"
@@ -61,7 +61,7 @@
 								@delImage="delImage"
 							></video-upload>
 						</view>
-						<view v-else class="u-fx-f1 u-mar-l20">
+						<view v-else class="u-fx-f1 u-mar-l40">
 							<image v-if="photoList.length>0" class="class-image" :src="photoList[0].url" mode="" @tap="previewImage()"></image>
 						</view>
 					</view>
