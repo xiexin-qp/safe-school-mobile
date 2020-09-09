@@ -1,7 +1,7 @@
 <template>
   <view class="inspect u-pages">
     <scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h u-padd-t20">
-      <no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
+      <no-data v-if="dataList && dataList === 0" msg="暂无数据"></no-data>
       <view class="inspect-list u-mar-b20 u-mar-l20 u-mar-r20 u-border-radius" v-for="(item, i) in dataList" :key="i" v-else>
         <view class="detail u-fx u-padd-20 u-mar-b20">
           <view class="info u-fx-ac" @click="detail(item)">
@@ -10,7 +10,7 @@
                 <image :src="item.watchAvatar"></image>
                 <view class="u-mar-l20">
                   <view> {{item.watch}} </view>
-                  <view class="u-mar-l10 u-font-02 u-tips-color"> {{item.watchJob.length > 0 ? item.watchJob.join(',') : '暂无'}} </view>
+                  <view class="u-mar-l10 u-font-02 u-tips-color"> {{item.watchJob && item.watchJob.length > 0 ? item.watchJob.join(',') : '暂无'}} </view>
                 </view>
               </view>
               <view class="u-fx-jsb">
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import wxApi from '@u/wxApi'
 import eventBus from '@u/eventBus'
 import noData from '@/components/no-data/no-data.vue'
 import { store, actions } from './store/index.js'
@@ -60,6 +61,7 @@ export default {
     }
   },
   async mounted() {
+    // wxApi.getConfig();
     eventBus.$on('getList', () => {
     	this.showList()
     })
