@@ -86,6 +86,9 @@ export default {
 		msDropdownItem,
 		ClassAlbum
 	},
+	computed: {
+		isBZR: () => JSON.parse(uni.getStorageSync('protal')).isBZR  
+	},
 	data() {
 		return {
 			showClass: false,
@@ -125,13 +128,12 @@ export default {
 			this.length = val.length;
 		},
 		value0(val, oldval) {
-			console.log(val)
 			if (val !== oldval) {
 				this.defTitle = this.classList.filter(el => {
 					return el.value === val;
 				})[0].text;
 				this.classCode = val;
-				if (store.isBZR && val === store.isBZR.classCode) {
+				if (this.isBZR && val === this.isBZR.classCode) {
 					this.userType = '1';
 				} else {
 					this.userType = '0';

@@ -78,7 +78,7 @@ export default {
 		enjoyTeacherApp: () => store.enjoyTeacherApp
 	},
 	async mounted() {
-		this.isMap = this.userInfo.mobile === '18971838086' || this.userInfo.mobile === '18702707106'
+		this.isMap = this.userInfo.mobile === '18827417223' || this.userInfo.mobile === '18702707106'
 		eventBus.$on('getChild', () => {
 			apiFun.getChildList()
 			apiFun.getMenuList()
