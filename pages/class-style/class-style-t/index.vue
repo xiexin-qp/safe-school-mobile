@@ -51,7 +51,7 @@
 					<view class="u-fx-ver">
 						<view v-if="userType === '1'" class="u-fx-f1">
 							<video-upload
-								class="u-fx-f1 u-padd-l20 u-padd-r10 u-padd-b20"
+								class="u-fx-f1 u-padd-l40 u-padd-r10 u-padd-b20"
 								:uploadUrl="uploadUrl"
 								types="image"
 								v-model="photoList"
@@ -61,7 +61,7 @@
 								@delImage="delImage"
 							></video-upload>
 						</view>
-						<view v-else class="u-fx-f1 u-mar-l20">
+						<view v-else class="u-fx-f1 u-mar-l40">
 							<image v-if="photoList.length>0" class="class-image" :src="photoList[0].url" mode="" @tap="previewImage()"></image>
 						</view>
 					</view>
@@ -85,6 +85,9 @@ export default {
 		msDropdownMenu,
 		msDropdownItem,
 		ClassAlbum
+	},
+	computed: {
+		isBZR: () => JSON.parse(uni.getStorageSync('protal')).isBZR  
 	},
 	data() {
 		return {
@@ -125,13 +128,12 @@ export default {
 			this.length = val.length;
 		},
 		value0(val, oldval) {
-			console.log(val)
 			if (val !== oldval) {
 				this.defTitle = this.classList.filter(el => {
 					return el.value === val;
 				})[0].text;
 				this.classCode = val;
-				if (store.isBZR && val === store.isBZR.classCode) {
+				if (this.isBZR && val === this.isBZR.classCode) {
 					this.userType = '1';
 				} else {
 					this.userType = '0';

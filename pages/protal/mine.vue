@@ -78,7 +78,7 @@ export default {
 		enjoyTeacherApp: () => store.enjoyTeacherApp
 	},
 	async mounted() {
-		this.isMap = this.userInfo.mobile === '18971838086' || this.userInfo.mobile === '18702707106'
+		this.isMap = this.userInfo.mobile === '18827417223' || this.userInfo.mobile === '18702707106'
 		eventBus.$on('getChild', () => {
 			apiFun.getChildList()
 			apiFun.getMenuList()
@@ -230,7 +230,7 @@ export default {
 			});
 			this.classList = res.data.classInfos || []
 			if (res.data.classInfos && res.data.classInfos.length > 0) {
-				if (parseInt(this.currentClass) > res.data.lenght) {
+				if (parseInt(this.currentClass) > res.data.classInfos.length - 1) {
 					this.classInfo = res.data.classInfos[0]
 				} else {
 					this.classInfo = res.data.classInfos[this.currentClass]
