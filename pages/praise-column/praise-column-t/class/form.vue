@@ -1,11 +1,20 @@
 <template>
   <view>
+    <class-tree
+      isCheck
+      v-show="classTag"
+      :classTag="classTag"
+      :schoolInfo="schoolInfo"
+      @close="classClose"
+      @confirm="classSelcet"
+      :classChecked="[]"
+    ></class-tree>
     <scroll-view scroll-y="true" class="scroll-h">
       <view class="u-fx item-list">
-        <view class="tip">选择学生：</view>
+        <view class="tip">选择班级：</view>
         <view
           class="u-fx-f1 u-fx-je u-content-color u-font-01"
-          @click="showPopTag = true"
+          @click="chooseClass"
           >{{ noWorkstuLength }}</view
         >
         <view class="rit-icon"></view>
@@ -15,7 +24,7 @@
           class="u-mar-10"
           size="mini"
           type="primary"
-          :text="item.praiseName"
+          :text="item.gradeName+item.className"
           :show="item.tag"
           v-for="(item, i) in formData.noWorkstu"
           :key="i"
@@ -31,7 +40,7 @@
           ></view
         >
       </view>
-      <view class="u-fx-wp u-bd-b u-bg-fff u-padd-20 u-padd-t0">
+      <view class="u-bd-b u-bg-fff u-padd-20">
         <u-tag
           class="u-mar-10"
           size="mini"
@@ -39,34 +48,56 @@
           :mode="item.mode"
           :text="item.label"
           :show="item.tag"
+          :closeable="item.del"
           v-for="(item, i) in recordList"
           :key="i"
           :index="i"
           @click="tagClick(item)"
+          @close="tagDel"
         />
+        <u-button type="info" size="mini" class="add_p" @click="open">
+          <u-icon
+            name="plus
+"
+          ></u-icon
+          >添加</u-button
+        >
       </view>
     </scroll-view>
     <view class="common-btn" @click="submit">发布</view>
     <u-popup
-      v-model="showPopTag"
+      :maskCloseAble="true"
+      ref="refuse"
       mode="center"
+      length="80%"
       border-radius="14"
-      width="80%"
-      height="80%"
     >
-      <choose-students
-        :bindList="formData.noWorkstu"
-        :schoolInfo="schoolInfo"
-        @close="popclose"
-        @confirm="popselcet"
-      ></choose-students>
+      <view class="u-bd-b">
+        <view class="u-padd-40">
+          <template>
+            <u-input
+              v-model="label"
+              :type="type"
+              :border="border"
+              placeholder="输入表扬语"
+              :maxlength="5"
+            />
+          </template>
+        </view>
+      </view>
+      <view
+        ><view class="u-fx u-fx-jsa u-padd-40">
+          <view class="u-type-info u-font-1" @click="close()">取消</view>
+          <view class="u-type-primary u-font-1" @click="addPraise()">确定</view>
+        </view></view
+      >
     </u-popup>
   </view>
 </template>
 
 <script>
 import eventBus from "@u/eventBus";
-import { store, actions } from "./store/index.js";
+import { store, actions } from "../store/index.js";
 import ChooseStudents from "@/components/choose-students/choose-students.vue";
 export default {
   components: { ChooseStudents },
@@ -77,11 +108,19 @@ export default {
       formData: {
         noWorkstu: [],
       },
-      showPopTag: false,
       noWorkstuLength: "请选择",
       schoolInfo: {},
       recordList: [],
       labelList: [],
+      initList: [],
+      border: true,
+      type: "input",
+      label: "",
+      classTag: false,
+      schoolInfo: {
+        schoolYearId: 0,
+        schoolCode: "",
+      },
     };
   },
   computed: {},
@@ -95,32 +134,55 @@ export default {
     this.showList();
   },
   methods: {
-    popclose() {
-      this.showPopTag = false;
+    open() {
+      this.$refs.refuse.open();
     },
-    popselcet(data) {
-      this.formData.noWorkstu = data.map((el) => {
+    close() {
+      this.$refs.refuse.close();
+    },
+    addPraise() {
+      console.log(this.label);
+      this.recordList.push({
+        label: this.label,
+        mode: "plain",
+        del: true,
+      });
+      this.label = "";
+      this.$refs.refuse.close();
+    },
+    classClose() {
+      this.classTag = false;
+    },
+    chooseClass() {
+      this.classTag = true;
+    },
+    classSelcet(value) {
+      this.classTag = false;
+      this.formData.noWorkstu = value.map((el) => {
         return {
           tag: true,
-          category: 2,
-          praiseNamePhoto: el.photoUrl,
-          praiseName: el.userName,
-          praiseCode: el.userCode,
-          schoolYearId: el.schoolYearId,
+          category: 1,
+          classCode: el.classCode,
+          className: el.className,
+          gradeCode: el.gradeCode,
+          gradeName: el.gradeName,
           createUsercode: store.userInfo.userCode,
           createUsername: store.userInfo.userName,
           schoolCode: store.userInfo.schoolCode,
+          schoolYearId: el.schoolYearId,
         };
       });
-      this.noWorkstuLength = `已选择${this.formData.noWorkstu.length}人`;
-      this.showPopTag = false;
+      this.noWorkstuLength = `已选择${this.formData.noWorkstu.length}个班级`;
     },
     tagClose(i) {
       this.formData.noWorkstu[i].tag = false;
       this.formData.noWorkstu = this.formData.noWorkstu.filter(
         (ele) => ele.tag
       );
-      this.noWorkstuLength = `已选择${this.formData.noWorkstu.length}人`;
+      this.noWorkstuLength = `已选择${this.formData.noWorkstu.length}个班级`;
+    },
+    tagDel(i) {
+      this.recordList[i].tag = false;
     },
     async showList() {
       const req = {
@@ -136,15 +198,22 @@ export default {
         return {
           ...el,
           mode: "plain",
+          del: false,
+          tag: true,
         };
       });
+      console.log(this.recordList);
     },
     tagClick(item) {
       item.mode = item.mode === "light" ? "plain" : "light";
-      const initList = [];
-      initList.push(item);
+      this.initList.push(item);
+      if (this.initList.length > 3) {
+        this.$tools.toast("最多选择3个标签!");
+        item.mode = "plain";
+        return false;
+      }
       var b = ["plain"];
-      this.labelList = initList.filter((item) => {
+      this.labelList = this.initList.filter((item) => {
         return !b.includes(item.mode);
       });
       console.log(this.labelList);
@@ -154,7 +223,7 @@ export default {
         this.$tools.toast("请选择要表扬的学生!");
         return false;
       }
-        if (this.labelList.length === 0) {
+      if (this.labelList.length === 0) {
         this.$tools.toast("请选择表扬语!");
         return false;
       }
@@ -164,7 +233,7 @@ export default {
       });
       const req = {
         labelList: label,
-        praiseList:  this.formData.noWorkstu,
+        praiseList: this.formData.noWorkstu,
       };
       await actions.addsetPraise(req);
       this.$tools.toast("操作成功");
@@ -213,5 +282,9 @@ export default {
 }
 /deep/ .uni-textarea-placeholder {
   padding: 20rpx;
+}
+.add_p {
+  width: 124rpx;
+  height: 40rpx;
 }
 </style>

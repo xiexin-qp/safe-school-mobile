@@ -5,17 +5,27 @@
  */
 import hostEnv from '../../../../config/index.js'
 
+let gradeApi = {
+  getGradeList: '/grade/manage/list#postForm', //
+  getClassList: '/classManage/list#post', // 获取班级
+  getStudentList: '/userinfo/student/user/queryStudentInfoList#post', // 获取所有学生
+}
 let showApi = {
-	getClassMotto: '/class/info/list#get', // 班级格言
-	getAlbumList: '/album/list#post', // 相册列表
-	getAlbumPhotoList: '/album/albumContentlist#postWithQuery' // 相册相片列表
+  //表扬栏
+  praisesetList: '/praise/list#post', // 列表
+  updatesetPraise: '/praise/update#putJson', // 更新
+  getpraiseDetail:'/praise/detail#getUrl',//详情
+  getfindPraise:'/praise/findCountByUserId#post'//查看学生表扬
 }
 
+for (let val in gradeApi) {
+  gradeApi[val] = `${hostEnv.lz_user_center}${gradeApi[val]}`
+}
 for (let val in showApi) {
-  showApi[val] = `${hostEnv.zq_class}${showApi[val]}`
+  showApi[val] = `${hostEnv.cl_class}${showApi[val]}`
 }
-
 
 export default {
-  ...showApi
+  ...gradeApi,
+	...showApi,
 }

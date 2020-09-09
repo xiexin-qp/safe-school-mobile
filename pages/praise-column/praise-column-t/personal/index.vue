@@ -42,8 +42,8 @@
 import eventBus from "@u/eventBus";
 import msDropdownMenu from "@/components/ms-dropdown/dropdown-menu.vue";
 import msDropdownItem from "@/components/ms-dropdown/dropdown-item.vue";
-import { store, actions } from "./store/index.js";
-import hostEnv from "../../../config/index.js";
+import { store, actions } from "../store/index.js";
+import hostEnv from "../../../../config/index.js";
 export default {
   name: "index",
   components: {
@@ -54,15 +54,11 @@ export default {
     return {
       showClass: false,
       defTitle: "",
-      showTag: false,
       classMotto: "",
-      classIntro: "",
       length: "0",
-      albumList: [],
       classCode: "",
       gradeCode: "",
       schoolYearId: "",
-      photoList: [],
       classList: [],
       value0: "",
       studentList: [],
@@ -90,19 +86,7 @@ export default {
         } else {
           this.userType = "0";
         }
-        this.showMotto();
-        this.$refs.child.showList(false, {
-          classCode: val,
-          schoolYearId: this.schoolYearId,
-        });
-        eventBus.$on("getList", () => {
-          console.log(this.$refs.child);
-          this.current = 1;
-          this.$refs.child.showList(false, {
-            classCode: val,
-            schoolYearId: this.schoolYearId,
-          });
-        });
+        this.showList();
       }
     },
   },
@@ -135,7 +119,7 @@ export default {
   },
   mounted() {},
   methods: {
-    async showMotto(tag = false) {
+    async showList(tag = false) {
       if (tag) {
         this.pageList.page += 1;
       } else {
@@ -161,7 +145,7 @@ export default {
         this.$tools.toast("数据已加载完毕");
         return;
       }
-      this.showMotto(true);
+      this.showList(true);
     },
     goDetail(id) {
       this.$tools.navTo({

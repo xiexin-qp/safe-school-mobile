@@ -28,10 +28,6 @@
 			"path": "pages/protal/messageDetail",
 			"style": {}
 		},
-		{
-			"path": "pages/protal/map",
-			"style": {}
-		},
 		// 课程表
 		{
 			"path": "pages/class-schedule/class-schedule-t/index",
@@ -137,36 +133,6 @@
 		},
 		{
 			"path": "pages/news/news-p/parentNotice/detail",
-			"style": {}
-		},
-		//失物招领
-		{
-			"path": "pages/lost-found/lost-found-p/index",
-			"style": {}
-		}, {
-			"path": "pages/lost-found/lost-found-t/index",
-			"style": {}
-		}, {
-			"path": "pages/lost-found/lost-found-t/form",
-			"style": {}
-    },
-    //考试成绩
-		{
-			"path": "pages/examAchievement/examAchievement-t/index",
-			"style": {}
-		}, {
-			"path": "pages/examAchievement/examAchievement-t/detail",
-			"style": {}
-		},
-		//表扬栏
-		{
-			"path": "pages/praise-column/praise-column-t/form",
-			"style": {}
-		}, {
-			"path": "pages/praise-column/praise-column-t/index",
-			"style": {}
-		},{
-			"path": "pages/praise-column/praise-column-t/detail",
 			"style": {}
 		},
 		// 门禁管理
@@ -459,7 +425,7 @@
 		{
 		  "path": "pages/behavior/record",
 		  "style": {}
-		}
+		},
 		// 家长管理
 		{
 			"path": "pages/parent-manage/index"

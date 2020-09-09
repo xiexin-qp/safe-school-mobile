@@ -25,7 +25,8 @@ import parentManage from './parentManage.js'
 import special from './special.js'
 import accident from './accident.js'
 import inspect from './inspect.js'
-
+import praise from './praise'
+import lost from './lost'
 const moduleList = [
   ...protal,
 	...safe,
@@ -53,7 +54,9 @@ const moduleList = [
   ...transferCourse,
   ...special,
   ...accident,
-  ...inspect
+  ...inspect,
+  ...praise,
+  ...lost
 ]
 
 export default moduleList

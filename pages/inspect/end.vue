@@ -1,6 +1,6 @@
 <template>
-	<view>
-		<scroll-view scroll-y="true" class="scroll-h ">
+  <view>
+    <scroll-view scroll-y="true" class="scroll-h">
       <view class="u-type-white-bg">
         <view class="u-fx-ac u-bd-b u-padd-20">
           <view class="tip">值班员：</view>
@@ -23,69 +23,68 @@
           </view>
         </view>
       </view>
-			<view class="u-type-white-bg u-mar-t20">
-			  <view class="u-fx-ver u-bd-b u-padd">
+      <view class="u-type-white-bg u-mar-t20">
+        <view class="u-fx-ver u-bd-b u-padd">
           <view class="tip">值班轨迹：</view>
           <view class="u-fx-f1 u-fx-je">
-            <view class="u-fx-f1" id="container"> </view>
+            <view class="u-fx-f1" id="container"></view>
           </view>
         </view>
-			</view>
+      </view>
       <view class="u-type-white-bg u-mar-t20">
         <view class="u-fx-ac u-bd-b u-padd-20">
           <view>巡查状态：</view>
           <view class="u-fx-f1 u-fx-je u-tx-r">
             <view>异常</view>
-            <u-switch size='40' class="u-mar-l10 u-mar-r10" v-model="formData.status"></u-switch>
-            <view >正常</view>
+            <u-switch size="40" class="u-mar-l10 u-mar-r10" v-model="formData.status"></u-switch>
+            <view>正常</view>
           </view>
         </view>
-				<view class="u-fx-ver u-bd-b u-padd">
+        <view class="u-fx-ver u-bd-b u-padd">
           <view>内容上报：</view>
           <view class="u-mar-t10">
-             <textarea class="item-text-area u-font-01" v-model="formData.content" placeholder="请填写详细的问题描述" />
+            <textarea
+              class="item-text-area u-font-01"
+              v-model="formData.content"
+              placeholder="请填写详细的问题描述"
+            />
           </view>
-         <an-upload-img v-model="formData.photoUrl" total="9" style="margin: 20rpx"></an-upload-img>
-				</view>
+          <an-upload-img v-model="formData.photoUrl" total="9" style="margin: 20rpx"></an-upload-img>
+        </view>
       </view>
-		</scroll-view>
+    </scroll-view>
     <view class="footer-btn u-fx-ac u-bg-color">
-      <u-button
-        type="primary"
-        class="u-fx-f1 u-mar-l u-mar-r "
-        @click="submitForm"
-      >
-        上报
-      </u-button>
+      <u-button type="primary" class="u-fx-f1 u-mar-l u-mar-r" @click="submitForm">上报</u-button>
     </view>
   </view>
 </template>
 
 <script>
-  import eventBus from '@u/eventBus'
-  import validateForm from '@u/validate';
-  import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
-  import { store, actions } from './store/index.js'
-  const yzForm = {
-    content: '请填写详细的问题描述'
-  }
-  export default {
-    components: {
-      anUploadImg
-    },
-    data () {
-      return {
-        formData: {}
-      }
-    },
-    mounted () {
-      this.inspectId = this.$tools.getQuery().get('inspectId')
-      this.track = JSON.parse(this.$tools.getQuery().get('track')) 
-      this.map = new qq.maps.Map(document.getElementById("container"), {
-        center: new qq.maps.LatLng(),      // 地图的中心地理坐标。
+import eventBus from '@u/eventBus'
+import validateForm from '@u/validate'
+import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
+import { store, actions } from './store/index.js'
+const yzForm = {
+  content: '请填写详细的问题描述'
+}
+export default {
+  components: {
+    anUploadImg
+  },
+  data() {
+    return {
+      formData: {}
+    }
+  },
+  mounted() {
+    this.inspectId = this.$tools.getQuery().get('inspectId')
+    this.track = JSON.parse(this.$tools.getQuery().get('track'))
+    if (this.track.length > 0) {
+      this.map = new qq.maps.Map(document.getElementById('container'), {
+        center: new qq.maps.LatLng(this.track[0].latitude, this.track[0].longitude), // 地图的中心地理坐标。
         zoom: 16
-      });
-      const arr = this.track.map(item => {
+      })
+      const arr = this.track.map((item) => {
         return new qq.maps.LatLng(item.latitude, item.longitude)
       })
       var polyline = new qq.maps.Polyline({
@@ -93,53 +92,54 @@
         strokeColor: '#3385ff',
         strokeWeight: 4,
         map: this.map
-      });
-      this.inspectDetailGet()
+      })
+    }
+    this.inspectDetailGet()
+  },
+  methods: {
+    async inspectDetailGet() {
+      const res = await actions.getInspectDetail(this.inspectId)
+      this.formData = res.data
     },
-    methods: {
-      async inspectDetailGet () {
-        const res =await actions.getInspectDetail(this.inspectId)
-        this.formData = res.data
-      },
-      submitForm () {
-        validateForm(yzForm, this.formData, () => {
-          if (!this.formData.content) {
-            return this.$tools.toast('请填写详细的问题描述')
+    submitForm() {
+      validateForm(yzForm, this.formData, () => {
+        if (!this.formData.content) {
+          return this.$tools.toast('请填写详细的问题描述')
+        }
+        this.$tools.confirm('确定上报巡查结果吗？', () => {
+          let req = {
+            ...this.formData,
+            track: this.track
           }
-          this.$tools.confirm("确定上报隐患吗？", () => {
-             let req = {
-              ...this.formData,
-              track: this.track
+          req.pictureList = this.formData.photoUrl.map((el) => {
+            if (el.indexOf('http') === -1) {
+              return el.split(',')[1]
+            } else {
+              return el
             }
-            req.pictureList = this.formData.photoUrl.map(el => {
-              if (el.indexOf('http') === -1) {
-                return el.split(',')[1]
-              } else {
-                return el
-              }
-            })
-            actions.endInspect(req).then(res => {
-              this.$tools.toast('上报成功')
-              this.$tools.goNext(() => {
-                eventBus.$emit('getList')
-                this.$tools.navTo({
-                  url: './index'
-                })
+          })
+          actions.endInspect(req).then((res) => {
+            this.$tools.toast('上报成功')
+            this.$tools.goNext(() => {
+              eventBus.$emit('getList')
+              this.$tools.navTo({
+                url: './index'
               })
             })
           })
         })
-      }
+      })
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>
 .scroll-h {
-  height: calc(100vh - 120rpx)
+  height: calc(100vh - 120rpx);
 }
 .uni-input-placeholder,
-.uni-textarea-placeholder{
+.uni-textarea-placeholder {
   color: $u-light-color;
 }
 .item-text-area {
@@ -148,7 +148,6 @@
   line-height: 40rpx;
 }
 #container {
-  width: 300rpx;
-  height: 300rpx;
+  height: 600rpx;
 }
 </style>

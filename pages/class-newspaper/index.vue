@@ -78,7 +78,7 @@ export default {
 		}
 	},
 	async created() {
-		this.uploadUrl = `${hostEnv.zk_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
+		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		if (store.userInfo.typeCode === '4') {
 			this.userType = 2;
 			this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList;
