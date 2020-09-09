@@ -109,7 +109,7 @@ export default {
 		if (this.type !== '0') {
 			this.showData();
 		} else {
-			this.classList = store.teachClassList.map(el => {
+			this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList.map(el => {
 				return {
 					...el,
 					key: el.value,
@@ -165,7 +165,7 @@ export default {
 				this.$tools.toast('请先选择班级');
 				return;
 			}
-			this.subList = store.teachClassList
+			this.subList = JSON.parse(uni.getStorageSync('protal')).teachClassList
 				.filter(el => {
 					return el.value === this.formData.classCode;
 				})[0]
