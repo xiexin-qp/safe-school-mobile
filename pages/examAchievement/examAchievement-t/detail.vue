@@ -1,16 +1,27 @@
 <template>
   <view class="u-page">
-    		<dropdown-menu class="u-mar-b20" ref="dropdown" @value0Change="value0Change" @searchChange="searchChange"></dropdown-menu>
-
-    <scroll-view scroll-y="true" class="scroll-h">
-      <view class="approve-list" v-for="(item, i) in recordList" :key="i">
-        <view class="u-mar-t20 u-padd-l40 u-font-3">
-          <u-icon name="edit-pen" color="#2979ff" size="38"> </u-icon>
-          <text class="u-padd-l40"> {{ item.subjectName }} </text>
+  <dropdown-menu class="u-mar-b20" ref="dropdown" @value0Change="value0Change" @searchChange="searchChange"></dropdown-menu>
+   <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
+      <no-data v-if="recordList.length === 0" msg="暂无数据"></no-data>
+      <view
+        class="list u-padd-20 u-mar-b20 u-mar-l20 u-mar-r20 u-bg-fff u-border-radius"
+        v-for="(item, i) in recordList"
+        :key="i"
+      >
+        <view class="u-fx-jsb u-fx-ac">
+          <view class="u-fx u-fx-ac">
+            <u-lazy-load
+              class="img u-border-radius-all u-mar-r20"
+              :image="item.photoUrl"
+            ></u-lazy-load>
+            <view class="">
+              <view class="title u-main-color u-bold u-mar-b20">{{
+                item.userName
+              }}</view>
+            </view>
+          </view>
+          <view class="tag" > <view class="rit-icon"></view> </view>
         </view>
-        <view class="u-mar-t20 u-padd-l40 u-padd-b30"
-          >考试时间{{ item.testDate | gmtToDate }}</view
-        >
       </view>
     </scroll-view>
   </view>
@@ -57,7 +68,7 @@ export default {
         subjectCode: this.subjectCode
       };
       const res = await actions.getscoreList(req);
-      this.recordList = res.data;
+      this.recordList = res.data.list;
     },
   },
 };
