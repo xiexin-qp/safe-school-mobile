@@ -153,25 +153,25 @@ export default {
 		},
 	},
 	async created() {
-		console.log(store.teachClassList)
+		let teachClassList = JSON.parse(uni.getStorageSync('protal')).teachClassList
 		this.uploadUrl = `${hostEnv.zk_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		this.length = this.classMotto.length;
 		this.schoolYearId = store.schoolYear.schoolYearId;
 		if (store.userInfo.typeCode === '4') {
 			this.userType = '0';
-			if(store.teachClassList.length === 0){
+			if(teachClassList.length === 0){
 				this.$tools.toast('请绑定班级')
 				return
 			}
-			this.classList = store.teachClassList;
-			this.classCode = store.teachClassList[0].value
-			this.gradeCode = store.teachClassList[0].gradeCode
+			this.classList = teachClassList;
+			this.classCode = teachClassList.value
+			this.gradeCode = teachClassList[0].gradeCode
 			this.showClass = true;
-			this.defTitle = store.teachClassList[0].text;
-			this.value0 = store.teachClassList[0].value;
+			this.defTitle = teachClassList[0].text;
+			this.value0 = teachClassList[0].value;
 			uni.setStorageSync('classInfo', {
-				gradeCode: store.teachClassList[0].gradeCode,
-				classCode: store.teachClassList[0].value,
+				gradeCode: teachClassList[0].gradeCode,
+				classCode: teachClassList[0].value,
 				schoolYearId: this.schoolYearId
 			});
 		}

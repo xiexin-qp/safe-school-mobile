@@ -134,7 +134,7 @@ export default {
 					const i = this.teachClassList.findIndex(list => list.isBZR)
 					console.log(i)
 					if(i !== -1){
-						this.teachClassList.splice(index, 1)
+						this.teachClassList.splice(i, 1)
 					}
 					this.teachClassList.unshift({
 						...this.classInfo,
@@ -142,6 +142,7 @@ export default {
 						value: this.classInfo.classCode,
 						isBZR: true
 					})
+					console.log(this.teachClassList)
 					setStore({
 						key: 'teachClassList',
 						data: this.teachClassList
