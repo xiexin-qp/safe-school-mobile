@@ -160,13 +160,20 @@
 		},
 		//表扬栏
 		{
-			"path": "pages/praise-column/praise-column-t/form",
+			"path": "pages/praise-column/praise-column-t/personal/form",
 			"style": {}
 		}, {
-			"path": "pages/praise-column/praise-column-t/index",
+			"path": "pages/praise-column/praise-column-t/personal/index",
 			"style": {}
 		},{
-			"path": "pages/praise-column/praise-column-t/detail",
+			"path": "pages/praise-column/praise-column-t/personal/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/praise-column/praise-column-t/class/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/class/index",
 			"style": {}
 		},
 		// 门禁管理
