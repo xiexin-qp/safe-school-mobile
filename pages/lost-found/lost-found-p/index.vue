@@ -1,19 +1,19 @@
 <template>
   <view class="u-page">
-		<choose-child @change="childInfo"></choose-child>
-    <scroll-view scroll-y="true" class="scroll-h">
-      <lost-list :data-list="recordList"></lost-list> </scroll-view
-    >
+    <choose-child @change="childInfo"></choose-child>
+    <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
+      <lost-list :data-list="recordList"></lost-list>
+    </scroll-view>
   </view>
 </template>
 <script>
 import { store, actions } from "./store/index.js";
 import lostList from "../component/lostList.vue";
-import chooseChild from '@/components/choose-child/choose-child.vue';
+import chooseChild from "@/components/choose-child/choose-child.vue";
 export default {
   components: {
     lostList,
-    chooseChild
+    chooseChild,
   },
   data() {
     return {
