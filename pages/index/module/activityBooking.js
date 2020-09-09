@@ -1,9 +1,9 @@
-const activityBooking = [{
-  title: '活动发布',
+const schoolActivity = [{
+  title: '校园活动',
   children: [{
-    title: '活动发布',
-    url: '/pages/activity-booking/index'
+    title: '校园活动',
+    url: '/pages/school-activity/index'
   }]
 }]
 
-export default activityBooking
+export default schoolActivity

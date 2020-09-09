@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<view class="upload">
+			<view v-if="uploads.length < uploadCount" class="an-img-add u-fx-ac-jc" @tap="chooseUploads">+</view>
 			<block v-for="(upload, index) in uploads" :key="index">
 				<view class="uplode-file">
 					<image v-if="types == 'image'" class="uploade-img" :src="upload.url" :data-src="upload" @tap="previewImage($event, index)"></image>
@@ -10,7 +11,6 @@
 					</video>
 				</view>
 			</block>
-			<view v-if="uploads.length < uploadCount" class="an-img-add u-fx-ac-jc" @tap="chooseUploads">+</view>
 		</view>
 		<w-compress ref="wCompress" />
 	</view>
@@ -35,7 +35,7 @@ export default {
 		},
 		clearIcon: {
 			type: String,
-			default: 'http://canpointtest.com/mobile-img/del-app-icon.png'
+			default: 'http://canpointtest.com/mobile-img/deletephoto.png'
 		},
 		isCheck: {
 			type: Boolean,
@@ -136,7 +136,7 @@ export default {
 													success: uploadFileRes => {
 														uni.hideLoading();
 														this.successTag = true;
-														this.uploads.push(JSON.parse(uploadFileRes.data).data);
+														this.uploads.unshift(JSON.parse(uploadFileRes.data).data);
 														this.$emit('success', JSON.parse(uploadFileRes.data));
 														this.$emit('progress', true);
 													},
@@ -182,7 +182,7 @@ export default {
 									success: uploadFileRes => {
 										uni.hideLoading();
 										this.successTag = true;
-										this.uploads.push(JSON.parse(uploadFileRes.data).data);
+										this.uploads.unshift(JSON.parse(uploadFileRes.data).data);
 										this.$emit('success', JSON.parse(uploadFileRes.data));
 										this.$emit('progress', true);
 									}
@@ -204,12 +204,14 @@ export default {
 			}
 		},
 		delImage(item, index) {
-			const i = this.uploads.findIndex(list => {
-				return list.url === item.url;
-			});
-			this.$emit('delImage', this.uploads[i]);
-			uni.hideLoading();
-			this.uploads.splice(index, 1);
+			this.$tools.delTip('确定删除吗？', () => {
+				const i = this.uploads.findIndex(list => {
+					return list.url === item.url;
+				});
+				this.$emit('delImage', this.uploads[i]);
+				uni.hideLoading();
+				this.uploads.splice(index, 1);
+			})
 		}
 	}
 };
@@ -221,7 +223,7 @@ export default {
 	font-size: 60rpx;
 	margin: 10rpx;
 	height: 210upx;
-	width: 210upx;
+	width: calc(33.3% - 20rpx);
 	color: #666;
 	background-color: #c8c7cc;
 	line-height: 210upx;
@@ -232,20 +234,20 @@ export default {
 	flex-wrap: wrap;
 }
 .uplode-file {
-	margin: 10upx;
-	width: 210upx;
-	height: 210upx;
+	margin: 10rpx;
+	width: calc(33.3% - 20rpx);
+	height: 210rpx;
 	position: relative;
 }
 .uploade-img {
 	display: block;
-	width: 210upx;
-	height: 210upx;
+	width: 100%;
+	height: 210rpx;
 }
 .uploade-video {
 	display: block;
 	max-width: 650rpx;
-	max-height: 450upx;
+	max-height: 450rpx;
 }
 .clear-one {
 	position: absolute;
@@ -256,8 +258,8 @@ export default {
 	position: absolute;
 	width: 20px;
 	height: 20px;
-	top: 0;
-	right: 0;
+	top: -10rpx;
+	right: -10rpx;
 	z-index: 9;
 }
 </style>

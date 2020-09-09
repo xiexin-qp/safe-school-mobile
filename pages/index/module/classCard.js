@@ -37,6 +37,9 @@ const classCard = [{
 		}, {
 			title: '班级荣誉',
 			url: '/pages/class-honor/index'
+		}, {
+			title: '电子板报',
+			url: '/pages/class-newspaper/index'
 		}
 	]
 }]

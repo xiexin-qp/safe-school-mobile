@@ -4,36 +4,32 @@
       <view class="u-type-white-bg u-font-01 u-padd-l10">
         <view class="u-fx-ac u-bd-b u-padd-20">
           <view class="tip">值班员：</view>
-          <view class="u-fx-f1 u-fx-je u-light-color" @click="add('1')">
-            {{ formData.watchName }}
-          </view>
+          <view class="u-fx-f1 u-fx-je u-light-color" @click="add('1')">{{ formData.watch }}</view>
           <view class="rit-icon"></view>
         </view>
         <view class="u-fx-jsb u-bd-b u-padd">
           <view class="tip">值班员电话：</view>
           <view class="u-fx-f1 u-fx-je">
-            <input type="number" class="u-font-01 u-tx-r u-padd-r10" v-model="formData.watchPhone"
-          /></view>
+            <view class="u-fx-f1 u-fx-je u-light-color">{{ formData.watchPhone }}</view>
+          </view>
         </view>
         <view class="u-fx-ac u-bd-b u-padd-20">
           <view class="tip">带班领导：</view>
-          <view class="u-fx-f1 u-fx-je u-light-color" @click="add('2')">
-            {{ formData.leaderName }}
-          </view>
+          <view class="u-fx-f1 u-fx-je u-light-color" @click="add('2')">{{ formData.leader }}</view>
           <view class="rit-icon"></view>
         </view>
         <view class="u-fx-jsb u-bd-b u-padd">
           <view class="tip">带班领导电话：</view>
           <view class="u-fx-f1 u-fx-je">
-            <input type="number" class="u-font-01 u-tx-r u-padd-r10" v-model="formData.leaderPhone"
-          /></view>
+            <view class="u-fx-f1 u-fx-je u-light-color">{{ formData.leaderPhone }}</view>
+          </view>
         </view>
       </view>
     </scroll-view>
     <view class="footer-btn u-fx-ac">
-      <u-button type="primary" class="u-fx-f1 u-mar-l u-mar-r u-type-primary-dark-bg" @click="submitForm">
-        开始值班
-      </u-button>
+      <u-button type="primary" class="u-fx-f1 u-mar-l u-mar-r u-type-primary-dark-bg" @click="submitForm"
+        >开始值班</u-button
+      >
     </view>
     <teacher-tree
       isRadio
@@ -43,8 +39,7 @@
       @close="teacherTag = false"
       @confirm="teacherSelcet"
       :classChecked="[]"
-    >
-    </teacher-tree>
+    ></teacher-tree>
   </view>
 </template>
 
@@ -53,8 +48,8 @@ import teacherTree from '@/components/teacher-tree/teacher-tree'
 import validateForm from '@u/validate'
 import { store, actions } from './store/index.js'
 const yzForm = {
-  watchName: '请选择值班员',
-  leaderName: '请选择带班领导'
+  watch: '请选择值班员',
+  leader: '请选择带班领导'
 }
 export default {
   components: {
@@ -64,8 +59,8 @@ export default {
     return {
       detailInfo: {},
       formData: {
-        watchName: '请选择值班员',
-        leaderName: '请选择带班领导'
+        watch: '请选择值班员',
+        leader: '请选择带班领导'
       },
       teacherTag: false,
       causeNameList: [],
@@ -86,13 +81,12 @@ export default {
         this.$tools.toast('请选择人员')
         return
       }
-      console.log('1111', value)
       this.teacherTag = false
       if (this.type === '1') {
         this.formData.watch = value[0].name
         this.formData.watchAvatar = value[0].photoUrl
         this.formData.watchPhone = value[0].mobile
-        this.formData.watchJob = '' //	值班人职务
+        this.formData.watchJob =  value[0].postDTOList ? value[0].postDTOList.map(el => el.postName) : [] //	值班人职务
       } else {
         this.formData.leader = value[0].name
         this.formData.leaderPhone = value[0].mobile
@@ -104,53 +98,20 @@ export default {
     },
     submitForm() {
       validateForm(yzForm, this.formData, () => {
-        //   let req = {
-        //     ...this.formData,
-        //     schoolCode: store.userInfo.schoolCode,
-        //     reporterCode: store.userInfo.userCode,
-        //     reporterName: store.userInfo.userName
-        //   }
-        //   req.photoUrl = this.formData.photoUrl.map((el) => {
-        //     if (el.indexOf('http') === -1) {
-        //       return el.split(',')[1]
-        //     } else {
-        //       return el
-        //     }
-        //   })
-        //   actions.reportDanger(req).then((res) => {
-        //     this.$tools.toast('上报成功')
-        //     this.$tools.goNext(() => {
-        //       this.$tools.goBack()
-        //     })
-        //   })
+        let req = {
+          ...this.formData,
+          schoolCode: store.userInfo.schoolCode,
+          reporterCode: store.userInfo.userCode,
+          reporterName: store.userInfo.userName
+        }
+        actions.startDuty(req).then((res) => {
+          this.$tools.goNext(() => {
+            this.$tools.navTo({
+              url: `./map?inspectId=${res.data}`
+            })
+          })
+        })
       })
-    },
-
-    confirm() {
-      // const resultList = []
-      // this.detailInfo.itemList.map((el) => {
-      //   el.standardList.map((item) => {
-      //     resultList.push({ id: item.id, result: item.checked ? '1' : '0' })
-      //   })
-      // })
-      // const req = {
-      //   resultList: resultList,
-      //   submitType: this.state,
-      //   taskId: this.taskId,
-      //   userCode: store.userInfo.userCode,
-      //   userName: store.userInfo.userName
-      // }
-      // this.$tools.confirm('确定提交检查结果吗？', () => {
-      //   actions.checkSpecial(req).then((res) => {
-      //     this.$tools.toast('提交成功')
-      //     this.$tools.goNext(() => {
-      //       eventBus.$emit('getList')
-      //       this.$tools.navTo({
-      //         url: './index'
-      //       })
-      //     })
-      //   })
-      // })
     }
   }
 }

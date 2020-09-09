@@ -4,28 +4,28 @@
 		<view class="dropdown u-bd-b">
 			<ms-dropdown-menu v-if="userType !== 3 && showClass"><ms-dropdown-item v-model="value0" :list="classList" :title="defTitle"></ms-dropdown-item></ms-dropdown-menu>
 		</view>
-		<scroll-view scroll-y="true" :class="showClass ? 'scroll-h' : 'scroll'">
+		<scroll-view scroll-y="true" @scrolltolower="loadMore" :class="showClass ? 'scroll-h' : 'scroll'">
 			<no-data v-if="dataList.length === 0" msg="暂无数据~"></no-data>
 			<view class="u-auto">
-				<view class="approve-list u-bg-fff u-mar-20 u-border-radius" v-for="(item, i) in 10" :key="i">
+				<view class="approve-list u-bg-fff u-mar-20 u-border-radius" v-for="(item, i) in dataList" :key="i">
 					<view class="detail u-padd-20">
 						<view class="u-fx-ac u-mar-b20">
-							<image class="u-border-radius u-mar-r20" :src="item.photoSrc || 'http://canpointtest.com/mobile-img/person-bg-two.png'" mode=""></image>
+							<image class="u-border-radius u-mar-r20" :src="item.photoUrl || 'http://canpointtest.com/mobile-img/default.png'" mode=""></image>
 							<view class="info">
 								<view class="name u-main-color u-mar-b10 u-te3">
-									优秀班级优秀班级优秀优秀班级优秀班
+									{{ item.content }}
 								</view>
 								<view class="u-fx-ac u-mar-t20">
 									<u-icon name="clock-fill"></u-icon>
-									<text class="u-tips-color u-font-02 u-mar-l10">获奖日期：2020年08月29日</text>
+									<text class="u-tips-color u-font-02 u-mar-l10">获奖日期：{{ item.awardTime | gmtToDate('date') }}</text>
 								</view>
 							</view>
 						</view>
 						<view class="u-bd-t"></view>
 						<view class="u-fx-jsb u-fx-ac u-padd-t20 u-tips-color u-font-02">
-							<text>发布于：2020年08月29日</text>
+							<text>发布于：{{ item.createTime | gmtToDate('date') }}</text>
 							<view class="u-fx u-fx-ac">
-								<text @click="add(item.id)">发布人：高宝丽</text>
+								<text @click="add(1, item.id)">发布人：{{ item.createUsername }}</text>
 								<view class="rit-icon"></view>
 							</view>
 						</view>
@@ -33,7 +33,7 @@
 				</view>
 			</view>
 		</scroll-view>
-		<view v-if="userType === 1" class="float-add-btn" @click="add()"></view>
+		<view v-if="userType === 1" class="float-add-btn" @click="add(0)"></view>
 	</view>
 </template>
 
@@ -45,7 +45,7 @@ import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue';
 import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue';
 import { store, actions } from './store/index.js';
 export default {
-	name: 'teacher-t',
+	name: 'class-honor',
 	components: {
 		msDropdownMenu,
 		msDropdownItem,
@@ -60,19 +60,11 @@ export default {
 			defTitle: '',
 			pageList: {
 				page: 1,
-				size: 10
+				size: 20
 			},
 			morePage: false,
 			showClass: false,
-			dataList: [],
-			options: [
-				{
-					text: '移除',
-					style: {
-						backgroundColor: '#dd524d'
-					}
-				}
-			]
+			dataList: []
 		};
 	},
 	watch: {
@@ -90,8 +82,14 @@ export default {
 					return el.value === val;
 				})[0];
 				this.defTitle = choose.text;
-				this.classId = choose.classId;
+				this.gradeCode = choose.gradeCode;
 				this.classCode = val;
+				uni.setStorageSync('bindInfo', {
+					...this.classList.filter(el => {
+						return el.value === val;
+					})[0],
+					classCode: val
+				});
 				eventBus.$on('getList', () => {
 					this.showList();
 				});
@@ -102,20 +100,27 @@ export default {
 	async created() {
 		if (store.userInfo.typeCode === '4') {
 			this.userType = 2;
-			if (store.teachClassList.length === 0) {
+			this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList;
+			if (this.classList.length === 0) {
 				this.$tools.toast('请绑定班级');
 				return;
 			}
-			this.classList = store.teachClassList;
-			this.classCode = store.teachClassList[0].value;
-			this.classId = store.teachClassList[0].classId;
+			this.classCode = this.classList[0].value;
+			this.gradeCode = this.classList[0].gradeCode;
 			this.showClass = true;
-			this.defTitle = store.teachClassList[0].text;
-			this.value0 = store.teachClassList[0].value;
+			this.defTitle = this.classList[0].text;
+			this.value0 = this.classList[0].value;
+			uni.setStorageSync('bindInfo', {
+				...this.classList[0],
+				classCode: this.classList[0].value
+			});
 		} else if (store.userInfo.typeCode === '16') {
 			this.userType = 3;
 			this.classCode = store.childList[0].classCode;
-			this.classId = store.childList[0].classId;
+			this.gradeCode = store.childList[0].gradeCode;
+			uni.setStorageSync('bindInfo', {
+				...store.childList[0]
+			});
 			this.showList();
 		}
 	},
@@ -124,46 +129,43 @@ export default {
 			if (item.userCode !== this.userCode) {
 				this.classCode = item.classCode;
 				this.classId = item.classId;
+				uni.setStorageSync('bindInfo', {
+					...item
+				});
 				this.showList();
 			}
 		},
-		async showList() {
-			this.dataList = [];
-			const req = {
-				pageNum: 1,
-				pageSize: 999,
-				schoolCode: store.userInfo.schoolCode,
-				classId: this.classId
-			};
-			const classInfo = await actions.getClassInfo(this.classId);
-			const res = await actions.getClassTeacherList(req);
-			this.dataList = res.data.list.map(el => {
-				return {
-					id: el.id,
-					teacherName: el.teacherName,
-					isBZR: classInfo.data.teacherName === el.teacherName,
-					subjectName: el.subjectName,
-					teacherCode: el.teacherCode,
-					photoSrc: el.photoSrc,
-					disabled: this.userType !== 1,
-					show: false
-				};
-			});
-			if (this.dataList.every(el => !el.isBZR) && classInfo.data.teacherId) {
-				this.dataList.unshift({
-					photoSrc: classInfo.data.teacherPhoto,
-					teacherName: classInfo.data.teacherName,
-					teacherCode: classInfo.data.teacherCode,
-					isBZR: true,
-					subjectName: '',
-					disabled: true,
-					show: false
-				});
+		async showList(tag = false) {
+			if (tag) {
+			  this.pageList.page += 1;
+			} else {
+			  this.pageList.page = 1;
 			}
+			const req = {
+				...this.pageList,
+				schoolCode: store.userInfo.schoolCode,
+				schoolYearId: store.schoolYear.schoolYearId,
+				classCode: this.classCode,
+				gradeCode: this.gradeCode
+			};
+			const res = await actions.getClassHonorList(req);
+			if (tag) {
+			  this.dataList = this.dataList.concat(res.data.list);
+			} else {
+			  this.dataList = res.data.list;
+			}
+			this.morePage = res.data.hasNextPage;
 		},
-		add() {
+		loadMore() {
+		  if (!this.morePage) {
+		    this.$tools.toast("数据已加载完毕");
+		    return;
+		  }
+		  this.showList(true);
+		},
+		add(type, id) {
 			this.$tools.navTo({
-				url: `./form?classId=${this.classId}`
+				url: `./form?type=${type}&id=${id}`
 			});
 		}
 	}

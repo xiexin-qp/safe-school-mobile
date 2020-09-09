@@ -48,6 +48,7 @@ const store = Vue.observable({
 	enjoyParentApp: getState('enjoyParentApp', []),
 	userInfo: getState('userInfo', {}),
 	childList: getState('childList', []),
+	teachClassList: getState('teachClassList', []),
 	openid: getState('openid', []),
 	appList: getState('appLis', [])
 })

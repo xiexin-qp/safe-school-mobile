@@ -21,7 +21,8 @@ const store = Vue.observable({
   tabIndex: 0,
   enjoyApp: getState('enjoyApp', []),
   userInfo: JSON.parse(uni.getStorageSync('protal')).userInfo,
-  schoolYear: JSON.parse(uni.getStorageSync('protal')).schoolYear
+  schoolYear: JSON.parse(uni.getStorageSync('protal')).schoolYear,
+  dangerList: JSON.parse(uni.getStorageSync('protal')).dangerList
 })
 
 // 修改数据

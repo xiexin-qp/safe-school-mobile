@@ -29,8 +29,9 @@
 			</view>
 			<view class="item u-fx-jsb u-fx-ac u-bd-b">
 				<text class="u-content-color">当前绑定</text>
-				<text v-if="userInfo.typeCode == 4" class="u-fx-f1 u-tx-r u-tips-color">{{ classInfo.gradeName || '暂未绑定' }}{{ classInfo.className }}</text>
+				<text @tap="changeClass" v-if="userInfo.typeCode == 4" class="u-fx-f1 u-tx-r u-tips-color">{{ classInfo.gradeName || '暂未绑定' }}{{ classInfo.className }}</text>
 				<view v-if="userInfo.typeCode == 16" @click="bindChild('1')" class="bind-child">绑定孩子</view>
+				<view class="rit-icon" v-if="classList.length > 1"></view>
 			</view>
 		</view>
 		<view v-if="userInfo.typeCode == 16">
@@ -61,8 +62,10 @@ import apiFun from './store/apiFun.js'
 export default {
 	data() {
 		return {
+			currentClass: uni.getStorageSync('currentClass') || 0,
 			date: this.$tools.getDateTime().substr(0, 10),
 			classInfo: {},
+			classList: [],
 			typeList: [],
 			isMap: false
 		};
@@ -70,11 +73,12 @@ export default {
 	computed: {
 		userInfo: () => store.userInfo,
 		childList: () => store.childList,
+		teachClassList: () => store.teachClassList,
 		enjoyParentApp: () => store.enjoyParentApp,
 		enjoyTeacherApp: () => store.enjoyTeacherApp
 	},
 	async mounted() {
-		this.isMap = this.userInfo.mobile === '18971838086' || this.userInfo.mobile === '18702707106'
+		this.isMap = this.userInfo.mobile === '18827417223' || this.userInfo.mobile === '18702707106'
 		eventBus.$on('getChild', () => {
 			apiFun.getChildList()
 			apiFun.getMenuList()
@@ -111,6 +115,39 @@ export default {
 				this.typeMenuList = []
 			} else {
 				this.typeMenuList = ['教职工', '家长']
+			}
+		},
+		// 切换班级
+		changeClass () {
+			if (this.classList.length > 1) {
+				const arr = this.classList.map(item => {
+					return item.gradeName + item.className
+				})
+				this.$tools.actionsheet(arr, index => {
+					this.currentClass = index
+					uni.setStorageSync('currentClass', index)
+					this.classInfo = this.classList[index]
+					setStore({
+						key: 'isBZR',
+						data: this.classInfo
+					})
+					const i = this.teachClassList.findIndex(list => list.isBZR)
+					console.log(i)
+					if(i !== -1){
+						this.teachClassList.splice(i, 1)
+					}
+					this.teachClassList.unshift({
+						...this.classInfo,
+						text: this.classInfo.gradeName + this.classInfo.className,
+						value: this.classInfo.classCode,
+						isBZR: true
+					})
+					console.log(this.teachClassList)
+					setStore({
+						key: 'teachClassList',
+						data: this.teachClassList
+					})
+				})
 			}
 		},
 		// 切换身份
@@ -191,10 +228,32 @@ export default {
 				userType: this.userInfo.typeCode,
 				userCode: this.userInfo.userCode
 			});
-			this.classInfo = res.data;
+			this.classList = res.data.classInfos || []
+			if (res.data.classInfos && res.data.classInfos.length > 0) {
+				if (parseInt(this.currentClass) > res.data.classInfos.length - 1) {
+					this.classInfo = res.data.classInfos[0]
+				} else {
+					this.classInfo = res.data.classInfos[this.currentClass]
+				}
+			}
 			setStore({
 				key: 'isBZR',
 				data: this.classInfo
+			})
+			const i = this.teachClassList.findIndex(list => list.isBZR)
+			if(i !== -1){
+				this.teachClassList.splice(i, 1)
+			}
+			this.teachClassList.unshift({
+				...this.classInfo,
+				text: this.classInfo.gradeName + this.classInfo.className,
+				value: this.classInfo.classCode,
+				isBZR: true
+			})
+			console.log(this.teachClassList)
+			setStore({
+				key: 'teachClassList',
+				data: this.teachClassList
 			})
 		},
 		// 退出登陆

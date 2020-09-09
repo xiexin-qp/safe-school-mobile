@@ -646,6 +646,28 @@
 		{
 			"path": "pages/study-ground/component/detail"
 		},
+		//校园概况
+		{
+			"path": "pages/school-intro/index"
+		},
+		//师生风采
+		{
+			"path": "pages/teacher-show/index"
+		},
+		{
+			"path": "pages/teacher-show/add-teacher"
+		},
+		//班级荣誉
+		{
+			"path": "pages/class-honor/index"
+		},
+		{
+			"path": "pages/class-honor/form"
+		},
+		//电子板报
+		{
+			"path": "pages/class-newspaper/index"
+		},
 		// 安防系统-安全巡检
 		{
 			"path": "pages/safe/index"

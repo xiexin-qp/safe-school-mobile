@@ -5,19 +5,18 @@
  */
 import hostEnv from '../../../config/index.js'
 
-let gradeApi = {
-  getClassTeacherList: '/classInfo/subteacher/list#post', // 查询班级教师列表
-	addClassTeacher: '/classInfo/subteacher/add#post', // 添加班级教师
-	getSubTeacherList: '/subject/teacher/list#post', // 查询学科教师列表
-	getSubList: '/school/subject/list#post', // 查询学科列表
-	deleteClassTeacher: '/classInfo/subteacher/delete#getUrl' // 根据id删除班级教师
+let showApi = {
+  getClassHonorList: '/class/honor/list#post', // 查询班级荣誉列表
+	getClassHonorDetail: '/class/honor/detail#getUrl', // 查询班级荣誉详情
+	addClassHonor: '/class/honor/add#post', // 添加班级荣誉
+	editClassHonor: '/class/honor/update#putJson' // 修改班级荣誉
 }
 
-for (let val in gradeApi) {
-  gradeApi[val] = `${hostEnv.zk_school}${gradeApi[val]}`
+for (let val in showApi) {
+  showApi[val] = `${hostEnv.zq_class}${showApi[val]}`
 }
 
 export default {
-  ...gradeApi,
-	getClassInfo: `${hostEnv.lz_user_center}/classManage/detail#getUrl`
+  ...showApi,
+	delFile: `${hostEnv.zk_oa}/study/theme/file/delete#delWithQuery` // 文件删除
 }
