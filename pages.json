@@ -459,7 +459,7 @@
 		{
 		  "path": "pages/behavior/record",
 		  "style": {}
-		},
+		}
 		// 家长管理
 		{
 			"path": "pages/parent-manage/index"
