@@ -32,6 +32,7 @@ let zk_oa = ''
 let host = ''
 let lz_safe = ''
 let cl_oa = ''
+let cl_class=''
 
 if (ConfigEnv === 'production') {
   host = 'http://canpointlive.com'
@@ -61,6 +62,7 @@ if (ConfigEnv === 'production') {
   wxz_control = '/wxz_control'
   zk_oa = '/zk_oa'
   lz_safe = '/lz_safe'
+  cl_class='/cl_class'
 } else if (ConfigEnv === 'development') {
   host = 'http://canpointlive.com'
   zx_mobile_user = '/zx_mobile_user'
@@ -89,6 +91,8 @@ if (ConfigEnv === 'production') {
   zk_oa = '/zk_oa'
   lz_safe = '/lz_safe'
   cl_oa = '/cl_oa'
+  cl_class='/cl_class'
+
 
 }
 
@@ -120,6 +124,7 @@ export default {
   wxz_control,
   zk_oa,
   lz_safe,
-  cl_oa
+  cl_oa,
+  cl_class
 
 }
