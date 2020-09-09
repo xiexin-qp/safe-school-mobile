@@ -100,19 +100,19 @@ export default {
 	async created() {
 		if (store.userInfo.typeCode === '4') {
 			this.userType = 2;
-			if (store.teachClassList.length === 0) {
+			this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList;
+			if (this.classList.length === 0) {
 				this.$tools.toast('请绑定班级');
 				return;
 			}
-			this.classList = store.teachClassList;
-			this.classCode = store.teachClassList[0].value;
-			this.gradeCode = store.teachClassList[0].gradeCode;
+			this.classCode = this.classList[0].value;
+			this.gradeCode = this.classList[0].gradeCode;
 			this.showClass = true;
-			this.defTitle = store.teachClassList[0].text;
-			this.value0 = store.teachClassList[0].value;
+			this.defTitle = this.classList[0].text;
+			this.value0 = this.classList[0].value;
 			uni.setStorageSync('bindInfo', {
-				...store.teachClassList[0],
-				classCode: store.teachClassList[0].value
+				...this.classList[0],
+				classCode: this.classList[0].value
 			});
 		} else if (store.userInfo.typeCode === '16') {
 			this.userType = 3;
