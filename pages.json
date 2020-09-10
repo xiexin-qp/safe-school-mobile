@@ -545,24 +545,24 @@
 		},
 		//活动发布
 		{
-		  "path": "pages/activity-booking/index",
-		  "style": {}
+			"path": "pages/activity-booking/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/activity-booking/detail",
-		  "style": {}
+			"path": "pages/activity-booking/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/activity-booking/form",
-		  "style": {}
+			"path": "pages/activity-booking/form",
+			"style": {}
 		},
 		{
-		  "path": "pages/activity-booking/meetRecord",
-		  "style": {}
+			"path": "pages/activity-booking/meetRecord",
+			"style": {}
 		},
 		{
-		  "path": "pages/activity-booking/sign",
-		  "style": {}
+			"path": "pages/activity-booking/sign",
+			"style": {}
 		},
 		{
 			"path": "pages/activity-booking/poster",
@@ -674,6 +674,24 @@
 		},
 		{
 			"path": "pages/class-honor/form"
+		},
+		//表扬栏
+		{
+			"path": "pages/praise-column/praise-column-t/personal/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/index",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/praise-column/praise-column-t/class/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/class/index",
+			"style": {}
 		},
 		//电子板报
 		{
