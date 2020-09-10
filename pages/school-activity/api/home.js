@@ -5,30 +5,6 @@
  */
 import hostEnv from '../../../config/index.js'
 
-const baseData1Api = {
-
-	// 场地管理
-	getSiteList: '/place/manage/getFirstStagePlaceList#get', // 查询场地信息列表
-	getChildSite: '/place/manage/getPlaceManageList#post', // 查询场地子节点列表
-
-}
-
-const baseData2Api = {
-	// 组织机构
-	getOrgBySchool: '/school/org/getSchoolRoot#getUrl', // 查询组织机构
-	getOrgList: '/school/org/detail#getUrl', // 通过组织结构Id查询组织结构
-
-	// 年级管理
-	getSchoolYear: '/schoolYearSemester/list#postForm', // 查询学年列表
-	getGradeData: '/grade/manage/list#postForm', // 查询年级列表
-
-	// 班级管理
-	getClassData: '/classManage/list#post', // 查询班级列表
-
-	//教师管理
-	getTeacherList: '/userinfo/teacher/user/queryTeacherInfo#post', // 查询教职工列表
-	getNoneTeacher: '/userinfo/teacher/user/node/teachers#post', // 查询无组织机构教职工
-}
 const baseData3Api = {
 	getDeviceList: '/device/info/queryDeviceInfos#post', // 获取设备列表
 }
@@ -50,22 +26,14 @@ let zqApi = {
 	delFile: '/study/theme/file/delete#delWithQuery' // 文件删除
 }
 
-for (const val in baseData1Api) {
-	baseData1Api[val] = `${hostEnv.zk_school}${baseData1Api[val]}`
-}
-for (const val in baseData2Api) {
-	baseData2Api[val] = `${hostEnv.lz_user_center}${baseData2Api[val]}`
-}
 for (const val in baseData3Api) {
 	baseData3Api[val] = `${hostEnv.wxz_control}${baseData3Api[val]}`
 }
 for (let val in zqApi) {
-	zqApi[val] = `${hostEnv.zk_oa}${zqApi[val]}`
+	zqApi[val] = `${hostEnv.cl_oa}${zqApi[val]}`
 }
 
 export default {
-	...baseData1Api,
-	...baseData2Api,
 	...baseData3Api,
 	...zqApi
 }

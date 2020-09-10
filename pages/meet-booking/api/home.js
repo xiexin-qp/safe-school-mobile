@@ -57,7 +57,7 @@ for (const val in baseData3Api) {
 	baseData3Api[val] = `${hostEnv.wxz_control}${baseData3Api[val]}`
 }
 for (let val in zqApi) {
-	zqApi[val] = `${hostEnv.zk_oa}${zqApi[val]}`
+	zqApi[val] = `${hostEnv.cl_oa}${zqApi[val]}`
 }
 
 export default {

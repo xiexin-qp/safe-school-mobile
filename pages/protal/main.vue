@@ -3,8 +3,8 @@
 		<scroll-view scroll-y="true" class="scroll-h">
 			<home v-if="tabIndex === 0"></home>
       <app v-else-if="tabIndex === 1"></app>
-			<message v-else-if="tabIndex === 2"></message>
-      <mine v-else-if="tabIndex === 3"></mine>
+			<!-- <message v-else-if="tabIndex === 2"></message> -->
+      <mine v-else-if="tabIndex === 2"></mine>
 		</scroll-view>
 		<footer-com></footer-com>
 	</view>

@@ -27,6 +27,7 @@ import accident from './accident.js'
 import inspect from './inspect.js'
 import praise from './praise'
 import lost from './lost'
+import achievement from './achievement'
 const moduleList = [
   ...protal,
 	...safe,
@@ -56,7 +57,8 @@ const moduleList = [
   ...accident,
   ...inspect,
   ...praise,
-  ...lost
+  ...lost,
+  ...achievement
 ]
 
 export default moduleList
