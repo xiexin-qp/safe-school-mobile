@@ -139,6 +139,43 @@
 			"path": "pages/news/news-p/parentNotice/detail",
 			"style": {}
 		},
+		//失物招领
+		{
+			"path": "pages/lost-found/lost-found-p/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/form",
+			"style": {}
+    },
+    //考试成绩
+		{
+			"path": "pages/examAchievement/examAchievement-t/index",
+			"style": {}
+		}, {
+			"path": "pages/examAchievement/examAchievement-t/detail",
+			"style": {}
+		},
+		//表扬栏
+		{
+			"path": "pages/praise-column/praise-column-t/personal/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/index",
+			"style": {}
+		},{
+			"path": "pages/praise-column/praise-column-t/personal/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/praise-column/praise-column-t/class/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/class/index",
+			"style": {}
+		},
 		// 门禁管理
 		{
 			"path": "pages/door/door-p/doorRecord/index",
@@ -379,109 +416,109 @@
 		{
 			"path": "pages/face/face-t/faceStudent/index",
 			"style": {}
+		},
+		// 班级德育
+		{
+			"path": "pages/moral/index",
+			"style": {}
+		},
+		{
+			"path": "pages/moral/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/moral/add",
+			"style": {}
+		}, {
+			"path": "pages/dorm/record-detail/index",
+			"style": {}
+		},
+		// 个人德育
+		{
+		  "path": "pages/class-moral/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-moral/detail",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-moral/add",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-moral/record",
+		  "style": {}
+		},
+		// 行为评价
+		{
+		  "path": "pages/behavior/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/behavior/detail",
+		  "style": {}
+		},
+		{
+		  "path": "pages/behavior/add",
+		  "style": {}
+		},
+		{
+		  "path": "pages/behavior/record",
+		  "style": {}
+		},
+		// 家长管理
+		{
+			"path": "pages/parent-manage/index"
+		},
+		// 班级管理
+		{
+			"path": "pages/class-student/index"
+		},
+		{
+			"path": "pages/class-student/detail"
+		},
+		//教师助手-调班调宿
+		{
+			"path": "pages/assistant/assistant-t/class/index",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-t/class/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-t/dorm/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-t/dorm/index",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-p/class/index",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-p/class/form",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-p/class/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-p/dorm/index",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-p/dorm/form",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-p/dorm/detail",
+			"style": {}
 		}
-		// // 班级德育
-		// {
-		// 	"path": "pages/moral/index",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/moral/detail",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/moral/add",
-		// 	"style": {}
-		// }, {
-		// 	"path": "pages/dorm/record-detail/index",
-		// 	"style": {}
-		// },
-		// // 个人德育
-		// {
-		//   "path": "pages/class-moral/index",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-moral/detail",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-moral/add",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-moral/record",
-		//   "style": {}
-		// },
-		// // 行为评价
-		// {
-		//   "path": "pages/behavior/index",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/behavior/detail",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/behavior/add",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/behavior/record",
-		//   "style": {}
-		// },
-		// // 家长管理
-		// {
-		// 	"path": "pages/parent-manage/index"
-		// },
-		// // 班级管理
-		// {
-		// 	"path": "pages/class-student/index"
-		// },
-		// {
-		// 	"path": "pages/class-student/detail"
-		// },
-		// //教师助手-调班调宿
-		// {
-		// 	"path": "pages/assistant/assistant-t/class/index",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-t/class/detail",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-t/dorm/detail",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-t/dorm/index",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-p/class/index",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-p/class/form",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-p/class/detail",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-p/dorm/index",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-p/dorm/form",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-p/dorm/detail",
-		// 	"style": {}
-		// }
 	],
 	"globalStyle": {
 		// 禁用头部导航栏
