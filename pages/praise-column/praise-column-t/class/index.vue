@@ -127,13 +127,7 @@ export default {
         schoolYearId: this.schoolYearId,
       };
       const res = await actions.getfindPraise(req);
-
-      this.detail = res.data.map((el) => {
-        return {
-          ...el,
-          photoUrl: "/mobile-img/medal.png",
-        };
-      });
+      this.detail = res.data
     },
     add() {
       this.$tools.navTo({
