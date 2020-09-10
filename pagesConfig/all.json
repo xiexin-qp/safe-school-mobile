@@ -541,28 +541,35 @@
 		},
 		//活动发布
 		{
-		  "path": "pages/activity-booking/index",
-		  "style": {}
+			"path": "pages/activity-booking/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/activity-booking/detail",
-		  "style": {}
+			"path": "pages/activity-booking/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/activity-booking/form",
-		  "style": {}
+			"path": "pages/activity-booking/form",
+			"style": {}
 		},
 		{
-		  "path": "pages/activity-booking/meetRecord",
-		  "style": {}
+			"path": "pages/activity-booking/meetRecord",
+			"style": {}
 		},
 		{
-		  "path": "pages/activity-booking/sign",
-		  "style": {}
+			"path": "pages/activity-booking/sign",
+			"style": {}
 		},
 		{
 			"path": "pages/activity-booking/poster",
 			"style": {}
+		},
+		//校园活动
+		{
+			"path": "pages/school-activity/index"
+		},
+		{
+			"path": "pages/school-activity/form"
 		},
 		//会议管理
 		{
@@ -718,6 +725,28 @@
 		},
 		{
 			"path": "pages/accident/detail"
+		},
+		// 巡查值班
+		{
+			"path": "pages/inspect/index"
+		},
+		{
+			"path": "pages/inspect/add"
+		},
+		{
+			"path": "pages/inspect/area"
+		},
+		{
+			"path": "pages/inspect/end"
+		},
+		{
+			"path": "pages/inspect/detail"
+		},
+		{
+			"path": "pages/inspect/map"
+		},
+		{
+			"path": "pages/inspect/submit"
 		}
 	],
 	"globalStyle": {

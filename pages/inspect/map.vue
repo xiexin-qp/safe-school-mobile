@@ -58,7 +58,6 @@ export default {
       });
     },
     getLocation (tag, callback) {
-      console.log('tag',tag)
       wx.getLocation({
         type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
         success: (res) => {
@@ -81,16 +80,17 @@ export default {
       });
     },
     submitForm (type) {
+      const that = this
       if (type) {
         wx.scanQRCode({
           needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
           scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
           onlyFromCamera: true,
-          success: function (res) {
+          success: (res) => {
             let result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
             const code = result.split('&')[1].split('?')[0]
             const name = result.split('&')[1].split('?')[1]
-            this.$tools.navTo({
+            that.$tools.navTo({
               url: `./area?name=${name}&code=${code}&inspectId=${this.inspectId}`,
               title: '巡查点'
             })

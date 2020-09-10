@@ -155,25 +155,30 @@ export default {
 		},
 	},
 	async created() {
-		let teachClassList = JSON.parse(uni.getStorageSync('protal')).teachClassList
-		this.uploadUrl = `${hostEnv.zk_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
+		this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList
+		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		this.length = this.classMotto.length;
 		this.schoolYearId = store.schoolYear.schoolYearId;
 		if (store.userInfo.typeCode === '4') {
 			this.userType = '0';
-			if(teachClassList.length === 0){
+			if(this.classList.length === 0){
 				this.$tools.toast('请绑定班级')
 				return
 			}
-			this.classList = teachClassList;
-			this.classCode = teachClassList.value
-			this.gradeCode = teachClassList[0].gradeCode
+			this.classCode = this.classList.value
+			this.gradeCode = this.classList[0].gradeCode
 			this.showClass = true;
-			this.defTitle = teachClassList[0].text;
-			this.value0 = teachClassList[0].value;
+			this.defTitle = this.classList[0].text;
+			this.value0 = this.classList[0].value;
+			if (store.isBZR && this.classList[0].value === store.isBZR.classCode) {
+				this.userType = '1';
+			} else {
+				this.userType = '0';
+			}
+			console.log(this.userType)
 			uni.setStorageSync('classInfo', {
-				gradeCode: teachClassList[0].gradeCode,
-				classCode: teachClassList[0].value,
+				gradeCode: this.classList[0].gradeCode,
+				classCode: this.classList[0].value,
 				schoolYearId: this.schoolYearId
 			});
 		}

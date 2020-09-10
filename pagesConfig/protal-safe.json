@@ -66,6 +66,28 @@
 		},
 		{
 			"path": "pages/accident/detail"
+		},
+		// 巡查值班
+		{
+			"path": "pages/inspect/index"
+		},
+		{
+			"path": "pages/inspect/add"
+		},
+		{
+			"path": "pages/inspect/area"
+		},
+		{
+			"path": "pages/inspect/end"
+		},
+		{
+			"path": "pages/inspect/detail"
+		},
+		{
+			"path": "pages/inspect/map"
+		},
+		{
+			"path": "pages/inspect/submit"
 		}
 	],
 	"globalStyle": {

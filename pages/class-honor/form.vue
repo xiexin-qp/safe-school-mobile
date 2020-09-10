@@ -58,7 +58,7 @@ export default {
 	},
 	computed: {},
 	created() {
-		this.uploadUrl = `${hostEnv.zk_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
+		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		this.type = this.$tools.getQuery().get('type');
 		if (this.type === '1') {
 			this.id = this.$tools.getQuery().get('id');
