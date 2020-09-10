@@ -4,7 +4,7 @@
       class="u-mar-b20"
       ref="dropdown"
       @value0Change="value0Change"
-      @searchChange="searchChange"
+      @value1Change="value1Change"
     ></dropdown-menu>
     <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
       <no-data v-if="recordList.length === 0" msg="暂无数据"></no-data>
@@ -60,23 +60,30 @@ export default {
     this.gradeCode = uni.getStorageSync("classInfo").gradeCode;
   },
   mounted() {
-    this.getDetail();
   },
   methods: {
     value0Change(val) {
       this.classCode = val;
+			this.getDetail();
     },
+		value1Change(val) {
+		  this.subjectCode = val;
+			this.getDetail();
+		},
     searchChange(val) {
     },
     async getDetail() {
+			if(!this.subjectCode || !this.classCode){
+				return
+			}
       const req = {
         schoolCode: 'CANPOINTLIVE',
         schoolYearId: '66',
         ...this.pageList,
         gradeCode: '01',
-        classCode: '20200101',
+        classCode: this.classCode,
+				subjectCode: this.subjectCode,
         planId: this.id,
-        // subjectCode: this.subjectCode,
       };
       const res = await actions.getscoreList(req);
       this.recordList = res.data.list;

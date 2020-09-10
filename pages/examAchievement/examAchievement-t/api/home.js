@@ -8,9 +8,12 @@ import hostEnv from '../../../../config/index.js'
 let homeApi = {
   gettestList: '/test/plan/getPlanList#post', // 考试计划列表
   getscoreList:'/test/score/getScoreByClassCode#post' //查看成绩
-
+	
 }
 for (let val in homeApi) {
   homeApi[val] = `${hostEnv.zk_examplan}${homeApi[val]}`
 }
-export default homeApi
+export default {
+	...homeApi,
+	getSubList: `${hostEnv.zk_school}/school/subject/list#post`
+}

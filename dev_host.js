@@ -224,8 +224,7 @@
           }
         },
         "/zk_examplan": {
-          "target": "http://192.168.2.242:11013/", // 张坤-考试计划
-          // "target": "http://192.168.2.242:11013/",
+          "target": "http://192.168.1.23:11013/", // 考试计划
           "changeOrigin": true,
           "pathRewrite": {
             "^/zk_examplan": ""
@@ -282,6 +281,12 @@
 					"pathRewrite": {
 					  "^/lz_safe": ""
 					}
+				},	"/cl_class": {
+				  "target": "http://192.168.1.193:11009/", //陈琳-班牌
+				  "changeOrigin": true,
+				  "pathRewrite": {
+				    "^/cl_class": ""
+				  }
 				}
       }
     },
