@@ -65,20 +65,18 @@ export default {
   methods: {
     value0Change(val) {
       this.classCode = val;
-      this.getDetail();
     },
     searchChange(val) {
-      this.getDetail();
     },
     async getDetail() {
       const req = {
-        schoolCode: store.userInfo.schoolCode,
-        schoolYearId: this.schoolYearId,
+        schoolCode: 'CANPOINTLIVE',
+        schoolYearId: '66',
         ...this.pageList,
-        gradeCode: this.gradeCode,
-        classCode: this.classCode,
+        gradeCode: '01',
+        classCode: '20200101',
         planId: this.id,
-        subjectCode: this.subjectCode,
+        // subjectCode: this.subjectCode,
       };
       const res = await actions.getscoreList(req);
       this.recordList = res.data.list;
