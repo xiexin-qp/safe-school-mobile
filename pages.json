@@ -5,11 +5,6 @@
 	"pages": [
 		// 主页模块
 		{
-			"path": "pages/index/index",
-			"style": {}
-		},
-		// 主页模块
-		{
 			"path": "pages/protal/index",
 			"style": {}
 		},
@@ -144,7 +139,7 @@
 			"path": "pages/news/news-p/parentNotice/detail",
 			"style": {}
 		},
-		// 门禁模块
+		// 门禁管理
 		{
 			"path": "pages/door/door-p/doorRecord/index",
 			"style": {}
@@ -165,7 +160,7 @@
 			"path": "pages/door/door-t/doorManage/add",
 			"style": {}
 		},
-		// 宿管模块
+		// 宿舍管理
 		{
 			"path": "pages/dorm/check-total/index",
 			"style": {}
@@ -317,7 +312,7 @@
 			"path": "pages/attendance/attendance-t/studentLeave/add",
 			"style": {}
 		},
-		// 家长考勤模块
+		// 家长考勤管理
 		{
 			"path": "pages/attendance/attendance-p/attendance/index",
 			"style": {}
@@ -338,7 +333,7 @@
 			"path": "pages/attendance/attendance-p/leave/add",
 			"style": {}
 		},
-		// 教师疫情日报模块
+		// 教师疫情防控
 		{
 			"path": "pages/ncov/ncov-t/index",
 			"style": {}
@@ -355,7 +350,7 @@
 			"path": "pages/ncov/ncov-t/archives",
 			"style": {}
 		},
-		// 家长疫情日报模块
+		// 家长疫情防控
 		{
 			"path": "pages/ncov/ncov-p/index",
 			"style": {}
@@ -372,7 +367,7 @@
 			"path": "pages/ncov/ncov-p/archives",
 			"style": {}
 		},
-		// 人像采集
+		// 人脸采集
 		{
 			"path": "pages/face/face-p/index",
 			"style": {}
@@ -693,10 +688,120 @@
 			"path": "pages/praise-column/praise-column-t/class/index",
 			"style": {}
 		},
+		//考试成绩
+		{
+			"path": "pages/examAchievement/examAchievement-t/index",
+			"style": {}
+		}, {
+			"path": "pages/examAchievement/examAchievement-t/detail",
+			"style": {}
+		},
 		//电子板报
 		{
 			"path": "pages/class-newspaper/index"
 		}
+		// // 班级德育
+		// {
+		// 	"path": "pages/moral/index",
+		// 	"style": {}
+		// },
+		// {
+		// 	"path": "pages/moral/detail",
+		// 	"style": {}
+		// },
+		// {
+		// 	"path": "pages/moral/add",
+		// 	"style": {}
+		// }, {
+		// 	"path": "pages/dorm/record-detail/index",
+		// 	"style": {}
+		// },
+		// // 个人德育
+		// {
+		//   "path": "pages/class-moral/index",
+		//   "style": {}
+		// },
+		// {
+		//   "path": "pages/class-moral/detail",
+		//   "style": {}
+		// },
+		// {
+		//   "path": "pages/class-moral/add",
+		//   "style": {}
+		// },
+		// {
+		//   "path": "pages/class-moral/record",
+		//   "style": {}
+		// },
+		// // 行为评价
+		// {
+		//   "path": "pages/behavior/index",
+		//   "style": {}
+		// },
+		// {
+		//   "path": "pages/behavior/detail",
+		//   "style": {}
+		// },
+		// {
+		//   "path": "pages/behavior/add",
+		//   "style": {}
+		// },
+		// {
+		//   "path": "pages/behavior/record",
+		//   "style": {}
+		// },
+		// // 家长管理
+		// {
+		// 	"path": "pages/parent-manage/index"
+		// },
+		// // 班级管理
+		// {
+		// 	"path": "pages/class-student/index"
+		// },
+		// {
+		// 	"path": "pages/class-student/detail"
+		// },
+		// //教师助手-调班调宿
+		// {
+		// 	"path": "pages/assistant/assistant-t/class/index",
+		// 	"style": {}
+		// },
+		// {
+		// 	"path": "pages/assistant/assistant-t/class/detail",
+		// 	"style": {}
+		// },
+		// {
+		// 	"path": "pages/assistant/assistant-t/dorm/detail",
+		// 	"style": {}
+		// },
+		// {
+		// 	"path": "pages/assistant/assistant-t/dorm/index",
+		// 	"style": {}
+		// },
+		// {
+		// 	"path": "pages/assistant/assistant-p/class/index",
+		// 	"style": {}
+		// },
+		// {
+		// 	"path": "pages/assistant/assistant-p/class/form",
+		// 	"style": {}
+		// },
+		// {
+		// 	"path": "pages/assistant/assistant-p/class/detail",
+		// 	"style": {}
+		// },
+		// {
+		// 	"path": "pages/assistant/assistant-p/dorm/index",
+		// 	"style": {}
+		// },
+		// {
+		// 	"path": "pages/assistant/assistant-p/dorm/form",
+		// 	"style": {}
+		// },
+		// {
+		// 	"path": "pages/assistant/assistant-p/dorm/detail",
+		// 	"style": {}
+		// }
 	],
 	"globalStyle": {
 		// 禁用头部导航栏
