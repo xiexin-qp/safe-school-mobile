@@ -35,8 +35,5 @@ for (let val in showApi) {
 export default {
   ...gradeApi,
 	...showApi,
-<<<<<<< HEAD
 	delFile: `${hostEnv.cl_oa}/study/theme/file/delete#delWithQuery` // 文件删除
-=======
->>>>>>> 7f8bba79fd31b87e4116aa2b703b966b0335091b
 }

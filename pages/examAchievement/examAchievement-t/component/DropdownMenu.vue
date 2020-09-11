@@ -1,15 +1,7 @@
 <template>
 	<view class="dropDown u-fx u-bg-fff">
 		<ms-dropdown-menu v-if="showClass"><ms-dropdown-item v-model="value0" :list="classList" :title="defTitle"></ms-dropdown-item></ms-dropdown-menu>
-    		<ms-dropdown-menu v-if="current === 0">
-			<view class="dropdown-item">
-				<view class="dropdown-item__selected u-fx-ac" @click="onShowDatePicker()">
-					<view class="selected__name">{{ title }}</view>
-					<view class="selected__icon" ><span class="iconfont">&#xe851;</span></view>
-				</view>
-			
-			</view>
-		</ms-dropdown-menu>
+		<ms-dropdown-menu v-if="showSub"><ms-dropdown-item v-model="value1" :list="subList" :title="defSubTitle"></ms-dropdown-item></ms-dropdown-menu>
 	</view>
 </template>
 
@@ -20,7 +12,7 @@ import { store, actions } from '../store/index.js';
 export default {
 	components: {
 		msDropdownMenu,
-		msDropdownItem,
+		msDropdownItem
 	},
 	props: {
 		statusList: {
@@ -30,15 +22,19 @@ export default {
 			}
 		}
 	},
+	computed: {
+		teachClassList: () => JSON.parse(uni.getStorageSync('protal')).teachClassList
+	},
 	data() {
 		return {
 			showClass: false,
+			showSub: false,
 			defTitle: '',
-			value0: '0',
-			dateValue: '',
-			current: 0,
-			title: '选择日期',
-			classList: []
+			defSubTitle: '',
+			value0: '',
+			value1: '',
+			classList: [],
+			subList: []
 		};
 	},
 	watch: {
@@ -50,22 +46,37 @@ export default {
 				this.$emit('value0Change', this.value0);
 			}
 		},
-		title(val, oldval) {
+		value1(val, oldval) {
 			if (val !== oldval) {
-				this.$emit('searchChange', this.title);
+				this.$emit('value1Change', val);
 			}
 		}
 	},
 	async created() {
-		this.classList = store.teachClassList
-		if( this.classList.length > 0 ){
+		this.classList = this.teachClassList;
+		if (this.classList.length > 0) {
 			this.showClass = true;
 			this.defTitle = this.classList[0].text;
 			this.value0 = this.classList[0].value;
 		}
+		this._getSubList()
 	},
 	methods: {
-
+		async _getSubList() {
+			const req = {
+				schoolCode: store.userInfo.schoolCode
+			};
+			const res = await actions.getSubList(req);
+			this.subList = res.data.map(ele => {
+				return {
+					text: ele.subjectName,
+					value: ele.subjectCode
+				}
+			});
+			this.value1 = res.data[0].subjectCode;
+			this.defSubTitle = res.data[0].subjectName;
+			this.showSub = true
+		}
 	}
 };
 </script>

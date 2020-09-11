@@ -4,7 +4,7 @@
       class="u-mar-b20"
       ref="dropdown"
       @value0Change="value0Change"
-      @searchChange="searchChange"
+      @value1Change="value1Change"
     ></dropdown-menu>
     <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
       <no-data v-if="recordList.length === 0" msg="暂无数据"></no-data>
@@ -20,18 +20,20 @@
               :image="item.photoUrl"
             ></u-lazy-load>
             <view class="">
-              <view class="title u-main-color u-bold u-mar-b20">{{
-                item.userName
-              }}</view>
+              <view class="title u-main-color u-bold u-mar-b20"
+                >{{ item.userName }}
+              </view>
+              <view class="title u-main-color u-bold u-mar-b20"
+                >{{ item.workNo }}
+              </view>
             </view>
           </view>
-          <view class="tag"> <view class="rit-icon"></view> </view>
+          <view class="tag"> {{ item.score }}分</view>
         </view>
       </view>
     </scroll-view>
   </view>
 </template>
-
 <script>
 import { store, actions } from "./store/index.js";
 import eventBus from "@u/eventBus";
@@ -50,7 +52,8 @@ export default {
       gradeCode: "",
       classCode: "",
       schoolYearId: "",
-      subjectCode:''
+      subjectCode: "",
+      morePage: false,
     };
   },
   created() {
@@ -59,42 +62,69 @@ export default {
     this.classCode = uni.getStorageSync("classInfo").classCode;
     this.gradeCode = uni.getStorageSync("classInfo").gradeCode;
   },
-  mounted() {
-    this.getDetail();
-  },
+  mounted() {},
   methods: {
     value0Change(val) {
       this.classCode = val;
       this.getDetail();
     },
-    searchChange(val) {
+    value1Change(val) {
+      this.subjectCode = val;
       this.getDetail();
     },
-    async getDetail() {
+    async getDetail(tag = false) {
+      if (tag) {
+        this.pageList.page += 1;
+      } else {
+        this.pageList.page = 1;
+      }
+      if (!this.subjectCode || !this.classCode) {
+        return;
+      }
       const req = {
         schoolCode: store.userInfo.schoolCode,
         schoolYearId: this.schoolYearId,
         ...this.pageList,
-        gradeCode: this.gradeCode,
         classCode: this.classCode,
-        planId: this.id,
         subjectCode: this.subjectCode,
+        planId: this.id,
       };
       const res = await actions.getscoreList(req);
-      this.recordList = res.data.list;
+      if (tag) {
+        this.recordList = this.recordList.concat(res.data.list);
+      } else {
+        this.recordList = res.data.list;
+      }
+      this.morePage = res.data.hasNextPage;
+    },
+    loadMore() {
+      if (!this.morePage) {
+        this.$tools.toast("数据已加载完毕");
+        return;
+      }
+      this.getDetail(true);
     },
   },
 };
 </script>
 <style lang="scss" scoped>
 .scroll-h {
-  height: calc(100vh - 0rpx);
+  height: calc(100vh - 100rpx);
 }
-.approve-list {
-  background-color: $uni-bg-color;
-  border-radius: 16rpx;
-  padding: $u-mp-20;
-  margin: $u-mp-20;
-  position: relative;
+.list:nth-child(odd) {
+  .sub {
+    color: $u-type-primary;
+    background-color: $u-type-primary-light;
+  }
+}
+.list:nth-child(even) {
+  .sub {
+    color: $u-type-success;
+    background-color: $u-type-success-light;
+  }
+}
+.img {
+  width: 160rpx;
+  height: 160rpx;
 }
 </style>

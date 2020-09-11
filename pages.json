@@ -5,6 +5,11 @@
 	"pages": [
 		// 主页模块
 		{
+			"path": "pages/index/index",
+			"style": {}
+		},
+		// 主页模块
+		{
 			"path": "pages/protal/index",
 			"style": {}
 		},
@@ -133,6 +138,43 @@
 		},
 		{
 			"path": "pages/news/news-p/parentNotice/detail",
+			"style": {}
+		},
+		//失物招领
+		{
+			"path": "pages/lost-found/lost-found-p/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/form",
+			"style": {}
+    },
+    //考试成绩
+		{
+			"path": "pages/examAchievement/examAchievement-t/index",
+			"style": {}
+		}, {
+			"path": "pages/examAchievement/examAchievement-t/detail",
+			"style": {}
+		},
+		//表扬栏
+		{
+			"path": "pages/praise-column/praise-column-t/personal/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/index",
+			"style": {}
+		},{
+			"path": "pages/praise-column/praise-column-t/personal/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/praise-column/praise-column-t/class/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/class/index",
 			"style": {}
 		},
 		// 门禁管理
@@ -376,7 +418,49 @@
 			"path": "pages/face/face-t/faceStudent/index",
 			"style": {}
 		},
+<<<<<<< HEAD
 		// // 班级德育
+=======
+		//考试计划
+		{
+			"path": "pages/examPlan/examPlan-t/index",
+			"style": {}
+		},
+		{
+			"path": "pages/examPlan/examPlan-p/index",
+			"style": {}
+		},
+		{
+			"path": "pages/examPlan/examPlan-p/detail",
+			"style": {}
+		},
+		//物品管理报修
+		{
+			"path": "pages/goods-repair/index",
+			"style": {}
+		},
+		{
+			"path": "pages/goods-repair/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/goods-repair/form",
+			"style": {}
+		},
+		{
+			"path": "pages/collect-repair/index",
+			"style": {}
+		},
+		{
+			"path": "pages/collect-repair/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/collect-repair/form",
+			"style": {}
+		},
+		// 班级德育
+>>>>>>> 512a4e9de2d207e9c616c1ce8ae0f6c1c90d280b
 		{
 			"path": "pages/moral/index",
 			"style": {}
@@ -394,6 +478,7 @@
 		},
 		// 个人德育
 		{
+<<<<<<< HEAD
 		  "path": "pages/class-moral/index",
 		  "style": {}
 		},
@@ -425,12 +510,49 @@
 		{
 		  "path": "pages/behavior/record",
 		  "style": {}
+=======
+			"path": "pages/class-moral/index",
+			"style": {}
+		},
+		{
+			"path": "pages/class-moral/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/class-moral/add",
+			"style": {}
+		},
+		{
+			"path": "pages/class-moral/record",
+			"style": {}
+		},
+		// 行为评价
+		{
+			"path": "pages/behavior/index",
+			"style": {}
+		},
+		{
+			"path": "pages/behavior/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/behavior/add",
+			"style": {}
+		},
+		{
+			"path": "pages/behavior/record",
+			"style": {}
+>>>>>>> 512a4e9de2d207e9c616c1ce8ae0f6c1c90d280b
 		},
 		// 家长管理
 		{
 			"path": "pages/parent-manage/index"
 		},
+<<<<<<< HEAD
 		// 班级管理
+=======
+		// 班级学生管理
+>>>>>>> 512a4e9de2d207e9c616c1ce8ae0f6c1c90d280b
 		{
 			"path": "pages/class-student/index"
 		},
@@ -477,6 +599,189 @@
 		{
 			"path": "pages/assistant/assistant-p/dorm/detail",
 			"style": {}
+<<<<<<< HEAD
+=======
+		},
+		// 留言
+		{
+			"path": "pages/class-message/class-message-p/index",
+			"style": {}
+		},
+		//场地预定
+		{
+			"path": "pages/site-booking/index",
+			"style": {}
+		},
+		{
+			"path": "pages/site-booking/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/site-booking/form",
+			"style": {}
+		},
+		//活动发布
+		{
+			"path": "pages/activity-booking/index",
+			"style": {}
+		},
+		{
+			"path": "pages/activity-booking/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/activity-booking/form",
+			"style": {}
+		},
+		{
+			"path": "pages/activity-booking/meetRecord",
+			"style": {}
+		},
+		{
+			"path": "pages/activity-booking/sign",
+			"style": {}
+		},
+		{
+			"path": "pages/activity-booking/poster",
+			"style": {}
+		},
+		//校园活动
+		{
+			"path": "pages/school-activity/index"
+		},
+		{
+			"path": "pages/school-activity/form"
+		},
+		//会议管理
+		{
+			"path": "pages/meet-booking/index",
+			"style": {}
+		},
+		{
+			"path": "pages/meet-booking/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/meet-booking/form",
+			"style": {}
+		},
+		{
+			"path": "pages/meet-booking/meetRecord",
+			"style": {}
+		},
+		// 作业
+		{
+			"path": "pages/class-homework/class-homework-t/index",
+			"style": {}
+		},
+		{
+			"path": "pages/class-homework/class-homework-t/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/class-homework/class-homework-t/form",
+			"style": {}
+		},
+		{
+			"path": "pages/class-homework/class-homework-p/index",
+			"style": {}
+		},
+		{
+			"path": "pages/class-homework/class-homework-p/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/class-homework/class-homework-p/form",
+			"style": {}
+		},
+		// 调代课
+		{
+			"path": "pages/transfer-course/index"
+		},
+		{
+			"path": "pages/transfer-course/form"
+		},
+		{
+			"path": "pages/transfer-course/detail"
+		},
+		//班级圈
+		{
+			"path": "pages/class-circle/index",
+			"style": {}
+		},
+		{
+			"path": "pages/class-circle/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/class-circle/form",
+			"style": {}
+		},
+		{
+			"path": "pages/class-circle/newList",
+			"style": {}
+		},
+		// 学习园地
+		{
+			"path": "pages/study-ground/study-ground-p/index"
+		},
+		{
+			"path": "pages/study-ground/study-ground-t/index"
+		},
+		{
+			"path": "pages/study-ground/study-ground-t/form"
+		},
+		{
+			"path": "pages/study-ground/component/detail"
+		},
+		//校园概况
+		{
+			"path": "pages/school-intro/index"
+		},
+		//师生风采
+		{
+			"path": "pages/teacher-show/index"
+		},
+		{
+			"path": "pages/teacher-show/add-teacher"
+		},
+		//班级荣誉
+		{
+			"path": "pages/class-honor/index"
+		},
+		{
+			"path": "pages/class-honor/form"
+		},
+		//表扬栏
+		{
+			"path": "pages/praise-column/praise-column-t/personal/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/index",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/praise-column/praise-column-t/class/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/class/index",
+			"style": {}
+		},
+		//考试成绩
+		{
+			"path": "pages/examAchievement/examAchievement-t/index",
+			"style": {}
+		}, {
+			"path": "pages/examAchievement/examAchievement-t/detail",
+			"style": {}
+		},
+		//电子板报
+		{
+			"path": "pages/class-newspaper/index"
+>>>>>>> 512a4e9de2d207e9c616c1ce8ae0f6c1c90d280b
 		}
 	],
 	"globalStyle": {

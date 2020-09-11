@@ -163,8 +163,12 @@
           this.leaveInfo.leaveApprovalAddDto = {}
         }
       },
-      async detailGet (id) {
-        const res = await actions.getLeaveDetail(id)
+      async detailGet (id,code) {
+        const req = {
+          oddNumbers: id,
+          userCode: store.userInfo.userCode
+        }
+        const res = await actions.getLeaveDetail(req)
         this.leaveInfo = res.data
         this.leaveInfo.startDate = this.$tools.getPhoneTime(new Date(this.leaveInfo.startTime), 'noSecond')
         this.leaveInfo.endDate = this.$tools.getPhoneTime(new Date(this.leaveInfo.endTime), 'noSecond')

@@ -4,18 +4,18 @@
 			<view class="u-fx-ac u-bd-b item-list u-bold">
 				<view>{{ date }} 作业</view>
 			</view>
-			<view v-if="type === '0'" class="u-fx-ac u-bd-b item-list">
+			<view v-if="type === '0'" class="u-fx-ac u-bd-b item-list" @click="changeClass">
 				<view class="tip">选择班级：</view>
-				<view class="u-fx-f1 u-fx-je u-content-color" @click="changeClass">{{ formData.gradeClassName }}</view>
+				<view class="u-fx-f1 u-fx-je u-content-color">{{ formData.gradeClassName }}</view>
 				<view class="rit-icon"></view>
 			</view>
 			<view v-else class="u-fx-ac u-bd-b item-list">
 				<view>班级：</view>
 				<view class="u-fx-f1 u-fx-je u-tips-color u-mar-r20">{{ formData.gradeClassName }}</view>
 			</view>
-			<view v-if="type === '0'" class="u-fx-ac u-bd-b item-list">
+			<view v-if="type === '0'" class="u-fx-ac u-bd-b item-list" @click="changeSub">
 				<view class="tip">选择学科：</view>
-				<view class="u-fx-f1 u-fx-je u-content-color" @click="changeSub">{{ formData.subjectName }}</view>
+				<view class="u-fx-f1 u-fx-je u-content-color">{{ formData.subjectName }}</view>
 				<view class="rit-icon"></view>
 			</view>
 			<view v-else class="u-fx-ac u-bd-b item-list">
@@ -118,6 +118,7 @@ export default {
 			});
 			this.date = this.$tools.getDateTime(new Date(), 'date');
 		}
+		console.log(this.classList)
 	},
 	async mounted() {},
 	methods: {
@@ -151,6 +152,7 @@ export default {
 			this.noWorkstuLength = `已选择${this.formData.noWorkstu.length}人`;
 		},
 		changeClass() {
+			console.log(123)
 			this.$tools.actionsheet(this.classList, item => {
 				console.log(item);
 				this.formData.gradeClassName = item.label;
@@ -158,6 +160,8 @@ export default {
 				this.formData.className = item.className;
 				this.formData.gradeName = item.gradeName;
 				this.formData.gradeCode = item.gradeCode;
+				this.formData.subjectName = '';
+				this.formData.subjectCode = '';
 			});
 		},
 		changeSub() {
@@ -211,6 +215,7 @@ export default {
 				const req = {
 					...this.formData,
 					...this.schoolInfo,
+					createUsercode: store.userInfo.userCode,
 					attachList: this.formData.attachList.map(el => {
 						return {
 							fileName: el.name,

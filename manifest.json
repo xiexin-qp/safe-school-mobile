@@ -240,8 +240,8 @@
           }
         },
         "/zq_class": {
-          // "target": "http://192.168.1.241:11006/", //张琦，班牌
-          "target": "http://192.168.2.242:11009/",
+          "target": "http://192.168.1.23:11009/", //张琦，班牌
+          // "target": "http://192.168.2.242:11009/",
           "changeOrigin": true,
           "pathRewrite": {
             "^/zq_class": ""
@@ -263,7 +263,8 @@
           }
         },
         "/zk_oa": {
-          "target": "http://192.168.2.242:11014/", //张坤-物品管理
+					"target": "http://192.168.1.23:11014/",
+          // "target": "http://192.168.2.242:11014/", //张坤-物品管理
           "changeOrigin": true,
           "pathRewrite": {
             "^/zk_oa": ""
