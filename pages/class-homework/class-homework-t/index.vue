@@ -82,9 +82,17 @@ export default {
 		});
 		this.showList();
 	},
+	computed: {
+		isBZR: () => JSON.parse(uni.getStorageSync('protal')).isBZR
+	},
 	methods: {
 		value0Change(val) {
 			this.classCode = val;
+			if (this.isBZR && val === this.isBZR.classCode) {
+				this.userType = 1;
+			} else {
+				this.userType = 2;
+			}
 			this.showList();
 		},
 		searchChange(val) {
@@ -113,6 +121,9 @@ export default {
 				schoolYearId: this.schoolYearId
 			};
 			if (this.current === 0) {
+				if(this.userType === 2){
+					req.createUsercode = store.userInfo.userCode
+				}
 				const res = await actions.getHomeworkList(req);
 				if (tag) {
 					this.dataList = this.dataList.concat(res.data.list);

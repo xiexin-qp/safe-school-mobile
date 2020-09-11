@@ -215,6 +215,7 @@ export default {
 				const req = {
 					...this.formData,
 					...this.schoolInfo,
+					createUsercode: store.userInfo.userCode,
 					attachList: this.formData.attachList.map(el => {
 						return {
 							fileName: el.name,

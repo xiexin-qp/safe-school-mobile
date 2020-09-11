@@ -2,8 +2,10 @@
 	<view class="u-page">
 		<no-data v-if="false" msg="暂无数据"></no-data>
 		<view v-else class="">
-			<view class="wrap u-padd-20"><u-swiper height="400" :list="list" @click="previewImage"></u-swiper></view>
-			<video v-if="false" class="uploade-video u-padd-20" src="" controls enable-play-gesture></video>
+			<view v-if="type === 'image'" class="wrap u-padd-20"><u-swiper height="400" img-mode="aspectFit" :list="list" @click="previewImage"></u-swiper></view>
+			<view class="u-fx-ac-jc u-padd-20" v-if="type === 'video'">
+				<video class="uploade-video u-fx-ac" :src="videoUrl" controls enable-play-gesture></video>
+			</view>
 			<view class="u-mar-20 u-mar-t10">
 				<u-icon class="u-font-3" name="calendar" color="#2979ff"></u-icon>
 				<text class="mar-l20 u-font-1 u-bold">学校简介：</text>
@@ -12,22 +14,7 @@
 				<view class="u-auto">
 					<view class="u-padd-l20 u-padd-r20">
 						<text class="content">
-							十一火车票今日开抢 十一火车票开抢，又到了拼手速的时候！
-							依照规定，火车票互联网和电话订票提前30天发售，车站售票窗口、代售点提前28天发售，因此，9月2日起可抢10月1日当天的车票，窗口、代售点的开售时间为9月4日。
-							通常，假期最后2天为返程高峰，返程票方面， 9月8日、9日分别可抢10月7日、8日的车票。 不过，需要提醒的是，不同的火车站火车票起售时间并不相同。
-							以北京为例：北京西站上午8点起售，北京站上午10点起售，北京南站中午12点30分起售。旅客需要提前了解相关信息，做好抢票准备。 十一火车票今日开抢
-							十一火车票开抢，又到了拼手速的时候！
-							依照规定，火车票互联网和电话订票提前30天发售，车站售票窗口、代售点提前28天发售，因此，9月2日起可抢10月1日当天的车票，窗口、代售点的开售时间为9月4日。
-							通常，假期最后2天为返程高峰，返程票方面， 9月8日、9日分别可抢10月7日、8日的车票。 不过，需要提醒的是，不同的火车站火车票起售时间并不相同。
-							以北京为例：北京西站上午8点起售，北京站上午10点起售，北京南站中午12点30分起售。旅客需要提前了解相关信息，做好抢票准备。 十一火车票今日开抢
-							十一火车票开抢，又到了拼手速的时候！
-							依照规定，火车票互联网和电话订票提前30天发售，车站售票窗口、代售点提前28天发售，因此，9月2日起可抢10月1日当天的车票，窗口、代售点的开售时间为9月4日。
-							通常，假期最后2天为返程高峰，返程票方面， 9月8日、9日分别可抢10月7日、8日的车票。 不过，需要提醒的是，不同的火车站火车票起售时间并不相同。
-							以北京为例：北京西站上午8点起售，北京站上午10点起售，北京南站中午12点30分起售。旅客需要提前了解相关信息，做好抢票准备。 十一火车票今日开抢
-							十一火车票开抢，又到了拼手速的时候！
-							依照规定，火车票互联网和电话订票提前30天发售，车站售票窗口、代售点提前28天发售，因此，9月2日起可抢10月1日当天的车票，窗口、代售点的开售时间为9月4日。
-							通常，假期最后2天为返程高峰，返程票方面， 9月8日、9日分别可抢10月7日、8日的车票。 不过，需要提醒的是，不同的火车站火车票起售时间并不相同。
-							以北京为例：北京西站上午8点起售，北京站上午10点起售，北京南站中午12点30分起售。旅客需要提前了解相关信息，做好抢票准备。
+							{{ dataInfo.content }}
 						</text>
 					</view>
 				</view>
@@ -46,21 +33,15 @@ export default {
 	},
 	data() {
 		return {
+			type: '',
 			dataInfo: {},
-			list: [
-				{
-					image: 'https://cdn.uviewui.com/uview/swiper/1.jpg'
-				},
-				{
-					image: 'https://cdn.uviewui.com/uview/swiper/2.jpg'
-				},
-				{
-					image: 'https://cdn.uviewui.com/uview/swiper/3.jpg'
-				}
-			]
+			list: [],
+			videoUrl: ''
 		};
 	},
-	async created() {},
+	async created() {
+		this.showList()
+	},
 	methods: {
 		previewImage(index) {
 			uni.previewImage({
@@ -71,12 +52,23 @@ export default {
 			});
 		},
 		async showList() {
-			const req = {
-				schoolCode: store.userInfo.schoolCode
-			};
-			console.log(req);
-			const res = await actions.getMomentList(req);
+			const res = await actions.getSchoolShow(store.userInfo.schoolCode);
+			const fileRes = await actions.getSchoolShowFile(store.userInfo.schoolCode);
 			this.dataInfo = res.data;
+			if(fileRes.data.length ===0 ){
+				return
+			}
+			if('mp4|ogg|webm'.toLowerCase().indexOf(fileRes.data[0].fileType.toLowerCase()) !== -1){
+				this.type = 'image'
+				this.videoUrl = fileRes.data[0].url
+			}else{
+				this.type = 'video'
+				this.list = fileRes.data.map(el => {
+					return {
+						image: el.url 
+					}
+				})
+			}
 		}
 	}
 };

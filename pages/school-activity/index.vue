@@ -110,9 +110,13 @@ export default {
 			this.value0 = this.classList[0].value;
 		} else if (this.userInfo.typeCode === '16') {
 			this.userType = 3;
+			if(this.childList.length === 0){
+				return
+			}
 			this.classCode = this.childList[0].classCode;
 			this.userCode = this.childList[0].userCode;
 			this.userName = this.childList[0].userName;
+			this.className = this.childList[0].gradeName + this.childList[0].className;
 			eventBus.$on('getList', () => {
 				this.showList();
 			});
@@ -126,6 +130,7 @@ export default {
 				this.classCode = item.classCode;
 				this.userCode = item.userCode;
 				this.userName = item.userName;
+				this.className = item.gradeName + item.className;
 				this.showList();
 			}
 		},
@@ -176,6 +181,7 @@ export default {
 				const req = {
 					activityId: record.id,
 					classCode: this.classCode,
+					className: this.className,
 					schoolCode: this.userInfo.schoolCode,
 					schoolYearId: store.schoolYear.schoolYearId,
 					userCode: this.userCode,
