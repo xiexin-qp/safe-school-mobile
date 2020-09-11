@@ -59,10 +59,10 @@ export default {
 				return
 			}
 			if('mp4|ogg|webm'.toLowerCase().indexOf(fileRes.data[0].fileType.toLowerCase()) !== -1){
-				this.type = 'image'
+				this.type = 'video'
 				this.videoUrl = fileRes.data[0].url
 			}else{
-				this.type = 'video'
+				this.type = 'image'
 				this.list = fileRes.data.map(el => {
 					return {
 						image: el.url 
