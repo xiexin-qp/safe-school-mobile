@@ -5,6 +5,11 @@
 	"pages": [
 		// 主页模块
 		{
+			"path": "pages/index/index",
+			"style": {}
+		},
+		// 主页模块
+		{
 			"path": "pages/protal/index",
 			"style": {}
 		},

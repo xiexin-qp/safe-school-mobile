@@ -236,25 +236,6 @@ export default {
 					this.classInfo = res.data.classInfos[this.currentClass]
 				}
 			}
-			setStore({
-				key: 'isBZR',
-				data: this.classInfo
-			})
-			const i = this.teachClassList.findIndex(list => list.isBZR)
-			if(i !== -1){
-				this.teachClassList.splice(i, 1)
-			}
-			this.teachClassList.unshift({
-				...this.classInfo,
-				text: this.classInfo.gradeName + this.classInfo.className,
-				value: this.classInfo.classCode,
-				isBZR: true
-			})
-			console.log(this.teachClassList)
-			setStore({
-				key: 'teachClassList',
-				data: this.teachClassList
-			})
 		},
 		// 退出登陆
 		async loginOut (tag) {

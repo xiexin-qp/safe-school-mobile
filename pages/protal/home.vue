@@ -107,15 +107,17 @@ export default {
 		if (this.userInfo.typeCode === '4') {
 			this.$tools.isBZR(this.userInfo, data => {
 				console.log(data)
-				let classInfo = {}
-				if (parseInt(this.currentClass) > data.lenght) {
-					classInfo = data[0]
+				if(!data){
+					return
+				}
+				if (parseInt(this.currentClass) > data.length) {
+					this.classInfo = data[0]
 				} else {
-					classInfo = data[this.currentClass]
+					this.classInfo = data[this.currentClass]
 				}
 				setStore({
 					key: 'isBZR',
-					data: classInfo
+					data: this.classInfo
 				});
 			});
 		}
@@ -143,9 +145,9 @@ export default {
 							});
 						});
 					}
-					if (store.isBZR) {
+					if (this.classInfo) {
 						const index = classList.findIndex(list => {
-							return list.value === store.isBZR.classCode;
+							return list.value === this.classInfo.classCode;
 						});
 						if (index !== -1) {
 							classList[index].isBZR = true;
@@ -153,12 +155,12 @@ export default {
 							classList.splice(index + 1, 1);
 						} else {
 							classList.unshift({
-								text: store.isBZR.gradeName + store.isBZR.className,
-								value: store.isBZR.classCode,
-								className: store.isBZR.className,
-								gradeName: store.isBZR.gradeName,
-								gradeCode: store.isBZR.gradeCode,
-								classId: store.isBZR.classId,
+								text: this.classInfo.gradeName + this.classInfo.className,
+								value: this.classInfo.classCode,
+								className: this.classInfo.className,
+								gradeName: this.classInfo.gradeName,
+								gradeCode: this.classInfo.gradeCode,
+								classId: this.classInfo.classId,
 								isBZR: true
 							});
 						}

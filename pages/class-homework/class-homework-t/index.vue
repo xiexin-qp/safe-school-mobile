@@ -97,6 +97,9 @@ export default {
 			this.showList();
 		},
 		async showList(tag = false) {
+			if(!this.classCode){
+				return
+			}
 			if (tag) {
 				this.pageList.page += 1;
 			} else {

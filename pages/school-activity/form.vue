@@ -1,9 +1,9 @@
 <template>
 	<view class="u-page u-bg-fff">
 		<u-popup v-model="showPopTag" mode="center" border-radius="14" width="90%" height="80%">
-			<choose-control :type="type" :schoolCode="schoolInfo.schoolCode" :bindList="controlList" @close="popclose" @confirm="popselcet"></choose-control>
+			<choose-classcard :type="type" :classInfo="classInfo" :schoolCode="schoolInfo.schoolCode" :bindList="controlList" @close="popclose" @confirm="popselcet"></choose-classcard>
 		</u-popup>
-		<u-picker @confirm="changeTime" v-model="signDateTag" mode="time" :params="params"></u-picker>
+		<u-picker @confirm="changeTime" v-model="signDateTag" :start-year="startYear" mode="time" :default-time="defaultTime" :params="params"></u-picker>
 		<scroll-view scroll-y="true" class="scroll-h">
 			<view class="u-fx-ac u-bd-b item-list">
 				<view class="tip">活动主题：</view>
@@ -17,29 +17,18 @@
 					<input :disabled="type === '1'" class="item-input" maxlength="10" v-model="formData.placeName" style="text-align: right;" placeholder="请输入活动地点" />
 				</view>
 			</view>
-			<view class="u-bd-b item-list">
-				<view class="tip mar-b20">活动时间：</view>
-				<view class="u-fx-jsa u-padd-t u-fx-ac" v-for="(item, index) in timeList" :key="index">
-					<picker :disabled="type === '1'" mode="date" :value="item.date" :start="startDate" :end="endDate" @change="changeDate([...arguments, 1, index])">
-						<view class="date u-fx-jc">
-							<view class="uni-input">{{ item.date }}</view>
-						</view>
-					</picker>
-					<picker :disabled="type === '1'" mode="time" :value="item.startTime" @change="changeDate([...arguments, 2, index])">
-						<view class="date u-fx-jc">
-							<view class="uni-input">{{ item.startTime }}</view>
-						</view>
-					</picker>
-					<view class="">至</view>
-					<picker :disabled="type === '1'" mode="time" :value="item.startTime" @change="changeDate([...arguments, 3, index])">
-						<view class="date u-fx-jc">
-							<view class="uni-input">{{ item.endTime }}</view>
-						</view>
-					</picker>
-				</view>
+			<view class="u-fx-ac u-bd-b item-list">
+				<view class="tip">活动开始时间:</view>
+				<view class="u-fx-f1 u-fx-je u-content-color" @click="changeDatetime('startTime')">{{ formData.startTime }}</view>
+				<view class="rit-icon"></view>
+			</view>
+			<view class="u-fx-ac u-bd-b item-list">
+				<view class="tip">活动结束时间:</view>
+				<view class="u-fx-f1 u-fx-je u-content-color" @click="changeDatetime('endTime')">{{ formData.endTime }}</view>
+				<view class="rit-icon"></view>
 			</view>
 			<view class="u-fx u-bd-b item-list">
-				<view class="tip">活动内容：</view>
+				<view>活动内容：</view>
 				<view class="u-fx-f1 mar-r20" v-if="type !== '1'">
 					<textarea
 						:auto-height="true"
@@ -64,7 +53,7 @@
 			</view>
 			<view v-if="formData.isSign" class="u-fx-ac u-bd-b item-list">
 				<view class="tip">报名截止时间:</view>
-				<view class="u-fx-f1 u-fx-je u-content-color" @click="signDateTag = true">{{ formData.signEnddate }}</view>
+				<view class="u-fx-f1 u-fx-je u-content-color" @click="changeDatetime('signEnddate')">{{ formData.signEnddate }}</view>
 				<view class="rit-icon"></view>
 			</view>
 		</scroll-view>
@@ -75,22 +64,23 @@
 <script>
 import eventBus from '@u/eventBus';
 import validateForm from '@u/validate';
-import ChooseControl from '@/components/choose-control/choose-control.vue';
+import ChooseCLassCard from '@/components/choose-classcard/choose-classcard.vue';
 import { store, actions } from './store/index.js';
 const yzForm = {
 	remark: '请输入活动主题',
-	placeName: '请输入活动地点',
-	content: '请输入活动内容'
+	placeName: '请输入活动地点'
 };
 export default {
 	components: {
-		ChooseControl
+		ChooseCLassCard
 	},
 	data() {
 		return {
 			canClick: true,
 			signDateTag: false,
 			showPopTag: false,
+			startYear: new Date().getFullYear(),
+			defaultTime: '',
 			params: {
 				year: true,
 				month: true,
@@ -103,18 +93,19 @@ export default {
 				remark: '',
 				isSign: false,
 				content: '',
-				date: '请选择日期',
 				placeName: '',
-				signEnddate: '请选择报名截止日期'
+				signEnddate: '请选择',
+				startTime: '请选择',
+				endTime: '请选择'
 			},
-			timeList: [],
 			controlList: [],
 			type: '', // 0新增 1查看 2编辑
 			controlTitle: '请选择',
 			schoolInfo: {
 				schoolYearId: 0,
 				schoolCode: ''
-			}
+			},
+			classInfo: {}
 		};
 	},
 	computed: {
@@ -126,44 +117,58 @@ export default {
 		}
 	},
 	created() {
+		this.defaultTime = this.$tools.getDateTime(new Date(), 'noSecond');
 		this.schoolInfo.schoolCode = store.userInfo.schoolCode;
 		this.schoolInfo.schoolYearId = store.schoolYear ? store.schoolYear.schoolYearId : '';
 		this.type = this.$tools.getQuery().get('type');
-		this.id = this.$tools.getQuery().get('id');
-		if (this.type !== '0') {
-			this.showData();
+		this.userType = this.$tools.getQuery().get('userType');
+		if (this.userType === '1') {
+			this.classInfo.classCode = store.isBZR.classCode;
+			this.classInfo.gradeCode = store.isBZR.gradeCode;
 		} else {
-			this.timeList = [{ date: this.$tools.getDateTime(new Date(), 'date'), startTime: '请选择时间', endTime: '请选择时间' }];
+			this.type = '1';
+		}
+		this.id = this.$tools.getQuery().get('id');
+		if (this.id) {
+			this.showData();
 		}
 	},
 	methods: {
 		// 表单回填
 		async showData() {
-			const res = await actions.reserveDetail(this.id);
+			const res = await actions.schoolActivityDetail(this.id);
 			this.formData.placeName = res.data.placeName;
-			this.timeList = [
-				{
-					date: this.$tools.getDateTime(res.data.reserveDate, 'date'),
-					startTime: res.data.startTime,
-					endTime: res.data.endTime
-				}
-			];
+			this.formData.startTime = this.$tools.getDateTime(res.data.startTime, 'noSecond');
+			this.formData.endTime = this.$tools.getDateTime(res.data.endTime, 'noSecond');
 			this.formData.remark = res.data.description;
 			this.formData.content = res.data.content;
 			this.formData.isSign = res.data.openSign === '1';
-			this.controlList = res.data.placeReserveDeviceList;
+			this.formData.signEnddate = this.$tools.getDateTime(res.data.stopDatetime, 'noSecond');
+			this.controlList = res.data.deviceList;
 			this.controlTitle = `已选择${this.controlList.length}个设备`;
 		},
 		changeTime(item) {
-			this.formData.signEnddate = `${item.year}-${item.month}-${item.day} ${item.hour}:${item.minute}`;
-		},
-		changeAddress(item) {
-			this.formData.addressTag = item;
-			if (item === 2) {
-				this.timeList = [{ date: this.$tools.getDateTime(new Date(), 'date'), startTime: '请选择时间', endTime: '请选择时间' }];
-			} else {
-				this.timeList = [];
+			if (this.timeType === 'startTime') {
+				this.formData.startTime = `${item.year}-${item.month}-${item.day} ${item.hour}:${item.minute}`;
+			} else if (this.timeType === 'endTime') {
+				this.formData.endTime = `${item.year}-${item.month}-${item.day} ${item.hour}:${item.minute}`;
+			} else if (this.timeType === 'signEnddate') {
+				this.formData.signEnddate = `${item.year}-${item.month}-${item.day} ${item.hour}:${item.minute}`;
 			}
+		},
+		changeDatetime(type) {
+			if (this.type === '1') {
+				return;
+			}
+			if (this.timeType === 'startTime' && this.formData.startTime !== '请选择') {
+				this.defaultTime = this.formData.startTime;
+			} else if (this.timeType === 'endTime' && this.formData.endTime !== '请选择') {
+				this.defaultTime = this.formData.endTime;
+			} else if (this.timeType === 'signEnddate' && this.formData.signEnddate !== '请选择') {
+				this.defaultTime = this.formData.signEnddate;
+			}
+			this.signDateTag = true;
+			this.timeType = type;
 		},
 		popclose() {
 			this.showPopTag = false;
@@ -171,95 +176,42 @@ export default {
 		popselcet(data) {
 			this.controlList = data.map(el => {
 				return {
-					deviceName: el.deviceName,
-					deviceSn: el.deviceSn
+					...el,
+					activityId: this.id || undefined,
+					schoolYearId: store.schoolYear.schoolYearId
 				};
 			});
 			this.controlTitle = `已选择${this.controlList.length}个设备`;
 			this.showPopTag = false;
-		},
-		getDate(type) {
-			const date = new Date();
-			let year = date.getFullYear();
-			let month = date.getMonth() + 1;
-			let day = date.getDate();
-			if (type === 'start') {
-				year = year;
-			} else if (type === 'end') {
-				year = year + 2;
-			}
-			month = month > 9 ? month : '0' + month;
-			day = day > 9 ? day : '0' + day;
-			return `${year}-${month}-${day}`;
-		},
-		changeDate([e, type, index]) {
-			if (type === 1) {
-				this.timeList[index].date = e.target.value;
-			} else {
-				console.log(this.timeList[index].date);
-				console.log(this.$tools.getDateTime(new Date(), 'date'));
-				if (
-					this.timeList[index].date === this.$tools.getDateTime(new Date(), 'date') &&
-					new Date(this.timeList[index].date + ' ' + e.target.value).getTime() < new Date().getTime()
-				) {
-					e.target.value = this.$tools.getDateTime(new Date(), 'time');
-				}
-				if (type === 2) {
-					this.timeList[index].startTime = e.target.value;
-				} else if (type === 3) {
-					this.timeList[index].endTime = e.target.value;
-				}
-			}
-		},
-		// 验证时间
-		yzTime(data) {
-			const arr = [];
-			let isOverLap = 1;
-			data.forEach(ele => {
-				if (ele.startTime === '请选择时间' || ele.endTime === '请选择时间') {
-					isOverLap = 4;
-					return false;
-				}
-				arr.push({
-					startTime: new Date(`${ele.date} ${ele.startTime}`),
-					endTime: new Date(`${ele.date} ${ele.endTime}`)
-				});
-			});
-			const tempList = [];
-			arr.forEach((item, index) => {
-				// 转换为时间戳
-				const startTimeStamp = item.startTime.getTime();
-				const endTimeStamp = item.endTime.getTime();
-				if (startTimeStamp >= endTimeStamp) {
-					isOverLap = 3;
-				}
-			});
-			return isOverLap;
 		},
 		submitForm() {
 			if (!this.canClick) {
 				return;
 			}
 			validateForm(yzForm, this.formData, () => {
-				if (this.formData.room === '请选择' && this.formData.addressTag === 1) {
-					this.$tools.toast('请选择活动场地');
+				if (this.formData.startTime === '请选择') {
+					this.$tools.toast('请选择活动开始时间');
 					return;
 				}
-				if (this.yzTime(this.timeList) === 4) {
-					this.$tools.toast('请选择活动时间');
+				if (this.formData.endTime === '请选择') {
+					this.$tools.toast('请选择活动结束时间');
 					return;
 				}
-				if (this.yzTime(this.timeList) === 3) {
-					this.$tools.toast('开始时间不能大于结束时间');
-					return;
+				if (new Date(this.formData.endTime).getTime() <= new Date(this.formData.startTime).getTime()) {
+					this.$tools.toast('活动结束时间不能晚于活动开始时间')
+					return
 				}
 				if (this.controlList.length === 0) {
-					this.$tools.toast('请选择设备');
+					this.$tools.toast('请选择发布设备');
 					return;
 				}
-				if (this.formData.isSign && this.formData.signEnddate === '请选择报名截止日期') {
-					this.$tools.toast('请选择报名截止日期');
+				if (this.formData.isSign && this.formData.signEnddate === '请选择') {
+					this.$tools.toast('请选择报名截止时间');
 					return;
+				}
+				if (this.formData.isSign && new Date(this.formData.signEnddate).getTime() > new Date(this.formData.startTime).getTime()) {
+					this.$tools.toast('报名截止时间不能晚于活动开始时间')
+					return
 				}
 				this.canClick = false;
 				const req = {
@@ -269,24 +221,23 @@ export default {
 					placeName: this.formData.placeName,
 					description: this.formData.remark,
 					content: this.formData.content,
-					placeReserveDateDtoList: {
-						reserveDate: this.timeList[0].date,
-						startTime: this.timeList[0].startTime,
-						endTime: this.timeList[0].endTime
-					},
-					placeReserveDeviceList: this.controlList,
+					startTime: this.formData.startTime,
+					endTime: this.formData.endTime,
+					deviceList: this.controlList,
 					openSign: this.formData.isSign ? '1' : '2',
-					type: '3'
 				};
 				if (this.formData.isSign) {
-					req.signEnddate = this.formData.signEnddate;
-				}
-				if (this.type === '2') {
-					req.id = this.id;
+					req.stopDatetime = this.formData.signEnddate;
 				}
 				console.log(req);
-				actions
-					.addReserve(req)
+				let res = null;
+				if (this.type === '2') {
+					req.id = this.id;
+					res = actions.editSchoolActivity(req);
+				} else if (this.type === '0') {
+					res = actions.addSchoolActivity(req);
+				}
+				res
 					.then(res => {
 						console.log(res);
 						this.canClick = true;
@@ -301,27 +252,6 @@ export default {
 						console.log(err);
 					});
 			});
-		},
-		goBack() {
-			eventBus.$emit('getList');
-			this.$tools.goBack();
-		},
-		addTime(tag, index) {
-			console.log(index);
-			if (tag) {
-				if (index > 1) {
-					this.$tools.toast('最多添加三个时段');
-					return;
-				}
-				this.timeList.push({ date: this.$tools.getDateTime(new Date(), 'date'), startTime: '请选择时间', endTime: '请选择时间' });
-			} else {
-				if (this.timeList.length === 1) {
-					this.$tools.toast('已经是最后一项了');
-					return;
-				}
-				this.timeList.splice(index, 1);
-				console.log(this.timeList);
-			}
 		}
 	}
 };
