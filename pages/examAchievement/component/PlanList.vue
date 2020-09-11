@@ -18,8 +18,12 @@
           >
           <view class="u-mar-t u-type-info"
             >考试日期：{{ item.startDate | gmtToDate("date") }}</view
-          ></view
-        >
+          >
+          <view class="u-mar-t u-type-error" v-if="item.ifEnter === '0'"
+            >暂未上传成绩</view
+          >
+        </view>
+
         <view class="p-18">
           <u-button type="primary" size="mini" @click="goDetail(item.id)"
             >查看成绩</u-button

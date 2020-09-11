@@ -10,7 +10,7 @@ let leaveApi = {
   addTeacherLeave: '/teacher/leave/add#post', // 新增教职工请假
   updateTeacherLeave: '/teacher/leave/update#post', // 更新教职工请假
   getTeacherLeave: '/teacher/leave/getleaveForMobile#post', // PC 教职工分页查询请假单
-  getLeaveDetail: '/leave/getAllInfoByOddNumbers#getUrl', // 根据请假单号获取请假单全部信息
+  getLeaveDetail: '/leave/getAllInfoByOddNumbers#get', // 根据请假单号获取请假单全部信息
   // getLeaveDetail: '/teacher/leave/detailByNumbers/#getUrl', // 根据请假单号获取请假单全部信息
   getApprovalLeave: '/leave/approval/getApprovalLeaveByUserCode#post', // 查询归自己审批的请假单
   getCopyLeave: '/leave/copy/getCopyLeaveByUserCode#post', // 查询抄送给自己的请假单

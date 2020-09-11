@@ -75,7 +75,7 @@ export default {
     top: 40rpx;
     text-align: center;
     margin-left: 110rpx;
-    z-index: 9999;
+    z-index: 999;
   }
 }
 .detail:nth-child(odd) {
