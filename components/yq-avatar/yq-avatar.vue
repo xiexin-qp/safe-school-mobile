@@ -1,6 +1,5 @@
 <template name="yq-avatar">
 	<view>
-		<image :src="imgSrc.imgSrc" @click="fSelect" :style="[ iS ]" class="my-avatar"></image>
 		<canvas canvas-id="avatar-canvas" id="avatar-canvas" class="my-canvas" :style="{top: sT, height: csH}"
 		 disable-scroll="false"></canvas>
 		<canvas canvas-id="oper-canvas" id="oper-canvas" class="oper-canvas" :style="{top: sT, height: csH}"
@@ -184,7 +183,10 @@
 				setTimeout(() => {
 					this.fSelecting = false;
 				}, 500);
-
+				console.log(this.$tools)
+				// this.$tools.wxPhoto((data) => {
+				// 	console.log()
+				// }, true)
 				uni.chooseImage({
 					count: 1,
 					sizeType: ['original', 'compressed'],

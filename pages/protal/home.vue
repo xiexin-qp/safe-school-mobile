@@ -106,9 +106,9 @@ export default {
 		// 判断是否是班主任
 		if (this.userInfo.typeCode === '4') {
 			this.$tools.isBZR(this.userInfo, data => {
-				console.log(data)
+				if (!data) return
 				let classInfo = {}
-				if (parseInt(this.currentClass) > data.lenght) {
+				if (parseInt(this.currentClass) > data.length - 1) {
 					classInfo = data[0]
 				} else {
 					classInfo = data[this.currentClass]
@@ -173,7 +173,6 @@ export default {
 	},
 	methods: {
 		goModule() {
-			console.log('1', 1);
 			this.$tools.navTo({
 				url: '../index/index'
 			});

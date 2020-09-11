@@ -11,11 +11,11 @@
 </template>
 
 <script>
-	import {store, actions} from './store/index.js'
+	import eventBus from '@u/eventBus'
+	import initData from './assets/js/initData.js'
 	export default {
 		name: 'DetailMessage',
 		computed: {
-			userInfo: () => store.userInfo
 		},
 		data () {
 			return {
@@ -23,13 +23,8 @@
 			}
 		},
 		async mounted () {
-			console.log(this.detail)
 			if (!this.detail.readStatus) {
-				await actions.readPersonNotice({
-					eduCode: this.userInfo.schoolCode,
-					noticeCodes: [this.detail.noticeCode],
-					userCode: this.userInfo.userCode
-				})
+				initData.readNotice(this.detail.noticeCode)
 			}
 		}
 	}

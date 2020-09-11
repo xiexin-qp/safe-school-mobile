@@ -28,10 +28,6 @@
 			"path": "pages/protal/messageDetail",
 			"style": {}
 		},
-		{
-			"path": "pages/protal/map",
-			"style": {}
-		},
 		// 课程表
 		{
 			"path": "pages/class-schedule/class-schedule-t/index",
@@ -367,7 +363,7 @@
 			"path": "pages/ncov/ncov-p/archives",
 			"style": {}
 		},
-		// 人脸采集
+		// // 人脸采集
 		{
 			"path": "pages/face/face-p/index",
 			"style": {}
@@ -379,109 +375,109 @@
 		{
 			"path": "pages/face/face-t/faceStudent/index",
 			"style": {}
-		}
+		},
 		// // 班级德育
-		// {
-		// 	"path": "pages/moral/index",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/moral/detail",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/moral/add",
-		// 	"style": {}
-		// }, {
-		// 	"path": "pages/dorm/record-detail/index",
-		// 	"style": {}
-		// },
-		// // 个人德育
-		// {
-		//   "path": "pages/class-moral/index",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-moral/detail",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-moral/add",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/class-moral/record",
-		//   "style": {}
-		// },
-		// // 行为评价
-		// {
-		//   "path": "pages/behavior/index",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/behavior/detail",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/behavior/add",
-		//   "style": {}
-		// },
-		// {
-		//   "path": "pages/behavior/record",
-		//   "style": {}
-		// },
-		// // 家长管理
-		// {
-		// 	"path": "pages/parent-manage/index"
-		// },
-		// // 班级管理
-		// {
-		// 	"path": "pages/class-student/index"
-		// },
-		// {
-		// 	"path": "pages/class-student/detail"
-		// },
-		// //教师助手-调班调宿
-		// {
-		// 	"path": "pages/assistant/assistant-t/class/index",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-t/class/detail",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-t/dorm/detail",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-t/dorm/index",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-p/class/index",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-p/class/form",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-p/class/detail",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-p/dorm/index",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-p/dorm/form",
-		// 	"style": {}
-		// },
-		// {
-		// 	"path": "pages/assistant/assistant-p/dorm/detail",
-		// 	"style": {}
-		// }
+		{
+			"path": "pages/moral/index",
+			"style": {}
+		},
+		{
+			"path": "pages/moral/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/moral/add",
+			"style": {}
+		}, {
+			"path": "pages/dorm/record-detail/index",
+			"style": {}
+		},
+		// 个人德育
+		{
+		  "path": "pages/class-moral/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-moral/detail",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-moral/add",
+		  "style": {}
+		},
+		{
+		  "path": "pages/class-moral/record",
+		  "style": {}
+		},
+		// 行为评价
+		{
+		  "path": "pages/behavior/index",
+		  "style": {}
+		},
+		{
+		  "path": "pages/behavior/detail",
+		  "style": {}
+		},
+		{
+		  "path": "pages/behavior/add",
+		  "style": {}
+		},
+		{
+		  "path": "pages/behavior/record",
+		  "style": {}
+		},
+		// 家长管理
+		{
+			"path": "pages/parent-manage/index"
+		},
+		// 班级管理
+		{
+			"path": "pages/class-student/index"
+		},
+		{
+			"path": "pages/class-student/detail"
+		},
+		//教师助手-调班调宿
+		{
+			"path": "pages/assistant/assistant-t/class/index",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-t/class/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-t/dorm/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-t/dorm/index",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-p/class/index",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-p/class/form",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-p/class/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-p/dorm/index",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-p/dorm/form",
+			"style": {}
+		},
+		{
+			"path": "pages/assistant/assistant-p/dorm/detail",
+			"style": {}
+		}
 	],
 	"globalStyle": {
 		// 禁用头部导航栏
