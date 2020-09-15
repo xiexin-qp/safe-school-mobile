@@ -151,7 +151,7 @@ export default {
 			});
 		},
 		open() {
-			this.$refs.refuse.open();
+			this.showTag = true;
 		},
 		sure() {
 			this.$tools.confirm(`确定拒绝吗?`, () => {

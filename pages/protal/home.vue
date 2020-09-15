@@ -106,16 +106,16 @@ export default {
 		// 判断是否是班主任
 		if (this.userInfo.typeCode === '4') {
 			this.$tools.isBZR(this.userInfo, data => {
-				console.log(data)
+				if (!data) return
 				let classInfo = {}
-				if (parseInt(this.currentClass) > data.lenght) {
+				if (parseInt(this.currentClass) > data.length - 1) {
 					classInfo = data[0]
 				} else {
-					classInfo = data[this.currentClass]
+					this.classInfo = data[this.currentClass]
 				}
 				setStore({
 					key: 'isBZR',
-					data: classInfo
+					data: this.classInfo
 				});
 			});
 		}
@@ -143,9 +143,9 @@ export default {
 							});
 						});
 					}
-					if (store.isBZR) {
+					if (this.classInfo) {
 						const index = classList.findIndex(list => {
-							return list.value === store.isBZR.classCode;
+							return list.value === this.classInfo.classCode;
 						});
 						if (index !== -1) {
 							classList[index].isBZR = true;
@@ -153,12 +153,12 @@ export default {
 							classList.splice(index + 1, 1);
 						} else {
 							classList.unshift({
-								text: store.isBZR.gradeName + store.isBZR.className,
-								value: store.isBZR.classCode,
-								className: store.isBZR.className,
-								gradeName: store.isBZR.gradeName,
-								gradeCode: store.isBZR.gradeCode,
-								classId: store.isBZR.classId,
+								text: this.classInfo.gradeName + this.classInfo.className,
+								value: this.classInfo.classCode,
+								className: this.classInfo.className,
+								gradeName: this.classInfo.gradeName,
+								gradeCode: this.classInfo.gradeCode,
+								classId: this.classInfo.classId,
 								isBZR: true
 							});
 						}
@@ -173,7 +173,6 @@ export default {
 	},
 	methods: {
 		goModule() {
-			console.log('1', 1);
 			this.$tools.navTo({
 				url: '../index/index'
 			});

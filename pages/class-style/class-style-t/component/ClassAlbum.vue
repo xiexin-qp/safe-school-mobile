@@ -1,7 +1,7 @@
 <template>
 	<view class=" u-page">
 		<scroll-view scroll-y class="scroll-h" @scrolltolower="loadMore">
-			<no-data v-if="albumList.length === 0" msg="暂无相册"></no-data>
+			<no-data v-if="albumList.length === 0 && userType !== '1'" msg="暂无相册"></no-data>
 			<view class="album-list u-fx">
 				<view class="album-item u-fx-ver" v-if="userType === '1'" @click="addAlbum">
 					<view class="album-wrapper">

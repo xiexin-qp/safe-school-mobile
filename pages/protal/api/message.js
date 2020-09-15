@@ -10,7 +10,10 @@ const messageApi = {
   searchNotice: '/noticeInfo/platform/list/by/condition#post', // 查询公告
 	searchPersonTz: '/notice/user/query/person/notice#post', // 查看个人的通知
 	searchPersonApp: '/notice/user/query/person/application/notice#post', // 查询个人的应用消息
-  readPersonNotice: '/notice/user/read#post'
+  readPersonNotice: '/notice/user/read#post',
+	unReadApp: '/notice/user/count/person/unread/application/notice#post', // 个人未查看应用消息
+	unReadNotice: '/notice/user/count/person/unread/notice#post', // 个人未查看通知公告
+	unReadPlateform: '/notice/user/count/person/unread/plateform/notice#post', // 个人未查看平台消息
 }
 for (const val in messageApi) {
   messageApi[val] = `${hostEnv.zk_leave}${messageApi[val]}`

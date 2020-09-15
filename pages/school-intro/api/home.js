@@ -6,15 +6,12 @@
 import hostEnv from '../../../config/index.js'
 
 let showApi = {
-	addNewMoment: '/moments/add#post', // 发布动态
-	getMomentList: '/moments/list#post', //获取班级动态
-	deleteMoment: '/moments/delete#delWithQuery', //删除动态
-	addLike: '/moments/addMomentsLike#post', //点赞
-	deleteLike: '/moments/deleteMomentsLike#delWithQuery', //取消点赞
-	addComment: '/moments/addMomentsComment#post', //评论
-	deleteComment: '/moments/deleteMomentsComment#delWithQuery', //删除评论
-	getUnReadList: '/moments/findUnReadList#post', //未读评论消息列表
-	getMomentDetail: '/moments/detail#getUrl', //动态详情
+	// 校园概况
+	getSchoolShow: '/school/introduction/detail#getUrl', // 校园概况查询
+	getSchoolShowFile: '/school/introduction/file/getFileBySchoolCode#getUrl', // 校园概况附件查询
+	addSchoolShow: '/school/introduction/add#post', // 校园概况新增
+	editSchoolShow: '/school/introduction/update#post', // 校园概况编辑
+	delFile: '/school/introduction/file/deleteByUrl#delWithQuery' // 文件删除
 }
 
 for (let val in showApi) {
