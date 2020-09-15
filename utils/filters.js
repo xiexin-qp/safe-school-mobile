@@ -185,6 +185,19 @@ const filters = {
       return '失效'
     }
   },
+	getRelationShip: val => {
+    if (val == 1) {
+      return '爸爸'
+    } else if (val == 2) {
+      return '妈妈'
+    } else if (val == 3) {
+      return '爷爷'
+    } else if (val == 4) {
+      return '奶奶'
+    } else if (val == 5) {
+      return '其他'
+    }
+  },
   // 调班 调舍审批状态
   approveState: val => {
     if (val == 1) {

@@ -50,6 +50,9 @@ export default {
 		console.log(uni.getStorageSync('bindInfo'));
 		this.showList();
 	},
+	beforeDestroy(){
+		eventBus.$emit('getList');
+	},
 	mounted() {},
 	methods: {
 		async showList(tag = false) {
