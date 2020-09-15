@@ -175,6 +175,12 @@
 		}, {
 			"path": "pages/praise-column/praise-column-t/class/index",
 			"style": {}
+		},	{
+			"path": "pages/praise-column/praise-column-p/detail",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-p/index",
+			"style": {}
 		},
 		// 门禁管理
 		{

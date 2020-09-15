@@ -8,9 +8,9 @@
 
 <script>
 import eventBus from "@u/eventBus";
-import { store, actions } from "../store/index.js";
-import hostEnv from "../../../../config/index.js";
-import detailList from "../../component/detailList.vue";
+import { store, actions } from "./store/index.js";
+import hostEnv from "../../../config/index.js";
+import detailList from "../component/detailList.vue";
 export default {
   components: { detailList },
   data() {

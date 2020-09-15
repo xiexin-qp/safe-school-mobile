@@ -7,10 +7,11 @@ import hostEnv from '../../../../config/index.js'
 
 let homeApi = {
   addlost: '/lost/and/found/add#post', // 新增
-  lostList: '/lost/and/found/list#post' // 列表
+  lostList: '/lost/and/found/list#post' ,// 列表
+  delLost:'/lost/and/found/delete#del'
 }
 
 for (let val in homeApi) {
-  homeApi[val] = `${hostEnv.cl_oa}${homeApi[val]}`
+  homeApi[val] = `${hostEnv.cl_class}${homeApi[val]}`
 }
 export default homeApi

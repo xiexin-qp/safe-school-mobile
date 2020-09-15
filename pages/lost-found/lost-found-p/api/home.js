@@ -11,6 +11,6 @@ let homeApi = {
 }
 
 for (let val in homeApi) {
-  homeApi[val] = `${hostEnv.cl_oa}${homeApi[val]}`
+  homeApi[val] = `${hostEnv.cl_class}${homeApi[val]}`
 }
 export default homeApi

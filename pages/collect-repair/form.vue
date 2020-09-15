@@ -136,6 +136,9 @@ export default {
     valChange(e) {
       console.log(e.value);
     },
+    chooseTeacher() {
+      this.teacherTag = true;
+    },
     teacherSelcet(value) {
       this.teacherTag = false;
       this.repairApprovalList = value.map((el) => {
@@ -151,9 +154,6 @@ export default {
     handleDelete(item, index) {
       console.log("del", item, index, this.goodsList);
       this.goodsList.splice(index, 1);
-    },
-    chooseTeacher() {
-      this.teacherTag = true;
     },
     changeName([e, type, item, index]) {
       this.lastActive = item;
