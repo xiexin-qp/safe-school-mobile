@@ -67,10 +67,6 @@ export default {
 					return el.value === val;
 				})[0].text;
 				this.classCode = val;
-				eventBus.$on('getList', () => {
-					this.showList();
-				});
-				this.showList();
 				if (store.isBZR && val === store.isBZR.classCode) {
 					this.userType = 1;
 				} else {
@@ -83,6 +79,10 @@ export default {
 					classCode: val
 				});
 				console.log(this.userType);
+				eventBus.$on('getList', () => {
+					this.showList();
+				});
+				this.showList();
 			}
 		}
 	},
@@ -159,7 +159,7 @@ export default {
 			}
 			const req = {
 				...this.pageList,
-				category: this.userType === 3 ? 3 : 1,
+				category: this.userType === 1 ? 1 : 3,
 				schoolCode: store.userInfo.schoolCode,
 				classCode: this.classCode,
 				createUsercode: store.userInfo.userCode,

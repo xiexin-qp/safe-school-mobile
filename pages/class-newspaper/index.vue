@@ -26,7 +26,6 @@
 				</view>
 			</view>
 		</scroll-view>
-		<view v-if="userType === 1" class="float-add-btn" @click="add(0)"></view>
 	</view>
 </template>
 
