@@ -10,27 +10,7 @@
       ></ms-dropdown-menu>
     </view>
     <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
-      <no-data v-if="studentList.length === 0" msg="暂无数据"></no-data>
-      <view
-        class="list u-padd-20 u-mar-b20 u-mar-l20 u-mar-r20 u-bg-fff u-border-radius"
-        v-for="(item, i) in studentList"
-        :key="i"
-      >
-        <view class="u-fx-jsb u-fx-ac">
-          <view class="u-fx u-fx-ac">
-            <u-lazy-load
-              class="img u-border-radius-all u-mar-r20"
-              :image="item.photoUrl"
-            ></u-lazy-load>
-            <view class="">
-              <view class="title u-main-color u-bold u-mar-b20">{{
-                item.userName
-              }}</view>
-            </view>
-          </view>
-          <view class="tag" > <view class="rit-icon" @click="goDetail(item.userCode)"></view> </view>
-        </view>
-      </view>
+         <praiseList  :data-list="studentList" @goDetail="goDetail"></praiseList>
     </scroll-view>
      <view class="foot">
       <view class="float-add-btn" @click="add"></view>
@@ -44,11 +24,13 @@ import msDropdownMenu from "@/components/ms-dropdown/dropdown-menu.vue";
 import msDropdownItem from "@/components/ms-dropdown/dropdown-item.vue";
 import { store, actions } from "../store/index.js";
 import hostEnv from "../../../../config/index.js";
+import PraiseList from "../../component/praiseList.vue";
 export default {
   name: "index",
   components: {
     msDropdownMenu,
     msDropdownItem,
+    PraiseList
   },
   data() {
     return {

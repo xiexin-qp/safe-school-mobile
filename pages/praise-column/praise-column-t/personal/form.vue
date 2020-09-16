@@ -122,6 +122,7 @@ export default {
       border: true,
       type: "input",
       label: "",
+      dataList:[]
     };
   },
   computed: {},
@@ -188,10 +189,10 @@ export default {
       };
       const res = await actions.praiseList(req);
       if (!res.data.list) {
-        this.recordList = [];
+        this.dataList = [];
         return;
       }
-      this.recordList = res.data.list.map((el) => {
+      this.dataList = res.data.list.map((el) => {
         return {
           ...el,
           mode: "plain",
@@ -199,7 +200,9 @@ export default {
           tag: true,
         };
       });
-      console.log(this.recordList);
+        this.recordList = this.dataList.filter(
+        (item) => item.category === 2
+      );
     },
     tagClick(item) {
       item.mode = item.mode === "light" ? "plain" : "light";

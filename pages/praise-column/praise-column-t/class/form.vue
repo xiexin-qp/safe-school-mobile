@@ -121,6 +121,7 @@ export default {
         schoolYearId: 0,
         schoolCode: "",
       },
+      dataList:[]
     };
   },
   computed: {},
@@ -191,10 +192,10 @@ export default {
       };
       const res = await actions.praiseList(req);
       if (!res.data.list) {
-        this.recordList = [];
+        this.dataList = [];
         return;
       }
-      this.recordList = res.data.list.map((el) => {
+      this.dataList = res.data.list.map((el) => {
         return {
           ...el,
           mode: "plain",
@@ -202,6 +203,9 @@ export default {
           tag: true,
         };
       });
+        this.recordList = this.dataList.filter(
+        (item) => item.category === 1
+      );
       console.log(this.recordList);
     },
     tagClick(item) {
