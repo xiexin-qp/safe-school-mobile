@@ -11,7 +11,7 @@
 			<view class="content u-fx-f1 u-padd-l20 u-padd-r20">
 				<view class="u-type-primary-dark u-font-1" @tap.stop="goDetail(item.id)">
 					{{ item.category == '1' ? item.create_userName : item.children_name }}
-					<!-- <text v-if="item.category == '3'" class="u-font-03 u-type-info u-mar-l10">({{ item.relationship | getRelationShip }})</text> -->
+					<text v-if="item.category == '3'" class="">{{ item.relationship | getRelationShip }}</text>
 				</view>
 				<view class="u-content-color u-padd-t10">
 					<u-read-more :toggle="true" font-size="22" close-text="展开" text-indent="0" :show-height="85" :shadow-style="shadowStyle">{{ item.moments_msg }}</u-read-more>

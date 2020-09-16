@@ -1,13 +1,13 @@
 <template>
 	<view>
 		<view class="upload">
-			<view v-if="uploads.length < uploadCount" class="an-img-add u-fx-ac-jc" @tap="chooseUploads">+</view>
+			<view v-if="uploads.length < uploadCount && !disabled" class="an-img-add u-fx-ac-jc" @tap="chooseUploads">+</view>
 			<block v-for="(upload, index) in uploads" :key="index">
 				<view class="uplode-file">
 					<image v-if="types == 'image'" class="uploade-img" :src="upload.url" :data-src="upload" @tap="previewImage($event, index)"></image>
-					<image v-if="types == 'image'" class="clear-one-icon" :src="clearIcon" @tap="delImage(upload, index)"></image>
+					<image v-if="types == 'image' && !disabled" class="clear-one-icon" :src="clearIcon" @tap="delImage(upload, index)"></image>
 					<video v-if="types == 'video'" class="uploade-video" :src="upload.url" controls enable-play-gesture>
-						<cover-image v-if="types == 'video'" class="clear-one-icon" :src="clearIcon" @tap="delImage(upload, index)"></cover-image>
+						<cover-image v-if="types == 'video' && !disabled" class="clear-one-icon" :src="clearIcon" @tap="delImage(upload, index)"></cover-image>
 					</video>
 				</view>
 			</block>
@@ -26,6 +26,10 @@ export default {
 		types: {
 			type: String,
 			default: 'image'
+		},
+		disabled: {
+			type: Boolean,
+			default: false
 		},
 		value: {
 			type: Array,

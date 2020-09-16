@@ -23,7 +23,7 @@
 						</view>
 						<view class="u-bd-t"></view>
 						<view class="u-fx-jsb u-fx-ac u-padd-t20 u-tips-color u-font-02">
-							<text>发布于：{{ item.createTime | gmtToDate('date') }}</text>
+							<text>发布于：{{ item.updateTime || item.createTime | gmtToDate('date') }}</text>
 							<view class="u-fx u-fx-ac">
 								<text @click="add(1, item.id)">发布人：{{ item.createUsername }}</text>
 								<view class="rit-icon"></view>
@@ -165,7 +165,7 @@ export default {
 		},
 		add(type, id) {
 			this.$tools.navTo({
-				url: `./form?type=${type}&id=${id}`
+				url: `./form?type=${type}&id=${id}&userType=${this.userType}`
 			});
 		}
 	}
