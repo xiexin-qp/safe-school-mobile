@@ -760,6 +760,19 @@
 		},
 		{
 			"path": "pages/hazard-mgt/dealWithDetail"
+		},
+		//安全任务
+		{
+			"path": "pages/safety-task/index"
+		},
+		{
+			"path": "pages/safety-task/assignDetail"
+		},
+		{
+			"path": "pages/safety-task/addDanger"
+		},
+		{
+			"path": "pages/safety-task/dealWithDetail"
 		}
 	],
 	"globalStyle": {
