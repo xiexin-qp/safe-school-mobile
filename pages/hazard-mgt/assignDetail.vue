@@ -78,10 +78,10 @@
 						小时
 					</view>
 				</view>
-				<view v-if="state=='assign'" class="u-fx u-bd-b  item-list">
+				<view v-if="state=='1'" class="u-fx u-bd-b  item-list">
 					<view>指派备注：</view>
 					<view class="u-fx-f1 mar-r20">
-						<textarea :auto-height="true" class="item-input u-light-color" maxlength="600" v-model="detailInfo.remark" style="text-align: right;height:120rpx"
+						<textarea :auto-height="true" class="item-input u-light-color" maxlength="600" v-model="detailInfo.assignRemark" style="text-align: right;height:120rpx"
 						 placeholder="请填写指派的意见或建议" />
 						</view>
 			  </view>
@@ -327,7 +327,7 @@ export default {
         actions.checkDanger(req).then(res=>{
           this.$tools.toast("验收操作成功", "success");
           this.$tools.goNext(() => {
-            eventBus.$emit('getList');
+            // eventBus.$emit('getList');
             this.$tools.navTo({
               url: `./index?state=${this.acceptanceState=='1'?'4':'2'}`,
             })
@@ -350,12 +350,13 @@ export default {
           if(this.detailInfo.handleDuration==''||this.detailInfo.handleDuration==null||this.detailInfo.handleDuration>=72){
             return this.$tools.toast('处理完时间为72以内的数字');
           }
-          this.$tools.confirm("确定指派报隐患吗？", () => {
+          this.$tools.confirm("确定指派该隐患吗？", () => {
             let req = {
               categoryCode: this.detailInfo.categoryCode, 
               countHourse: this.detailInfo.handleDuration,
               handlerCode: this.detailInfo.handlerCode,
               hasDispense: this.detailInfo.hasDispense?'1':'0',
+              remak:this.detailInfo.assignRemark,
               id: this.id,
               level: this.detailInfo.level,
               optCode: store.userInfo.userCode,
@@ -363,7 +364,7 @@ export default {
             actions.assignDanger(req).then(res=>{
               this.$tools.toast("指派成功", "success");
               this.$tools.goNext(() => {
-                eventBus.$emit('getList');
+                // eventBus.$emit('getList');
                 this.$tools.navTo({
                   url: `./index?state=2`,
                 })
@@ -383,7 +384,7 @@ export default {
             actions.transferDanger(req).then(res=>{
               this.$tools.toast("转派成功", "success");
               this.$tools.goNext(() => {
-                eventBus.$emit('getList');
+                // eventBus.$emit('getList');
                 this.$tools.navTo({
                   url: `./index?state=2`,
                 })
@@ -403,7 +404,7 @@ export default {
               actions.dealDanger(req).then(res=>{
                 this.$tools.toast("处理成功", "success");
                 this.$tools.goNext(() => {
-                  eventBus.$emit('getList');
+                  // eventBus.$emit('getList');
                   this.$tools.navTo({
                     url: `./index?state=3`,
                   })
@@ -433,11 +434,11 @@ export default {
 <style lang="scss" scoped>
 .scroll-h {
 	height: calc(100vh - 88rpx);
-  .img{
+}
+.img{
     height: 150rpx;
     width: 156rpx;
   }
-}
 .tip::before {
 	position: absolute;
 	content: '*';

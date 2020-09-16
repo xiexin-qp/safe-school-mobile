@@ -10,8 +10,8 @@
 					@click="assignDanger(item.id,item.state,item.leaderCode,item.handlerCode)"
 				  v-for="(item,index) in dataList" :key="index">
 					<view class="img-box">
-						<image  class="u-user-img u-border-radius-all" 
-							src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg"></image>
+						<image   class="u-user-img u-border-radius-all" 
+							:src="item.reportUserPhotoUrl"></image>
 					</view>
 					<view class="cont-box  u-wh u-mar-l20">
 						<view class="cont-title u-font-1 u-mar-b10  u-fx u-bold">{{item.reportName}}
