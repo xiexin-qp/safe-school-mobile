@@ -1,28 +1,41 @@
 <template>
-	<view class="u-page u-bg-fff u-auto">
-		<view class="add" v-if="showTag === '1'">
-			<view class="u-fx u-bd-b item-list input-area">
-				<view class="tip">活动心得：</view>
-				<view class="u-fx-f1 mar-r20"><textarea class="item-input u-content-color" maxlength="200" v-model="recordInfo.content" placeholder="请输入活动心得" /></view>
-			</view>
-			<view class="u-fx u-bd-b item-list">
-				<view>上传图片：</view>
-				<view class="u-fx-f1">
-					<view class="u-fx-f1"><an-upload-img showName total="9" v-model="recordInfo.attachList" class="upload"></an-upload-img></view>
-				</view>
-			</view>
-			<view class="submit-box"><view class="btn" @click="submit">提交</view></view>
-		</view>
-		<view class="edit" v-else>
-				<view class="u-fx item-list" v-if="recordInfo.attachList.length > 0">
-					<view>附件：</view>
-					<view class="u-fx-f1">
-						<view class="u-fx-f1"><an-upload-img disabled v-model="recordInfo.attachList" class="upload"></an-upload-img></view>
-					</view>
-				</view>
-			<view class="content u-padd-t u-content-color" v-html="recordInfo.content"></view>
-		</view>
-	</view>
+  <view class="u-page u-bg-fff u-auto">
+    <view class="add" v-if="showTag === '1'">
+      <view class="u-fx u-bd-b item-list input-area">
+        <view class="tip">活动心得：</view>
+        <view class="u-fx-f1 mar-r20">
+          <textarea
+            class="item-input u-content-color"
+            maxlength="200"
+            v-model="recordInfo.content"
+            placeholder="请输入活动心得"
+          />
+        </view>
+      </view>
+      <view class="u-fx u-bd-b item-list">
+        <view>上传图片：</view>
+        <view class="u-fx-f1">
+          <view class="u-fx-f1">
+            <an-upload-img showName total="9" v-model="recordInfo.attachList" class="upload"></an-upload-img>
+          </view>
+        </view>
+      </view>
+      <view class="submit-box">
+        <view class="btn" @click="submit">提交</view>
+      </view>
+    </view>
+    <view class="edit" v-else>
+      <view class="u-fx item-list" v-if="recordInfo.attachList.length > 0">
+        <view>附件：</view>
+        <view class="u-fx-f1">
+          <view class="u-fx-f1">
+            <an-upload-img disabled v-model="recordInfo.attachList" class="upload"></an-upload-img>
+          </view>
+        </view>
+      </view>
+      <view class="content u-padd-t u-content-color" v-html="recordInfo.content"></view>
+    </view>
+  </view>
 </template>
 
 <script>
@@ -32,16 +45,16 @@ import hostEnv from "../../config/index.js";
 import anUploadImg from "@/components/an-uploadImg/an-uploadImgWithName";
 export default {
   components: {
-    anUploadImg,
+    anUploadImg
   },
   data() {
     return {
       showTag: "1",
       recordInfo: {
         content: "",
-        attachList: [],
+        attachList: []
       },
-      id: "",
+      id: ""
     };
   },
   watch: {},
@@ -58,10 +71,10 @@ export default {
       } else {
         this.showTag = "2";
         this.recordInfo.content = res.data.content;
-        res.data.attachList.forEach((ele) => {
+        res.data.attachList.forEach(ele => {
           this.recordInfo.attachList.push({
             name: ele.fileName,
-            url: ele.fileUrl,
+            url: ele.fileUrl
           });
         });
       }
@@ -76,12 +89,12 @@ export default {
         placeReserveId: this.id,
         schoolCode: store.userInfo.schoolCode,
         content: this.recordInfo.content,
-        attachList: this.recordInfo.attachList.map((ele) => {
+        attachList: this.recordInfo.attachList.map(ele => {
           return {
             fileName: ele.name,
-            fileUrl: ele.url.split(",")[1],
+            fileUrl: ele.url.split(",")[1]
           };
-        }),
+        })
       };
       const res = await actions.addMeetRecord(req);
       this.$tools.toast("提交成功", "success");
@@ -93,7 +106,11 @@ export default {
     goDownload(url) {
       let httpUrl =
         "/img-download/" +
-        url.replace("http://", "").split("/").slice(1).join("/");
+        url
+          .replace("http://", "")
+          .split("/")
+          .slice(1)
+          .join("/");
       /* let system = uni.getSystemInfoSync().platform;
 			if(system == 'ios'){
 				httpUrl = encodeURI(httpUrl);
@@ -104,44 +121,44 @@ export default {
 			}) */ uni.downloadFile(
         {
           url: httpUrl, //下载地址接口返回
-          success: (data) => {
+          success: data => {
             console.log(data);
             if (data.statusCode === 200) {
               //文件保存到本地
               uni.saveFile({
                 tempFilePath: data.tempFilePath, //临时路径
-                success: function (res) {
+                success: function(res) {
                   uni.showToast({
                     icon: "none",
                     mask: true,
                     title: "文件已保存：" + res.savedFilePath, //保存路径
-                    duration: 3000,
+                    duration: 3000
                   });
                   setTimeout(() => {
                     //打开文档查看
                     uni.openDocument({
                       filePath: res.savedFilePath,
-                      success: function (res) {
+                      success: function(res) {
                         // console.log('打开文档成功');
-                      },
+                      }
                     });
                   }, 3000);
-                },
+                }
               });
             }
           },
-          fail: (err) => {
+          fail: err => {
             console.log(err);
             uni.showToast({
               icon: "none",
               mask: true,
-              title: "失败请重新下载",
+              title: "失败请重新下载"
             });
-          },
+          }
         }
       );
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -36,6 +36,7 @@ import apiFun from './store/apiFun.js';
 export default {
 	data() {
 		return {
+			currentClass: uni.getStorageSync('currentClass') || 0,
 			isModule: false,
 			autoColor: 'rgba(0, 0, 0, .2)',
 			actColor: '#ffffff',
@@ -85,7 +86,7 @@ export default {
 	computed: {
 		userInfo: () => store.userInfo,
 		enjoyApp: () => store.enjoyApp,
-		appList: () => store.appList
+		appList: () => store.appList,
 	},
 	components: {
 		newList,
@@ -105,15 +106,21 @@ export default {
 		// 判断是否是班主任
 		if (this.userInfo.typeCode === '4') {
 			this.$tools.isBZR(this.userInfo, data => {
+				if (!data) return
+				let classInfo = {}
+				if (parseInt(this.currentClass) > data.length - 1) {
+					classInfo = data[0]
+				} else {
+					this.classInfo = data[this.currentClass]
+				}
 				setStore({
 					key: 'isBZR',
-					data: data
+					data: this.classInfo
 				});
 			});
 		}
 		// 教职工任课班级列表
 		if (this.userInfo.typeCode === '4') {
-			return
 			let classList = [];
 			actions
 				.getClassListByTeacher({
@@ -131,13 +138,14 @@ export default {
 								gradeCode: el.gradeCode,
 								subjectList: el.subjectList,
 								className: el.className,
-								gradeName: el.gradeName
+								gradeName: el.gradeName,
+								classId: el.classId
 							});
 						});
 					}
-					if (store.isBZR) {
+					if (this.classInfo) {
 						const index = classList.findIndex(list => {
-							return list.value === store.isBZR.classCode;
+							return list.value === this.classInfo.classCode;
 						});
 						if (index !== -1) {
 							classList[index].isBZR = true;
@@ -145,12 +153,13 @@ export default {
 							classList.splice(index + 1, 1);
 						} else {
 							classList.unshift({
-								text: store.isBZR.gradeName + store.isBZR.className,
-								value: store.isBZR.classCode,
-								className: store.isBZR.className,
-								gradeName: store.isBZR.gradeName,
-								gradeCode: store.isBZR.gradeCode,
-								isBZR: false
+								text: this.classInfo.gradeName + this.classInfo.className,
+								value: this.classInfo.classCode,
+								className: this.classInfo.className,
+								gradeName: this.classInfo.gradeName,
+								gradeCode: this.classInfo.gradeCode,
+								classId: this.classInfo.classId,
+								isBZR: true
 							});
 						}
 					}
@@ -164,7 +173,6 @@ export default {
 	},
 	methods: {
 		goModule() {
-			console.log('1', 1);
 			this.$tools.navTo({
 				url: '../index/index'
 			});

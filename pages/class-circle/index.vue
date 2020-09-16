@@ -89,24 +89,24 @@ export default {
 	async created() {
 		if (store.userInfo.typeCode === '4') {
 			this.userType = 2;
-			if(store.teachClassList.length === 0){
+			this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList;
+			if(this.classList.length === 0){
 				this.$tools.toast('请绑定班级')
 				return
 			}
-			this.classList = store.teachClassList;
 			this.userCode = store.userInfo.userCode
 			this.userName = store.userInfo.userName
-			this.classCode = store.teachClassList[0].value
-			this.className = store.teachClassList[0].className
-			this.gradeName = store.teachClassList[0].gradeName
-			this.gradeCode = store.teachClassList[0].gradeCode
+			this.classCode = this.classList[0].value
+			this.className = this.classList[0].className
+			this.gradeName = this.classList[0].gradeName
+			this.gradeCode = this.classList[0].gradeCode
 			this.photoUrl = store.userInfo.photoUrl
 			this.showClass = true;
-			this.defTitle = store.teachClassList[0].text;
-			this.value0 = store.teachClassList[0].value;
+			this.defTitle = this.classList[0].text;
+			this.value0 = this.classList[0].value;
 			uni.setStorageSync('bindInfo', {
-				...store.teachClassList[0],
-				classCode: store.teachClassList[0].value
+				...this.classList[0],
+				classCode: this.classList[0].value
 			});
 		} else if (store.userInfo.typeCode === '16') {
 			this.userType = 3;
@@ -159,11 +159,14 @@ export default {
 			}
 			const req = {
 				...this.pageList,
-				category: this.userType === 3 ? '3' : '1',
+				category: this.userType === 3 ? 3 : 1,
 				schoolCode: store.userInfo.schoolCode,
 				classCode: this.classCode,
-				userCode: this.userCode
+				createUsercode: store.userInfo.userCode,
 			};
+			if(this.userType === 3){
+				req.childrenCode = this.userCode
+			}
 			console.log(req);
 			const res = await actions.getMomentList(req);
 			if (tag) {

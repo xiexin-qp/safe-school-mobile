@@ -1,12 +1,10 @@
 <template>
 	<view class="invite u-page">
-		<u-popup :maskCloseAble="true" ref="refuse" mode="center" length="80%">
-			<view class="pop u-fx-ver">
-				<view class="title">请输入拒绝原因</view>
-				<input v-model="refuseText" focus placeholder="" />
-				<view class="btn" @click="sure(0)">确定</view>
+		<u-modal v-model="showTag" show-cancel-button @confirm="sure(0)" title="请输入拒绝原因">
+			<view class="pop u-fx-ver u-mar-l20 u-mar-r20">
+				<input class="u-border-radius" v-model="refuseText" focus placeholder="" />
 			</view>
-		</u-popup>
+		</u-modal>
 		<uni-search-bar class="search" placeholder="输入姓名搜索" @confirm="search"></uni-search-bar>
 		<dropdown-menu :statusList="statusList" @value0Change="value0Change" @value1Change="value1Change" @value2Change="value2Change"></dropdown-menu>
 		<no-data v-if="appointList.length === 0" msg="暂无数据"></no-data>
@@ -25,7 +23,7 @@
 							<view>
 								状态：
 								<text :class="item.state === 2 ? 'refuse' : item.state === 1 ? 'agree' : item.state === 0 ? 'wait' : 'cancel'">
-									{{ item.state | approveState }}
+									{{ item.state | visitApproveState }}
 								</text>
 							</view>
 						</view>
@@ -79,6 +77,7 @@ export default {
 				size: 15
 			},
 			morePage: false,
+			showTag: false,
 			appointList: [],
 			value0: '0',
 			value1: '0',
@@ -176,7 +175,7 @@ export default {
 		check(arr) {
 			this.$tools.actionsheet(arr, index => {
 				if (index === 1) {
-					this.$refs.refuse.open();
+					this.showTag = true
 				} else {
 					this.$tools.confirm(`确定${arr[index]}吗?`, () => {
 						const req = {

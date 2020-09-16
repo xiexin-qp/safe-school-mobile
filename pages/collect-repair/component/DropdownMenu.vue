@@ -34,7 +34,7 @@
 import MxDatePicker from "@/components/mx-datepicker/mx-datepicker.vue";
 import msDropdownMenu from "@/components/ms-dropdown/dropdown-menu.vue";
 import msDropdownItem from "@/components/ms-dropdown/dropdown-item.vue";
-import { store, actions } from "../store/index.js";
+import { store, actions } from '../store/index.js';
 export default {
   components: {
     msDropdownMenu,

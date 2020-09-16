@@ -11,21 +11,34 @@
 		<view class="u-bd-b item-list">
 		  <view class="tip">上传头像：</view>
 		  <view class="u-fx-f1 u-mar-t">
-				<div class="upload-user-img" @click="chooseImg">
-					<image v-if="formData.base64Url" :src="formData.base64Url" class="upload-user-img"></image>
-					<view v-if="!formData.base64Url" class="upload-user-img">+</view>
-				</div>
+				<video-upload
+					class="u-fx-f1"
+					isCheck
+					:uploadUrl="uploadUrl"
+					 types="image"
+					:uploadCount="1"
+					:upload_max="10"
+					:pixels="200000"
+					@success="success"
+				></video-upload>
 		  </view>
 		</view>
 		<view class="btn-mar">
 			<u-button type="primary" @click="sign">提交</u-button>
 		</view>
+		<u-modal v-model="show" :zoom="show" :show-title="false" :show-confirm-button="false">
+			<view class="slot-content">
+				<view class="u-fx-ac-jc success">
+					<image src="http://canpointtest.com/mobile-img/sign_in.png" mode=""></image>
+					<text>签到成功</text>
+				</view>
+			</view>
+		</u-modal>
 	</scroll-view>
 </template>
 
 <script>
 import { store, actions } from './store/index.js'
-import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
 export default {
 	data() {
 		return {
@@ -35,22 +48,20 @@ export default {
 				userName: '',
 				phone: '',
 				base64Url: ''
-			}
+			},
+			uploadUrl: '',
+			show: false
 		}
 	},
-	components: {
-		anUploadImg
-	},
 	async mounted() {
+		this.uploadUrl = ``;
 		this.id = this.$tools.getQuery().get('id');
 		this.schoolCode = this.$tools.getQuery().get('schoolCode');
 	},
 	methods: {
-		// 上传图片
-		chooseImg () {
-			this.$tools.choosePhoto((baseImg) => {
-				this.formData.base64Url = baseImg
-			})
+		success(e) {
+			console.log(e);
+			this.formData.base64Url = e
 		},
 		async sign () {
 			for (let key in this.formData) {
@@ -68,10 +79,7 @@ export default {
 				...this.formData,
 				placeReserveId: this.id
 			})
-			this.$tools.toast('签到成功', 'success')
-			this.$tools.goNext(() => {
-				this.$tools.goBack()
-			})
+			this.show = true
 		}
 	}
 };
@@ -104,5 +112,13 @@ export default {
 	bottom: 0;
 	width: calc(100% - 40rpx);
 	margin: 40rpx 20rpx;
+}
+.success{
+	padding: 60rpx;
+	image{
+		width: 160rpx;
+		height: 160rpx;
+		margin-bottom: 20rpx;
+	}
 }
 </style>

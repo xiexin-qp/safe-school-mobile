@@ -26,7 +26,7 @@
       :schoolInfo="schoolInfo"
       @close="classClose"
       @confirm="classSelcet"
-      :classChecked="classList"
+      :classChecked="[]"
     ></class-tree>
     <u-select v-model="siteTag" :list="siteList" @confirm="confirm"></u-select>
     <scroll-view scroll-y="true" class="scroll-h">
@@ -349,6 +349,8 @@ export default {
         this.classList = [];
         this.formData.startDate = e.target.value;
       } else {
+        this.scheduleList = [];
+        this.classList = [];
         this.formData.endDate = e.target.value;
         const time =
           (new Date(this.formData.endDate).getTime() -
@@ -399,8 +401,9 @@ export default {
       });
     },
     async classSelcet(value) {
-      this.classTag = false;
+      this.scheduleList = [];
       this.classList = [];
+      this.classTag = false;
       this.classList = value.map((el) => {
         return {
           classCode: el.classCode,
@@ -411,7 +414,7 @@ export default {
       });
       const req = {
         schoolCode: store.userInfo.schoolCode,
-        userCode: store.userInfo.userCode,
+        userCode: "",
         schoolYearId: this.classList[0].schoolYearId,
       };
       const res = await actions.getClassList(req);
@@ -471,6 +474,7 @@ export default {
     valChange(e) {},
     teacherSelcet1(value) {
       this.teacherTag1 = false;
+      this.repairApprovalList = [];
       this.repairApprovalList = value.map((el, index) => {
         return {
           approverCode: el.userCode,
@@ -503,7 +507,7 @@ export default {
           };
         });
         const req = {
-          schoolCode: this.transferList[0].schoolCode,
+          schoolCode: store.userInfo.schoolCode,
           userCode: this.transferList[0].userCode,
           schoolYearId: this.classList[0].schoolYearId,
         };
@@ -577,7 +581,7 @@ export default {
     chooseTeacher() {
       this.teacherTag1 = true;
     },
-    submit: tools.throttle(async function () {
+    submit: tools.throttle(async function() {
       this.scheduleList.forEach((el) => {
         for (var key in el.list[0]) {
           el[key] = el.list[0][key];
@@ -587,7 +591,7 @@ export default {
         }
       });
       this.substituteInfo = this.scheduleList.filter(
-        (item) => item.type !== "请选择调课类型"
+        (item) => item.list.length !== 0 || item.infoList.length !== 0|| item.category === '3'|| item.category === '4'
       );
       if (this.substituteInfo.length === 0) {
         this.$tools.toast("请选择要调的课程!");

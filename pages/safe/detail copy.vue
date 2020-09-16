@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import wxApi from '@u/wxApi'
 import wx from 'weixin-js-sdk'
 import { store, actions } from './store/index.js'
 export default {
@@ -85,6 +86,7 @@ export default {
     }
   },
   mounted () {
+    wxApi.getConfig();
     this.addId = this.$tools.getQuery().get('taskId')
 		this.addCode = this.$tools.getQuery().get('code')
     this.taskResultGet()
@@ -102,7 +104,7 @@ export default {
         needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
         scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
         onlyFromCamera: true,
-        success: function (res) {
+        success: (res) => {
           let result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
           const schoolCode = result.split('&')[0].substring(11)
           const code = result.split('&')[1].substring(5)

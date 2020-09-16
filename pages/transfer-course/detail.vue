@@ -298,6 +298,8 @@ export default {
               ? "待审批"
               : el.approvalState === 2
               ? "已同意"
+               : el.approvalState === 4
+              ? "已撤回"
               : "未同意",
           remarks: el.remarks,
         };

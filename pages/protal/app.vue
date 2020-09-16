@@ -28,7 +28,7 @@
 			<view class="system-box">
 				<view class="system-list" v-for="app in appList" :key="app.id">
 					<view class="system u-font-1">{{ app.name }}</view>
-					<view @click="chooseEnjoy(module, isShow(module.id))" class="app u-fx-ac-jc" :class="{'act': isEdit}" v-for="module in app.children" :key="module.id">
+					<view @click="chooseEnjoy(module, isShow(module.id))" class="app u-fx-ac-jc animate__animated animate__fadeIn" :class="{'act': isEdit}" v-for="module in app.children" :key="module.id">
 						<image v-if="isShow(module.id) && isEdit" class="del-add-img" src="/mobile-img/del-app-icon.png"></image>
 						<image v-if="!isShow(module.id) && isEdit" class="del-add-img" src="/mobile-img/add-app-icon.png"></image>
 						<view>
@@ -167,7 +167,7 @@
       border-radius: $u-border-radius;
       width: 100rpx;
       height: 50rpx;
-      line-height: 48rpx;
+      line-height: 50rpx;
       text-align: center;
       color: #666;
       font-size: 24rpx;

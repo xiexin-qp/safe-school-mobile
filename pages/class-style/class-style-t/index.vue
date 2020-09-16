@@ -1,22 +1,10 @@
 <template>
 	<view class="">
-		<view class="">
-			<u-tabs-swiper
-				ref="uTabs"
-				:bold="false"
-				:bar-style="{ transform: 'scale(3)', height: '1rpx' }"
-				:current="current"
-				@change="changeMenu"
-				:list="tabList"
-				:is-scroll="false"
-				active-color="#2979ff"
-			></u-tabs-swiper>
-		</view>
+		<tab-menu :data-list="tabList" @change="changeMenu"></tab-menu>
 		<view class="dropdown u-fx-ac u-bd-b u-bd-t">
 			<ms-dropdown-menu v-if="showClass"><ms-dropdown-item v-model="value0" :list="classList" :title="defTitle"></ms-dropdown-item></ms-dropdown-menu>
 		</view>
-		<swiper class="u-page u-bg-fff" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
-			<swiper-item class="swiper-item scroll-h">
+			<view class="swiper-item scroll-h" v-show="current === 0">
 				<scroll-view class="class-style scroll-h">
 					<view class="class-card">
 						<u-icon class="u-icon-38" name="calendar" color="#2979ff"></u-icon>
@@ -49,23 +37,25 @@
 						<text class="mar-l20">班级全家福：</text>
 					</view>
 					<view class="u-fx-ver">
-						<view class="u-fx-f1">
+						<view v-if="userType === '1'" class="u-fx-f1">
 							<video-upload
-								class="u-fx-f1 u-padd-l20 u-padd-r10 u-padd-b20"
+								class="u-fx-f1 u-padd-l40 u-padd-r10 u-padd-b20"
 								:uploadUrl="uploadUrl"
 								types="image"
+								v-model="photoList"
 								:uploadCount="1"
 								:upload_max="10"
 								@success="success"
 								@delImage="delImage"
 							></video-upload>
 						</view>
+						<view v-else class="u-fx-f1 u-mar-l40">
+							<image v-if="photoList.length>0" class="class-image" :src="photoList[0].url" mode="" @tap="previewImage()"></image>
+						</view>
 					</view> -->
 				</scroll-view>
-				<!-- <view v-if="showTag" class="common-btn" @click="submit">确定</view> -->
-			</swiper-item>
-			<swiper-item class="swiper-item"><class-album ref="child" :userType="userType"></class-album></swiper-item>
-		</swiper>
+			</view>
+			<view v-show="current === 1"><class-album ref="child" :userType="userType"></class-album></view>
 	</view>
 </template>
 
@@ -83,6 +73,9 @@ export default {
 		msDropdownItem,
 		ClassAlbum
 	},
+	computed: {
+		isBZR: () => JSON.parse(uni.getStorageSync('protal')).isBZR  
+	},
 	data() {
 		return {
 			showClass: false,
@@ -94,7 +87,6 @@ export default {
 			uploadUrl: '',
 			showTag: false,
 			current: 0,
-			swiperCurrent: 0,
 			classMotto: '',
 			classIntro: '',
 			length: '0',
@@ -122,13 +114,12 @@ export default {
 			this.length = val.length;
 		},
 		value0(val, oldval) {
-			console.log(val)
 			if (val !== oldval) {
 				this.defTitle = this.classList.filter(el => {
 					return el.value === val;
 				})[0].text;
 				this.classCode = val;
-				if (store.isBZR && val === store.isBZR.classCode) {
+				if (this.isBZR && val === this.isBZR.classCode) {
 					this.userType = '1';
 				} else {
 					this.userType = '0';
@@ -140,7 +131,6 @@ export default {
 				});
 				eventBus.$on('getList', () => {
 					console.log(this.$refs.child);
-					this.current = 1;
 					this.$refs.child.showList(false, {
 						classCode: val,
 						schoolYearId: this.schoolYearId
@@ -150,24 +140,30 @@ export default {
 		},
 	},
 	async created() {
-		this.uploadUrl = `${hostEnv.zk_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
+		this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList
+		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		this.length = this.classMotto.length;
 		this.schoolYearId = store.schoolYear.schoolYearId;
 		if (store.userInfo.typeCode === '4') {
 			this.userType = '0';
-			if(store.teachClassList.length === 0){
+			if(this.classList.length === 0){
 				this.$tools.toast('请绑定班级')
 				return
 			}
-			this.classList = store.teachClassList;
-			this.classCode = store.teachClassList[0].value
-			this.gradeCode = store.teachClassList[0].gradeCode
+			this.classCode = this.classList.value
+			this.gradeCode = this.classList[0].gradeCode
 			this.showClass = true;
-			this.defTitle = store.teachClassList[0].text;
-			this.value0 = store.teachClassList[0].value;
+			this.defTitle = this.classList[0].text;
+			this.value0 = this.classList[0].value;
+			if (store.isBZR && this.classList[0].value === store.isBZR.classCode) {
+				this.userType = '1';
+			} else {
+				this.userType = '0';
+			}
+			console.log(this.userType)
 			uni.setStorageSync('classInfo', {
-				gradeCode: store.teachClassList[0].gradeCode,
-				classCode: store.teachClassList[0].value,
+				gradeCode: this.classList[0].gradeCode,
+				classCode: this.classList[0].value,
 				schoolYearId: this.schoolYearId
 			});
 		}
@@ -179,8 +175,15 @@ export default {
 	},
 	mounted() {},
 	methods: {
+		previewImage(e) {
+			uni.previewImage({
+				urls: this.photoList.map(el => {
+					return el.url;
+				})
+			});
+		},
 		success(e) {
-			this.photoList.push(e.data.url);
+			this.submit()
 		},
 		delImage(value) {
 			console.log(value);
@@ -188,20 +191,11 @@ export default {
 				return list === value.url;
 			});
 			this.photoList.splice(index, 1);
-			actions.delFile(value.id);
+			actions.delFile(value.id || this.photoList[0].id);
+			this.submit()
 		},
 		changeMenu(item) {
-			this.swiperCurrent = item;
-		},
-		transition(e) {
-			let dx = e.detail.dx;
-			this.$refs.uTabs.setDx(dx);
-		},
-		animationfinish(e) {
-			let current = e.detail.current;
-			this.$refs.uTabs.setFinishCurrent(current);
-			this.swiperCurrent = current;
-			this.current = current;
+			this.current = item;
 		},
 		edit() {
 			this.showTag = true;
@@ -222,8 +216,13 @@ export default {
 				motto: this.classMotto,
 				introduce: this.classIntro,
 				schoolCode: store.userInfo.schoolCode,
-				schoolYearId: this.schoolYearId
+				schoolYearId: this.schoolYearId,
+				photoUrl: ''
 			};
+			if (this.photoList.length > 0) {
+				req.photoUrl = this.photoList[0].url
+				req.photoId = this.photoList[0].id
+			}
 			actions.addClassMotto(req).then(() => {
 				this.$tools.toast('编辑成功', 'success');
 				this.$tools.goNext(() => {
@@ -243,10 +242,12 @@ export default {
 			if (!res.data) {
 				this.classMotto = '';
 				this.classIntro = '';
+				this.photoList = []
 				return;
 			}
 			this.classMotto = res.data.motto;
 			this.classIntro = res.data.introduce;
+			this.photoList = res.data.photoUrl ? [{ url: res.data.photoUrl, id: res.data.photoId }] : []
 		},
 		goDetail(id) {
 			this.$tools.navTo({
@@ -266,7 +267,7 @@ export default {
 	width: 100%;
 }
 .scroll-h {
-	height: calc(100vh - 168rpx);
+	height: calc(100vh - 188rpx);
 }
 .class-card {
 	margin: 40rpx 40rpx 20rpx 40rpx;
@@ -309,5 +310,9 @@ export default {
 }
 .u-icon-38{
 	font-size: 38rpx;
+}
+.class-image{
+	width: 210rpx;
+	height: 210rpx;
 }
 </style>

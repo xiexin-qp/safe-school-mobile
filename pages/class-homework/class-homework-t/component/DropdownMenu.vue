@@ -69,7 +69,7 @@ export default {
 		}
 	},
 	async created() {
-		this.classList = store.teachClassList
+		this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList
 		if( this.classList.length > 0 ){
 			this.showClass = true;
 			this.defTitle = this.classList[0].text;
