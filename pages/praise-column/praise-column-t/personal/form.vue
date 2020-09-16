@@ -43,7 +43,7 @@
           v-for="(item, i) in recordList"
           :key="i"
           :index="i"
-          @click="tagClick(item)"
+          @click="tagClick(item,i)"
           @close="tagDel"
         />
         <u-button type="info" size="mini" class="add_p" @click="open">
@@ -63,12 +63,7 @@
       width="80%"
       height="80%"
     >
-      <choose-students
-        :bindList="formData.noWorkstu"
-        :schoolInfo="schoolInfo"
-        @close="popclose"
-        @confirm="popselcet"
-      ></choose-students>
+    <choose-students  :type="type" :bindList="formData.noWorkstu" :schoolInfo="schoolInfo" @close="popclose" @confirm="popselcet"></choose-students>
     </u-popup>
     <u-popup
       :maskCloseAble="true"
@@ -99,7 +94,6 @@
     </u-popup>
   </view>
 </template>
-
 <script>
 import eventBus from "@u/eventBus";
 import { store, actions } from "../store/index.js";
@@ -122,7 +116,7 @@ export default {
       border: true,
       type: "input",
       label: "",
-      dataList:[]
+      dataList: [],
     };
   },
   computed: {},
@@ -158,6 +152,7 @@ export default {
     popselcet(data) {
       this.formData.noWorkstu = data.map((el) => {
         return {
+          ...el,
           tag: true,
           category: 2,
           praiseNamePhoto: el.photoUrl,
@@ -200,23 +195,25 @@ export default {
           tag: true,
         };
       });
-        this.recordList = this.dataList.filter(
-        (item) => item.category === 2
-      );
+      this.recordList = this.dataList.filter((item) => item.category === 2);
     },
-    tagClick(item) {
+    tagClick(item, index) {
       item.mode = item.mode === "light" ? "plain" : "light";
-      this.initList.push(item);
-      if (this.initList.length > 3) {
-        this.$tools.toast("最多选择3个标签!");
-        item.mode = "plain";
-        return false;
+      if (item.mode === "light") {
+        this.initList.push(item);
+      } else {
+        this.initList.splice(index, 1);
       }
       var b = ["plain"];
       this.labelList = this.initList.filter((item) => {
         return !b.includes(item.mode);
       });
-      console.log(this.labelList);
+      if (this.labelList.length > 3) {
+        this.$tools.toast("最多选择3个标签!");
+        item.mode = "plain";
+        return false;
+      }
+      console.log(this.labelList.length);
     },
     async submit() {
       if (this.formData.noWorkstu.length === 0) {
