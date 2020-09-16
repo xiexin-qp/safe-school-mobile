@@ -1,26 +1,26 @@
 <template>
   <view>
     <noData msg="暂无数据~" v-if="dataList.length === 0"></noData>
-    <view class="u-auto">
-      <view class="detail u-mar-l20 u-mar-r20 u-bg-fff u-border-radius">
-        <view class="u-fx">
-          <view v-for="(item, i) in dataList" :key="i">
-            <view class="u-padd-40">
-              <view
+    <view class="u-auto  u-bg-fff">
+    <view class="detail u-mar-l20 u-mar-r20 u-border-radius u-padd-40" >
+		<u-row gutter="16">
+			<u-col span="4" v-for="(item, i) in dataList" :key="i">
+				<view >
+             <view
                 class="count u-type-primary-dark-bg u-type-white u-border-radius-all"
                 >{{ item.count }}</view
               >
-              <u-lazy-load
+            <u-lazy-load
                 class="img u-border-radius-all"
                 :image="item.photoUrl"
               ></u-lazy-load>
-              <view class="title u-main-color u-bold u-padd-l0 u-mar-t20">{{
+                <view class="title u-main-color u-bold u-padd-l0 u-mar-t20 u-mar-b20">{{
                 item.label
-              }}</view></view
-            >
-          </view>
+              }}</view>
         </view>
-      </view>
+			</u-col>
+		</u-row>
+	</view>
     </view>
   </view>
 </template>

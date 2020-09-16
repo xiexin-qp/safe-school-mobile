@@ -276,6 +276,13 @@
 				  "pathRewrite": {
 				    "^/cl_oa": ""
 				  }
+        },
+        	"/cl_class": {  
+				  "target": "http://192.168.1.193:11009/", 
+				  "changeOrigin": true,
+				  "pathRewrite": {
+				    "^/cl_class": ""
+				  }
 				},
 				"lz_safe": {
 					"target": "http://192.168.2.242:8091/", //吕卓-安全防控

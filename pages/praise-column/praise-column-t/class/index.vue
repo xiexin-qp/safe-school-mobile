@@ -36,7 +36,6 @@ export default {
     return {
       showClass: false,
       defTitle: "",
-      showTag: false,
       classMotto: "",
       length: "0",
       classCode: "",
@@ -110,7 +109,12 @@ export default {
         schoolYearId: this.schoolYearId,
       };
       const res = await actions.getfindPraise(req);
-      this.detail = res.data
+      this.detail = res.data.map((el) => {
+        return {
+          ...el,
+          photoUrl: "/mobile-img/medal.png",
+        };
+      });
     },
     add() {
       this.$tools.navTo({

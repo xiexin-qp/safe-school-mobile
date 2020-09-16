@@ -92,6 +92,7 @@ export default {
         classCode: store.teachClassList[0].value,
         schoolYearId: this.schoolYearId,
       });
+      console.log(store.teachClassList)
     }
     uni.setStorageSync("classInfo", {
       gradeCode: this.gradeCode,
@@ -110,8 +111,8 @@ export default {
       const req = {
         ...this.pageList,
         schoolCode: store.userInfo.schoolCode,
-        gradeId: this.gradeCode,
-        classId: this.classCode,
+        gradeCode: this.gradeCode,
+        classCode: this.classCode,
         schoolYearId: this.schoolYearId,
       };
       const res = await actions.getStudentList(req);

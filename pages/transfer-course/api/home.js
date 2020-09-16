@@ -31,8 +31,6 @@ for (let val in showApi) {
 for (const val in baseData1Api) {
   baseData1Api[val] = `${hostEnv.cl_oa}${baseData1Api[val]}`
 }
-
-
 export default {
   ...baseData1Api,
   ...showApi,
