@@ -1,7 +1,7 @@
 <template>
   <view class="u-page">
     <scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
-      <lost-list :data-list="recordList"></lost-list>
+      <lost-list :data-list="recordList" @open="open" @click="click"></lost-list>
     </scroll-view>
     <view class="foot">
       <view class="float-add-btn" @click="add"></view>
@@ -64,6 +64,26 @@ export default {
       this.$tools.navTo({
         url: "./form",
         title: "发布失物招领",
+      });
+    },
+    click(index, index1) {
+      if (index1 == 0) {
+        console.log(this.recordList[index]);
+        this.$tools.delTip(`确定移除吗？`, () => {
+          actions.delLost(this.recordList[index].id).then(() => {
+            this.$tools.toast(`移除成功`, "success");
+            this.$tools.goNext(() => {
+              eventBus.$emit("getList");
+              this.$tools.goBack();
+            });
+          });
+        });
+      }
+    },
+    open(index) {
+      this.recordList[index].show = true;
+      this.recordList.map((val, idx) => {
+        if (index != idx) this.recordList[idx].show = false;
       });
     },
   },

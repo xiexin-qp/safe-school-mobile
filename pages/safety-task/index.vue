@@ -1,17 +1,20 @@
 <template>
 	<view>
+		<view class="u-mar-b30">
+			<u-subsection @change="change" active-color="#2979ff" :list="typeList" mode="subsection" :current="current"></u-subsection>
+		</view>
+		<!-- <view class="u-mar-b30">
+			<u-subsection @change="change" active-color="#2979ff" :list="typeList" mode="subsection" :current="current"></u-subsection>
+		</view> -->
+		<no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
 		<scroll-view scroll-y="true" class="scroll-h " @scrolltolower="loadMore">
 			<view class="u-shadow u-fx-ver  u-padd-30  u-border-radius tab-box u-fx-f1">
-				<view class="u-mar-b30">
-					<u-subsection @change="change" active-color="#2979ff" :list="typeList" mode="subsection" :current="current"></u-subsection>
-				</view>
-				<no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
-				<view v-else class="card u-type-white-bg u-border-radius u-shadow u-padd-20 u-mar-b20 u-fx" 
-				@click="assignDanger(item.id,item.state,item.leaderCode,item.handlerCode)"
+				
+				<view class="card u-type-white-bg u-border-radius u-shadow u-padd-20 u-mar-b20 u-fx" @click="assignDanger(item.id,item.state,item.leaderCode,item.handlerCode)"
 				 v-for="(item,index) in dataList" :key="index">
 					<view class="img-box">
 						<image v-if='item.reportUserPhotoUrl' class="u-user-img u-border-radius-all" :src="item.reportUserPhotoUrl"></image>
-						<image v-else  class="u-user-img u-border-radius-all" src="http://canpointtest.com/mobile-img/Default_touxiang@2x.png" alt="" />
+						<image v-else  class="u-user-img u-border-radius-all" src="http://canpointtest.com/mobile-img/add-app-icon.png" alt="" />
 					</view>
 					<view class="cont-box  u-wh u-mar-l20">
 						<view class="cont-title u-font-1 u-mar-b10  u-fx u-bold">{{item.reportName}}
@@ -19,7 +22,6 @@
 								(暂无职务)
 							</view>
 							<!-- 上报需指派 -->
-							{{userInfo.userCode}}---{{item.leaderCode}}
 							<view class="red-text" v-if="userInfo.userCode==item.leaderCode&&item.state=='1'">
 								<image class="del-add-img " src="/mobile-img/assigned.png"></image>
 							</view>
@@ -53,10 +55,12 @@
 								需要处理时间:&nbsp;{{ item.handleDuration }}小时
 							</view>
 							<view class="time" v-show="item.state == '3'">
-								{{ item.handerName }}已处理:&nbsp;{{ item.optTime - item.createTime| getHour }}小时
+								{{ item.handerName }}已处理:&nbsp;{{ item.handleDuration }}小时
 							</view>
 							<view class="time" v-show="item.state == '4'">
-								总耗时:&nbsp;{{(item.optTime - item.createTime) | getHour}}小时
+								总耗时:&nbsp;{{
+                  (item.optTime - item.createTime) | getHour
+                }}小时
 							</view>
 						</view>
 					</view>
@@ -84,21 +88,14 @@
 				state: 1,
 				dataList: {},
 				typeList: [{
-						name: "新上报",
+						name: "上级下发",
 					},
 					{
-						name: "已指派",
+						name: "学校任务",
 					},
 					{
-						name: "已处理",
+						name: "发布任务",
 					},
-					{
-						name: "已验收",
-					},
-					// {
-					// 	name: '已撤销',
-					// 	number: '5'
-					// }
 				],
 				morePage: false,
 				show: false,
