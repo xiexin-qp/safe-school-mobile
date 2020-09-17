@@ -89,13 +89,9 @@
       }
     },
     mounted () {
-     
       this.getUserList()
     },
     methods: {
-      success(value) {
-        console.log(value);
-      },
       //获取负责人数据
       async getUserList() {
         const res = await actions.getGroupDetail({ schoolCode: store.userInfo.schoolCode })
