@@ -6,7 +6,6 @@
 					<textarea v-model="formData.description" maxlength="600" class="item-text-area u-main-color u-font-01 u-padd-t20"
 					 placeholder="请描述您发现的隐患" />
 					<an-upload-img v-model="formData.photoUrl" total="9" style="margin: 20rpx">
-            
           </an-upload-img>
 				</view>
 			</view>
@@ -118,10 +117,12 @@
            if (this.leaderCode==''&&this.leaderCode==''){
              return this.$tools.toast('请选择负责人');
            }
+           if (this.formData.photoUrl.length===0){
+             return this.$tools.toast('请上传隐患图片');
+           }
           const photoUrl= this.formData.photoUrl.map(el => {
               return el.split(',')[1]
           })
-          
           this.$tools.confirm("确定上报隐患吗？", () => {
              let req = {
               ...this.formData,

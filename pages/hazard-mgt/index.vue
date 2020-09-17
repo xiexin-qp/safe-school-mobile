@@ -19,7 +19,6 @@
 								(暂无职务)
 							</view>
 							<!-- 上报需指派 -->
-							{{userInfo.userCode}}---{{item.leaderCode}}
 							<view class="red-text" v-if="userInfo.userCode==item.leaderCode&&item.state=='1'">
 								<image class="del-add-img " src="/mobile-img/assigned.png"></image>
 							</view>
@@ -37,7 +36,7 @@
 							{{item.description}}
 						</view>
 						<view class="imgs-box wh  u-fx u-mar-t20 u-mar-b20">
-							<u-image v-for="(url,index) in item.dangerPhotoUrls" :key="index" class="img u-border-radius-all u-mar-r20 "
+							<u-image v-for="(url,index) in splice3(item.dangerPhotoUrls)" :key="index" class="img u-border-radius-all u-mar-r20 "
 							 height="160rpx" width="160rpx" :src="url" mode=""></u-image>
 						</view>
 						<view class="cont-footer u-fx u-type-primary u-fx-ac u-font-02 ">
@@ -114,6 +113,8 @@
 			userInfo() {
 				return store.userInfo;
 			},
+			
+			
 		},
 		mounted() {
 			let queryState = this.$tools.getQuery().get("state");
@@ -126,24 +127,12 @@
 			this.showList();
 		},
 		methods: {
-			// getState(state,leaderCode,handlerCode){
-			// 	if(state=='1'){
-			// 		if(store.userInfo.userCode == leaderCode){
-			// 			return 'assign'
-			// 		}
-			// 	}else if(state=='2'){
-			// 		if(store.userInfo.userCode ==handlerCode){
-			// 			return 'dealWith'
-			// 		}
-			// 	}else if(state=='3'){
-			// 		if(store.userInfo.userCode == leaderCode){
-			// 			return 'acceptance'
-			// 		}
-			// 	}else if(state=='4'){
-			// 		return 'details'
-			// 	}else{
-			// 	}
-			// },
+			splice3(urls){
+				if(!(urls||'')) return []
+				if(urls.length<=3) return urls
+				urls.length=3 
+				return urls
+			},
 			loadMore() {
 				if (!this.morePage) {
 					this.$tools.toast("数据已加载完毕");
@@ -164,7 +153,6 @@
 				};
 				const res = await actions.getDangerIndex(req);
 				this.total = res.data.total;
-				console.log(res);
 				if (tag) {
 					this.dataList = this.dataList.concat(res.data.records);
 				} else {

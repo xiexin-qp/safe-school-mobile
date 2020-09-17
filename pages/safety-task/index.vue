@@ -123,24 +123,6 @@
 			this.showList();
 		},
 		methods: {
-			// getState(state,leaderCode,handlerCode){
-			// 	if(state=='1'){
-			// 		if(store.userInfo.userCode == leaderCode){
-			// 			return 'assign'
-			// 		}
-			// 	}else if(state=='2'){
-			// 		if(store.userInfo.userCode ==handlerCode){
-			// 			return 'dealWith'
-			// 		}
-			// 	}else if(state=='3'){
-			// 		if(store.userInfo.userCode == leaderCode){
-			// 			return 'acceptance'
-			// 		}
-			// 	}else if(state=='4'){
-			// 		return 'details'
-			// 	}else{
-			// 	}
-			// },
 			loadMore() {
 				if (!this.morePage) {
 					this.$tools.toast("数据已加载完毕");
