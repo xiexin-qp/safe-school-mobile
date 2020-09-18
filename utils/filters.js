@@ -390,7 +390,7 @@ const filters = {
     }
   },
   getHour(data) {
-    return Math.ceil(data / 360000)
+    return Math.ceil(data / 3600000)
   }
 }
 for (let key in filters) {

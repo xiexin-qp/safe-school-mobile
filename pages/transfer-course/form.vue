@@ -7,7 +7,7 @@
       :schoolInfo="schoolInfo"
       @close="teacherClose"
       @confirm="teacherSelcet1"
-      :classChecked="repairApprovalList"
+    :classChecked="repairApprovalList"
     ></teacher-tree>
     <teacher-tree
       isClear
@@ -26,7 +26,7 @@
       :schoolInfo="schoolInfo"
       @close="classClose"
       @confirm="classSelcet"
-      :classChecked="[]"
+      :classChecked="classList"
     ></class-tree>
     <u-select v-model="siteTag" :list="siteList" @confirm="confirm"></u-select>
     <scroll-view scroll-y="true" class="scroll-h">
@@ -153,7 +153,7 @@
           <text v-if="repairApprovalList.length === 0">请选择</text>
           <view v-for="(item, index) in repairApprovalList" :key="index">
             <u-tag
-              :text="item.approverName"
+              :text="item.userName"
               mode="light"
               type="info"
               class="mar-l10"
@@ -401,6 +401,7 @@ export default {
       });
     },
     async classSelcet(value) {
+      console.log(value);
       this.scheduleList = [];
       this.classList = [];
       this.classTag = false;
@@ -414,7 +415,7 @@ export default {
       });
       const req = {
         schoolCode: store.userInfo.schoolCode,
-        userCode: "",
+        userCode: store.userInfo.userCode,
         schoolYearId: this.classList[0].schoolYearId,
       };
       const res = await actions.getClassList(req);
@@ -472,18 +473,13 @@ export default {
       this.classTag = true;
     },
     valChange(e) {},
-    teacherSelcet1(value) {
+    chooseTeacher() {
+      this.teacherTag1 = true;
+    },
+    teacherSelcet1(teacherInfo) {
+      console.log(teacherInfo);
+      this.repairApprovalList = teacherInfo
       this.teacherTag1 = false;
-      this.repairApprovalList = [];
-      this.repairApprovalList = value.map((el, index) => {
-        return {
-          approverCode: el.userCode,
-          approverName: el.userName,
-          approvalSort: index + 1,
-          currentApproval: index === 0 ? el.userCode : undefined,
-          approvalState: "1",
-        };
-      });
     },
     async teacherSelcet2(value) {
       this.teacherTag2 = false;
@@ -578,9 +574,6 @@ export default {
       this.teacherTag1 = false;
       this.teacherTag2 = false;
     },
-    chooseTeacher() {
-      this.teacherTag1 = true;
-    },
     submit: tools.throttle(async function() {
       this.scheduleList.forEach((el) => {
         for (var key in el.list[0]) {
@@ -591,7 +584,11 @@ export default {
         }
       });
       this.substituteInfo = this.scheduleList.filter(
-        (item) => item.list.length !== 0 || item.infoList.length !== 0|| item.category === '3'|| item.category === '4'
+        (item) =>
+          item.list.length !== 0 ||
+          item.infoList.length !== 0 ||
+          item.category === "3" ||
+          item.category === "4"
       );
       if (this.substituteInfo.length === 0) {
         this.$tools.toast("请选择要调的课程!");
@@ -621,7 +618,15 @@ export default {
           substituteFile: this.photoList.map((ele) => {
             return ele.url.split(",")[1];
           }),
-          substituteApprovers: this.repairApprovalList,
+          substituteApprovers: this.repairApprovalList.map((el,index) => {
+            return {
+              approverCode: el.userCode,
+              approverName: el.userName,
+              approvalSort: index + 1,
+              currentApproval: index === 0 ? el.userCode : undefined,
+              approvalState: "1",
+            };
+          }),
           substituteInfo: this.substituteInfo.map((el) => {
             return {
               ...el,
