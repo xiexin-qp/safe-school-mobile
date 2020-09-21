@@ -28,9 +28,7 @@
           :show="item.tag"
           v-for="(item, i) in formData.noWorkstu"
           :key="i"
-          closeable
           :index="i"
-          @close="tagClose"
         />
       </view>
       <view class="u-fx item-list">
@@ -145,8 +143,9 @@ export default {
       console.log(this.label);
       this.recordList.push({
         label: this.label,
-        mode: "light",
+        mode: "plain",
         del: true,
+        tag: true,
       });
       this.label = "";
       this.$refs.refuse.close();
@@ -221,7 +220,7 @@ export default {
         item.mode = "plain";
         return false;
       }
-      console.log(this.labelList.length )
+      console.log(this.labelList.length);
     },
     async submit() {
       if (this.formData.noWorkstu.length === 0) {

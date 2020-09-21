@@ -1,7 +1,7 @@
 <template>
   <view class="u-page">
     <scroll-view scroll-y="true" class="scroll-h">
-      <detailList  :data-list="detail" ></detailList>
+      <detailList :data-list="detail"></detailList>
     </scroll-view>
   </view>
 </template>
@@ -28,6 +28,7 @@ export default {
       const req = {
         praiseCode: this.id,
         schoolCode: store.userInfo.schoolCode,
+        category: "2",
       };
       const res = await actions.getfindPraise(req);
       this.detail = res.data.map((el) => {
@@ -44,7 +45,5 @@ export default {
 <style lang="scss" scoped>
 .scroll-h {
   height: calc(100vh);
-  margin-top: 20rpx;
 }
-
 </style>

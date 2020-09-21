@@ -31,6 +31,7 @@ export default {
         size: 20,
       },
       morePage: false,
+      gradeCode:''
     };
   },
   watch: {
@@ -41,12 +42,17 @@ export default {
   async created() {
     this.schoolYearId = store.schoolYear.schoolYearId;
     this.classCode = store.childList[0].classCode;
+    this.gradeCode = store.childList[0].gradeCode;
   },
   mounted() {},
   methods: {
     childInfo(item) {
+      console.log(item)
       if (item.classCode !== this.classCode) {
         this.classCode = item.classCode;
+      }
+       if (item.gradeCode !== this.gradeCode) {
+        this.gradeCode = item.gradeCode;
       }
     },
     async showList(tag = false) {
@@ -59,6 +65,7 @@ export default {
         ...this.pageList,
         schoolCode: store.userInfo.schoolCode,
         classId: this.classCode,
+        gradeId:this.gradeCode,
         schoolYearId: this.schoolYearId,
       };
       const res = await actions.getStudentList(req);
