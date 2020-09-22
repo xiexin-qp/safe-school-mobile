@@ -2,10 +2,9 @@
   <view>
     <noData msg="暂无数据~" v-if="dataList.length === 0"></noData>
     <view class="u-auto  u-bg-fff">
-    <view class="detail u-mar-l20 u-mar-r20 u-border-radius u-padd-40" >
+    <view class="detail u-border-radius u-padd-40" >
 		<u-row gutter="16">
-			<u-col span="4" v-for="(item, i) in dataList" :key="i">
-				<view >
+			<u-col span="4" v-for="(item, i) in dataList" :key="i" class="u-padd-l0">
              <view
                 class="count u-type-primary-dark-bg u-type-white u-border-radius-all"
                 >{{ item.count }}</view
@@ -17,14 +16,12 @@
                 <view class="title u-main-color u-bold u-padd-l0 u-mar-t20 u-mar-b20">{{
                 item.label
               }}</view>
-        </view>
 			</u-col>
 		</u-row>
 	</view>
     </view>
   </view>
 </template>
-
 <script>
 import noData from "@/components/no-data/no-data.vue";
 import index from "../../../config";
@@ -49,8 +46,9 @@ export default {
 
 <style lang="scss" scoped>
 .detail {
+      margin-left: 40rpx;
   .u-padd-l0 {
-    padding-left: 20rpx;
+    padding-left: 10rpx;
   }
   .count {
     position: fixed;
@@ -61,20 +59,8 @@ export default {
     z-index: 9;
   }
 }
-.detail:nth-child(odd) {
-  .sub {
-    color: $u-type-primary;
-    background-color: $u-type-primary-light;
-  }
-}
-.detail:nth-child(even) {
-  .sub {
-    color: $u-type-success;
-    background-color: $u-type-success-light;
-  }
-}
 .img {
-  width: 160rpx;
-  height: 160rpx;
+  width: 140rpx;
+  height: 140rpx;
 }
 </style>

@@ -3,21 +3,22 @@
     <noData msg="暂无数据~" v-if="dataList.length === 0"></noData>
     <view class="u-auto">
         <view
-        class="list u-padd-20 u-mar-b20 u-mar-l20 u-mar-r20 u-bg-fff u-border-radius"
+        class="u-padd-20  u-mar-l20 u-mar-r20 u-bg-fff u-border-radius"
         v-for="(item, i) in dataList"
         :key="i"
       >
         <view class="u-fx-jsb u-fx-ac">
           <view class="u-fx u-fx-ac">
             <image :src="item.photoUrl"  class="img u-border-radius-all u-mar-r20"></image>
-            <view class="">
               <view class="title u-main-color u-bold u-mar-b20">{{
                 item.userName
               }}</view>
-            </view>
           </view>
-          <view class="tag" > <view class="rit-icon" @click="goDetail(item.userCode)"></view> </view>
+          <view class="tag" > <view class="rit-icon" @click="goDetail(item.userCode)"></view> 
+          </view>
         </view>
+            <view class="u-bd-x u-mar-t20 u-mar-b20"></view>
+
       </view>
     </view>
   </view>
@@ -51,7 +52,10 @@ export default {
 
 <style lang="scss" scoped>
 .img {
-  width: 140rpx;
-  height: 140rpx;
+  width: 82rpx;
+  height:84rpx;
+}
+.u-bd-x {
+  border-top: 1px solid #F2F2F2;
 }
 </style>

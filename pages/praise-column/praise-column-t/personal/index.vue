@@ -30,7 +30,7 @@ export default {
   components: {
     msDropdownMenu,
     msDropdownItem,
-    PraiseList,
+    PraiseList
   },
   data() {
     return {
@@ -43,7 +43,7 @@ export default {
         page: 1,
         size: 20,
       },
-      morePage: false,
+       morePage: false,
       userType: 2, // 0.超管，1.班主任，2.教职工，3.家长
       value0: "",
       classList: [],
@@ -51,9 +51,8 @@ export default {
       showClass: false,
     };
   },
-	watch: {
+ 	watch: {
 		value0(val, oldval) {
-
 			if (val !== oldval) {
 				if (store.isBZR && val === store.isBZR.classCode) {
 					this.userType = 1;
@@ -80,7 +79,7 @@ export default {
 		}
 	},
 	async created() {
-     this.schoolYearId = store.schoolYear.schoolYearId;
+    this.schoolYearId = store.schoolYear.schoolYearId;
 		if (store.userInfo.typeCode === '4') {
 			this.userType = 2;
 			this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList;
@@ -118,8 +117,8 @@ export default {
       const req = {
         ...this.pageList,
         schoolCode: store.userInfo.schoolCode,
-        gradeCode: this.gradeCode,
-        classCode: this.classCode,
+        gradeId: this.gradeCode,
+        classId: this.classCode,
         schoolYearId: this.schoolYearId,
       };
       const res = await actions.getStudentList(req);
@@ -155,22 +154,7 @@ export default {
 <style lang="scss" scoped>
 .scroll-h {
   height: calc(100vh - 100rpx);
-  margin-top: 20rpx;
-}
-.list:nth-child(odd) {
-  .sub {
-    color: $u-type-primary;
-    background-color: $u-type-primary-light;
-  }
-}
-.list:nth-child(even) {
-  .sub {
-    color: $u-type-success;
-    background-color: $u-type-success-light;
-  }
-}
-.img {
-  width: 100rpx;
-  height: 100rpx;
+    margin-top: 20rpx;
+
 }
 </style>

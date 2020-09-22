@@ -390,10 +390,10 @@ export default {
             })
           })
           }else{
-            // if(this.completePhotoUrls.length==0) return  this.$tools.toast('整改照片不能为空');
+            if(this.completePhotoUrls.length==0) return  this.$tools.toast('整改照片不能为空');
             //处理隐患
             let req = {
-              // completePhotos: this.$tools.splitBase64(this.completePhotoUrls),
+              completePhotos: this.$tools.splitBase64(this.completePhotoUrls),
               optCode: store.userInfo.userCode,
               remark: this.detailInfo.rectifyRemark,
               taskId:  this.id
