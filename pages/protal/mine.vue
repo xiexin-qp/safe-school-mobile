@@ -51,7 +51,6 @@
 			退出登录
 		</view>
 		<view class="mine-btn school" v-if="false">切换学校</view>
-		<view @tap="goMap" class="mine-btn school u-mar-t40" v-if="isMap">地图</view>
 	</view>
 </template>
 
@@ -78,7 +77,6 @@ export default {
 		enjoyTeacherApp: () => store.enjoyTeacherApp
 	},
 	async mounted() {
-		this.isMap = this.userInfo.mobile === '18827417223' || this.userInfo.mobile === '18702707106'
 		eventBus.$on('getChild', () => {
 			apiFun.getChildList()
 			apiFun.getMenuList()
@@ -91,12 +89,6 @@ export default {
 		this.getTypeList()
 	},
 	methods: {
-		goMap () {
-			this.$tools.navTo({
-				url: './map',
-				title: '地图'
-			})
-		},
 		changePhone () {
 			this.$tools.navTo({
 				url: './changePhone',
@@ -236,25 +228,6 @@ export default {
 					this.classInfo = res.data.classInfos[this.currentClass]
 				}
 			}
-			setStore({
-				key: 'isBZR',
-				data: this.classInfo
-			})
-			const i = this.teachClassList.findIndex(list => list.isBZR)
-			if(i !== -1){
-				this.teachClassList.splice(i, 1)
-			}
-			this.teachClassList.unshift({
-				...this.classInfo,
-				text: this.classInfo.gradeName + this.classInfo.className,
-				value: this.classInfo.classCode,
-				isBZR: true
-			})
-			console.log(this.teachClassList)
-			setStore({
-				key: 'teachClassList',
-				data: this.teachClassList
-			})
 		},
 		// 退出登陆
 		async loginOut (tag) {

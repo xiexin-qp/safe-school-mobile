@@ -1,22 +1,10 @@
 <template>
 	<view class="">
-		<view class="">
-			<u-tabs-swiper
-				ref="uTabs"
-				:bold="false"
-				:bar-style="{ transform: 'scale(3)', height: '1rpx' }"
-				:current="current"
-				@change="changeMenu"
-				:list="tabList"
-				:is-scroll="false"
-				active-color="#2979ff"
-			></u-tabs-swiper>
-		</view>
+		<tab-menu :data-list="tabList" @change="changeMenu"></tab-menu>
 		<view class="dropdown u-fx-ac u-bd-b u-bd-t">
 			<ms-dropdown-menu v-if="showClass"><ms-dropdown-item v-model="value0" :list="classList" :title="defTitle"></ms-dropdown-item></ms-dropdown-menu>
 		</view>
-		<swiper class="u-page u-bg-fff" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
-			<swiper-item class="swiper-item scroll-h">
+			<view class="swiper-item scroll-h" v-show="current === 0">
 				<scroll-view class="class-style scroll-h">
 					<view class="class-card">
 						<u-icon class="u-icon-38" name="calendar" color="#2979ff"></u-icon>
@@ -44,7 +32,7 @@
 							<text class="padd-l20 mar-l20 u-content-color">{{ classIntro }}</text>
 						</view>
 					</view>
-					<view class="class-card">
+					<!-- <view class="class-card">
 						<u-icon class="u-icon-38" name="calendar" color="#2979ff"></u-icon>
 						<text class="mar-l20">班级全家福：</text>
 					</view>
@@ -64,11 +52,10 @@
 						<view v-else class="u-fx-f1 u-mar-l40">
 							<image v-if="photoList.length>0" class="class-image" :src="photoList[0].url" mode="" @tap="previewImage()"></image>
 						</view>
-					</view>
+					</view> -->
 				</scroll-view>
-			</swiper-item>
-			<swiper-item class="swiper-item"><class-album ref="child" :userType="userType"></class-album></swiper-item>
-		</swiper>
+			</view>
+			<view v-show="current === 1"><class-album ref="child" :userType="userType"></class-album></view>
 	</view>
 </template>
 
@@ -100,7 +87,6 @@ export default {
 			uploadUrl: '',
 			showTag: false,
 			current: 0,
-			swiperCurrent: 0,
 			classMotto: '',
 			classIntro: '',
 			length: '0',
@@ -145,7 +131,6 @@ export default {
 				});
 				eventBus.$on('getList', () => {
 					console.log(this.$refs.child);
-					this.current = 1;
 					this.$refs.child.showList(false, {
 						classCode: val,
 						schoolYearId: this.schoolYearId
@@ -210,17 +195,7 @@ export default {
 			this.submit()
 		},
 		changeMenu(item) {
-			this.swiperCurrent = item;
-		},
-		transition(e) {
-			let dx = e.detail.dx;
-			this.$refs.uTabs.setDx(dx);
-		},
-		animationfinish(e) {
-			let current = e.detail.current;
-			this.$refs.uTabs.setFinishCurrent(current);
-			this.swiperCurrent = current;
-			this.current = current;
+			this.current = item;
 		},
 		edit() {
 			this.showTag = true;

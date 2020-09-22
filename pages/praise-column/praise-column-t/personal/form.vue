@@ -43,7 +43,7 @@
           v-for="(item, i) in recordList"
           :key="i"
           :index="i"
-          @click="tagClick(item)"
+          @click="tagClick(item,i)"
           @close="tagDel"
         />
         <u-button type="info" size="mini" class="add_p" @click="open">
@@ -63,12 +63,7 @@
       width="80%"
       height="80%"
     >
-      <choose-students
-        :bindList="formData.noWorkstu"
-        :schoolInfo="schoolInfo"
-        @close="popclose"
-        @confirm="popselcet"
-      ></choose-students>
+    <choose-student  :type="type" :bindList="formData.noWorkstu" :schoolInfo="schoolInfo" @close="popclose" @confirm="popselcet"></choose-student>
     </u-popup>
     <u-popup
       :maskCloseAble="true"
@@ -99,13 +94,12 @@
     </u-popup>
   </view>
 </template>
-
 <script>
 import eventBus from "@u/eventBus";
 import { store, actions } from "../store/index.js";
-import ChooseStudents from "@/components/choose-students/choose-students.vue";
+import ChooseStudent from "../../component/choose-student.vue";
 export default {
-  components: { ChooseStudents },
+  components: { ChooseStudent },
   data() {
     return {
       classCode: "",
@@ -122,14 +116,18 @@ export default {
       border: true,
       type: "input",
       label: "",
+      dataList: [],
     };
   },
   computed: {},
   created() {
-    this.schoolYearId = uni.getStorageSync("classInfo").schoolYearId;
-    this.classCode = uni.getStorageSync("classInfo").classCode;
+    this.schoolYearId = uni.getStorageSync("bindInfo").schoolYearId;
+    this.classCode = uni.getStorageSync("bindInfo").classCode;
+    this.gradeCode = uni.getStorageSync("bindInfo").gradeCode;
     this.schoolInfo.schoolCode = store.userInfo.schoolCode;
-    this.schoolInfo.schoolYearId = store.schoolYear.schoolYearId;
+    this.schoolInfo.classId = uni.getStorageSync("bindInfo").classCode;;
+    this.schoolInfo.gradeId = uni.getStorageSync("bindInfo").gradeCode;;
+    this.schoolInfo.schoolYearId = store.userInfo.schoolYearId;
   },
   async mounted() {
     this.showList();
@@ -142,11 +140,11 @@ export default {
       this.$refs.refuse.close();
     },
     addPraise() {
-      console.log(this.label);
       this.recordList.push({
         label: this.label,
         mode: "plain",
         del: true,
+        tag: true,
       });
       this.label = "";
       this.$refs.refuse.close();
@@ -157,6 +155,7 @@ export default {
     popselcet(data) {
       this.formData.noWorkstu = data.map((el) => {
         return {
+          ...el,
           tag: true,
           category: 2,
           praiseNamePhoto: el.photoUrl,
@@ -166,6 +165,10 @@ export default {
           createUsercode: store.userInfo.userCode,
           createUsername: store.userInfo.userName,
           schoolCode: store.userInfo.schoolCode,
+          classCode: el.classCode,
+          className: el.className,
+          gradeCode: el.gradeCode,
+          gradeName: el.gradeName,
         };
       });
       this.noWorkstuLength = `已选择${this.formData.noWorkstu.length}人`;
@@ -188,10 +191,10 @@ export default {
       };
       const res = await actions.praiseList(req);
       if (!res.data.list) {
-        this.recordList = [];
+        this.dataList = [];
         return;
       }
-      this.recordList = res.data.list.map((el) => {
+      this.dataList = res.data.list.map((el) => {
         return {
           ...el,
           mode: "plain",
@@ -199,21 +202,23 @@ export default {
           tag: true,
         };
       });
-      console.log(this.recordList);
+      this.recordList = this.dataList.filter((item) => item.category === 2);
     },
-    tagClick(item) {
+    tagClick(item, index) {
       item.mode = item.mode === "light" ? "plain" : "light";
-      this.initList.push(item);
-      if (this.initList.length > 3) {
-        this.$tools.toast("最多选择3个标签!");
-        item.mode = "plain";
-        return false;
+      console.log(item.mode);
+      if (item.mode === "light") {
+        this.initList.push(item);
+        this.labelList = this.initList.filter((item) => item.mode === "light");
+        if (this.labelList.length > 3) {
+          this.$tools.toast("最多选择3个标签!");
+          item.mode = "plain";
+          return false;
+        }
+      } else if (item.mode === "plain") {
+        this.initList.splice(index, 1);
       }
-      var b = ["plain"];
-      this.labelList = this.initList.filter((item) => {
-        return !b.includes(item.mode);
-      });
-      console.log(this.labelList);
+      console.log(this.initList);
     },
     async submit() {
       if (this.formData.noWorkstu.length === 0) {

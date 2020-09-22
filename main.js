@@ -4,6 +4,7 @@ import tools from './utils/tools.js'
 import './utils/filters.js'
 import './static/css/base.scss'
 import './static/css/common.scss'
+// import 'animate.css'
 Vue.config.productionTip = false
 Vue.prototype.$tools = tools
 App.mpType = 'app'

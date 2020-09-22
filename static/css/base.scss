@@ -472,15 +472,28 @@ only screen and (min-device-pixel-ratio: 2) {
 
 /* 行高 */
 .u-line1 {
-  line-height: 44rpx;
+  line-height: 38rpx;
 }
 
 .u-line2 {
-  line-height: 48rpx;
+  line-height: 44rpx;
 }
 
 .u-line3 {
-  line-height: 52rpx;
+  line-height: 50rpx;
+}
+
+/* 文字简介 */
+.u-letter-1 {
+  letter-spacing: 2rpx;
+}
+
+.u-letter-2  {
+  letter-spacing: 4rpx;
+}
+
+.u-letter-3  {
+  letter-spacing: 6rpx;
 }
 
 /**

@@ -107,8 +107,8 @@
           }
         },
         "/zk_leave": {
-         "target": "http://192.168.2.242:10054/", // 张坤-校历请假
-          //  "target": "http://192.168.1.125:10054/", // 张坤-校历请假
+         // "target": "http://192.168.2.242:10054/", // 张坤-校历请假
+          "target": "http://192.168.1.76:10054/", // 张坤-校历请假
           "changeOrigin": true,
           "pathRewrite": {
             "^/zk_leave": ""
@@ -263,13 +263,15 @@
         },
         "/zk_oa": {
           "target": "http://192.168.2.242:11014/", //张坤-物品管理
+					// "target": "http://192.168.1.193:11009",
           "changeOrigin": true,
           "pathRewrite": {
             "^/zk_oa": ""
           }
         },
 				"/cl_oa": {
-				  "target": "http://192.168.2.242:11014/", //陈琳-调代课
+				   // "target": "http://192.168.2.242:11014/", //陈琳-调代课
+					"target": "http://192.168.1.193:11009",
 				  "changeOrigin": true,
 				  "pathRewrite": {
 				    "^/cl_oa": ""

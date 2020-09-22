@@ -1,35 +1,12 @@
 <template>
   <view class="u-page">
     <view class="head">
-      <ms-dropdown-menu v-if="showClass"
-        ><ms-dropdown-item
-          v-model="value0"
-          :list="classList"
-          :title="defTitle"
-        ></ms-dropdown-item
-      ></ms-dropdown-menu>
+      <ms-dropdown-menu v-if="showClass">
+        <ms-dropdown-item v-model="value0" :list="classList" :title="defTitle"></ms-dropdown-item>
+      </ms-dropdown-menu>
     </view>
     <scroll-view scroll-y="true" class="scroll-h">
-      <no-data v-if="detail.length === 0" msg="暂无数据"></no-data>
-      <view class="detail u-mar-l20 u-mar-r20 u-bg-fff u-border-radius">
-        <view class="u-fx">
-          <view v-for="(item, i) in detail" :key="i">
-            <view class="u-padd-40">
-              <view
-                class="count u-type-primary-dark-bg u-type-white u-border-radius-all"
-                >{{ item.count }}</view
-              >
-              <u-lazy-load
-                class="img u-border-radius-all"
-                :image="item.photoUrl"
-              ></u-lazy-load>
-              <view class="title u-main-color u-bold u-padd-l0 u-mar-t20">{{
-                item.label
-              }}</view></view
-            >
-          </view>
-        </view>
-      </view>
+      <detailList :data-list="detail"></detailList>
     </scroll-view>
     <view class="foot">
       <view class="float-add-btn" @click="add"></view>
@@ -43,78 +20,87 @@ import msDropdownMenu from "@/components/ms-dropdown/dropdown-menu.vue";
 import msDropdownItem from "@/components/ms-dropdown/dropdown-item.vue";
 import { store, actions } from "../store/index.js";
 import hostEnv from "../../../../config/index.js";
+import detailList from "../../component/detailList.vue";
 export default {
   name: "index",
   components: {
     msDropdownMenu,
     msDropdownItem,
+    detailList,
   },
   data() {
     return {
-      showClass: false,
-      defTitle: "",
-      showTag: false,
-      classMotto: "",
-      length: "0",
       classCode: "",
       gradeCode: "",
       schoolYearId: "",
-      classList: [],
-      value0: "",
       detail: [],
       total: 0,
       pageList: {
         page: 1,
         size: 20,
       },
+      morePage: false,
+      userType: 2, // 0.超管，1.班主任，2.教职工，3.家长
+      value0: "",
+      classList: [],
+      defTitle: "",
+      showClass: false,
     };
   },
   watch: {
-    classMotto(val) {
-      this.length = val.length;
-    },
     value0(val, oldval) {
-      console.log(val);
       if (val !== oldval) {
-        this.defTitle = this.classList.filter((el) => {
-          return el.value === val;
-        })[0].text;
-        this.classCode = val;
         if (store.isBZR && val === store.isBZR.classCode) {
-          this.userType = "1";
+          this.userType = 1;
         } else {
-          this.userType = "0";
+          this.userType = 2;
         }
+        let choose = this.classList.filter((el) => {
+          return el.value === val;
+        })[0];
+        this.defTitle = choose.text;
+        this.gradeCode = choose.gradeCode;
+        this.classCode = val;
+        uni.setStorageSync("bindInfo", {
+          ...this.classList.filter((el) => {
+            return el.value === val;
+          })[0],
+          classCode: val,
+        });
+        eventBus.$on("getList", () => {
+          this.showList();
+        });
         this.showList();
       }
     },
   },
   async created() {
-    this.length = this.classMotto.length;
     this.schoolYearId = store.schoolYear.schoolYearId;
     if (store.userInfo.typeCode === "4") {
-      this.userType = "0";
-      if (store.teachClassList.length === 0) {
+      this.userType = 2;
+      this.classList = JSON.parse(uni.getStorageSync("protal")).teachClassList;
+      if (this.classList.length === 0) {
         this.$tools.toast("请绑定班级");
         return;
       }
-      this.classList = store.teachClassList;
-      this.classCode = store.teachClassList[0].value;
-      this.gradeCode = store.teachClassList[0].gradeCode;
+      this.classCode = this.classList[0].value;
+      this.gradeCode = this.classList[0].gradeCode;
       this.showClass = true;
-      this.defTitle = store.teachClassList[0].text;
-      this.value0 = store.teachClassList[0].value;
-      uni.setStorageSync("classInfo", {
-        gradeCode: store.teachClassList[0].gradeCode,
-        classCode: store.teachClassList[0].value,
-        schoolYearId: this.schoolYearId,
+      this.defTitle = this.classList[0].text;
+      this.value0 = this.classList[0].value;
+      uni.setStorageSync("bindInfo", {
+        ...this.classList[0],
+        classCode: this.classList[0].value,
       });
+    } else if (store.userInfo.typeCode === "16") {
+      this.userType = 3;
+      this.classCode = store.childList[0].classCode;
+      this.gradeCode = store.childList[0].gradeCode;
+      uni.setStorageSync("bindInfo", {
+        ...store.childList[0],
+      });
+      this.showList();
     }
-    uni.setStorageSync("classInfo", {
-      gradeCode: this.gradeCode,
-      classCode: this.classCode,
-      schoolYearId: this.schoolYearId,
-    });
   },
   mounted() {},
   methods: {
@@ -122,12 +108,18 @@ export default {
       const req = {
         ...this.pageList,
         schoolCode: store.userInfo.schoolCode,
-        gradeId: this.gradeCode,
-        classId: this.classCode,
+        gradeCode: this.gradeCode,
+        classCode: this.classCode,
         schoolYearId: this.schoolYearId,
+        category: "1",
       };
       const res = await actions.getfindPraise(req);
-      this.detail = res.data
+      this.detail = res.data.map((el) => {
+        return {
+          ...el,
+          photoUrl: "/mobile-img/medal.png",
+        };
+      });
     },
     add() {
       this.$tools.navTo({
@@ -143,34 +135,5 @@ export default {
 .scroll-h {
   height: calc(100vh - 100rpx);
   margin-top: 20rpx;
-}
-.detail {
-  .u-padd-l0 {
-    padding-left: 20rpx;
-  }
-  .count {
-    position: fixed;
-    width: 40rpx;
-    height: 40rpx;
-    text-align: center;
-    margin-left: 110rpx;
-    z-index: 999;
-  }
-}
-.detail:nth-child(odd) {
-  .sub {
-    color: $u-type-primary;
-    background-color: $u-type-primary-light;
-  }
-}
-.detail:nth-child(even) {
-  .sub {
-    color: $u-type-success;
-    background-color: $u-type-success-light;
-  }
-}
-.img {
-  width: 160rpx;
-  height: 160rpx;
 }
 </style>

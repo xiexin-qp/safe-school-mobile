@@ -50,17 +50,26 @@ const store = Vue.observable({
 	childList: getState('childList', []),
 	teachClassList: getState('teachClassList', []),
 	openid: getState('openid', []),
-	appList: getState('appLis', [])
+	appList: getState('appList', []),
+	noticeTotal: getState('noticeTotal', [])
 })
 
 // 修改数据
-const setStore = ({ key, data, isLocal = true }) => {
+const setStore = (obj, isLocal = true) => {
   if (isLocal) {
-    const localData = JSON.parse(uni.getStorageSync(projectName) || '{}')
-    localData[key] = data
+		const localData = JSON.parse(uni.getStorageSync(projectName) || '{}')
+		if (Object.prototype.toString.call(obj) !== '[object Object]') return
+		if (obj.key) {
+			localData[obj.key] = obj.data
+			store[obj.key] = obj.data
+		} else {
+			for (let key in obj) {
+				localData[key] = obj[key]
+				store[key] = obj[key]
+			}
+		}
     uni.setStorageSync(projectName, JSON.stringify(localData))
   }
-  store[key] = data
 }
 
 /**

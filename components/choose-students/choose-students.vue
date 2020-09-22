@@ -135,7 +135,7 @@ export default {
 	height: 100%;
 }
 .scroll-h {
-	height: calc(100vh - 480rpx);
+	height: calc(100vh - 530rpx);
 }
 .head {
 	height: 100rpx;

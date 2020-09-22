@@ -29,7 +29,7 @@ import { store, actions } from './store/index.js';
 import DetailShow from './component/DetailShow.vue';
 import CommentInput from './component/CommentInput.vue';
 export default {
-	name: 'ClassHomeWork-t',
+	name: 'ClassCircle',
 	components: {
 		msDropdownMenu,
 		msDropdownItem,
@@ -67,10 +67,6 @@ export default {
 					return el.value === val;
 				})[0].text;
 				this.classCode = val;
-				eventBus.$on('getList', () => {
-					this.showList();
-				});
-				this.showList();
 				if (store.isBZR && val === store.isBZR.classCode) {
 					this.userType = 1;
 				} else {
@@ -83,6 +79,10 @@ export default {
 					classCode: val
 				});
 				console.log(this.userType);
+				eventBus.$on('getList', () => {
+					this.showList();
+				});
+				this.showList();
 			}
 		}
 	},
@@ -116,6 +116,7 @@ export default {
 			this.userName = store.childList[0].userName;
 			this.className = store.childList[0].className;
 			this.gradeName = store.childList[0].gradeName;
+			this.relationship = store.childList[0].relationship;
 			this.photoUrl = store.childList[0].photoUrl
 			uni.setStorageSync('bindInfo', {
 				...store.childList[0]
@@ -135,8 +136,9 @@ export default {
 				this.classCode = item.classCode;
 				this.userName = item.userName
 				this.photoUrl = item.photoUrl
-				this.className = store.childList[0].className;
-				this.gradeName = store.childList[0].gradeName;
+				this.relationship = item.relationship;
+				this.className = item.className;
+				this.gradeName = item.gradeName;
 				this.showList();
 				uni.setStorageSync('bindInfo', {
 					...item
@@ -159,7 +161,7 @@ export default {
 			}
 			const req = {
 				...this.pageList,
-				category: this.userType === 3 ? 3 : 1,
+				category: this.userType === 1 ? 1 : 3,
 				schoolCode: store.userInfo.schoolCode,
 				classCode: this.classCode,
 				createUsercode: store.userInfo.userCode,
@@ -208,7 +210,8 @@ export default {
 			}
 			if(this.userType === 3){
 				req.childrenCode = this.userCode,
-				req.childrenName = this.userName
+				req.childrenName = this.userName,
+				req.relationship = this.relationship
 			}
 			console.log(req);
 			const res = await actions.addComment(req);

@@ -5,80 +5,80 @@
 	"pages": [
 		//考试计划
 		{
-		  "path": "pages/examPlan/examPlan-t/index",
-		  "style": {}
+			"path": "pages/examPlan/examPlan-t/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/examPlan/examPlan-p/index",
-		  "style": {}
+			"path": "pages/examPlan/examPlan-p/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/examPlan/examPlan-p/detail",
-		  "style": {}
+			"path": "pages/examPlan/examPlan-p/detail",
+			"style": {}
 		},
 		//物品管理报修
 		{
-		  "path": "pages/goods-repair/index",
-		  "style": {}
+			"path": "pages/goods-repair/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/goods-repair/detail",
-		  "style": {}
+			"path": "pages/goods-repair/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/goods-repair/form",
-		  "style": {}
+			"path": "pages/goods-repair/form",
+			"style": {}
 		},
 		{
-		  "path": "pages/collect-repair/index",
-		  "style": {}
+			"path": "pages/collect-repair/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/collect-repair/detail",
-		  "style": {}
+			"path": "pages/collect-repair/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/collect-repair/form",
-		  "style": {}
+			"path": "pages/collect-repair/form",
+			"style": {}
 		},
 		// 留言
 		{
-		  "path": "pages/class-message/class-message-p/index",
-		  "style": {}
+			"path": "pages/class-message/class-message-p/index",
+			"style": {}
 		},
 		//场地预定
 		{
-		  "path": "pages/site-booking/index",
-		  "style": {}
+			"path": "pages/site-booking/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/site-booking/detail",
-		  "style": {}
+			"path": "pages/site-booking/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/site-booking/form",
-		  "style": {}
+			"path": "pages/site-booking/form",
+			"style": {}
 		},
 		//活动发布
 		{
-		  "path": "pages/activity-booking/index",
-		  "style": {}
+			"path": "pages/activity-booking/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/activity-booking/detail",
-		  "style": {}
+			"path": "pages/activity-booking/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/activity-booking/form",
-		  "style": {}
+			"path": "pages/activity-booking/form",
+			"style": {}
 		},
 		{
-		  "path": "pages/activity-booking/meetRecord",
-		  "style": {}
+			"path": "pages/activity-booking/meetRecord",
+			"style": {}
 		},
 		{
-		  "path": "pages/activity-booking/sign",
-		  "style": {}
+			"path": "pages/activity-booking/sign",
+			"style": {}
 		},
 		{
 			"path": "pages/activity-booking/poster",
@@ -86,20 +86,20 @@
 		},
 		//会议管理
 		{
-		  "path": "pages/meet-booking/index",
-		  "style": {}
+			"path": "pages/meet-booking/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/meet-booking/detail",
-		  "style": {}
+			"path": "pages/meet-booking/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/meet-booking/form",
-		  "style": {}
+			"path": "pages/meet-booking/form",
+			"style": {}
 		},
 		{
-		  "path": "pages/meet-booking/meetRecord",
-		  "style": {}
+			"path": "pages/meet-booking/meetRecord",
+			"style": {}
 		},
 		// 学习园地
 		{
@@ -116,24 +116,24 @@
 		},
 		// 作业
 		{
-		  "path": "pages/class-homework/class-homework-t/index",
-		  "style": {}
+			"path": "pages/class-homework/class-homework-t/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-homework/class-homework-t/detail",
-		  "style": {}
+			"path": "pages/class-homework/class-homework-t/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-homework/class-homework-t/form",
-		  "style": {}
+			"path": "pages/class-homework/class-homework-t/form",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-homework/class-homework-p/index",
-		  "style": {}
+			"path": "pages/class-homework/class-homework-p/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-homework/class-homework-p/detail",
-		  "style": {}
+			"path": "pages/class-homework/class-homework-p/detail",
+			"style": {}
 		},
 		{
 			"path": "pages/class-homework/class-homework-p/form",
@@ -187,6 +187,24 @@
 		//电子板报
 		{
 			"path": "pages/class-newspaper/index"
+		},
+		//校园活动
+		{
+			"path": "pages/school-activity/index"
+		},
+		{
+			"path": "pages/school-activity/form"
+		},
+		//失物招领
+		{
+			"path": "pages/lost-found/lost-found-p/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/form",
+			"style": {}
 		}
 	],
 	"globalStyle": {

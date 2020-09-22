@@ -215,7 +215,7 @@ const tools = {
     }
     return client
   },
-  // 微信api上次图片
+  // 微信api上传图片
   wxPhoto(cb, tag = false) {
     let isiOS = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) //ios终端
     const _self = this
@@ -327,20 +327,31 @@ const tools = {
   },
   // 人脸图片校验
   async checkUserPhoto(baseImg, cb) {
-    try {
-      const res = await $ajax.postForm({
-        url: `${hostEnv.hpb_face}/facePhoto`,
-        params: {
-          userCode: Math.floor(Math.random() * 100000),
-          file: baseImg.split(',')[1]
-        }
-      })
-      if (res.data.result) {
-        cb(res.data.url)
-      } else {
-        this.confirm('人脸照片不符合规范，请重新上传', null, false)
-      }
-    } catch (err) {}
+		var source_img_obj = new Image();
+		source_img_obj.src = baseImg;
+		source_img_obj.onload = async function() {
+			var cvs = document.createElement('canvas');
+			var scale = this.height / this.width;
+			cvs.width = 500;
+			cvs.height = 500 * scale;
+			var ctx = cvs.getContext("2d");
+			ctx.drawImage(this, 0, 0, cvs.width, cvs.height);
+			var newImageData = cvs.toDataURL('image/jpeg', 0.6);
+			try {
+			  const res = await $ajax.postForm({
+			    url: `${hostEnv.hpb_face}/facePhoto`,
+			    params: {
+			      userCode: Math.floor(Math.random() * 100000),
+			      file: newImageData.split(',')[1]
+			    }
+			  })
+			  if (res.data.result) {
+			    cb(res.data.url)
+			  } else {
+			    this.confirm('人脸照片不符合规范，请重新上传', null, false)
+			  }
+			} catch (err) {}
+		}
   },
   // 查最新学年
   async getSchoolYear(userInfo, callBack) {

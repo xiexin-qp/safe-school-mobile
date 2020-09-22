@@ -5,10 +5,10 @@
 			<view class="u-fx u-bd-b item-list input-area">
 				<view class="tip">荣誉名称：</view>
 				<view class="u-fx-f1 mar-r20">
-					<textarea class="item-input u-content-color" maxlength="50" v-model="formData.name" placeholder="请输入荣誉名称" />
+					<textarea :disabled="userType !== 1" class="item-input u-content-color" maxlength="50" v-model="formData.name" placeholder="请输入荣誉名称" />
 				</view>
 			</view>
-			<view class="u-bd-b item-list">
+			<view class="u-bd-b item-list" v-if="userType === 1 || fileList.length > 0">
 				<view class="mar-b20">上传图片</view>
 				<view class="u-fx-f1">
 					<view class="u-fx-f1">
@@ -16,6 +16,7 @@
 							class="u-fx-f1 u-padd-l20 u-padd-r10 u-padd-b20"
 							:uploadUrl="uploadUrl"
 							types="image"
+							:disabled="userType !== 1"
 							v-model="fileList"
 							:uploadCount="1"
 							:upload_max="10"
@@ -25,13 +26,13 @@
 					</view>
 				</view>
 			</view>
-			<view class="u-fx-ac u-bd-b item-list">
+			<view class="u-fx-ac u-bd-b item-list" @click="chooseTime">
 				<view class="tip">获奖日期：</view>
-				<view class="u-fx-f1 u-fx-je u-content-color" @click="dateTimeTag = true">{{ formData.dateTime }}</view>
+				<view class="u-fx-f1 u-fx-je u-content-color">{{ formData.dateTime }}</view>
 				<view class="rit-icon"></view>
 			</view>
 		</scroll-view>
-		<view class="footer-btn u-fx-ac"><u-button @click="confirm" type="primary" class="u-fx-f1 u-mar-l u-mar-r u-type-primary-dark-bg">确定</u-button></view>
+		<view v-if="userType === 1" class="footer-btn u-fx-ac"><u-button @click="confirm" type="primary" class="u-fx-f1 u-mar-l u-mar-r u-type-primary-dark-bg">确定</u-button></view>
 	</view>
 </template>
 
@@ -50,6 +51,7 @@ export default {
 			uploadUrl: '',
 			type: 0, // 0.新增，1编辑
 			fileList: [],
+			userType: 2, // 0.超管，1.班主任，2.教职工，3.家长
 			formData: {
 				name: '',
 				dateTime: ''
@@ -60,6 +62,7 @@ export default {
 	created() {
 		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		this.type = this.$tools.getQuery().get('type');
+		this.userType = parseInt(this.$tools.getQuery().get('userType'))
 		if (this.type === '1') {
 			this.id = this.$tools.getQuery().get('id');
 			this.showData();
@@ -72,12 +75,14 @@ export default {
 			const res = await actions.getClassHonorDetail(this.id);
 			this.formData.name = res.data.content;
 			this.formData.dateTime = this.$tools.getDateTime(res.data.awardTime, 'date');
-			this.fileList = [
-				{
-					url: res.data.photoUrl,
-					id: res.data.photoId
-				}
-			];
+			if (res.data.photoUrl) {
+				this.fileList = [
+					{
+						url: res.data.photoUrl,
+						id: res.data.photoId
+					}
+				]
+			}
 		},
 		previewImage(e) {
 			uni.previewImage({
@@ -97,6 +102,12 @@ export default {
 			});
 			this.fileList.splice(index, 1);
 			actions.delFile(value.id || this.fileList[0].id);
+		},
+		chooseTime(){
+			if(this.userType !== 1){
+				return
+			}
+			this.dateTimeTag = true
 		},
 		changeTime(item) {
 			this.formData.dateTime = `${item.year}-${item.month}-${item.day}`;
@@ -126,6 +137,7 @@ export default {
 			if (this.type === '0') {
 				const res = await actions.addClassHonor(req);
 			} else {
+				req.id = this.id
 				const res = await actions.editClassHonor(req);
 			}
 			this.$tools.toast('提交成功', 'success');

@@ -28,9 +28,12 @@ import inspect from './inspect.js'
 import praise from './praise'
 import lost from './lost'
 import achievement from './achievement'
+import safetyTask from './safetyTask'
+
 const moduleList = [
   ...protal,
 	...safe,
+	...safetyTask,
 	...parentManage,
   ...assistant,
   ...visitor,

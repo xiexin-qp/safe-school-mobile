@@ -55,7 +55,7 @@
       <view v-for="(item, i) in detail.substituteInfoList" :key="i" v-if="item.category !== null">
         <view class="u-mar-t20 u-padd-30 u-type-white-bg">
           <view >
-            <view class="u-fx-jc">
+            <view class="">
               <text>{{ item.fromTeacherName }}</text>
               <text class="u-padd-l40">
                 {{ item.fromGradeName }}{{ item.fromClassName }}第{{
@@ -77,7 +77,7 @@
               <image src="/mobile-img/arrow.png"></image>
               <u-tag text="调课" mode="light" type="primary"
             /></view>
-            <view class="u-fx-jc u-mar-t20" v-if="item.category === 2">
+            <view class="u-mar-t20" v-if="item.category === 2">
               <text>{{ item.toTeacherName }}</text>
               <text class="u-padd-l40"
                 >{{ item.toGradeName }}{{ item.toClassName }}第{{
@@ -298,6 +298,8 @@ export default {
               ? "待审批"
               : el.approvalState === 2
               ? "已同意"
+               : el.approvalState === 4
+              ? "已撤回"
               : "未同意",
           remarks: el.remarks,
         };

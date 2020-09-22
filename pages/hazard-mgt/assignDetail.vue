@@ -67,7 +67,7 @@
 						</u-switch>
 					</view>
 				</view>
-				<view v-if="(state=='1'&& leaderCode==userCode)||state==='2'||(state==='3'&&this.detailInfo.handleDuration)||state==='4'" 
+				<view v-if="(state==='1'&& leaderCode===userCode)||state==='2'||(state==='3'&&this.detailInfo.handleDuration)||state==='4'" 
          class="u-fx-ac u-bd-b item-list">
 					<view class="tip">要求处理完成时间：</view>
 					<view class="u-fx-f1 u-fx-je u-light-color">
@@ -78,21 +78,22 @@
 						小时
 					</view>
 				</view>
-				<view v-if="state=='assign'" class="u-fx u-bd-b  item-list">
+				<view v-if="state==='1'&&leaderCode===userCode" class="u-fx u-bd-b  item-list">
 					<view>指派备注：</view>
 					<view class="u-fx-f1 mar-r20">
-						<textarea :auto-height="true" class="item-input u-light-color" maxlength="600" v-model="detailInfo.remark" style="text-align: right;height:120rpx"
+						<textarea :auto-height="true" class="item-input u-light-color" maxlength="600" 
+            v-model="detailInfo.assignRemark" style="text-align: right;height:120rpx"
 						 placeholder="请填写指派的意见或建议" />
 						</view>
 			  </view>
         <!-- 上传整改照片 -->
-        <view  v-if="state=='2'&&!isTransfer&&handlerCode==userCode" class="u-fx-ver u-bd-b item-list">
+        <view  v-if="state==='2'&&!isTransfer&&handlerCode===userCode" class="u-fx-ver u-bd-b item-list">
           <view class="u-line2">整改照片:</view>
           <view class="u-mar-t20 u-mar-b10">
             <an-upload-img v-model="completePhotoUrls" total="9" style="margin: 20rpx"></an-upload-img>
           </view>
 			  </view>
-        <view v-if="state=='2'&&!isTransfer&&handlerCode==userCode" class="u-fx u-bd-b  item-list">
+        <view v-if="state==='2'&&!isTransfer&&handlerCode===userCode" class="u-fx u-bd-b  item-list">
 					<view>整改备注：</view>
 					<view class="u-fx-f1 mar-r20">
           <textarea :auto-height="true"  class="item-input u-light-color" maxlength="600" 
@@ -101,7 +102,7 @@
           </view>
 			  </view>
         <!-- 验收详情展示整改照片 -->
-        <view  v-if="state=='3'&&handlerCode==userCode||state==='4'" class="u-fx-ver u-bd-b item-list">
+        <view  v-if="state==='3'&&handlerCode===userCode||state==='4'" class="u-fx-ver u-bd-b item-list">
           <view class="u-line2">整改照片:</view>
           <view class="u-mar-t20 u-mar-b10">
             <image class="img u-mar-r20" @click='perviewImg(img)' v-for="(img,index) in detailInfo.completePhotoUrls" :key="index"
@@ -109,7 +110,7 @@
             </image>
           </view>
 			  </view>
-        <view v-if="state=='3'&&leaderCode==userCode" class="u-fx u-bd-b  item-list">
+        <view v-if="state==='3'&&leaderCode===userCode" class="u-fx u-bd-b  item-list">
 					<view>验收备注：</view>
 					<view class="u-fx-f1 mar-r20">
           <textarea :auto-height="true"  class="item-input u-light-color" maxlength="600" 
@@ -121,20 +122,20 @@
           <view class="u-mar-b10">
             处理流水：
           </view>
-          <approval-step :data-list="processesList"></approval-step>
+          <approval-step1 :data-list="processesList"></approval-step1>
         </view>
       </view>
 		</scroll-view>
     <view class="footer-btn u-fx-ac u-bg-color">
-      <u-button v-if="state=='1'&& leaderCode==userCode" type="primary" class="u-fx-f1 u-mar-l u-mar-r " 
+      <u-button v-if="state==='1'&& leaderCode===userCode" type="primary" class="u-fx-f1 u-mar-l u-mar-r " 
         @click="submitForm('1')">
         指派隐患
       </u-button>
-      <u-button v-else-if="state=='2'&&handlerCode==userCode" type="primary" class="u-fx-f1 u-mar-l u-mar-r " 
+      <u-button v-else-if="state==='2'&&handlerCode===userCode" type="primary" class="u-fx-f1 u-mar-l u-mar-r " 
         @click="submitForm('2')">
         {{isTransfer?'转派':'处理隐患'}}
       </u-button>
-      <u-button v-else-if="state=='3'&& leaderCode==userCode" type="primary" class="u-fx-f1 u-mar-l u-mar-r " 
+      <u-button v-else-if="state==='3'&& leaderCode===userCode" type="primary" class="u-fx-f1 u-mar-l u-mar-r " 
         @click="submitForm('3')">
         验收隐患
       </u-button>
@@ -148,17 +149,18 @@ import eventBus from '@u/eventBus'
 import validateForm from '@u/validate';
 import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
 import { store, actions } from './store/index.js'
+import ApprovalStep1 from './components/approval-step'
 const yzForm = {
     handleDuration: '请输入你的处理完成时间',
   }
 export default {
   components: {
-    anUploadImg
+    anUploadImg,
+    ApprovalStep1
   },
   computed:{
     //是否是当前负责人
     isLeader(){
-      console.log(this.leaderCode===store.userInfo.userCode)
       return this.leaderCode===store.userInfo.userCode
     },
     //是否是当前处理人
@@ -166,11 +168,12 @@ export default {
       return this.handlerCode===store.userInfo.userCode
     },
     isDisabledAssigned(){
-      if(this.state =='1'){
+      if(this.state ==='1'){
         return false
-      }else if(this.state=='2'){
+      }else if(this.state==='2'){
         //处理的时候允许转派
-        if(this.detailInfo.hasDispense=='1'&&this.handlerCode==this.userCode){
+        // console.log(this.detailInfo.hasDispense+'111')
+        if(this.detailInfo.hasDispense&&this.handlerCode==this.userCode){
          return false
         }else{
           return true
@@ -180,11 +183,11 @@ export default {
       }
     },
     isScroll(){
-      if(this.state=='1'&& this.leaderCode==this.userCode){
+      if(this.state==='1'&& this.leaderCode==this.userCode){
         return 'scroll-h'
-      }else if(this.state=='2'&&this.handlerCode==this.userCode){
+      }else if(this.state==='2'&&this.handlerCode==this.userCode){
         return 'scroll-h'
-      }else if(this.state=='3'&& this.leaderCode==this.userCode){
+      }else if(this.state==='3'&& this.leaderCode==this.userCode){
         return 'scroll-h'
       }else{
         return ''
@@ -274,20 +277,15 @@ export default {
       const res = await actions.dangerDetail(this.id)
       this.detailInfo = res.data
       //下拉选择赋值
-      this.detailInfo.hasDispense = res.data.hasDispense=='1'?true:false
-      this.categoryIndex = this.dangerCategoryList.findIndex(v=>v.name==this.detailInfo.categoryName)
-      this.levelIndex = this.dangerLevelList.findIndex(v=>v.level==this.detailInfo.level)
-      this.handerIndex = this.dangerHanderList.findIndex(v=>v.name==this.detailInfo.handerName)
-      this.processesList = res.data.processes.map(item=>{
-        return {
-          dateTime:item.createTime,
-          labelName:item.content,
-        }
-      })
+      this.detailInfo.hasDispense = res.data.hasDispense==='1'?true:false
+      this.categoryIndex = this.dangerCategoryList.findIndex(v=>v.name===this.detailInfo.categoryName)
+      this.levelIndex = this.dangerLevelList.findIndex(v=>v.level===this.detailInfo.level)
+      this.handerIndex = this.dangerHanderList.findIndex(v=>v.name===this.detailInfo.handerName)
+      this.processesList = res.data.processes
     },
     //选择隐患类别
     chooseCategory(e){
-      if(e.target.value==-1) return
+      if(e.target.value===-1) return
       this.categoryIndex = e.target.value
       this.detailInfo.categoryCode = this.dangerCategoryList[this.categoryIndex].code
     },
@@ -298,16 +296,16 @@ export default {
     },
     //选择处理人
     chooseHander(e){
-      if(e.target.value==-1) return
+      if(e.target.value===-1) return
       //处理隐患转派
       this.handerIndex = e.target.value
       let selectName = this.dangerHanderList[this.handerIndex].name
       this.detailInfo.handlerCode = this.dangerHanderList[this.handerIndex].code
       this.detailInfo.handlerName = selectName
-      if(this.state=='2'&&store.userInfo.userName!==selectName){
+      if(this.state==='2'&&(store.userInfo.userName!==selectName)){
         this.isTransfer = true
       }else{
-        false
+        this.isTransfer=false
       }
     },
     //验收下拉框
@@ -316,7 +314,7 @@ export default {
       this._checkDanger()
     },
     async _checkDanger(){
-      let text = this.acceptanceState=='1'?'验收':"不验收"
+      let text = this.acceptanceState==='1'?'验收':"不验收"
       this.$tools.confirm(`确定提交${text}结果吗？`, () => {
         let req = {
           optCode: store.userInfo.userCode,
@@ -327,9 +325,9 @@ export default {
         actions.checkDanger(req).then(res=>{
           this.$tools.toast("验收操作成功", "success");
           this.$tools.goNext(() => {
-            eventBus.$emit('getList');
+            // eventBus.$emit('getList');
             this.$tools.navTo({
-              url: `./index?state=${this.acceptanceState=='1'?'4':'2'}`,
+              url: `./index?state=${this.acceptanceState==='1'?'4':'2'}`,
             })
           });
         })
@@ -337,7 +335,7 @@ export default {
     },
     async submitForm (type) {
       validateForm(yzForm, this.detailInfo, () => {
-        if(type=='1'){ //为指派的时候需校验
+        if(type==='1'){ //为指派的时候需校验
           if(this.categoryIndex==-1){
             return this.$tools.toast('请选择隐患类别');
           }
@@ -347,15 +345,16 @@ export default {
           if(this.handerIndex==-1){
             return this.$tools.toast('请选择隐患的处理人');
           }
-          if(this.detailInfo.handleDuration==''||this.detailInfo.handleDuration==null||this.detailInfo.handleDuration>=72){
+          if(this.detailInfo.handleDuration===''||this.detailInfo.handleDuration===null||this.detailInfo.handleDuration>=72){
             return this.$tools.toast('处理完时间为72以内的数字');
           }
-          this.$tools.confirm("确定指派报隐患吗？", () => {
+          this.$tools.confirm("确定指派该隐患吗？", () => {
             let req = {
               categoryCode: this.detailInfo.categoryCode, 
               countHourse: this.detailInfo.handleDuration,
               handlerCode: this.detailInfo.handlerCode,
               hasDispense: this.detailInfo.hasDispense?'1':'0',
+              remak:this.detailInfo.assignRemark,
               id: this.id,
               level: this.detailInfo.level,
               optCode: store.userInfo.userCode,
@@ -363,14 +362,14 @@ export default {
             actions.assignDanger(req).then(res=>{
               this.$tools.toast("指派成功", "success");
               this.$tools.goNext(() => {
-                eventBus.$emit('getList');
+                // eventBus.$emit('getList');
                 this.$tools.navTo({
                   url: `./index?state=2`,
                 })
               });
             })
           });
-        }else if (type=='2'){
+        }else if (type==='2'){
           let req = {
             handlerCode: this.detailInfo.handlerCode,
               handlerName: this.detailInfo.handlerName,
@@ -383,7 +382,7 @@ export default {
             actions.transferDanger(req).then(res=>{
               this.$tools.toast("转派成功", "success");
               this.$tools.goNext(() => {
-                eventBus.$emit('getList');
+                // eventBus.$emit('getList');
                 this.$tools.navTo({
                   url: `./index?state=2`,
                 })
@@ -391,10 +390,10 @@ export default {
             })
           })
           }else{
-            // if(this.completePhotoUrls.length==0) return  this.$tools.toast('整改照片不能为空');
+            if(this.completePhotoUrls.length==0) return  this.$tools.toast('整改照片不能为空');
             //处理隐患
             let req = {
-              // completePhotos: this.$tools.splitBase64(this.completePhotoUrls),
+              completePhotos: this.$tools.splitBase64(this.completePhotoUrls),
               optCode: store.userInfo.userCode,
               remark: this.detailInfo.rectifyRemark,
               taskId:  this.id
@@ -403,7 +402,7 @@ export default {
               actions.dealDanger(req).then(res=>{
                 this.$tools.toast("处理成功", "success");
                 this.$tools.goNext(() => {
-                  eventBus.$emit('getList');
+                  // eventBus.$emit('getList');
                   this.$tools.navTo({
                     url: `./index?state=3`,
                   })
@@ -411,7 +410,7 @@ export default {
               })
             })
           }
-        }else if (type=='3'){
+        }else if (type==='3'){
           this.showAcceptanceSelect = true
         }
       })
@@ -433,11 +432,11 @@ export default {
 <style lang="scss" scoped>
 .scroll-h {
 	height: calc(100vh - 88rpx);
-  .img{
+}
+.img{
     height: 150rpx;
     width: 156rpx;
   }
-}
 .tip::before {
 	position: absolute;
 	content: '*';
