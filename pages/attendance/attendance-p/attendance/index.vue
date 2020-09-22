@@ -81,14 +81,10 @@ export default {
       res.data.forEach(ele => {
         if(!ele.staue){
           this.selected.push({	
-            date: ele
+            date: this.$tools.getDateTime(ele.date)
           })
         }
 			})
-      // this.selected = res.data.map( el => {
-      //   el.date = this.$tools.getDateTime(el.date)
-      //   return el
-      // })
     },
     monthSwitch (item) {
       this.mounth=`${item.year}-${ item.month < 10 ? ('0' + item.month) : item.month }`
