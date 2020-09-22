@@ -69,7 +69,7 @@ export default {
 		this.$tools.isBZR(store.userInfo).then(res => {
 			if (res) {
 				this.deptType = '1';
-				this.deptCode = res.classCode;
+				this.deptCode = res[0].classCode;
 			} else {
 				this.$tools.isDormMamage(store.userInfo).then(res => {
 					if (res) {
@@ -136,6 +136,7 @@ export default {
 			this.showStudent(this.currentCode);
 		},
 		changeMenu(item) {
+			console.log(item)
 			this.current = item;
 			this.currentCode = this.typeList[item].key;
 			this.showStudent(this.currentCode);

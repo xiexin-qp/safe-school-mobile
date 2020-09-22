@@ -20,7 +20,7 @@ export default {
   created () {
     this.$tools.isBZR(store.userInfo).then(res => {
 			if (res) {
-        this.deptCode = res.classCode
+        this.deptCode = res[0].classCode
         this.currentCom = RealCheckT
 			} else {
 				this.$tools.isDormMamage(store.userInfo).then(res => {
