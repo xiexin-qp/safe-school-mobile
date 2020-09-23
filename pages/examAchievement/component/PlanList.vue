@@ -19,13 +19,16 @@
           <view class="u-mar-t u-type-info"
             >考试日期：{{ item.startDate | gmtToDate("date") }}</view
           >
-          <view class="u-mar-t u-type-error" v-if="item.ifEnter === '0'"
+          <!-- <view class="u-mar-t u-type-error" v-if="item.ifEnter === '0'"
             >暂未上传成绩</view
-          >
+          > -->
         </view>
 
         <view class="p-18">
-          <u-button type="primary" size="mini" @click="goDetail(item.id)"
+             <view class="u-mar-t u-type-error" v-if="item.ifEnter === '0'"
+            >暂未上传</view
+          >
+          <u-button type="primary" size="mini" v-if="item.ifEnter === '1'" @click="goDetail(item)"
             >查看成绩</u-button
           >
         </view>
