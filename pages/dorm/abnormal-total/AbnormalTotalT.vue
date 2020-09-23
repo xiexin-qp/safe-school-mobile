@@ -68,10 +68,9 @@ export default {
   created () {
 		this.dormDate = this.gmtToDate(new Date().getTime() - 3600 * 24 * 1000).substring(0, 10)
 		this.$tools.isBZR(store.userInfo).then(res => {
-			console.log(res)
 			if (res) {
 				this.deptType = '1'
-				this.deptCode = res.classCode;
+				this.deptCode = res[0].classCode;
 			}else{
 				this.$tools.isDormMamage(store.userInfo).then(res => {
 					console.log(res)

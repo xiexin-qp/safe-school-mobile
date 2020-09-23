@@ -78,10 +78,13 @@ export default {
         month: this.mounth
       }
       const res = await actions.studentMonthState(req)
-      this.selected = res.data.map( el => {
-        el.date = this.$tools.getDateTime(el.date)
-        return el
-      })
+      res.data.forEach(ele => {
+        if(!ele.staue){
+          this.selected.push({	
+            date: this.$tools.getDateTime(ele.date)
+          })
+        }
+			})
     },
     monthSwitch (item) {
       this.mounth=`${item.year}-${ item.month < 10 ? ('0' + item.month) : item.month }`
