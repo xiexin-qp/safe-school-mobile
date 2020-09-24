@@ -285,7 +285,7 @@ export default {
 									name: '其他',
 									id: res.data.id,
 									type: '3',
-									orgCode: this.schoolInfo.schoolCode,
+									orgCode: res.data.code,
 									disabled: this.disabled
 								});
 							}
