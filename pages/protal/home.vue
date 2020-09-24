@@ -98,6 +98,7 @@ export default {
 		}
 		// 初始化学年
 		this.$tools.getSchoolYear(this.userInfo, data => {
+			console.log('school', data)
 			setStore({
 				key: 'schoolYear',
 				data: data
