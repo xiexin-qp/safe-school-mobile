@@ -159,14 +159,14 @@ export default {
       teacherTag: false,
       classTag: false,
       schoolInfo: {
-        schoolYearId: "",
+        schoolYearId: 0,
         schoolCode: "",
       },
     };
   },
   created() {
     this.schoolInfo.schoolCode = store.userInfo.schoolCode;
-    this.schoolInfo.schoolYearId = store.schoolYear ? store.schoolYear.schoolYearId : '';
+    this.schoolInfo.schoolYearId = store.schoolYear.schoolYearId;
   },
   watch: {},
   computed: {},
