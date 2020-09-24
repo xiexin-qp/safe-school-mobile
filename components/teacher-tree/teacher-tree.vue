@@ -116,37 +116,41 @@ export default {
 							return;
 						}
 						let orgArr = [];
-						res.data.orgChilds.forEach(ele => {
-							orgArr.push({
-								name: ele.name,
-								orgCode: ele.code,
-								id: ele.code,
-								type: '1',
-								disabled: this.disabled
-							});
-						});
-						$ajax.post({
-							url: `${hostEnv.lz_user_center}/userinfo/teacher/user/node/teachers`,
-							params: {
-								orgCode: res.data.code,
-								schoolCode: this.schoolInfo.schoolCode,
-								page: 1,
-								size: 99999
-							}
-						}).then(result => {
-							if(result.data.list.length > 0) {
+						if (res.data.orgChilds.length > 0) {
+							res.data.orgChilds.forEach(ele => {
 								orgArr.push({
-									name: '其他',
-									id: res.data.id,
-									type: '3',
-									orgCode: res.data.code,
-									disabled: this.disabled 
+									name: ele.name,
+									orgCode: ele.code,
+									id: ele.code,
+									type: '1',
+									disabled: this.disabled
 								});
-							}
-							this.$tools.goNext(() => {
-								resolve(orgArr);
 							});
-						})
+						}
+						$ajax
+							.post({
+								url: `${hostEnv.lz_user_center}/userinfo/teacher/user/node/teachers`,
+								params: {
+									orgCode: res.data.code,
+									schoolCode: this.schoolInfo.schoolCode,
+									page: 1,
+									size: 99999
+								}
+							})
+							.then(result => {
+								if (result.data.list.length > 0) {
+									orgArr.push({
+										name: '其他',
+										id: res.data.id,
+										type: '3',
+										orgCode: res.data.code,
+										disabled: this.disabled
+									});
+								}
+								this.$tools.goNext(() => {
+									resolve(orgArr);
+								});
+							});
 					})
 					.catch(() => {
 						this.noDataTag = true;
@@ -215,7 +219,7 @@ export default {
 		close() {
 			this.searchText = '';
 			if (this.isClear) {
-				this.$refs.tree.setCheckedKeys([])
+				this.$refs.tree.setCheckedKeys([]);
 			}
 			this.$emit('close');
 		},
@@ -223,7 +227,7 @@ export default {
 			this.searchText = '';
 			this.$emit('confirm', this.selectedData.filter(item => item.type === '2'));
 			if (this.isClear) {
-				this.$refs.tree.setCheckedKeys([])
+				this.$refs.tree.setCheckedKeys([]);
 			}
 		},
 		filterNode(value, data) {
