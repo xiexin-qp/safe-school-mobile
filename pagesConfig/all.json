@@ -571,6 +571,17 @@
 		{
 			"path": "pages/school-activity/form"
 		},
+		//失物招领
+		{
+			"path": "pages/lost-found/lost-found-p/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/form",
+			"style": {}
+		},
 		//会议管理
 		{
 			"path": "pages/meet-booking/index",
