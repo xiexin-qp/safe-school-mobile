@@ -25,6 +25,8 @@ const getState = (state, val) => {
 }
 const store = Vue.observable({
   userInfo: JSON.parse(uni.getStorageSync('protal') || protal).userInfo,
+  schoolYear: JSON.parse(uni.getStorageSync('protal')).schoolYear
+
 })
 
 // 修改数据
