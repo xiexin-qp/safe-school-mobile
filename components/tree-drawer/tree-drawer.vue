@@ -222,7 +222,7 @@ export default {
 						}
 					})
 					.then(res => {
-						if (!res.data || res.data.list.length === 0) {
+						if (!res.data) {
 							resolve([]);
 							return;
 						}
@@ -256,7 +256,7 @@ export default {
 						url: `${hostEnv.lz_user_center}/school/org/getSchoolRoot/${this.schoolInfo.schoolCode}`
 					})
 					.then(res => {
-						if (!res.data || res.data.orgChilds.length === 0) {
+						if (!res.data) {
 							this.teaDataTag = true;
 							resolve([]);
 							return;
