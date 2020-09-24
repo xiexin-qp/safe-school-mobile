@@ -274,7 +274,7 @@ export default {
 						$ajax.post({
 							url: `${hostEnv.lz_user_center}/userinfo/teacher/user/node/teachers`,
 							params: {
-								orgCode: this.schoolInfo.schoolCode,
+								orgCode: res.data.code,
 								schoolCode: this.schoolInfo.schoolCode,
 								page: 1,
 								size: 99999
