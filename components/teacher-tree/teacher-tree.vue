@@ -139,8 +139,8 @@ export default {
 									name: '其他',
 									id: res.data.id,
 									type: '3',
-									orgCode: this.schoolInfo.schoolCode,
-									disabled: this.disabled
+									orgCode: res.data.code,
+									disabled: this.disabled 
 								});
 							}
 							this.$tools.goNext(() => {
