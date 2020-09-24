@@ -101,7 +101,7 @@ export default {
   },
   created() {
     this.schoolInfo.schoolCode = store.userInfo.schoolCode;
-    this.schoolInfo.schoolYearId = store.schoolYear.schoolYearId;
+    this.schoolInfo.schoolYearId = store.schoolYear ? store.schoolYear.schoolYearId : '';
   },
   watch: {},
   computed: {},
