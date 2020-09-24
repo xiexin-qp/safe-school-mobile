@@ -1,0 +1,187 @@
+<template>
+	<view class="u-page u-bg-fff u-padd-20">
+		<scroll-view scroll-y class="scroll-h">
+			<no-data v-if="false" msg="暂无相册"></no-data>
+			<view class="album-list u-fx">
+				<view class="album-item u-mar-20 u-fx-ver" @click="add">
+					<view class="album-wrapper">
+						<view class="album-pic">
+							<view class="new-album">
+								<image src="http://canpointtest.com/mobile-img/add-album.png" alt="" />
+								<view class="new-text u-fx-ac-jc">新建相册</view>
+							</view>
+						</view>
+					</view>
+				</view>
+				<view class="album-item u-mar-20 u-fx-ver" v-for="(item, index) in albumList" :key="item.id">
+					<view class="album-wrapper">
+						<view class="album-pic">
+							<image @click="goDetail(item.id)" :src="item.coverUrl ? item.coverUrl : 'http://canpointtest.com/mobile-img/no-photo.png'" alt="" />
+						</view>
+						<view class="album-desc u-fx-jsb u-fx-ac u-bg-fff">
+							<view class="u-mar-l20 u-te">
+								<text class="u-font-01">{{ item.albumName }}</text>
+								<text class="u-font-02 u-mar-l10 u-tips-color">( {{ item.number || 0 }} )张</text>
+							</view>
+							<image @click.stop="action(item)" class="more u-font-1 u-mar-r20" src="http://canpointtest.com/mobile-img/edit.png" alt="" />
+						</view>
+					</view>
+				</view>
+			</view>
+		</scroll-view>
+		<u-modal v-model="showTag" :show-title="false" show-cancel-button @confirm="addAlbum(0)">
+			<view class="u-fx-ver u-mar-t20 u-mar-r20 u-mar-l20"><u-input v-model="albumName" maxlength="10" type="text" :border="true" placeholder="请输入相册名称" /></view>
+		</u-modal>
+	</view>
+</template>
+
+<script>
+import eventBus from '@u/eventBus';
+import noData from '@/components/no-data/no-data.vue';
+import { store, actions } from './store/index.js';
+export default {
+	name: 'AlbumManage',
+	components: {
+		noData
+	},
+	data() {
+		return {
+			showTag: false,
+			albumList: [],
+			actionList: [ '添加照片', '发布对象', '全屏播放设置', '编辑相册', '删除相册'],
+			albumName: ''
+		};
+	},
+	async created() {},
+	mounted() {
+		this.showList();
+	},
+	methods: {
+		async showList() {
+			const req = {
+				schoolCode: store.userInfo.schoolCode
+			};
+			console.log(req);
+			const res = await actions.getAlbumList(req);
+			this.albumList = res.data.list;
+		},
+		add(){
+			this.albumName = ''
+			this.showTag = true
+		},
+		async addAlbum() {
+			if(this.editTag){
+				await actions.editAlbum({
+					albumName: this.albumName,
+					id: this.albumId,
+					schoolCode: store.userInfo.schoolCode
+				})
+				this.$tools.toast("编辑成功", "success");
+				this.$tools.goNext(() => {
+					this.albumName = ''
+				  this.showList();
+				});
+			}else {
+				await actions.editAlbum({
+					albumName: this.addNewAlbum,
+					schoolCode: store.userInfo.schoolCode
+				})
+				this.$tools.toast("新建成功", "success");
+				this.$tools.goNext(() => {
+					this.albumName = ''
+				  this.showList();
+				});
+			}
+		},
+		goDetail(id) {
+			this.$tools.navTo({
+				url: './album?id=' + id
+			});
+		},
+		action(item){
+			this.$tools.actionsheet(this.actionList, index => {
+				if (index === 0) { // 添加照片
+					this.goDetail(item.id)
+				} else if (index === 1) { // 发布对象
+					
+				} else if (index === 2) { // 全屏播放设置
+					
+				} else if (index === 3) { // 编辑相册
+					this.editTag = true
+					this.albumId = item.id
+					this.albumName = item.albumName
+					this.showTag = true
+				} else if (index === 4) { // 删除相册
+					
+				}
+			});
+		},
+		deleAlbum(id, index) {
+			this.albumList[index].deleteTag = false;
+			this.$tools.delTip('确定删除此相册吗？', () => {
+				actions.delAlbumById(id).then(res => {
+					this.$tools.toast('删除成功', 'success');
+					this.refuseText = '';
+					this.$tools.goNext(() => {
+						this.showList(false, {
+							classCode: uni.getStorageSync('classInfo').classCode,
+							schoolYearId: uni.getStorageSync('classInfo').schoolYearId
+						});
+					});
+				});
+			});
+		}
+	}
+};
+</script>
+
+<style lang="scss" scoped>
+.scroll-h {
+	height: calc(100vh);
+}
+.album-list {
+	flex-wrap: wrap;
+	.album-item {
+		width: calc(50% - 40rpx);
+		overflow: hidden;
+		margin-bottom: 14rpx;
+		border-radius: 4rpx;
+		height: 245rpx;
+		box-shadow: 0px 3px 6px 0px rgba(200, 198, 198, 0.35);
+		.album-wrapper {
+			border-radius: 16rpx;
+			position: relative;
+			.album-pic {
+				image {
+					width: 100%;
+					height: 192rpx;
+				}
+				.new-album {
+					position: relative;
+					image {
+						width: 100%;
+						height: 245rpx;
+					}
+					.new-text {
+						position: absolute;
+						top: 60rpx;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						margin: auto;
+						font-size: 32rpx;
+						color: #656770;
+						font-weight: 500;
+					}
+				}
+			}
+			.album-desc {
+				.more{
+					width: 31rpx;
+					height: 6rpx;
+				}
+			}
+		}
+	}
+}
+</style>

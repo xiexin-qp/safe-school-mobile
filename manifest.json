@@ -246,6 +246,14 @@
             "^/zq_class": ""
           }
         },
+				"/zk_news": {
+				  // "target": "http://192.168.1.241:11005/", //张坤-信息发布
+				  "target": "http://192.168.1.23:11011/",
+				  "changeOrigin": true,
+				  "pathRewrite": {
+				    "^/zk_news": ""
+				  }
+				},
         "/zq_schedule": {
           // "target": "http://192.168.1.241:11007/", //张琦，课程表
           "target": "http://192.168.2.242:11010/",

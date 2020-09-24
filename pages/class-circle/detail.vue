@@ -79,7 +79,8 @@ export default {
 				createUsername: store.userInfo.userName,
 				createPhotoUrl: store.userInfo.photoUrl,
 				momentsId: this.momontInfo.id,
-				msg: value
+				msg: value,
+				category: this.userType
 			};
 			if (this.commentInfo && this.commentInfo.createUsercode !== this.userCode) {
 				req.replyPhotoUrl = this.commentInfo.createPhotoUrl;
