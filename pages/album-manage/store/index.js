@@ -12,64 +12,28 @@ function resultBack(res) {
 }
 
 // 响应式数据
-const projectName = 'protal' // 此处写项目名作为存储值
+const projectName = 'album-manage' // 此处写项目名作为存储值
 const localData = uni.getStorageSync(projectName) || '{}'
 const getState = (state, val) => {
   return JSON.parse(localData)[state] || val
 }
+ 
 const store = Vue.observable({
-  tabIndex: 0,
-	relationShipList: [
-		{
-			id: 1,
-			relationShip: '爸爸'
-		},
-		{
-			id: 2,
-			relationShip: '妈妈'
-		},
-		{
-			id: 3,
-			relationShip: '爷爷'
-		},
-		{
-			id: 4,
-			relationShip: '奶奶'
-		},
-		{
-			id: 5,
-			relationShip: '其他'
-		}
-	],
-	schoolYear: getState('schoolYear', []),
-	isBZR: getState('isBZR', {}),
-	enjoyApp: getState('enjoyApp', []),
-  enjoyTeacherApp: getState('enjoyTeacherApp', []),
-	enjoyParentApp: getState('enjoyParentApp', []),
-	userInfo: getState('userInfo', {}),
-	childList: getState('childList', []),
-	teachClassList: getState('teachClassList', []),
-	openid: getState('openid', []),
-	appList: getState('appList', []),
-	noticeTotal: getState('noticeTotal', [])
+  userInfo: JSON.parse(uni.getStorageSync('protal')).userInfo,
+	openid: JSON.parse(uni.getStorageSync('protal')).openid,
+	schoolYear: JSON.parse(uni.getStorageSync('protal')).schoolYear,
+	isBZR: JSON.parse(uni.getStorageSync('protal')).isBZR,
+	teachClassList: JSON.parse(uni.getStorageSync('protal')).teachClassList,
 })
 
 // 修改数据
-const setStore = (obj, isLocal = true) => {
+const setStore = ({ key, data, isLocal = true }) => {
   if (isLocal) {
-		const localData = JSON.parse(uni.getStorageSync(projectName) || '{}')
-		if (Object.prototype.toString.call(obj) !== '[object Object]') return
-		if (obj.key) {
-			localData[obj.key] = obj.data
-			store[obj.key] = obj.data
-		} else {
-			for (let key in obj) {
-				localData[key] = obj[key]
-				store[key] = obj[key]
-			}
-		}
+    const localData = JSON.parse(uni.getStorageSync(projectName) || '{}')
+    localData[key] = data
     uni.setStorageSync(projectName, JSON.stringify(localData))
   }
+  store[key] = data
 }
 
 /**

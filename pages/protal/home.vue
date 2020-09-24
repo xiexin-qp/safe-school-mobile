@@ -86,7 +86,7 @@ export default {
 	computed: {
 		userInfo: () => store.userInfo,
 		enjoyApp: () => store.enjoyApp,
-		appList: () => store.appList,
+		appList: () => store.appList
 	},
 	components: {
 		newList,
@@ -98,76 +98,77 @@ export default {
 		}
 		// 初始化学年
 		this.$tools.getSchoolYear(this.userInfo, data => {
+			console.log('school', data)
 			setStore({
 				key: 'schoolYear',
 				data: data
 			});
 		});
-		// 判断是否是班主任
+		// 判断是否是班主任,获取教职工任课班级
 		if (this.userInfo.typeCode === '4') {
 			this.$tools.isBZR(this.userInfo, data => {
-				if (!data) return
-				let classInfo = {}
+				if (!data) return;
+				let classInfo = {};
 				if (parseInt(this.currentClass) > data.length - 1) {
-					classInfo = data[0]
+					classInfo = data[0];
 				} else {
-					this.classInfo = data[this.currentClass]
+					this.classInfo = data[this.currentClass];
 				}
 				setStore({
 					key: 'isBZR',
 					data: this.classInfo
 				});
 			});
-		}
-		// 教职工任课班级列表
-		if (this.userInfo.typeCode === '4') {
-			let classList = [];
-			actions
-				.getClassListByTeacher({
-					schoolCode: store.userInfo.schoolCode,
-					userCode: store.userInfo.userCode
-				})
-				.then(res => {
-					if (!res.data || res.data.length === 0) {
-					} else {
-						res.data.forEach(el => {
-							classList.push({
-								text: el.gradeName + el.className,
-								value: el.classCode,
-								isBZR: false,
-								gradeCode: el.gradeCode,
-								subjectList: el.subjectList,
-								className: el.className,
-								gradeName: el.gradeName,
-								classId: el.classId
-							});
-						});
-					}
-					if (this.classInfo) {
-						const index = classList.findIndex(list => {
-							return list.value === this.classInfo.classCode;
-						});
-						if (index !== -1) {
-							classList[index].isBZR = true;
-							classList.unshift(classList[index]);
-							classList.splice(index + 1, 1);
+			this.$tools.goNext(() => {
+				let classList = [];
+				actions
+					.getClassListByTeacher({
+						schoolCode: store.userInfo.schoolCode,
+						userCode: store.userInfo.userCode
+					})
+					.then(res => {
+						if (!res.data || res.data.length === 0) {
 						} else {
-							classList.unshift({
-								text: this.classInfo.gradeName + this.classInfo.className,
-								value: this.classInfo.classCode,
-								className: this.classInfo.className,
-								gradeName: this.classInfo.gradeName,
-								gradeCode: this.classInfo.gradeCode,
-								classId: this.classInfo.classId,
-								isBZR: true
+							res.data.forEach(el => {
+								classList.push({
+									text: el.gradeName + el.className,
+									value: el.classCode,
+									isBZR: false,
+									gradeCode: el.gradeCode,
+									subjectList: el.subjectList,
+									className: el.className,
+									gradeName: el.gradeName,
+									classId: el.classId
+								});
 							});
 						}
-					}
-					setStore({
-						key: 'teachClassList',
-						data: classList
+						console.log(this.classInfo);
+						if (this.classInfo) {
+							const index = classList.findIndex(list => {
+								return list.value === this.classInfo.classCode;
+							});
+							if (index !== -1) {
+								classList[index].isBZR = true;
+								classList.unshift(classList[index]);
+								classList.splice(index + 1, 1);
+							} else {
+								classList.unshift({
+									text: this.classInfo.gradeName + this.classInfo.className,
+									value: this.classInfo.classCode,
+									className: this.classInfo.className,
+									gradeName: this.classInfo.gradeName,
+									gradeCode: this.classInfo.gradeCode,
+									classId: this.classInfo.classId,
+									isBZR: true
+								});
+							}
+						}
+						setStore({
+							key: 'teachClassList',
+							data: classList
+						});
 					});
-				});
+			});
 		}
 		this.newsListGet();
 	},
@@ -225,12 +226,12 @@ export default {
 					return;
 				}
 				if (enjoy.url.indexOf('#') > -1) {
-					window.location.href= enjoy.url
+					window.location.href = enjoy.url;
 				} else {
 					this.$tools.navTo({
 						title: enjoy.name,
 						url: enjoy.url
-					})
+					});
 				}
 			}
 		},

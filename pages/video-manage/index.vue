@@ -65,7 +65,7 @@ import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue';
 import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue';
 import ClassAlbum from './component/ClassAlbum.vue';
 import { store, actions } from './store/index.js';
-import hostEnv from '../../../config/index.js';
+import hostEnv from '../../config/index.js';
 export default {
 	name: 'ClassStyle',
 	components: {
@@ -141,7 +141,6 @@ export default {
 	},
 	async created() {
 		this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList
-		console.log(this.classList)
 		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		this.length = this.classMotto.length;
 		this.schoolYearId = store.schoolYear.schoolYearId;
@@ -168,6 +167,11 @@ export default {
 				schoolYearId: this.schoolYearId
 			});
 		}
+		uni.setStorageSync('classInfo', {
+			gradeCode: this.gradeCode,
+			classCode: this.classCode,
+			schoolYearId: this.schoolYearId
+		});
 	},
 	mounted() {},
 	methods: {
