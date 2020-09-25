@@ -48,7 +48,7 @@ export default {
   .left-w {
     width: 50rpx;
   }
-  border-left: 1px $u-light-color solid;
+  border-left: 1rpx $u-light-color solid;
   margin: 0 $u-mp-30;
   .tips {
     z-index: 99;

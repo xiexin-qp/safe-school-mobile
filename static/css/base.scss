@@ -362,6 +362,33 @@ only screen and (min-device-pixel-ratio: 2) {
   padding-bottom: $u-mp-20;
 }
 
+.u-padd,
+.u-padd-15 {
+  padding: $u-mp-15;
+}
+
+.u-padd-l,
+.u-padd-l15 {
+  padding-left: $u-mp-15;
+}
+
+.u-padd-r,
+.u-padd-r15 {
+  padding-right: $u-mp-15;
+}
+
+.u-padd-t,
+.u-padd-t15 {
+  padding-top: $u-mp-15;
+}
+
+.u-padd-b,
+.u-padd-b15 {
+  padding-bottom: $u-mp-15;
+}
+
+
+
 .u-padd-10 {
   padding: $u-mp-10;
 }

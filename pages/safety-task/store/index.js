@@ -21,7 +21,8 @@ const getState = (state, val) => {
 const store = Vue.observable({
   tabIndex: 0,
   enjoyApp: getState('enjoyApp', []),
-  userInfo: JSON.parse(uni.getStorageSync('protal')).userInfo
+  userInfo: JSON.parse(uni.getStorageSync('protal')).userInfo,
+  schoolYear: JSON.parse(uni.getStorageSync('protal')).schoolYear
   // userInfo: loginData.userInfo
 })
 

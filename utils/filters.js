@@ -389,6 +389,66 @@ const filters = {
       return '已撤销'
     }
   },
+  //安全任务完成状态
+  getSafetyState: val => {
+    const text = parseInt(val)
+    if (parseInt(text) === 1) {
+      return '未填报'
+    } else if (parseInt(text) === 2) {
+      return '已填报待提交'
+    } else if (parseInt(text) === 3) {
+      return '已提交'
+    } else if (parseInt(text) === 4) {
+      return '已补交'
+    } else if (parseInt(text) === 5) {
+      return '已打回请重报'
+    }else if (parseInt(text) === 6) {
+      return '已重报请提交'
+    }else if (parseInt(text) === 7) {
+      return '已重报已提交'
+    }else if (parseInt(text) === 8) {
+      return '已重报已补交'
+    }
+  },
+  //安全任务完成状态
+  completeStatusToText: val => {
+    const text = parseInt(val)
+    if (parseInt(text) === 3) {
+      return '已完成'
+    } else if (parseInt(text) === 1) {
+      return '未完成'
+    } else if (parseInt(text) === 2) {
+      return '未完成'
+    } else if (parseInt(text) === 4) {
+      return '逾期填报'
+    } 
+  },
+  //安全任务完成状态
+  stateToText: val => {
+    const text = parseInt(val)
+    if (parseInt(text) === 0) {
+      return '未发布'
+    } else if (parseInt(text) === 1) {
+      return '未开始'
+    } else if (parseInt(text) === 2) {
+      return '进行中'
+    } else if (parseInt(text) === 4) {
+      return '已结束'
+    } 
+  },
+   // 安全任务状态
+   safetyTaskStatus(text) {
+    text = parseInt(text)
+    if (text === 1) {
+      return '未完成'
+    } else if (text === 2) {
+      return '未完成'
+    } else if (text === 3) {
+      return '已完成'
+    } else if (text === 4) {
+      return '逾期填报'
+    }
+  },
   getHour(data) {
     return Math.ceil(data / 3600000)
   }

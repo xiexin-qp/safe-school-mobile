@@ -7,9 +7,17 @@ import hostEnv from '../../../config/index'
 // import hostEnv from '../../../../config/index.js'
 
 let userApi = {
-  getQueryStudent: '/userinfo/student/user/queryStudentInfoList#post' // 学生信息列表查询 
+  getSafetask: '/safeTask/query/safetask#post' ,// 学生信息列表查询 
+	myTaskDetail: '/safeTask/info#get', // 根据id查询我的任务
+	answerTask: '/safeTask/add/answer#post', // 任务填报
+	previewMyTask: '/safeTask/preview/#postWithQueryAndBody', //任务预览
+	submitMyTask: '/safeTask/submit#putWithQueryAndBody', // 提交或补交
+	getTaskIssued: '/safeTaskTemplate/page#post', // 校端任务下发列表
+	getTaskDetail: '/safeTaskTemplate/info#getUrl', // 查看任务详情
+	postSchoolTask: '/safeTaskTemplate/school/publish#post', // 校端任务发布
+	schTaskCompleted: '/safeTaskTemplate/school/complete/static#post', // 校端按照完成情况统计
 }
 for (let val in userApi) {
-  userApi[val] = `${hostEnv.lz_user_center}${userApi[val]}`
+  userApi[val] = `${hostEnv.lz_safe}${userApi[val]}`
 }
 export default userApi
