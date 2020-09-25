@@ -281,6 +281,7 @@
 				},
 				"lz_safe": {
 					"target": "http://192.168.2.242:8091/", //吕卓-安全防控
+					// "target": "http://192.168.1.76:8091/", //liujijie-本地
 					"changeOrigin": true,
 					"pathRewrite": {
 					  "^/lz_safe": ""
