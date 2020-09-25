@@ -151,8 +151,10 @@
         <view class="tip">审批人:</view>
         <view @click="chooseTeacher()" class="u-fx-f1 u-fx-je u-content-color">
           <text v-if="repairApprovalList.length === 0">请选择</text>
+          <text v-if="repairApprovalList.length >3">已选{{repairCopyList.length}}人</text>
           <view v-for="(item, index) in repairApprovalList" :key="index">
             <u-tag
+              v-if="repairApprovalList.length <=3"
               :text="item.userName"
               mode="light"
               type="info"
