@@ -39,6 +39,7 @@
         <view class="tip">选择班级:</view>
         <view @click="chooseClass" class="u-fx-f1 u-fx">
           <view class="copyer u-fx-f1 u-content-color u-tx-r">
+               <text v-if="classList.length === 0">请选择</text>
             <u-tag
               v-for="(item, index) in classList"
               :key="index"
@@ -263,6 +264,8 @@ export default {
 }
 .mar-l10 {
   margin-left: 10rpx;
+      margin-top: 10rpx;
+
 }
 .submit-btn {
   height: 80rpx;
