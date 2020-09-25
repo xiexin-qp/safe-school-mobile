@@ -29,7 +29,7 @@ import { store, actions } from './store/index.js';
 import DetailShow from './component/DetailShow.vue';
 import CommentInput from './component/CommentInput.vue';
 export default {
-	name: 'ClassHomeWork-t',
+	name: 'ClassCircle',
 	components: {
 		msDropdownMenu,
 		msDropdownItem,
@@ -116,6 +116,7 @@ export default {
 			this.userName = store.childList[0].userName;
 			this.className = store.childList[0].className;
 			this.gradeName = store.childList[0].gradeName;
+			this.relationship = store.childList[0].relationship;
 			this.photoUrl = store.childList[0].photoUrl
 			uni.setStorageSync('bindInfo', {
 				...store.childList[0]
@@ -135,8 +136,9 @@ export default {
 				this.classCode = item.classCode;
 				this.userName = item.userName
 				this.photoUrl = item.photoUrl
-				this.className = store.childList[0].className;
-				this.gradeName = store.childList[0].gradeName;
+				this.relationship = item.relationship;
+				this.className = item.className;
+				this.gradeName = item.gradeName;
 				this.showList();
 				uni.setStorageSync('bindInfo', {
 					...item
@@ -199,7 +201,8 @@ export default {
 				createUsername: store.userInfo.userName,
 				createPhotoUrl: this.photoUrl,
 				momentsId: this.momontInfo.id,
-				msg: value
+				msg: value,
+				category: this.userType
 			};
 			if (this.commentInfo && this.commentInfo.createUsercode !== this.userCode) {
 				req.replyPhotoUrl = this.commentInfo.createPhotoUrl
@@ -208,7 +211,8 @@ export default {
 			}
 			if(this.userType === 3){
 				req.childrenCode = this.userCode,
-				req.childrenName = this.userName
+				req.childrenName = this.userName,
+				req.relationship = this.relationship
 			}
 			console.log(req);
 			const res = await actions.addComment(req);

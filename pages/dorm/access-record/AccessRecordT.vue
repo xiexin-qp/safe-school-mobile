@@ -66,9 +66,9 @@ export default {
   async created() {
     this.$tools.isBZR(store.userInfo).then((res) => {
       if (res) {
-        this.deptType = "1";
-        this.deptCode = res.classCode;
-        this.showList();
+					this.deptType = "1";
+					this.deptCode = res[0].classCode;
+					this.showList();
       } else {
         this.$tools.isDormMamage(store.userInfo).then((res) => {
           if (res) {

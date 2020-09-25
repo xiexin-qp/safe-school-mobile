@@ -39,7 +39,10 @@
         <view class="tip">选择班级:</view>
         <view @click="chooseClass" class="u-fx-f1 u-fx">
           <view class="copyer u-fx-f1 u-content-color u-tx-r">
+               <text v-if="classList.length === 0">请选择</text>
+              <text v-if="classList.length >3">已选{{classList.length}}个班级</text>
             <u-tag
+              v-if="classList.length <=3"
               v-for="(item, index) in classList"
               :key="index"
               :text="item.gradeName + item.className"
@@ -101,7 +104,7 @@ export default {
   },
   created() {
     this.schoolInfo.schoolCode = store.userInfo.schoolCode;
-    this.schoolInfo.schoolYearId = store.schoolYear.schoolYearId;
+    this.schoolInfo.schoolYearId = store.schoolYear ? store.schoolYear.schoolYearId : '';
   },
   watch: {},
   computed: {},
@@ -263,6 +266,8 @@ export default {
 }
 .mar-l10 {
   margin-left: 10rpx;
+      margin-top: 10rpx;
+
 }
 .submit-btn {
   height: 80rpx;

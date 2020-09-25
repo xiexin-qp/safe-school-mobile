@@ -80,169 +80,172 @@
 </template>
 
 <script>
-import eventBus from '@u/eventBus';
-import { store, actions } from '../store/index.js';
-import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue';
-import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue';
+import eventBus from "@u/eventBus";
+import { store, actions } from "../store/index.js";
+import msDropdownMenu from "@/components/ms-dropdown/dropdown-menu.vue";
+import msDropdownItem from "@/components/ms-dropdown/dropdown-item.vue";
 export default {
-	data() {
-		return {
-			readList: {},
-			userList: [],
-			pageList: {
-				page: 1,
-				size: 20
-			},
-			morePage: false,
-			current: 0,
-			swiperCurrent: 0,
-			tabList: [
-				{
-					name: '教职工'
-				},
-				{
-					name: '家长'
-				}
-			],
-			value0: '0',
-			typeList: [
-				{
-					text: '全部',
-					value: ''
-				},
-				{
-					text: '未读',
-					value: '0'
-				},
-				{
-					text: '已读',
-					value: '1'
-				}
-			],
-			userType: '2'
-		};
-	},
-	components: {
-		msDropdownMenu,
-		msDropdownItem
-	},
-	watch: {
-		value0(val, oldval) {
-			if (val !== oldval) {
-				this.pageList.page = 1;
-				if (this.swiperCurrent === 0) {
-					this.userType = 2;
-					this.showList();
-				} else {
-					this.userType = 1;
-					this.showList();
-				}
-			}
-		}
-	},
-	mounted() {
-		this.id = this.$tools.getQuery().get('id');
-		this.showList();
-	},
-	methods: {
-		changeMenu(item) {
-			this.swiperCurrent = item;
-			if (this.swiperCurrent === 0) {
-				this.userType = 2;
-				this.showList();
-			} else {
-				this.userType = 1;
-				this.showList();
-			}
-		},
-		transition(e) {
-			let dx = e.detail.dx;
-			this.$refs.uTabs.setDx(dx);
-		},
-		animationfinish(e) {
-			let current = e.detail.current;
-			this.$refs.uTabs.setFinishCurrent(current);
-			this.swiperCurrent = current;
-			this.current = current;
-			this.pageList.page = 1;
-		},
-		async showList(tag = false) {
-			if (tag) {
-				this.pageList.page += 1;
-			} else {
-				this.pageList.page = 1;
-			}
-			let req = null;
-			req = {
-				schoolCode: store.userInfo.schoolCode,
-				...this.pageList,
-				type: this.userType,
-				noticeId: this.id,
-				readStatus: this.value0
-			};
-			const res = await actions.getReadStatus(req);
-			this.userList = res.data.list.list;
-			this.readList = res.data;
-			this.total = res.data.list.total;
-			if (tag) {
-				this.userList = this.userList.concat(res.data.list.list);
-			} else {
-				this.userList = res.data.list.list;
-			}
-			this.morePage = res.data.hasNextPage;
-		},
-		loadMore() {
-			if (!this.morePage) {
-				this.$tools.toast('数据已加载完毕');
-				return;
-			}
-			this.showList(true);
-		}
-	}
+  data() {
+    return {
+      readList: {},
+      userList: [],
+      pageList: {
+        page: 1,
+        size: 20,
+      },
+      morePage: false,
+      current: 0,
+      swiperCurrent: 0,
+      tabList: [
+        {
+          name: "教职工",
+        },
+        {
+          name: "家长",
+        },
+      ],
+      value0: "0",
+      typeList: [
+        {
+          text: "全部",
+          value: "",
+        },
+        {
+          text: "未读",
+          value: "0",
+        },
+        {
+          text: "已读",
+          value: "1",
+        },
+      ],
+      userType: "2",
+    };
+  },
+  components: {
+    msDropdownMenu,
+    msDropdownItem,
+  },
+  watch: {
+    value0(val, oldval) {
+      if (val !== oldval) {
+        this.pageList.page = 1;
+        if (this.swiperCurrent === 0) {
+          this.userType = 2;
+          this.showList();
+        } else {
+          this.userType = 1;
+          this.showList();
+        }
+      }
+    },
+  },
+  mounted() {
+    if (this.value0 === "0") {
+      this.value0 = "";
+    }
+    this.id = this.$tools.getQuery().get("id");
+    this.showList();
+  },
+  methods: {
+    changeMenu(item) {
+      this.swiperCurrent = item;
+      if (this.swiperCurrent === 0) {
+        this.userType = 2;
+        this.showList();
+      } else {
+        this.userType = 1;
+        this.showList();
+      }
+    },
+    transition(e) {
+      let dx = e.detail.dx;
+      this.$refs.uTabs.setDx(dx);
+    },
+    animationfinish(e) {
+      let current = e.detail.current;
+      this.$refs.uTabs.setFinishCurrent(current);
+      this.swiperCurrent = current;
+      this.current = current;
+      this.pageList.page = 1;
+    },
+    async showList(tag = false) {
+      if (tag) {
+        this.pageList.page += 1;
+      } else {
+        this.pageList.page = 1;
+      }
+      let req = null;
+      req = {
+        schoolCode: store.userInfo.schoolCode,
+        ...this.pageList,
+        type: this.userType,
+        noticeId: this.id,
+        readStatus: this.value0,
+      };
+      const res = await actions.getReadStatus(req);
+      this.userList = res.data.list.list;
+      this.readList = res.data;
+      this.total = res.data.list.total;
+      if (tag) {
+        this.userList = this.userList.concat(res.data.list.list);
+      } else {
+        this.userList = res.data.list.list;
+      }
+      this.morePage = res.data.hasNextPage;
+    },
+    loadMore() {
+      if (!this.morePage) {
+        this.$tools.toast("数据已加载完毕");
+        return;
+      }
+      this.showList(true);
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .scroll-h {
-	height: calc(100vh - 190rpx);
-	margin-top: 10rpx;
+  height: calc(100vh - 190rpx);
+  margin-top: 10rpx;
 }
 .approve-list {
-	border-radius: $u-border-radius;
-	background-color: #fff;
-	padding: $u-mp-20;
-	margin: $u-mp-20;
-	&:first-child {
-		margin-top: 0;
-	}
-	.de .detail {
-		padding: 20rpx;
-	}
-	.process-type {
-		top: 10rpx;
-		right: 20rpx;
-		position: absolute;
-		font-size: 48rpx;
-	}
-	.info {
-		width: 100%;
-		.list {
-			view {
-				font-size: 28rpx;
-				margin: 10rpx 0;
-			}
-			.name,
-			.time {
-				text {
-					margin-left: 20rpx;
-					font-size: 24rpx;
-				}
-			}
-			.mar-b0 {
-				margin: 10rpx 0 0 0;
-			}
-		}
-	}
+  border-radius: $u-border-radius;
+  background-color: #fff;
+  padding: $u-mp-20;
+  margin: $u-mp-20;
+  &:first-child {
+    margin-top: 0;
+  }
+  .de .detail {
+    padding: 20rpx;
+  }
+  .process-type {
+    top: 10rpx;
+    right: 20rpx;
+    position: absolute;
+    font-size: 48rpx;
+  }
+  .info {
+    width: 100%;
+    .list {
+      view {
+        font-size: 28rpx;
+        margin: 10rpx 0;
+      }
+      .name,
+      .time {
+        text {
+          margin-left: 20rpx;
+          font-size: 24rpx;
+        }
+      }
+      .mar-b0 {
+        margin: 10rpx 0 0 0;
+      }
+    }
+  }
 }
 .dropdown {
   padding: 20rpx 20rpx 0rpx 20rpx;

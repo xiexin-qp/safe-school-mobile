@@ -79,7 +79,8 @@ export default {
 				createUsername: store.userInfo.userName,
 				createPhotoUrl: store.userInfo.photoUrl,
 				momentsId: this.momontInfo.id,
-				msg: value
+				msg: value,
+				category: this.userType
 			};
 			if (this.commentInfo && this.commentInfo.createUsercode !== this.userCode) {
 				req.replyPhotoUrl = this.commentInfo.createPhotoUrl;
@@ -89,7 +90,8 @@ export default {
 			if(this.userType === 3){
 				req.childrenCode = uni.getStorageSync('bindInfo').userCode,
 				req.childrenName = uni.getStorageSync('bindInfo').userName,
-				req.childrenPhotoUrl = uni.getStorageSync('bindInfo').photoUrl
+				req.childrenPhotoUrl = uni.getStorageSync('bindInfo').photoUrl,
+				req.relationship = uni.getStorageSync('bindInfo').relationship
 			}
 			console.log(req);
 			const res = await actions.addComment(req);

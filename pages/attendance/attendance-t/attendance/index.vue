@@ -66,14 +66,17 @@ export default {
   methods: {
     // 正常 迟到(早退) 缺卡 绿色 橙色 红色
     async showState () {
-      const req ={
+      const req = {
         userCode: store.userInfo.userCode,
         month: this.mounth
       }
       const res = await actions.teacherStaticState(req)
-      this.selected = res.data.map( el => {
-        el.date = this.$tools.getDateTime(el.date)
-        return el
+      res.data.forEach(ele => {
+        if (!ele.staue) {
+          this.selected.push({	
+            date: this.$tools.getDateTime(ele.date)
+          })
+        }
       })
     },
     monthSwitch (item) {

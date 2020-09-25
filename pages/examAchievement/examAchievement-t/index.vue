@@ -26,6 +26,7 @@ export default {
       userType: "0", //1班主任，0教职工
       classCode: "",
       gradeCode: "",
+      gradeCodes: [],
     };
   },
   async created() {
@@ -36,8 +37,6 @@ export default {
         this.$tools.toast("请绑定班级");
         return;
       }
-      this.classCode = store.teachClassList[0].value;
-      this.gradeCode = store.teachClassList[0].gradeCode;
       uni.setStorageSync("classInfo", {
         gradeCode: store.teachClassList[0].gradeCode,
         classCode: store.teachClassList[0].value,
@@ -58,11 +57,15 @@ export default {
       } else {
         this.pageList.page = 1;
       }
+      store.teachClassList.forEach((el) => {
+        this.gradeCodes.push(el.gradeCode);
+      });
       const req = {
         schoolCode: store.userInfo.schoolCode,
         schoolYearId: this.schoolYearId,
         ...this.pageList,
-        gradeCode: this.gradeCode,
+        gradeCode: this.gradeCodes.toString(),
+        state: "2",
       };
       const res = await actions.gettestList(req);
       if (tag) {
@@ -79,9 +82,11 @@ export default {
       }
       this.showList(true);
     },
-    goDetail(id) {
+    goDetail(item) {
       this.$tools.navTo({
-        url: "./detail?id=" + id,
+        url: "./detail?id=" + item.id+
+          "&gradeCode=" +
+          item.gradeCode,
         title: "详情",
       });
     },

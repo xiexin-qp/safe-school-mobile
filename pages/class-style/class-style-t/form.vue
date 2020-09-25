@@ -41,6 +41,7 @@ export default {
 		this.id = this.$tools.getQuery().get('id');
 		this.schoolYearId = uni.getStorageSync("classInfo").schoolYearId;
 		this.classCode = uni.getStorageSync("classInfo").classCode;
+		console.log(this.classCode)
 	},
 	async mounted() {
 	},

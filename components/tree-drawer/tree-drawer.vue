@@ -222,7 +222,7 @@ export default {
 						}
 					})
 					.then(res => {
-						if (!res.data || res.data.list.length === 0) {
+						if (!res.data) {
 							resolve([]);
 							return;
 						}
@@ -256,7 +256,7 @@ export default {
 						url: `${hostEnv.lz_user_center}/school/org/getSchoolRoot/${this.schoolInfo.schoolCode}`
 					})
 					.then(res => {
-						if (!res.data || res.data.orgChilds.length === 0) {
+						if (!res.data) {
 							this.teaDataTag = true;
 							resolve([]);
 							return;
@@ -274,7 +274,7 @@ export default {
 						$ajax.post({
 							url: `${hostEnv.lz_user_center}/userinfo/teacher/user/node/teachers`,
 							params: {
-								orgCode: this.schoolInfo.schoolCode,
+								orgCode: res.data.code,
 								schoolCode: this.schoolInfo.schoolCode,
 								page: 1,
 								size: 99999
@@ -285,7 +285,7 @@ export default {
 									name: '其他',
 									id: res.data.id,
 									type: '3',
-									orgCode: this.schoolInfo.schoolCode,
+									orgCode: res.data.code,
 									disabled: this.disabled
 								});
 							}

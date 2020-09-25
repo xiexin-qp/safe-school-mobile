@@ -141,6 +141,7 @@ export default {
 	},
 	async created() {
 		this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList
+		console.log(this.classList)
 		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		this.length = this.classMotto.length;
 		this.schoolYearId = store.schoolYear.schoolYearId;
@@ -167,11 +168,6 @@ export default {
 				schoolYearId: this.schoolYearId
 			});
 		}
-		uni.setStorageSync('classInfo', {
-			gradeCode: this.gradeCode,
-			classCode: this.classCode,
-			schoolYearId: this.schoolYearId
-		});
 	},
 	mounted() {},
 	methods: {

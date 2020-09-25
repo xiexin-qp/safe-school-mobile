@@ -62,21 +62,26 @@
           添加
         </u-button>
       </view>
-
-      <view class="u-fx-ac u-bd-b item-list">
-        <view class="tip">审批人:</view>
-        <view @click="chooseTeacher()" class="u-fx-f1 u-fx-je u-content-color">
-          <view v-for="(item, index) in repairApprovalList" :key="index">
-            <u-tag
-              :text="item.approvalUserName"
-              mode="light"
-              type="info"
+    <view class="u-fx-ac u-bd-b item-list">
+			  <view>审批人</view>
+        <view @click="teacherTag = true" class="u-fx-f1 u-fx">
+          <view class="copyer u-fx-f1 u-content-color u-tx-r">
+                            <text v-if="repairApprovalList.length === 0">请选择</text>
+                      <text v-if="repairApprovalList.length >3">已选{{repairCopyList.length}}人</text>
+            <u-tag 
+              v-if="repairApprovalList.length <=3"
+              v-for="(item,index) in repairApprovalList"
+              :key="index"
+              :text="item.userName"
+              mode="light" 
+              type="info" 
               class="mar-l10"
-            />
+              />
           </view>
+          <view class="rit-icon"></view>
         </view>
-        <view class="rit-icon"></view>
-      </view>
+			</view>
+
     </scroll-view>
     <view class="footer-btn u-fx-ac">
       <u-button
@@ -136,17 +141,9 @@ export default {
     valChange(e) {
       console.log(e.value);
     },
-    chooseTeacher() {
-      this.teacherTag = true;
-    },
     teacherSelcet(value) {
       this.teacherTag = false;
-      this.repairApprovalList = value.map((el) => {
-        return {
-          approvalUserCode: el.userCode,
-          approvalUserName: el.userName,
-        };
-      });
+      this.repairApprovalList = value;
     },
     teacherClose() {
       this.teacherTag = false;
@@ -222,7 +219,7 @@ export default {
         number: 0,
       });
     },
-    submit: tools.throttle(async function () {
+    submit: tools.throttle(async function() {
       if (this.goodsList[0].materialName === "请选择") {
         this.$tools.toast("请选择领用的物品类别!");
         return;
@@ -245,8 +242,8 @@ export default {
         applicantName: store.userInfo.userName,
         applicantCode: store.userInfo.userCode,
         collectNaterialNameList: this.goodsList, //放选的物品
-        approvalUserName: this.repairApprovalList[0].approvalUserName,
-        approvalUserCode: this.repairApprovalList[0].approvalUserCode,
+        approvalUserName: this.repairApprovalList[0].userName,
+        approvalUserCode: this.repairApprovalList[0].userCode,
       };
       await actions.addCollection({
         ...req,

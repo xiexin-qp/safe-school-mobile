@@ -47,9 +47,19 @@ export default {
       };
       const res = await actions.lostList(req);
       if (tag) {
-        this.recordList = this.recordList.concat(res.data.list);
+        this.recordList = this.recordList.concat(res.data.list).map((el) => {
+          return {
+            ...el,
+            show: false,
+          };
+        });
       } else {
-        this.recordList = res.data.list;
+        this.recordList = res.data.list.map((el) => {
+          return {
+            ...el,
+            show: false,
+          };
+        });
       }
       this.morePage = res.data.hasNextPage;
     },
@@ -68,13 +78,11 @@ export default {
     },
     click(index, index1) {
       if (index1 == 0) {
-        console.log(this.recordList[index]);
         this.$tools.delTip(`确定移除吗？`, () => {
           actions.delLost(this.recordList[index].id).then(() => {
             this.$tools.toast(`移除成功`, "success");
             this.$tools.goNext(() => {
-              eventBus.$emit("getList");
-              this.$tools.goBack();
+              this.showList();
             });
           });
         });
