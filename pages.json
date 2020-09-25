@@ -158,6 +158,14 @@
 			"style": {}
 		},
 		{
+			"path": "pages/album-manage/sendTo",
+			"style": {}
+		},
+		{
+			"path": "pages/album-manage/fullScreen",
+			"style": {}
+		},
+		{
 			"path": "pages/video-manage/index",
 			"style": {}
 		},

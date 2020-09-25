@@ -7,7 +7,7 @@
 					<view class="album-wrapper">
 						<view class="album-pic">
 							<view class="new-album">
-								<image src="http://canpointtest.com/mobile-img/add-album.png" alt="" />
+								<image src="http://canpointtest.com/mobile-img/new-album.png" alt="" />
 								<view class="new-text u-fx-ac-jc">新建相册</view>
 							</view>
 						</view>
@@ -15,9 +15,7 @@
 				</view>
 				<view class="album-item u-mar-20 u-fx-ver" v-for="(item, index) in albumList" :key="item.id">
 					<view class="album-wrapper">
-						<view class="album-pic">
-							<image @click="goDetail(item.id)" :src="item.coverUrl ? item.coverUrl : 'http://canpointtest.com/mobile-img/no-photo.png'" alt="" />
-						</view>
+						<view class="album-pic"><image @click="goDetail(item.id)" :src="item.coverUrl ? item.coverUrl : 'http://canpointtest.com/mobile-img/auto-photo.png'" alt="" /></view>
 						<view class="album-desc u-fx-jsb u-fx-ac u-bg-fff">
 							<view class="u-mar-l20 u-te">
 								<text class="u-font-01">{{ item.albumName }}</text>
@@ -48,7 +46,7 @@ export default {
 		return {
 			showTag: false,
 			albumList: [],
-			actionList: [ '添加照片', '发布对象', '全屏播放设置', '编辑相册', '删除相册'],
+			actionList: ['添加照片', '发布对象', '全屏播放设置', '编辑相册', '删除相册'],
 			albumName: ''
 		};
 	},
@@ -65,31 +63,31 @@ export default {
 			const res = await actions.getAlbumList(req);
 			this.albumList = res.data.list;
 		},
-		add(){
-			this.albumName = ''
-			this.showTag = true
+		add() {
+			this.albumName = '';
+			this.showTag = true;
 		},
 		async addAlbum() {
-			if(this.editTag){
+			if (this.editTag) {
 				await actions.editAlbum({
 					albumName: this.albumName,
 					id: this.albumId,
 					schoolCode: store.userInfo.schoolCode
-				})
-				this.$tools.toast("编辑成功", "success");
-				this.$tools.goNext(() => {
-					this.albumName = ''
-				  this.showList();
 				});
-			}else {
-				await actions.editAlbum({
-					albumName: this.addNewAlbum,
-					schoolCode: store.userInfo.schoolCode
-				})
-				this.$tools.toast("新建成功", "success");
+				this.$tools.toast('编辑成功', 'success');
 				this.$tools.goNext(() => {
-					this.albumName = ''
-				  this.showList();
+					this.albumName = '';
+					this.showList();
+				});
+			} else {
+				await actions.addNewAlbum({
+					albumName: this.albumName,
+					schoolCode: store.userInfo.schoolCode
+				});
+				this.$tools.toast('新建成功', 'success');
+				this.$tools.goNext(() => {
+					this.albumName = '';
+					this.showList();
 				});
 			}
 		},
@@ -98,37 +96,38 @@ export default {
 				url: './album?id=' + id
 			});
 		},
-		action(item){
+		action(item) {
 			this.$tools.actionsheet(this.actionList, index => {
-				if (index === 0) { // 添加照片
-					this.goDetail(item.id)
-				} else if (index === 1) { // 发布对象
-					
-				} else if (index === 2) { // 全屏播放设置
-					
-				} else if (index === 3) { // 编辑相册
-					this.editTag = true
-					this.albumId = item.id
-					this.albumName = item.albumName
-					this.showTag = true
-				} else if (index === 4) { // 删除相册
-					
-				}
-			});
-		},
-		deleAlbum(id, index) {
-			this.albumList[index].deleteTag = false;
-			this.$tools.delTip('确定删除此相册吗？', () => {
-				actions.delAlbumById(id).then(res => {
-					this.$tools.toast('删除成功', 'success');
-					this.refuseText = '';
-					this.$tools.goNext(() => {
-						this.showList(false, {
-							classCode: uni.getStorageSync('classInfo').classCode,
-							schoolYearId: uni.getStorageSync('classInfo').schoolYearId
+				if (index === 0) {
+					// 添加照片
+					this.goDetail(item.id);
+				} else if (index === 1) {
+					// 发布对象
+					this.$tools.navTo({
+						url: './sendTo?id=' + item.albumCode
+					});
+				} else if (index === 2) {
+					// 全屏播放设置
+					this.$tools.navTo({
+						url: './fullScreen?id=' + item.albumCode
+					});
+				} else if (index === 3) {
+					// 编辑相册
+					this.editTag = true;
+					this.albumId = item.id;
+					this.albumName = item.albumName;
+					this.showTag = true;
+				} else if (index === 4) {
+					// 删除相册
+					this.$tools.delTip('确认要删除该相册吗?', () => {
+						actions.deleteAlbum(item.id).then(res => {
+							this.$tools.toast('删除成功', 'success');
+							this.$tools.goNext(() => {
+								this.showList();
+							});
 						});
 					});
-				});
+				}
 			});
 		}
 	}
@@ -147,7 +146,7 @@ export default {
 		margin-bottom: 14rpx;
 		border-radius: 4rpx;
 		height: 245rpx;
-		box-shadow: 0px 3px 6px 0px rgba(200, 198, 198, 0.35);
+		box-shadow: 0rpx 3rpx 6rpx 0rpx rgba(200, 198, 198, 0.35);
 		.album-wrapper {
 			border-radius: 16rpx;
 			position: relative;
@@ -176,7 +175,7 @@ export default {
 				}
 			}
 			.album-desc {
-				.more{
+				.more {
 					width: 31rpx;
 					height: 6rpx;
 				}
