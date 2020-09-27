@@ -271,7 +271,6 @@
           }
         },
 				"/cl_oa": {
-				  // "target": "http://192.168.1.193:11014/", //陈琳-调代课
          // "target": "http://canpointtest.com/cl_oa/", //陈琳-调代课
           "target": "http://192.168.1.193:11009/", //陈琳-调代课
 				  "changeOrigin": true,
@@ -285,6 +284,13 @@
 					"changeOrigin": true,
 					"pathRewrite": {
 					  "^/lz_safe": ""
+					}
+				},
+				"/cl_class": {
+					"target": "http://192.168.1.193:11009/", //陈琳-班牌
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/cl_class": ""
 					}
 				}
       }
