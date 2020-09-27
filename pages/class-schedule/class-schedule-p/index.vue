@@ -34,7 +34,7 @@
 				<view class="scroll-list u-fx-ver" :style="tableHeight">
 					<scroll-view :scroll-x="true" class="scroll-x">
 						<ul class="level-list" :style="{ width: (weekDay.length * 6.55) + 'rem' }">
-							<li v-for="(elem, i) in weekDay" :key="i + '0'" :class="i === 0 ? 'active' : ''">
+							<li v-for="(elem, i) in weekDay" :key="i + '0'" :class="elem.today ? 'active' : ''">
 								<view class="td u-bd-1px u-fx-ac-jc">
 									<text>{{ elem | chnNumChar() }}</text>
 								</view>
@@ -123,8 +123,13 @@ export default {
 				const index = this.weekDay.findIndex(list => {
 					return parseInt(list) === parseInt(new Date().getDay());
 				});
-				this.weekDay.splice(index, 1);
-				this.weekDay.unshift(res.data.week.split(',')[index]);
+				if(index !== -1) {
+					this.weekDay.splice(index, 1);
+					this.weekDay.unshift({
+						...res.data.week.split(',')[index],
+						today: true
+					});
+				}
 				this.classNum = this.classHourList.morningNum + this.classHourList.forenoonNum + this.classHourList.afternoonNum + this.classHourList.nightNum;
 				this.tableHeight = { height: ((this.classNum + 1) * 100) / 28 + 'rem' };
 				this.earlyTime = '早上';
