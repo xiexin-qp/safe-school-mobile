@@ -96,7 +96,7 @@ export default {
     async goDetail(item) {
       this.$tools.navTo({
         url: "./detail?id=" + item.id,
-        title: "查看公告详情",
+        title: "公告详情",
       });
     },
   },

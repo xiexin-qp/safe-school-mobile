@@ -37,11 +37,6 @@
 			"path": "pages/class-schedule/class-schedule-p/index",
 			"style": {}
 		},
-		//考试成绩
-		{
-			"path": "pages/examAchievement/examAchievement-t/index",
-			"style": {}
-		},
 		// 班级风采
 		{
 			"path": "pages/class-style/class-style-t/index",
