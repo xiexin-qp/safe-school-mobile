@@ -158,13 +158,19 @@ export default {
     },
     transition(e) {
       let dx = e.detail.dx;
-      this.$refs.uTabs.setDx(dx);
+      this.$refs.uTabs.setDx(dx);   
     },
     animationfinish(e) {
       let current = e.detail.current;
       this.$refs.uTabs.setFinishCurrent(current);
       this.swiperCurrent = current;
-      this.current = current;
+       if (this.swiperCurrent === 0) {
+        this.userType = 2;
+        this.showList();
+      } else {
+        this.userType = 1;
+        this.showList();
+      }
     },
     async showList() {
       let req = null;
