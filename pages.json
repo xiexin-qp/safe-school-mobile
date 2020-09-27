@@ -42,6 +42,11 @@
 			"path": "pages/class-schedule/class-schedule-p/index",
 			"style": {}
 		},
+		//考试成绩
+		{
+			"path": "pages/examAchievement/examAchievement-t/index",
+			"style": {}
+		},
 		// 班级风采
 		{
 			"path": "pages/class-style/class-style-t/index",
@@ -77,6 +82,11 @@
 			"style": {}
 		}, {
 			"path": "pages/countDown/countDown-t/form",
+			"style": {}
+		},
+		//考试成绩
+		{
+			"path": "pages/examAchievement/examAchievement-t/index",
 			"style": {}
 		},
 		//值日生
@@ -612,6 +622,17 @@
 		{
 			"path": "pages/school-activity/form"
 		},
+		//失物招领
+		{
+			"path": "pages/lost-found/lost-found-p/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/form",
+			"style": {}
+		},
 		//会议管理
 		{
 			"path": "pages/meet-booking/index",
@@ -801,6 +822,22 @@
 		},
 		{
 			"path": "pages/inspect/submit"
+		},
+		//安全任务
+		{
+			"path": "pages/safety-task/index"
+		},
+		{
+			"path": "pages/safety-task/fillIn"
+		},
+		{
+			"path": "pages/safety-task/release"
+		},
+		{
+			"path": "pages/safety-task/postTask"
+		},
+		{
+			"path": "pages/safety-task/seeCompletion"
 		}
 	],
 	"globalStyle": {

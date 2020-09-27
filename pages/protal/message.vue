@@ -3,9 +3,9 @@
     <view class="message-top u-bg-fff">
       <view class="tab-title u-fx">
         <view v-for="(tab, index) in tabList" :key="tab.id" @click="changeTab(tab)" :class="{'act': tabIndex === tab.id}" class="tab u-fx-f1 u-tx-c">
-          <view class="tips" v-if="noticeTotal[index] !== 0">
+     <!--     <view class="tips" v-if="noticeTotal.length > 0 && noticeTotal[index] > 0">
 						<view class="small">{{noticeTotal[index]}}</view>
-					</view>
+					</view> -->
 					{{ tab.title }}
         </view>
       </view>
@@ -52,6 +52,7 @@
       }
     },
 		mounted () {
+			console.log(this.noticeTotal)
 			this.systemList(0)
 		},
     methods: {

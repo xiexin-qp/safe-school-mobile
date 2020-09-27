@@ -23,7 +23,7 @@
 		<swiper class="u-page" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
 			<swiper-item class="swiper-item">
 				<no-data msg="暂无数据~" v-if="!userList || userList.length === 0"></no-data>
-				<scroll-view scroll-y="true" @scrolltolower="loadMore" class="class-style scroll-h">
+				<scroll-view scroll-y="true"  class="class-style scroll-h">
 					<view class="approve-list" v-for="(item, index) in userList" :key="index">
 						<view class="detail u-fx">
 							<view class="info u-fx-f1">
@@ -50,7 +50,7 @@
 			</swiper-item>
 			<swiper-item class="swiper-item">
 				<no-data msg="暂无数据~" v-if="!userList || userList.length === 0"></no-data>
-				<scroll-view scroll-y="true" @scrolltolower="loadMore" class="class-style scroll-h">
+				<scroll-view scroll-y="true"  class="class-style scroll-h">
 					<view class="approve-list" v-for="(item, index) in userList" :key="index">
 						<view class="detail u-fx">
 							<view class="info u-fx-f1">
@@ -91,9 +91,9 @@ export default {
       userList: [],
       pageList: {
         page: 1,
-        size: 20,
+        size: 999,
       },
-      morePage: false,
+      // morePage: false,
       current: 0,
       swiperCurrent: 0,
       tabList: [
@@ -129,7 +129,6 @@ export default {
   watch: {
     value0(val, oldval) {
       if (val !== oldval) {
-        this.pageList.page = 1;
         if (this.swiperCurrent === 0) {
           this.userType = 2;
           this.showList();
@@ -145,7 +144,6 @@ export default {
       this.value0 = "";
     }
     this.id = this.$tools.getQuery().get("id");
-    this.showList();
   },
   methods: {
     changeMenu(item) {
@@ -160,21 +158,21 @@ export default {
     },
     transition(e) {
       let dx = e.detail.dx;
-      this.$refs.uTabs.setDx(dx);
+      this.$refs.uTabs.setDx(dx);   
     },
     animationfinish(e) {
       let current = e.detail.current;
       this.$refs.uTabs.setFinishCurrent(current);
       this.swiperCurrent = current;
-      this.current = current;
-      this.pageList.page = 1;
-    },
-    async showList(tag = false) {
-      if (tag) {
-        this.pageList.page += 1;
+       if (this.swiperCurrent === 0) {
+        this.userType = 2;
+        this.showList();
       } else {
-        this.pageList.page = 1;
+        this.userType = 1;
+        this.showList();
       }
+    },
+    async showList() {
       let req = null;
       req = {
         schoolCode: store.userInfo.schoolCode,
@@ -186,21 +184,20 @@ export default {
       const res = await actions.getReadStatus(req);
       this.userList = res.data.list.list;
       this.readList = res.data;
-      this.total = res.data.list.total;
-      if (tag) {
-        this.userList = this.userList.concat(res.data.list.list);
-      } else {
-        this.userList = res.data.list.list;
-      }
-      this.morePage = res.data.hasNextPage;
-    },
-    loadMore() {
-      if (!this.morePage) {
-        this.$tools.toast("数据已加载完毕");
-        return;
-      }
-      this.showList(true);
-    },
+    //   if (tag) {
+    //     this.userList = this.userList.concat(res.data.list.list);
+    //   } else {
+    //     this.userList = res.data.list.list;
+    //   }
+    //   this.morePage = res.data.hasNextPage;
+    // },
+    // loadMore() {
+    //   if (!this.morePage) {
+    //     this.$tools.toast("数据已加载完毕");
+    //     return;
+    //   }
+    //   this.showList(true);
+     },
   },
 };
 </script>
