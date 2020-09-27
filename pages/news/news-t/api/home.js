@@ -16,7 +16,7 @@ let homeApi = {
   addNotice: '/notice/add#post', // 新增公告 
   delAllnotice: '/notice/delete#post', // 批量删除公告 
   delNotice: '/notice/delete#post', // 删除公告 
-  getNoticeDetail: '/notice/detail#getUrl', //公告 详情
+  getNoticeDetail: '/notice/detail#getUrl#false', //公告 详情
   noticeList: '/notice/list#post', // 公告 列表
   updateNotice: '/notice/update#putJson', // 更新公告 
   getReadStatus: '/notice/readStatusDetail#post', // 阅读状态详情

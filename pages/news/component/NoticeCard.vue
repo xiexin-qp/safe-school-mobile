@@ -1,11 +1,11 @@
 <template>
   <view>
     <noData msg="暂无数据~" v-if="dataList.length === 0"></noData>
-    <view class="notice-card u-fx" v-for="item in dataList" :key="item.id">
+    <view class="notice-card u-fx" @click="goDetail(item.id)" v-for="item in dataList" :key="item.id">
       <view class="notice-img"> </view>
       <view class="u-fx-f1 u-fx-jsb u-fx-ver u-mar-l">
         <view class="u-fx-ac u-fx-jsb title">
-          <view class="u-fx-f1 u-font-1 u-te" @click="goDetail(item.id)">{{
+          <view class="u-fx-f1 u-font-1 u-te">{{
             item.title
           }}</view>
           <view class="tips-w"
