@@ -174,11 +174,11 @@
 			"style": {}
 		},
 		{
-			"path": "pages/video-manage/album",
+			"path": "pages/video-manage/sendTo",
 			"style": {}
 		},
 		{
-			"path": "pages/video-manage/imgList",
+			"path": "pages/video-manage/fullScreen",
 			"style": {}
 		},
 		// 门禁模块

@@ -1,257 +1,163 @@
 <template>
-	<view class="">
-		<tab-menu :data-list="tabList" @change="changeMenu"></tab-menu>
-		<view class="dropdown u-fx-ac u-bd-b u-bd-t">
-			<ms-dropdown-menu v-if="showClass"><ms-dropdown-item v-model="value0" :list="classList" :title="defTitle"></ms-dropdown-item></ms-dropdown-menu>
-		</view>
-			<view class="swiper-item scroll-h" v-show="current === 0">
-				<scroll-view class="class-style scroll-h">
-					<view class="class-card">
-						<u-icon class="u-icon-38" name="calendar" color="#2979ff"></u-icon>
-						<text class="mar-l20">班级格言：</text>
-					</view>
-					<view class="u-fx-ver">
-						<view class="input" v-if="userType === '1'">
-							<textarea :focus="true" @focus="edit" @blur="submit" v-model="classMotto" maxlength="30" />
-							<!-- <text class="length">{{ length }}/30</text> -->
-						</view>
-						<view class="input motto" v-else>
-							<text class="padd-l20 mar-l20 u-content-color">{{ classMotto }}</text>
+	<view class="u-page u-bg-fff u-padd-20">
+		<no-data v-if="videoList.length === 0" msg="暂无视频"></no-data>
+		<scroll-view v-else scroll-y class="scroll-h" @scrolltolower="loadMore">
+			<view class="album-list u-fx">
+				<view class="album-item u-mar-20 u-fx-ver" v-for="(item, index) in videoList" :key="item.id">
+					<view class="album-wrapper">
+						<view class="album-pic"><video object-fit="contain" @click="playVideo(item)" :src="item.url"></video></view>
+						<view class="album-desc u-fx-jsb u-fx-ac u-bg-fff">
+							<view class="u-mar-l20 u-te">
+								<text class="u-font-01">{{ item.fileName }}</text>
+							</view>
+							<image @click.stop="action(item)" class="more u-font-1 u-mar-r20" src="http://canpointtest.com/mobile-img/edit.png" alt="" />
 						</view>
 					</view>
-					<view class="class-card">
-						<u-icon class="u-icon-38" name="calendar" color="#2979ff"></u-icon>
-						<text class="mar-l20">班级简介：</text>
-					</view>
-					<view class="u-fx-ver">
-						<view class="input area" v-if="userType === '1'">
-							<textarea :focus="true" @focus="edit" @blur="submit" v-model="classIntro" maxlength="200" />
-							<!-- <text class="length">{{ length }}/30</text> -->
-						</view>
-						<view class="input motto area auto" v-else>
-							<text class="padd-l20 mar-l20 u-content-color">{{ classIntro }}</text>
-						</view>
-					</view>
-					<!-- <view class="class-card">
-						<u-icon class="u-icon-38" name="calendar" color="#2979ff"></u-icon>
-						<text class="mar-l20">班级全家福：</text>
-					</view>
-					<view class="u-fx-ver">
-						<view v-if="userType === '1'" class="u-fx-f1">
-							<video-upload
-								class="u-fx-f1 u-padd-l40 u-padd-r10 u-padd-b20"
-								:uploadUrl="uploadUrl"
-								types="image"
-								v-model="photoList"
-								:uploadCount="1"
-								:upload_max="10"
-								@success="success"
-								@delImage="delImage"
-							></video-upload>
-						</view>
-						<view v-else class="u-fx-f1 u-mar-l40">
-							<image v-if="photoList.length>0" class="class-image" :src="photoList[0].url" mode="" @tap="previewImage()"></image>
-						</view>
-					</view> -->
-				</scroll-view>
+				</view>
 			</view>
-			<view v-show="current === 1"><class-album ref="child" :userType="userType"></class-album></view>
+		</scroll-view>
+		<view class="float-add-btn" @click="add(0)"></view>
+		<u-popup v-model="videoTag" mode="center">
+			<view class="pop-up u-padd-t10 u-padd-l10 u-padd-r10 u-border-radius">
+				<video class="video u-border-radius" :src="videoUrl" controls enable-play-gesture object-fit="contain"></video>
+			</view>
+		</u-popup>
+		<u-modal v-model="editTag" :show-title="false" show-cancel-button @confirm="_editVideo">
+			<view class="u-fx-ver u-mar-t20 u-mar-r20 u-mar-l20"><u-input v-model="fileName" maxlength="10" type="text" :border="true" placeholder="请输入视频名称" /></view>
+		</u-modal>
 	</view>
 </template>
 
 <script>
 import eventBus from '@u/eventBus';
-import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue';
-import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue';
-import ClassAlbum from './component/ClassAlbum.vue';
+import noData from '@/components/no-data/no-data.vue';
 import { store, actions } from './store/index.js';
-import hostEnv from '../../config/index.js';
 export default {
-	name: 'ClassStyle',
+	name: 'VideoManage',
 	components: {
-		msDropdownMenu,
-		msDropdownItem,
-		ClassAlbum
-	},
-	computed: {
-		isBZR: () => JSON.parse(uni.getStorageSync('protal')).isBZR  
+		noData
 	},
 	data() {
 		return {
-			showClass: false,
-			defTitle: '',
+			videoTag: false,
+			editTag: false,
 			pageList: {
 				page: 1,
-				size: 9999
+				size: 20
 			},
-			uploadUrl: '',
-			showTag: false,
-			current: 0,
-			classMotto: '',
-			classIntro: '',
-			length: '0',
-			tabList: [
-				{
-					name: '班级名片'
-				},
-				{
-					name: '班级相册'
-				}
-			],
 			morePage: false,
-			albumList: [],
-			userType: '0', //1班主任，0教职工
-			classCode: '',
-			gradeCode: '',
-			schoolYearId: '',
-			photoList: [],
-			classList: [],
-			value0: ''
+			videoUrl: '',
+			videoList: [],
+			actionList: ['发布对象', '轮播设置', '全屏展示设置', '编辑视频', '删除视频'],
+			fileName: ''
 		};
 	},
-	watch: {
-		classMotto(val) {
-			this.length = val.length;
-		},
-		value0(val, oldval) {
-			if (val !== oldval) {
-				this.defTitle = this.classList.filter(el => {
-					return el.value === val;
-				})[0].text;
-				this.classCode = val;
-				if (this.isBZR && val === this.isBZR.classCode) {
-					this.userType = '1';
-				} else {
-					this.userType = '0';
-				}
-				this.showMotto();
-				this.$refs.child.showList(false, {
-					classCode: val,
-					schoolYearId: this.schoolYearId
-				});
-				eventBus.$on('getList', () => {
-					console.log(this.$refs.child);
-					this.$refs.child.showList(false, {
-						classCode: val,
-						schoolYearId: this.schoolYearId
-					});
-				});
-			}
-		},
-	},
-	async created() {
-		this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList
-		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
-		this.length = this.classMotto.length;
-		this.schoolYearId = store.schoolYear.schoolYearId;
-		if (store.userInfo.typeCode === '4') {
-			this.userType = '0';
-			if(this.classList.length === 0){
-				this.$tools.toast('请绑定班级')
-				return
-			}
-			this.classCode = this.classList.value
-			this.gradeCode = this.classList[0].gradeCode
-			this.showClass = true;
-			this.defTitle = this.classList[0].text;
-			this.value0 = this.classList[0].value;
-			if (store.isBZR && this.classList[0].value === store.isBZR.classCode) {
-				this.userType = '1';
-			} else {
-				this.userType = '0';
-			}
-			console.log(this.userType)
-			uni.setStorageSync('classInfo', {
-				gradeCode: this.classList[0].gradeCode,
-				classCode: this.classList[0].value,
-				schoolYearId: this.schoolYearId
-			});
-		}
-		uni.setStorageSync('classInfo', {
-			gradeCode: this.gradeCode,
-			classCode: this.classCode,
-			schoolYearId: this.schoolYearId
+	async created() {},
+	mounted() {
+		eventBus.$on('getList', () => {
+			this.showList();
 		});
+		this.showList();
 	},
-	mounted() {},
 	methods: {
-		previewImage(e) {
-			uni.previewImage({
-				urls: this.photoList.map(el => {
-					return el.url;
-				})
-			});
-		},
-		success(e) {
-			this.submit()
-		},
-		delImage(value) {
-			console.log(value);
-			const index = this.photoList.findIndex(list => {
-				return list === value.url;
-			});
-			this.photoList.splice(index, 1);
-			actions.delFile(value.id || this.photoList[0].id);
-			this.submit()
-		},
-		changeMenu(item) {
-			this.current = item;
-		},
-		edit() {
-			this.showTag = true;
-		},
-		submit() {
-			console.log(this.classMotto);
-			if (this.classMotto === '') {
-				this.$tools.toast('请输入班级格言');
-				return;
+		async showList(tag = false) {
+			if (tag) {
+				this.pageList.page += 1;
+			} else {
+				this.pageList.page = 1;
 			}
-			if (this.classIntro === '') {
-				this.$tools.toast('请输入班级简介');
-				return;
-			}
-			this.showTag = false;
 			const req = {
-				classCode: this.classCode,
-				motto: this.classMotto,
-				introduce: this.classIntro,
-				schoolCode: store.userInfo.schoolCode,
-				schoolYearId: this.schoolYearId,
-				photoUrl: ''
-			};
-			if (this.photoList.length > 0) {
-				req.photoUrl = this.photoList[0].url
-				req.photoId = this.photoList[0].id
-			}
-			actions.addClassMotto(req).then(() => {
-				this.$tools.toast('编辑成功', 'success');
-				this.$tools.goNext(() => {
-					this.showMotto();
-				});
-			});
-		},
-		async showMotto() {
-			const req = {
-				schoolCode: store.userInfo.schoolCode,
-				gradeCode: this.gradeCode,
-				classCode: this.classCode,
-				schoolYearId: this.schoolYearId
+				schoolCode: store.userInfo.schoolCode
 			};
 			console.log(req);
-			const res = await actions.getClassMotto(req);
-			if (!res.data) {
-				this.classMotto = '';
-				this.classIntro = '';
-				this.photoList = []
+			const res = await actions.getVideoList(req);
+			if (tag) {
+				this.videoList = this.videoList.concat(res.data.list);
+			} else {
+				this.videoList = res.data.list;
+			}
+			this.morePage = res.data.hasNextPage;
+		},
+		loadMore() {
+			if (!this.morePage) {
+				this.$tools.toast('数据已加载完毕');
 				return;
 			}
-			this.classMotto = res.data.motto;
-			this.classIntro = res.data.introduce;
-			this.photoList = res.data.photoUrl ? [{ url: res.data.photoUrl, id: res.data.photoId }] : []
+			this.showList(true);
 		},
-		goDetail(id) {
+		add(id) {
 			this.$tools.navTo({
-				url: './detail?id=' + id
+				url: './form?id=' + id
+			});
+		},
+		playVideo(item) {
+			this.videoUrl = item.url;
+			this.videoTag = true;
+		},
+		async _editVideo(id) {
+			await actions.editVideo({
+				fileName: this.fileName,
+				id: this.videoId,
+				schoolCode: store.userInfo.schoolCode
+			});
+			this.$tools.toast('编辑成功', 'success');
+			this.$tools.goNext(() => {
+				this.fileName = '';
+				this.showList();
+			});
+		},
+		action(item) {
+			this.$tools.actionsheet(this.actionList, index => {
+				if (index === 0) {
+					// 发布对象
+					this.$tools.navTo({
+						url: './sendTo?id=' + item.mediaCode
+					});
+				} else if (index === 1) {
+					// 轮播设置
+					uni.showModal({
+						title: '温馨提示',
+						content: '是否将该视频设置为首页轮播?',
+						cancelText: '取消',
+						confirmText: '设置为轮播',
+						showCancel: true,
+						success: async res => {
+							if (res.confirm) {
+								await actions.editVideo({
+									mediaCode: item.mediaCode,
+									id: item.id,
+									schoolCode: store.userInfo.schoolCode,
+									isCover: 1
+								});
+								this.$tools.toast('设置成功', 'success')
+								this.$tools.goNext(() => {
+									this.showList();
+								});
+							} else {
+							}
+						}
+					});
+				} else if (index === 2) {
+					// 全屏设置
+					this.$tools.navTo({
+						url: './fullScreen?id=' + item.mediaCode
+					});
+				} else if (index === 3) {
+					// 编辑视频
+					this.fileName = item.fileName;
+					this.videoId = item.id;
+					this.editTag = true;
+				} else if (index === 4) {
+					// 删除视频
+					this.$tools.delTip('确认要删除该视频吗?', () => {
+						actions.deleteVideo(item.id).then(res => {
+							this.$tools.toast('删除成功', 'success');
+							this.$tools.goNext(() => {
+								this.showList();
+							});
+						});
+					});
+				}
 			});
 		}
 	}
@@ -259,60 +165,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.class-style {
-	background: url(http://canpointtest.com/mobile-img/background.png) no-repeat;
-	background-size: 100% 100%;
-}
-.dropdown-menu{
-	width: 100%;
-}
 .scroll-h {
-	height: calc(100vh - 188rpx);
+	height: calc(100vh - 40rpx);
 }
-.class-card {
-	margin: 40rpx 40rpx 20rpx 40rpx;
-	font-size: 32rpx;
-}
-.input {
-	margin: 0 20rpx;
-	width: 98%;
-	padding: 0rpx 0 0 60rpx;
-	line-height: 56rpx;
-	font-size: 32rpx;
-	position: relative;
-	height: 160rpx;
-	.length {
-		position: absolute;
-		right: 11%;
-		bottom: 10rpx;
+.album-list {
+	flex-wrap: wrap;
+	.album-item {
+		width: calc(50% - 40rpx);
+		overflow: hidden;
+		margin-bottom: 14rpx;
+		border-radius: 4rpx;
+		height: 245rpx;
+		box-shadow: 0rpx 3rpx 6rpx 0rpx rgba(200, 198, 198, 0.35);
+		.album-wrapper {
+			border-radius: 16rpx;
+			position: relative;
+			.album-pic {
+				video {
+					width: 100%;
+					height: 192rpx;
+				}
+			}
+			.album-desc {
+				.more {
+					width: 31rpx;
+					height: 6rpx;
+				}
+			}
+		}
 	}
-}
-/deep/ uni-textarea {
-	width: 90%;
-}
-/deep/ .uni-textarea-textarea {
-	height: 160rpx;
-	padding: 20rpx;
-	line-height: 56rpx;
-}
-.area {
-	height: 290rpx;
-	/deep/ .uni-textarea-textarea {
-		height: 290rpx;
-		overflow: auto;
-	}
-}
-.motto {
-	width: 86%;
-}
-.auto {
-	overflow: auto;
-}
-.u-icon-38{
-	font-size: 38rpx;
-}
-.class-image{
-	width: 210rpx;
-	height: 210rpx;
 }
 </style>

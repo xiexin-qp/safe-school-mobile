@@ -82,7 +82,7 @@ export default {
 		async showData() {
 			const res = await actions.getFullDevice({
 				mediaCode: this.id,
-				mediaType: 1
+				mediaType: 2
 			});
 			this.formData = {
 				startTime: res.data.startTime ? this.$tools.getDateTime(res.data.startTime, 'noSecond') : this.$tools.getDateTime(new Date(), 'noSecond'),
@@ -139,7 +139,7 @@ export default {
 					return el.id;
 				}),
 				isAll: 0,
-				mediaType: 1,
+				mediaType: 2,
 				mediaCode: this.id,
 				startTime: this.formData.startTime,
 				endTime: this.formData.endTime

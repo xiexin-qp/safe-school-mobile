@@ -154,7 +154,9 @@ export default {
 			this.current = current;
 		},
 		setClassCheckedKeys() {
-			this.$refs.classTree.setCheckAll(false);
+			if(this.$refs.classTree){
+				this.$refs.classTree.setCheckAll(false);
+			}
 			let arr = [];
 			this.classChecked.forEach(el => {
 				arr.push(el.classCode);
@@ -164,7 +166,9 @@ export default {
 			});
 		},
 		setTeaCheckedKeys() {
-			this.$refs.teacherTree.setCheckAll(false);
+			if(this.$refs.teacherTree){
+				this.$refs.teacherTree.setCheckAll(false);
+			}
 			let arr = [];
 			this.teacherChecked.forEach(el => {
 				arr.push(el.userCode);
@@ -372,13 +376,19 @@ export default {
 		close() {
 			this.classText = '';
 			this.teacherText = '';
-			if(this.isClear){this.$refs.tree.setCheckAll(false)}
+			if(this.isClear){
+				this.$refs.teacherTree.setCheckAll(false)
+				this.$refs.classTree.setCheckAll(false)
+			}
 			this.$emit('close');
 		},
 		confirm() {
 			this.classText = '';
 			this.teacherText = '';
-			if(this.isClear){this.$refs.tree.setCheckAll(false)}
+			if(this.isClear){
+				this.$refs.teacherTree.setCheckAll(false)
+				this.$refs.classTree.setCheckAll(false)
+			}
 			console.log(this.selectedClassData);
 			this.$emit('confirm', this.selectedClassData, this.selectedTeacherData);
 		},

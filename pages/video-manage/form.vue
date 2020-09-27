@@ -1,95 +1,122 @@
 <template>
-	<view>
+	<view class="u-page u-bg-fff">
 		<scroll-view scroll-y="true" @scrolltolower="showList(true)" class="scroll-h">
-			<view class="u-fx-ac u-bd-b item-list" v-if="type === '0'">
-				<view class="tip">相册名称：</view>
-				<view class="u-fx-f1"><input class="item-input al-r" maxlength="10" v-model="formData.albumName" placeholder="请输入" /></view>
+			<view class="u-fx-ac u-bd-b item-list">
+				<view class="tip">视频名称：</view>
+				<view class="u-fx-f1 mar-r20"><input class="item-input" maxlength="20" v-model="fileName" style="text-align: right;" placeholder="请输入视频名称" /></view>
 			</view>
-			<view class="u-bd-b item-list" v-if="type === '1'">
-				<view class="tip mar-b20">上传附图：</view>
-				<view class="u-fx-f1"><an-upload-img total="50" v-model="formData.photoList" class="upload"></an-upload-img></view>
-				<view class="u-light-color mar-t20">每个相册最多保存50张照片。</view>
+			<view class="item-list">
+				<view class="tip mar-b20">上传视频：</view>
+				<view class="u-fx-f1">
+					<view class="upload">
+						<view v-if="videoSrc === ''" class="an-img-add u-fx-ac-jc" @tap="chooseUploads">+</view>
+						<view v-else class="uplode-file">
+							<video class="uploade-video" :src="videoSrc" controls enable-play-gesture>
+								<cover-image class="clear-one-icon" src="http://canpointtest.com/mobile-img/deletephoto.png" @tap="delImage"></cover-image>
+							</video>
+						</view>
+					</view>
+				</view>
 			</view>
 		</scroll-view>
-		<view class="common-btn" @click="confirm">提交</view>
+		<u-circle-progress v-if="uploadTag" type="success" :percent="percent" class="progress">
+			<view class="u-progress-content">
+				<view class="u-progress-dot"></view>
+				<text class="u-progress-info">上传中</text>
+			</view>
+		</u-circle-progress>
+		<view class="common-btn u-mar-20" @click="confirm">提交</view>
 	</view>
 </template>
 
 <script>
 import eventBus from '@u/eventBus';
-import anUploadImg from '@/components/an-uploadImg/an-uploadImg';
 import { store, actions } from './store/index.js';
+import hostEnv from '../../config/index.js';
 export default {
-	components: {
-		anUploadImg
-	},
 	data() {
 		return {
 			type: '',
 			id: '',
 			classCode: '',
 			schoolYearId: '',
-			formData: {
-				albumName: '',
-				photoList: []
-			}
+			uploadUrl: '',
+			fileName: '',
+			videoSrc: '',
+			percent: 0,
+			uploadTag: false
 		};
 	},
 	computed: {},
 	created() {
-		this.type = this.$tools.getQuery().get('type');
-		this.id = this.$tools.getQuery().get('id');
-		this.schoolYearId = uni.getStorageSync("classInfo").schoolYearId;
-		this.classCode = uni.getStorageSync("classInfo").classCode;
+		this.uploadUrl = `${hostEnv.zk_news}/school/media/uploadFile?schoolCode=${store.userInfo.schoolCode}&videoName=${this.fileName}`;
 	},
-	async mounted() {
-	},
+	async mounted() {},
 	methods: {
-		async confirm() {
-			if (this.type === '0') {
-				if (this.formData.albumName === '') {
-					this.$tools.toast('请填写相册名称');
-				}
-				const req = {
-					schoolCode: store.userInfo.schoolCode,
-					albumName: this.formData.albumName,
-					schoolYearId: this.schoolYearId,
-					classCode: this.classCode
-				};
-				console.log(req, 2222);
-				const res = await actions.addNewAlbum(req);
-				this.$tools.toast('提交成功', 'success');
-				this.$tools.goNext(() => {
-					eventBus.$emit('getList');
-					this.$tools.goBack();
-				});
-			} else {
-				if(this.formData.photoList.length === 0){
-					this.$tools.toast('请选择图片');
-					return
-				}
-				const photoList = this.formData.photoList.map(el => {
-					if (el.indexOf('http') === -1) {
-						return el.split(',')[1];
+		chooseUploads() {
+			uni.chooseVideo({
+				sourceType: ['camera', 'album'],
+				success: res => {
+					console.log(res);
+					if (Math.ceil(res.size / 1024) < 100 * 1024) {
+						this.videoSrc = res.tempFilePath;
 					} else {
-						return el;
+						uni.showModal({
+							title: '提示',
+							content: `限制视频大小100MB，该视频已超出`
+						});
 					}
-				});
-				let urlList = []
-				photoList.forEach(item => {
-					urlList.push(item)
-				})
-				const req = {
-					query: this.id + '/' + store.userInfo.schoolCode,
-					data: urlList
+				},
+				fail: err => {
+					uni.showModal({
+						content: JSON.stringify(err)
+					});
 				}
-				const res = await actions.addPhotos(req);
-				this.$tools.toast('提交成功', 'success');
-				this.$tools.goNext(() => {
-					eventBus.$emit('getList');
-					this.$tools.goBack();
-				});
+			});
+		},
+		delImage() {
+			this.$tools.delTip('确定删除吗？', () => {
+				this.uploadTag = false
+				this.videoSrc = '';
+				if (this.uploadTask) {
+					this.uploadTask.abort();
+				}
+			});
+		},
+		async confirm() {
+			if(this.uploadTag){
+				this.$tools.toast('正在上传中，请稍候');
+				return;
 			}
+			if (this.fileName === '') {
+				this.$tools.toast('请输入视频名称');
+				return;
+			}
+			if (this.videoSrc === '') {
+				this.$tools.toast('请选择视频');
+				return;
+			}
+			this.$emit('progress', false);
+			this.uploadTask = uni.uploadFile({
+				url: `${hostEnv.zk_news}/school/media/uploadFile?schoolCode=${store.userInfo.schoolCode}&videoName=${this.fileName}`,
+				filePath: this.videoSrc,
+				name: 'multipartFile',
+				success: uploadFileRes => {
+					this.uploadTag = false
+					this.$tools.toast('上传成功', 'success');
+					this.$tools.goNext(() => {
+						eventBus.$emit('getList');
+						this.$tools.goBack();
+					});
+				}
+			});
+			this.uploadTask.onProgressUpdate(res => {
+				/* console.log('上传进度' + res.progress);
+				console.log('已经上传的数据长度' + res.totalBytesSent);
+				console.log('预期需要上传的数据总长度' + res.totalBytesExpectedToSend); */
+				this.uploadTag = true
+				this.percent = res.progress
+			});
 		}
 	}
 };
@@ -97,7 +124,7 @@ export default {
 
 <style lang="scss">
 .scroll-h {
-	height: calc(100vh - 88rpx);
+	height: calc(100vh - 128rpx);
 }
 .tip::before {
 	position: absolute;
@@ -118,5 +145,56 @@ export default {
 }
 .al-r {
 	text-align: right;
+}
+.an-img-add {
+	float: left;
+	font-size: 60rpx;
+	margin: 10rpx;
+	height: 210upx;
+	width: calc(33.3% - 20rpx);
+	color: #666;
+	background-color: #c8c7cc;
+	line-height: 210upx;
+}
+.upload {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.uplode-file {
+	margin: 10rpx;
+	width: calc(33.3% - 20rpx);
+	height: 210rpx;
+	position: relative;
+}
+.uploade-img {
+	display: block;
+	width: 100%;
+	height: 210rpx;
+}
+.uploade-video {
+	display: block;
+	max-width: 650rpx;
+	max-height: 450rpx;
+}
+.clear-one {
+	position: absolute;
+	top: -10rpx;
+	right: 0;
+}
+.clear-one-icon {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	top: -10rpx;
+	right: -10rpx;
+	z-index: 9;
+}
+.progress{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-left: -100rpx;
+	transform: translateY(-50%);
 }
 </style>
