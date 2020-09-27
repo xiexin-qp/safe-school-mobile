@@ -150,6 +150,47 @@
 			"path": "pages/news/news-p/parentNotice/detail",
 			"style": {}
 		},
+		//相册视频
+		{
+			"path": "pages/album-manage/index",
+			"style": {}
+		},
+		{
+			"path": "pages/album-manage/form",
+			"style": {}
+		},
+		{
+			"path": "pages/album-manage/album",
+			"style": {}
+		},
+		{
+			"path": "pages/album-manage/imgList",
+			"style": {}
+		},
+		{
+			"path": "pages/album-manage/sendTo",
+			"style": {}
+		},
+		{
+			"path": "pages/album-manage/fullScreen",
+			"style": {}
+		},
+		{
+			"path": "pages/video-manage/index",
+			"style": {}
+		},
+		{
+			"path": "pages/video-manage/form",
+			"style": {}
+		},
+		{
+			"path": "pages/video-manage/sendTo",
+			"style": {}
+		},
+		{
+			"path": "pages/video-manage/fullScreen",
+			"style": {}
+		},
 		// 门禁模块
 		{
 			"path": "pages/door/door-p/doorRecord/index",

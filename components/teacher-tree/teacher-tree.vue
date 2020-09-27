@@ -202,7 +202,9 @@ export default {
 			}
 		},
 		setCheckedKeys() {
-			this.$refs.tree.setCheckAll(false);
+			if(this.$refs.tree){
+				this.$refs.tree.setCheckAll(false);
+			}
 			let arr = [];
 			this.classChecked.forEach(el => {
 				arr.push(el.userCode);
@@ -216,7 +218,7 @@ export default {
 		},
 		close() {
 			this.searchText = '';
-			if (this.isClear) {
+			if (this.isClear && this.$refs.tree) {
 				this.$refs.tree.setCheckedKeys([]);
 			}
 			this.$emit('close');
@@ -224,7 +226,7 @@ export default {
 		confirm() {
 			this.searchText = '';
 			this.$emit('confirm', this.selectedData.filter(item => item.type === '2'));
-			if (this.isClear) {
+			if (this.isClear && this.$refs.tree) {
 				this.$refs.tree.setCheckedKeys([]);
 			}
 		},
