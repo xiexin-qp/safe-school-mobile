@@ -32,7 +32,7 @@
 							<text class="padd-l20 mar-l20 u-content-color">{{ classIntro }}</text>
 						</view>
 					</view>
-					<!-- <view class="class-card">
+					<view class="class-card">
 						<u-icon class="u-icon-38" name="calendar" color="#2979ff"></u-icon>
 						<text class="mar-l20">班级全家福：</text>
 					</view>
@@ -52,7 +52,7 @@
 						<view v-else class="u-fx-f1 u-mar-l40">
 							<image v-if="photoList.length>0" class="class-image" :src="photoList[0].url" mode="" @tap="previewImage()"></image>
 						</view>
-					</view> -->
+					</view>
 				</scroll-view>
 			</view>
 			<view v-show="current === 1"><class-album ref="child" :userType="userType"></class-album></view>

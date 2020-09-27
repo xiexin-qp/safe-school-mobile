@@ -172,7 +172,9 @@ export default {
 			}
 		},
 		setCheckedKeys() {
-			this.$refs.tree.setCheckAll(false);
+			if(this.$refs.tree){
+				this.$refs.tree.setCheckAll(false);
+			}
 			let arr = [];
 			this.classChecked.forEach(el => {
 				arr.push(el.classCode);
@@ -186,12 +188,12 @@ export default {
 		},
 		close() {
 			this.searchText = ''
-			if(this.isClear){this.$refs.tree.setCheckAll(false)}
+			if(this.isClear && this.$refs.tree){this.$refs.tree.setCheckAll(false)}
 			this.$emit('close');
 		},
 		confirm() {
 			this.searchText = ''
-			if(this.isClear){this.$refs.tree.setCheckAll(false)}
+			if(this.isClear && this.$refs.tree){this.$refs.tree.setCheckAll(false)}
 			this.$emit('confirm', this.selectedData.filter(item => item.type !== '1'));
 		},
 		filterNode(value, data) {

@@ -21,12 +21,18 @@
       <view class="u-bd-b item-list">
         <view class="tip mar-b20">上传封面图：</view>
         <view
-          ><an-upload-img
-            total="1"
-            v-model="photoList"
-            class="upload"
-          ></an-upload-img
-        ></view>
+          >
+        	<video-upload
+							class="u-fx-f1 u-padd-l20 u-padd-r10 u-padd-b20"
+							:uploadUrl="uploadUrl"
+							types="image"
+							v-model="fileList"
+							:uploadCount="1"
+							:upload_max="1"
+							@success="success"
+							@delImage="delImage"
+						></video-upload>
+        </view>
       </view>
     </scroll-view>
     <view class="footer-btn u-fx-ac">
@@ -41,10 +47,11 @@
 </template>
 
 <script>
-import anUploadImg from "@/components/an-uploadImg/an-uploadImg";
+import anUploadImg from "@/components/an-uploadImg/an-uploadImgWithName";
 import { actions, store } from "../store/index";
 import eventBus from "@u/eventBus";
 import tools from ".../../../utils/tools";
+import hostEnv from "../../../../config/index.js";
 export default {
   components: {
     anUploadImg,
@@ -55,11 +62,17 @@ export default {
         title: "",
         content: "",
       },
-      photoList: [],
+      fileList: [],
       id: "",
+      uploadUrl: "",
     };
   },
   computed: {},
+  created() {
+    this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${
+      store.userInfo.schoolCode
+    }`;
+  },
   async mounted() {
     this.id = this.$tools.getQuery().get("id");
     if (this.id) {
@@ -67,19 +80,31 @@ export default {
     }
   },
   methods: {
+    success(e) {
+      console.log(e);
+      this.photoId = e.data.id;
+    },
+    delImage(value) {
+      console.log(value);
+      const index = this.fileList.findIndex((list) => {
+        return list === value.url;
+      });
+      this.fileList.splice(index, 1);
+      actions.delFile(value.id || this.fileList[0].id);
+    },
     async detailGet(id) {
       const res = await actions.getNewsDetail(id);
       this.newsInfo = res.data;
-      this.photoList = [res.data.imgUrl];
+      if (res.data.imgUrl) {
+        this.fileList = [
+          {
+            url: res.data.imgUrl,
+            id: res.data.id,
+          },
+        ];
+      }
     },
-    submit: tools.throttle(async function () {
-      const photoList = this.photoList.map((el) => {
-        if (el.indexOf("http") === -1) {
-          return el.split(",")[1];
-        } else {
-          return el;
-        }
-      });
+    submit: tools.throttle(async function() {
       if (this.newsInfo.title === "") {
         this.$tools.toast("请输入标题");
         return false;
@@ -93,40 +118,24 @@ export default {
         creatorCode: store.userInfo.userCode,
       };
       if (this.id) {
-        if (this.photoList[0].substr(0, 7).toLowerCase() == "http://") {
-          await actions.updateContent({
-            ...req,
-            id: this.id,
-            imgUrl: photoList[0],
-            remark: "",
-            content: this.newsInfo.content,
-            title: this.newsInfo.title,
-          });
-          this.$tools.toast("操作成功");
-          this.$tools.goNext(() => {
-            eventBus.$emit("getList");
-            this.$tools.goBack();
-          });
-        } else {
-          await actions.updateNews({
-            ...req,
-            id: this.id,
-            imgUrl: photoList[0],
-            remark: "",
-            content: this.newsInfo.content,
-            title: this.newsInfo.title,
-          });
-          this.$tools.toast("操作成功");
-          this.$tools.goNext(() => {
-            eventBus.$emit("getList");
-            this.$tools.goBack();
-          });
-        }
+        await actions.updateContent({
+          ...req,
+          id: this.id,
+          imgUrl: this.fileList[0].url,
+          remark: "",
+          content: this.newsInfo.content,
+          title: this.newsInfo.title,
+        });
+        this.$tools.toast("操作成功");
+        this.$tools.goNext(() => {
+          eventBus.$emit("getList");
+          this.$tools.goBack();
+        });
       } else {
         await actions.addNews({
           ...this.newsInfo,
           ...req,
-          imgUrl: photoList[0],
+          imgUrl: this.fileList.length > 0 ? this.fileList[0].url : "",
         });
         this.$tools.toast("操作成功");
         this.$tools.goNext(() => {

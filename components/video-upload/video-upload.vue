@@ -84,11 +84,6 @@ export default {
 			successTag: false
 		};
 	},
-	beforeDestroy() {
-		if (this.uploadTask) {
-			this.uploadTask.abort();
-		}
-	},
 	mounted() {
 		console.log(this.uploads)
 	},
@@ -122,6 +117,7 @@ export default {
 											base64: true // 是否返回base64，默认false，非H5有效
 										})
 										.then(data => {
+											console.log(data)
 											if (this.isCheck) {
 												this.$tools.checkUserPhoto(data,(res)=>{
 													uni.hideLoading();

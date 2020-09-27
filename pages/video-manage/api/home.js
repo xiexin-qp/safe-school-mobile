@@ -5,33 +5,33 @@
  */
 import hostEnv from '../../../config/index.js'
 
-let gradeApi = {
-  getGradeList: '/grade/manage/list#postForm', //
-  getClassList: '/classManage/list#post', // 获取班级
-}
-let showApi = {
-	getClassMotto: '/class/info/list#get', // 班级格言
-	addClassMotto: '/class/info/add#postQuery', // 新增班级格言
-	addNewAlbum: '/album/add#postQuery', // 创建相册
-	editAlbumById: '/album/update#put', // 修改相册名称
-	delAlbumById: '/album/delete#del', // 删除相册
-	getAlbumList: '/album/list#post', // 相册列表
-	addPhotos: '/album/batchUploadAlbumContent#postWithQueryAndBody', // 批量新增相片
-	editPhotoById: '/album/updateAlbumContent#putWithQuery', // 修改照片名称
-	delPhotoById: '/album/deleteAlbumContent#delele', // 删除照片
-	getAlbumPhotoList: '/album/albumContentlist#postWithQuery', // 相册相片列表
-	setCovers: '/album/updateIsCover#putJson', // 轮播图设置
+const zkApi = {
+  getAlbumList: '/school/album/list#postQuery', // 查询相册列表
+  addNewAlbum: '/school/album/add#post', // 创建相册
+  deleteAlbum: '/school/album/delete#delWithQuery', // 删除相册
+  detailAlbum: '/school/album/detail#getUrl', // 查询相册
+  editAlbum: '/school/album/update#post', // 更新相册
+  getPhotoList: '/school/album/photo/list#get', // 查询相册照片列表
+  addPhotos: '/school/album/photo/addPhoto#post', // 上传照片
+  deletePhoto: '/school/album/photo/delete#delWithQuery', // 删除照片
+  deletePhotos: '/school/album/photo/batchDelete#delWithQuery', // 批量删除照片
+  getCover: '/school/album/photo/getCoverBySchoolCode#getUrl', // 查询轮播图
+  setCover: '/school/album/photo/setUpRotation#get', // 设置轮播图
+
+  getVideoList: '/school/media/list#get', // 查询视频列表
+  editVideo: '/school/media/update#post', // 更新视频
+  deleteVideo: '/school/media/delete#delWithQuery', // 删除视频
+  addRelationData: '/school/media/class/addRelationData#post', // 保存发布对象
+  getRelationData: '/school/media/class/getRelationData#getUrl', // 查询发布对象
+  getDeviceData: '/school/media/device/getDeviceList#get', // 查询发布设备
+  getFullDevice: '/school/media/device/getFullScreenDeviceAndTime#get', // 查询全屏设备列表
+  setFullShow: '/school/media/device/updateMediaDevice#post' // 设置全屏展示
 }
 
-for (let val in gradeApi) {
-  gradeApi[val] = `${hostEnv.lz_user_center}${gradeApi[val]}`
-}
-for (let val in showApi) {
-  showApi[val] = `${hostEnv.zq_class}${showApi[val]}`
+for (let val in zkApi) {
+  zkApi[val] = `${hostEnv.zk_news}${zkApi[val]}`
 }
 
 export default {
-  ...gradeApi,
-	...showApi,
-	delFile: `${hostEnv.cl_oa}/study/theme/file/delete#delWithQuery` // 文件删除
+	...zkApi
 }
