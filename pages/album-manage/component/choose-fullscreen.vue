@@ -1,21 +1,27 @@
 <template>
-	<view class="choose-students">
+	<view class="choose-control">
 		<view class="list">
 			<view class="th u-fx-jsa u-fx-ac u-fx-jc title_">
-				<text class="left"></text>
+				<u-checkbox-group width="100%">
+					<label class="u-fx">
+						<u-checkbox @change="checkboxChange" v-model="allcheckedTag" name="全选">
+						</u-checkbox>
+					</label>
+				</u-checkbox-group>
 				<view class="u-checkbox__label">
-					<text></text>
-					<text>姓名</text>
-					<text>学号</text>
+					<text>设备名称</text>
+					<text>绑定场地</text>
+					<text>关联数据</text>
 				</view>
 			</view>
-			<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
-				<u-checkbox-group class="u-fx-ver" width="100%">
+			<scroll-view scroll-y="true" class="scroll-h">
+				<no-data v-if="dataList.length === 0" msg="没有可用的班牌设备"></no-data>
+				<u-checkbox-group v-else class="u-fx-ver" width="100%">
 					<label class="tbody u-bd-b u-fx-jsa" v-for="(item, index) in dataList" :key="index">
-						<u-checkbox :disabled="type === '1'" @change="checkBox" v-model="item.checked" class="u-fx-jsb" :name="`${item.userName}^${item.userCode}^${item.workNo}^${item.photoUrl}`">
-							<image class="u-border-radius u-mar-l30" :src="item.photoUrl"></image>
-							<text class="u-fx-ac-jc">{{ item.userName }}</text>
-							<text class="u-fx-ac-jc">{{ item.workNo }}</text>
+						<u-checkbox :disabled="type === '1'" @change="checkBox" v-model="item.checked" class="u-fx-jsb" :name="`${item.deviceName}^${item.deviceSn}`">
+							<text>{{ item.deviceName }}</text>
+							<text class=" u-fx-ac-jc">{{ item.placeName }}</text>
+							<text class=" u-fx-ac-jc">{{ item.gradeName }}{{ item.className }}</text>
 						</u-checkbox>
 					</label>
 				</u-checkbox-group>
@@ -29,20 +35,20 @@
 </template>
 
 <script>
-import $ajax from '@u/request.js';
-import hostEnv from '../../config/index.js';
+import { store, actions } from '../store/index.js';
+import noData from '@/components/no-data/no-data.vue';
 export default {
-	components: {},
+	components: {
+		noData
+	},
 	props: {
 		type: {
 			type: String,
 			default: ''
 		},
-		schoolInfo: {
-			type: Object,
-			default: () => {
-				return {};
-			}
+		albumCode: {
+			type: String,
+			default: ''
 		},
 		bindList: {
 			type: Array,
@@ -54,57 +60,58 @@ export default {
 	data() {
 		return {
 			dataList: [],
-			pageList: {
-				page: 1,
-				size: 20
-			},
-			morePage: false,
+			allcheckedTag: false,
 			checkList: []
 		};
 	},
 	async mounted() {
+		console.log(123)
 		this.bindList.map(el => {
 			this.checkList.push(el);
 		});
 		this.showList();
 	},
 	methods: {
-		async showList(tag = false) {
-			if (tag) {
-				this.pageList.page += 1;
+		checkboxChange(e) {
+			console.log(e);
+			if(e.value){
+				this.dataList = this.dataList.map(ele => {
+					return {
+						...ele,
+						checked: true
+					}
+				})
+				this.checkList = this.dataList.map(ele => {
+					return {
+						...ele,
+						checked: true
+					}
+				})
 			} else {
-				this.pageList.page = 1;
+				this.dataList = this.dataList.map(ele => {
+					return {
+						...ele,
+						checked: false
+					}
+				})
+				this.checkList = []
 			}
+		},
+		async showList() {
 			const req = {
-				...this.pageList,
-				...this.schoolInfo
+				mediaCode: this.albumCode
 			};
-			const res = await $ajax.post({
-				url: `${hostEnv.lz_user_center}/student/class/list`,
-				params: req
-			});
+			const res = await actions.getDeviceData(req)
 			res.data.list.forEach(ele => {
 				ele.disabled = this.type === '1';
 				this.bindList.forEach(item => {
-					if (ele.userCode === item.userCode) {
+					if (ele.deviceSn === item.deviceSn) {
 						ele.checked = true;
 					}
 				});
 			});
-			if (tag) {
-				this.dataList = this.dataList.concat(res.data.list);
-			} else {
-				this.dataList = res.data.list;
-			}
-			this.morePage = res.data.hasNextPage;
-		},
-		loadMore() {
-			console.log('11')
-			if (!this.morePage) {
-				this.$tools.toast('数据已加载完毕');
-				return;
-			}
-			this.showList(true);
+			this.dataList = res.data.list;
+			this.allcheckedTag = this.dataList.every(ele => { return ele.checked })
 		},
 		cancel() {
 			this.userInfoList = [];
@@ -112,16 +119,17 @@ export default {
 			this.$emit('close', true);
 		},
 		checkBox(e) {
+			console.log(e);
+			this.allcheckedTag = this.dataList.every(ele => { return ele.checked })
 			if (e.value) {
+				const index = this.dataList.findIndex(list => list.deviceSn === e.name.split('^')[1])
 				this.checkList.push({
-					userName: e.name.split('^')[0],
-					userCode: e.name.split('^')[1],
-					workNo: e.name.split('^')[2],
-					photoUrl: e.name.split('^')[3]
+					... this.dataList[index]
 				});
 			} else {
 				this.checkList.splice(this.checkList.indexOf(e.name), 1);
 			}
+			console.log(this.checkList);
 		},
 		addInfo() {
 			this.$emit('confirm', this.checkList);
@@ -131,12 +139,12 @@ export default {
 </script>
 
 <style lang="scss">
-.choose-students {
+.choose-control {
 	position: relative;
 	height: 100%;
 }
 .scroll-h {
-	height: calc(100vh - 530rpx);
+	height: calc(100vh - 480rpx);
 }
 .head {
 	height: 100rpx;
@@ -189,14 +197,6 @@ export default {
 		width: 10%;
 		text-align: center;
 	}
-}
-image {
-	width: 100rpx;
-	height: 100rpx;
-}
-.u-checkbox-group,
-.u-checkbox {
-	width: 100%;
 }
 /deep/ .u-checkbox__label {
 	width: 90%;

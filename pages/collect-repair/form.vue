@@ -67,7 +67,9 @@
         <view @click="teacherTag = true" class="u-fx-f1 u-fx">
           <view class="copyer u-fx-f1 u-content-color u-tx-r">
                             <text v-if="repairApprovalList.length === 0">请选择</text>
+                      <text v-if="repairApprovalList.length >3">已选{{repairCopyList.length}}人</text>
             <u-tag 
+              v-if="repairApprovalList.length <=3"
               v-for="(item,index) in repairApprovalList"
               :key="index"
               :text="item.userName"

@@ -34,9 +34,9 @@
 				<view class="scroll-list u-fx-ver" :style="tableHeight">
 					<scroll-view :scroll-x="true" class="scroll-x">
 						<ul class="level-list" :style="{ width: (weekDay.length * 6.55) + 'rem' }">
-							<li v-for="(elem, i) in weekDay" :key="i + '0'" :class="i === 0 ? 'active' : ''">
+							<li v-for="(elem, i) in weekDay" :key="i + '0'" :class="elem.today ? 'active' : ''">
 								<view class="td u-bd-1px u-fx-ac-jc">
-									<text>{{ weekDays[i] | chnNumChar() }}</text>
+									<text>{{ elem | chnNumChar() }}</text>
 								</view>
 								<view :id="'10' + 'w' + elem + 'n' + +(i + 1)" class="reset td u-bd-1px u-fx-ac-jc" v-for="(item, i) in classHourList.morningNum" :key="i + '1'"></view>
 								<view
@@ -83,7 +83,6 @@ export default {
 			classNum: 0,
 			tableHeight: {},
 			weekDay: [],
-			weekDays: [],
 			classTime: [],
 			earlyTime: '',
 			morningTime: '',
@@ -120,20 +119,17 @@ export default {
 					return;
 				}
 				this.classHourList = res.data;
-				this.weekDays = res.data.week.split(',')
-				const i = this.weekDays.findIndex(list => {
-					return list === '1'
-				})
-				if (i !== -1) {
-					this.weekDays.splice(i, 1)
-					this.weekDays.push('1')
-				}
 				this.weekDay = res.data.week.split(',');
 				const index = this.weekDay.findIndex(list => {
 					return parseInt(list) === parseInt(new Date().getDay());
 				});
-				this.weekDay.splice(index, 1);
-				this.weekDay.unshift(res.data.week.split(',')[index]);
+				if(index !== -1) {
+					this.weekDay.splice(index, 1);
+					this.weekDay.unshift({
+						...res.data.week.split(',')[index],
+						today: true
+					});
+				}
 				this.classNum = this.classHourList.morningNum + this.classHourList.forenoonNum + this.classHourList.afternoonNum + this.classHourList.nightNum;
 				this.tableHeight = { height: ((this.classNum + 1) * 100) / 28 + 'rem' };
 				this.earlyTime = '早上';

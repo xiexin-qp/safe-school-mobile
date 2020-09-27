@@ -17,6 +17,7 @@
 				<scroll-view :scroll-y="true" class="scroll-h">
 					<no-data msg="暂无班级数据~" v-if="classDataTag"></no-data>
 					<ly-tree
+						v-else
 						ref="classTree"
 						:filter-node-method="filterNode"
 						:default-checked-keys="classCheckedKeys"
@@ -38,6 +39,7 @@
 				<scroll-view :scroll-y="true" class="scroll-h">
 					<no-data msg="暂无教职工数据~" v-if="teaDataTag"></no-data>
 					<ly-tree
+						v-else
 						ref="teacherTree"
 						:filter-node-method="filterNode"
 						:default-checked-keys="teacherCheckedKeys"
@@ -152,6 +154,7 @@ export default {
 			this.current = current;
 		},
 		setClassCheckedKeys() {
+			this.$refs.classTree.setCheckAll(false);
 			let arr = [];
 			this.classChecked.forEach(el => {
 				arr.push(el.classCode);
@@ -161,6 +164,7 @@ export default {
 			});
 		},
 		setTeaCheckedKeys() {
+			this.$refs.teacherTree.setCheckAll(false);
 			let arr = [];
 			this.teacherChecked.forEach(el => {
 				arr.push(el.userCode);
@@ -262,15 +266,17 @@ export default {
 							return;
 						}
 						let orgArr = [];
-						res.data.orgChilds.forEach(ele => {
-							orgArr.push({
-								name: ele.name,
-								orgCode: ele.code,
-								id: ele.code,
-								type: '1',
-								disabled: this.disabled
+						if(res.data.orgChilds.length > 0) {
+							res.data.orgChilds.forEach(ele => {
+								orgArr.push({
+									name: ele.name,
+									orgCode: ele.code,
+									id: ele.code,
+									type: '1',
+									disabled: this.disabled
+								});
 							});
-						});
+						}
 						$ajax.post({
 							url: `${hostEnv.lz_user_center}/userinfo/teacher/user/node/teachers`,
 							params: {

@@ -93,7 +93,7 @@
 					}
 				},
 				"/wxz_control": {
-					"target": "http://192.168.2.242:10090/", // 王选章-控制中心
+					"target": "http://192.168.2.235:10090/", // 王选章-控制中心
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/wxz_control": ""

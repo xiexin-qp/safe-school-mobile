@@ -41,7 +41,9 @@
         <view @click="teacherTag = true" class="u-fx-f1 u-fx">
           <view class="copyer u-fx-f1 u-content-color u-tx-r">
              <text v-if="userCodeList.length === 0">请选择</text>
+             <text v-if="userCodeList.length >3">已选{{userCodeList.length}}人</text>
             <u-tag 
+            v-if="userCodeList.length <=3"
               v-for="(item,index) in userCodeList"
               :key="index"
               :text="item.userName"
@@ -58,7 +60,9 @@
         <view @click="classTag = true" class="u-fx-f1 u-fx">
           <view class="copyer u-fx-f1 u-content-color u-tx-r">
           <text v-if="classList.length === 0">请选择</text>
+                       <text v-if="classList.length >3">已选{{classList.length}}个班级</text>
             <u-tag 
+                        v-if="classList.length <=3"
               v-for="(item,index) in classList"
               :key="index"
               :text="item.gradeName + item.className"
@@ -187,14 +191,14 @@ export default {
     },
     classSelcet(value) {
       this.classTag = false;
-      this.classList = value
+      this.classList = value;
     },
     teacherClose() {
       this.teacherTag = false;
     },
     teacherSelcet(value) {
       this.teacherTag = false;
-      this.userCodeList = value
+      this.userCodeList = value;
     },
     showTime() {
       if (this.newsInfo.showFull === false) {
@@ -204,7 +208,9 @@ export default {
       }
     },
     startConfirm(params) {
-      this.newsInfo.startDate = `${params.year}-${params.month}-${params.day} ${params.hour}:${params.minute}`;
+      this.newsInfo.startDate = `${params.year}-${params.month}-${params.day} ${
+        params.hour
+      }:${params.minute}`;
       this.newsInfo.endDate = this.newsInfo.endDate.replace(/-/g, "-");
       const time =
         new Date(new Date(this.newsInfo.endDate).getTime()).getTime() -
@@ -219,7 +225,9 @@ export default {
       }
     },
     endConfirm(params) {
-      this.newsInfo.endDate = `${params.year}-${params.month}-${params.day} ${params.hour}:${params.minute}`;
+      this.newsInfo.endDate = `${params.year}-${params.month}-${params.day} ${
+        params.hour
+      }:${params.minute}`;
       this.newsInfo.startDate = this.newsInfo.startDate.replace(/-/g, "-");
       const time =
         new Date(new Date(this.newsInfo.endDate).getTime()).getTime() -
@@ -401,8 +409,7 @@ export default {
 }
 .mar-l10 {
   margin-left: 10rpx;
-    margin-top: 10rpx;
-
+  margin-top: 10rpx;
 }
 .submit-btn {
   height: 80rpx;

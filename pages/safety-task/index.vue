@@ -1,92 +1,94 @@
 <template>
-	<view>
-		<view class="u-mar-b30">
+	<view class='task-home'>
+		<view class="u-mar-b20 u-type-white-bg">
 			<u-subsection @change="change" active-color="#2979ff" :list="typeList" mode="subsection" :current="current"></u-subsection>
 		</view>
-		<!-- <view class="u-mar-b30">
-			<u-subsection @change="change" active-color="#2979ff" :list="typeList" mode="subsection" :current="current"></u-subsection>
-		</view> -->
-		<no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
-		<scroll-view scroll-y="true" class="scroll-h " @scrolltolower="loadMore">
-			<view class="u-shadow u-fx-ver  u-padd-30  u-border-radius tab-box u-fx-f1">
-				
-				<view class="card u-type-white-bg u-border-radius u-shadow u-padd-20 u-mar-b20 u-fx" @click="assignDanger(item.id,item.state,item.leaderCode,item.handlerCode)"
-				 v-for="(item,index) in dataList" :key="index">
-					<view class="img-box">
-						<image v-if='item.reportUserPhotoUrl' class="u-user-img u-border-radius-all" :src="item.reportUserPhotoUrl"></image>
-						<image v-else  class="u-user-img u-border-radius-all" src="http://canpointtest.com/mobile-img/add-app-icon.png" alt="" />
-					</view>
+		<view class="u-mar-l20 u-mar-r20 u-mar-b10">
+			<dropdown-menu @value0Change="value0Change" 
+				:completeStatusList="this.source==='2'?this.completeStatusLists2:this.source==='3'?this.completeStatusLists3:this.completeStatusLists1"
+			 @value1Change='value1Change' @searchChange="searchChange"></dropdown-menu>
+		</view>
+		<no-data class="u-mar-l20 u-mar-r20 u-mar-t20" v-if="dataList.length === 0" msg="暂无数据"></no-data>
+		<scroll-view scroll-y="true" v-else class="scroll-h " @scrolltolower="loadMore">
+			<view class="u-shadow u-fx-ver  u-padd-20 u-padd-t10  u-border-radius tab-box u-fx-f1">
+				<view class="card u-type-white-bg u-border-radius u-shadow u-padd-20 u-mar-b20 u-fx" v-for="(item,index) in dataList"
+				 :key="index">
 					<view class="cont-box  u-wh u-mar-l20">
-						<view class="cont-title u-font-1 u-mar-b10  u-fx u-bold">{{item.reportName}}
-							<view class="doorkeeper">
-								(暂无职务)
+						<view class="cont-title u-font-2 u-mar-t20  u-fx u-bold">{{item.taskName}}
+							<view class="doorkeeper" v-if="item.type==='1'">
+								({{item.year}}{{item.dataNum}})
 							</view>
-							<!-- 上报需指派 -->
-							<view class="red-text" v-if="userInfo.userCode==item.leaderCode&&item.state=='1'">
-								<image class="del-add-img " src="/mobile-img/assigned.png"></image>
+							<view class="doorkeeper" v-if="item.type==='2'">
+								({{item.dataNum}}月)
 							</view>
-							<view class="red-text" v-if="userInfo.userCode==item.handlerCode&&item.state=='2'">
-								<image class="del-add-img " src="/mobile-img/dealwith.png"></image>
-							</view>
-							<view class="red-text" v-if="userInfo.userCode==item.leaderCode&&item.state=='3'">
-								<image class="del-add-img " src="/mobile-img/acceptance.png"></image>
-							</view>
+							<u-tag v-if="source==='2'" class="u-mar-l10" :text="item.completeStatus|getSafetyState" size='mini' border-color='#ff5454'
+							 bg-color='#ff5454' color='#fff' />
+							<u-tag v-if="source==='1'" class="u-mar-l10" :text="item.completeStatus|completeStatusToText" size='mini'
+							 border-color='#ff5454' bg-color='#ff5454' color='#fff' />
+							 	<u-tag v-if="source==='3'" class="u-mar-l10" :text="item.state|stateToText" size='mini'
+							 border-color='#ff5454' bg-color='#ff5454' color='#fff' />
 						</view>
-						<view class="time-text u-mar-b20 u-font-02">
-							{{item.createTime | gmtToDate}}
+						<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
+							发布人：&nbsp;{{item.publisherName}}
 						</view>
-						<view class="cont-text u-wh u-of">
-							{{item.description}}
+						<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
+							发布于：&nbsp;{{(source==='3'?item.publishDate:item.publishTime)|gmtToDate}}
 						</view>
-						<view class="imgs-box wh  u-fx u-mar-t20 u-mar-b20">
-							<u-image v-for="(url,index) in item.dangerPhotoUrls" :key="index" class="img u-border-radius-all u-mar-r20 "
-							 height="160rpx" width="160rpx" :src="url" mode=""></u-image>
+						<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
+							任务时间：&nbsp;{{(source==='3'?item.beginDate:item.startTime)|gmtToDate}}：&nbsp;
+							至：&nbsp;{{(source==='3'?item.endDate:item.endTime)|gmtToDate}}
 						</view>
-						<view class="cont-footer u-fx u-type-primary u-fx-ac u-font-02 ">
-							<!-- <u-icon name="http://canpointtest.com/mobile-img/study-ground-icon2.png" size="32" class="u-mar-r20"></u-icon>
-						上传人：{{ studyInfo.ownerName }}
-							ico_danger.png -->
-							<u-icon size="20rpx" name="http://canpointtest.com/mobile-img/ico_danger.png" class="u-icon u-mar-r10">
-							</u-icon>
-							<view class="" v-if="item.state != '3'">
-								{{ item.state | getDangerState }}
+						<view class="cont-footer u-padd-t20 u-type-primary u-bd-t u-fx-jc u-font-02 ">
+							<view class="u-fx-f1 u-fx-ac-jc " @click="fillIn(1,item)" v-if="(source==='2'&& item.completeStatus==='1')||(source==='1'&& item.completeStatus==='1')">
+								填报
 							</view>
-							<view class="time" v-show="item.state == '2'">
-								需要处理时间:&nbsp;{{ item.handleDuration }}小时
+							<view @click="fillIn(2,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& item.completeStatus==='2'">
+								修改
 							</view>
-							<view class="time" v-show="item.state == '3'">
-								{{ item.handerName }}已处理:&nbsp;{{ item.handleDuration }}小时
+							<view @click="fillIn(0,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="(source==='2'&& item.completeStatus==='2')||(source==='1'&& (item.completeStatus==='3'||item.completeStatus==='4'))">
+								查看
 							</view>
-							<view class="time" v-show="item.state == '4'">
-								总耗时:&nbsp;{{
-                  (item.optTime - item.createTime) | getHour
-                }}小时
+							<view @click="submit(item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& (item.completeStatus==='2'||item.completeStatus==='5')">
+								提交
+							</view>
+							<view @click="fillIn(0,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& (item.completeStatus==='3'||item.completeStatus==='4')">
+								查看
+							</view>
+							<view class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& item.completeStatus==='5'">
+								重报
+							</view>
+							<view @click='release(item)' class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='3'&& item.state==='0'">
+								发布
+							</view>
+							<view @click='seeCompletion(item)' class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='3'&& item.state!=='0'">
+								查看完成情况
 							</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</scroll-view>
-		<view class="footer-btn u-fx-ac u-bg-color">
-			<u-button @tap="addDager" type="primary" class="u-fx-f1 u-mar-l u-mar-r">
-				上报隐患
-			</u-button>
-		</view>
 	</view>
 </template>
 
 <script>
 	import eventBus from "@u/eventBus";
+	import DropdownMenu from './component/DropdownMenu.vue';
 	import {
 		store,
-		actions
+		actions,
 	} from "./store/index.js";
 	export default {
+		components: {
+			DropdownMenu
+		},
 		data() {
 			return {
 				current: 0,
 				state: 1,
-				dataList: {},
+				states: '', //发布任务传给后台的任务状态
+				source: '3', //1校端，2局端
+				dataList: [],
 				typeList: [{
 						name: "上级下发",
 					},
@@ -99,10 +101,80 @@
 				],
 				morePage: false,
 				show: false,
+				completeStatusLists3:[
+					{
+          value: '0',
+          text: '任务状态'
+        },
+        {
+          value: '1',
+          text: '未发布'
+        },
+        {
+          value: '2',
+          text: '未开始'
+        },
+        {
+          value: '3',
+          text: '进行中'
+        },
+        {
+          value: '4',
+          text: '已结束'
+        }
+				],
+				completeStatusLists2: [
+					{
+						text: '任务状态',
+						value: '0'
+					},
+					{
+						text: '未填报',
+						value: '1'
+					},
+					{
+						text: '已填报待提交',
+						value: '2'
+					},
+					{
+						text: '已提交',
+						value: '3'
+					},
+					{
+						text: '已补交',
+						value: '4'
+					},
+					{
+						text: '已打回，请重报',
+						value: '5'
+					}
+				],
+				completeStatusLists1: [{
+						text: '任务状态',
+						value: '0'
+					},
+					{
+						text: '已完成',
+						value: '6'
+					},
+					{
+						text: '未完成',
+						value: '7'
+					},
+					{
+						text: '逾期填报',
+						value: '8'
+					}
+				],
+				completeStatus: [],
+				searchObj: {
+					completeStatus: "",
+					taskType: ''
+				},
 				indexList: {},
 				pageList: {
 					page: 1,
-					size: 5,
+					size: 10,
 				},
 				morePage: false,
 			};
@@ -113,9 +185,9 @@
 			},
 		},
 		mounted() {
-			let queryState = this.$tools.getQuery().get("state");
+			let queryState = this.$tools.getQuery().get("queryState");
 			if (queryState) {
-				this.state = queryState;
+				this.queryState = queryState;
 			}
 			eventBus.$on("getList", () => {
 				this.showList();
@@ -130,26 +202,88 @@
 				}
 				this.showList(true);
 			},
+			value0Change(val) {
+				if(this.source==='3'){
+					//我下发的任务
+					this.states = val
+				}else{
+					if (val === '1') {
+						this.completeStatus = ['1']
+					} else if (val === '2') {
+						this.completeStatus = ['2']
+					} else if (val === '3') {
+						this.completeStatus = ['3']
+					} else if (val === '4') {
+						this.completeStatus = ['4']
+					} else if (val === '5') {
+						this.completeStatus = ['6', '5']
+					} else if (val === '6') {
+						this.completeStatus = ['3']
+					} else if (val === '7') {
+						this.completeStatus = ['1', '2']
+					} else if (val === '8') {
+						this.completeStatus = ['4']
+					} else if (val === '') {
+						this.completeStatus = []
+					}
+				}
+				this.showList();
+			},
+			value1Change(val) {
+				this.searchObj.taskType = val;
+				this.showList();
+			},
 			async showList(tag = false) {
 				if (tag) {
 					this.pageList.page += 1;
 				} else {
 					this.pageList.page = 1;
 				}
-				let req = {
-					...this.pageList,
-					schoolCode: store.userInfo.schoolCode,
-					state: this.state + "",
-				};
-				const res = await actions.getDangerIndex(req);
+				
+				let res 
+				if(this.source==='3'){
+					//任务下发列表
+					let req = {
+						taskType: this.searchObj.taskType,
+						...this.pageList,
+						state: (this.states-1)+'',
+						schoolCode: store.userInfo.schoolCode,
+						publisherCode: store.userInfo.userCode,
+					};
+					res = await actions.getTaskIssued(req);
+				}else{
+					let req = {
+						taskType: this.searchObj.taskType,
+						...this.pageList,
+						completeStatus: this.completeStatus,
+						schoolCode: store.userInfo.schoolCode,
+						userCode: store.userInfo.userCode,
+						source: this.source
+					};
+					res = await actions.getSafetask(req);
+				}
 				this.total = res.data.total;
-				console.log(res);
 				if (tag) {
 					this.dataList = this.dataList.concat(res.data.records);
 				} else {
 					this.dataList = res.data.records;
 				}
 				this.morePage = res.data.pages > res.data.current;
+			},
+			searchChange(val) {
+				console.log(val)
+				// this.showList();
+			},
+			//填报
+			fillIn(type, record) {
+				let {
+					myTaskId,
+					myTaskCode,
+					taskCode
+				} = record
+				this.$tools.navTo({
+					url: `./fillIn?type=${type}&myTaskId=${myTaskId}&myTaskCode=${myTaskCode}&taskTemplateCode=${taskCode}`,
+				});
 			},
 			loadMore() {
 				if (!this.morePage) {
@@ -158,18 +292,44 @@
 				}
 				this.showList(true);
 			},
-			addDager() {
+			//提交
+			submit(record) {
+				let {
+					myTaskId,
+					myTaskCode,
+					taskCode
+				} = record
+				this.$tools.confirm("提交之后不允许再次编辑内容，确定提交么？ ", () => {
+					const req = {
+					query: '?' + 'id=' + myTaskId
+					}
+					actions.submitMyTask(req).then(res => {
+						console.log(res)
+						this.$tools.toast("操作成功", "success");
+						this.$tools.goNext(() => {
+							this.showList()
+						});
+					})
+				})
+			},
+			//发布
+			release(record){
+				let {
+					id,
+					taskCode,
+				} = record
 				this.$tools.navTo({
-					url: `./addDanger`,
-					title: "",
+					url: `./release?&myTaskId=${id}&taskTemplateCode=${taskCode}`,
 				});
 			},
-			//指派隐患
-			assignDanger(id, state, leaderCode, handlerCode) {
-				console.log(state);
+			//查看完成情况
+			seeCompletion(record){
+				let {
+					id,
+					taskCode,
+				} = record
 				this.$tools.navTo({
-					url: `./assignDetail?id=${id}&state=${state}&leaderCode=${leaderCode}&handlerCode=${handlerCode}`,
-					id: id,
+					url: `./seeCompletion?&myTaskId=${id}&taskTemplateCode=${taskCode}`,
 				});
 			},
 			change(index) {
@@ -181,45 +341,43 @@
 				this.current = val - 1;
 			},
 			current(val) {
+				this.completeStatus = []
 				this.state = val + 1;
+				if (val === 0) {
+					this.source = '2'
+				} else if (val === 1) {
+					this.source = '1'
+				}else if (val === 2){
+					this.source = '3'
+				}
 				this.showList();
 			},
 		},
 	};
 </script>
-
 <style lang="scss" scoped>
-	.scroll-h {
-		height: calc(100vh - 120rpx);
+	.task-home {
+		.scroll-h {
+			height: calc(100vh - 180rpx);
+			.cont-title {
+				position: relative;
+				.red-text {
+					width: 100rpx;
+					height: 100rpx;
+					position: absolute;
+					right: 0;
+					top: 0;
 
-		.cont-title {
-			position: relative;
-
-			.red-text {
-				width: 100rpx;
-				height: 100rpx;
-				position: absolute;
-				right: 0;
-				top: 0;
-
-				.del-add-img {
-					width: 100% !important;
-					height: 100% !important;
+					.del-add-img {
+						width: 100% !important;
+						height: 100% !important;
+					}
 				}
 			}
-		}
+			.time-text {
+				color: #909399;
+			}
 
-		.time-text {
-			color: #909399;
-		}
-
-		.u-icon {
-			width: 23rpx;
-			height: 23rpx;
-		}
-
-		.add-top {
-			height: 200rpx;
 		}
 	}
 </style>

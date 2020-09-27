@@ -2,10 +2,15 @@
 	<view class="choose-control">
 		<view class="list">
 			<view class="th u-fx-jsa u-fx-ac u-fx-jc title_">
-				<text class="left"></text>
+				<u-checkbox-group width="100%">
+					<label class="u-fx">
+						<u-checkbox @change="checkboxChange" v-model="allcheckedTag" name="全选">
+						</u-checkbox>
+					</label>
+				</u-checkbox-group>
 				<view class="u-checkbox__label">
 					<text>设备名称</text>
-					<text>安装位置</text>
+					<text>绑定场地</text>
 					<text>关联数据</text>
 				</view>
 			</view>
@@ -15,7 +20,7 @@
 					<label class="tbody u-bd-b u-fx-jsa" v-for="(item, index) in dataList" :key="index">
 						<u-checkbox :disabled="type === '1'" @change="checkBox" v-model="item.checked" class="u-fx-jsb" :name="`${item.deviceName}^${item.deviceSn}`">
 							<text>{{ item.deviceName }}</text>
-							<text class=" u-fx-ac-jc">{{ item.snapSite }}</text>
+							<text class=" u-fx-ac-jc">{{ item.placeName }}</text>
 							<text class=" u-fx-ac-jc">{{ item.gradeName }}{{ item.className }}</text>
 						</u-checkbox>
 					</label>
@@ -48,7 +53,9 @@ export default {
 		},
 		classInfo: {
 			type: Object,
-			default: {}
+			default: () => {
+				return {};
+			}
 		},
 		bindList: {
 			type: Array,
@@ -65,6 +72,7 @@ export default {
 				size: 20
 			},
 			morePage: false,
+			allcheckedTag: false,
 			checkList: []
 		};
 	},
@@ -76,6 +84,31 @@ export default {
 		this.showList();
 	},
 	methods: {
+		checkboxChange(e) {
+			console.log(e);
+			if(e.value){
+				this.dataList = this.dataList.map(ele => {
+					return {
+						...ele,
+						checked: true
+					}
+				})
+				this.checkList = this.dataList.map(ele => {
+					return {
+						...ele,
+						checked: true
+					}
+				})
+			} else {
+				this.dataList = this.dataList.map(ele => {
+					return {
+						...ele,
+						checked: false
+					}
+				})
+				this.checkList = []
+			}
+		},
 		async showList(tag = false) {
 			if (tag) {
 				this.pageList.page += 1;
@@ -121,15 +154,11 @@ export default {
 		},
 		checkBox(e) {
 			console.log(e);
+			this.allcheckedTag = this.dataList.every(ele => { return ele.checked })
 			if (e.value) {
 				const index = this.dataList.findIndex(list => list.deviceSn === e.name.split('^')[1])
 				this.checkList.push({
-					deviceName: this.dataList[index].deviceName,
-					deviceSn: this.dataList[index].deviceSn,
-					deviceIp: this.dataList[index].deviceIp,
-					schoolCode: this.dataList[index].schoolCode,
-					classCode: this.dataList[index].classCode,
-					gradeCode: this.dataList[index].gradeCode,
+					... this.dataList[index]
 				});
 			} else {
 				this.checkList.splice(this.checkList.indexOf(e.name), 1);
@@ -202,10 +231,6 @@ export default {
 		width: 10%;
 		text-align: center;
 	}
-}
-.u-checkbox-group,
-.u-checkbox {
-	width: 100%;
 }
 /deep/ .u-checkbox__label {
 	width: 90%;

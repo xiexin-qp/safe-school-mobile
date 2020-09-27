@@ -228,7 +228,7 @@ export default {
 		position: relative;
 		.photo-wrapper {
 			border-radius: 8rpx;
-			box-shadow: 0px 3px 6px 0px rgba(200, 198, 198, 0.35);
+			box-shadow: 0rpx 3rpx 6rpx 0rpx rgba(200, 198, 198, 0.35);
 			.photo-pic {
 				height: 200rpx;
 				image {
