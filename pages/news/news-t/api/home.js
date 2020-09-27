@@ -29,4 +29,7 @@ let homeApi = {
 for (let val in homeApi) {
   homeApi[val] = `${hostEnv.zq_news}${homeApi[val]}`
 }
-export default homeApi
+export default {
+  ...homeApi,
+	delFile: `${hostEnv.cl_oa}/study/theme/file/delete#delWithQuery` // 文件删除
+}

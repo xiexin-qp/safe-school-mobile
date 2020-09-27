@@ -47,11 +47,11 @@
 </template>
 
 <script>
-import anUploadImg from '@/components/an-uploadImg/an-uploadImgWithName';
+import anUploadImg from "@/components/an-uploadImg/an-uploadImgWithName";
 import { actions, store } from "../store/index";
 import eventBus from "@u/eventBus";
 import tools from ".../../../utils/tools";
-import hostEnv from '../../../../config/index.js';
+import hostEnv from "../../../../config/index.js";
 export default {
   components: {
     anUploadImg,
@@ -68,9 +68,11 @@ export default {
     };
   },
   computed: {},
-  	created() {
-		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
-	},
+  created() {
+    this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${
+      store.userInfo.schoolCode
+    }`;
+  },
   async mounted() {
     this.id = this.$tools.getQuery().get("id");
     if (this.id) {
@@ -93,7 +95,14 @@ export default {
     async detailGet(id) {
       const res = await actions.getNewsDetail(id);
       this.newsInfo = res.data;
-      this.fileList = [res.data.imgUrl];
+      if (res.data.imgUrl) {
+        this.fileList = [
+          {
+            url: res.data.imgUrl,
+            id: res.data.id,
+          },
+        ];
+      }
     },
     submit: tools.throttle(async function() {
       if (this.newsInfo.title === "") {
@@ -109,40 +118,24 @@ export default {
         creatorCode: store.userInfo.userCode,
       };
       if (this.id) {
-          await actions.updateContent({
-            ...req,
-            id: this.id,
-            imgUrl: fileList[0],
-            remark: "",
-            content: this.newsInfo.content,
-            title: this.newsInfo.title,
-          });
-          this.$tools.toast("操作成功");
-          this.$tools.goNext(() => {
-            eventBus.$emit("getList");
-            this.$tools.goBack();
-          });
-        // else {
-        //   await actions.updateNews({
-        //     ...req,
-        //     id: this.id,
-        //     imgUrl: this.fileList.length > 0 ? this.fileList[0].url : '',
-        //     remark: "",
-        //     content: this.newsInfo.content,
-        //     title: this.newsInfo.title,
-        //   });
-        //   this.$tools.toast("操作成功");
-        //   this.$tools.goNext(() => {
-        //     eventBus.$emit("getList");
-        //     this.$tools.goBack();
-        //   });
-        // }
-      } 
-      else {
+        await actions.updateContent({
+          ...req,
+          id: this.id,
+          imgUrl: this.fileList[0].url,
+          remark: "",
+          content: this.newsInfo.content,
+          title: this.newsInfo.title,
+        });
+        this.$tools.toast("操作成功");
+        this.$tools.goNext(() => {
+          eventBus.$emit("getList");
+          this.$tools.goBack();
+        });
+      } else {
         await actions.addNews({
           ...this.newsInfo,
           ...req,
-        imgUrl: this.fileList.length > 0 ? this.fileList[0].url : '',
+          imgUrl: this.fileList.length > 0 ? this.fileList[0].url : "",
         });
         this.$tools.toast("操作成功");
         this.$tools.goNext(() => {
