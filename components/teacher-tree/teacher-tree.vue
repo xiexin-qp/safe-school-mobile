@@ -108,7 +108,7 @@ export default {
 				$ajax
 					.getUrl({
 						url: `${hostEnv.lz_user_center}/school/org/getSchoolRoot/${this.schoolInfo.schoolCode}`
-					})
+					}, false)
 					.then(res => {
 						if (!res.data) {
 							this.noDataTag = true;
@@ -136,7 +136,7 @@ export default {
 									page: 1,
 									size: 99999
 								}
-							})
+							},false)
 							.then(result => {
 								if (result.data.list.length > 0) {
 									orgArr.push({
@@ -168,12 +168,12 @@ export default {
 					res = $ajax.post({
 						url: `${hostEnv.lz_user_center}/userinfo/teacher/user/node/teachers`,
 						params: req
-					});
+					},false);
 				} else {
 					res = $ajax.post({
 						url: `${hostEnv.lz_user_center}/userinfo/teacher/user/queryTeacherInfo`,
 						params: req
-					});
+					},false);
 				}
 				res.then(res => {
 					if (!res.data || res.data.list.length === 0) {

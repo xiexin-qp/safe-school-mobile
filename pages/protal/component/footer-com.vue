@@ -1,7 +1,7 @@
 <template>
 	<view class="footer-com u-fx u-bd-t">
 		<view @click="switchTab(foot.id)" class="u-fx-f1 u-fx-ac-jc u-content-color animate__animated animate__bounceIn" :class="{ 'act': foot.id == tabIndex }" v-for="foot in footList" :key="foot.id">
-			<view class="total" v-if="foot.id === 2 && total !== 0">
+			<view class="total" v-if="foot.id === -1 && total !== 0">
 				<view class="small">{{ total }}</view>
 			</view>
 			<image :src="foot.id === tabIndex ? foot.iconAct : foot.icon" class="foot-img"></image>

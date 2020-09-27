@@ -4,7 +4,7 @@
       <view class="u-fx-ac u-bd-b item-list">
         <view class="tip"> 新闻标题：</view>
         <view class="u-fx-f1"
-          ><input maxlength="30" v-model="newsInfo.title" class="item-input"
+          ><input maxlength="30" placeholder="请输入标题" v-model="newsInfo.title" class="item-input"
         /></view>
       </view>
       <view class="qui―fx u-bd-b item-list">
@@ -13,13 +13,14 @@
           <textarea
             class="item-input"
             v-model="newsInfo.content"
+						placeholder="请输入新闻内容"
             maxlength="2000"
           />
         </view>
       </view>
       <view class="u-bd-b item-list">
         <view class="tip mar-b20">上传封面图：</view>
-        <view class="u-fx-f1"
+        <view
           ><an-upload-img
             total="1"
             v-model="photoList"
@@ -83,7 +84,7 @@ export default {
         this.$tools.toast("请输入标题");
         return false;
       } else if (this.newsInfo.content === "") {
-        this.$tools.toast("请输入正文");
+        this.$tools.toast("请输入新闻内容");
         return false;
       }
       const req = {
@@ -97,7 +98,7 @@ export default {
             ...req,
             id: this.id,
             imgUrl: photoList[0],
-            remark: "默认值",
+            remark: "",
             content: this.newsInfo.content,
             title: this.newsInfo.title,
           });
@@ -111,7 +112,7 @@ export default {
             ...req,
             id: this.id,
             imgUrl: photoList[0],
-            remark: "默认值",
+            remark: "",
             content: this.newsInfo.content,
             title: this.newsInfo.title,
           });

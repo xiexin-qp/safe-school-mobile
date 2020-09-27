@@ -22,15 +22,16 @@
       <view class="u-fx-ac u-bd-b item-list">
         <view class="tip">公告标题：</view>
         <view class="u-fx-f1"
-          ><input maxlength="30" v-model="newsInfo.title" class="item-input"
+          ><input placeholder="请输入标题" maxlength="30" v-model="newsInfo.title" class="item-input"
         /></view>
       </view>
       <view class="qui―fx u-bd-b item-list">
-        <view class="tip">正文:</view>
+        <view class="tip">公告正文:</view>
         <view class="u-fx-f1 u-mar-t">
           <textarea
             class="item-input"
             v-model="newsInfo.content"
+						placeholder="请输入公告正文"
             maxlength="600"
           />
         </view>
@@ -323,8 +324,8 @@ export default {
         });
       }
       this.$tools.toast("操作成功");
-      eventBus.$emit("getList");
       this.$tools.goNext(() => {
+				eventBus.$emit("getList");
         this.$tools.goBack();
       });
     },
