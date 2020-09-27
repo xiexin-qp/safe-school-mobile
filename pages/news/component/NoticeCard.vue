@@ -25,7 +25,7 @@
               color="#2db7f5"
               text="阅读状态"
               class="readstaus"
-              @click="readStatus(item.id)"
+              @click.stop="readStatus(item.id)"
             />
           </view>
         </view>
