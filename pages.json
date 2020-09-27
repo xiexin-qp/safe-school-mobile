@@ -79,6 +79,11 @@
 			"path": "pages/countDown/countDown-t/form",
 			"style": {}
 		},
+		//考试成绩
+		{
+			"path": "pages/examAchievement/examAchievement-t/index",
+			"style": {}
+		},
 		//值日生
 		{
 			"path": "pages/duty/duty-t/index",
