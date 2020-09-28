@@ -623,6 +623,23 @@
 			"path": "pages/video-manage/fullScreen",
 			"style": {}
 		},
+		//表扬栏
+		{
+			"path": "pages/praise-column/praise-column-t/class/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/class/index",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/detail",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/index",
+			"style": {}
+		},
 		//会议管理
 		{
 			"path": "pages/meet-booking/index",
