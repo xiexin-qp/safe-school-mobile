@@ -510,8 +510,6 @@ export default {
         materialRemark: this.formData.materialRemark,
         remark: this.formData.remark,
       };
-      console.log(req)
-      // return
       await actions.addRepair(
         req,
       );

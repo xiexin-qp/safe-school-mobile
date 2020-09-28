@@ -271,7 +271,7 @@
 				},
 				"/cl_oa": {
 					// "target": "http://192.168.2.242:11014/", //陈琳-调代课
-					"target": "http://192.168.1.193:11009",
+					"target": "http://192.168.1.23:11014/",
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/cl_oa": ""
