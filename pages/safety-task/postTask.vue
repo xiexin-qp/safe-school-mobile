@@ -1,7 +1,7 @@
 <template>
 	<view class=" u-type-white-bg ">
 		<scroll-view scroll-y="true" class="scroll-h  ">
-			<view class="row  u-fx-ac-jc u-bold u-font-1 u-padd-20 u-line2">
+			<view class="row  u-fx-ac-jc u-font-1 u-padd-20 u-line2">
 				{{ detailInfo.taskName }}
 			</view>
 			<view class="cont  u-padd-l10 u-padd-r10 u-tips-color">
@@ -29,34 +29,32 @@
 				</u-row>
 			</view>
 			<view class="problem u-padd-l10 u-mar-b30">
-				<u-row @click="teacherTag=true" class='u-mar-b10  u-mar-t20 u-bold u-main-color' justify="between">
+				<u-row @click="teacherTag=true" class='u-mar-b10  u-mar-t20  u-main-color' justify="between">
 					<u-col span='4'>
 						要求上报内容:
 					</u-col>
-					<u-col span='3'  class="u-type-primary">
+					<u-col span='3' class="u-type-primary">
 						选择接受人:
 					</u-col>
 				</u-row>
 				<view class="problem-list">
 					<view class="cont u-fx-wp u-mar-t30">
 						<view class="" v-for="(tag, i) in tags" :key="i">
-							<u-tag class="u-mar-10" 
-							:text="tag.userName" closeable 
-							@close="tagClick(tag,i)" :show="tag.show" type="success" />
+							<u-tag class="u-mar-10" :text="tag.userName" closeable @close="tagClick(tag,i)" :show="tag.show" type="success" />
 						</view>
 					</view>
 				</view>
 			</view>
-			
+
 		</scroll-view>
 		<view class=" u-fx-ac  u-type-white-bg  u-mar-b20 u-mar-t30">
-				<!-- <u-button :custom-style="customStyle" class="u-fx-f1 u-mar-r u-mar-l" @click="cancel">
+			<!-- <u-button :custom-style="customStyle" class="u-fx-f1 u-mar-r u-mar-l" @click="cancel">
 					取消
 				</u-button> -->
-				<u-button type="primary" class="u-fx-f1 u-mar-l u-mar-r " :disabled="isLoad" @click="postTask">
-					发布任务
-				</u-button>
-			</view>
+			<u-button type="primary" class="u-fx-f1 u-mar-l u-mar-r " :disabled="isLoad" @click="postTask">
+				发布任务
+			</u-button>
+		</view>
 		<teacher-tree isCheck v-show="teacherTag" :teacherTag="teacherTag" :schoolInfo="schoolInfo" :disabled="disabled"
 		 @close="teacherTag=false" @confirm="confirm" :classChecked="teacherList"></teacher-tree>
 	</view>
@@ -96,7 +94,7 @@
 					schoolCode: ''
 				},
 				teacherList: [],
-				tags:[],
+				tags: [],
 				detailInfo: {},
 				isLoad: false,
 				value: 'orange',
@@ -137,29 +135,26 @@
 			cancel() {
 				this.$router.go(-1)
 			},
-			tagClick(tag,index) {
-				this.tags.splice(index,1)
+			tagClick(tag, index) {
+				this.tags.splice(index, 1)
 			},
 			//发布
 			async postTask() {
 				let req = {
-					publisherCode :store.userInfo.userCode,
-					publisherName :store.userInfo.userName,
-					taskId:this.taskId,
-					users :this.tags.map(el=>{
+					publisherCode: store.userInfo.userCode,
+					publisherName: store.userInfo.userName,
+					taskId: this.taskId,
+					users: this.tags.map(el => {
 						return {
 							...el,
-							schoolCode:store.userInfo.schoolCode
+							schoolCode: store.userInfo.schoolCode
 						}
 					})
 				}
 				const res = await actions.postSchoolTask(req)
 				this.$tools.toast("操作成功");
-              this.$tools.goNext(() => {
-                this.$router.go(-1)
-              })
 				this.$tools.navTo({
-					url: `./index`,
+					url: `./index?source=3`,
 				});
 			},
 		}
@@ -169,6 +164,7 @@
 <style lang="scss" scoped>
 	.scroll-h {
 		height: calc(100vh - 120rpx);
+
 		.item-text-area {
 			height: 120rpx;
 			width: 100%;

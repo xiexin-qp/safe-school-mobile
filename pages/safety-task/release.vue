@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<scroll-view scroll-y="true" class="scroll-h u-type-primary-light-bg  ">
+		<scroll-view scroll-y="true" class="scroll-h  ">
 			<view class="row u-type-white-bg u-fx-ac-jc u-bold u-font-1 u-padd-20 u-line2">
 				{{ detailInfo.taskName }}
 			</view>
@@ -13,11 +13,6 @@
 							至
 							{{ detailInfo.endTime  | gmtToDate('date') }}
 						</view>
-					</u-col>
-				</u-row>
-				<u-row class='u-mar-b20 u-mar-t20' gutter="16" justify="center">
-					<u-col span="10">
-						<u-image width="100%" height="300rpx" src="https://cdn.uviewui.com/uview/example/fade.jpg"></u-image>
 					</u-col>
 				</u-row>
 				<u-row class='u-mar-b10 u-bold u-main-color' gutter="16" justify="start">
@@ -44,7 +39,7 @@
 					<!-- <u-col span="6"> -->
 					<text class='u-font-03'>{{ detailInfo.docName }}</text>
 					<!-- </u-col> -->
-					<view span="2" >
+					<view span="2" class='u-font-03'>
 						<u-link v-if='detailInfo.docUrl' href="#" :under-line="true" @click="exportClick(detailInfo.docUrl)">下载</u-link>
 					</view>
 				</u-row>
@@ -120,9 +115,9 @@
 				</view>
 			</view>
 			<view class=" u-fx-ac u-mar-b20 u-mar-t30">
-				<u-button :custom-style="customStyle" class="u-fx-f1 u-mar-r u-mar-l" @click="cancel">
+				<!-- <u-button :custom-style="customStyle" class="u-fx-f1 u-mar-r u-mar-l" @click="cancel">
 					取消
-				</u-button>
+				</u-button> -->
 				<u-button type="primary" class="u-fx-f1 u-mar-l u-mar-r " :disabled="isLoad" @click="nextStep">
 					下一步
 				</u-button>

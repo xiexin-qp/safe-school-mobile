@@ -277,6 +277,13 @@
 						"^/cl_oa": ""
 					}
 				},
+				"zx_subject": {
+					"target": "http://192.168.2.242:8091/", //吕卓-安全防控
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/zx_subject": ""
+					}
+				},
 				"lz_safe": {
 					"target": "http://192.168.2.242:8091/", //吕卓-安全防控
 					"changeOrigin": true,

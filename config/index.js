@@ -31,6 +31,7 @@ let wxz_control = ''
 let zk_oa = ''
 let host = ''
 let lz_safe = ''
+let zx_subject = ''
 let cl_oa = ''
 let cl_class=''
 let zk_news = ''
@@ -62,6 +63,7 @@ if (ConfigEnv === 'production') {
   cl_oa = '/cl_oa'
   wxz_control = '/wxz_control'
   zk_oa = '/zk_oa'
+  zx_subject = '/zx_subject'
   lz_safe = '/lz_safe'
   cl_class='/cl_class'
 	zk_news='/zk_news'
@@ -95,6 +97,7 @@ if (ConfigEnv === 'production') {
   cl_oa = '/cl_oa'
   cl_class='/cl_class'
 	zk_news='/zk_news'
+	zx_subject='/zx_subject'
 
 }
 
@@ -126,6 +129,7 @@ export default {
   wxz_control,
   zk_oa,
   lz_safe,
+  zx_subject,
   cl_oa,
   cl_class,
 	zk_news
