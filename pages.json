@@ -600,8 +600,6 @@
 			"path": "pages/lost-found/lost-found-t/form",
 			"style": {}
 		},
-<<<<<<< HEAD
-=======
 		//相册视频
 		{
 			"path": "pages/album-manage/index",
@@ -643,7 +641,6 @@
 			"path": "pages/video-manage/fullScreen",
 			"style": {}
 		},
->>>>>>> ddb7fbec2704e93e6cc611d6b8b18ee00e4122d4
 		//会议管理
 		{
 			"path": "pages/meet-booking/index",
