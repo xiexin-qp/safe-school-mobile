@@ -273,7 +273,7 @@ const filters = {
     if (value === '0') {
       return '待处理'
     } else if (value === '1') {
-      return '处理中'
+      return '已审批'
     } else if (value === '2') {
       return '未同意'
     } else if (value === '3') {

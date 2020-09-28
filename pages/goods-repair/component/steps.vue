@@ -29,9 +29,9 @@
                   :key="index"
                 >
                   <view class="set-width"> {{ item.approvalUserName }} </view>
-                  <text class="set-state" v-if="item.type !== '3'"
+                  <!-- <text class="set-state" v-if="item.type !== '3'"
                     >{{ item.approvalState | getRovalState }}
-                  </text>
+                  </text> -->
                 </view></view
               >
             </view>
@@ -80,11 +80,11 @@
               </text>
             </text>
           </view>
-          <view class="detail u-padd-60">
-            指定人：{{ item.approvalUserName
+          <view class="detail">
+            指定人：<text class="pa-4">{{ item.approvalUserName
             }}<text class="set-state">
               代审批
-            </text></view
+            </text></text></view
           >
         </view>
       </view>
@@ -139,6 +139,9 @@ export default {
 }
 .set-width {
   width: 50px;
+}
+.pa-4{
+      padding-left: 8rpx;
 }
 .set_box {
   width: 100%;
