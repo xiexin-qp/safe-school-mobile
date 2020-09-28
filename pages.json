@@ -140,39 +140,6 @@
 			"path": "pages/news/news-p/parentNotice/detail",
 			"style": {}
 		},
-		//相册视频
-		{
-			"path": "pages/album-manage/index",
-			"style": {}
-		},
-		{
-			"path": "pages/album-manage/form",
-			"style": {}
-		},
-		{
-			"path": "pages/album-manage/album",
-			"style": {}
-		},
-		{
-			"path": "pages/album-manage/imgList",
-			"style": {}
-		},
-		{
-			"path": "pages/video-manage/index",
-			"style": {}
-		},
-		{
-			"path": "pages/video-manage/form",
-			"style": {}
-		},
-		{
-			"path": "pages/video-manage/album",
-			"style": {}
-		},
-		{
-			"path": "pages/video-manage/imgList",
-			"style": {}
-		},
 		// 门禁模块
 		{
 			"path": "pages/door/door-p/doorRecord/index",
@@ -604,6 +571,17 @@
 		{
 			"path": "pages/school-activity/form"
 		},
+		//失物招领
+		{
+			"path": "pages/lost-found/lost-found-p/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/index",
+			"style": {}
+		}, {
+			"path": "pages/lost-found/lost-found-t/form",
+			"style": {}
+		},
 		//会议管理
 		{
 			"path": "pages/meet-booking/index",
@@ -793,6 +771,22 @@
 		},
 		{
 			"path": "pages/inspect/submit"
+		},
+		//安全任务
+		{
+			"path": "pages/safety-task/index"
+		},
+		{
+			"path": "pages/safety-task/fillIn"
+		},
+		{
+			"path": "pages/safety-task/release"
+		},
+		{
+			"path": "pages/safety-task/postTask"
+		},
+		{
+			"path": "pages/safety-task/seeCompletion"
 		}
 	],
 	"globalStyle": {

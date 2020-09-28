@@ -1,11 +1,11 @@
 <template>
 	<view class='task-home'>
-		<view class="u-mar-b20 u-type-white-bg">
-			<u-subsection @change="change" active-color="#2979ff" :list="typeList" mode="subsection" :current="current"></u-subsection>
+		<view class="u-mar-b20 u-padd-l20 u-padd-r20  ">
+			<u-subsection class="u-type-white-bg" @change="change" active-color="#2979ff" :list="typeList" mode="subsection"
+			 :current="current"></u-subsection>
 		</view>
 		<view class="u-mar-l20 u-mar-r20 u-mar-b10">
-			<dropdown-menu @value0Change="value0Change" 
-				:completeStatusList="this.source==='2'?this.completeStatusLists2:this.source==='3'?this.completeStatusLists3:this.completeStatusLists1"
+			<dropdown-menu @value0Change="value0Change" :completeStatusList="this.source==='2'?this.completeStatusLists2:this.source==='3'?this.completeStatusLists3:this.completeStatusLists1"
 			 @value1Change='value1Change' @searchChange="searchChange"></dropdown-menu>
 		</view>
 		<no-data class="u-mar-l20 u-mar-r20 u-mar-t20" v-if="dataList.length === 0" msg="暂无数据"></no-data>
@@ -14,32 +14,37 @@
 				<view class="card u-type-white-bg u-border-radius u-shadow u-padd-20 u-mar-b20 u-fx" v-for="(item,index) in dataList"
 				 :key="index">
 					<view class="cont-box  u-wh u-mar-l20">
-						<view class="cont-title u-font-2 u-mar-t20  u-fx u-bold">{{item.taskName}}
-							<view class="doorkeeper" v-if="item.type==='1'">
-								({{item.year}}{{item.dataNum}})
+						<view class="cont-title u-font-1 u-mar-t20  u-fx">{{item.taskName}}
+							<view class="doorkeeper" v-if="item.taskType==='2'">
+								({{item.year}}-{{item.dataNum}}周)
 							</view>
-							<view class="doorkeeper" v-if="item.type==='2'">
-								({{item.dataNum}}月)
+							<view class="doorkeeper" v-if="item.taskType==='3'">
+								({{item.year}}-{{item.dataNum}}月)
 							</view>
-							<u-tag v-if="source==='2'" class="u-mar-l10" :text="item.completeStatus|getSafetyState" size='mini' border-color='#ff5454'
-							 bg-color='#ff5454' color='#fff' />
+							<u-tag v-if="source==='2'" class="u-mar-l10" :text="item.completeStatus|getSafetyState" size='mini'
+							 :border-color='item.completeStatus|getSafetyState|safetyTaskToColor' :bg-color='item.completeStatus|getSafetyState|safetyTaskToColor'
+							 color='#fff' />
 							<u-tag v-if="source==='1'" class="u-mar-l10" :text="item.completeStatus|completeStatusToText" size='mini'
-							 border-color='#ff5454' bg-color='#ff5454' color='#fff' />
-							 	<u-tag v-if="source==='3'" class="u-mar-l10" :text="item.state|stateToText" size='mini'
-							 border-color='#ff5454' bg-color='#ff5454' color='#fff' />
+							 :border-color='item.completeStatus|completeStatusToText|safetyTaskToColor' :bg-color='item.completeStatus|completeStatusToText|safetyTaskToColor'
+							 color='#fff' />
+							<u-tag v-if="source==='3'" class="u-mar-l10" :text="item.state|stateToText" size='mini' :border-color='item.state|stateToText|safetyTaskToColor'
+							 :bg-color='item.state|stateToText|safetyTaskToColor' color='#fff' />
 						</view>
 						<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
 							发布人：&nbsp;{{item.publisherName}}
 						</view>
-						<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
+						<view class="time-text u-mar-t20 u-mar-b20 u-font-02" v-if="source==='3'?item.publishDate:item.publishTime">
 							发布于：&nbsp;{{(source==='3'?item.publishDate:item.publishTime)|gmtToDate}}
 						</view>
 						<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
-							任务时间：&nbsp;{{(source==='3'?item.beginDate:item.startTime)|gmtToDate}}：&nbsp;
-							至：&nbsp;{{(source==='3'?item.endDate:item.endTime)|gmtToDate}}
+							任务时间：{{(source==='3'?item.beginDate:item.startTime)|gmtToDate}}：&nbsp;
+							至：{{(source==='3'?item.endDate:item.endTime)|gmtToDate}}
 						</view>
 						<view class="cont-footer u-padd-t20 u-type-primary u-bd-t u-fx-jc u-font-02 ">
-							<view class="u-fx-f1 u-fx-ac-jc " @click="fillIn(1,item)" v-if="(source==='2'&& item.completeStatus==='1')||(source==='1'&& item.completeStatus==='1')">
+							<view class="u-fx-f1 u-fx-ac-jc " @click="fillIn(1,item)" v-if="source!=='3'&&item.completeStatus==='1'&&!isTime(item.endTime)">
+								补填
+							</view>
+							<view class="u-fx-f1 u-fx-ac-jc " @click="fillIn(1,item)" v-if="source!=='3'&&item.completeStatus==='1'&& isTime(item.endTime)">
 								填报
 							</view>
 							<view @click="fillIn(2,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& item.completeStatus==='2'">
@@ -48,7 +53,7 @@
 							<view @click="fillIn(0,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="(source==='2'&& item.completeStatus==='2')||(source==='1'&& (item.completeStatus==='3'||item.completeStatus==='4'))">
 								查看
 							</view>
-							<view @click="submit(item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& (item.completeStatus==='2'||item.completeStatus==='5')">
+							<view @click="submit(item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& (item.completeStatus==='2'||item.completeStatus==='6')">
 								提交
 							</view>
 							<view @click="fillIn(0,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& (item.completeStatus==='3'||item.completeStatus==='4')">
@@ -87,7 +92,7 @@
 				current: 0,
 				state: 1,
 				states: '', //发布任务传给后台的任务状态
-				source: '3', //1校端，2局端
+				source: '2', //1校端，2局端
 				dataList: [],
 				typeList: [{
 						name: "上级下发",
@@ -101,30 +106,28 @@
 				],
 				morePage: false,
 				show: false,
-				completeStatusLists3:[
+				completeStatusLists3: [{
+						value: '0',
+						text: '任务状态'
+					},
 					{
-          value: '0',
-          text: '任务状态'
-        },
-        {
-          value: '1',
-          text: '未发布'
-        },
-        {
-          value: '2',
-          text: '未开始'
-        },
-        {
-          value: '3',
-          text: '进行中'
-        },
-        {
-          value: '4',
-          text: '已结束'
-        }
+						value: '1',
+						text: '未发布'
+					},
+					{
+						value: '2',
+						text: '未开始'
+					},
+					{
+						value: '3',
+						text: '进行中'
+					},
+					{
+						value: '4',
+						text: '已结束'
+					}
 				],
-				completeStatusLists2: [
-					{
+				completeStatusLists2: [{
 						text: '任务状态',
 						value: '0'
 					},
@@ -185,9 +188,9 @@
 			},
 		},
 		mounted() {
-			let queryState = this.$tools.getQuery().get("queryState");
-			if (queryState) {
-				this.queryState = queryState;
+			let source = this.$tools.getQuery().get("source");
+			if (source) {
+				this.source = source;
 			}
 			eventBus.$on("getList", () => {
 				this.showList();
@@ -195,6 +198,10 @@
 			this.showList();
 		},
 		methods: {
+			//当前时间是否结束
+			isTime(endTime) {
+				return new Date().getTime() > endTime ? false : true
+			},
 			loadMore() {
 				if (!this.morePage) {
 					this.$tools.toast("数据已加载完毕");
@@ -203,10 +210,11 @@
 				this.showList(true);
 			},
 			value0Change(val) {
-				if(this.source==='3'){
+				if (this.source === '3') {
+					console.log()
 					//我下发的任务
 					this.states = val
-				}else{
+				} else {
 					if (val === '1') {
 						this.completeStatus = ['1']
 					} else if (val === '2') {
@@ -239,19 +247,18 @@
 				} else {
 					this.pageList.page = 1;
 				}
-				
-				let res 
-				if(this.source==='3'){
+				let res
+				if (this.source === '3') {
 					//任务下发列表
 					let req = {
 						taskType: this.searchObj.taskType,
 						...this.pageList,
-						state: (this.states-1)+'',
+						state: this.states ? (this.states - 1) + '' : '',
 						schoolCode: store.userInfo.schoolCode,
 						publisherCode: store.userInfo.userCode,
 					};
 					res = await actions.getTaskIssued(req);
-				}else{
+				} else {
 					let req = {
 						taskType: this.searchObj.taskType,
 						...this.pageList,
@@ -282,7 +289,7 @@
 					taskCode
 				} = record
 				this.$tools.navTo({
-					url: `./fillIn?type=${type}&myTaskId=${myTaskId}&myTaskCode=${myTaskCode}&taskTemplateCode=${taskCode}`,
+					url: `./fillIn?type=${type}&myTaskId=${myTaskId}&myTaskCode=${myTaskCode}&taskTemplateCode=${taskCode}&source=${this.source}`,
 				});
 			},
 			loadMore() {
@@ -301,7 +308,7 @@
 				} = record
 				this.$tools.confirm("提交之后不允许再次编辑内容，确定提交么？ ", () => {
 					const req = {
-					query: '?' + 'id=' + myTaskId
+						query: '?' + 'id=' + myTaskId
 					}
 					actions.submitMyTask(req).then(res => {
 						console.log(res)
@@ -313,7 +320,7 @@
 				})
 			},
 			//发布
-			release(record){
+			release(record) {
 				let {
 					id,
 					taskCode,
@@ -323,7 +330,7 @@
 				});
 			},
 			//查看完成情况
-			seeCompletion(record){
+			seeCompletion(record) {
 				let {
 					id,
 					taskCode,
@@ -334,33 +341,40 @@
 			},
 			change(index) {
 				this.current = index;
-			},
-		},
-		watch: {
-			state(val) {
-				this.current = val - 1;
-			},
-			current(val) {
 				this.completeStatus = []
-				this.state = val + 1;
-				if (val === 0) {
+				if (index === 0) {
 					this.source = '2'
-				} else if (val === 1) {
+				} else if (index === 1) {
 					this.source = '1'
-				}else if (val === 2){
+				} else if (index === 2) {
 					this.source = '3'
 				}
 				this.showList();
+			},
+		},
+		watch: {
+			source(val) {
+				if (val === '2') {
+					this.current = 0;
+				} else if (val === '1') {
+					this.current = 1;
+				}
 			},
 		},
 	};
 </script>
 <style lang="scss" scoped>
 	.task-home {
+		>>>.u-subsection {
+			height: 390rpx !important;
+		}
+
 		.scroll-h {
 			height: calc(100vh - 180rpx);
+
 			.cont-title {
 				position: relative;
+
 				.red-text {
 					width: 100rpx;
 					height: 100rpx;
@@ -374,10 +388,10 @@
 					}
 				}
 			}
+
 			.time-text {
 				color: #909399;
 			}
-
 		}
 	}
 </style>

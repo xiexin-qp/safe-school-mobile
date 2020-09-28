@@ -1,27 +1,28 @@
 <template>
-	<view class="u-type-primary-light-bg   ">
-		<no-data class="u-mar-l20 u-mar-r20 u-mar-t20" v-if="itemList.length === 0" msg="暂无数据"></no-data>
+	<view class="">
+		<no-data class="" v-if="itemList.length === 0" msg="暂无数据"></no-data>
 		<scroll-view v-else scroll-y="true" class="scroll-h">
-			<view class="u-padd-15 u-fx-ac-jc">
-				(已完成数/总数:{{ compNum }}/{{ sum }})
+			<view class="u-padd-15  head">
+				(已完成数/总数：<text class="u-type-primary">{{ compNum }}</text>/{{ sum }})
 			</view>
-			<u-collapse 
-			event-type="close" :arrow="arrow" 
-			:accordion="accordion" 
-			:body-style='bodyStyle'
-			:head-style='headStyle'
-			@change="change">
-				<u-collapse-item :open='item.open' class='u-type-primary-light-bg' :index="index" @change="itemChange"  v-for="(item, index) in itemList" :key="index">
-					<view slot='title-all'>
-						 {{item.orgName}}&nbsp;{{ number(item.list) }}
+			<u-collapse event-type="close" :arrow="arrow" :accordion="accordion" :body-style='bodyStyle' :head-style='headStyle'
+			 @change="change">
+				<u-collapse-item class='u-bd-b u-mar-b10' :open='item.open' :index="index" @change="itemChange" v-for="(item, index) in itemList"
+				 :key="index">
+					<view slot='title-all' class="title-all  u-main-color">
+						{{item.orgName}}&nbsp;{{ number(item.list) }}
+						<view class="open-icon u-light-color">
+							<u-icon name="arrow-down-fill" size='10'></u-icon>
+						</view>
 					</view>
-					<view class="collapse-item u-fx-wp">
-						<view class="card" v-for="(el,i) in item.list" :key="i">
-							<!-- <view class="title u-fx-ac-jc u-mar-t20">{{el.userName}}</view> -->
-							<view class="title u-fx-ac-jc u-mar-t20">{{el.userName}}</view>
-							<view class="u-fx-ac-jc u-mar-t20">
-								<!-- <u-button type="success" class="u-fx-ac-jc" size='mini'>{{el.state|safetyTaskStatus}}</u-button> -->
-								<u-button type="success" class="u-fx-ac-jc" size='mini'>dfdsfh</u-button>
+					<view class="collapse-item ">
+						<view class="card u-bd-b u-fx-jsb u-fx-ac " v-for="(el,i) in item.list" :key="i">
+							<view v-if="el.state==='1'" class="red">
+							</view>
+							<view class="title  ">{{el.userName}}</view>
+							<view class="">
+								<u-tag :text="el.state|completeStatusToText" :border-color='el.state|completeStatusToText|safetyTaskToColor'
+								 :bg-color='el.state|completeStatusToText|safetyTaskToColor' color='#fff' />
 							</view>
 						</view>
 					</view>
@@ -39,8 +40,7 @@
 	} from './store/index.js'
 	import hostEnv from '../../config/index.js';
 	export default {
-		components: {
-		},
+		components: {},
 		computed: {
 			publisher() {
 				return store.userInfo.userName
@@ -50,22 +50,20 @@
 			return {
 				itemStyle: {
 					color: '#343434',
-					marginTop:'10rpx',
+					marginTop: '10rpx',
+					background: '#fff',
 				},
-				bodyStyle:{
-						background:'#ecf5ff',
-						paddingRight:'20rpx',
-						paddingLeft:'30rpx',
-						paddingTop:'30rpx',
-						// paddingBottom:'30rpx',
+				bodyStyle: {
+					background: '#fff',
 				},
-				headStyle:{
-						fontSize: '32rpx',
-						background:'#fff',
-						paddingLeft:'20rpx',
+				headStyle: {
+					fontSize: '32rpx',
+					paddingLeft: '30rpx',
+					paddingRight: '30rpx',
+						background: '#fff',
 				},
-				compNum:'',
-				sum:'',
+				compNum: '',
+				sum: '',
 				arrow: true,
 				accordion: false,
 				// type: Number(this.$tools.getQuery().get('type')),
@@ -77,41 +75,44 @@
 		},
 		created() {},
 		mounted() {
-				this.taskId = this.$tools.getQuery().get('myTaskId'),
+			this.taskId = this.$tools.getQuery().get('myTaskId'),
 				this.taskTemplateCode = this.$tools.getQuery().get('taskTemplateCode')
-				this.getUserList()
+			this.getUserList()
 		},
 		methods: {
 			async getUserList() {
 				const req = {
-        state: [],
-        taskTemplateCode: this.taskTemplateCode,
-			}
-			
-      const res = await actions.schTaskCompleted(req)
-      console.log(res)
-      const { compNum, outCompInfoOfTaskByOrgDtoList, sum } = res.data
-      this.compNum = compNum
-      this.sum = sum
-      this.itemList = outCompInfoOfTaskByOrgDtoList.map(v=>{
-				return {
-					...v,
-					open:v.list.some(i=>i.state==='3')?true:false
+					state: [],
+					taskTemplateCode: this.taskTemplateCode,
 				}
-			})
+				const res = await actions.schTaskCompleted(req)
+				console.log(res)
+				const {
+					compNum,
+					outCompInfoOfTaskByOrgDtoList,
+					sum
+				} = res.data
+				this.compNum = compNum
+				this.sum = sum
+				this.itemList = outCompInfoOfTaskByOrgDtoList.map(v => {
+					return {
+						...v,
+						open: v.list.some(i => i.state === '3') ? true : false
+					}
+				})
 			},
 			number(list) {
-      console.log(list)
-      const a = list.length
-      const b = list.filter(v => v.state === '3' || v.state === '7').length
-      return `(${b}/${a})`
-      // return `a`
-    },
+				console.log(list)
+				const a = list.length
+				const b = list.filter(v => v.state === '3' || v.state === '7').length
+				return `(${b}/${a})`
+				// return `a`
+			},
 			cancel() {
 				this.$router.go(-1)
 			},
-			itemChange(){},
-			change(){},
+			itemChange() {},
+			change() {},
 		}
 	}
 </script>
@@ -119,19 +120,47 @@
 <style lang="scss" scoped>
 	.scroll-h {
 		height: calc(100vh - 10rpx);
+
+		.head {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 88rpx;
+			background: #FEF9ED;
+		}
+
+		.title-all {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+		}
+
 		.collapse-item {
-			padding-bottom: 10px;
-			.card{
-				border-top: 4rpx solid green;
-				margin-right: 15rpx;
-				margin-bottom: 16rpx;
-				width: 160rpx;
-				height: 158rpx;
+
+			// padding-bottom: 10px;
+			.card {
+				margin-left: 69rpx;
+				margin-right: 70rpx;
+				height: 99rpx;
 				background: #FFFFFF;
-				box-shadow: 1rpx 2rpx 17rpx 2rpx rgba(52, 52, 52, 0.08);
-				border-radius: 8rpx;
-				.u-size-mini{
-					padding:0 10rpx;
+				position: relative;
+
+				// box-shadow: 1rpx 2rpx 17rpx 2rpx rgba(52, 52, 52, 0.08);
+				// border-radius: 8rpx;
+				.red {
+					position: absolute;
+					top: 0;
+					left: 0;
+					transform: translate(-400%, 350%);
+					width: 12rpx;
+					height: 12rpx;
+					background: #FF5454;
+					border-radius: 50%;
+				}
+
+				.u-size-mini {
+					padding: 0 10rpx;
 				}
 			}
 		}
