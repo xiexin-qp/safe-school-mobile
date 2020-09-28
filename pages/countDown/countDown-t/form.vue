@@ -22,16 +22,20 @@
           ><input v-model="formData.tips" class="item-input"
         /></view>
       </view>
-      <view class="u-fx-ac u-bd-b item-list">
+         <view class="u-fx-ac u-bd-b item-list">
         <view class="tip">截至日期：</view>
-        <view class="u-fx-f1 u-fx-je" @click="birthdayTag = true">
-          <u-picker
-            mode="time"
-            v-model="birthdayTag"
-            :params="params"
-            @confirm="startConfirm"
-          ></u-picker>
-          <view class="uni-input u-content-color">{{ formData.endTime }}</view>
+        <view class="u-fx-f1 u-fx-je">
+          <picker
+            mode="date"
+            :value="formData.startDate"
+            :start="startDate"
+            :end="endDate"
+            @change="changeDate([...arguments])"
+          >
+            <view class="date u-fx-jc">
+              <view class="uni-input">{{ formData.startDate }}</view>
+            </view>
+          </picker>
           <view class="rit-icon"></view>
         </view>
       </view>
@@ -85,29 +89,29 @@ export default {
         size: 15,
       },
       classList: [],
-      birthdayTag: false,
       formData: {
+        startDate: "请选择",
         name: "",
-        endTime: this.$tools.getPhoneTime(
-          new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000),
-          "date"
-        ),
         tips: "",
-      },
-      params: {
-        year: true,
-        month: true,
-        day: true,
       },
       classTag: false,
     };
   },
   created() {
     this.schoolInfo.schoolCode = store.userInfo.schoolCode;
-    this.schoolInfo.schoolYearId = store.schoolYear ? store.schoolYear.schoolYearId : '';
+    this.schoolInfo.schoolYearId = store.schoolYear
+      ? store.schoolYear.schoolYearId
+      : "";
   },
   watch: {},
-  computed: {},
+  computed: {
+    startDate() {
+      return this.getDate("start");
+    },
+    endDate() {
+      return this.getDate("end");
+    },
+  },
   async mounted() {
     this.id = this.$tools.getQuery().get("id");
     if (this.id) {
@@ -116,6 +120,24 @@ export default {
     // this.getclassList();
   },
   methods: {
+    getDate(type) {
+      const date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate()+ 1;
+
+      if (type === "start") {
+        year = year;
+      } else if (type === "end") {
+        year = year + 2;
+      }
+      month = month > 9 ? month : "0" + month;
+      day = day > 9 ? day : "0" + day;
+      return `${year}-${month}-${day}`;
+    },
+    changeDate([e]) {
+      this.formData.startDate = e.target.value;
+    },
     classClose() {
       this.classTag = false;
     },
@@ -133,9 +155,6 @@ export default {
           schoolYearId: el.schoolYearId,
         };
       });
-    },
-    startConfirm(params) {
-      this.formData.endTime = `${params.year}-${params.month}-${params.day}`;
     },
     async detailGet(id) {
       const res = await actions.getcountDetail(id);
@@ -266,8 +285,7 @@ export default {
 }
 .mar-l10 {
   margin-left: 10rpx;
-      margin-top: 10rpx;
-
+  margin-top: 10rpx;
 }
 .submit-btn {
   height: 80rpx;

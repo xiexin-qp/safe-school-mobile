@@ -235,21 +235,27 @@ export default {
     this.schoolInfo.schoolYearId = store.schoolYear.schoolYearId;
   },
   methods: {
-    // tagClick(item) {
-    //   this.repairApprovalList = this.repairApprovalList.filter(
-    //     (tag) => tag !== item
-    //   );
-    // },
-    // userClick(item) {
-    //   this.repairCopyList = this.repairCopyList.filter((tag) => tag !== item);
-    // },
     teacherSelcet(value) {
-      this.teacherTag = false;
-      this.repairApprovalList = value;
+      value.forEach((ele) => {
+        if (ele.userCode === store.userInfo.userCode) {
+          this.$tools.toast("审批人不能是自己!");
+          return;
+        } else {
+          this.repairApprovalList = value;
+          this.teacherTag = false;
+        }
+      });
     },
     teacherCopySelcet(value) {
-      this.teacherCopy = false;
-      this.repairCopyList = value;
+      value.forEach((ele) => {
+        if (ele.userCode === store.userInfo.userCode) {
+          this.$tools.toast("抄送人不能是自己!");
+          return;
+        } else {
+          this.repairCopyList = value;
+          this.teacherCopy = false;
+        }
+      });
     },
     teacherClose() {
       this.teacherTag = false;
@@ -304,9 +310,6 @@ export default {
       }
     },
     changeSiteType([e, type]) {
-      // if (this.type !== "0") {
-      //   return;
-      // }
       this.siteType = type;
       if (type === 1) {
         this.siteTag = true;
@@ -507,9 +510,11 @@ export default {
         materialRemark: this.formData.materialRemark,
         remark: this.formData.remark,
       };
-      await actions.addRepair({
-        ...req,
-      });
+      console.log(req)
+      // return
+      await actions.addRepair(
+        req,
+      );
       this.$tools.toast("操作成功");
       this.$tools.goNext(() => {
         eventBus.$emit("getList");
