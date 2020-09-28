@@ -1,27 +1,29 @@
 <template>
 	<view class="">
-		<ly-drawer :visible="showTag" mode="right" width="80%" @close="close">
+		<ly-drawer :visible="classTag" mode="right" width="80%" @close="close">
 			<no-data msg="暂无班级数据~" v-if="noDataTag"></no-data>
-			<view class="ly-search"><input v-model="searchText" placeholder="输入班级名进行过滤" /></view>
-			<scroll-view :scroll-y="true" class="scroll-h">
-				<ly-tree
-					ref="tree"
-					:filter-node-method="filterNode"
-					:default-checked-keys="checkedKeys"
-					:props="props"
-					:load="loadNode"
-					lazy
-					:show-checkbox="isCheck"
-					:show-radio="isRadio"
-					node-key="id"
-					@check="handleCheck"
-					defaultExpandAll
-					check-on-click-node
-					highlight-current
-					childVisibleForFilterNode
-					:checkOnlyLeaf="isRadio"
-				></ly-tree>
-			</scroll-view>
+			<view v-else>
+				<view class="ly-search"><input v-model="searchText" placeholder="输入班级名进行过滤" /></view>
+				<scroll-view :scroll-y="true" class="scroll-h">
+					<ly-tree
+						ref="tree"
+						:filter-node-method="filterNode"
+						:default-checked-keys="checkedKeys"
+						:props="props"
+						:load="loadNode"
+						lazy
+						:show-checkbox="isCheck"
+						:show-radio="isRadio"
+						node-key="id"
+						@check="handleCheck"
+						defaultExpandAll
+						check-on-click-node
+						highlight-current
+						childVisibleForFilterNode
+						:checkOnlyLeaf="isRadio"
+					></ly-tree>
+				</scroll-view>
+			</view>
 			<view class="footer">
 				<view class="button confirm" @tap="confirm">确定</view>
 				<view class="button cancle" @tap="close">取消</view>
@@ -44,9 +46,6 @@ export default {
 	watch: {
 		searchText(val) {
 			this.$refs.tree.filter(val);
-		},
-		classTag(val) {
-			this.showTag = val;
 		},
 		classChecked(val) {
 			this.selectedData = val
@@ -89,7 +88,6 @@ export default {
 	data() {
 		return {
 			noDataTag: false,
-			showTag: false,
 			searchText: '',
 			props: {
 				label: 'name',
@@ -99,6 +97,8 @@ export default {
 			selectedData: [],
 			checkedKeys: []
 		};
+	},
+	created() {
 	},
 	methods: {
 		loadNode(node, resolve) {
@@ -172,6 +172,9 @@ export default {
 			}
 		},
 		setCheckedKeys() {
+			if(this.$refs.tree){
+				this.$refs.tree.setCheckAll(false);
+			}
 			let arr = [];
 			this.classChecked.forEach(el => {
 				arr.push(el.classCode);
@@ -185,12 +188,12 @@ export default {
 		},
 		close() {
 			this.searchText = ''
-			if(this.isClear){this.$refs.tree.setCheckAll(false)}
+			if(this.isClear && this.$refs.tree){this.$refs.tree.setCheckAll(false)}
 			this.$emit('close');
 		},
 		confirm() {
 			this.searchText = ''
-			if(this.isClear){this.$refs.tree.setCheckAll(false)}
+			if(this.isClear && this.$refs.tree){this.$refs.tree.setCheckAll(false)}
 			this.$emit('confirm', this.selectedData.filter(item => item.type !== '1'));
 		},
 		filterNode(value, data) {

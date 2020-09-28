@@ -118,6 +118,7 @@ export default {
 				});
 				this.userName = arr[0].userName;
 				this.classCode = arr[0].classCode;
+				this.className = arr[0].className;
 				this.childPhoto = arr[0].photoUrl;
 				this.messageList = [];
 				this.pageList.page = 1;
@@ -132,6 +133,7 @@ export default {
 		}
 		this.userCode = store.childList[0].userCode;
 		this.userName = store.childList[0].userName;
+		this.className = store.childList[0].gradeName + store.childList[0].className
 		this.classCode = store.childList[0].classCode;
 		this.childPhoto = store.childList[0].photoUrl;
 		this.schoolYearId = store.schoolYear.schoolYearId;
@@ -141,6 +143,7 @@ export default {
 				text: ele.userName,
 				value: ele.userCode,
 				classCode: ele.classCode,
+				className: ele.gradeName + ele.className,
 				photoUrl: ele.photoUrl
 			});
 		});
@@ -242,6 +245,7 @@ export default {
 									name: 'fileList',
 									formData: {
 										classCode: this.classCode,
+										className: this.className,
 										receiverCode: this.userCode,
 										receiverName: this.userName,
 										schoolCode: store.userInfo.schoolCode,
@@ -311,6 +315,7 @@ export default {
 			if (params.contentType !== 2) {
 				const req = {
 					classCode: this.classCode,
+					className: this.className,
 					receiverCode: this.userCode,
 					receiverName: this.userName,
 					schoolCode: store.userInfo.schoolCode,

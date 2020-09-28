@@ -14,7 +14,7 @@
 					<text>关联数据</text>
 				</view>
 			</view>
-			<scroll-view scroll-y="true" class="scroll-h" @scrolltolower="loadMore">
+			<scroll-view scroll-y="true" class="scroll-h">
 				<no-data v-if="dataList.length === 0" msg="没有可用的班牌设备"></no-data>
 				<u-checkbox-group v-else class="u-fx-ver" width="100%">
 					<label class="tbody u-bd-b u-fx-jsa" v-for="(item, index) in dataList" :key="index">
@@ -35,9 +35,8 @@
 </template>
 
 <script>
-import $ajax from '@u/request.js';
+import { store, actions } from '../store/index.js';
 import noData from '@/components/no-data/no-data.vue';
-import hostEnv from '../../config/index.js';
 export default {
 	components: {
 		noData
@@ -47,15 +46,9 @@ export default {
 			type: String,
 			default: ''
 		},
-		schoolCode: {
+		albumCode: {
 			type: String,
 			default: ''
-		},
-		classInfo: {
-			type: Object,
-			default: () => {
-				return {};
-			}
 		},
 		bindList: {
 			type: Array,
@@ -67,11 +60,6 @@ export default {
 	data() {
 		return {
 			dataList: [],
-			pageList: {
-				page: 1,
-				size: 20
-			},
-			morePage: false,
 			allcheckedTag: false,
 			checkList: []
 		};
@@ -109,22 +97,11 @@ export default {
 				this.checkList = []
 			}
 		},
-		async showList(tag = false) {
-			if (tag) {
-				this.pageList.page += 1;
-			} else {
-				this.pageList.page = 1;
-			}
+		async showList() {
 			const req = {
-				...this.pageList,
-				...this.classInfo,
-				bindStatus: '1',
-				schoolCode: this.schoolCode
+				mediaCode: this.albumCode
 			};
-			const res = await $ajax.post({
-				url: `${hostEnv.zq_class}/classcard/bind/list`,
-				params: req
-			});
+			const res = await actions.getDeviceData(req)
 			res.data.list.forEach(ele => {
 				ele.disabled = this.type === '1';
 				this.bindList.forEach(item => {
@@ -133,19 +110,8 @@ export default {
 					}
 				});
 			});
-			if (tag) {
-				this.dataList = this.dataList.concat(res.data.list);
-			} else {
-				this.dataList = res.data.list;
-			}
-			this.morePage = res.data.hasNextPage;
-		},
-		loadMore() {
-			if (!this.morePage) {
-				this.$tools.toast('数据已加载完毕');
-				return;
-			}
-			this.showList(true);
+			this.dataList = res.data.list;
+			this.allcheckedTag = this.dataList.every(ele => { return ele.checked })
 		},
 		cancel() {
 			this.userInfoList = [];

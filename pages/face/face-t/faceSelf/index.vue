@@ -1,21 +1,16 @@
 <template>
 	<view class="face u-bg-fff">
+		<kps-image-cutter @ok="onok" @cancel="oncancle" :url="url" :fixed="true" :width="250" :height="280"></kps-image-cutter>
 		<view class="face-view u-fx-ac-jc" v-if="baseImg === ''">
-			<view @click="chooseImage">
-				<image class="photo" src="/mobile-img/auto-face.png"></image>
-			</view>
+			<view @click="chooseImage"><image class="photo" src="/mobile-img/auto-face.png"></image></view>
 			<view>点击上传</view>
 		</view>
-		<view  @click="chooseImage" class="face-view u-fx-ac-jc" v-if="baseImg!== ''">
+		<view @click="chooseImage" class="face-view u-fx-ac-jc" v-if="baseImg !== ''">
 			<view class="click-photo">点击拍照</view>
-			<view>
-				<image class="userPhoto" :src="baseImg"></image>
-			</view>
+			<view><image class="userPhoto" :src="baseImg"></image></view>
 		</view>
 		<view class="info">
-			<view class="tip">
-				<text>注意事项</text>
-			</view>
+			<view class="tip"><text>注意事项</text></view>
 			<view>1. 请确认照片是本人</view>
 			<view>2. 请确认露出清晰完整人脸部位</view>
 			<view v-if="false">3. 保持光线充足，不要戴眼镜</view>
@@ -36,137 +31,153 @@
 				<view>放慢动作</view>
 			</view>
 		</view>
-		<view v-if="oldUrl !== baseImg " class="u-fx-jc padd-t60">
-			<u-button type="primary" @click="uploadImg">上传照片</u-button>
-		</view>
+		<view v-if="oldUrl !== baseImg" class="u-fx-jc padd-t60"><u-button type="primary" @click="uploadImg">上传照片</u-button></view>
 	</view>
 </template>
 
 <script>
-	import { actions } from '../store/index.js'
-	import { store, setStore } from '../../../protal/store/index.js'
-	export default {
-		data() {
-			return {
-				oldUrl: '',
-				baseImg: '',
-			}
-		},
-		computed: {
-			userInfo: () => store.userInfo
-		},
-		mounted () {
-			this.oldUrl = this.userInfo.photoUrl || ''
-			this.baseImg = this.userInfo.photoUrl || ''
-		},
-		methods: {
-			async uploadImg () {
-				try {
-					const { userCode } = this.userInfo
-					await actions.updatePhoto({
-						schoolCode: this.userInfo.schoolCode,
-						userCode,
+import { actions } from '../store/index.js';
+import kpsImageCutter from '@/components/ksp-image-cutter/ksp-image-cutter.vue';
+import { store, setStore } from '../../../protal/store/index.js';
+export default {
+	data() {
+		return {
+			url: '',
+			path: '',
+			oldUrl: '',
+			baseImg: ''
+		};
+	},
+	components: {
+		kpsImageCutter
+	},
+	computed: {
+		userInfo: () => store.userInfo
+	},
+	mounted() {
+		this.oldUrl = this.userInfo.photoUrl || '';
+		this.baseImg = this.userInfo.photoUrl || '';
+	},
+	methods: {
+		async uploadImg() {
+			try {
+				const { userCode } = this.userInfo;
+				await actions.updatePhoto({
+					schoolCode: this.userInfo.schoolCode,
+					userCode,
+					photoUrl: this.baseImg
+				});
+				this.oldUrl = this.baseImg;
+				setStore({
+					key: 'userInfo',
+					data: {
+						...this.userInfo,
 						photoUrl: this.baseImg
-					})
-					this.oldUrl = this.baseImg
-					setStore({
-						key: 'userInfo',
-						data: {
-							...this.userInfo,
-							photoUrl: this.baseImg
-						}
-					})
-					this.$tools.confirm('上传成功', null, false)
-				} catch(err) {}
-			},
-			chooseImage() {
-				this.$tools.choosePhoto(async (url) => {
-					this.baseImg = url
-				})
-			},
+					}
+				});
+				this.$tools.confirm('上传成功', null, false);
+			} catch (err) {}
+		},
+		chooseImage() {
+			this.$tools.choosePhoto(async (baseImg) => {
+				this.baseImg = baseImg
+			})
+		},
+		onok(ev) {
+			this.baseImg = ev.path;
+			this.url = '';
+			
+		},
+		oncancle() {
+			this.url = '';
 		}
 	}
+};
 </script>
 
 <style lang="scss">
-	.face {
-		padding-bottom: 40rpx;
-		.face-demo {
-			width: 450rpx;
-			height: 550rpx; 
-			margin: 0 auto;
-			.face-demo-img {
-				width: 100%;
-				height: 100%;
-			}
-		}
-		overflow: auto;
-		.face-view {
-			overflow: hidden;
-			border: 6rpx $u-type-primary-light solid;
-			width: 450rpx;
-			height: 500rpx;
-			margin: 50rpx auto 50rpx auto;
-			border-radius: 10rpx;
-			background-color: $u-type-primary-disabled;
-			color: $u-type-primary;
-			font-weight: bold;
-			position: relative;
-			.click-photo {
-				position: absolute;
-				width: 100%;
-				height: 70rpx;
-				line-height: 70rpx;
-				color:$u-border-color;
-				bottom: 0px;
-				letter-spacing: 4rpx;
-				z-index: 99;
-				text-align: center;
-				background: rgba(0,0,0,.4);
-			}
-		}
-		.rule-list {
-			margin-top: 30rpx;
-			width: 160rpx;
-			padding: 10px 0;
-			color: #666;
-			font-weight: bold;
-			background-color: $u-type-primary-light;
-			.rule-img {
-				width: 40rpx;
-				height: 50rpx;
-				display: block;
-				margin-bottom: 20rpx;
-			}
-		}
-		.userPhoto {
-			width: 450rpx;
-			height: 500rpx;
-			display: block;
-		}
-		.photo {
-			width: 100rpx;
-			height: 100rpx;
-		}
-		.info {
-			color: $u-content-color;
-			line-height: 60rpx;
-			font-size: 30rpx;
-			text-indent: 30rpx;
-			.tip {
-				color: $u-type-error;
-				font-size: 34rpx;
-				font-weight: bold;
-			}
-			.tip-demo {
-				font-size: 28rpx;
-				color: $u-type-warning;
-				font-weight: bold;
-			}
-		}
-		.padd-t60 {
-			padding-top: 60rpx
+.face {
+	.image {
+		width: 200rpx;
+		height: 200rpx;
+		background-color: #ccc;
+	}
+	padding-bottom: 40rpx;
+	.face-demo {
+		width: 450rpx;
+		height: 550rpx;
+		margin: 0 auto;
+		.face-demo-img {
+			width: 100%;
+			height: 100%;
 		}
 	}
-	
+	overflow: auto;
+	.face-view {
+		overflow: hidden;
+		border: 6rpx $u-type-primary-light solid;
+		width: 450rpx;
+		height: 500rpx;
+		margin: 50rpx auto 50rpx auto;
+		border-radius: 10rpx;
+		background-color: $u-type-primary-disabled;
+		color: $u-type-primary;
+		font-weight: bold;
+		position: relative;
+		.click-photo {
+			position: absolute;
+			width: 100%;
+			height: 70rpx;
+			line-height: 70rpx;
+			color: $u-border-color;
+			bottom: 0px;
+			letter-spacing: 4rpx;
+			z-index: 99;
+			text-align: center;
+			background: rgba(0, 0, 0, 0.4);
+		}
+	}
+	.rule-list {
+		margin-top: 30rpx;
+		width: 160rpx;
+		padding: 10px 0;
+		color: #666;
+		font-weight: bold;
+		background-color: $u-type-primary-light;
+		.rule-img {
+			width: 40rpx;
+			height: 50rpx;
+			display: block;
+			margin-bottom: 20rpx;
+		}
+	}
+	.userPhoto {
+		width: 450rpx;
+		height: 500rpx;
+		display: block;
+	}
+	.photo {
+		width: 100rpx;
+		height: 100rpx;
+	}
+	.info {
+		color: $u-content-color;
+		line-height: 60rpx;
+		font-size: 30rpx;
+		text-indent: 30rpx;
+		.tip {
+			color: $u-type-error;
+			font-size: 34rpx;
+			font-weight: bold;
+		}
+		.tip-demo {
+			font-size: 28rpx;
+			color: $u-type-warning;
+			font-weight: bold;
+		}
+	}
+	.padd-t60 {
+		padding-top: 60rpx;
+	}
+}
 </style>

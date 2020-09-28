@@ -449,6 +449,19 @@ const filters = {
       return '#cccccc'
     }
 	},
+	// 安全任务状态
+	safetyTaskStatus(text) {
+    text = parseInt(text)
+    if (text === 1) {
+      return '未完成'
+    } else if (text === 2) {
+      return '未完成'
+    } else if (text === 3) {
+      return '已完成'
+    } else if (text === 4) {
+      return '逾期填报'
+    }
+  },
 	getHour(data) {
 		return Math.ceil(data / 3600000)
 	}

@@ -327,6 +327,7 @@ const tools = {
   },
   // 人脸图片校验
   async checkUserPhoto(baseImg, cb) {
+		const _self = this
 		var source_img_obj = new Image();
 		source_img_obj.src = baseImg;
 		source_img_obj.onload = async function() {
@@ -348,7 +349,7 @@ const tools = {
 			  if (res.data.result) {
 			    cb(res.data.url)
 			  } else {
-			    this.confirm('人脸照片不符合规范，请重新上传', null, false)
+			    _self.confirm('人脸照片不符合规范，请重新上传', null, false)
 			  }
 			} catch (err) {}
 		}

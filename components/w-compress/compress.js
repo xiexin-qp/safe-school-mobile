@@ -17,7 +17,7 @@
  * 				-3: canvas转图片错误(小程序会出现)
  * 				-4: 图片转base64错误(小程序会出现)
  */
-
+import EXIF from 'exif-js'
 // 图片分辨率压缩
 const calcImageSize = (res, pixels) => {
 	let imgW, imgH
@@ -77,39 +77,73 @@ const compress = (imgUrl, slef, options = {}) => {
 				} = calcImageSize(res, pixels)
 				let w = options.width || imgW
 				let h = options.height || imgH
-				// #ifdef H5
 				type = type == 'jpg' ? 'jpeg' : type,
-					// #endif
-
-					// #ifndef H5
-					type = type == 'png' ? 'png' : 'jpg',
-					// #endif
 					console.log(`%c 宽: ${w} %c 高: ${h} %c 分辨率: ${w * h} %c 质量: ${quality} %c 类型: ${type}`)
-				// #ifdef H5
 				if (isBase64) {
+					const _self = this
 					let img = new Image()
 					img.src = res.path
 					img.onload = () => {
-						const canvas = document.createElement('canvas')
-						const ctx = canvas.getContext('2d')
-						canvas.width = w
-						canvas.height = h
-						let drawW = w,
-							drawH = h
+						console.log(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent))
+						if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+							EXIF.getData(img, function() {
+								// 获取图片旋转标志位
+								var orientation = parseInt(EXIF.getTag(this, 'Orientation'))
+								// 根据旋转角度，在画布上对图片进行旋转
+								if (orientation === 3 || orientation === 6 || orientation === 8) {
+									const canvas = document.createElement('canvas')
+									const ctx = canvas.getContext('2d')
+									canvas.width = w
+									canvas.height = h
+									switch (orientation) {
+										case 3: // 旋转180°
+											ctx.rotate((180 * Math.PI) / 180)
+											ctx.drawImage(img, -img.width, -img.height, img.width, img.height)
+											break
+										case 6: // 旋转90°
+											ctx.rotate((90 * Math.PI) / 180)
+											ctx.drawImage(img, 0, -img.width, img.height, img.width)
+											break
+										case 8: // 旋转-90°
+											ctx.rotate((-90 * Math.PI) / 180)
+											ctx.drawImage(img, -img.height, 0, img.height, img.width)
+											break
+									}
+									let base64 = canvas.toDataURL(`image/${type}`, quality)
+									resolve(base64)
+								} else {
+									const canvas = document.createElement('canvas')
+									const ctx = canvas.getContext('2d')
+									canvas.width = w
+									canvas.height = h
+									let drawW = w,
+										drawH = h
 
-						ctx.drawImage(img, 0, 0, drawW, drawH)
+									ctx.drawImage(img, 0, 0, drawW, drawH)
 
-						let base64 = canvas.toDataURL(`image/${type}`, quality)
+									let base64 = canvas.toDataURL(`image/${type}`, quality)
 
-						resolve(base64)
+									resolve(base64)
+								}
+							})
+						} else {
+							const canvas = document.createElement('canvas')
+							const ctx = canvas.getContext('2d')
+							canvas.width = w
+							canvas.height = h
+							let drawW = w,
+								drawH = h
+
+							ctx.drawImage(img, 0, 0, drawW, drawH)
+
+							let base64 = canvas.toDataURL(`image/${type}`, quality)
+
+							resolve(base64)
+						}
 					}
 				} else {
 					resolve(res.path)
 				}
-				// #endif 
-
-				// 非h5
-				// #ifndef H5
 				slef.height = h
 				slef.width = w
 
@@ -159,7 +193,6 @@ const compress = (imgUrl, slef, options = {}) => {
 						}, slef)
 					}, 500)
 				})
-				// #endif
 			}
 		})
 	})

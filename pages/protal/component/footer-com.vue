@@ -1,7 +1,7 @@
 <template>
 	<view class="footer-com u-fx u-bd-t">
 		<view @click="switchTab(foot.id)" class="u-fx-f1 u-fx-ac-jc u-content-color animate__animated animate__bounceIn" :class="{ 'act': foot.id == tabIndex }" v-for="foot in footList" :key="foot.id">
-			<view class="total" v-if="foot.id === 2 && total !== 0">
+			<view class="total" v-if="foot.id === -1 && total !== 0">
 				<view class="small">{{ total }}</view>
 			</view>
 			<image :src="foot.id === tabIndex ? foot.iconAct : foot.icon" class="foot-img"></image>
@@ -30,14 +30,14 @@ export default {
 					icon: '/mobile-img/shop-icon.png',
 					iconAct: '/mobile-img/shop-icon-act.png'
 				},
-				// {
-				// 	id: 2,
-				// 	name: '消息',
-				// 	icon: '/mobile-img/message-icon.png',
-				// 	iconAct: '/mobile-img/message-icon-act.png'
-				// },
 				{
 					id: 2,
+					name: '消息',
+					icon: '/mobile-img/message-icon.png',
+					iconAct: '/mobile-img/message-icon-act.png'
+				},
+				{
+					id: 3,
 					name: '我的',
 					icon: '/mobile-img/mine-icon.png',
 					iconAct: '/mobile-img/mine-icon-act.png'
@@ -59,7 +59,7 @@ export default {
 	},
 	methods: {
 		switchTab (index) {
-			if (index !== 2 && store.userInfo.typeCode === '16' && store.childList.length === 0) {
+			if (index !== 3 && store.userInfo.typeCode === '16' && store.childList.length === 0) {
 				this.$tools.toast('请先绑定孩子')
 				return
 			}
