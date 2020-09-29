@@ -7,7 +7,7 @@
           <text class="u-padd-l40"> {{ item.subjectName }} </text>
         </view>
         <view class="u-mar-t20 u-padd-l40 u-padd-b30"
-          >考试时间{{ item.testDate | gmtToDate }}</view
+          >考试时间 : {{ item.testDate | gmtToDate }}</view
         >
       </view>
     </scroll-view>

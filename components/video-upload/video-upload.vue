@@ -59,17 +59,13 @@ export default {
 			type: Boolean,
 			default: false
 		},
-		interfaceType: {  //接口类型
-			type: String,
-			default: ''
-		},
 		uploadIcon: {
 			type: String,
 			default: ''
 		},
 		uploadUrl: { //接口地址
 			type: String,
-			default: ''
+			default: 'http://canpointtest.com:8090/ossApi/upload-oss-file'
 		},
 		uploadCount: { //上传数量
 			type: Number,
@@ -82,7 +78,11 @@ export default {
 		upload_max: {  //上传内容大小 默认3M
 			type: Number,
 			default: 3
-		}
+		},
+		schoolCode: { //接口地址
+			type: String,
+			default: ''
+		},
 	},
 	computed: {
 		uploads: {
@@ -158,21 +158,20 @@ export default {
 												this.uploadTask = uni.uploadFile({
 													url: this.uploadUrl, //仅为示例，非真实的接口地址
 													filePath: data,
-													name: 'fileList',
+													name: 'file',
+													formData: {
+														schoolCode: this.schoolCode
+												  }, 
 													success: uploadFileRes => {
 														uni.hideLoading();
 														this.successTag = true;
 														let imgInfo = {}
-														if(this.interfaceType === 'common') {
-															imgInfo = Array.isArray(JSON.parse(uploadFileRes.data).data) ? JSON.parse(uploadFileRes.data).data[0] : JSON.parse(uploadFileRes.data).data;
-														} else {
-															imgInfo = JSON.parse(uploadFileRes.data).data;
-														}
+														imgInfo = Array.isArray(JSON.parse(uploadFileRes.data).data) ? JSON.parse(uploadFileRes.data).data[0] : JSON.parse(uploadFileRes.data).data;
 														if(this.desTag){
 															imgInfo.photoDes = '添加描述'
 														}
 														this.uploads.unshift(imgInfo);
-														this.$emit('success', JSON.parse(uploadFileRes.data));
+														this.$emit('success', Array.isArray(JSON.parse(uploadFileRes.data).data) ? JSON.parse(uploadFileRes.data).data[0] : JSON.parse(uploadFileRes.data).data);
 														this.$emit('progress', true);
 													},
 													fail: err => {
@@ -213,12 +212,15 @@ export default {
 								this.uploadTask = uni.uploadFile({
 									url: this.uploadUrl, //仅为示例，非真实的接口地址
 									filePath: res.tempFilePath,
-									name: 'fileList',
+									name: 'file',
+									formData: {
+										schoolCode: this.schoolCode
+									},
 									success: uploadFileRes => {
 										uni.hideLoading();
 										this.successTag = true;
-										this.uploads.unshift(JSON.parse(uploadFileRes.data).data);
-										this.$emit('success', JSON.parse(uploadFileRes.data));
+										this.uploads.unshift(Array.isArray(JSON.parse(uploadFileRes.data).data) ? JSON.parse(uploadFileRes.data).data[0] : JSON.parse(uploadFileRes.data).data);
+										this.$emit('success', Array.isArray(JSON.parse(uploadFileRes.data).data) ? JSON.parse(uploadFileRes.data).data[0] : JSON.parse(uploadFileRes.data).data);
 										this.$emit('progress', true);
 									}
 								});

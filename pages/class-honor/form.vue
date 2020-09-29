@@ -14,7 +14,7 @@
 					<view class="u-fx-f1">
 						<video-upload
 							class="u-fx-f1 u-padd-l20 u-padd-r10 u-padd-b20"
-							:uploadUrl="uploadUrl"
+							:schoolCode="userInfo.schoolCode"
 							types="image"
 							:disabled="userType !== 1"
 							v-model="fileList"
@@ -48,7 +48,6 @@ export default {
 	data() {
 		return {
 			dateTimeTag: false,
-			uploadUrl: '',
 			type: 0, // 0.新增，1编辑
 			fileList: [],
 			userType: 2, // 0.超管，1.班主任，2.教职工，3.家长
@@ -58,9 +57,10 @@ export default {
 			}
 		};
 	},
-	computed: {},
+	computed: {
+		userInfo: () => store.userInfo 
+	},
 	created() {
-		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		this.type = this.$tools.getQuery().get('type');
 		this.userType = parseInt(this.$tools.getQuery().get('userType'))
 		if (this.type === '1') {

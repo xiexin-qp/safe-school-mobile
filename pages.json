@@ -726,6 +726,9 @@
 		{
 			"path": "pages/study-ground/component/detail"
 		},
+		{
+			"path": "pages/study-ground/component/office"
+		},
 		//校园概况
 		{
 			"path": "pages/school-intro/index"

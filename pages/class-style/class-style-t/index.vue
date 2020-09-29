@@ -40,8 +40,8 @@
 						<view v-if="userType === '1'" class="u-fx-f1">
 							<video-upload
 								class="u-fx-f1 u-padd-l40 u-padd-r10 u-padd-b20"
-								:uploadUrl="uploadUrl"
 								types="image"
+								:schoolCode="userInfo.schoolCode"
 								v-model="photoList"
 								:uploadCount="1"
 								:upload_max="10"
@@ -74,6 +74,7 @@ export default {
 		ClassAlbum
 	},
 	computed: {
+		userInfo: () => store.userInfo,
 		isBZR: () => JSON.parse(uni.getStorageSync('protal')).isBZR  
 	},
 	data() {
@@ -84,7 +85,6 @@ export default {
 				page: 1,
 				size: 9999
 			},
-			uploadUrl: '',
 			showTag: false,
 			current: 0,
 			classMotto: '',
@@ -142,7 +142,6 @@ export default {
 	async created() {
 		this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList
 		console.log(this.classList)
-		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		this.length = this.classMotto.length;
 		this.schoolYearId = store.schoolYear.schoolYearId;
 		if (store.userInfo.typeCode === '4') {
