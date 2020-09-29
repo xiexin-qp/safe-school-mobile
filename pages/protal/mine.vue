@@ -31,7 +31,11 @@
 				<text class="u-content-color">当前绑定</text>
 				<text @tap="changeClass" v-if="userInfo.typeCode == 4" class="u-fx-f1 u-tx-r u-tips-color">{{ classInfo.gradeName || '暂未绑定' }}{{ classInfo.className }}</text>
 				<view v-if="userInfo.typeCode == 16" @click="bindChild('1')" class="bind-child">绑定孩子</view>
-				<view class="rit-icon" v-if="classList.length > 1"></view>
+				<view class="rit-icon" v-if="userInfo.typeCode == 4 && classList.length > 1"></view>
+			</view>
+			<view class="item u-fx-jsb u-bd-b u-fx-ac" @click="changeIntroType">
+				<text class="u-content-color">{{ introTitle }}</text>
+				<view class="rit-icon"></view>
 			</view>
 		</view>
 		<view v-if="userInfo.typeCode == 16">
@@ -66,7 +70,8 @@ export default {
 			classInfo: {},
 			classList: [],
 			typeList: [],
-			isMap: false
+			isMap: false,
+			introTitle: '个人简介'
 		};
 	},
 	computed: {
@@ -148,14 +153,28 @@ export default {
 			this.$tools.actionsheet(this.typeMenuList, index => {
 				if (this.typeMenuList[index] === this.userInfo.typeName) return
 				if (index === 0) { // 切换教职工
+					this.introTitle = '个人简介'
 					this.addLog('4', '教职工')
 				} else {
+					this.introTitle = '学生简介'
 					if (this.typeList.length === 1) {
 						this.bindChild('0')
 					} else {
 						this.addLog('16', '家长')
 					}
 				}
+			});
+		},
+		// 个人简介
+		changeIntroType() {
+			if (this.userInfo.typeCode === '16' && this.childList.length === 0) {
+				this.$tools.toast('请先绑定孩子')
+				return
+			}
+			this.$tools.actionsheet(['查看', '编辑'], index => {
+				this.$tools.navTo({
+					url: `./intro?type=${index}` // 0查看1编辑
+				})
 			});
 		},
 		// 添加登录日志

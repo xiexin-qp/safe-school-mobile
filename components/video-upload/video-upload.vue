@@ -3,15 +3,25 @@
 		<view class="upload">
 			<view v-if="uploads.length < uploadCount && !disabled" class="an-img-add u-fx-ac-jc" @tap="chooseUploads">+</view>
 			<block v-for="(upload, index) in uploads" :key="index">
-				<view class="uplode-file">
-					<image v-if="types == 'image'" class="uploade-img" :src="upload.url" :data-src="upload" @tap="previewImage($event, index)"></image>
+				<view :class="desTag ? 'uplode-file uplode-file-des' : 'uplode-file'">
+					<image v-if="types == 'image'" class="uploade-img" :src="upload.url || upload" :data-src="upload" @tap="previewImage($event, index)"></image>
 					<image v-if="types == 'image' && !disabled" class="clear-one-icon" :src="clearIcon" @tap="delImage(upload, index)"></image>
+					<view v-if="desTag" class="u-fx-ac-jc u-mar-10">
+						<u-button v-if="upload.photoDes === '添加描述'" @click="addPhotoDes(index)" type="primary" size="mini" plain shape="circle">添加描述</u-button>
+						<text v-else class="u-tips-color u-te">{{ upload.photoDes }}</text>
+					</view>
 					<video v-if="types == 'video'" class="uploade-video" :src="upload.url" controls enable-play-gesture>
 						<cover-image v-if="types == 'video' && !disabled" class="clear-one-icon" :src="clearIcon" @tap="delImage(upload, index)"></cover-image>
 					</video>
 				</view>
 			</block>
 		</view>
+		<u-modal v-model="showTag" :show-title="false" show-cancel-button @confirm="confirm">
+			<view class="u-fx-ver u-mar-t20 u-mar-r20 u-mar-l20"><u-input v-model="photoDes" maxlength="10" type="text" :border="true" placeholder="请输入照片描述" /></view>
+			<view class="u-tips-color u-font-02 u-mar-t20 u-mar-l20 u-padd-l10">
+				提示：添加描述后，不可修改。
+			</view>
+		</u-modal>
 		<w-compress ref="wCompress" />
 	</view>
 </template>
@@ -27,6 +37,10 @@ export default {
 			type: String,
 			default: 'image'
 		},
+		desTag: {  //描述
+			type: Boolean,
+			default: false
+		},
 		disabled: {
 			type: Boolean,
 			default: false
@@ -37,32 +51,35 @@ export default {
 				return [];
 			}
 		},
-		clearIcon: {
+		clearIcon: { //删除图标
 			type: String,
 			default: 'http://canpointtest.com/mobile-img/deletephoto.png'
 		},
-		isCheck: {
+		isCheck: {  //人脸识别
 			type: Boolean,
 			default: false
+		},
+		interfaceType: {  //接口类型
+			type: String,
+			default: ''
 		},
 		uploadIcon: {
 			type: String,
 			default: ''
 		},
-		uploadUrl: {
+		uploadUrl: { //接口地址
 			type: String,
 			default: ''
 		},
-		uploadCount: {
+		uploadCount: { //上传数量
 			type: Number,
 			default: 1
 		},
-		pixels: {
+		pixels: { //图片分辨率
 			type: Number,
 			default: 500000
 		},
-		//上传内容大小 默认3M
-		upload_max: {
+		upload_max: {  //上传内容大小 默认3M
 			type: Number,
 			default: 3
 		}
@@ -81,7 +98,9 @@ export default {
 		return {
 			// 超出限制数组
 			exceeded_list: [],
-			successTag: false
+			successTag: false,
+			showTag: false,
+			photoDes: ''
 		};
 	},
 	mounted() {
@@ -92,9 +111,17 @@ export default {
 			uni.previewImage({
 				current: index,
 				urls: this.uploads.map(el => {
-					return el.url;
+					return el.url || el;
 				})
 			});
+		},
+		addPhotoDes(index){
+			this.photoIndex = index
+			this.showTag = true
+		},
+		confirm(){
+			this.uploads[this.photoIndex].photoDes = this.photoDes
+			this.photoDes = ''
 		},
 		chooseUploads() {
 			switch (this.types) {
@@ -117,7 +144,6 @@ export default {
 											base64: true // 是否返回base64，默认false，非H5有效
 										})
 										.then(data => {
-											console.log(data)
 											if (this.isCheck) {
 												this.$tools.checkUserPhoto(data,(res)=>{
 													uni.hideLoading();
@@ -136,7 +162,16 @@ export default {
 													success: uploadFileRes => {
 														uni.hideLoading();
 														this.successTag = true;
-														this.uploads.unshift(JSON.parse(uploadFileRes.data).data);
+														let imgInfo = {}
+														if(this.interfaceType === 'common') {
+															imgInfo = Array.isArray(JSON.parse(uploadFileRes.data).data) ? JSON.parse(uploadFileRes.data).data[0] : JSON.parse(uploadFileRes.data).data;
+														} else {
+															imgInfo = JSON.parse(uploadFileRes.data).data;
+														}
+														if(this.desTag){
+															imgInfo.photoDes = '添加描述'
+														}
+														this.uploads.unshift(imgInfo);
 														this.$emit('success', JSON.parse(uploadFileRes.data));
 														this.$emit('progress', true);
 													},
@@ -238,6 +273,9 @@ export default {
 	width: calc(33.3% - 20rpx);
 	height: 210rpx;
 	position: relative;
+}
+.uplode-file-des {
+	height: 280rpx;
 }
 .uploade-img {
 	display: block;

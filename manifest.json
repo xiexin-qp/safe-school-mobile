@@ -173,8 +173,8 @@
 					}
 				},
 				"/ljj_user_center": {
-					// "target": "http://192.168.1.125:11002/", // 柳继杰-用户中心
-					"target": "http://192.168.2.242:11002/", // 吕卓-用户中心
+					"target": "http://192.168.1.76:11002/", // 柳继杰-用户中心
+					// "target": "http://192.168.2.242:11002/", // 吕卓-用户中心
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/ljj_user_center": ""
