@@ -142,8 +142,15 @@ export default {
       console.log(e.value);
     },
     teacherSelcet(value) {
-      this.teacherTag = false;
-      this.repairApprovalList = value;
+      if (
+        value[0].userCode === store.userInfo.userCode 
+      ) {
+        this.$tools.toast("审批人不能是自己!");
+        return;
+      } else {
+        this.teacherTag = false;
+        this.repairApprovalList = value;
+      }
     },
     teacherClose() {
       this.teacherTag = false;

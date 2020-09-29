@@ -6,8 +6,9 @@
 import hostEnv from '../../../../config/index.js'
 
 let homeApi = {
-  getInfoplanList: '/test/student/getTestInfoByCode#post', // 家长考试计划列表
-  getInfoList: '/test/info/list#getUrl' //详情
+  getInfoplanList: '/test/plan/getPlanListByCode#post', // 家长考试计划列表
+  getInfoList: '/test/info/list#getUrl' ,//详情
+  gettestScore:'/test/score/getScoreByUserCode#get'
 }
 for (let val in homeApi) {
   homeApi[val] = `${hostEnv.zk_examplan}${homeApi[val]}`
