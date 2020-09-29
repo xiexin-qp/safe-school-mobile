@@ -38,7 +38,7 @@
 						<ul class="level-list" :style="{ width: (weekDay.length * 6.55) + 'rem' }">
 							<li v-for="(elem, i) in weekDay" :key="i + '0'" :class="elem.today ? 'active' : ''">
 								<view class="td u-bd-1px u-fx-ac-jc">
-									<text>{{ elem | chnNumChar() }}</text>
+									<text>{{ elem.today ? elem.day : elem | chnNumChar() }}</text>
 								</view>
 								<view :id="'10' + 'w' + elem + 'n' + +(i + 1)" class="reset td u-bd-1px u-fx-ac-jc" v-for="(item, i) in classHourList.morningNum" :key="i + '1'"></view>
 								<view
@@ -133,10 +133,11 @@ export default {
 				if(index !== -1) {
 					this.weekDay.splice(index, 1);
 					this.weekDay.unshift({
-						...res.data.week.split(',')[index],
+						day: res.data.week.split(',')[index],
 						today: true
 					});
 				}
+				console.log(this.weekDay)
 				this.classNum = this.classHourList.morningNum + this.classHourList.forenoonNum + this.classHourList.afternoonNum + this.classHourList.nightNum;
 				this.tableHeight = { height: ((this.classNum + 1) * 100) / 28 + 'rem' };
 				this.earlyTime = '早上';
