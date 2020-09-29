@@ -33,6 +33,10 @@
 			"path": "pages/protal/messageDetail",
 			"style": {}
 		},
+		{
+			"path": "pages/protal/intro",
+			"style": {}
+		},
 		// 课程表
 		{
 			"path": "pages/class-schedule/class-schedule-t/index",
@@ -140,38 +144,6 @@
 			"path": "pages/news/news-p/parentNotice/detail",
 			"style": {}
 		},
-		//表扬栏
-		{
-			"path": "pages/praise-column/praise-column-t/class/form",
-			"style": {}
-		}, {
-			"path": "pages/praise-column/praise-column-t/class/index",
-			"style": {}
-		}, {
-			"path": "pages/praise-column/praise-column-t/personal/detail",
-			"style": {}
-		}, {
-			"path": "pages/praise-column/praise-column-t/personal/form",
-			"style": {}
-		}, {
-			"path": "pages/praise-column/praise-column-t/personal/index",
-			"style": {}
-		}, {
-			"path": "pages/praise-column/praise-column-p/index",
-			"style": {}
-		}, {
-			"path": "pages/praise-column/praise-column-p/detail",
-			"style": {}
-		},
-		//考试成绩
-		{
-			"path": "pages/examAchievement/examAchievement-t/detail",
-			"style": {}
-		},{
-			"path": "pages/examAchievement/examAchievement-t/index",
-			"style": {}
-		},
-
 		// 门禁模块
 		{
 			"path": "pages/door/door-p/doorRecord/index",
@@ -653,6 +625,23 @@
 		},
 		{
 			"path": "pages/video-manage/fullScreen",
+			"style": {}
+		},
+		//表扬栏
+		{
+			"path": "pages/praise-column/praise-column-t/class/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/class/index",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/detail",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/index",
 			"style": {}
 		},
 		//会议管理

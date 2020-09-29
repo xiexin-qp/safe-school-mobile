@@ -112,6 +112,9 @@
 			"path": "pages/study-ground/study-ground-t/form"
 		},
 		{
+		                        "path": "pages/study-ground/component/office"
+		                },
+		{
 			"path": "pages/study-ground/component/detail"
 		},
 		// 作业
