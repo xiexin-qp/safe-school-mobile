@@ -19,7 +19,7 @@
 				<view class="u-bg-fff u-padd-b20 u-padd-l20 u-padd-r10">
 					<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' && showDropdown ? 'scroll-h' : 'scroll-h-0'">
 						<view class="u-padd-l20 u-padd-r20">
-							<text class="content">{{ introduction }}</text>
+							<view class="content">{{ introduction }}</view>
 						</view>
 					</scroll-view>
 				</view>
@@ -252,6 +252,6 @@ export default {
 }
 .content {
 	text-indent: 2em;
-	line-height: 40rpx;
+	text-indent: 40rpx;
 }
 </style>
