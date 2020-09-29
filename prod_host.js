@@ -271,22 +271,11 @@
 					}
 				},
 				"/cl_oa": {
-<<<<<<< HEAD
-					// "target": "http://192.168.1.193:11014/", //陈琳-调代课
-					// "target": "http://canpointtest.com/cl_oa/", //陈琳-调代课
-					"target": "http://192.168.1.193:11009/", //陈琳-调代课
+					"target": "http://canpointtest.com/cl_oa/", //陈琳-调代课
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/cl_oa": ""
 					}
-=======
-         "target": "http://canpointtest.com/cl_oa/", //陈琳-调代课
-         // "target": "http://192.168.1.193:11009/", //陈琳-调代课
-				  "changeOrigin": true,
-				  "pathRewrite": {
-				    "^/cl_oa": ""
-				  }
->>>>>>> ddb7fbec2704e93e6cc611d6b8b18ee00e4122d4
 				},
 				"lz_safe": {
 					"target": "http://192.168.2.242:8091/", //吕卓-安全防控
@@ -296,7 +285,13 @@
 						"^/lz_safe": ""
 					}
 				},
-<<<<<<< HEAD
+				"/cl_class": {
+					"target": "http://canpointtest.com/cl_class/", //陈琳-班牌
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/cl_class": ""
+					}
+				},
 				'/zx_subject': {
 					target: 'http://192.168.2.242:10050/',
 					// target: 'http://192.168.1.24:10050/', // 朱旭-平台-学校学科教师管理上传文件
@@ -315,22 +310,3 @@
 		"template": "template.html"
 	}
 }
-=======
-				"/cl_class": {
-					"target": "http://192.168.1.193:11009/", //陈琳-班牌
-					"changeOrigin": true,
-					"pathRewrite": {
-						"^/cl_class": ""
-					}
-				}
-      }
-    },
-    "optimization": {
-      "treeShaking": {
-        "enable": true
-      }
-    },
-    "template": "template.html"
-  }
-}
->>>>>>> ddb7fbec2704e93e6cc611d6b8b18ee00e4122d4
