@@ -71,6 +71,7 @@
       mode="center"
       length="80%"
       border-radius="14"
+     class="new-top"
     >
       <view class="u-bd-b">
         <view class="u-padd-40">
@@ -125,8 +126,8 @@ export default {
     this.classCode = uni.getStorageSync("bindInfo").classCode;
     this.gradeCode = uni.getStorageSync("bindInfo").gradeCode;
     this.schoolInfo.schoolCode = store.userInfo.schoolCode;
-    this.schoolInfo.classId = uni.getStorageSync("bindInfo").classCode;;
-    this.schoolInfo.gradeId = uni.getStorageSync("bindInfo").gradeCode;;
+    this.schoolInfo.classId = uni.getStorageSync("bindInfo").classCode;
+    this.schoolInfo.gradeId = uni.getStorageSync("bindInfo").gradeCode;
     this.schoolInfo.schoolYearId = store.userInfo.schoolYearId;
   },
   async mounted() {
@@ -218,7 +219,6 @@ export default {
       } else if (item.mode === "plain") {
         this.initList.splice(index, 1);
       }
-      console.log(this.initList);
     },
     async submit() {
       if (this.formData.noWorkstu.length === 0) {
@@ -288,5 +288,8 @@ export default {
 .add_p {
   width: 124rpx;
   height: 40rpx;
+}
+.new-top{
+    margin-top: -200rpx;
 }
 </style>

@@ -185,7 +185,7 @@ export default {
     add() {
       this.$tools.navTo({
         url: "./form",
-        title: "发布公告",
+        title: "发布倒计时",
       });
     },
     actionsheet(id) {
@@ -195,7 +195,7 @@ export default {
         if (index == 0) {
           this.$tools.navTo({
             url: `./form?id=${id}`,
-            title: "编辑倒计时",
+            title: "编辑倒数日",
           });
         } else if (index == 1) {
           this.$tools.confirm("确定删除吗", () => {

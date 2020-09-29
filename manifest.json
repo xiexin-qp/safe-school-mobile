@@ -93,7 +93,7 @@
 					}
 				},
 				"/wxz_control": {
-					"target": "http://192.168.2.235:10090/", // 王选章-控制中心
+					"target": "http://192.168.2.242:10090/", // 王选章-控制中心
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/wxz_control": ""
@@ -201,83 +201,68 @@
 						"^/mobile-img": ""
 					}
 				},
-        "/mobile-img": {
-          "target": "http://canpointtest.com/mobile-protal/protal/mobile-img", // 图片代理
-          "changeOrigin": true,
-          "pathRewrite": {
-            "^/mobile-img": ""
-          }
-        },
-        "/ljj_dorm": {
-          "target": "http://192.168.2.242:11006",
-          // "target": "http://192.168.1.125:11006", // 柳继杰-宿管系统
-          "changeOrigin": true,
-          "pathRewrite": {
-            "^/ljj_dorm": ""
-          }
-        },
-        "/hpb_face": {
-          "target": "http://39.97.213.205:8092/",
-          "changeOrigin": true,
-          "pathRewrite": {
-            "^/hpb_face": ""
-          }
-        },
-        "/zq_news": {
-          "target": "http://192.168.1.193:11011/", //张琦，信息发布
-          "changeOrigin": true,
-          "pathRewrite": {
-            "^/zq_news": ""
-          }
-        },
-        "/zk_examplan": {
-          "target": "http://192.168.1.23:11013/", // 考试计划
-          "changeOrigin": true,
-          "pathRewrite": {
-            "^/zk_examplan": ""
-          }
-        },
-        "/zk_moral": {
-          // "target": "http://192.168.1.23:11007/", //张坤-班级德育管理
-          "target": "http://192.168.2.242:11012/", // 张坤-个人德育管理
-          "changeOrigin": true,
-          "pathRewrite": {
-            "^/zk_moral": ""
-          }
-        },
-        "/zq_class": {
-          // "target": "http://192.168.1.241:11006/", //张琦，班牌
-          "target": "http://192.168.2.242:11009/",
-          "changeOrigin": true,
-          "pathRewrite": {
-            "^/zq_class": ""
-          }
-        },
-				"/zk_news": {
-				  // "target": "http://192.168.1.241:11005/", //张坤-信息发布
-				  "target": "http://192.168.1.23:11011/",
-				  "changeOrigin": true,
-				  "pathRewrite": {
-				    "^/zk_news": ""
-				  }
+				"/ljj_dorm": {
+					"target": "http://192.168.2.242:11006",
+					// "target": "http://192.168.1.125:11006", // 柳继杰-宿管系统
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/ljj_dorm": ""
+					}
 				},
-        "/zq_schedule": {
-          // "target": "http://192.168.1.241:11007/", //张琦，课程表
-          "target": "http://192.168.2.242:11010/",
-          "changeOrigin": true,
-          "pathRewrite": {
-            "^/zq_schedule": ""
-          }
-        },
-        "/zq_behavior": {
-          "target": "http://192.168.2.242:11012/", //张琦-行为评价
-          "changeOrigin": true,
-          "pathRewrite": {
-            "^/zq_behavior": ""
-          }
-        },
-        "/zk_oa": {
-          "target": "http://192.168.2.242:11014/", //张坤-物品管理
+				"/hpb_face": {
+					"target": "http://39.97.213.205:8092/",
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/hpb_face": ""
+					}
+				},
+				"/zq_news": {
+					"target": "http://192.168.2.242:11011/", //张琦，信息发布
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/zq_news": ""
+					}
+				},
+				"/zk_examplan": {
+					"target": "http://192.168.1.23:11013/", // 考试计划
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/zk_examplan": ""
+					}
+				},
+				"/zk_moral": {
+					// "target": "http://192.168.1.23:11007/", //张坤-班级德育管理
+					"target": "http://192.168.2.242:11012/", // 张坤-个人德育管理
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/zk_moral": ""
+					}
+				},
+				"/zq_class": {
+					// "target": "http://192.168.1.241:11006/", //张琦，班牌
+					"target": "http://192.168.2.242:11009/",
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/zq_class": ""
+					}
+				},
+				"/zq_schedule": {
+					// "target": "http://192.168.1.241:11007/", //张琦，课程表
+					"target": "http://192.168.2.242:11010/",
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/zq_schedule": ""
+					}
+				},
+				"/zq_behavior": {
+					"target": "http://192.168.2.242:11012/", //张琦-行为评价
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/zq_behavior": ""
+					}
+				},
+				"/zk_oa": {
+					"target": "http://192.168.2.242:11014/", //张坤-物品管理
 					// "target": "http://192.168.1.193:11009",
 					"changeOrigin": true,
 					"pathRewrite": {
@@ -285,11 +270,18 @@
 					}
 				},
 				"/cl_oa": {
-				 "target": "http://192.168.2.242:11014/", //陈琳-调代课
-					// "target": "http://192.168.1.193:11009",
+					// "target": "http://192.168.2.242:11014/", //陈琳-调代课
+					"target": "http://192.168.1.23:11014/",
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/cl_oa": ""
+					}
+				},
+				"zx_subject": {
+					"target": "http://192.168.2.242:8091/", //吕卓-安全防控
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/zx_subject": ""
 					}
 				},
 				"lz_safe": {
@@ -300,8 +292,7 @@
 					}
 				},
 				"/cl_class": {
-					"target": "http://192.168.2.242:11009/", //陈琳-调代课
-					// "target": "http://192.168.1.193:11009/", //陈琳-班牌
+					"target": "http://192.168.1.193:11009/", //陈琳-班牌
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/cl_class": ""
