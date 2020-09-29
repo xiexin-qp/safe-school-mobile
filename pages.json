@@ -144,24 +144,6 @@
 			"path": "pages/news/news-p/parentNotice/detail",
 			"style": {}
 		},
-		//表扬栏
-		{
-			"path": "pages/praise-column/praise-column-t/class/form",
-			"style": {}
-		}, {
-			"path": "pages/praise-column/praise-column-t/class/index",
-			"style": {}
-		}, {
-			"path": "pages/praise-column/praise-column-t/personal/detail",
-			"style": {}
-		}, {
-			"path": "pages/praise-column/praise-column-t/personal/form",
-			"style": {}
-		}, {
-			"path": "pages/praise-column/praise-column-t/personal/index",
-			"style": {}
-		},
-
 		// 门禁模块
 		{
 			"path": "pages/door/door-p/doorRecord/index",
@@ -643,6 +625,23 @@
 		},
 		{
 			"path": "pages/video-manage/fullScreen",
+			"style": {}
+		},
+		//表扬栏
+		{
+			"path": "pages/praise-column/praise-column-t/class/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/class/index",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/detail",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/form",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-t/personal/index",
 			"style": {}
 		},
 		//会议管理

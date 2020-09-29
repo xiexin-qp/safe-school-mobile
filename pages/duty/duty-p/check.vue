@@ -24,6 +24,8 @@ export default {
     }
   },
   async created() {
+        console.log(store.childList)
+
     this.schoolYearId = store.schoolYear.schoolYearId;
     this.classCode = store.childList[0].classCode;
 		this.userCode = store.childList[0].userCode

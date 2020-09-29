@@ -22,6 +22,7 @@ const getState = (state, val) => {
   return JSON.parse(localData)[state] || val
 }
 const store = Vue.observable({
+  childList: JSON.parse(uni.getStorageSync('protal')).childList,
   userInfo: JSON.parse(uni.getStorageSync('protal') || protal).userInfo,
 })
 

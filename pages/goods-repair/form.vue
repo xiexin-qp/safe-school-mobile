@@ -11,7 +11,7 @@
     ></teacher-tree>
     <teacher-tree
       isCheck
-      :teacherCopy="teacherCopy"
+      :teacherTag="teacherCopy"
       v-show="teacherCopy"
       :schoolInfo="schoolInfo"
       @close="teacherClose"
