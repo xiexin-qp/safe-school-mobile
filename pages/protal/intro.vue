@@ -4,6 +4,7 @@
 			<ms-dropdown-menu><ms-dropdown-item :title="childName" v-model="childCode" :list="childList"></ms-dropdown-item></ms-dropdown-menu>
 		</u-navbar>
 		<view v-if="type === '0'" class="u-bg-fff">
+			<view class="float-add-btn" @click="btnClick"></view>
 			<no-data v-if="noDataTag" msg="暂无数据~"></no-data>
 			<view v-else class="">
 				<view class="u-fx-ac" v-if="photoList.length > 0">
@@ -15,13 +16,13 @@
 					<image class="line" src="http://canpointtest.com/mobile-img/line.png"></image>
 					<text class="mar-l20 u-font-01 u-bold">个人简介：</text>
 				</view>
-				<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' && showDropdown ? 'scroll-h' : 'scroll-h-0'">
-					<view class="u-auto">
+				<view class="u-bg-fff u-padd-b20 u-padd-l20 u-padd-r10">
+					<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' && showDropdown ? 'scroll-h' : 'scroll-h-0'">
 						<view class="u-padd-l20 u-padd-r20">
-							<text class="content">{{ introduction }}</text>
+							<view class="content">{{ introduction }}</view>
 						</view>
-					</view>
-				</scroll-view>
+					</scroll-view>
+				</view>
 			</view>
 		</view>
 		<view v-else class="">
@@ -51,8 +52,7 @@
 					<view class="u-padd-b20">
 						<video-upload
 							class="u-fx-f1 u-padd-l20 u-padd-r10 u-padd-b20"
-							:uploadUrl="uploadUrl"
-							interfaceType="common"
+							:schoolCode="userInfo.schoolCode"
 							desTag
 							types="image"
 							v-model="photoList"
@@ -103,12 +103,12 @@ export default {
 			showDropdown: false,
 			dataInfo: {},
 			introduction: '',
-			uploadUrl: '',
 			photoList: [],
 			length: 0,
 			childCode: '',
 			childName: '',
-			childList: []
+			childList: [],
+			style: ''
 		};
 	},
 	watch: {
@@ -142,9 +142,6 @@ export default {
 			}
 		}
 		this.showIntro();
-		if (this.type === '1') {
-			this.uploadUrl = `${hostEnv.zk_school}/file/freeUpload?schoolCode=${this.userInfo.schoolCode}`;
-		}
 	},
 	methods: {
 		previewImage(index) {
@@ -154,6 +151,10 @@ export default {
 					return el.image;
 				})
 			});
+		},
+		btnClick(){
+			console.log(123)
+			this.type = '1'
 		},
 		async showIntro() {
 			const res = await actions.getIntro({
@@ -203,7 +204,8 @@ export default {
 			actions.getlistByTeacher(req).then(() => {
 				this.$tools.toast('编辑成功', 'success');
 				this.$tools.goNext(() => {
-					this.$tools.goBack();
+					// this.$tools.goBack();
+					this.type = '0'
 				});
 			});
 		}
@@ -213,10 +215,10 @@ export default {
 
 <style lang="scss" scoped>
 .scroll-h {
-	height: calc(100vh - 676rpx);
+	height: calc(100vh - 696rpx);
 }
 .scroll-h-0 {
-	height: calc(100vh - 568rpx);
+	height: calc(100vh - 588rpx);
 }
 .scroll-h-1 {
 	height: calc(100vh - 100rpx);
@@ -250,6 +252,6 @@ export default {
 }
 .content {
 	text-indent: 2em;
-	line-height: 40rpx;
+	text-indent: 40rpx;
 }
 </style>

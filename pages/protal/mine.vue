@@ -171,11 +171,14 @@ export default {
 				this.$tools.toast('请先绑定孩子')
 				return
 			}
-			this.$tools.actionsheet(['查看', '编辑'], index => {
+			this.$tools.navTo({
+				url: `./intro?type=0` // 0查看1编辑
+			})
+			/* this.$tools.actionsheet(['查看', '编辑'], index => {
 				this.$tools.navTo({
 					url: `./intro?type=${index}` // 0查看1编辑
 				})
-			});
+			}); */
 		},
 		// 添加登录日志
 		async addLog (typeCode, typeName) {

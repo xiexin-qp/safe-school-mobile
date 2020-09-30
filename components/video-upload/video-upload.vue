@@ -18,9 +18,7 @@
 		</view>
 		<u-modal v-model="showTag" :show-title="false" show-cancel-button @confirm="confirm">
 			<view class="u-fx-ver u-mar-t20 u-mar-r20 u-mar-l20"><u-input v-model="photoDes" maxlength="10" type="text" :border="true" placeholder="请输入照片描述" /></view>
-			<view class="u-tips-color u-font-02 u-mar-t20 u-mar-l20 u-padd-l10">
-				提示：添加描述后，不可修改。
-			</view>
+			<view class="u-tips-color u-font-02 u-mar-t20 u-mar-l20 u-padd-l10">提示：添加描述后，不可修改。</view>
 		</u-modal>
 		<w-compress ref="wCompress" />
 	</view>
@@ -37,7 +35,8 @@ export default {
 			type: String,
 			default: 'image'
 		},
-		desTag: {  //描述
+		desTag: {
+			//描述
 			type: Boolean,
 			default: false
 		},
@@ -51,46 +50,53 @@ export default {
 				return [];
 			}
 		},
-		clearIcon: { //删除图标
+		clearIcon: {
+			//删除图标
 			type: String,
 			default: 'http://canpointtest.com/mobile-img/deletephoto.png'
 		},
-		isCheck: {  //人脸识别
+		isCheck: {
+			//人脸识别
 			type: Boolean,
 			default: false
-		},
-		interfaceType: {  //接口类型
-			type: String,
-			default: ''
 		},
 		uploadIcon: {
 			type: String,
 			default: ''
 		},
-		uploadUrl: { //接口地址
+		uploadUrl: {
+			//接口地址
 			type: String,
-			default: ''
+			default: 'http://canpointtest.com:8090/ossApi/upload-oss-file'
 		},
-		uploadCount: { //上传数量
+		uploadCount: {
+			//上传数量
 			type: Number,
 			default: 1
 		},
-		pixels: { //图片分辨率
+		pixels: {
+			//图片分辨率
 			type: Number,
 			default: 500000
 		},
-		upload_max: {  //上传内容大小 默认3M
+		upload_max: {
+			//上传内容大小 默认3M
 			type: Number,
 			default: 3
+		},
+		schoolCode: {
+			//接口地址
+			type: String,
+			default: ''
 		}
 	},
 	computed: {
 		uploads: {
-			get () {
-				return this.value
+			get() {
+				return this.value;
 			},
-			set (val) {
-				this.$emit('input', val)
+			set(val) {
+				this.$emit('input', val);
 			}
 		}
 	},
@@ -104,7 +110,7 @@ export default {
 		};
 	},
 	mounted() {
-		console.log(this.uploads)
+		console.log(this.uploads);
 	},
 	methods: {
 		previewImage(e, index) {
@@ -115,13 +121,13 @@ export default {
 				})
 			});
 		},
-		addPhotoDes(index){
-			this.photoIndex = index
-			this.showTag = true
+		addPhotoDes(index) {
+			this.photoIndex = index;
+			this.showTag = true;
 		},
-		confirm(){
-			this.uploads[this.photoIndex].photoDes = this.photoDes
-			this.photoDes = ''
+		confirm() {
+			this.uploads[this.photoIndex].photoDes = this.photoDes;
+			this.photoDes = '';
 		},
 		chooseUploads() {
 			switch (this.types) {
@@ -145,41 +151,45 @@ export default {
 										})
 										.then(data => {
 											if (this.isCheck) {
-												this.$tools.checkUserPhoto(data,(res)=>{
+												this.$tools.checkUserPhoto(data, res => {
 													uni.hideLoading();
 													this.successTag = true;
 													this.uploads.push({
 														url: res
 													});
 													this.$emit('success', res);
-												})
+												});
 											} else {
 												this.$emit('progress', false);
 												this.uploadTask = uni.uploadFile({
 													url: this.uploadUrl, //仅为示例，非真实的接口地址
 													filePath: data,
-													name: 'fileList',
+													name: 'file',
+													formData: {
+														schoolCode: this.schoolCode
+													},
 													success: uploadFileRes => {
 														uni.hideLoading();
 														this.successTag = true;
-														let imgInfo = {}
-														if(this.interfaceType === 'common') {
-															imgInfo = Array.isArray(JSON.parse(uploadFileRes.data).data) ? JSON.parse(uploadFileRes.data).data[0] : JSON.parse(uploadFileRes.data).data;
-														} else {
-															imgInfo = JSON.parse(uploadFileRes.data).data;
-														}
-														if(this.desTag){
-															imgInfo.photoDes = '添加描述'
+														let imgInfo = {};
+														imgInfo = Array.isArray(JSON.parse(uploadFileRes.data).data) ? JSON.parse(uploadFileRes.data).data[0] : JSON.parse(uploadFileRes.data).data;
+														if (this.desTag) {
+															imgInfo.photoDes = '添加描述';
 														}
 														this.uploads.unshift(imgInfo);
-														this.$emit('success', JSON.parse(uploadFileRes.data));
+														this.$emit(
+															'success',
+															Array.isArray(JSON.parse(uploadFileRes.data).data) ? JSON.parse(uploadFileRes.data).data[0] : JSON.parse(uploadFileRes.data).data
+														);
 														this.$emit('progress', true);
 													},
-													fail: err => {
-														console.log(err);
+													fail: (e) => {
+														console.log(e);
+														uni.hideLoading();
 														uni.showModal({
-															content: JSON.stringify(err)
+															content: JSON.stringify(e)
 														});
+														this.$emit('progress', true);
 													}
 												});
 											}
@@ -213,13 +223,24 @@ export default {
 								this.uploadTask = uni.uploadFile({
 									url: this.uploadUrl, //仅为示例，非真实的接口地址
 									filePath: res.tempFilePath,
-									name: 'fileList',
+									name: 'file',
+									formData: {
+										schoolCode: this.schoolCode
+									},
 									success: uploadFileRes => {
 										uni.hideLoading();
 										this.successTag = true;
-										this.uploads.unshift(JSON.parse(uploadFileRes.data).data);
-										this.$emit('success', JSON.parse(uploadFileRes.data));
+										this.uploads.unshift(Array.isArray(JSON.parse(uploadFileRes.data).data) ? JSON.parse(uploadFileRes.data).data[0] : JSON.parse(uploadFileRes.data).data);
+										this.$emit('success', Array.isArray(JSON.parse(uploadFileRes.data).data) ? JSON.parse(uploadFileRes.data).data[0] : JSON.parse(uploadFileRes.data).data);
 										this.$emit('progress', true);
+									},
+									fail: (e) => {
+										console.log(e);
+										uni.hideLoading();
+										this.$emit('progress', true);
+										uni.showModal({
+											content: JSON.stringify(e)
+										});
 									}
 								});
 							} else {
@@ -246,7 +267,7 @@ export default {
 				this.$emit('delImage', this.uploads[i]);
 				uni.hideLoading();
 				this.uploads.splice(index, 1);
-			})
+			});
 		}
 	}
 };

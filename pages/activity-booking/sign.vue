@@ -14,7 +14,7 @@
 				<video-upload
 					class="u-fx-f1"
 					isCheck
-					:uploadUrl="uploadUrl"
+					:schoolCode="schoolCode"
 					 types="image"
 					:uploadCount="1"
 					:upload_max="10"
@@ -49,12 +49,10 @@ export default {
 				phone: '',
 				base64Url: ''
 			},
-			uploadUrl: '',
 			show: false
 		}
 	},
 	async mounted() {
-		this.uploadUrl = ``;
 		this.id = this.$tools.getQuery().get('id');
 		this.schoolCode = this.$tools.getQuery().get('schoolCode');
 	},

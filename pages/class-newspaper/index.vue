@@ -10,7 +10,7 @@
 				<view class="u-mar-t20" v-if="userType === 1">
 					<video-upload
 						class="u-fx-f1 u-padd-l20 u-padd-r20"
-						:uploadUrl="uploadUrl"
+						:schoolCode="userInfo.schoolCode"
 						types="image"
 						v-model="fileList"
 						:uploadCount="9"
@@ -55,6 +55,9 @@ export default {
 			fileList: []
 		};
 	},
+	computed: {
+		userInfo: () => store.userInfo 
+	},
 	watch: {
 		value0(val, oldval) {
 			if (this.userType === 3) {
@@ -77,7 +80,6 @@ export default {
 		}
 	},
 	async created() {
-		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		if (store.userInfo.typeCode === '4') {
 			this.userType = 2;
 			this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList;
