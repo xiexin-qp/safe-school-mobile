@@ -7,7 +7,7 @@
           <text class="u-padd-l40"> {{ item.subjectName }} </text>
         </view>
         <view class="u-mar-t20 u-padd-l40 u-padd-b30"
-          >考试时间 : {{ item.testDate | gmtToDate }}</view
+          >考试时间 : {{ item.testDate | gmtToDate('date') }}  {{ item.startTime | gmtToDate('time') }}~{{ item.endTime | gmtToDate('time') }}</view
         >
       </view>
     </scroll-view>
@@ -38,7 +38,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .scroll-h {
-  height: calc(100vh - 0rpx);
+  height: calc(100vh);
+  	margin-top: 20rpx;
 }
 .approve-list {
   background-color: $uni-bg-color;
@@ -46,5 +47,8 @@ export default {
   padding: $u-mp-20;
   margin: $u-mp-20;
   position: relative;
+  	&:first-child {
+		margin-top: 0;
+	}
 }
 </style>

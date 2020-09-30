@@ -44,7 +44,7 @@
             class="scroll-h"
             @scrolltolower="loadMore"
           >
-            <PlanList :data-list="recordList" @goDetail="goDetail" @getScore="getScore" isName></PlanList>
+            <PlanList isName :data-list="recordList" @goDetail="goDetail" @getScore="getScore" ></PlanList>
           </scroll-view>
         </swiper-item>
          </swiper
@@ -133,7 +133,7 @@ export default {
       let current = e.detail.current;
       this.$refs.uTabs.setFinishCurrent(current);
       this.swiperCurrent = current;
-      this.showList();
+      // this.showList();
     },
     transition(e) {
       let dx = e.detail.dx;

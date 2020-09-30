@@ -44,7 +44,7 @@
           :key="i"
           :index="i"
           @click="tagClick(item,i)"
-          @close="tagDel"
+          @close="tagDel(item,i)"
         />
         <u-button type="info" size="mini" class="add_p" @click="open">
           <u-icon
@@ -112,7 +112,6 @@ export default {
       noWorkstuLength: "请选择",
       schoolInfo: {},
       recordList: [],
-      labelList: [],
       initList: [],
       border: true,
       type: "input",
@@ -182,8 +181,9 @@ export default {
       );
       this.noWorkstuLength = `已选择${this.formData.noWorkstu.length}人`;
     },
-    tagDel(i) {
+    tagDel(item, i) {
       this.recordList[i].tag = false;
+      this.initList = this.initList.filter((el) => el !== item);
     },
     async showList() {
       const req = {
@@ -206,18 +206,20 @@ export default {
       this.recordList = this.dataList.filter((item) => item.category === 2);
     },
     tagClick(item, index) {
-      item.mode = item.mode === "light" ? "plain" : "light";
-      console.log(item.mode);
+      console.log(item.mode)
+      console.log(item, index)
       if (item.mode === "light") {
-        this.initList.push(item);
-        this.labelList = this.initList.filter((item) => item.mode === "light");
-        if (this.labelList.length > 3) {
-          this.$tools.toast("最多选择3个标签!");
-          item.mode = "plain";
-          return false;
-        }
+        item.mode = "plain";
+        this.initList.splice(2, 1);
+        console.log("1111",this.initList)
       } else if (item.mode === "plain") {
-        this.initList.splice(index, 1);
+        if (this.initList.length > 2) {
+          this.$tools.toast("最多选择3个标签!");
+          return;
+        }
+        item.mode = "light";
+        this.initList.push(item);
+        console.log("222222",this.initList)
       }
     },
     async submit() {
@@ -225,12 +227,12 @@ export default {
         this.$tools.toast("请选择要表扬的学生!");
         return false;
       }
-      if (this.labelList.length === 0) {
+      if (this.initList.length === 0) {
         this.$tools.toast("请选择表扬语!");
         return false;
       }
       let label = [];
-      this.labelList.forEach((ele) => {
+      this.initList.forEach((ele) => {
         label.push(ele.label);
       });
       const req = {
@@ -289,7 +291,7 @@ export default {
   width: 124rpx;
   height: 40rpx;
 }
-.new-top{
-    margin-top: -200rpx;
+.new-top {
+  margin-top: -200rpx;
 }
 </style>
