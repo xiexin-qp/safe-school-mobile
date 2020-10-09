@@ -33,6 +33,10 @@
 			"path": "pages/protal/messageDetail",
 			"style": {}
 		},
+		{
+			"path": "pages/protal/intro",
+			"style": {}
+		},
 		// 课程表
 		{
 			"path": "pages/class-schedule/class-schedule-t/index",
@@ -394,6 +398,14 @@
 			"path": "pages/examPlan/examPlan-p/detail",
 			"style": {}
 		},
+		//考试成绩
+		{
+			"path": "pages/examAchievement/examAchievement-t/index",
+			"style": {}
+		}, {
+			"path": "pages/examAchievement/examAchievement-t/detail",
+			"style": {}
+		},
 		//物品管理报修
 		{
 			"path": "pages/goods-repair/index",
@@ -640,6 +652,13 @@
 			"path": "pages/praise-column/praise-column-t/personal/index",
 			"style": {}
 		},
+		{
+			"path": "pages/praise-column/praise-column-p/index",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-p/index",
+			"style": {}
+		},
 		//会议管理
 		{
 			"path": "pages/meet-booking/index",
@@ -721,6 +740,9 @@
 		},
 		{
 			"path": "pages/study-ground/component/detail"
+		},
+		{
+			"path": "pages/study-ground/component/office"
 		},
 		//校园概况
 		{

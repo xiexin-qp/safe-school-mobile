@@ -1,5 +1,6 @@
 <template>
   <view class="u-page">
+    <choose-child @change="childInfo"></choose-child>
     <view class="head">
       <u-tabs-swiper
         ref="uTabs"
@@ -43,11 +44,32 @@
             class="scroll-h"
             @scrolltolower="loadMore"
           >
-            <PlanList :data-list="recordList" @goDetail="goDetail"></PlanList>
+            <PlanList isName :data-list="recordList" @goDetail="goDetail" @getScore="getScore" ></PlanList>
           </scroll-view>
         </swiper-item>
          </swiper
     ></view>
+    <template>
+	<view>
+		<u-popup     
+      :maskCloseAble="true"
+      ref="refuse"
+      mode="center"
+      length="80%"
+      border-radius="14">
+			<view class="u-padd-40">
+        <view class="u-mar-b20 u-font-1 u-fx-jc">成绩详情</view>
+   <view v-for="(item, i) in scoreList" :key="i" > 
+    <view class="u-mar-b20">{{item.subjectName}}: {{item.score}}分</view>
+     </view>  
+      <view>总分：{{this.numCount}}分</view>
+       </view>
+      <view class="u-fx u-fx-jsa u-padd-20">
+      <view class="u-type-primary u-font-1" @click="close()">关闭</view>
+      	</view>
+		</u-popup>
+	</view>
+</template>
   </view>
 </template>
 <script>
@@ -55,10 +77,12 @@ import { store, actions } from "./store/index.js";
 import noData from "@/components/no-data/no-data.vue";
 import eventBus from "@u/eventBus";
 import PlanList from "../component/PlanList.vue";
+import chooseChild from "@/components/choose-child/choose-child.vue";
 export default {
   components: {
     noData,
     PlanList,
+    chooseChild,
   },
   data() {
     return {
@@ -73,8 +97,8 @@ export default {
           name: "已结束",
         },
       ],
-      current: 0,
-      swiperCurrent: 0,
+      current: "0",
+      swiperCurrent: "0",
       recordList: [],
       searchObj: {},
       total: 0,
@@ -83,23 +107,33 @@ export default {
         size: 20,
       },
       morePage: false,
+      userCode: "",
+      show: false,
+      scoreList: [],
+      numList: [],
+      numCount: "",
     };
   },
-  filters: {},
-  mounted() {
+  async created() {
+    this.userCode = store.childList[0].userCode;
     this.showList();
   },
   methods: {
+    childInfo(item) {
+      if (item.userCode !== this.userCode) {
+        this.userCode = item.userCode;
+        this.showList();
+      }
+    },
     changeMenu(item) {
       this.swiperCurrent = item;
       this.showList();
     },
     animationfinish(e) {
-      console.log(e);
       let current = e.detail.current;
       this.$refs.uTabs.setFinishCurrent(current);
       this.swiperCurrent = current;
-      this.current = current;
+      // this.showList();
     },
     transition(e) {
       let dx = e.detail.dx;
@@ -113,7 +147,7 @@ export default {
       }
       const req = {
         schoolCode: store.userInfo.schoolCode,
-        userCode: store.userInfo.userCode,
+        userCode: this.userCode,
         ...this.pageList,
         state: this.swiperCurrent,
       };
@@ -137,6 +171,26 @@ export default {
         url: "./detail?id=" + id,
         title: "详情",
       });
+    },
+    async getScore(id) {
+      this.$refs.refuse.open();
+      const req = {
+        userCode: this.userCode,
+        planId: id,
+      };
+      const res = await actions.gettestScore(req);
+      this.scoreList = res.data;
+      this.numList = res.data.map((el) => {
+        return el.score;
+      });
+      let sum = 0;
+      for (var i = 0; i < this.numList.length; i++) {
+        sum = sum + this.numList[i];
+      }
+      this.numCount = sum;
+    },
+    close() {
+      this.$refs.refuse.close();
     },
   },
 };

@@ -51,7 +51,7 @@
           :key="i"
           :index="i"
           @click="tagClick(item,i)"
-          @close="tagDel"
+          @close="tagDel(item,i)"
         />
         <u-button type="info" size="mini" class="add_p" @click="open">
           <u-icon
@@ -109,7 +109,6 @@ export default {
       noWorkstuLength: "请选择",
       schoolInfo: {},
       recordList: [],
-      labelList: [],
       initList: [],
       border: true,
       type: "input",
@@ -139,17 +138,7 @@ export default {
     close() {
       this.$refs.refuse.close();
     },
-    addPraise() {
-      console.log(this.label);
-      this.recordList.push({
-        label: this.label,
-        mode: "plain",
-        del: true,
-        tag: true,
-      });
-      this.label = "";
-      this.$refs.refuse.close();
-    },
+
     classClose() {
       this.classTag = false;
     },
@@ -181,9 +170,6 @@ export default {
       );
       this.noWorkstuLength = `已选择${this.formData.noWorkstu.length}个班级`;
     },
-    tagDel(i) {
-      this.recordList[i].tag = false;
-    },
     async showList() {
       const req = {
         ...this.pageList,
@@ -205,34 +191,47 @@ export default {
       this.recordList = this.dataList.filter((item) => item.category === 1);
     },
     tagClick(item, index) {
-      item.mode = item.mode === "light" ? "plain" : "light";
+      console.log(item, index);
       if (item.mode === "light") {
-        this.initList.push(item);
-      } else {
-        this.initList.splice(index, 1);
-      }
-      var b = ["plain"];
-      this.labelList = this.initList.filter((item) => {
-        return !b.includes(item.mode);
-      });
-      if (this.labelList.length > 3) {
-        this.$tools.toast("最多选择3个标签!");
         item.mode = "plain";
-        return false;
+        this.initList.splice(2, 1);
+        console.log(this.initList);
+      } else if (item.mode === "plain") {
+        if (this.initList.length > 2) {
+          this.$tools.toast("最多选择3个标签!");
+          return;
+        }
+        item.mode = "light";
+        this.initList.push(item);
+        console.log(this.initList);
       }
-      console.log(this.labelList.length);
+    },
+    addPraise() {
+      console.log(this.label);
+      this.recordList.push({
+        label: this.label,
+        mode: "plain",
+        del: true,
+        tag: true,
+      });
+      this.label = "";
+      this.$refs.refuse.close();
+    },
+    tagDel(item, i) {
+      this.recordList[i].tag = false;
+      this.initList = this.initList.filter((el) => el !== item);
     },
     async submit() {
       if (this.formData.noWorkstu.length === 0) {
         this.$tools.toast("请选择要表扬的学生!");
         return false;
       }
-      if (this.labelList.length === 0) {
+      if (this.initList.length === 0) {
         this.$tools.toast("请选择表扬语!");
         return false;
       }
       let label = [];
-      this.labelList.forEach((ele) => {
+      this.initList.forEach((ele) => {
         label.push(ele.label);
       });
       const req = {

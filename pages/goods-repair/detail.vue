@@ -299,22 +299,25 @@ export default {
       }
     },
     teacherSelcet(value) {
-        if (value[0].userCode === store.userInfo.userCode||value[0].userCode === this.detail.submitUserCode) {
-          this.$tools.toast("指定人不能是自己或者申请人!");
-          return;
-        } else {
-          this.approvalList = value.map((el) => {
-            return {
-              approvalUserCode: el.userCode,
-              approvalUserName: el.userName,
-              schoolCode: el.orgCode,
-              repairId: this.detail.id,
-              previousUserName: store.userInfo.userName,
-              previousUserCode: store.userInfo.userCode,
-            };
-          });
-          this.teacherTag = false;
-        }
+      if (
+        value[0].userCode === store.userInfo.userCode ||
+        value[0].userCode === this.detail.submitUserCode
+      ) {
+        this.$tools.toast("指定人不能是自己或者申请人!");
+        return;
+      } else {
+        this.approvalList = value.map((el) => {
+          return {
+            approvalUserCode: el.userCode,
+            approvalUserName: el.userName,
+            schoolCode: el.orgCode,
+            repairId: this.detail.id,
+            previousUserName: store.userInfo.userName,
+            previousUserCode: store.userInfo.userCode,
+          };
+        });
+        this.teacherTag = false;
+      }
       actions.appointApproval(this.approvalList).then((res) => {
         this.$tools.toast("操作成功", "success");
         this.isApproval = false;
@@ -348,28 +351,30 @@ export default {
       this.detail = res.data;
       res.data.repairApprovalList.forEach((el) => {
         if (
-          el.type != "3" &&
+          el.type !== "3" &&
           store.userInfo.userCode === el.approvalUserCode &&
           this.detail.state === "0"
         ) {
           this.isApproval = true;
         }
-            if (
-        store.userInfo.userCode === el.approvalUserCode &&
-        this.detail.state === "1"
-      ) {
-        this.isHandle = true;
-      } else if (
-        store.userInfo.userCode === el.approvalUserCode &&
-        this.detail.state === "4"
-      ) {
-        this.isApproval = true;
-      } else if (
-        store.userInfo.userCode === el.approvalUserCode &&
-        this.detail.state === "5"
-      ) {
-        this.isRepair = true;
-      }
+      });
+      res.data.pointRepairApprovalList.forEach((el) => {
+        if (
+          store.userInfo.userCode === el.approvalUserCode &&
+          this.detail.state === "1"
+        ) {
+          this.isHandle = true;
+        } else if (
+          store.userInfo.userCode === el.approvalUserCode &&
+          this.detail.state === "4"
+        ) {
+          this.isApproval = true;
+        } else if (
+          store.userInfo.userCode === el.approvalUserCode &&
+          this.detail.state === "5"
+        ) {
+          this.isRepair = true;
+        }
       });
       this.photoList = [];
       res.data.attachmentList.forEach((ele) => {
@@ -387,11 +392,11 @@ export default {
 }
 .pop {
   padding: 0 20px;
-  .u-padd-20{
+  .u-padd-20 {
     padding: 20rpx;
   }
 }
-.new-top{
-    margin-top: -200rpx;
+.new-top {
+  margin-top: -200rpx;
 }
 </style>

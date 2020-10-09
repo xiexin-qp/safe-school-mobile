@@ -24,7 +24,7 @@
           >
         	<video-upload
 							class="u-fx-f1 u-padd-l20 u-padd-r10 u-padd-b20"
-							:uploadUrl="uploadUrl"
+							:schoolCode="userInfo.schoolCode"
 							types="image"
 							v-model="fileList"
 							:uploadCount="1"
@@ -62,16 +62,15 @@ export default {
         title: "",
         content: "",
       },
+			uploadUrl: '',
       fileList: [],
-      id: "",
-      uploadUrl: "",
+      id: ""
     };
   },
-  computed: {},
+  computed: {
+		userInfo: () => store.userInfo,
+	},
   created() {
-    this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${
-      store.userInfo.schoolCode
-    }`;
   },
   async mounted() {
     this.id = this.$tools.getQuery().get("id");

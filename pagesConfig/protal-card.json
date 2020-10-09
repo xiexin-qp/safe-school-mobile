@@ -16,6 +16,14 @@
 			"path": "pages/examPlan/examPlan-p/detail",
 			"style": {}
 		},
+		        //考试成绩
+		                {
+		                        "path": "pages/examAchievement/examAchievement-t/index",
+		                        "style": {}
+		                }, {
+		                        "path": "pages/examAchievement/examAchievement-t/detail",
+		                        "style": {}
+		                },
 		//物品管理报修
 		{
 			"path": "pages/goods-repair/index",
@@ -110,6 +118,9 @@
 		},
 		{
 			"path": "pages/study-ground/study-ground-t/form"
+		},
+		{
+			"path": "pages/study-ground/component/office"
 		},
 		{
 			"path": "pages/study-ground/component/detail"

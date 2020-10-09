@@ -33,6 +33,11 @@ let newsApi = {
 	getlistByUser: `${hostEnv.zq_news}/notice/listByUser#post`, // 用户查询公告列表
 	getlistByTeacher: `${hostEnv.zq_news}/notice/listByTeacher#post` // 老师查询公告列表
 }
+let introApi = {
+	getChildIntro: `${hostEnv.ljj_user_center}/user/introduction/query/student/introduction#get`, // 家长获取孩子简介
+	getIntro: `${hostEnv.ljj_user_center}/user/introduction/query/user/introduction#get`, // 查询个人简介
+	getlistByTeacher: `${hostEnv.ljj_user_center}/user/introduction/save/and/update#post` // 编辑修改个人简介
+}
 for (let val in homeApi) {
 	homeApi[val] = `${hostEnv.zx_mobile_user}${homeApi[val]}`
 }
@@ -42,6 +47,7 @@ homeApi = {
 	...schoolApi,
 	...gradeApi,
 	...newsApi,
+	...introApi,
 	getMenuList: `${hostEnv.zx_protal}/role/manage/menu/multiple/tree/list#get`
 }
 

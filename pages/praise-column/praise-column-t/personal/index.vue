@@ -153,8 +153,9 @@ export default {
 
 <style lang="scss" scoped>
 .scroll-h {
-  height: calc(100vh - 100rpx);
-    margin-top: 20rpx;
-
+  height: calc(100vh - 120rpx);
+}
+.head{
+  height: 100rpx;
 }
 </style>

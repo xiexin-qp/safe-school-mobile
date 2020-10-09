@@ -271,12 +271,11 @@
 					}
 				},
 				"/cl_oa": {
-         "target": "http://canpointtest.com/cl_oa/", //陈琳-调代课
-         // "target": "http://192.168.1.193:11009/", //陈琳-调代课
-				  "changeOrigin": true,
-				  "pathRewrite": {
-				    "^/cl_oa": ""
-				  }
+					"target": "http://canpointtest.com/cl_oa/", //陈琳-调代课
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/cl_oa": ""
+					}
 				},
 				"lz_safe": {
 					"target": "http://192.168.2.242:8091/", //吕卓-安全防控
@@ -287,13 +286,28 @@
 					}
 				},
 				"/zl_uploadFile" : {
-					"target" : "http://canpointtest.com:8090/ossApi/upload-oss-file/", //陈琳-调代课
-					// "target": "http://192.168.1.193:11009/", //陈琳-班牌
+					"target" : "http://canpointtest.com:8090/ossApi/upload-oss-file/", //上传文件
+					// "target": "http://192.168.1.193:11009/", //上传文件
 					"changeOrigin" : true,
 					"pathRewrite" : {
 							"^/zl_uploadFile" : ""
 					}
-			}
+				},
+				"/cl_class": {
+					"target": "http://canpointtest.com/cl_class/", //陈琳-班牌
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/cl_class": ""
+					}
+				},
+				'/zx_subject': {
+					target: 'http://192.168.2.242:10050/',
+					// target: 'http://192.168.1.24:10050/', // 朱旭-平台-学校学科教师管理上传文件
+					changeOrigin: true,
+					pathRewrite: {
+						'^/zx_subject': ''
+					}
+				}
 				
       }
     },

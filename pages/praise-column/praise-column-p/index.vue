@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import eventBus from "@u/eventBus"
+import eventBus from "@u/eventBus";
 import { store, actions } from "./store/index.js";
 import hostEnv from "../../../config/index.js";
 import PraiseList from "../component/praiseList.vue";
@@ -31,7 +31,7 @@ export default {
         size: 20,
       },
       morePage: false,
-      gradeCode:''
+      gradeCode: "",
     };
   },
   watch: {
@@ -47,11 +47,11 @@ export default {
   mounted() {},
   methods: {
     childInfo(item) {
-      console.log(item)
+      console.log(item);
       if (item.classCode !== this.classCode) {
         this.classCode = item.classCode;
       }
-       if (item.gradeCode !== this.gradeCode) {
+      if (item.gradeCode !== this.gradeCode) {
         this.gradeCode = item.gradeCode;
       }
     },
@@ -65,7 +65,7 @@ export default {
         ...this.pageList,
         schoolCode: store.userInfo.schoolCode,
         classId: this.classCode,
-        gradeId:this.gradeCode,
+        gradeId: this.gradeCode,
         schoolYearId: this.schoolYearId,
       };
       const res = await actions.getStudentList(req);
@@ -83,18 +83,16 @@ export default {
       }
       this.showList(true);
     },
-      goDetail(id) {
+    goDetail(id) {
       this.$tools.navTo({
         url: "./detail?id=" + id,
       });
-    }
-  }
- 
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
 .scroll-h {
   height: calc(100vh - 20rpx);
-  margin-top: 20rpx;
 }
 </style>

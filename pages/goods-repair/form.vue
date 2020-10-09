@@ -11,7 +11,7 @@
     ></teacher-tree>
     <teacher-tree
       isCheck
-      :teacherCopy="teacherCopy"
+      :teacherTag="teacherCopy"
       v-show="teacherCopy"
       :schoolInfo="schoolInfo"
       @close="teacherClose"
@@ -510,8 +510,6 @@ export default {
         materialRemark: this.formData.materialRemark,
         remark: this.formData.remark,
       };
-      console.log(req)
-      // return
       await actions.addRepair(
         req,
       );

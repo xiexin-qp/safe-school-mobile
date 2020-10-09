@@ -29,9 +29,6 @@
                   :key="index"
                 >
                   <view class="set-width"> {{ item.approvalUserName }} </view>
-                  <!-- <text class="set-state" v-if="item.type !== '3'"
-                    >{{ item.approvalState | getRovalState }}
-                  </text> -->
                 </view></view
               >
             </view>
@@ -62,9 +59,9 @@
         </view>
       </view>
     </view>
-    <view
+      <view
       class="set_box"
-      v-for="(item, index) in detail.pointRepairApprovalList"
+      v-for="(item, index) in detail.dataList"
       :key="index"
     >
       <view class="set_time">
@@ -73,41 +70,26 @@
       <view class="set-1">
         <view class="set-2">
           <view class="right u-fx-ver">
-            <text class="detail"
-              >处理人： {{ item.previousUserName }}
-              <text class="set-state">
-                已指定
-              </text>
-            </text>
-          </view>
-          <view class="detail">
-            指定人：<text class="pa-4">{{ item.approvalUserName
-            }}<text class="set-state">
-              代审批
-            </text></text></view
-          >
-        </view>
-      </view>
-    </view>
-    <view
-      class="set_box"
-      v-for="(item, index) in detail.repairStateRecordList"
-      :key="index"
-    >
-      <view class="set_time">
-        <view>{{ item.createTime | gmtToDate("dateTime") }}</view>
-      </view>
-      <view class="set-1">
-        <view class="set-2">
-          <view class="right u-fx-ver">
-            <text class="detail"
+            <text class="detail" v-if="item.approvalState!=='0'"
               >处理人： {{ item.handleUserName }}
               <text class="set-state"
                 >{{ item.repairState | repairState }}
               </text>
             </text>
-            <view v-if="item.remark !== ''">退回理由：{{ item.remark }}</view>
+             <text class="detail" v-if="item.approvalState==='0'"
+              >处理人： {{ item.previousUserName }}
+              <text class="set-state">
+                已指定
+              </text>
+            </text>
+            <view v-if="item.remark !== ''&&item.approvalState!=='0'">退回理由：{{ item.remark }}</view>
           </view>
+               <view class="detail" v-if="item.approvalState==='0'">
+            指定人：<text class="pa-4">{{ item.approvalUserName
+            }}<text class="set-state">
+              代审批
+            </text></text></view
+          >
         </view>
       </view>
     </view>
