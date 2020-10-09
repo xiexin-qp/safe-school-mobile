@@ -5,7 +5,7 @@
 			 :current="current"></u-subsection>
 		</view>
 		<view class="u-mar-l20 u-mar-r20 u-mar-b10">
-			<dropdown-menu @value0Change="value0Change" :completeStatusList="this.source==='2'?this.completeStatusLists2:this.source==='3'?this.completeStatusLists3:this.completeStatusLists1"
+			<dropdown-menu :key="childIndex" @value0Change="value0Change" :completeStatusList="this.source==='2'?this.completeStatusLists2:this.source==='3'?this.completeStatusLists3:this.completeStatusLists1"
 			 @value1Change='value1Change' @searchChange="searchChange"></dropdown-menu>
 		</view>
 		<no-data class="u-mar-l20 u-mar-r20 u-mar-t20" v-if="dataList.length === 0" msg="暂无数据"></no-data>
@@ -37,8 +37,8 @@
 							发布于：&nbsp;{{(source==='3'?item.publishDate:item.publishTime)|gmtToDate}}
 						</view>
 						<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
-							任务时间：{{(source==='3'?item.beginDate:item.startTime)|gmtToDate}}：&nbsp;
-							至：{{(source==='3'?item.endDate:item.endTime)|gmtToDate}}
+							任务时间：{{(source==='3'?item.beginDate:item.startTime)|gmtToDate}}&nbsp;
+							至&nbsp;{{(source==='3'?item.endDate:item.endTime)|gmtToDate}}
 						</view>
 						<view class="cont-footer u-padd-t20 u-type-primary u-bd-t u-fx-jc u-font-02 ">
 							<view class="u-fx-f1 u-fx-ac-jc " @click="fillIn(1,item)" v-if="source!=='3'&&item.completeStatus==='1'&&!isTime(item.endTime)">
@@ -56,7 +56,7 @@
 							<view @click="submit(item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& (item.completeStatus==='2'||item.completeStatus==='6')">
 								提交
 							</view>
-							<view @click="fillIn(0,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& (item.completeStatus==='3'||item.completeStatus==='4')">
+							<view @click="fillIn(0,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& (item.completeStatus==='3'||item.completeStatus==='4'||item.completeStatus==='8')">
 								查看
 							</view>
 							<view class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& item.completeStatus==='5'">
@@ -91,6 +91,7 @@
 			return {
 				current: 0,
 				state: 1,
+				childIndex:0,//刷新子组件标记
 				states: '', //发布任务传给后台的任务状态
 				source: '2', //1校端，2局端
 				dataList: [],
@@ -279,7 +280,6 @@
 			},
 			searchChange(val) {
 				console.log(val)
-				// this.showList();
 			},
 			//填报
 			fillIn(type, record) {
@@ -340,8 +340,10 @@
 				});
 			},
 			change(index) {
-				this.current = index;
+				this.current = index
 				this.completeStatus = []
+				this.searchObj.taskType = ''
+				this.childIndex++
 				if (index === 0) {
 					this.source = '2'
 				} else if (index === 1) {

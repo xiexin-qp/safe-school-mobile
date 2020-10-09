@@ -9,16 +9,15 @@
 					<u-col span="3">
 						<view class="demo-layout bg-purple">发布人:{{publisher }}</view>
 					</u-col>
-					<u-col span="7">
+					<!-- <u-col span="7">
 						<view class="demo-layout bg-purple-light">发布于：{{ new Date()| gmtToDate }}</view>
-					</u-col>
+					</u-col> -->
 				</u-row>
 				<u-row class='u-mar-b30 u-font-02' gutter="16" justify="center">
 					<u-col span="9">
 						<view class="demo-layout bg-purple">
 							任务时间：{{ detailInfo.startTime | gmtToDate('date') }}
-							至
-							{{ detailInfo.endTime  | gmtToDate('date') }}
+							至{{ detailInfo.endTime  | gmtToDate('date') }}
 						</view>
 					</u-col>
 				</u-row>
@@ -34,7 +33,7 @@
 						要求上报内容:
 					</u-col>
 					<u-col span='3' class="u-type-primary">
-						选择接受人:
+						选择接收人:
 					</u-col>
 				</u-row>
 				<view class="problem-list">

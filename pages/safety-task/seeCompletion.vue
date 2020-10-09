@@ -3,7 +3,13 @@
 		<no-data class="" v-if="itemList.length === 0" msg="暂无数据"></no-data>
 		<scroll-view v-else scroll-y="true" class="scroll-h">
 			<view class="u-padd-15  head">
-				(已完成数/总数：<text class="u-type-primary">{{ compNum }}</text>/{{ sum }})
+				<view>
+					<ms-dropdown-item v-model="dateNum" @change="getUserList" :list="typeListTime"></ms-dropdown-item>
+				</view>
+				<view class="">
+					(已完成数/总数：<text class="u-type-primary">{{ compNum }}</text>/{{ sum }})
+				</view>
+			
 			</view>
 			<u-collapse event-type="close" :arrow="arrow" :accordion="accordion" :body-style='bodyStyle' :head-style='headStyle'
 			 @change="change">
@@ -34,13 +40,16 @@
 
 <script>
 	import eventBus from '@u/eventBus'
+	import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue';
 	import {
 		store,
 		actions
 	} from './store/index.js'
 	import hostEnv from '../../config/index.js';
 	export default {
-		components: {},
+		components: {
+			msDropdownItem,
+		},
 		computed: {
 			publisher() {
 				return store.userInfo.userName
@@ -62,6 +71,24 @@
 					paddingRight: '30rpx',
 						background: '#fff',
 				},
+				value1Change: '0',
+				typeListTime: [{
+						text: '任务类型',
+						value: '0'
+					},
+					{
+						text: '一次性计划',
+						value: '1'
+					},
+					{
+						text: '周计划',
+						value: '2'
+					},
+					{
+						text: '月计划',
+						value: '3'
+					},
+				],
 				compNum: '',
 				sum: '',
 				arrow: true,
@@ -76,7 +103,7 @@
 		created() {},
 		mounted() {
 			this.taskId = this.$tools.getQuery().get('myTaskId'),
-				this.taskTemplateCode = this.$tools.getQuery().get('taskTemplateCode')
+			this.taskTemplateCode = this.$tools.getQuery().get('taskTemplateCode')
 			this.getUserList()
 		},
 		methods: {

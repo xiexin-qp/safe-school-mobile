@@ -290,24 +290,30 @@
 					"pathRewrite": {
 						"^/cl_class": ""
 					}
-<<<<<<< HEAD
-        },	
-        "/cl_class": {
-				  "target": "http://192.168.1.193:11009/", //陈琳-班牌
-				  "changeOrigin": true,
-				  "pathRewrite": {
-				    "^/cl_class": ""
-				  }
-        },
-        	"/zx_subject": {
-				  "target": "http://192.168.2.242:10050/", //朱旭-文件上传
-				  "changeOrigin": true,
-				  "pathRewrite": {
-				    "^/zx_subject": ""
-				  }
-=======
->>>>>>> ddb7fbec2704e93e6cc611d6b8b18ee00e4122d4
+				},
+				"/cl_class": {
+					"target": "http://192.168.1.193:11009/", //陈琳-班牌
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/cl_class": ""
+					}
+				},
+				"/zx_subject": {
+					"target": "http://192.168.2.242:10050/", //朱旭-文件上传
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/zx_subject": ""
+					}
+				},
+				"/zl_uploadFile" : {
+						"target" : "http://canpointtest.com:8090/ossApi/upload-oss-file/", //陈琳-调代课
+						// "target": "http://192.168.1.193:11009/", //陈琳-班牌
+						"changeOrigin" : true,
+						"pathRewrite" : {
+								"^/zl_uploadFile" : ""
+						}
 				}
+				
 			}
 		},
 		"optimization": {

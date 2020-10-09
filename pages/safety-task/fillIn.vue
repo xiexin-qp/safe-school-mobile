@@ -152,13 +152,7 @@
 									{{i+1}}.{{ list.title }}
 								</u-col>
 							</u-row>
-							<!-- {{list}} -->
-							<!-- <l-file ref="lfile" @up-success="onSuccess"></l-file>
-							<view class="padding text-center">
-								<view class="padding">
-									<button @tap="onUpload(i)">上传</button>
-								</view>
-							</view> -->
+							{{list}}
 						<an-upload-img style="padding: 20rpx"
 						:disabled="!type" class='u-type-white-bg' v-model="list.answer" total="9"></an-upload-img>
 					</view>
@@ -177,7 +171,7 @@
 </template>
 
 <script>
-  import vConsole from 'vconsole'
+  // import vConsole from 'vconsole'
 	import eventBus from '@u/eventBus'
 	import validateForm from '@u/validate';
 	import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
@@ -301,28 +295,29 @@
 			},
 			//上传图片返回文件路径
 			upload(fileList){
+				console.log(fileList)
 				let urls = []
-				fileList = fileList.forEach(res=>{
-					res.answer.forEach(v=>{
+				let a  = fileList.forEach(el=>{
+					el.answer.forEach(v=>{
 						let v1 = this.uploadFiles(v)
 						console.log(v1)
 					})
 				})
 			},
 			// 上传图片文件到服务器
-    uploadFiles(files) {
+    	uploadFiles(files) {
       const that = this
-      const blob =this.$tools.dataURLToBlob(files)
-      var form = new FormData()
-      form.append('fileList', blob)// 文件对象
+      // const blob =this.$tools.dataURLToBlob(files)
+      // var form = new FormData()
+      // form.append('fileList', blob)// 文件对象
       // XMLHttpRequest 对象
       var xhr = new XMLHttpRequest()
 			xhr.timeout = 30000 // 设置超时
-			
-      var url = `${hostEnv.zx_subject}/file/upload/doc?schoolCode=${store.userInfo.schoolCode}`
+      // var url = `${hostEnv.zx_subject}/file/upload/doc?schoolCode=${store.userInfo.schoolCode}`
+      var url = `http://canpointtest.com:8090/ossApi/upload-oss-file?schoolCode=${store.userInfo.schoolCode}`
       xhr.open('post', url, true)
-      const token = sessionStorage.getItem('token')
-      xhr.setRequestHeader('token', token)
+      // const token = sessionStorage.getItem('token')
+      // xhr.setRequestHeader('token', token)
       xhr.responseType = 'json'
       xhr.onload = function () {
         if (xhr.response.status !== 0) {
@@ -337,7 +332,7 @@
       xhr.onerror = function (res) {
         that.$message.error('数据加载失败，请刷新页面')
       }
-      xhr.send(form)
+      xhr.send(`base64=${files}`)
     },
 			//提交
 			submitOk() {
@@ -353,7 +348,6 @@
           this.checkList.forEach(item => {
             item.answers = item.pointList.filter(v => v.disabled).map(i => i.content)
 					})
-				
 					const arr = this.radioList.concat(this.checkList).concat(this.fillList).concat(this.fileList)
            answers = arr.map(el => {
             return {
@@ -367,9 +361,9 @@
           this.checkList.forEach(item => {
             item.answer = item.pointList.filter(v => v.answer).map(i => i.content)
 					})
-					// if(this.fileList.length>0){
-					//   this.fileList =this.upload(this.fileList)
-					// }
+					if(this.fileList.length>0){
+					  let result =this.upload(this.fileList)
+					}
 					const arr = this.radioList.concat(this.checkList).concat(this.fillList).concat(this.fileList)
           answers = arr.map(el => {
             return {
@@ -378,33 +372,37 @@
               questionType: el.questionType
             }
 					})
-        }
+				}
 				answers.forEach(element => {
+					if(element.answers.length===0){
+						this.$tools.toast("请填写完整题目");
+					}
 					element.answers.forEach(el => {
-						if (!el) {
+						if (!el||el.length===0) {
 							this.$tools.toast("请填写完整题目");
 							return false
 						}
 					})
 				})
 				req.answers = answers
-				this.isLoad = true
-				actions.answerTask(req)
-					.then(res => {
-						this.isLoad = false
-						this.$tools.toast("操作成功", "success");
-						if(this.source==='1'){
-							this.submit(this.taskId)
-						}
-						this.$tools.goNext(() => {
-							this.$tools.navTo({
-								url: `./index?source=${this.source}`,
-							})
-						});
-					})
-					.catch(res => {
-						this.isLoad = false
-					})
+				// console.log(req)
+				// this.isLoad = true
+				// actions.answerTask(req)
+				// 	.then(res => {
+				// 		this.isLoad = false
+				// 		this.$tools.toast("操作成功", "success");
+				// 		if(this.source==='1'){
+				// 			this.submit(this.taskId)
+				// 		}
+				// 		this.$tools.goNext(() => {
+				// 			this.$tools.navTo({
+				// 				url: `./index?source=${this.source}`,
+				// 			})
+				// 		});
+				// 	})
+				// 	.catch(res => {
+				// 		this.isLoad = false
+				// 	})
 			},
 			//提交 ，学校填报了直接提交
 			submit(taskId) {
@@ -415,29 +413,6 @@
 						console.log(res)
 					})
 			},
-			/* 上传 */
-						onUpload(i) { 
-							// console.log(this.$refs.lFile)
-							const url = `${hostEnv.zx_subject}/file/upload/doc`
-							this.$refs.lfile[i].upload({
-								// #ifdef APP-PLUS
-								currentWebview: this.$mp.page.$getAppWebview(),
-								// #endif
-								 url: url,
-								//默认file,上传文件的key
-								name: 'uploadFile',
-								// header: {'Content-Type':'类型','Authorization':'token'},
-								//...其他参数
-							});
-						},
-						onSuccess(res) {
-							console.log('上传成功回调=====33====',JSON.stringify(res));
-							
-							// uni.showToast({
-							// 	title: JSON.stringify(res),
-							// 	icon: 'none'
-							// })
-						},
 			// 全选
 			checkedAll() {
 				this.list.map(val => {

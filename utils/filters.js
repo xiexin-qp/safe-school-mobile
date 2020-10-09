@@ -401,9 +401,9 @@ const filters = {
 		} else if (parseInt(text) === 4) {
 			return '已补交'
 		} else if (parseInt(text) === 5) {
-			return '已打回、请重报'
+			return '已打回、未重写'
 		} else if (parseInt(text) === 6) {
-			return '已重报、请提交'
+			return '已重报、未提交'
 		} else if (parseInt(text) === 7) {
 			return '已重报、已提交'
 		} else if (parseInt(text) === 8) {
@@ -441,9 +441,9 @@ const filters = {
     // text = parseInt(text)
 		if (text === '未填报' || text === '未完成'||text === '未发布'||text === '未开始') {
 			return '#FF5454'
-		} else if (text === '已填报、待提交' || text === '已打回、请重报' || text === '逾期填报') {
+		} else if (text === '已填报、待提交' || text === '已打回、未重写' || text === '逾期填报'|| text === '已重报、未提交') {
 			return '#F5782E'
-		} else if (text === '已提交' || text === '已补交' || text === '已补交'||text === '进行中'||text === '已完成') {
+		} else if (text === '已重报、已提交' ||text === '已提交' || text === '已补交' || text === '已补交'||text === '进行中'||text === '已完成'||text === '已重报、已补交') {
 			return '#00A460'
 		}else if (text === '已结束' ){
       return '#cccccc'
