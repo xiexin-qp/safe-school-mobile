@@ -33,22 +33,23 @@
 				<view v-if="userInfo.typeCode == 16" @click="bindChild('1')" class="bind-child">绑定孩子</view>
 				<view class="rit-icon" v-if="userInfo.typeCode == 4 && classList.length > 1"></view>
 			</view>
-			<view class="item u-fx-jsb u-bd-b u-fx-ac" @click="changeIntroType">
-				<text class="u-content-color">{{ introTitle }}</text>
+			<view v-if="userInfo.typeCode == 4" class="item u-fx-jsb u-bd-b u-fx-ac" @click="changeIntroType">
+				<text class="u-content-color">个人简介</text>
 				<view class="rit-icon"></view>
 			</view>
 		</view>
 		<view v-if="userInfo.typeCode == 16">
-			<view v-for="(child, index) in childList" :key="child.userCode" class="u-fx-ac u-mar u-border-radius u-padd child-list u-bd-b u-content-color u-bg-fff">
+			<view v-for="(child, index) in childList" :key="child.userCode" @click="goIntro(index)" class="u-fx-ac u-mar u-border-radius u-padd child-list u-bd-b u-content-color u-bg-fff">
 				<image class="img u-border-radius" :src="child.photoUrl" alt="" />
 				<view class="u-fx-f1 u-line3 u-mar-l">
 					<view class="u-main-color">{{ child.userName }}</view>
 					<view class="u-font-01">{{ child.gradeName }}{{ child.className }}</view>
 					<view class="u-font-01">{{ child.workNo || '' }}</view>
 				</view>
-				<view class="unbind-btn u-fx-ac-jc" @tap="_unbind(child.userCode, index)">
+				<view class="rit-icon"></view>
+				<!-- <view class="unbind-btn u-fx-ac-jc" @tap="_unbind(child.userCode, index)">
 					解绑
-				</view>
+				</view> -->
 			</view>
 		</view>
 		<view class="mine-btn" @tap="loginOut(true)">
@@ -70,8 +71,7 @@ export default {
 			classInfo: {},
 			classList: [],
 			typeList: [],
-			isMap: false,
-			introTitle: '个人简介'
+			isMap: false
 		};
 	},
 	computed: {
@@ -153,10 +153,8 @@ export default {
 			this.$tools.actionsheet(this.typeMenuList, index => {
 				if (this.typeMenuList[index] === this.userInfo.typeName) return
 				if (index === 0) { // 切换教职工
-					this.introTitle = '个人简介'
 					this.addLog('4', '教职工')
 				} else {
-					this.introTitle = '学生简介'
 					if (this.typeList.length === 1) {
 						this.bindChild('0')
 					} else {
@@ -166,6 +164,11 @@ export default {
 			});
 		},
 		// 个人简介
+		goIntro(index){
+			this.$tools.navTo({
+				url: `./intro?type=0&index=${index}` // 0查看1编辑
+			})
+		},
 		changeIntroType() {
 			if (this.userInfo.typeCode === '16' && this.childList.length === 0) {
 				this.$tools.toast('请先绑定孩子')
@@ -174,11 +177,6 @@ export default {
 			this.$tools.navTo({
 				url: `./intro?type=0` // 0查看1编辑
 			})
-			/* this.$tools.actionsheet(['查看', '编辑'], index => {
-				this.$tools.navTo({
-					url: `./intro?type=${index}` // 0查看1编辑
-				})
-			}); */
 		},
 		// 添加登录日志
 		async addLog (typeCode, typeName) {
@@ -224,17 +222,6 @@ export default {
 				url: `./bindChild?type=${type}`
 			})
 		},
-		// 解绑孩子
-		_unbind (childCode, index) {
-			this.$tools.confirm('确定解绑吗?', async () => {
-				await actions.unbindChild({
-					childCode,
-					parentCode: this.userInfo.userCode
-				})
-				this.childList.splice(index, 1)
-				this.$tools.toast('解绑成功')
-			})
-		},
 		// 获取绑定的班级信息
 		async getClassInfo () {
 			const res = await actions.getClassInfo({
@@ -263,7 +250,6 @@ export default {
 					} catch(err) {
 						ths.$tools.toast('退出失败')
 					}
-					
 				})
 			}
 		}
