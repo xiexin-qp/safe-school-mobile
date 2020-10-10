@@ -354,7 +354,7 @@ export default {
               countHourse: this.detailInfo.handleDuration,
               handlerCode: this.detailInfo.handlerCode,
               hasDispense: this.detailInfo.hasDispense?'1':'0',
-              remak:this.detailInfo.assignRemark,
+              remark:this.detailInfo.assignRemark,
               id: this.id,
               level: this.detailInfo.level,
               optCode: store.userInfo.userCode,

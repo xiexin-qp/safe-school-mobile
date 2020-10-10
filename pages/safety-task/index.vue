@@ -1,6 +1,6 @@
 <template>
 	<view class='task-home'>
-		<view class="u-mar-b20 u-padd-l20 u-padd-r20  ">
+		<view class="u-mar-20 ">
 			<u-subsection class="u-type-white-bg" @change="change" active-color="#2979ff" :list="typeList" mode="subsection"
 			 :current="current"></u-subsection>
 		</view>
@@ -16,6 +16,7 @@
 					<view class="cont-box  u-wh u-mar-l20">
 						<view class="cont-title u-font-1 u-mar-t20  u-fx">{{item.taskName}}
 							<view class="doorkeeper" v-if="item.taskType==='2'">
+								{{item.dataNum}}
 								({{item.year}}-{{item.dataNum}}周)
 							</view>
 							<view class="doorkeeper" v-if="item.taskType==='3'">
@@ -59,7 +60,7 @@
 							<view @click="fillIn(0,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& (item.completeStatus==='3'||item.completeStatus==='4'||item.completeStatus==='8')">
 								查看
 							</view>
-							<view class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& item.completeStatus==='5'">
+							<view @click="fillIn(1,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& item.completeStatus==='5'">
 								重报
 							</view>
 							<view @click='release(item)' class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='3'&& item.state==='0'">
@@ -158,11 +159,11 @@
 						value: '0'
 					},
 					{
-						text: '已完成',
+						text: '已提交',
 						value: '6'
 					},
 					{
-						text: '未完成',
+						text: '未提交',
 						value: '7'
 					},
 					{
@@ -286,10 +287,11 @@
 				let {
 					myTaskId,
 					myTaskCode,
-					taskCode
+					taskCode,
+					completeStatus
 				} = record
 				this.$tools.navTo({
-					url: `./fillIn?type=${type}&myTaskId=${myTaskId}&myTaskCode=${myTaskCode}&taskTemplateCode=${taskCode}&source=${this.source}`,
+					url: `./fillIn?type=${type}&myTaskId=${myTaskId}&myTaskCode=${myTaskCode}&taskTemplateCode=${taskCode}&source=${this.source}&state=${completeStatus}`,
 				});
 			},
 			loadMore() {
@@ -324,9 +326,11 @@
 				let {
 					id,
 					taskCode,
+					taskType
 				} = record
+				console.log(taskType)
 				this.$tools.navTo({
-					url: `./release?&myTaskId=${id}&taskTemplateCode=${taskCode}`,
+					url: `./release?&myTaskId=${id}&taskTemplateCode=${taskCode}&taskType=${taskType}`,
 				});
 			},
 			//查看完成情况
@@ -334,9 +338,10 @@
 				let {
 					id,
 					taskCode,
+					taskType
 				} = record
 				this.$tools.navTo({
-					url: `./seeCompletion?&myTaskId=${id}&taskTemplateCode=${taskCode}`,
+					url: `./seeCompletion?&myTaskId=${id}&taskTemplateCode=${taskCode}&taskType=${taskType}`,
 				});
 			},
 			change(index) {
@@ -360,6 +365,8 @@
 					this.current = 0;
 				} else if (val === '1') {
 					this.current = 1;
+				}  else if (val === '3') {
+					this.current = 2;
 				}
 			},
 		},

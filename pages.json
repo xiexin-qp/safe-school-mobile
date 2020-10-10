@@ -635,8 +635,6 @@
 			"path": "pages/video-manage/fullScreen",
 			"style": {}
 		},
-<<<<<<< HEAD
-=======
 		//表扬栏
 		{
 			"path": "pages/praise-column/praise-column-t/class/form",
@@ -661,7 +659,6 @@
 			"path": "pages/praise-column/praise-column-p/index",
 			"style": {}
 		},
->>>>>>> ffaacae8c76353ac0fa06c4dc26e0b9e4aaa4621
 		//会议管理
 		{
 			"path": "pages/meet-booking/index",

@@ -414,11 +414,11 @@ const filters = {
 	completeStatusToText: val => {
 		const text = parseInt(val)
 		if (parseInt(text) === 3) {
-			return '已完成'
+			return '已提交'
 		} else if (parseInt(text) === 1) {
-			return '未完成'
+			return '未提交'
 		} else if (parseInt(text) === 2) {
-			return '未完成'
+			return '未提交'
 		} else if (parseInt(text) === 4) {
 			return '逾期填报'
 		}
@@ -439,7 +439,7 @@ const filters = {
 	// 安全任务状态
 	safetyTaskToColor(text) {
     // text = parseInt(text)
-		if (text === '未填报' || text === '未完成'||text === '未发布'||text === '未开始') {
+		if (text === '未填报' || text === '未提交'||text === '未发布'||text === '未开始') {
 			return '#FF5454'
 		} else if (text === '已填报、待提交' || text === '已打回、未重写' || text === '逾期填报'|| text === '已重报、未提交') {
 			return '#F5782E'

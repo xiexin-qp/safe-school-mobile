@@ -17,7 +17,8 @@
 					<u-col span="9">
 						<view class="demo-layout bg-purple">
 							任务时间：{{ detailInfo.startTime | gmtToDate('date') }}
-							至{{ detailInfo.endTime  | gmtToDate('date') }}
+							至
+							{{ detailInfo.endTime  | gmtToDate('date') }}
 						</view>
 					</u-col>
 				</u-row>
@@ -124,13 +125,7 @@
 				const res = await actions.getTaskDetail(this.taskId)
 				this.detailInfo = res.data
 			},
-			//下载
-			exportClick(docUrl) {
-				if (docUrl) {
-					const url = `${hostEnv.zx_subject}/file/downLoad/doc?url=${docUrl}`
-					window.open(url)
-				}
-			},
+		
 			cancel() {
 				this.$router.go(-1)
 			},

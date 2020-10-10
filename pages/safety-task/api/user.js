@@ -15,6 +15,7 @@ let userApi = {
 	getTaskIssued: '/safeTaskTemplate/query/user/publish/safetask#post', // 移动端查看发布的任务列表
 	getTaskDetail: '/safeTaskTemplate/info#getUrl', // 查看任务详情
 	postSchoolTask: '/safeTaskTemplate/school/publish#post', // 校端任务发布
+	planLists: '/safeTask/safetasktime/query/by/code#get', // 查询任务周期
 	schTaskCompleted: '/safeTaskTemplate/school/complete/static#post', // 校端按照完成情况统计
 }
 for (let val in userApi) {
