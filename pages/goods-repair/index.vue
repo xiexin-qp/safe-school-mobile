@@ -126,6 +126,7 @@ export default {
       this.showList();
     });
     this.showList();
+    console.log(store.userInfo)
   },
   methods: {
     tabChange(item) {

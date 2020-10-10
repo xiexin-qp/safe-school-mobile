@@ -100,7 +100,7 @@ export default {
       let current = e.detail.current;
       this.$refs.uTabs.setFinishCurrent(current);
       this.swiperCurrent = current;
-      this.showList();
+      // this.showList();
     },
     transition(e) {
       let dx = e.detail.dx;
