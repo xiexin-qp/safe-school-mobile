@@ -22,17 +22,16 @@
 						</view>
 					</u-col>
 				</u-row>
-				<u-row v-if="!type?detailInfo.des:detailInfo.reason" 
-				class='u-mar-b10 u-padd-t30  u-main-color' justify="start">
-					<u-col span="3">
+				<u-row 
+				  v-if="detailInfo.des"
+					class='u-mar-b10 u-padd-t30 ' justify="start">
+					<u-col span="3" class="u-main-color u-mar-b10">
 						任务描述:
 					</u-col>
-				</u-row>
-				<u-row class='u-mar-b30 u-font-01' justify="start">
 					<u-col span="12">
-						<text class='u-line1' v-html= !type?detailInfo.des:detailInfo.reason>
+						<text class='u-line1' v-html= detailInfo.des>
 						</text>
-					</u-col> 
+					</u-col>
 				</u-row>
 				<u-row class='u-mar-b10' justify="between">
 					<u-col span="12">
@@ -49,7 +48,10 @@
 					<text class='u-font-03'>{{ detailInfo.docName }}</text>
 					<!-- </u-col> -->
 					<view span="2" class='u-font-03'>
-						<u-link v-if='detailInfo.docUrl' href="#" :under-line="true" @click="exportClick(detailInfo.docUrl)">下载</u-link>
+						<view v-if='detailInfo.docUrl' class="u-type-primary" @click="exportClick(detailInfo.docUrl)">
+							下载
+						</view>
+						<!-- <u-link  href="#" :under-line="true" @click="exportClick(detailInfo.docUrl)">下载</u-link> -->
 					</view>
 				</u-row>
 			</view>
@@ -72,9 +74,9 @@
 									{{i+1}}.{{ list.title }}
 								</u-col>
 							</u-row>
-							<u-radio-group v-if='!type||type===2' :disabled="!type" v-model="list.answers[0]" class='u-wh' >
+							<u-radio-group  v-if='!type||type===2' :disabled="!type" v-model="list.answers[0]" class='u-wh' >
 								<u-cell-group class='u-wh' :border='true'>
-									<u-radio  class="u-padd-15 u-bd-b" v-for="(element,index) in list.content" :key='index' :name="element">
+									<u-radio shape="circle" class="u-padd-15 u-bd-b" v-for="(element,index) in list.content" :key='index' :name="element">
 										{{element}}
 									</u-radio>
 								</u-cell-group>
@@ -82,7 +84,7 @@
 							<!-- 填报 -->
 							<u-radio-group v-else :disabled="!type" v-model="list.answer" class='u-wh ' >
 								<u-cell-group class='u-wh' :border='true'>
-									<u-radio class="u-padd-15 u-bd-b" v-for="(element,index) in list.content" :key='index' :name="element">
+									<u-radio shape="circle" class="u-padd-15 u-bd-b" v-for="(element,index) in list.content" :key='index' :name="element">
 										{{element}}
 									</u-radio>
 								</u-cell-group>
@@ -141,26 +143,45 @@
 					</view>
 				</view>
 				<view class="problem-list" v-if="fileList.length !== 0">
-					<u-row class='u-mar-b20  u-mar-t20 u-main-color' justify="start">
+					<u-row class='u-mar-b20 u-bold  u-mar-t20 u-main-color' justify="start">
 						<u-col span="12">
 							附件:
 						</u-col>
 					</u-row>
-					<view class="wentiList  u-mar-r20 u-mar-t20 u-mar-l20 " v-for="(list, i) in fileList" :key="i">
+					<!-- 查看 -->
+					<view v-if="type===0"  class="wentiList u-mar-l20 u-mar-r20  u-type-white-bg" >
+						<view  class="u-type-white-bg" v-for="(list, i) in fileList" :key="i">
 							<u-row>
-								<u-col span="12" class=" u-main-color u-type-white-bg u-padd-t10">
+								<u-col span="12" class=" u-main-color u-mar-b10 u-padd-t10">
 									{{i+1}}.{{ list.title }}
 								</u-col>
 							</u-row>
-							<!-- {{list}} -->
-							<!-- <l-file ref="lfile" @up-success="onSuccess"></l-file>
-							<view class="padding text-center">
-								<view class="padding">
-									<button @tap="onUpload(i)">上传</button>
-								</view>
-							</view> -->
-						<an-upload-img style="padding: 20rpx"
-						:disabled="!type" class='u-type-white-bg' v-model="list.answer" total="9"></an-upload-img>
+							<view class="u-fx" v-for="(list, y) in fileList" :key="y">
+								<u-icon class="u-mar-l10 u-mar-r10" name="file-text-fill" color="#4d4cac" size="28" ></u-icon>附件
+								<span class="u-type-primary u-mar-r10" @click="exportClick(list.answers[0])">下载</span>
+							</view>
+						</view>
+					</view>
+					<view v-else class="wentiList  u-mar-r20 u-mar-t20 u-mar-l20 " v-for="(list, i) in fileList" :key="i">
+						<u-row>
+							<u-col span="12" class=" u-main-color u-type-white-bg u-padd-t10">
+								{{i+1}}.{{ list.title }}
+							</u-col>
+						</u-row>
+						{{list.answer}}
+						<an-upload-img-url 
+							v-if="list.show"
+							style="padding: 20rpx"
+							class='u-type-white-bg' 
+							v-model="list.answer">
+						</an-upload-img-url >
+						<view class="u-fx" v-else>
+							<view class="" v-for="(list, y) in fileList" :key="y">
+									<u-icon class="u-mar-l10 u-mar-r10" name="file-text-fill" color="#4d4cac" size="28" ></u-icon>附件
+									<span class="u-type-primary u-mar-r10" @click="exportClick(list.answers[0])">下载</span>
+									<u-icon  name="trash-fill" color="red" size="28" @click="delFile(list,i)"></u-icon>
+							</view>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -177,10 +198,10 @@
 </template>
 
 <script>
-  import vConsole from 'vconsole'
+  // import vConsole from 'vconsole'
 	import eventBus from '@u/eventBus'
 	import validateForm from '@u/validate';
-	import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
+	import anUploadImgUrl from './component/an-uploadImg-url'
 	import lFile from '@/components/l-file/l-file.vue'
 	import {
 		store,
@@ -189,11 +210,10 @@
 	import hostEnv from '../../config/index'
 	export default {
 		components: {
-			anUploadImg,
+			anUploadImgUrl,
 			lFile
 		},
 		data() {
-		
 			return {
 				type: Number(this.$tools.getQuery().get('type')),
 				customStyle: {
@@ -210,10 +230,14 @@
 				value: 'orange',
 			}
 		},
+		watch: {
+		
+		},
 		mounted() {
 			//  new vConsole()
 			  this.taskId = this.$tools.getQuery().get('myTaskId'),
 				this.TaskCode = this.$tools.getQuery().get('myTaskCode'),
+				this.state = this.$tools.getQuery().get('state'),
 				this.source = this.$tools.getQuery().get('source'),
 				this.taskTemplateCode = this.$tools.getQuery().get('taskTemplateCode'),
 				this.getUserList()
@@ -238,8 +262,7 @@
 										content: item,
 										disabled:el.answers.some(v=>v===item)
 									}
-								}) :
-								[]
+								}) :[]
 						}
 					})
 					questions.map((el) => {
@@ -293,59 +316,23 @@
 			exportClick(docUrl) {
 				if (docUrl) {
 					const url = `${hostEnv.zx_subject}/file/downLoad/doc?url=${docUrl}`
-					window.open(url)
+					var a = document.createElement('a');
+					a.href = docUrl; //图片地址
+					document.body.appendChild(a);
+					a.click();
 				}
 			},
 			cancel() {
 				this.$router.go(-1)
 			},
-			//上传图片返回文件路径
-			upload(fileList){
-				let urls = []
-				fileList = fileList.forEach(res=>{
-					res.answer.forEach(v=>{
-						let v1 = this.uploadFiles(v)
-						console.log(v1)
-					})
-				})
-			},
-			// 上传图片文件到服务器
-    uploadFiles(files) {
-      const that = this
-      const blob =this.$tools.dataURLToBlob(files)
-      var form = new FormData()
-      form.append('fileList', blob)// 文件对象
-      // XMLHttpRequest 对象
-      var xhr = new XMLHttpRequest()
-			xhr.timeout = 30000 // 设置超时
-			
-      var url = `${hostEnv.zx_subject}/file/upload/doc?schoolCode=${store.userInfo.schoolCode}`
-      xhr.open('post', url, true)
-      const token = sessionStorage.getItem('token')
-      xhr.setRequestHeader('token', token)
-      xhr.responseType = 'json'
-      xhr.onload = function () {
-        if (xhr.response.status !== 0) {
-          // that.uploadNotification(xhr.response.data[0])
-          return xhr.response.data[0]
-        }
-        that.$message.success('上传文件成功!')
-      }
-      xhr.ontimeout = function () {
-        that.$message.error('数据加载失败，请刷新页面')
-      }
-      xhr.onerror = function (res) {
-        that.$message.error('数据加载失败，请刷新页面')
-      }
-      xhr.send(form)
-    },
 			//提交
 			submitOk() {
 				const req = {
 					taskCode: this.TaskCode,
 					taskId: this.taskId,
 					taskTemplateCode: this.taskTemplateCode,
-					userCode: store.userInfo.userCode
+					userCode: store.userInfo.userCode,
+					state:this.state
         }
         let answers
         if(this.type===2){
@@ -353,7 +340,6 @@
           this.checkList.forEach(item => {
             item.answers = item.pointList.filter(v => v.disabled).map(i => i.content)
 					})
-				
 					const arr = this.radioList.concat(this.checkList).concat(this.fillList).concat(this.fileList)
            answers = arr.map(el => {
             return {
@@ -367,27 +353,40 @@
           this.checkList.forEach(item => {
             item.answer = item.pointList.filter(v => v.answer).map(i => i.content)
 					})
-					// if(this.fileList.length>0){
-					//   this.fileList =this.upload(this.fileList)
-					// }
 					const arr = this.radioList.concat(this.checkList).concat(this.fillList).concat(this.fileList)
           answers = arr.map(el => {
+						let answers
+						if(el.questionType==='4'){
+							answers = el.answer.map(v=>v.url)
+							console.log(answers)
+						}else{
+							answers =	Array.isArray(el.answer) ? el.answer : [el.answer]
+						}
             return {
-              answers: Array.isArray(el.answer) ? el.answer : [el.answer],
+              answers: answers,
               questionTemplateId: el.questionTemplateId,
               questionType: el.questionType
             }
 					})
-        }
+				}
+				let flag = true
 				answers.forEach(element => {
+					if(element.answers.length===0){
+						this.$tools.toast("请填写完整题目");
+						flag = false
+						return false
+					}
 					element.answers.forEach(el => {
-						if (!el) {
+						if (!el||el.length===0) {
 							this.$tools.toast("请填写完整题目");
+							flag = false
 							return false
 						}
 					})
 				})
 				req.answers = answers
+				// console.log(req)
+				if(!flag) return
 				this.isLoad = true
 				actions.answerTask(req)
 					.then(res => {
@@ -415,29 +414,11 @@
 						console.log(res)
 					})
 			},
-			/* 上传 */
-						onUpload(i) { 
-							// console.log(this.$refs.lFile)
-							const url = `${hostEnv.zx_subject}/file/upload/doc`
-							this.$refs.lfile[i].upload({
-								// #ifdef APP-PLUS
-								currentWebview: this.$mp.page.$getAppWebview(),
-								// #endif
-								 url: url,
-								//默认file,上传文件的key
-								name: 'uploadFile',
-								// header: {'Content-Type':'类型','Authorization':'token'},
-								//...其他参数
-							});
-						},
-						onSuccess(res) {
-							console.log('上传成功回调=====33====',JSON.stringify(res));
-							
-							// uni.showToast({
-							// 	title: JSON.stringify(res),
-							// 	icon: 'none'
-							// })
-						},
+			//修改附件
+			delFile(list,i) {
+				list.show = true
+				// this.fileList[i].docName = ''
+    	},
 			// 全选
 			checkedAll() {
 				this.list.map(val => {

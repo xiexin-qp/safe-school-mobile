@@ -298,21 +298,21 @@
 					"pathRewrite": {
 						"^/cl_class": ""
 					}
-				},
-				"/zx_subject": {
-					"target": "http://192.168.2.242:10050/", //朱旭-文件上传
-					"changeOrigin": true,
-					"pathRewrite": {
-						"^/zx_subject": ""
-					}
+        },
+        	"/zx_subject": {
+				  "target": "http://192.168.2.242:10050/", //朱旭-文件上传
+				  "changeOrigin": true,
+				  "pathRewrite": {
+				    "^/zx_subject": ""
+				  }
 				}
-			}
-		},
-		"optimization": {
-			"treeShaking": {
-				"enable": true
-			}
-		},
-		"template": "template.html"
-	}
+            }
+        },
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
+        },
+        "template" : "template.html"
+    }
 }

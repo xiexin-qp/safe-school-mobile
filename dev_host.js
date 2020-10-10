@@ -223,14 +223,6 @@
 						"^/zq_news": ""
 					}
 				},
-				"/zk_news": {
-					//"target": "http://192.168.2.242:11011/", // 张坤-信息发布
-					"target": "http://192.168.1.23:11011/",
-					"changeOrigin": true,
-					"pathRewrite": {
-						"^/zk_news": ""
-					}
-				},
 				"/zk_examplan": {
 					"target": "http://192.168.1.23:11013/", // 考试计划
 					"changeOrigin": true,
@@ -298,14 +290,30 @@
 					"pathRewrite": {
 						"^/cl_class": ""
 					}
-        },	
-        	"/zx_subject": {
-				  "target": "http://192.168.2.242:10050/", //朱旭-文件上传
-				  "changeOrigin": true,
-				  "pathRewrite": {
-				    "^/zx_subject": ""
-				  }
+				},
+				"/cl_class": {
+					"target": "http://192.168.1.193:11009/", //陈琳-班牌
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/cl_class": ""
+					}
+				},
+				"/zx_subject": {
+					"target": "http://192.168.2.242:10050/", //朱旭-文件上传
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/zx_subject": ""
+					}
+				},
+				"/zl_uploadFile" : {
+						"target" : "http://canpointtest.com:8090/ossApi/upload-oss-file/", //陈琳-调代课
+						// "target": "http://192.168.1.193:11009/", //陈琳-班牌
+						"changeOrigin" : true,
+						"pathRewrite" : {
+								"^/zl_uploadFile" : ""
+						}
 				}
+				
 			}
 		},
 		"optimization": {

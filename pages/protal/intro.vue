@@ -1,40 +1,32 @@
 <template>
 	<view class="u-page u-fx-f1">
-		<view v-if="userInfo.typeCode === '16'" class="u-fx-ac u-mar-b20 u-border-radius u-padd child-list u-bd-b u-content-color u-bg-fff">
-			<image class="img u-border-radius" :src="child.photoUrl" alt="" />
-			<view class="u-fx-f1 u-line3 u-mar-l">
-				<view class="u-main-color">{{ child.userName }}</view>
-				<view class="u-font-01">{{ child.gradeName }}{{ child.className }}</view>
-				<view class="u-font-01">{{ child.workNo || '' }}</view>
-			</view>
-			<view class="unbind-btn u-fx-ac-jc" @tap="_unbind(child.userCode)">
-				解绑
-			</view>
-		</view>
+		<u-navbar class="u-mar-b20" :is-back="false" v-if="userInfo.typeCode === '16' && showDropdown">
+			<ms-dropdown-menu><ms-dropdown-item :title="childName" v-model="childCode" :list="childList"></ms-dropdown-item></ms-dropdown-menu>
+		</u-navbar>
 		<view v-if="type === '0'" class="u-bg-fff">
+			<view class="float-add-btn" @click="btnClick"></view>
 			<no-data v-if="noDataTag" msg="暂无数据~"></no-data>
 			<view v-else class="">
 				<view class="u-fx-ac" v-if="photoList.length > 0">
 					<image class="line u-mar-l20 mar-t20" src="http://canpointtest.com/mobile-img/line.png"></image>
 					<text class="mar-t20 mar-l20 u-font-01 u-bold">个人风采：</text>
 				</view>
-				<view class="wrap u-padd-20" v-if="photoList.length > 0"><u-swiper title height="400" img-mode="aspectFit" :list="list" @click="previewImage"></u-swiper></view>
+				<view class="wrap u-padd-20"><u-swiper title height="400" img-mode="aspectFit" :list="list" @click="previewImage"></u-swiper></view>
 				<view class="u-fx-ac u-mar-20">
 					<image class="line" src="http://canpointtest.com/mobile-img/line.png"></image>
 					<text class="mar-l20 u-font-01 u-bold">个人简介：</text>
 				</view>
 				<view class="u-bg-fff u-padd-b20 u-padd-l20 u-padd-r10">
-					<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' ? 'scroll-h' : 'scroll-h-0'">
+					<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' && showDropdown ? 'scroll-h' : 'scroll-h-0'">
 						<view class="u-padd-l20 u-padd-r20">
 							<view class="content">{{ introduction }}</view>
 						</view>
 					</scroll-view>
 				</view>
-				<view class="footer-btn u-fx-ac"><u-button @click="btnClick" type="primary" class="u-fx-f1 u-mar-l u-mar-r u-type-primary-dark-bg">编辑</u-button></view>
 			</view>
 		</view>
 		<view v-else class="">
-			<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' ? 'scroll-h-1' : 'scroll-h-2'">
+			<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' && showDropdown ? 'scroll-h-2' : 'scroll-h-1'">
 				<view class="u-bg-fff u-mar-b20">
 					<view class="u-mar-b20 u-mar-l20 u-padd-t20 u-fx-ac">
 						<image class="line" src="http://canpointtest.com/mobile-img/line.png"></image>
@@ -77,17 +69,24 @@
 </template>
 
 <script>
-import eventBus from '@u/eventBus'
+import chooseChild from '@/components/choose-child/choose-child.vue';
+import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue';
+import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue';
 import noData from '@/components/no-data/no-data.vue';
 import { store, actions } from './store/index.js';
+import hostEnv from '../../config/index.js';
 export default {
-	name: 'intro',
+	name: 'school-intro',
 	components: {
+		msDropdownMenu,
+		msDropdownItem,
+		chooseChild,
 		noData
 	},
 	computed: {
 		userInfo: () => store.userInfo,
-		childList: () => store.childList,
+		schoolYear: () => store.schoolYear,
+		enjoyParentApp: () => store.enjoyParentApp,
 		list() {
 			return this.photoList.map(ele => {
 				return {
@@ -106,20 +105,41 @@ export default {
 			introduction: '',
 			photoList: [],
 			length: 0,
-			child: {},
+			childCode: '',
+			childName: '',
+			childList: [],
 			style: ''
 		};
 	},
 	watch: {
 		introduction(val) {
 			this.length = val.length;
+		},
+		childCode(val, oldval) {
+			if (val !== oldval) {
+				this.childCode = val;
+				let arr = this.childList.filter(el => {
+					return el.value === val;
+				});
+				this.childName = arr[0].text;
+				this.showIntro();
+			}
 		}
 	},
 	async created() {
 		this.type = this.$tools.getQuery().get('type');
 		if (this.userInfo.typeCode === '16') {
-			this.index = this.$tools.getQuery().get('index')
-			this.child = store.childList[parseInt(this.index)];
+			this.childCode = store.childList[0].userCode;
+			this.childName = store.childList[0].userName;
+			this.childList = store.childList.map(ele => {
+				return {
+					text: ele.userName,
+					value: ele.userCode
+				};
+			});
+			if (this.childList.length > 1) {
+				this.showDropdown = true;
+			}
 		}
 		this.showIntro();
 	},
@@ -139,7 +159,7 @@ export default {
 		async showIntro() {
 			const res = await actions.getIntro({
 				schoolCode: this.userInfo.schoolCode,
-				userCode: this.userInfo.typeCode === '4' ? this.userInfo.userCode : this.child.userCode,
+				userCode: this.userInfo.typeCode === '4' ? this.userInfo.userCode : this.childCode,
 				userType: this.userInfo.typeCode === '4' ? this.userInfo.typeCode : '8'
 			});
 			if (!res.data || res.data.introduction === '') {
@@ -148,7 +168,6 @@ export default {
 				this.noDataTag = true;
 				return;
 			}
-			this.noDataTag = false;
 			this.introduction = res.data.introduction;
 			if (res.data.outUserStyleDtoList.length === 0) {
 				return;
@@ -161,21 +180,6 @@ export default {
 				};
 			});
 		},
-		// 解绑孩子
-		_unbind (childCode, index) {
-			this.$tools.confirm('确定解绑吗?', async () => {
-				await actions.unbindChild({
-					childCode,
-					parentCode: this.userInfo.userCode
-				})
-				this.childList.splice(parseInt(this.index), 1)
-				this.$tools.toast('解绑成功')
-				this.$tools.goNext(() => {
-					eventBus.$emit('getChild')
-					this.$tools.goBack();
-				});
-			})
-		},
 		confirm() {
 			console.log(this.photoList);
 			if (this.introduction === '') {
@@ -185,7 +189,7 @@ export default {
 			const req = {
 				introduction: this.introduction,
 				schoolCode: this.userInfo.schoolCode,
-				userCode: this.userInfo.typeCode === '4' ? this.userInfo.userCode : this.child.userCode,
+				userCode: this.userInfo.typeCode === '4' ? this.userInfo.userCode : this.childCode,
 				userType: this.userInfo.typeCode === '4' ? this.userInfo.typeCode : '8'
 			};
 			if (this.photoList.length > 0) {
@@ -199,9 +203,9 @@ export default {
 			}
 			actions.getlistByTeacher(req).then(() => {
 				this.$tools.toast('编辑成功', 'success');
-				this.type = '0'
 				this.$tools.goNext(() => {
-					this.showIntro();
+					// this.$tools.goBack();
+					this.type = '0'
 				});
 			});
 		}
@@ -211,16 +215,16 @@ export default {
 
 <style lang="scss" scoped>
 .scroll-h {
-	height: calc(100vh - 896rpx);
+	height: calc(100vh - 696rpx);
 }
 .scroll-h-0 {
-	height: calc(100vh - 688rpx);
+	height: calc(100vh - 588rpx);
 }
 .scroll-h-1 {
-	height: calc(100vh - 310rpx);
+	height: calc(100vh - 100rpx);
 }
 .scroll-h-2 {
-	height: calc(100vh - 100rpx);
+	height: calc(100vh - 210rpx);
 }
 .dropdown-menu {
 	width: 100%;
@@ -249,20 +253,5 @@ export default {
 .content {
 	text-indent: 2em;
 	text-indent: 40rpx;
-}
-.child-list {
-	.img {
-		width: 140rpx;
-		height: 160rpx;
-		display: block;
-		background-color: #eee;
-	}
-	.unbind-btn {
-		width: 100rpx;
-		height: 50rpx;
-		background-color: $u-type-error-dark;
-		color: $u-type-white;
-		border-radius: 60rpx;
-	}
 }
 </style>

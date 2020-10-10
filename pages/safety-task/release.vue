@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<scroll-view scroll-y="true" class="scroll-h  ">
-			<view class="row u-type-white-bg u-fx-ac-jc u-bold u-font-1 u-padd-20 u-line2">
+			<view class="row u-type-white-bg u-fx-ac-jc  u-font-1 u-padd-20 u-line2">
 				{{ detailInfo.taskName }}
 			</view>
 			<view class="cont u-type-white-bg u-padd-l10 u-padd-r10 u-tips-color">
@@ -15,7 +15,7 @@
 						</view>
 					</u-col>
 				</u-row>
-				<u-row class='u-mar-b10 u-bold u-main-color' gutter="16" justify="start">
+				<u-row class='u-mar-b10  u-main-color' gutter="16" justify="start">
 					<u-col span="3">
 						任务描述:
 					</u-col>
@@ -30,7 +30,7 @@
 						<u-line color='#ccc' />
 					</u-col>
 				</u-row>
-				<u-row class='u-mar-b10 u-bold u-main-color' justify="start">
+				<u-row class='u-mar-b10  u-main-color' justify="start">
 					<u-col span="12">
 						附件任务:
 					</u-col>
@@ -40,19 +40,21 @@
 					<text class='u-font-03'>{{ detailInfo.docName }}</text>
 					<!-- </u-col> -->
 					<view span="2" class='u-font-03'>
-						<u-link v-if='detailInfo.docUrl' href="#" :under-line="true" @click="exportClick(detailInfo.docUrl)">下载</u-link>
+						<view v-if='detailInfo.docUrl' class="u-type-primary" @click="exportClick(detailInfo.docUrl)">
+							下载
+						</view>
 					</view>
 				</u-row>
 			</view>
 			<view class="problem u-mar-b30">
-				<u-row class='u-mar-b10  u-mar-t20 u-bold u-main-color' justify="start">
+				<u-row class='u-mar-b10  u-mar-t20  u-main-color' justify="start">
 					<u-col span="12">
 						要求上报内容:
 					</u-col>
 				</u-row>
 				<view class="problem-list" v-if="radioList.length !== 0">
 					<view class="cont" v-for="(list, i) in radioList" :key="i">
-						<u-row class='u-mar-b20 u-bold u-mar-t20 u-main-color' justify="start">
+						<u-row class='u-mar-b20  u-mar-t20 u-main-color' justify="start">
 							<u-col span="12">
 								{{i+1}}.{{ list.title }}
 								<text class='u-font-03 u-tips-color'>(单选题)</text>
@@ -60,7 +62,7 @@
 						</u-row>
 						<view class="wentiList ">
 							<u-radio-group :disabled="true" v-model="list.answer" class='u-wh'>
-								<u-cell-group class='u-wh' :border='true'>
+								<u-cell-group shape="circle" class='u-wh' :border='true'>
 									<u-radio @change="radioChange" class="u-padd-15 u-bd-b" v-for="(element,index) in list.content" :name="element">
 										{{element}}
 									</u-radio>
@@ -71,7 +73,7 @@
 				</view>
 				<view class="problem-list" v-if="checkList.length !== 0">
 					<view class="" v-for="(list, i) in checkList" :key="i">
-						<u-row class='u-mar-b20 u-bold u-mar-t20 u-main-color' justify="start">
+						<u-row class='u-mar-b20  u-mar-t20 u-main-color' justify="start">
 							<u-col span="12">
 								{{i+1}}.{{ list.title }}
 								<text class='u-font-03 u-tips-color'>(多选题)</text>
@@ -92,19 +94,19 @@
 				</view>
 				<view class="problem-list" v-if="fillList.length !== 0">
 					<view v-for="(list, i) in fillList" :key="i">
-						<u-row class='u-mar-b20 u-bold u-mar-t20 u-main-color' justify="start">
+						<u-row class='u-mar-b20  u-mar-t20 u-main-color' justify="start">
 							<u-col span="12">
 								{{ list.title }}
 								<text class='u-font-03 u-tips-color'>(填空题)</text>
 							</u-col>
 						</u-row>
 						<view class="wentiList u-type-white-bg u-padd-l20">
-							<u-input v-model="list.answers[0]" :disabled="!type" type="textarea" :auto-height="true" class="" />
+							<u-input  :disabled="true" type="textarea" :auto-height="true" class="" />
 						</view>
 					</view>
 				</view>
 				<view class="problem-list" v-if="fileList.length !== 0">
-					<u-row class='u-mar-b20 u-bold u-mar-t20 u-main-color' justify="start">
+					<u-row class='u-mar-b20  u-mar-t20 u-main-color' justify="start">
 						<u-col span="12">
 							4.附件
 						</u-col>
@@ -198,7 +200,10 @@
 			exportClick(docUrl) {
 				if (docUrl) {
 					const url = `${hostEnv.zx_subject}/file/downLoad/doc?url=${docUrl}`
-					window.open(url)
+					var a = document.createElement('a');
+					a.href = docUrl; //图片地址
+					document.body.appendChild(a);
+					a.click();
 				}
 			},
 			cancel() {

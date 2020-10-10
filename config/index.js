@@ -35,6 +35,7 @@ let zx_subject = ''
 let cl_oa = ''
 let cl_class=''
 let zk_news = ''
+let zl_uploadFile = ''
 
 if (ConfigEnv === 'production') {
   host = 'http://canpointlive.com'
@@ -67,6 +68,7 @@ if (ConfigEnv === 'production') {
   lz_safe = '/lz_safe'
   cl_class='/cl_class'
 	zk_news='/zk_news'
+	zl_uploadFile='/zl_uploadFile'
 } else if (ConfigEnv === 'development') {
   host = 'http://canpointlive.com'
   zx_mobile_user = '/zx_mobile_user'
@@ -98,6 +100,7 @@ if (ConfigEnv === 'production') {
   cl_class='/cl_class'
 	zk_news='/zk_news'
 	zx_subject='/zx_subject'
+	zl_uploadFile='/zl_uploadFile'
 
 }
 
@@ -132,5 +135,6 @@ export default {
   zx_subject,
   cl_oa,
   cl_class,
+  zl_uploadFile,
 	zk_news
 }
