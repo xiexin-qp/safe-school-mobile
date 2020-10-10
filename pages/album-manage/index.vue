@@ -52,6 +52,9 @@ export default {
 	},
 	async created() {},
 	mounted() {
+		eventBus.$on('refList', () => {
+			this.showList();
+		});
 		this.showList();
 	},
 	methods: {

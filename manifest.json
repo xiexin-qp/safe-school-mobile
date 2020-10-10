@@ -228,7 +228,7 @@
 					"target": "http://192.168.1.23:11011/",
 					"changeOrigin": true,
 					"pathRewrite": {
-						"^/zk_ncov": ""
+						"^/zk_news": ""
 					}
 				},
 				"/zk_examplan": {
