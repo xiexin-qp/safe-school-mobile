@@ -42,7 +42,7 @@
         <u-tag
           class="u-mar-10"
           size="mini"
-          type="primary"
+          :type="item.type"
           :mode="item.mode"
           :text="item.label"
           :show="item.tag"
@@ -186,24 +186,24 @@ export default {
           mode: "plain",
           del: false,
           tag: true,
+          type: "info",
         };
       });
       this.recordList = this.dataList.filter((item) => item.category === 1);
     },
     tagClick(item, index) {
-      console.log(item, index);
-      if (item.mode === "light") {
+      if (item.mode === "light" || item.type === "primary") {
         item.mode = "plain";
+        item.type = "info";
         this.initList = this.initList.filter((el) => el !== item);
-        console.log(this.initList);
-      } else if (item.mode === "plain") {
+      } else if (item.mode === "plain" || item.type === "info") {
         if (this.initList.length > 2) {
           this.$tools.toast("最多选择3个标签!");
           return;
         }
         item.mode = "light";
+        item.type = "primary";
         this.initList.push(item);
-        console.log(this.initList);
       }
     },
     addPraise() {
@@ -213,6 +213,7 @@ export default {
         mode: "plain",
         del: true,
         tag: true,
+        type: "info",
       });
       this.label = "";
       this.$refs.refuse.close();
