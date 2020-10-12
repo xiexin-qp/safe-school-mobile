@@ -88,6 +88,36 @@
 		},
 		{
 			"path": "pages/inspect/submit"
+		},
+		// 风险评估
+		{
+			"path": "pages/risk-assess/index",
+			"style": {}
+		},
+		{
+			"path": "pages/risk-assess/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/risk-assess/add",
+			"style": {}
+		},
+		// 风险辨识
+		{
+			"path": "pages/risk-identify/index",
+			"style": {}
+		},
+		{
+			"path": "pages/risk-identify/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/risk-identify/add",
+			"style": {}
+		},
+		{
+			"path": "pages/risk-identify/choose",
+			"style": {}
 		}
 	],
 	"globalStyle": {
