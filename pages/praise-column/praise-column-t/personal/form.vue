@@ -34,7 +34,7 @@
       <view class="u-bd-b u-bg-fff u-padd-20">
         <u-tag
           class="u-mar-10"
-          size="mini" 
+          size="mini"
           type="primary"
           :mode="item.mode"
           :text="item.label"
@@ -43,8 +43,8 @@
           v-for="(item, i) in recordList"
           :key="i"
           :index="i"
-          @click="tagClick(item,i)"
-          @close="tagDel(item,i)"
+          @click="tagClick(item, i)"
+          @close="tagDel(item, i)"
         />
         <u-button type="info" size="mini" class="add_p" @click="open">
           <u-icon
@@ -63,7 +63,13 @@
       width="80%"
       height="80%"
     >
-    <choose-student  :type="type" :bindList="formData.noWorkstu" :schoolInfo="schoolInfo" @close="popclose" @confirm="popselcet"></choose-student>
+      <choose-student
+        :type="type"
+        :bindList="formData.noWorkstu"
+        :schoolInfo="schoolInfo"
+        @close="popclose"
+        @confirm="popselcet"
+      ></choose-student>
     </u-popup>
     <u-popup
       :maskCloseAble="true"
@@ -71,7 +77,7 @@
       mode="center"
       length="80%"
       border-radius="14"
-     class="new-top"
+      class="new-top"
     >
       <view class="u-bd-b">
         <view class="u-padd-40">
@@ -206,12 +212,10 @@ export default {
       this.recordList = this.dataList.filter((item) => item.category === 2);
     },
     tagClick(item, index) {
-      console.log(item.mode)
-      console.log(item, index)
       if (item.mode === "light") {
         item.mode = "plain";
         this.initList.splice(2, 1);
-        console.log("1111",this.initList)
+        this.initList = this.initList.filter((el) => el !== item);
       } else if (item.mode === "plain") {
         if (this.initList.length > 2) {
           this.$tools.toast("最多选择3个标签!");
@@ -219,7 +223,6 @@ export default {
         }
         item.mode = "light";
         this.initList.push(item);
-        console.log("222222",this.initList)
       }
     },
     async submit() {

@@ -24,7 +24,7 @@
           class="u-mar-10"
           size="mini"
           type="primary"
-          :text="item.gradeName+item.className"
+          :text="item.gradeName + item.className"
           :show="item.tag"
           v-for="(item, i) in formData.noWorkstu"
           :key="i"
@@ -50,8 +50,8 @@
           v-for="(item, i) in recordList"
           :key="i"
           :index="i"
-          @click="tagClick(item,i)"
-          @close="tagDel(item,i)"
+          @click="tagClick(item, i)"
+          @close="tagDel(item, i)"
         />
         <u-button type="info" size="mini" class="add_p" @click="open">
           <u-icon
@@ -194,7 +194,7 @@ export default {
       console.log(item, index);
       if (item.mode === "light") {
         item.mode = "plain";
-        this.initList.splice(2, 1);
+        this.initList = this.initList.filter((el) => el !== item);
         console.log(this.initList);
       } else if (item.mode === "plain") {
         if (this.initList.length > 2) {
