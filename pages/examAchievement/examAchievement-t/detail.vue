@@ -20,15 +20,15 @@
               :image="item.photoUrl"
             ></u-lazy-load>
             <view class="">
-              <view class="title u-main-color u-bold u-mar-b20"
+              <view class="title   u-mar-b20"
                 >{{ item.userName }}
               </view>
-              <view class="title u-main-color u-bold u-mar-b20"
+              <view class="title u-type-info u-mar-b20"
                 >{{ item.workNo }}
               </view>
             </view>
           </view>
-          <view class="tag"> {{ item.score }}分</view>
+          <view class="tag  u-bold"> {{ item.score }}分</view>
         </view>
       </view>
     </scroll-view>
@@ -65,6 +65,7 @@ export default {
   mounted() {},
   methods: {
     value0Change(val) {
+      console.log(val);
       this.classCode = val;
       this.getDetail();
     },
@@ -124,7 +125,7 @@ export default {
   }
 }
 .img {
-  width: 160rpx;
-  height: 160rpx;
+  width: 120rpx;
+  height: 120rpx;
 }
 </style>

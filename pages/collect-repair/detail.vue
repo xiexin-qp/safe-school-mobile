@@ -75,6 +75,8 @@
       mode="center"
       length="80%"
       border-radius="14"
+            class="new-top"
+
     >
       <view class="pop u-fx-ver u-padd-40">
         <input v-model="remark" placeholder="说明不同意的原因" />
@@ -215,5 +217,8 @@ export default {
     display: flex;
     flex-direction: column;
   }
+}
+.new-top {
+  margin-top: -200rpx;
 }
 </style>

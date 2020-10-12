@@ -356,6 +356,8 @@
 }
 .mar-l10 {
   margin-left: 10rpx;
+      margin-top: 10rpx;
+
 }
 .an-uploadImg-group {
 	overflow: auto;

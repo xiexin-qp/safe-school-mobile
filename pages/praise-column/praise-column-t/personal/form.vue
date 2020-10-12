@@ -33,9 +33,9 @@
       </view>
       <view class="u-bd-b u-bg-fff u-padd-20">
         <u-tag
-          class="u-mar-10"
-          size="mini" 
-          type="primary"
+          class="u-mar-15"
+          size="mini"
+          :type="item.type"
           :mode="item.mode"
           :text="item.label"
           :show="item.tag"
@@ -43,8 +43,8 @@
           v-for="(item, i) in recordList"
           :key="i"
           :index="i"
-          @click="tagClick(item,i)"
-          @close="tagDel"
+          @click="tagClick(item, i)"
+          @close="tagDel(item, i)"
         />
         <u-button type="info" size="mini" class="add_p" @click="open">
           <u-icon
@@ -63,7 +63,13 @@
       width="80%"
       height="80%"
     >
-    <choose-student  :type="type" :bindList="formData.noWorkstu" :schoolInfo="schoolInfo" @close="popclose" @confirm="popselcet"></choose-student>
+      <choose-student
+        :type="type"
+        :bindList="formData.noWorkstu"
+        :schoolInfo="schoolInfo"
+        @close="popclose"
+        @confirm="popselcet"
+      ></choose-student>
     </u-popup>
     <u-popup
       :maskCloseAble="true"
@@ -71,6 +77,7 @@
       mode="center"
       length="80%"
       border-radius="14"
+      class="new-top"
     >
       <view class="u-bd-b">
         <view class="u-padd-40">
@@ -111,7 +118,6 @@ export default {
       noWorkstuLength: "请选择",
       schoolInfo: {},
       recordList: [],
-      labelList: [],
       initList: [],
       border: true,
       type: "input",
@@ -125,8 +131,8 @@ export default {
     this.classCode = uni.getStorageSync("bindInfo").classCode;
     this.gradeCode = uni.getStorageSync("bindInfo").gradeCode;
     this.schoolInfo.schoolCode = store.userInfo.schoolCode;
-    this.schoolInfo.classId = uni.getStorageSync("bindInfo").classCode;;
-    this.schoolInfo.gradeId = uni.getStorageSync("bindInfo").gradeCode;;
+    this.schoolInfo.classId = uni.getStorageSync("bindInfo").classCode;
+    this.schoolInfo.gradeId = uni.getStorageSync("bindInfo").gradeCode;
     this.schoolInfo.schoolYearId = store.userInfo.schoolYearId;
   },
   async mounted() {
@@ -145,6 +151,7 @@ export default {
         mode: "plain",
         del: true,
         tag: true,
+        type: "info",
       });
       this.label = "";
       this.$refs.refuse.close();
@@ -181,8 +188,9 @@ export default {
       );
       this.noWorkstuLength = `已选择${this.formData.noWorkstu.length}人`;
     },
-    tagDel(i) {
+    tagDel(item, i) {
       this.recordList[i].tag = false;
+      this.initList = this.initList.filter((el) => el !== item);
     },
     async showList() {
       const req = {
@@ -200,37 +208,37 @@ export default {
           mode: "plain",
           del: false,
           tag: true,
+          type: "info",
         };
       });
       this.recordList = this.dataList.filter((item) => item.category === 2);
     },
     tagClick(item, index) {
-      item.mode = item.mode === "light" ? "plain" : "light";
-      console.log(item.mode);
-      if (item.mode === "light") {
-        this.initList.push(item);
-        this.labelList = this.initList.filter((item) => item.mode === "light");
-        if (this.labelList.length > 3) {
+      if (item.mode === "light" || item.type === "primary") {
+        item.mode = "plain";
+        item.type = "info";
+        this.initList = this.initList.filter((el) => el !== item);
+      } else if (item.mode === "plain" || item.type === "info") {
+        if (this.initList.length > 2) {
           this.$tools.toast("最多选择3个标签!");
-          item.mode = "plain";
-          return false;
+          return;
         }
-      } else if (item.mode === "plain") {
-        this.initList.splice(index, 1);
+        item.mode = "light";
+        item.type = "primary";
+        this.initList.push(item);
       }
-      console.log(this.initList);
     },
     async submit() {
       if (this.formData.noWorkstu.length === 0) {
         this.$tools.toast("请选择要表扬的学生!");
         return false;
       }
-      if (this.labelList.length === 0) {
+      if (this.initList.length === 0) {
         this.$tools.toast("请选择表扬语!");
         return false;
       }
       let label = [];
-      this.labelList.forEach((ele) => {
+      this.initList.forEach((ele) => {
         label.push(ele.label);
       });
       const req = {
@@ -288,5 +296,12 @@ export default {
 .add_p {
   width: 124rpx;
   height: 40rpx;
+  margin: 5px 10px;
+}
+.new-top {
+  margin-top: -200rpx;
+}
+.u-mar-15 {
+  margin: 5px 10px;
 }
 </style>

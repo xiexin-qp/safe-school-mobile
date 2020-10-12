@@ -1,27 +1,29 @@
 <template>
 	<view class="">
-		<ly-drawer :visible="showTag" mode="right" width="80%" @close="close">
+		<ly-drawer :visible="teacherTag" mode="right" width="80%" @close="close">
 			<no-data msg="暂无教职工数据~" v-if="noDataTag"></no-data>
-			<view class="ly-search"><input v-model="searchText" placeholder="输入教职工姓名进行过滤" /></view>
-			<scroll-view :scroll-y="true" class="scroll-h">
-				<ly-tree
-					ref="tree"
-					:filter-node-method="filterNode"
-					:default-checked-keys="checkedKeys"
-					:props="props"
-					:load="loadNode"
-					lazy
-					:show-checkbox="isCheck"
-					:show-radio="isRadio"
-					node-key="id"
-					@check="handleCheck"
-					defaultExpandAll
-					check-on-click-node
-					highlight-current
-					childVisibleForFilterNode
-					:checkOnlyLeaf="isRadio"
-				></ly-tree>
-			</scroll-view>
+			<view v-else>
+				<view class="ly-search"><input v-model="searchText" placeholder="输入教职工姓名进行过滤" /></view>
+				<scroll-view :scroll-y="true" class="scroll-h">
+					<ly-tree
+						ref="tree"
+						:filter-node-method="filterNode"
+						:default-checked-keys="checkedKeys"
+						:props="props"
+						:load="loadNode"
+						lazy
+						:show-checkbox="isCheck"
+						:show-radio="isRadio"
+						node-key="id"
+						@check="handleCheck"
+						defaultExpandAll
+						check-on-click-node
+						highlight-current
+						childVisibleForFilterNode
+						:checkOnlyLeaf="isRadio"
+					></ly-tree>
+				</scroll-view>
+			</view>
 			<view class="footer">
 				<view class="button confirm" @tap="confirm">确定</view>
 				<view class="button cancle" @tap="close">取消</view>
@@ -45,9 +47,6 @@ export default {
 	watch: {
 		searchText(val) {
 			this.$refs.tree.filter(val);
-		},
-		teacherTag(val) {
-			this.showTag = val;
 		},
 		classChecked(val) {
 			this.selectedData = val;
@@ -91,7 +90,6 @@ export default {
 	data() {
 		return {
 			noDataTag: false,
-			showTag: true,
 			searchText: '',
 			props: {
 				label: 'name',
@@ -108,45 +106,49 @@ export default {
 				$ajax
 					.getUrl({
 						url: `${hostEnv.lz_user_center}/school/org/getSchoolRoot/${this.schoolInfo.schoolCode}`
-					})
+					}, false)
 					.then(res => {
-						if (!res.data || res.data.orgChilds.length === 0) {
+						if (!res.data) {
 							this.noDataTag = true;
 							resolve([]);
 							return;
 						}
 						let orgArr = [];
-						res.data.orgChilds.forEach(ele => {
-							orgArr.push({
-								name: ele.name,
-								orgCode: ele.code,
-								id: ele.code,
-								type: '1',
-								disabled: this.disabled
-							});
-						});
-						$ajax.post({
-							url: `${hostEnv.lz_user_center}/userinfo/teacher/user/node/teachers`,
-							params: {
-								orgCode: this.schoolInfo.schoolCode,
-								schoolCode: this.schoolInfo.schoolCode,
-								page: 1,
-								size: 99999
-							}
-						}).then(result => {
-							if(result.data.list.length > 0) {
+						if (res.data.orgChilds.length > 0) {
+							res.data.orgChilds.forEach(ele => {
 								orgArr.push({
-									name: '其他',
-									id: res.data.id,
-									type: '3',
-									orgCode: this.schoolInfo.schoolCode,
+									name: ele.name,
+									orgCode: ele.code,
+									id: ele.code,
+									type: '1',
 									disabled: this.disabled
 								});
-							}
-							this.$tools.goNext(() => {
-								resolve(orgArr);
 							});
-						})
+						}
+						$ajax
+							.post({
+								url: `${hostEnv.lz_user_center}/userinfo/teacher/user/node/teachers`,
+								params: {
+									orgCode: res.data.code,
+									schoolCode: this.schoolInfo.schoolCode,
+									page: 1,
+									size: 99999
+								}
+							},false)
+							.then(result => {
+								if (result.data.list.length > 0) {
+									orgArr.push({
+										name: '其他',
+										id: res.data.id,
+										type: '3',
+										orgCode: res.data.code,
+										disabled: this.disabled
+									});
+								}
+								this.$tools.goNext(() => {
+									resolve(orgArr);
+								});
+							});
 					})
 					.catch(() => {
 						this.noDataTag = true;
@@ -164,12 +166,12 @@ export default {
 					res = $ajax.post({
 						url: `${hostEnv.lz_user_center}/userinfo/teacher/user/node/teachers`,
 						params: req
-					});
+					},false);
 				} else {
 					res = $ajax.post({
 						url: `${hostEnv.lz_user_center}/userinfo/teacher/user/queryTeacherInfo`,
 						params: req
-					});
+					},false);
 				}
 				res.then(res => {
 					if (!res.data || res.data.list.length === 0) {
@@ -199,8 +201,10 @@ export default {
 				});
 			}
 		},
-
 		setCheckedKeys() {
+			if(this.$refs.tree){
+				this.$refs.tree.setCheckAll(false);
+			}
 			let arr = [];
 			this.classChecked.forEach(el => {
 				arr.push(el.userCode);
@@ -214,16 +218,16 @@ export default {
 		},
 		close() {
 			this.searchText = '';
-			if (this.isClear) {
-				this.$refs.tree.setCheckedKeys([])
+			if (this.isClear && this.$refs.tree) {
+				this.$refs.tree.setCheckedKeys([]);
 			}
 			this.$emit('close');
 		},
 		confirm() {
 			this.searchText = '';
 			this.$emit('confirm', this.selectedData.filter(item => item.type === '2'));
-			if (this.isClear) {
-				this.$refs.tree.setCheckedKeys([])
+			if (this.isClear && this.$refs.tree) {
+				this.$refs.tree.setCheckedKeys([]);
 			}
 		},
 		filterNode(value, data) {

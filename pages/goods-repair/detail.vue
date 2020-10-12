@@ -134,9 +134,10 @@
       mode="center"
       length="80%"
       border-radius="14"
+      class="new-top"
     >
       <view class="u-bd-b">
-        <view class="u-padd-40 u-fx-jsa u-fx">
+        <view class="u-padd-20 u-fx-jsa u-fx">
           <u-radio-group v-model="value">
             <u-radio
               @change="radioChange"
@@ -148,7 +149,6 @@
             >
           </u-radio-group></view
         >
-
         <view class="pop">
           <template>
             <u-input
@@ -162,7 +162,7 @@
         </view>
       </view>
       <view
-        ><view class="u-fx u-fx-jsa u-padd-40">
+        ><view class="u-fx u-fx-jsa u-padd-20">
           <view class="u-type-info u-font-1" @click="close()">取消</view>
           <view class="u-type-primary u-font-1" @click="change(2)">确定</view>
         </view></view
@@ -299,18 +299,25 @@ export default {
       }
     },
     teacherSelcet(value) {
-      this.teacherTag = false;
-      this.approvalList = [];
-      this.approvalList = value.map((el) => {
-        return {
-          approvalUserCode: el.userCode,
-          approvalUserName: el.userName,
-          schoolCode: el.orgCode,
-          repairId: this.detail.id,
-          previousUserName: store.userInfo.userName,
-          previousUserCode: store.userInfo.userCode,
-        };
-      });
+      if (
+        value[0].userCode === store.userInfo.userCode ||
+        value[0].userCode === this.detail.submitUserCode
+      ) {
+        this.$tools.toast("指定人不能是自己或者申请人!");
+        return;
+      } else {
+        this.approvalList = value.map((el) => {
+          return {
+            approvalUserCode: el.userCode,
+            approvalUserName: el.userName,
+            schoolCode: el.orgCode,
+            repairId: this.detail.id,
+            previousUserName: store.userInfo.userName,
+            previousUserCode: store.userInfo.userCode,
+          };
+        });
+        this.teacherTag = false;
+      }
       actions.appointApproval(this.approvalList).then((res) => {
         this.$tools.toast("操作成功", "success");
         this.isApproval = false;
@@ -344,20 +351,31 @@ export default {
       this.detail = res.data;
       res.data.repairApprovalList.forEach((el) => {
         if (
-          el.type != "3" &&
+          el.type !== "3" &&
           store.userInfo.userCode === el.approvalUserCode &&
           this.detail.state === "0"
         ) {
           this.isApproval = true;
         }
       });
-      if (this.detail.state === "1") {
-        this.isHandle = true;
-      } else if (this.detail.state === "4") {
-        this.isApproval = true;
-      } else if (this.detail.state === "5") {
-        this.isRepair = true;
-      }
+      res.data.pointRepairApprovalList.forEach((el) => {
+        if (
+          store.userInfo.userCode === el.approvalUserCode &&
+          this.detail.state === "1"
+        ) {
+          this.isHandle = true;
+        } else if (
+          store.userInfo.userCode === el.approvalUserCode &&
+          this.detail.state === "4"
+        ) {
+          this.isApproval = true;
+        } else if (
+          store.userInfo.userCode === el.approvalUserCode &&
+          this.detail.state === "5"
+        ) {
+          this.isRepair = true;
+        }
+      });
       this.photoList = [];
       res.data.attachmentList.forEach((ele) => {
         this.photoList.push({
@@ -374,5 +392,11 @@ export default {
 }
 .pop {
   padding: 0 20px;
+  .u-padd-20 {
+    padding: 20rpx;
+  }
+}
+.new-top {
+  margin-top: -200rpx;
 }
 </style>

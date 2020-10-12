@@ -1,5 +1,5 @@
 const news = [{
-  title: '新闻公告',
+  title: '信息发布',
   children: [{
       title: '学校新闻-教职工',
       url: '/pages/news/news-t/SchoolNews/index'
@@ -15,6 +15,14 @@ const news = [{
     {
       title: '学校公告-家长',
       url: '/pages/news/news-p/parentNotice/index'
+    },
+    {
+      title: '相册管理',
+      url: '/pages/album-manage/index'
+    },
+    {
+      title: '视频管理',
+      url: '/pages/video-manage/index'
     }
   ]
 }]

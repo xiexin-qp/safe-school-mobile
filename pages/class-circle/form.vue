@@ -7,7 +7,7 @@
 					<view class="u-font-1 u-padd-20">{{ type === '1' ? '上传图片（最多9张）' : '上传视频（最多1个）' }}</view>
 					<video-upload
 						class="u-fx-f1 u-padd-l20 u-padd-r10 u-padd-b20"
-						:uploadUrl="uploadUrl"
+						:schoolCode="userInfo.schoolCode"
 						:types="type === '1' ? 'image' : 'video'"
 						:uploadCount="type === '1' ? 9 : 1"
 						:upload_max="100"
@@ -48,9 +48,11 @@ export default {
 			upLoadType: true
 		};
 	},
-	computed: {},
+	computed: {
+		userInfo: () => store.userInfo 
+	},
 	created() {
-		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
+		// this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
 		this.type = this.$tools.getQuery().get('type');
 		this.userType = this.$tools.getQuery().get('category');
 	},

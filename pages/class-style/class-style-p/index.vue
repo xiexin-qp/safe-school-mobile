@@ -36,13 +36,13 @@
 								<text class="padd-l20 mar-l20">{{ classIntro }}</text>
 							</view>
 						</view>
-						<!-- <view class="class-card">
+						<view class="class-card">
 							<u-icon class="u-icon-38" name="calendar" color="#2979ff" size="38"></u-icon>
 							<text class="mar-l20">班级全家福：</text>
 						</view>
 						<view class="u-fx-ver">
-							<image class="class-image" src="" mode=""></image>
-						</view> -->
+							<image class="class-image" :src="photoUrl" mode="" @tap="previewImage()"></image>
+						</view>
 					</scroll-view>
 				</swiper-item>
 				<swiper-item class="swiper-item"><class-album ref="child"></class-album></swiper-item>
@@ -73,6 +73,7 @@ export default {
 			swiperCurrent: 0,
 			classMotto: '',
 			classIntro: '',
+			photoUrl: '',
 			classCode: '',
 			schoolYearId: '',
 			tabList: [
@@ -109,6 +110,12 @@ export default {
 				this.classCode = item.classCode;
 			}
 		},
+		previewImage() {
+			console.log()
+			uni.previewImage({
+				urls: [this.photoUrl]
+			});
+		},
 		changeMenu(item) {
 			this.swiperCurrent = item;
 		},
@@ -132,10 +139,13 @@ export default {
 			const res = await actions.getClassMotto(req);
 			if (!res.data) {
 				this.classMotto = '';
+				this.classIntro = '';
+				this.photoUrl = ''
 				return;
 			}
 			this.classMotto = res.data.motto;
 			this.classIntro = res.data.introduce;
+			this.photoUrl = res.data.photoUrl
 		},
 		goDetail(id) {
 			this.$tools.navTo({
@@ -187,5 +197,10 @@ export default {
 }
 .u-icon-38{
 	font-size: 38rpx;
+}
+.class-image{
+	width: 210rpx;
+	height: 210rpx;
+	margin-left: 40rpx;
 }
 </style>

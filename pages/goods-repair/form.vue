@@ -11,7 +11,7 @@
     ></teacher-tree>
     <teacher-tree
       isCheck
-      :teacherCopy="teacherCopy"
+      :teacherTag="teacherCopy"
       v-show="teacherCopy"
       :schoolInfo="schoolInfo"
       @close="teacherClose"
@@ -106,33 +106,36 @@
           </view>
         </view>
       </view>
-      <view class="u-fx-ac u-bd-b item-list">
-        <view class="tip">审批人:</view>
-        <view @click="chooseTeacher" class="u-fx-f1 u-fx">
+   <view class="u-fx-ac u-bd-b item-list">
+			  <view class="tip">审批人</view>
+        <view @click="teacherTag = true" class="u-fx-f1 u-fx">
           <view class="copyer u-fx-f1 u-content-color u-tx-r">
-            <u-tag
-              @close="tagClick(item)"
-              v-for="(item, index) in repairApprovalList"
+               <text v-if="repairApprovalList.length === 0">请选择</text>
+                <text v-if="repairApprovalList.length >3">已选{{repairApprovalList.length}}人</text>
+             <u-tag 
+              v-if="repairApprovalList.length <=3"
+              v-for="(item,index) in repairApprovalList"
               :key="index"
-              :text="item.approvalUserName"
-              mode="light"
-              type="info"
+              :text="item.userName"
+              mode="light" 
+              type="info" 
               class="mar-l10"
-              style="margin: 4px;"
-            />
+              />
           </view>
+          <view class="rit-icon"></view>
         </view>
-        <view class="rit-icon"></view>
-      </view>
+			</view>
       <view class="u-fx-ac u-bd-b item-list">
         <view>抄送人:</view>
-        <view @click="chooseTeacherCopy" class="u-fx-f1 u-fx">
+        <view @click="teacherCopy = true" class="u-fx-f1 u-fx">
           <view class="copyer u-fx-f1 u-content-color u-tx-r">
+                <text v-if="repairCopyList.length === 0">请选择</text>
+              <text v-if="repairCopyList.length >3">已选{{repairCopyList.length}}人</text>
             <u-tag
-              @close="userClick(item)"
+              v-if="repairCopyList.length <=3"
               v-for="(item, index) in repairCopyList"
               :key="index"
-              :text="item.copyUserName"
+              :text="item.userName"
               mode="light"
               type="info"
               class="mar-l10"
@@ -153,7 +156,6 @@
     </view>
   </view>
 </template>
-
 <script>
 import anUploadImg from "@/components/an-uploadImg/an-uploadImgWithName";
 import { actions, store } from "./store/index";
@@ -233,44 +235,31 @@ export default {
     this.schoolInfo.schoolYearId = store.schoolYear.schoolYearId;
   },
   methods: {
-    // tagClick(item) {
-    //   this.repairApprovalList = this.repairApprovalList.filter(
-    //     (tag) => tag !== item
-    //   );
-    // },
-    // userClick(item) {
-    //   this.repairCopyList = this.repairCopyList.filter((tag) => tag !== item);
-    // },
     teacherSelcet(value) {
-      this.teacherTag = false;
-      this.repairApprovalList = value.map((el) => {
-        return {
-          approvalUserCode: el.userCode,
-          approvalUserName: el.userName,
-          schoolCode: el.orgCode,
-        };
+      value.forEach((ele) => {
+        if (ele.userCode === store.userInfo.userCode) {
+          this.$tools.toast("审批人不能是自己!");
+          return;
+        } else {
+          this.repairApprovalList = value;
+          this.teacherTag = false;
+        }
       });
-      console.log(this.repairApprovalList);
     },
     teacherCopySelcet(value) {
-      this.teacherCopy = false;
-      this.repairCopyList = value.map((el) => {
-        return {
-          copyUserCode: el.userCode,
-          copyUserName: el.userName,
-          schoolCode: el.orgCode,
-        };
+      value.forEach((ele) => {
+        if (ele.userCode === store.userInfo.userCode) {
+          this.$tools.toast("抄送人不能是自己!");
+          return;
+        } else {
+          this.repairCopyList = value;
+          this.teacherCopy = false;
+        }
       });
     },
     teacherClose() {
       this.teacherTag = false;
       this.teacherCopy = false;
-    },
-    chooseTeacher() {
-      this.teacherTag = true;
-    },
-    chooseTeacherCopy() {
-      this.teacherCopy = true;
     },
     changeName([e, type]) {
       this.siteType = type;
@@ -321,9 +310,6 @@ export default {
       }
     },
     changeSiteType([e, type]) {
-      // if (this.type !== "0") {
-      //   return;
-      // }
       this.siteType = type;
       if (type === 1) {
         this.siteTag = true;
@@ -457,7 +443,7 @@ export default {
         this.formData.materialTypeName = "";
       }
     },
-    submit: tools.throttle(async function () {
+    submit: tools.throttle(async function() {
       if (this.formData.materialTypeName === "请选择") {
         this.$tools.toast("请选择报修的物品类别!");
         return;
@@ -503,8 +489,20 @@ export default {
             url: ele.url.split(",")[1],
           };
         }),
-        repairApprovalList: this.repairApprovalList,
-        repairCopyList: this.repairCopyList,
+        repairApprovalList: this.repairApprovalList.map((el) => {
+          return {
+            approvalUserCode: el.userCode,
+            approvalUserName: el.userName,
+            schoolCode: el.orgCode.split(",")[0],
+          };
+        }),
+        repairCopyList: this.repairCopyList.map((el) => {
+          return {
+            copyUserCode: el.userCode,
+            copyUserName: el.userName,
+            schoolCode: el.orgCode.split(",")[0],
+          };
+        }),
         materialId: this.formData.materialId,
         materialName: this.formData.materialName,
         materialTypeId: this.formData.materialTypeId,
@@ -512,9 +510,9 @@ export default {
         materialRemark: this.formData.materialRemark,
         remark: this.formData.remark,
       };
-      await actions.addRepair({
-        ...req,
-      });
+      await actions.addRepair(
+        req,
+      );
       this.$tools.toast("操作成功");
       this.$tools.goNext(() => {
         eventBus.$emit("getList");
@@ -558,5 +556,6 @@ export default {
 }
 .mar-l10 {
   margin-left: 10rpx;
+  margin-top: 10rpx;
 }
 </style>

@@ -32,7 +32,7 @@
 							<text class="padd-l20 mar-l20 u-content-color">{{ classIntro }}</text>
 						</view>
 					</view>
-					<!-- <view class="class-card">
+					<view class="class-card">
 						<u-icon class="u-icon-38" name="calendar" color="#2979ff"></u-icon>
 						<text class="mar-l20">班级全家福：</text>
 					</view>
@@ -40,8 +40,8 @@
 						<view v-if="userType === '1'" class="u-fx-f1">
 							<video-upload
 								class="u-fx-f1 u-padd-l40 u-padd-r10 u-padd-b20"
-								:uploadUrl="uploadUrl"
 								types="image"
+								:schoolCode="userInfo.schoolCode"
 								v-model="photoList"
 								:uploadCount="1"
 								:upload_max="10"
@@ -52,7 +52,7 @@
 						<view v-else class="u-fx-f1 u-mar-l40">
 							<image v-if="photoList.length>0" class="class-image" :src="photoList[0].url" mode="" @tap="previewImage()"></image>
 						</view>
-					</view> -->
+					</view>
 				</scroll-view>
 			</view>
 			<view v-show="current === 1"><class-album ref="child" :userType="userType"></class-album></view>
@@ -74,6 +74,7 @@ export default {
 		ClassAlbum
 	},
 	computed: {
+		userInfo: () => store.userInfo,
 		isBZR: () => JSON.parse(uni.getStorageSync('protal')).isBZR  
 	},
 	data() {
@@ -84,7 +85,6 @@ export default {
 				page: 1,
 				size: 9999
 			},
-			uploadUrl: '',
 			showTag: false,
 			current: 0,
 			classMotto: '',
@@ -141,7 +141,7 @@ export default {
 	},
 	async created() {
 		this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList
-		this.uploadUrl = `${hostEnv.cl_oa}/study/theme/file/uploadFile?schoolCode=${store.userInfo.schoolCode}`;
+		console.log(this.classList)
 		this.length = this.classMotto.length;
 		this.schoolYearId = store.schoolYear.schoolYearId;
 		if (store.userInfo.typeCode === '4') {
@@ -167,11 +167,6 @@ export default {
 				schoolYearId: this.schoolYearId
 			});
 		}
-		uni.setStorageSync('classInfo', {
-			gradeCode: this.gradeCode,
-			classCode: this.classCode,
-			schoolYearId: this.schoolYearId
-		});
 	},
 	mounted() {},
 	methods: {

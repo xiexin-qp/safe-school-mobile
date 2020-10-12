@@ -7,7 +7,7 @@
       :schoolInfo="schoolInfo"
       @close="teacherClose"
       @confirm="teacherSelcet"
-      :classChecked="[]"
+      :classChecked="userCodeList"
     ></teacher-tree>
     <class-tree
       isCheck
@@ -16,55 +16,64 @@
       :schoolInfo="schoolInfo"
       @close="classClose"
       @confirm="classSelcet"
-      :classChecked="[]"
+      :classChecked="classList"
     ></class-tree>
     <scroll-view scroll-y="true" class="scroll-h u-bg-fff">
       <view class="u-fx-ac u-bd-b item-list">
         <view class="tip">公告标题：</view>
         <view class="u-fx-f1"
-          ><input maxlength="30" v-model="newsInfo.title" class="item-input"
+          ><input placeholder="请输入标题" maxlength="30" v-model="newsInfo.title" class="item-input"
         /></view>
       </view>
       <view class="qui―fx u-bd-b item-list">
-        <view class="tip">正文:</view>
+        <view class="tip">公告正文:</view>
         <view class="u-fx-f1 u-mar-t">
           <textarea
             class="item-input"
             v-model="newsInfo.content"
+						placeholder="请输入公告正文"
             maxlength="600"
           />
         </view>
       </view>
-      <view class="u-fx-ac u-bd-b item-list">
-        <view class="tip">选择教职工:</view>
-        <view @click="chooseTeacher" class="u-fx-f1 u-fx-je u-content-color">
-          <text v-if="userCodeList.length === 0">请选择</text>
-          <view v-for="(item, index) in userCodeList" :key="index">
-            <u-tag
+         <view class="u-fx-ac u-bd-b item-list">
+			  <view class="tip">选择教职工:</view>
+        <view @click="teacherTag = true" class="u-fx-f1 u-fx">
+          <view class="copyer u-fx-f1 u-content-color u-tx-r">
+             <text v-if="userCodeList.length === 0">请选择</text>
+             <text v-if="userCodeList.length >3">已选{{userCodeList.length}}人</text>
+            <u-tag 
+            v-if="userCodeList.length <=3"
+              v-for="(item,index) in userCodeList"
+              :key="index"
               :text="item.userName"
-              mode="light"
-              type="info"
+              mode="light" 
+              type="info" 
               class="mar-l10"
-            />
+              />
           </view>
+          <view class="rit-icon"></view>
         </view>
-        <view class="rit-icon"></view>
-      </view>
+			</view>
       <view class="u-fx-ac u-bd-b item-list">
-        <view class="tip">选择班级:</view>
-        <view @click="chooseClass" class="u-fx-f1 u-fx-je u-content-color">
+			  <view class="tip">选择班级:</view>
+        <view @click="classTag = true" class="u-fx-f1 u-fx">
+          <view class="copyer u-fx-f1 u-content-color u-tx-r">
           <text v-if="classList.length === 0">请选择</text>
-          <view v-for="(item, index) in classList" :key="index">
-            <u-tag
+                       <text v-if="classList.length >3">已选{{classList.length}}个班级</text>
+            <u-tag 
+                        v-if="classList.length <=3"
+              v-for="(item,index) in classList"
+              :key="index"
               :text="item.gradeName + item.className"
-              mode="light"
-              type="info"
+              mode="light" 
+              type="info" 
               class="mar-l10"
-            />
+              />
           </view>
+          <view class="rit-icon"></view>
         </view>
-        <view class="rit-icon"></view>
-      </view>
+			</view>
       <view class="u-fx-ac u-bd-b item-list">
         <view>开启全屏通知：</view>
         <view class="u-fx-f1 u-fx-je"
@@ -115,7 +124,6 @@
     </view>
   </view>
 </template>
-
 <script>
 import { actions, store } from "../store/index";
 import eventBus from "@u/eventBus";
@@ -181,30 +189,16 @@ export default {
     classClose() {
       this.classTag = false;
     },
-    chooseClass() {
-      this.classTag = true;
-    },
     classSelcet(value) {
       this.classTag = false;
-      this.classList = value.map((el) => {
-        return {
-          ...el,
-        };
-      });
-    },
-    chooseTeacher() {
-      this.teacherTag = true;
+      this.classList = value;
     },
     teacherClose() {
       this.teacherTag = false;
     },
     teacherSelcet(value) {
       this.teacherTag = false;
-      this.userCodeList = value.map((el, index) => {
-        return {
-          ...el,
-        };
-      });
+      this.userCodeList = value;
     },
     showTime() {
       if (this.newsInfo.showFull === false) {
@@ -214,7 +208,9 @@ export default {
       }
     },
     startConfirm(params) {
-      this.newsInfo.startDate = `${params.year}-${params.month}-${params.day} ${params.hour}:${params.minute}`;
+      this.newsInfo.startDate = `${params.year}-${params.month}-${params.day} ${
+        params.hour
+      }:${params.minute}`;
       this.newsInfo.endDate = this.newsInfo.endDate.replace(/-/g, "-");
       const time =
         new Date(new Date(this.newsInfo.endDate).getTime()).getTime() -
@@ -229,7 +225,9 @@ export default {
       }
     },
     endConfirm(params) {
-      this.newsInfo.endDate = `${params.year}-${params.month}-${params.day} ${params.hour}:${params.minute}`;
+      this.newsInfo.endDate = `${params.year}-${params.month}-${params.day} ${
+        params.hour
+      }:${params.minute}`;
       this.newsInfo.startDate = this.newsInfo.startDate.replace(/-/g, "-");
       const time =
         new Date(new Date(this.newsInfo.endDate).getTime()).getTime() -
@@ -334,8 +332,8 @@ export default {
         });
       }
       this.$tools.toast("操作成功");
-      eventBus.$emit("getList");
       this.$tools.goNext(() => {
+				eventBus.$emit("getList");
         this.$tools.goBack();
       });
     },
@@ -411,6 +409,7 @@ export default {
 }
 .mar-l10 {
   margin-left: 10rpx;
+  margin-top: 10rpx;
 }
 .submit-btn {
   height: 80rpx;

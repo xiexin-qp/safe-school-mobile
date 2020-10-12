@@ -110,13 +110,13 @@ export default {
     async goDetail(id) {
       this.$tools.navTo({
         url: "./detail?id=" + id,
-        title: "查看公告详情",
+        title: "公告详情",
       });
     },
     readStatus(id) {
       this.$tools.navTo({
         url: "./ReadStatus?id=" + id,
-        title: "查看阅读状态",
+        title: "阅读状态",
       });
     },
   },

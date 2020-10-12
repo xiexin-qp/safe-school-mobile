@@ -99,6 +99,7 @@ export default {
 			this.morePage = res.data.hasNextPage;
 		},
 		loadMore() {
+			console.log('11')
 			if (!this.morePage) {
 				this.$tools.toast('数据已加载完毕');
 				return;
