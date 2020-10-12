@@ -1,11 +1,11 @@
 <template>
 	<view class='task-home'>
-		<view class="u-mar-b20 u-padd-l20 u-padd-r20  ">
+		<view class="u-mar-20 ">
 			<u-subsection class="u-type-white-bg" @change="change" active-color="#2979ff" :list="typeList" mode="subsection"
 			 :current="current"></u-subsection>
 		</view>
 		<view class="u-mar-l20 u-mar-r20 u-mar-b10">
-			<dropdown-menu @value0Change="value0Change" :completeStatusList="this.source==='2'?this.completeStatusLists2:this.source==='3'?this.completeStatusLists3:this.completeStatusLists1"
+			<dropdown-menu :key="childIndex" @value0Change="value0Change" :completeStatusList="this.source==='2'?this.completeStatusLists2:this.source==='3'?this.completeStatusLists3:this.completeStatusLists1"
 			 @value1Change='value1Change' @searchChange="searchChange"></dropdown-menu>
 		</view>
 		<no-data class="u-mar-l20 u-mar-r20 u-mar-t20" v-if="dataList.length === 0" msg="暂无数据"></no-data>
@@ -16,6 +16,7 @@
 					<view class="cont-box  u-wh u-mar-l20">
 						<view class="cont-title u-font-1 u-mar-t20  u-fx">{{item.taskName}}
 							<view class="doorkeeper" v-if="item.taskType==='2'">
+								{{item.dataNum}}
 								({{item.year}}-{{item.dataNum}}周)
 							</view>
 							<view class="doorkeeper" v-if="item.taskType==='3'">
@@ -37,8 +38,8 @@
 							发布于：&nbsp;{{(source==='3'?item.publishDate:item.publishTime)|gmtToDate}}
 						</view>
 						<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
-							任务时间：{{(source==='3'?item.beginDate:item.startTime)|gmtToDate}}：&nbsp;
-							至：{{(source==='3'?item.endDate:item.endTime)|gmtToDate}}
+							任务时间：{{(source==='3'?item.beginDate:item.startTime)|gmtToDate}}&nbsp;
+							至&nbsp;{{(source==='3'?item.endDate:item.endTime)|gmtToDate}}
 						</view>
 						<view class="cont-footer u-padd-t20 u-type-primary u-bd-t u-fx-jc u-font-02 ">
 							<view class="u-fx-f1 u-fx-ac-jc " @click="fillIn(1,item)" v-if="source!=='3'&&item.completeStatus==='1'&&!isTime(item.endTime)">
@@ -56,10 +57,10 @@
 							<view @click="submit(item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& (item.completeStatus==='2'||item.completeStatus==='6')">
 								提交
 							</view>
-							<view @click="fillIn(0,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& (item.completeStatus==='3'||item.completeStatus==='4')">
+							<view @click="fillIn(0,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& (item.completeStatus==='3'||item.completeStatus==='4'||item.completeStatus==='8')">
 								查看
 							</view>
-							<view class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& item.completeStatus==='5'">
+							<view @click="fillIn(1,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& item.completeStatus==='5'">
 								重报
 							</view>
 							<view @click='release(item)' class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='3'&& item.state==='0'">
@@ -91,6 +92,7 @@
 			return {
 				current: 0,
 				state: 1,
+				childIndex:0,//刷新子组件标记
 				states: '', //发布任务传给后台的任务状态
 				source: '2', //1校端，2局端
 				dataList: [],
@@ -157,11 +159,11 @@
 						value: '0'
 					},
 					{
-						text: '已完成',
+						text: '已提交',
 						value: '6'
 					},
 					{
-						text: '未完成',
+						text: '未提交',
 						value: '7'
 					},
 					{
@@ -200,7 +202,7 @@
 		methods: {
 			//当前时间是否结束
 			isTime(endTime) {
-				return new Date().getTime() > endTime ? false : true
+				return new Date().getTime() > new Date(endTime).getTime() ? false : true
 			},
 			loadMore() {
 				if (!this.morePage) {
@@ -211,7 +213,6 @@
 			},
 			value0Change(val) {
 				if (this.source === '3') {
-					console.log()
 					//我下发的任务
 					this.states = val
 				} else {
@@ -279,17 +280,17 @@
 			},
 			searchChange(val) {
 				console.log(val)
-				// this.showList();
 			},
 			//填报
 			fillIn(type, record) {
 				let {
 					myTaskId,
 					myTaskCode,
-					taskCode
+					taskCode,
+					completeStatus
 				} = record
 				this.$tools.navTo({
-					url: `./fillIn?type=${type}&myTaskId=${myTaskId}&myTaskCode=${myTaskCode}&taskTemplateCode=${taskCode}&source=${this.source}`,
+					url: `./fillIn?type=${type}&myTaskId=${myTaskId}&myTaskCode=${myTaskCode}&taskTemplateCode=${taskCode}&source=${this.source}&state=${completeStatus}`,
 				});
 			},
 			loadMore() {
@@ -324,9 +325,11 @@
 				let {
 					id,
 					taskCode,
+					taskType
 				} = record
+				console.log(taskType)
 				this.$tools.navTo({
-					url: `./release?&myTaskId=${id}&taskTemplateCode=${taskCode}`,
+					url: `./release?&myTaskId=${id}&taskTemplateCode=${taskCode}&taskType=${taskType}`,
 				});
 			},
 			//查看完成情况
@@ -334,14 +337,17 @@
 				let {
 					id,
 					taskCode,
+					taskType
 				} = record
 				this.$tools.navTo({
-					url: `./seeCompletion?&myTaskId=${id}&taskTemplateCode=${taskCode}`,
+					url: `./seeCompletion?&myTaskId=${id}&taskTemplateCode=${taskCode}&taskType=${taskType}`,
 				});
 			},
 			change(index) {
-				this.current = index;
+				this.current = index
 				this.completeStatus = []
+				this.searchObj.taskType = ''
+				this.childIndex++
 				if (index === 0) {
 					this.source = '2'
 				} else if (index === 1) {
@@ -358,6 +364,8 @@
 					this.current = 0;
 				} else if (val === '1') {
 					this.current = 1;
+				}  else if (val === '3') {
+					this.current = 2;
 				}
 			},
 		},

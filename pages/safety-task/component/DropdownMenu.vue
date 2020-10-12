@@ -54,10 +54,10 @@
 		},
 		watch: {
 			value0(val, oldval) {
-				if (val !== oldval) {
-					if (val == 0) {
+				if (val == 0) {
 						this.value0 = ''
-					}
+				}
+				if (val !== oldval) {
 					this.$emit('value0Change', this.value0);
 				}
 			},
