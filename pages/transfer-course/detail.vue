@@ -204,7 +204,7 @@ export default {
       dataList: [],
       isRemark: false,
       substituteForm: {},
-      weekday: ["七", "一", "二", "三", "四", "五", "六"],
+      weekday: ["日", "一", "二", "三", "四", "五", "六"],
       appState: "",
       approverId: "",
       lastIndex: "",

@@ -300,7 +300,7 @@ export default {
       substituteList: [],
       transferList: [],
       recordList: [],
-      weekday: ["七", "一", "二", "三", "四", "五", "六"],
+      weekday: ["日", "一", "二", "三", "四", "五", "六"],
       lastActive: null,
       newList: [],
       storageTime: "",
@@ -452,10 +452,11 @@ export default {
       }
       this.scheduleList = [];
       this.timeList.forEach((el) => {
-        console.log(
-          this.convertToChinese(parseInt(new Date(el.daytime).getDay()))
-        );
+        // console.log(
+        //   "1111111111",new Date(el.daytime).getDay()
+        // );
         this.dateList.forEach((element) => {
+			// console.log( "22222222",element.fromWeek)
           if (
             parseInt(new Date(el.daytime).getDay()) ===
             parseInt(element.fromWeek)
