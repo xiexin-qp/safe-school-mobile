@@ -213,7 +213,6 @@
 			},
 			value0Change(val) {
 				if (this.source === '3') {
-					console.log()
 					//我下发的任务
 					this.states = val
 				} else {

@@ -53,17 +53,21 @@
 					</u-col>
 				</u-row>
 				<view class="problem-list" v-if="radioList.length !== 0">
-					<view class="cont" v-for="(list, i) in radioList" :key="i">
-						<u-row class='u-mar-b20  u-mar-t20 u-main-color' justify="start">
+					<view class="cont" >
+						<u-row class='u-mar-b20 u-bold u-mar-t20 u-main-color' justify="start">
 							<u-col span="12">
-								{{i+1}}.{{ list.title }}
-								<text class='u-font-03 u-tips-color'>(单选题)</text>
+								<text class=''>单选题:</text>
 							</u-col>
 						</u-row>
-						<view class="wentiList ">
+						<view class="wentiList u-padd-l20 u-padd-r20"  v-for="(list, i) in radioList" :key="i">
+							<u-row class=" u-main-color u-type-white-bg ">
+								<u-col span="12" >
+									{{i+1}}.{{ list.title }}
+								</u-col>
+							</u-row>
 							<u-radio-group :disabled="true" v-model="list.answer" class='u-wh'>
 								<u-cell-group shape="circle" class='u-wh' :border='true'>
-									<u-radio @change="radioChange" class="u-padd-15 u-bd-b" v-for="(element,index) in list.content" :name="element">
+									<u-radio shape="circle"  @change="radioChange" class="u-padd-15 u-bd-b" v-for="(element,index) in list.content" :key='index'	 :name="element">
 										{{element}}
 									</u-radio>
 								</u-cell-group>
@@ -72,15 +76,18 @@
 					</view>
 				</view>
 				<view class="problem-list" v-if="checkList.length !== 0">
-					<view class="" v-for="(list, i) in checkList" :key="i">
+					<view class="cont" >
 						<u-row class='u-mar-b20  u-mar-t20 u-main-color' justify="start">
 							<u-col span="12">
-								{{i+1}}.{{ list.title }}
-								<text class='u-font-03 u-tips-color'>(多选题)</text>
+								<text class=''>多选题:</text>
 							</u-col>
 						</u-row>
-						<view class="wentiList ">
-							{{checkList}}
+						<view class="wentiList u-padd-l20 u-padd-r20" v-for="(list, i) in checkList" :key="i">
+								<u-row  class=" u-main-color u-type-white-bg u-padd-10">
+								<u-col span="12">
+									{{i+1}}.{{ list.title }}
+								</u-col>
+							</u-row>
 							<u-checkbox-group :disabled="true" class='u-wh'>
 								<u-cell-group class='u-wh' :border='true'>
 									<u-checkbox @change="checkboxChange(list)" v-model="element.answer" class="u-padd-15 u-bd-b" v-for="(element,index) in list.pointList"
@@ -93,28 +100,48 @@
 					</view>
 				</view>
 				<view class="problem-list" v-if="fillList.length !== 0">
-					<view v-for="(list, i) in fillList" :key="i">
+					<view >
 						<u-row class='u-mar-b20  u-mar-t20 u-main-color' justify="start">
 							<u-col span="12">
-								{{ list.title }}
-								<text class='u-font-03 u-tips-color'>(填空题)</text>
+									<text class=''>填空题:</text>
 							</u-col>
 						</u-row>
-						<view class="wentiList u-type-white-bg u-padd-l20">
-							<u-input  :disabled="true" type="textarea" :auto-height="true" class="" />
+						<view class="wentiList u-mar-l20 u-mar-r20 u-padd-l20 u-type-white-bg " v-for="(list, i) in fillList" :key="i">
+								<u-row>
+									<u-col span="12" class=" u-main-color u-type-white-bg ">
+										{{i+1}}.{{ list.title }}
+									</u-col>
+								</u-row>
+								<view class="wentiList u-type-white-bg u-padd-l20">
+									<u-input  :disabled="true" type="textarea" :auto-height="true" class="" />
+								</view>
 						</view>
 					</view>
 				</view>
 				<view class="problem-list" v-if="fileList.length !== 0">
-					<u-row class='u-mar-b20  u-mar-t20 u-main-color' justify="start">
+					<u-row class='u-mar-b20 u-bold  u-mar-t20 u-main-color' justify="start">
 						<u-col span="12">
-							4.附件
+							附件:
 						</u-col>
 					</u-row>
-					<view class="wentiList u-mar-l10 u-padd-t20">
-						<!-- <an-upload-img :disabled="!type" class='u-type-white-bg' v-model="completePhotoUrls" total="9"></an-upload-img> -->
+					<!-- 查看 -->
+					<view   class="wentiList u-mar-l20 u-mar-r20  u-type-white-bg" >
+						<view  class="u-type-white-bg" v-for="(list, i) in fileList" :key="i">
+							<u-row>
+								<u-col span="12" class=" u-main-color u-mar-b10 u-padd-t10">
+									{{i+1}}.{{ list.title }}
+								</u-col>
+							</u-row>
+							<an-upload-img-url 
+								v-if="list.show"
+								style="padding: 20rpx"
+								class='u-type-white-bg' 
+								v-model="list.answer">
+							</an-upload-img-url >
+						</view>
 					</view>
 				</view>
+				
 			</view>
 			<view class=" u-fx-ac u-mar-b20 u-mar-t30">
 				<!-- <u-button :custom-style="customStyle" class="u-fx-f1 u-mar-r u-mar-l" @click="cancel">
@@ -131,6 +158,7 @@
 <script>
 	import eventBus from '@u/eventBus'
 	import validateForm from '@u/validate';
+	import anUploadImgUrl from './component/an-uploadImg-url'
 	import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
 	import {
 		store,
@@ -139,7 +167,8 @@
 	import hostEnv from '../../config/index.js';
 	export default {
 		components: {
-			anUploadImg
+			anUploadImg,
+			anUploadImgUrl
 		},
 		data() {
 			this.uploadUrl = `${hostEnv.zk_school}/file/freeUpload?schoolCode=${this.schoolCode}`

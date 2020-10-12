@@ -162,13 +162,13 @@
 							</view>
 						</view>
 					</view>
-					<view v-else class="wentiList  u-mar-r20 u-mar-t20 u-mar-l20 " v-for="(list, i) in fileList" :key="i">
+					<view v-else class="wentiList  u-mar-r20 u-mar-t20 u-mar-l20  u-type-white-bg" v-for="(list, i) in fileList" :key="i">
 						<u-row>
 							<u-col span="12" class=" u-main-color u-type-white-bg u-padd-t10">
 								{{i+1}}.{{ list.title }}
 							</u-col>
 						</u-row>
-						{{list.answer}}
+						<!-- {{list}} -->
 						<an-upload-img-url 
 							v-if="list.show"
 							style="padding: 20rpx"
@@ -176,11 +176,9 @@
 							v-model="list.answer">
 						</an-upload-img-url >
 						<view class="u-fx" v-else>
-							<view class="" v-for="(list, y) in fileList" :key="y">
 									<u-icon class="u-mar-l10 u-mar-r10" name="file-text-fill" color="#4d4cac" size="28" ></u-icon>附件
-									<span class="u-type-primary u-mar-r10" @click="exportClick(list.answers[0])">下载</span>
+									<span class="u-type-primary u-padd-l10" @click="exportClick(list.answers[0])">预览</span>
 									<u-icon  name="trash-fill" color="red" size="28" @click="delFile(list,i)"></u-icon>
-							</view>
 						</view>
 					</view>
 				</view>
@@ -332,7 +330,7 @@
 					taskId: this.taskId,
 					taskTemplateCode: this.taskTemplateCode,
 					userCode: store.userInfo.userCode,
-					state:this.state
+					state:this.type===2?this.state:Number(this.state)+1
         }
         let answers
         if(this.type===2){

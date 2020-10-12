@@ -24,7 +24,7 @@
 						<view class="card u-bd-b u-fx-jsb u-fx-ac " v-for="(el,i) in item.list" :key="i">
 							<view v-if="el.state==='1'" class="red">
 							</view>
-							<view class="title  ">{{el.userName}}</view>
+							<view class="title" @click="resultDetails(2,el)">{{el.userName}}</view>
 							<view class="">
 								<u-tag :text="el.state|completeStatusToText" :border-color='el.state|completeStatusToText|safetyTaskToColor'
 								 :bg-color='el.state|completeStatusToText|safetyTaskToColor' color='#fff' />
@@ -123,7 +123,7 @@
 			async getUserList() {
 				const req = {
 					state: [],
-					year: this.dateNum.split('-')[0],
+					year: this.dateNum==='0'?'':this.dateNum.split('-')[0],
 					dateNum: this.dateNum.split('-')[1],
 					schoolCode: store.userInfo.schoolCode,
 					taskTemplateCode: this.taskTemplateCode,
@@ -151,6 +151,19 @@
 			},
 			cancel() {
 				this.$router.go(-1)
+			},
+			resultDetails(type, record){
+				debugger 
+				console.log(record)
+				let {
+					myTaskId,
+					myTaskCode,
+					taskCode,
+					completeStatus
+				} = record
+				this.$tools.navTo({
+					url: `./fillIn?type=${type}&myTaskId=${myTaskId}&myTaskCode=${myTaskCode}&taskTemplateCode=${taskCode}&source=${this.source}&state=${completeStatus}`,
+				});
 			},
 			itemChange() {},
 			change() {},

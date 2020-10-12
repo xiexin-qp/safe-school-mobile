@@ -1,6 +1,6 @@
 <template>
 	<view class="">
-		<u-upload  width='130' @on-success='success' @on-remove ='removeUrl'  :action="action" :file-list="fileList" ></u-upload>
+		<u-upload   width='130' @on-success='success' @on-remove ='removeUrl'  :action="action" :file-list="fileList" ></u-upload>
 	</view>
 </template>
 
