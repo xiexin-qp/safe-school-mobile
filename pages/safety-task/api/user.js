@@ -17,8 +17,20 @@ let userApi = {
 	postSchoolTask: '/safeTaskTemplate/school/publish#post', // 校端任务发布
 	planLists: '/safeTask/safetasktime/query/by/code#get', // 查询任务周期
 	schTaskCompleted: '/safeTaskTemplate/school/complete/static#post', // 校端按照完成情况统计
+	reportTaskDetail: '/safeTaskTemplate/report/result#get', // 上报结果查看
+	wechatNotice: '/safeTask/wechat/notice#post', // 微信消息通知  先查人了再调
+}
+const teachersApi = {
+  getTeachers: '/userinfo/teacher/user/batch/query/usertype#post' // 获取教职工信息列表  确定要通知该学校相关负责人去处理该任务？
+}
+for (const val in teachersApi) {
+  teachersApi[val] = `${hostEnv.ljj_user_center}${teachersApi[val]}`
 }
 for (let val in userApi) {
   userApi[val] = `${hostEnv.lz_safe}${userApi[val]}`
 }
-export default userApi
+const taskApi = {
+  ...userApi,
+  ...teachersApi
+}
+export default taskApi

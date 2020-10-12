@@ -202,7 +202,7 @@
 		methods: {
 			//当前时间是否结束
 			isTime(endTime) {
-				return new Date().getTime() > endTime ? false : true
+				return new Date().getTime() > new Date(endTime).getTime() ? false : true
 			},
 			loadMore() {
 				if (!this.morePage) {

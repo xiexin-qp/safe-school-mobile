@@ -63,13 +63,13 @@
 				</u-row>
 				<view class="problem-list" v-if="radioList.length !== 0">
 					<view class="cont" >
-						<u-row class='u-mar-b20 u-bold u-mar-t20 u-main-color' justify="start">
+						<u-row class='u-mar-b20  u-mar-t20 u-main-color ' justify="start">
 							<u-col span="12">
 								<text class=''>单选题:</text>
 							</u-col>
 						</u-row>
 						<view class="wentiList u-padd-l20 u-padd-r20"  v-for="(list, i) in radioList" :key="i">
-							<u-row class=" u-main-color u-type-white-bg ">
+							<u-row class="u-main-color u-type-white-bg u-padd-t10 ">
 								<u-col span="12" >
 									{{i+1}}.{{ list.title }}
 								</u-col>
@@ -100,11 +100,12 @@
 							</u-col>
 						</u-row>
 						<view class="wentiList u-padd-l20 u-padd-r20" v-for="(list, i) in checkList" :key="i">
-								<u-row  class=" u-main-color u-type-white-bg u-padd-10">
+							<u-row  class=" u-main-color u-type-white-bg u-padd-t10">
 								<u-col span="12">
-									{{i+1}}.{{ list.title }}
+									{{i+1}}.{{ list.title }}	{{i+1}}.{{ list.title }}
 								</u-col>
 							</u-row>
+							
 							<u-checkbox-group v-if='!type||type===2' :disabled="!type" class='u-wh' >
 								<u-cell-group class='u-wh' :border='true'>
 									<u-checkbox  v-model="element.disabled" class="u-padd-15 u-bd-b" v-for="(element,index) in list.pointList"
@@ -131,14 +132,14 @@
 									<text class=''>填空题:</text>
 							</u-col>
 						</u-row>
-						<view class="wentiList u-mar-l20 u-mar-r20 u-padd-l20 u-type-white-bg " v-for="(list, i) in fillList" :key="i">
+						<view class="wentiList u-mar-l20 u-mar-r20  u-type-white-bg " v-for="(list, i) in fillList" :key="i">
 								<u-row>
-									<u-col span="12" class=" u-main-color u-type-white-bg ">
+									<u-col span="12" class=" u-main-color u-type-white-bg u-padd-t10">
 										{{i+1}}.{{ list.title }}
 									</u-col>
-								</u-row>
-									<u-input v-model="list.answers[0]" v-if='!type||type===2' :disabled="!type" type="textarea"  :auto-height="true" class="" />
-									<u-input v-model="list.answer" v-else :disabled="!type" type="textarea" placeholder='请在此填写' :auto-height="true" class="" />
+								</u-row >
+									<u-input class="u-mar-l20" v-model="list.answers[0]" v-if='!type||type===2' :disabled="!type" type="textarea"  :auto-height="true"  />
+									<u-input class="u-mar-l20" v-model="list.answer" v-else :disabled="!type" type="textarea" placeholder='请在此填写' :auto-height="true"  />
 						</view>
 					</view>
 				</view>

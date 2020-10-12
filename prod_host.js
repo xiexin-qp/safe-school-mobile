@@ -308,7 +308,14 @@
 						'^/zx_subject': ''
 					}
 				}
-				
+				'/ljj_user_teacher': {
+					"target": 'http://192.168.1.76:11002/', // 柳继杰-局端基础数据
+					// target: 'http://192.168.2.242:11002/', // 柳继杰-
+					"changeOrigin": true,
+					"pathRewrite": {
+						'^/ljj_user_teacher': ''
+					}
+				}
       }
     },
     "optimization": {

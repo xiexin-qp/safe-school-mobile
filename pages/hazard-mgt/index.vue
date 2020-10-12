@@ -35,9 +35,9 @@
 						<view class="cont-text u-wh u-of">
 							{{item.description}}
 						</view>
-						<view class="imgs-box wh  u-fx u-mar-t20 u-mar-b20">
-							<u-image v-for="(url,index) in splice3(item.dangerPhotoUrls)" :key="index" class="img u-border-radius-all u-mar-r20 "
-							 height="160rpx" width="160rpx" :src="url" mode=""></u-image>
+						<view class="imgs-box wh u-fx u-mar-t20 u-mar-b20">
+							<image  v-for="(url,index) in splice3(item.dangerPhotoUrls)" :key="index" class="img  u-mar-r20"
+							  :src="url" mode=""></image>
 						</view>
 						<view class="cont-footer u-fx u-type-primary u-fx-ac u-font-02 ">
 							<!-- <u-icon name="http://canpointtest.com/mobile-img/study-ground-icon2.png" size="32" class="u-mar-r20"></u-icon>
@@ -94,10 +94,6 @@
 					{
 						name: "已验收",
 					},
-					// {
-					// 	name: '已撤销',
-					// 	number: '5'
-					// }
 				],
 				morePage: false,
 				show: false,
@@ -203,21 +199,24 @@
 
 		.cont-title {
 			position: relative;
-
 			.red-text {
 				width: 100rpx;
 				height: 100rpx;
 				position: absolute;
 				right: 0;
 				top: 0;
-
 				.del-add-img {
 					width: 100% !important;
 					height: 100% !important;
 				}
 			}
 		}
-
+		.imgs-box{
+			.img{
+				height: 160rpx;
+				width: 160rpx;
+			}
+		}
 		.time-text {
 			color: #909399;
 		}
