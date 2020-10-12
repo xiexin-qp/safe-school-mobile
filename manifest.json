@@ -223,6 +223,14 @@
 						"^/zq_news": ""
 					}
 				},
+				"/zk_news": {
+					//"target": "http://192.168.2.242:11011/", // 张坤-信息发布
+					"target": "http://192.168.1.23:11011/",
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/zk_news": ""
+					}
+				},
 				"/zk_examplan": {
 					"target": "http://192.168.1.23:11013/", // 考试计划
 					"changeOrigin": true,

@@ -63,6 +63,9 @@ export default {
 			this.showList();
 		});
 	},
+	beforeDestroy(){
+		eventBus.$emit('refList');
+	},
 	methods: {
 		async showList() {
 			const req = {
