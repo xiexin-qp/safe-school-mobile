@@ -1,18 +1,16 @@
 <template>
 	<view class="u-page u-bg-fff">
-		<view class="u-fx-jsb u-fx-ac">
+		<view class="u-fx-jsb u-fx-ac" v-if="userType !== 3">
 			<view class="choose">
 				<!-- <view class="common-btn mar-l20" @click="allChoose" v-if="allChooseTag">全选</view> -->
-				<u-checkbox-group class="mar-l20" v-if="allChooseTag && photoList.length > 0">
-					<u-checkbox v-model="allChecked" @change="allChoose">全选</u-checkbox>
-				</u-checkbox-group>
+				<u-checkbox-group class="mar-l20" v-if="allChooseTag && photoList.length > 0"><u-checkbox v-model="allChecked" @change="allChoose">全选</u-checkbox></u-checkbox-group>
 			</view>
 			<view class="choose u-fx-je">
 				<view v-if="photoList.length > 0" class="common-btn mar-r20" @click="choose(1)">轮播图设置</view>
 				<view v-if="photoList.length > 0" class="common-btn" @click="choose(0)">删除</view>
 			</view>
 		</view>
-		<scroll-view scroll-y="true" class="scroll-h">
+		<scroll-view scroll-y="true" :class="userType !== 3 ? 'scroll-h' : 'scroll-p'">
 			<no-data v-if="photoList.length === 0" msg="暂无照片"></no-data>
 			<view v-else class="photo-list u-padd-l20 u-padd-r20 u-fx">
 				<u-checkbox-group class="wrap u-fx">
@@ -25,7 +23,7 @@
 				</u-checkbox-group>
 			</view>
 		</scroll-view>
-		<view>
+		<view v-if="userType !== 3">
 			<view v-if="!showCheckTag" class="common-btn u-mar-20" @click="add">上传照片</view>
 			<view v-else class="show-btn mar-t20 u-fx-jsb u-mar-20">
 				<view class="common-btn u-bg-color u-type-primary" @click="cancel">取消</view>
@@ -45,8 +43,8 @@ export default {
 	},
 	data() {
 		return {
+			userType: 2, // 0.超管，1.班主任，2.教职工，3.家长
 			photoList: [],
-			userType: '0',
 			chooseType: '1', //1轮播，2删除
 			showCheckTag: false,
 			allChooseTag: false,
@@ -56,6 +54,13 @@ export default {
 			editTag: false
 		};
 	},
+	created() {
+		if (store.userInfo.typeCode === '4') {
+			this.userType = 2;
+		} else if (store.userInfo.typeCode === '16') {
+			this.userType = 3;
+		}
+	},
 	async mounted() {
 		this.id = this.$tools.getQuery().get('id');
 		this.showList();
@@ -63,7 +68,7 @@ export default {
 			this.showList();
 		});
 	},
-	beforeDestroy(){
+	beforeDestroy() {
 		eventBus.$emit('refList');
 	},
 	methods: {
@@ -75,8 +80,8 @@ export default {
 			this.photoList = res.data.list;
 		},
 		choose(type) {
-			if(!this.canClick) return
-			this.editTag = true
+			if (!this.canClick) return;
+			this.editTag = true;
 			if (type === 1) {
 				this.chooseType = '1';
 				this.photoList.forEach(ele => {
@@ -95,18 +100,18 @@ export default {
 					this.$set(el, 'checked', false);
 				});
 			}
-			this.canClick = false
+			this.canClick = false;
 			this.showCheckTag = true;
 		},
-		allChoose(val){
-			console.log(val)
-			if(this.chooseList.length === this.photoList.length){
-				this.chooseList = []
+		allChoose(val) {
+			console.log(val);
+			if (this.chooseList.length === this.photoList.length) {
+				this.chooseList = [];
 				this.photoList.forEach(ele => {
 					this.$set(ele, 'checked', false);
 				});
-			}else{
-				this.chooseList = []
+			} else {
+				this.chooseList = [];
 				this.photoList.forEach(ele => {
 					this.chooseList.push(ele.id);
 					this.$set(ele, 'checked', true);
@@ -127,11 +132,11 @@ export default {
 				const index = this.chooseList.indexOf(e.name);
 				this.chooseList.splice(index, 1);
 			}
-			if(this.chooseType === '2'){
-				if(this.chooseList.length === this.photoList.length){
-					this.allChecked = true
-				}else{
-					this.allChecked = false
+			if (this.chooseType === '2') {
+				if (this.chooseList.length === this.photoList.length) {
+					this.allChecked = true;
+				} else {
+					this.allChecked = false;
 				}
 			}
 			console.log(this.chooseList);
@@ -146,7 +151,7 @@ export default {
 				ids: this.chooseList.join(',')
 			};
 			actions.setCover(req).then(res => {
-				this.canClick = true
+				this.canClick = true;
 				this.$tools.toast('设置成功', 'success');
 				this.chooseList = [];
 				this.showCheckTag = false;
@@ -162,12 +167,12 @@ export default {
 			}
 			this.$tools.delTip('确定删除这些照片吗？', () => {
 				actions.deletePhotos(this.chooseList).then(res => {
-					this.canClick = true
+					this.canClick = true;
 					this.$tools.toast('删除成功', 'success');
 					this.chooseList = [];
 					this.allChooseTag = false;
 					this.showCheckTag = false;
-					this.allChecked = false
+					this.allChecked = false;
 					this.$tools.goNext(() => {
 						this.showList(false);
 					});
@@ -179,12 +184,12 @@ export default {
 			this.allChooseTag = false;
 			this.showCheckTag = false;
 			this.allChooseTag = false;
-			this.allChecked = false
-			this.canClick = true
-			this.editTag = false
+			this.allChecked = false;
+			this.canClick = true;
+			this.editTag = false;
 		},
 		sure() {
-			this.editTag = false
+			this.editTag = false;
 			if (this.chooseType === '1') {
 				this.setAlbum();
 			} else {
@@ -192,8 +197,8 @@ export default {
 			}
 		},
 		goImgList(index) {
-			if(this.editTag){
-				return
+			if (this.editTag) {
+				return;
 			}
 			uni.setStorageSync('imgPreviewPicList', this.photoList);
 			this.$tools.navTo({
@@ -207,6 +212,9 @@ export default {
 <style lang="scss" scoped>
 .scroll-h {
 	height: calc(100vh - 230rpx);
+}
+.scroll-p {
+	height: calc(100vh - 20rpx);
 }
 .scroll {
 	height: calc(100vh - 20rpx);

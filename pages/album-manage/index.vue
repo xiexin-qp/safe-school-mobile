@@ -3,7 +3,7 @@
 		<scroll-view scroll-y class="scroll-h">
 			<no-data v-if="false" msg="暂无相册"></no-data>
 			<view class="album-list u-fx">
-				<view class="album-item u-mar-20 u-fx-ver" @click="add">
+				<view class="album-item u-mar-20 u-fx-ver" @click="add" v-if="userType !== 3">
 					<view class="album-wrapper">
 						<view class="album-pic">
 							<view class="new-album">
@@ -21,7 +21,7 @@
 								<text class="u-font-01">{{ item.albumName }}</text>
 								<text class="u-font-02 u-mar-l10 u-tips-color">( {{ item.number || 0 }} )张</text>
 							</view>
-							<image @click.stop="action(item)" class="more u-font-1 u-mar-r20" src="http://canpointtest.com/mobile-img/edit.png" alt="" />
+							<image v-if="userType !== 3" @click.stop="action(item)" class="more u-font-1 u-mar-r20" src="http://canpointtest.com/mobile-img/edit.png" alt="" />
 						</view>
 					</view>
 				</view>
@@ -44,13 +44,20 @@ export default {
 	},
 	data() {
 		return {
+			userType: 2, // 0.超管，1.班主任，2.教职工，3.家长
 			showTag: false,
 			albumList: [],
 			actionList: ['添加照片', '发布对象', '全屏播放设置', '编辑相册', '删除相册'],
 			albumName: ''
 		};
 	},
-	async created() {},
+	created() {
+		if (store.userInfo.typeCode === '4') {
+			this.userType = 2;
+		} else if (store.userInfo.typeCode === '16') {
+			this.userType = 3;
+		}
+	},
 	mounted() {
 		eventBus.$on('refList', () => {
 			this.showList();
@@ -139,7 +146,7 @@ export default {
 
 <style lang="scss" scoped>
 .scroll-h {
-	height: calc(100vh);
+	height: calc(100vh - 40rpx);
 }
 .album-list {
 	flex-wrap: wrap;
