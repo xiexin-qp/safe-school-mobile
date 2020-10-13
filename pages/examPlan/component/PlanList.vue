@@ -11,7 +11,6 @@
 			</view>
 			<view class="">
 				<view class="u-font-3 u-mar-t u-padd-l40">
-					{{ item.name }}
           	<text v-if="isName">{{ item.name }}</text>
           	<text v-if="isShow">{{ item.planName }}</text>
 					<text v-if="isShow" class="u-padd-l40">{{ item.subjectName }}</text>
@@ -25,9 +24,10 @@
 					考试年级：{{ item.gradeName }}
 					<text v-if="isShow" class="u-padd-l40">考试范围: {{ item.startNumber }}-{{ item.endNumber }}</text>
 				</view>
-				<view class="u-mar-t u-padd-l40">开考日期：{{ item.startDate | gmtToDate }}</view>
-				<view class="u-mar-t u-padd-l40"  v-if="item.state === '2'">
-					<u-button type="primary" size="mini"  @click="getScore(item.id)">查看成绩</u-button>
+				<view class="u-mar-t u-padd-l40"  v-if="isName">开考日期：{{ item.startDate | gmtToDate('date') }}   {{ item.startDate | gmtToDate('time') }}~{{ item.endDate | gmtToDate('time') }}</view>
+				<view class="u-mar-t u-padd-l40" v-if="isShow">开考日期：{{ item.testDate | gmtToDate('date') }}  {{ item.startTime | gmtToDate('time') }}~{{ item.endTime | gmtToDate('time') }}</view>
+				<view class="u-mar-t u-padd-l40"  v-if="isName">
+					<u-button type="primary" size="mini"  @click="getScore(item.id)"  v-if="item.state === '2'">查看成绩</u-button>
 				</view>
 			</view>
 		</view>

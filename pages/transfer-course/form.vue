@@ -151,7 +151,7 @@
         <view class="tip">审批人:</view>
         <view @click="chooseTeacher()" class="u-fx-f1 u-fx-je u-content-color">
           <text v-if="repairApprovalList.length === 0">请选择</text>
-          <text v-if="repairApprovalList.length >3">已选{{repairCopyList.length}}人</text>
+          <text v-if="repairApprovalList.length >3">已选{{repairApprovalList.length}}人</text>
           <view v-for="(item, index) in repairApprovalList" :key="index">
             <u-tag
               v-if="repairApprovalList.length <=3"
@@ -300,7 +300,7 @@ export default {
       substituteList: [],
       transferList: [],
       recordList: [],
-      weekday: ["零", "一", "二", "三", "四", "五", "六", "七"],
+      weekday: ["七", "一", "二", "三", "四", "五", "六"],
       lastActive: null,
       newList: [],
       storageTime: "",
@@ -452,6 +452,9 @@ export default {
       }
       this.scheduleList = [];
       this.timeList.forEach((el) => {
+        console.log(
+          this.convertToChinese(parseInt(new Date(el.daytime).getDay()))
+        );
         this.dateList.forEach((element) => {
           if (
             parseInt(new Date(el.daytime).getDay()) ===
@@ -479,8 +482,7 @@ export default {
       this.teacherTag1 = true;
     },
     teacherSelcet1(teacherInfo) {
-      console.log(teacherInfo);
-      this.repairApprovalList = teacherInfo
+      this.repairApprovalList = teacherInfo;
       this.teacherTag1 = false;
     },
     async teacherSelcet2(value) {
@@ -620,7 +622,7 @@ export default {
           substituteFile: this.photoList.map((ele) => {
             return ele.url.split(",")[1];
           }),
-          substituteApprovers: this.repairApprovalList.map((el,index) => {
+          substituteApprovers: this.repairApprovalList.map((el, index) => {
             return {
               approverCode: el.userCode,
               approverName: el.userName,

@@ -1,10 +1,15 @@
 <template>
 	<view class="">
-		<no-data class="" v-if="itemList.length === 0" msg="暂无数据"></no-data>
-		<scroll-view v-else scroll-y="true" class="scroll-h">
-			<view class="u-padd-15  head">
+		<view class="u-padd-15  head">
+			<view v-if="taskType !== '1'" class="u-mar-r10">
+				<ms-dropdown-item v-model="dateNum"  :list="typeListTime"></ms-dropdown-item>
+			</view>
+			<view class="">
 				(已完成数/总数：<text class="u-type-primary">{{ compNum }}</text>/{{ sum }})
 			</view>
+		</view>
+		<no-data class="" v-if="itemList.length === 0" msg="暂无数据"></no-data>
+		<scroll-view v-else scroll-y="true" class="scroll-h">
 			<u-collapse event-type="close" :arrow="arrow" :accordion="accordion" :body-style='bodyStyle' :head-style='headStyle'
 			 @change="change">
 				<u-collapse-item class='u-bd-b u-mar-b10' :open='item.open' :index="index" @change="itemChange" v-for="(item, index) in itemList"
@@ -16,14 +21,17 @@
 						</view>
 					</view>
 					<view class="collapse-item ">
-						<view class="card u-bd-b u-fx-jsb u-fx-ac " v-for="(el,i) in item.list" :key="i">
-							<view v-if="el.state==='1'" class="red">
+						<view class="u-bd-b" v-for="(el,i) in item.list" :key="i">
+							<view class="card u-bd-b u-fx-jsb u-fx-ac" @click="resultDetails(el)">
+								<view v-if="el.state==='1'" class="red">
+								</view>
+								<view class="title" >{{el.userName}}</view>
+								<view class="">
+									<u-tag :text="el.state|completeStatusToText" :border-color='el.state|completeStatusToText|safetyTaskToColor'
+									:bg-color='el.state|completeStatusToText|safetyTaskToColor' color='#fff' />
+								</view>
 							</view>
-							<view class="title  ">{{el.userName}}</view>
-							<view class="">
-								<u-tag :text="el.state|completeStatusToText" :border-color='el.state|completeStatusToText|safetyTaskToColor'
-								 :bg-color='el.state|completeStatusToText|safetyTaskToColor' color='#fff' />
-							</view>
+							
 						</view>
 					</view>
 				</u-collapse-item>
@@ -34,13 +42,16 @@
 
 <script>
 	import eventBus from '@u/eventBus'
+	import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue';
 	import {
 		store,
 		actions
 	} from './store/index.js'
 	import hostEnv from '../../config/index.js';
 	export default {
-		components: {},
+		components: {
+			msDropdownItem,
+		},
 		computed: {
 			publisher() {
 				return store.userInfo.userName
@@ -62,31 +73,65 @@
 					paddingRight: '30rpx',
 						background: '#fff',
 				},
+				value1Change: '0',
+				dateNum: '0',
+				planList: [],
+				taskType: this.$tools.getQuery().get('taskType'),
+				typeListTime: [
+					{
+						text: '2020 - 52周',
+						value: '2020-52'
+					},
+					{
+						text: '2020 - 53周',
+						value: '2020-53'
+					},
+				],
 				compNum: '',
 				sum: '',
 				arrow: true,
 				accordion: false,
-				// type: Number(this.$tools.getQuery().get('type')),
 				customStyle: {
 					border: '1px dashed #ccc',
 				},
 				itemList: [],
 			}
 		},
+		
 		created() {},
-		mounted() {
+		async mounted() {
 			this.taskId = this.$tools.getQuery().get('myTaskId'),
-				this.taskTemplateCode = this.$tools.getQuery().get('taskTemplateCode')
-			this.getUserList()
+			this.taskTemplateCode = this.$tools.getQuery().get('taskTemplateCode')
+			if (this.taskType !== '1') {
+				await this._planList()
+			}
+			await this.getUserList()
 		},
 		methods: {
+			async _planList() {
+				const req = {
+					taskCode: this.taskTemplateCode
+				}
+				const res = await actions.planLists(req)
+				JSON.parse(JSON.stringify(res.data).replace(/answer/g, 'name'))
+				this.planList = res.data.map(el=>{
+					return {
+						text: `${el.year} - ${el.dateNum}${el.taskType=== '2'? '周' : '月'}`,
+						value:`${el.year}-${el.dateNum}`
+					}
+				})
+				console.log(this.planList)
+				this.dateNum = `${res.data[0].year}-${res.data[0].dateNum}`
+			},
 			async getUserList() {
 				const req = {
 					state: [],
+					year: this.dateNum==='0'?'':this.dateNum.split('-')[0],
+					dateNum: this.dateNum.split('-')[1],
+					schoolCode: store.userInfo.schoolCode,
 					taskTemplateCode: this.taskTemplateCode,
 				}
 				const res = await actions.schTaskCompleted(req)
-				console.log(res)
 				const {
 					compNum,
 					outCompInfoOfTaskByOrgDtoList,
@@ -102,7 +147,6 @@
 				})
 			},
 			number(list) {
-				console.log(list)
 				const a = list.length
 				const b = list.filter(v => v.state === '3' || v.state === '7').length
 				return `(${b}/${a})`
@@ -111,24 +155,62 @@
 			cancel() {
 				this.$router.go(-1)
 			},
+			resultDetails(record){
+				if(record.state === '1'){
+					this.$tools.confirm("确定要通知该学校相关负责人去处理该任务？ ", () => {
+						const req1 = {
+							schoolCode: record.schoolCode,
+							userCodes: record.userCode.split(',')
+						}
+						actions.getTeachers(req1).then((res) => {
+							const req2 = {
+								openId: res.data.map(v => v.openId),
+								schoolCode: record.schoolCode,
+								taskCode: record.taskCode
+							}
+							actions.wechatNotice(req2).then(result => {
+								this.$tools.toast('操作成功')
+								this.$tools.goNext(() => {
+									this.getUserList()
+								})
+							})
+						})
+					})
+				}else{
+					let {
+						taskCode,
+						schoolCode
+					} = record
+					this.$tools.navTo({
+						url: `./taskStatus?taskCode=${taskCode}&schoolCode=${schoolCode}`,
+					});
+				}
+				
+			},
 			itemChange() {},
 			change() {},
-		}
+		},
+		watch: {
+			dateNum(val, oldval) {
+				this.getUserList()
+			},
+		},
 	}
 </script>
 
 <style lang="scss" scoped>
+	.head {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 88rpx;
+		background: #FEF9ED;
+	}
 	.scroll-h {
 		height: calc(100vh - 10rpx);
 
-		.head {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 100%;
-			height: 88rpx;
-			background: #FEF9ED;
-		}
+		
 
 		.title-all {
 			width: 100%;

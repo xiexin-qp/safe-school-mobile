@@ -85,6 +85,13 @@
 			"https": false,
 			"port": "",
 			"proxy": {
+				"/oss_upload": {
+					"target": 'http://canpoint-photo.oss-cn-beijing.aliyuncs.com', // 阿里云上传图片
+					"changeOrigin": true,
+					"pathRewrite": {
+						'^/oss_upload': ''
+					}
+				},
 				"/zx_mobile_user": {
 					"target": "http://canpointtest.com/zx_mobile_user/", // 朱旭-移动端用户系统
 					"changeOrigin": true,
@@ -285,6 +292,14 @@
 						"^/lz_safe": ""
 					}
 				},
+				"/zl_uploadFile" : {
+					"target" : "http://canpointtest.com:8090/ossApi/upload-oss-file/", //上传文件
+					// "target": "http://192.168.1.193:11009/", //上传文件
+					"changeOrigin" : true,
+					"pathRewrite" : {
+							"^/zl_uploadFile" : ""
+					}
+				},
 				"/cl_class": {
 					"target": "http://canpointtest.com/cl_class/", //陈琳-班牌
 					"changeOrigin": true,
@@ -299,14 +314,22 @@
 					pathRewrite: {
 						'^/zx_subject': ''
 					}
-				},
-			}
-		},
-		"optimization": {
-			"treeShaking": {
-				"enable": true
-			}
-		},
-		"template": "template.html"
-	}
+				}
+				'/ljj_user_teacher': {
+					"target": 'http://192.168.1.76:11002/', // 柳继杰-局端基础数据
+					// target: 'http://192.168.2.242:11002/', // 柳继杰-
+					"changeOrigin": true,
+					"pathRewrite": {
+						'^/ljj_user_teacher': ''
+					}
+				}
+      }
+    },
+    "optimization": {
+      "treeShaking": {
+        "enable": true
+      }
+    },
+    "template": "template.html"
+  }
 }

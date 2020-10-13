@@ -204,7 +204,7 @@ export default {
       dataList: [],
       isRemark: false,
       substituteForm: {},
-      weekday: ["零", "一", "二", "三", "四", "五", "六", "七"],
+      weekday: ["七", "一", "二", "三", "四", "五", "六"],
       appState: "",
       approverId: "",
       lastIndex: "",
@@ -297,10 +297,10 @@ export default {
             el.approvalState === 1
               ? "待审批"
               : el.approvalState === 2
-              ? "已同意"
-               : el.approvalState === 4
-              ? "已撤回"
-              : "未同意",
+                ? "已同意"
+                : el.approvalState === 4
+                  ? "已撤回"
+                  : "未同意",
           remarks: el.remarks,
         };
       });

@@ -39,6 +39,7 @@ export default {
 	computed: {},
 	components: {},
 	mounted() {
+		uni.setStorageSync('tabIndex', 0)
 		if (process.env.NODE_ENV === 'development') {
 			this.isPass  = true
 		}

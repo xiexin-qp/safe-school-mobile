@@ -2,6 +2,7 @@
  * @description 公共函数模块
  */
 import wx from 'weixin-js-sdk'
+import axios from 'axios'
 import $ajax from '@u/request.js'
 import EXIF from 'exif-js'
 import hostEnv from '../config/index.js'
@@ -189,6 +190,32 @@ const tools = {
       fail: function (res) {}
     })
   },
+	// oss图片上传 code:学生code file: 上传文件或base64 fileType: 文件类型，base64时传jpg
+	ossUpload(code, file, fileType = 'jpg', callback) {
+		console.log(code, file, fileType)
+		const _self = this
+		axios.get(`http://canpointlive.com:8090/ossApi/oss-policy?schoolCode=${code}&fileType=${fileType}`).then(res => {
+			const aliyunOssToken = res.data.data
+			var formData = new FormData()
+			// 注意formData里append添加的键的大小写
+			formData.append('key', aliyunOssToken.startsWith) // 存储在oss的文件路径
+			formData.append('OSSAccessKeyId', aliyunOssToken.OSSAccessKeyId) // accessKeyId
+			formData.append('policy', aliyunOssToken.policy) // policy
+			formData.append('callback', aliyunOssToken.callback)
+			formData.append('Signature', aliyunOssToken.signature) // 签名
+			const _file = typeof file === 'object' ? file : _self.dataURLToBlob(file)
+			formData.append('file', _file)
+			formData.append('success_action_status', 200) // 成功后返回的操作码
+			axios
+				.post('/oss_upload', formData)
+				.then(function(res) {
+					callback(res.data.data)
+				})
+				.catch(() => {
+					callback()
+				})
+		})
+	},
   /**
    * 判断微信还是普通浏览器
    */

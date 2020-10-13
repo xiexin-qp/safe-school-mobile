@@ -85,6 +85,13 @@
 			"https": false,
 			"port": "",
 			"proxy": {
+				"/oss_upload": {
+					"target": 'http://canpoint-photo.oss-cn-beijing.aliyuncs.com', // 阿里云上传图片
+					"changeOrigin": true,
+					"pathRewrite": {
+						'^/oss_upload': ''
+					}
+				},
 				"/zx_mobile_user": {
 					"target": "http://192.168.2.242:10166/", // 朱旭-移动端用户系统
 					"changeOrigin": true,
@@ -290,23 +297,29 @@
 					"pathRewrite": {
 						"^/cl_class": ""
 					}
-<<<<<<< HEAD
-        },	
-        "/cl_class": {
-				  "target": "http://192.168.1.193:11009/", //陈琳-班牌
-				  "changeOrigin": true,
-				  "pathRewrite": {
-				    "^/cl_class": ""
-				  }
-        },
-        	"/zx_subject": {
-				  "target": "http://192.168.2.242:10050/", //朱旭-文件上传
-				  "changeOrigin": true,
-				  "pathRewrite": {
-				    "^/zx_subject": ""
-				  }
-=======
->>>>>>> ddb7fbec2704e93e6cc611d6b8b18ee00e4122d4
+				},
+				"/zx_subject": {
+					"target": "http://192.168.2.242:10050/", //朱旭-文件上传
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/zx_subject": ""
+					}
+				},
+				"/zl_uploadFile" : {
+					"target": "http://canpointtest.com:8090/ossApi/upload-oss-file/", //陈琳-调代课
+						// "target": "http://192.168.1.193:11009/", //陈琳-班牌
+						"changeOrigin" : true,
+						"pathRewrite" : {
+								"^/zl_uploadFile" : ""
+						}
+				},
+				'/ljj_user_teacher': {
+					"target": 'http://192.168.1.76:11002/', // 柳继杰-局端基础数据
+					// target: 'http://192.168.2.242:11002/', // 柳继杰-
+					"changeOrigin": true,
+					"pathRewrite": {
+						'^/ljj_user_teacher': ''
+					}
 				}
 			}
 		},

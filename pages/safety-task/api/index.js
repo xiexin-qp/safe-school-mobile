@@ -3,11 +3,11 @@
  */
 
 import home from './home'
-import user from './user'
+import task from './user'
 
 let apiList = {
   ...home,
-  ...user
+  ...task
 }
 
 export default apiList
