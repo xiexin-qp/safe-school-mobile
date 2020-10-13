@@ -24,7 +24,7 @@
           class="u-mar-10"
           size="mini"
           type="primary"
-          :text="item.gradeName+item.className"
+          :text="item.gradeName + item.className"
           :show="item.tag"
           v-for="(item, i) in formData.noWorkstu"
           :key="i"
@@ -40,9 +40,9 @@
       </view>
       <view class="u-bd-b u-bg-fff u-padd-20">
         <u-tag
-          class="u-mar-10"
+          class="u-mar-15"
           size="mini"
-          type="primary"
+          :type="item.type"
           :mode="item.mode"
           :text="item.label"
           :show="item.tag"
@@ -50,8 +50,8 @@
           v-for="(item, i) in recordList"
           :key="i"
           :index="i"
-          @click="tagClick(item,i)"
-          @close="tagDel(item,i)"
+          @click="tagClick(item, i)"
+          @close="tagDel(item, i)"
         />
         <u-button type="info" size="mini" class="add_p" @click="open">
           <u-icon
@@ -186,24 +186,24 @@ export default {
           mode: "plain",
           del: false,
           tag: true,
+          type: "info",
         };
       });
       this.recordList = this.dataList.filter((item) => item.category === 1);
     },
     tagClick(item, index) {
-      console.log(item, index);
-      if (item.mode === "light") {
+      if (item.mode === "light" || item.type === "primary") {
         item.mode = "plain";
-        this.initList.splice(2, 1);
-        console.log(this.initList);
-      } else if (item.mode === "plain") {
+        item.type = "info";
+        this.initList = this.initList.filter((el) => el !== item);
+      } else if (item.mode === "plain" || item.type === "info") {
         if (this.initList.length > 2) {
           this.$tools.toast("最多选择3个标签!");
           return;
         }
         item.mode = "light";
+        item.type = "primary";
         this.initList.push(item);
-        console.log(this.initList);
       }
     },
     addPraise() {
@@ -213,6 +213,7 @@ export default {
         mode: "plain",
         del: true,
         tag: true,
+        type: "info",
       });
       this.label = "";
       this.$refs.refuse.close();
@@ -289,5 +290,9 @@ export default {
 .add_p {
   width: 124rpx;
   height: 40rpx;
+  margin: 5px 10px;
+}
+.u-mar-15 {
+  margin: 5px 10px;
 }
 </style>

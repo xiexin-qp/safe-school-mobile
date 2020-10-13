@@ -21,14 +21,17 @@
 						</view>
 					</view>
 					<view class="collapse-item ">
-						<view class="card u-bd-b u-fx-jsb u-fx-ac " v-for="(el,i) in item.list" :key="i">
-							<view v-if="el.state==='1'" class="red">
+						<view class="u-bd-b" v-for="(el,i) in item.list" :key="i">
+							<view class="card u-bd-b u-fx-jsb u-fx-ac" @click="resultDetails(el)">
+								<view v-if="el.state==='1'" class="red">
+								</view>
+								<view class="title" >{{el.userName}}</view>
+								<view class="">
+									<u-tag :text="el.state|completeStatusToText" :border-color='el.state|completeStatusToText|safetyTaskToColor'
+									:bg-color='el.state|completeStatusToText|safetyTaskToColor' color='#fff' />
+								</view>
 							</view>
-							<view class="title  ">{{el.userName}}</view>
-							<view class="">
-								<u-tag :text="el.state|completeStatusToText" :border-color='el.state|completeStatusToText|safetyTaskToColor'
-								 :bg-color='el.state|completeStatusToText|safetyTaskToColor' color='#fff' />
-							</view>
+							
 						</view>
 					</view>
 				</u-collapse-item>
@@ -123,7 +126,7 @@
 			async getUserList() {
 				const req = {
 					state: [],
-					year: this.dateNum.split('-')[0],
+					year: this.dateNum==='0'?'':this.dateNum.split('-')[0],
 					dateNum: this.dateNum.split('-')[1],
 					schoolCode: store.userInfo.schoolCode,
 					taskTemplateCode: this.taskTemplateCode,
@@ -151,6 +154,38 @@
 			},
 			cancel() {
 				this.$router.go(-1)
+			},
+			resultDetails(record){
+				if(record.state === '1'){
+					this.$tools.confirm("确定要通知该学校相关负责人去处理该任务？ ", () => {
+						const req1 = {
+							schoolCode: record.schoolCode,
+							userCodes: record.userCode.split(',')
+						}
+						actions.getTeachers(req1).then((res) => {
+							const req2 = {
+								openId: res.data.map(v => v.openId),
+								schoolCode: record.schoolCode,
+								taskCode: record.taskCode
+							}
+							actions.wechatNotice(req2).then(result => {
+								this.$tools.toast('操作成功')
+								this.$tools.goNext(() => {
+									this.getUserList()
+								})
+							})
+						})
+					})
+				}else{
+					let {
+						taskCode,
+						schoolCode
+					} = record
+					this.$tools.navTo({
+						url: `./taskStatus?taskCode=${taskCode}&schoolCode=${schoolCode}`,
+					});
+				}
+				
 			},
 			itemChange() {},
 			change() {},

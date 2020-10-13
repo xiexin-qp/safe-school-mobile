@@ -63,13 +63,13 @@
 				</u-row>
 				<view class="problem-list" v-if="radioList.length !== 0">
 					<view class="cont" >
-						<u-row class='u-mar-b20 u-bold u-mar-t20 u-main-color' justify="start">
+						<u-row class='u-mar-b20  u-mar-t20 u-main-color ' justify="start">
 							<u-col span="12">
 								<text class=''>单选题:</text>
 							</u-col>
 						</u-row>
 						<view class="wentiList u-padd-l20 u-padd-r20"  v-for="(list, i) in radioList" :key="i">
-							<u-row class=" u-main-color u-type-white-bg ">
+							<u-row class="u-main-color u-type-white-bg u-padd-t10 ">
 								<u-col span="12" >
 									{{i+1}}.{{ list.title }}
 								</u-col>
@@ -100,11 +100,12 @@
 							</u-col>
 						</u-row>
 						<view class="wentiList u-padd-l20 u-padd-r20" v-for="(list, i) in checkList" :key="i">
-								<u-row  class=" u-main-color u-type-white-bg u-padd-10">
+							<u-row  class=" u-main-color u-type-white-bg u-padd-t10">
 								<u-col span="12">
-									{{i+1}}.{{ list.title }}
+									{{i+1}}.{{ list.title }}	{{i+1}}.{{ list.title }}
 								</u-col>
 							</u-row>
+							
 							<u-checkbox-group v-if='!type||type===2' :disabled="!type" class='u-wh' >
 								<u-cell-group class='u-wh' :border='true'>
 									<u-checkbox  v-model="element.disabled" class="u-padd-15 u-bd-b" v-for="(element,index) in list.pointList"
@@ -131,14 +132,14 @@
 									<text class=''>填空题:</text>
 							</u-col>
 						</u-row>
-						<view class="wentiList u-mar-l20 u-mar-r20 u-padd-l20 u-type-white-bg " v-for="(list, i) in fillList" :key="i">
+						<view class="wentiList u-mar-l20 u-mar-r20  u-type-white-bg " v-for="(list, i) in fillList" :key="i">
 								<u-row>
-									<u-col span="12" class=" u-main-color u-type-white-bg ">
+									<u-col span="12" class=" u-main-color u-type-white-bg u-padd-t10">
 										{{i+1}}.{{ list.title }}
 									</u-col>
-								</u-row>
-									<u-input v-model="list.answers[0]" v-if='!type||type===2' :disabled="!type" type="textarea"  :auto-height="true" class="" />
-									<u-input v-model="list.answer" v-else :disabled="!type" type="textarea" placeholder='请在此填写' :auto-height="true" class="" />
+								</u-row >
+									<u-input class="u-mar-l20" v-model="list.answers[0]" v-if='!type||type===2' :disabled="!type" type="textarea"  :auto-height="true"  />
+									<u-input class="u-mar-l20" v-model="list.answer" v-else :disabled="!type" type="textarea" placeholder='请在此填写' :auto-height="true"  />
 						</view>
 					</view>
 				</view>
@@ -162,13 +163,13 @@
 							</view>
 						</view>
 					</view>
-					<view v-else class="wentiList  u-mar-r20 u-mar-t20 u-mar-l20 " v-for="(list, i) in fileList" :key="i">
+					<view v-else class="wentiList  u-mar-r20 u-mar-t20 u-mar-l20  u-type-white-bg" v-for="(list, i) in fileList" :key="i">
 						<u-row>
 							<u-col span="12" class=" u-main-color u-type-white-bg u-padd-t10">
 								{{i+1}}.{{ list.title }}
 							</u-col>
 						</u-row>
-						{{list.answer}}
+						<!-- {{list}} -->
 						<an-upload-img-url 
 							v-if="list.show"
 							style="padding: 20rpx"
@@ -176,11 +177,9 @@
 							v-model="list.answer">
 						</an-upload-img-url >
 						<view class="u-fx" v-else>
-							<view class="" v-for="(list, y) in fileList" :key="y">
 									<u-icon class="u-mar-l10 u-mar-r10" name="file-text-fill" color="#4d4cac" size="28" ></u-icon>附件
-									<span class="u-type-primary u-mar-r10" @click="exportClick(list.answers[0])">下载</span>
+									<span class="u-type-primary u-padd-l10" @click="exportClick(list.answers[0])">预览</span>
 									<u-icon  name="trash-fill" color="red" size="28" @click="delFile(list,i)"></u-icon>
-							</view>
 						</view>
 					</view>
 				</view>
@@ -332,7 +331,7 @@
 					taskId: this.taskId,
 					taskTemplateCode: this.taskTemplateCode,
 					userCode: store.userInfo.userCode,
-					state:this.state
+					state:this.type===2?this.state:Number(this.state)+1
         }
         let answers
         if(this.type===2){
