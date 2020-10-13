@@ -33,7 +33,7 @@
       </view>
       <view class="u-bd-b u-bg-fff u-padd-20">
         <u-tag
-          class="u-mar-10"
+          class="u-mar-15"
           size="mini"
           :type="item.type"
           :mode="item.mode"
@@ -296,8 +296,12 @@ export default {
 .add_p {
   width: 124rpx;
   height: 40rpx;
+  margin: 5px 10px;
 }
 .new-top {
   margin-top: -200rpx;
+}
+.u-mar-15 {
+  margin: 5px 10px;
 }
 </style>

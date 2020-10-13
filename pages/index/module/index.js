@@ -29,6 +29,8 @@ import praise from './praise'
 import lost from './lost'
 import achievement from './achievement'
 import safetyTask from './safetyTask'
+import riskAssess from './riskAssess'
+import riskIdentify from './riskIdentify'
 
 const moduleList = [
   ...protal,
@@ -61,7 +63,9 @@ const moduleList = [
   ...inspect,
   ...praise,
   ...lost,
-  ...achievement
+  ...achievement,
+  ...riskAssess,
+  ...riskIdentify
 ]
 
 export default moduleList

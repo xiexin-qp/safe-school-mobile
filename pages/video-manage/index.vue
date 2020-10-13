@@ -10,13 +10,13 @@
 							<view class="u-mar-l20 u-te">
 								<text class="u-font-01">{{ item.fileName }}</text>
 							</view>
-							<image @click.stop="action(item)" class="more u-font-1 u-mar-r20" src="http://canpointtest.com/mobile-img/edit.png" alt="" />
+							<image v-if="userType !== 3" @click.stop="action(item)" class="more u-font-1 u-mar-r20" src="http://canpointtest.com/mobile-img/edit.png" alt="" />
 						</view>
 					</view>
 				</view>
 			</view>
 		</scroll-view>
-		<view class="float-add-btn" @click="add(0)"></view>
+		<view v-if="userType !== 3" class="float-add-btn" @click="add(0)"></view>
 		<u-popup v-model="videoTag" mode="center">
 			<view class="pop-up u-padd-t10 u-padd-l10 u-padd-r10 u-border-radius">
 				<video class="video u-border-radius" :src="videoUrl" controls enable-play-gesture object-fit="contain"></video>
@@ -39,6 +39,7 @@ export default {
 	},
 	data() {
 		return {
+			userType: 2, // 0.超管，1.班主任，2.教职工，3.家长
 			videoTag: false,
 			editTag: false,
 			pageList: {
@@ -52,7 +53,13 @@ export default {
 			fileName: ''
 		};
 	},
-	async created() {},
+	created() {
+		if (store.userInfo.typeCode === '4') {
+			this.userType = 2;
+		} else if (store.userInfo.typeCode === '16') {
+			this.userType = 3;
+		}
+	},
 	mounted() {
 		eventBus.$on('getList', () => {
 			this.showList();

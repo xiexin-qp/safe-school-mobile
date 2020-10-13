@@ -86,10 +86,10 @@
 			"port": "",
 			"proxy": {
 				"/oss_upload": {
-					"target": 'http://canpoint-photo.oss-cn-beijing.aliyuncs.com', // 阿里云上传图片
+					"target": "http://canpoint-photo.oss-cn-beijing.aliyuncs.com", // 阿里云上传图片
 					"changeOrigin": true,
 					"pathRewrite": {
-						'^/oss_upload': ''
+						"^/oss_upload": ""
 					}
 				},
 				"/zx_mobile_user": {
