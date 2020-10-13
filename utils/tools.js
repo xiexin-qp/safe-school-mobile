@@ -190,9 +190,8 @@ const tools = {
       fail: function (res) {}
     })
   },
-	// oss图片上传 code:学生code file: 上传文件或base64 fileType: 文件类型，base64时传jpg
+	// oss图片上传 code:学生code file: 上传文件或base64 fileType: 文件类型（png, doc, mp4），base64时传jpg
 	ossUpload(code, file, fileType = 'jpg', callback) {
-		console.log(code, file, fileType)
 		const _self = this
 		axios.get(`http://canpointlive.com:8090/ossApi/oss-policy?schoolCode=${code}&fileType=${fileType}`).then(res => {
 			const aliyunOssToken = res.data.data

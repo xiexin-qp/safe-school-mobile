@@ -15,7 +15,6 @@
 				<text class="title u-content-color u-font-01">{{ enjoy.name.split('-')[0] }}</text>
 			</view>
 		</view>
-		<view class="todo" @tap="upload">您还有5个待办事项需要处理, 请尽快处理...</view>
 		<view class="tab-list">
 			<view class="u-fx-jc">
 				<view class="tab-title u-fx">
@@ -173,16 +172,6 @@ export default {
 		this.newsListGet();
 	},
 	methods: {
-		upload() {
-			uni.chooseImage({
-				success: chooseImageRes => {
-					const fileType = chooseImageRes.tempFiles[0].name.split('.')[1] // 文件类型png,mp4等
-					this.$tools.ossUpload('CANPOINTLIVE', chooseImageRes.tempFiles[0], fileType, res => {
-						console.log(res) // 直接返回路径
-					})
-				}
-			});
-		},
 		goModule() {
 			this.$tools.navTo({
 				url: '../index/index'
