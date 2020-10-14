@@ -1,8 +1,16 @@
 <template>
 	<view class="u-page u-fx-f1">
-		<u-navbar class="u-mar-b20" :is-back="false" v-if="userInfo.typeCode === '16' && showDropdown">
-			<ms-dropdown-menu><ms-dropdown-item :title="childName" v-model="childCode" :list="childList"></ms-dropdown-item></ms-dropdown-menu>
-		</u-navbar>
+		<view v-if="userInfo.typeCode === '16'" class="u-fx-ac u-mar-b10 u-border-radius u-padd child-list u-bd-b u-content-color u-bg-fff">
+			<image class="img u-border-radius" :src="childInfo.photoUrl" alt="" />
+			<view class="u-fx-f1 u-line3 u-mar-l">
+				<view class="u-main-color">{{ childInfo.userName }}</view>
+				<view class="u-font-01">{{ childInfo.gradeName }}{{ childInfo.className }}</view>
+				<view class="u-font-01">{{ childInfo.workNo || '' }}</view>
+			</view>
+			<view class="unbind-btn u-fx-ac-jc" @tap="_unbind(childInfo.userCode)">
+				解绑
+			</view>
+		</view>
 		<view v-if="type === '0'" class="u-bg-fff">
 			<view class="float-add-btn" @click="btnClick"></view>
 			<no-data v-if="noDataTag" msg="暂无数据~"></no-data>
@@ -17,7 +25,7 @@
 					<text class="mar-l20 u-font-01 u-bold">个人简介：</text>
 				</view>
 				<view class="u-bg-fff u-padd-b20 u-padd-l20 u-padd-r10">
-					<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' && showDropdown ? 'scroll-h' : 'scroll-h-0'">
+					<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' ? 'scroll-h-0' : 'scroll-h'">
 						<view class="u-padd-l20 u-padd-r20">
 							<view class="content">{{ introduction }}</view>
 						</view>
@@ -26,7 +34,7 @@
 			</view>
 		</view>
 		<view v-else class="">
-			<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' && showDropdown ? 'scroll-h-2' : 'scroll-h-1'">
+			<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' ? 'scroll-h-1' : 'scroll-h-2'">
 				<view class="u-bg-fff u-mar-b20">
 					<view class="u-mar-b20 u-mar-l20 u-padd-t20 u-fx-ac">
 						<image class="line" src="http://canpointtest.com/mobile-img/line.png"></image>
@@ -69,22 +77,17 @@
 </template>
 
 <script>
-import chooseChild from '@/components/choose-child/choose-child.vue';
-import msDropdownMenu from '@/components/ms-dropdown/dropdown-menu.vue';
-import msDropdownItem from '@/components/ms-dropdown/dropdown-item.vue';
+import eventBus from '@u/eventBus'
 import noData from '@/components/no-data/no-data.vue';
 import { store, actions } from './store/index.js';
-import hostEnv from '../../config/index.js';
 export default {
 	name: 'school-intro',
 	components: {
-		msDropdownMenu,
-		msDropdownItem,
-		chooseChild,
 		noData
 	},
 	computed: {
 		userInfo: () => store.userInfo,
+		childList: () => store.childList,
 		schoolYear: () => store.schoolYear,
 		enjoyParentApp: () => store.enjoyParentApp,
 		list() {
@@ -104,10 +107,10 @@ export default {
 			dataInfo: {},
 			introduction: '',
 			photoList: [],
+			childInfo: {},
 			length: 0,
 			childCode: '',
 			childName: '',
-			childList: [],
 			style: ''
 		};
 	},
@@ -129,17 +132,8 @@ export default {
 	async created() {
 		this.type = this.$tools.getQuery().get('type');
 		if (this.userInfo.typeCode === '16') {
-			this.childCode = store.childList[0].userCode;
-			this.childName = store.childList[0].userName;
-			this.childList = store.childList.map(ele => {
-				return {
-					text: ele.userName,
-					value: ele.userCode
-				};
-			});
-			if (this.childList.length > 1) {
-				this.showDropdown = true;
-			}
+			this.index = this.$tools.getQuery().get('index');
+			this.childInfo = this.childList[this.index]
 		}
 		this.showIntro();
 	},
@@ -156,10 +150,25 @@ export default {
 			console.log(123)
 			this.type = '1'
 		},
+		// 解绑孩子
+		_unbind (childCode) {
+			this.$tools.confirm('确定解绑吗?', async () => {
+				await actions.unbindChild({
+					childCode,
+					parentCode: this.userInfo.userCode
+				})
+				this.childList.splice(this.index, 1)
+				this.$tools.toast('解绑成功')
+				this.$tools.goNext(() => {
+					eventBus.$emit('getChild')
+					this.$tools.goBack()
+				})
+			})
+		},
 		async showIntro() {
 			const res = await actions.getIntro({
 				schoolCode: this.userInfo.schoolCode,
-				userCode: this.userInfo.typeCode === '4' ? this.userInfo.userCode : this.childCode,
+				userCode: this.userInfo.typeCode === '4' ? this.userInfo.userCode : this.childInfo.userCode,
 				userType: this.userInfo.typeCode === '4' ? this.userInfo.typeCode : '8'
 			});
 			if (!res.data || res.data.introduction === '') {
@@ -189,7 +198,7 @@ export default {
 			const req = {
 				introduction: this.introduction,
 				schoolCode: this.userInfo.schoolCode,
-				userCode: this.userInfo.typeCode === '4' ? this.userInfo.userCode : this.childCode,
+				userCode: this.userInfo.typeCode === '4' ? this.userInfo.userCode : this.childInfo.userCode,
 				userType: this.userInfo.typeCode === '4' ? this.userInfo.typeCode : '8'
 			};
 			if (this.photoList.length > 0) {
@@ -215,16 +224,16 @@ export default {
 
 <style lang="scss" scoped>
 .scroll-h {
-	height: calc(100vh - 696rpx);
+	height: calc(100vh - 590rpx);
 }
 .scroll-h-0 {
-	height: calc(100vh - 588rpx);
+	height: calc(100vh - 786rpx);
 }
 .scroll-h-1 {
-	height: calc(100vh - 100rpx);
+	height: calc(100vh - 300rpx);
 }
 .scroll-h-2 {
-	height: calc(100vh - 210rpx);
+	height: calc(100vh - 100rpx);
 }
 .dropdown-menu {
 	width: 100%;
@@ -253,5 +262,20 @@ export default {
 .content {
 	text-indent: 2em;
 	text-indent: 40rpx;
+}
+.child-list {
+	.img {
+		width: 140rpx;
+		height: 160rpx;
+		display: block;
+		background-color: #eee;
+	}
+	.unbind-btn {
+		width: 100rpx;
+		height: 50rpx;
+		background-color: $u-type-error-dark;
+		color: $u-type-white;
+		border-radius: 60rpx;
+	}
 }
 </style>

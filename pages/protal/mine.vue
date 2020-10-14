@@ -33,7 +33,7 @@
 				<view v-if="userInfo.typeCode == 16" @click="bindChild('1')" class="bind-child">绑定孩子</view>
 				<view class="rit-icon" v-if="userInfo.typeCode == 4 && classList.length > 1"></view>
 			</view>
-			<view class="item u-fx-jsb u-bd-b u-fx-ac" @click="changeIntroType">
+			<view v-if="userInfo.typeCode == 4" class="item u-fx-jsb u-bd-b u-fx-ac" @click="changeIntroType">
 				<text class="u-content-color">{{ introTitle }}</text>
 				<view class="rit-icon"></view>
 			</view>
@@ -41,14 +41,15 @@
 		<view v-if="userInfo.typeCode == 16">
 			<view v-for="(child, index) in childList" :key="child.userCode" class="u-fx-ac u-mar u-border-radius u-padd child-list u-bd-b u-content-color u-bg-fff">
 				<image class="img u-border-radius" :src="child.photoUrl" alt="" />
-				<view class="u-fx-f1 u-line3 u-mar-l">
+				<view class="u-fx-f1 u-line3 u-mar-l" @click="changeIntroType(index)">
 					<view class="u-main-color">{{ child.userName }}</view>
 					<view class="u-font-01">{{ child.gradeName }}{{ child.className }}</view>
 					<view class="u-font-01">{{ child.workNo || '' }}</view>
 				</view>
-				<view class="unbind-btn u-fx-ac-jc" @tap="_unbind(child.userCode, index)">
+				<view class="rit-icon" @click="changeIntroType(index)"></view>
+				<!-- <view class="unbind-btn u-fx-ac-jc" @tap="_unbind(child.userCode, index)">
 					解绑
-				</view>
+				</view> -->
 			</view>
 		</view>
 		<view class="mine-btn" @tap="loginOut(true)">
@@ -166,14 +167,22 @@ export default {
 			});
 		},
 		// 个人简介
-		changeIntroType() {
-			if (this.userInfo.typeCode === '16' && this.childList.length === 0) {
-				this.$tools.toast('请先绑定孩子')
-				return
+		changeIntroType(index) {
+			if (this.userInfo.typeCode === '16') {
+				if(this.childList.length === 0){
+					this.$tools.toast('请先绑定孩子')
+					return
+				}
+				console.log(index)
+				this.$tools.navTo({
+					url: `./intro?type=0&index=${index}` // 0查看1编辑
+				})
+			}else{
+				this.$tools.navTo({
+					url: `./intro?type=0` // 0查看1编辑
+				})
 			}
-			this.$tools.navTo({
-				url: `./intro?type=0` // 0查看1编辑
-			})
+			
 			/* this.$tools.actionsheet(['查看', '编辑'], index => {
 				this.$tools.navTo({
 					url: `./intro?type=${index}` // 0查看1编辑
