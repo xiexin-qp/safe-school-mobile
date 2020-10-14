@@ -201,7 +201,7 @@ export default {
 					};
 				});
 			}
-			actions.getlistByTeacher(req).then(() => {
+			actions.editIntro(req).then(() => {
 				this.$tools.toast('编辑成功', 'success');
 				this.$tools.goNext(() => {
 					// this.$tools.goBack();
