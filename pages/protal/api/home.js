@@ -36,7 +36,7 @@ let newsApi = {
 let introApi = {
 	getChildIntro: `${hostEnv.ljj_user_center}/user/introduction/query/student/introduction#get`, // 家长获取孩子简介
 	getIntro: `${hostEnv.ljj_user_center}/user/introduction/query/user/introduction#get`, // 查询个人简介
-	getlistByTeacher: `${hostEnv.ljj_user_center}/user/introduction/save/and/update#post` // 编辑修改个人简介
+	editIntro: `${hostEnv.ljj_user_center}/user/introduction/save/and/update#post` // 编辑修改个人简介
 }
 for (let val in homeApi) {
 	homeApi[val] = `${hostEnv.zx_mobile_user}${homeApi[val]}`
