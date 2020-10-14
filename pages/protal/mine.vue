@@ -33,7 +33,7 @@
 				<view v-if="userInfo.typeCode == 16" @click="bindChild('1')" class="bind-child">绑定孩子</view>
 				<view class="rit-icon" v-if="userInfo.typeCode == 4 && classList.length > 1"></view>
 			</view>
-			<view class="item u-fx-jsb u-bd-b u-fx-ac" @click="changeIntroType">
+			<view v-if="false" class="item u-fx-jsb u-bd-b u-fx-ac" @click="changeIntroType">
 				<text class="u-content-color">{{ introTitle }}</text>
 				<view class="rit-icon"></view>
 			</view>

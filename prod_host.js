@@ -85,6 +85,13 @@
 			"https": false,
 			"port": "",
 			"proxy": {
+				"/oss_upload": {
+					"target": "http://canpoint-photo.oss-cn-beijing.aliyuncs.com", // 阿里云上传图片
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/oss_upload": ""
+					}
+				},
 				"/zx_mobile_user": {
 					"target": "http://canpointtest.com/zx_mobile_user/", // 朱旭-移动端用户系统
 					"changeOrigin": true,

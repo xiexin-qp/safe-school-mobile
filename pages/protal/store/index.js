@@ -18,7 +18,7 @@ const getState = (state, val) => {
   return JSON.parse(localData)[state] || val
 }
 const store = Vue.observable({
-  tabIndex: 0,
+  tabIndex: uni.getStorageSync('tabIndex') || 0,
 	relationShipList: [
 		{
 			id: 1,

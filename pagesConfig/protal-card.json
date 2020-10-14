@@ -16,14 +16,14 @@
 			"path": "pages/examPlan/examPlan-p/detail",
 			"style": {}
 		},
-		        //考试成绩
-		                {
-		                        "path": "pages/examAchievement/examAchievement-t/index",
-		                        "style": {}
-		                }, {
-		                        "path": "pages/examAchievement/examAchievement-t/detail",
-		                        "style": {}
-		                },
+		//考试成绩
+		{
+			"path": "pages/examAchievement/examAchievement-t/index",
+			"style": {}
+		}, {
+			"path": "pages/examAchievement/examAchievement-t/detail",
+			"style": {}
+		},
 		//物品管理报修
 		{
 			"path": "pages/goods-repair/index",
@@ -273,6 +273,13 @@
 			"style": {}
 		}, {
 			"path": "pages/praise-column/praise-column-t/personal/index",
+			"style": {}
+		},
+		{
+			"path": "pages/praise-column/praise-column-p/index",
+			"style": {}
+		}, {
+			"path": "pages/praise-column/praise-column-p/index",
 			"style": {}
 		}
 	],
