@@ -88,8 +88,6 @@ export default {
 	computed: {
 		userInfo: () => store.userInfo,
 		childList: () => store.childList,
-		schoolYear: () => store.schoolYear,
-		enjoyParentApp: () => store.enjoyParentApp,
 		list() {
 			return this.photoList.map(ele => {
 				return {
