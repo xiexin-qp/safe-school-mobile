@@ -27,16 +27,15 @@
 				<view class="u-fx-f1 u-fx-je u-content-color" @click="changeDatetime('endTime')">{{ formData.endTime }}</view>
 				<view class="rit-icon"></view>
 			</view>
-			<view class="u-fx u-bd-b item-list">
+			<view class="u-fx-f1 u-bd-b item-list">
 				<view>活动内容：</view>
-				<view class="u-fx-f1 mar-r20" v-if="type !== '1'">
+				<view class="u-fx-f1 u-mar-t20" v-if="type !== '1'">
 					<textarea
 						:auto-height="true"
 						:disabled="type === '1'"
 						class="item-input u-content-color"
 						maxlength="100"
 						v-model="formData.content"
-						style="text-align: right;"
 						placeholder="请输入活动内容"
 					/>
 				</view>

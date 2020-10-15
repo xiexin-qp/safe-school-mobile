@@ -7,15 +7,27 @@
 			<view class="cont u-type-white-bg u-padd-l10 u-padd-r10 u-tips-color" >
 				<u-row class='u-mar-b10 u-mar-r20 u-font-02' justify="center">
 					<u-col span="3" >
-						<view class="demo-layout bg-purple">发布人:{{ !type||type===2?detailInfo.publisherName:detailInfo.userName }}</view>
+						<view  class="demo-layout bg-purple">
+							发布人:{{ !type||type===2?detailInfo.publisherName:detailInfo.userName }}
+						</view>
 					</u-col>
 					<u-col span="7">
-						<view class="demo-layout bg-purple-light">发布于：{{(!type||type===2?detailInfo.publisherDate:detailInfo.publisherTime) | gmtToDate }}</view>
+						<view v-if="client==='IOS'" class="demo-layout bg-purple-light">
+							发布于：{{(!type||type===2?detailInfo.publisherDate:detailInfo.publisherTime) | gmtToDate | iosReplace }}
+						</view>
+						<view v-else class="demo-layout bg-purple-light">
+							发布于：{{(!type||type===2?detailInfo.publisherDate:detailInfo.publisherTime) | gmtToDate }}
+						</view>
 					</u-col>
 				</u-row>
 				<u-row class='u-mar-b10 u-font-02' justify="center">
 					<u-col span="9">
-						<view class="demo-layout bg-purple">
+						<view v-if="client==='IOS'" class="demo-layout bg-purple">
+							任务时间：{{(!type||type===2?detailInfo.startDate:detailInfo.beginTime) | gmtToDate('date')| iosReplace }}
+							至
+							{{ (!type||type===2?detailInfo.endDate:detailInfo.endTime) | gmtToDate('date')| iosReplace }}
+						</view>
+						<view v-else class="demo-layout bg-purple">
 							任务时间：{{(!type||type===2?detailInfo.startDate:detailInfo.beginTime) | gmtToDate('date') }}
 							至
 							{{ (!type||type===2?detailInfo.endDate:detailInfo.endTime) | gmtToDate('date') }}
@@ -74,6 +86,7 @@
 									{{i+1}}.{{ list.title }}
 								</u-col>
 							</u-row>
+							{{list}}
 							<u-radio-group  v-if='!type||type===2' :disabled="!type" v-model="list.answers[0]" class='u-wh' >
 								<u-cell-group class='u-wh' :border='true'>
 									<u-radio shape="circle" class="u-padd-15 u-bd-b" v-for="(element,index) in list.content" :key='index' :name="element">
@@ -105,7 +118,7 @@
 									{{i+1}}.{{ list.title }}	{{i+1}}.{{ list.title }}
 								</u-col>
 							</u-row>
-							
+							{{list}}
 							<u-checkbox-group v-if='!type||type===2' :disabled="!type" class='u-wh' >
 								<u-cell-group class='u-wh' :border='true'>
 									<u-checkbox  v-model="element.disabled" class="u-padd-15 u-bd-b" v-for="(element,index) in list.pointList"
@@ -138,6 +151,7 @@
 										{{i+1}}.{{ list.title }}
 									</u-col>
 								</u-row >
+								<!-- {{list}} -->
 									<u-input class="u-mar-l20" v-model="list.answers[0]" v-if='!type||type===2' :disabled="!type" type="textarea"  :auto-height="true"  />
 									<u-input class="u-mar-l20" v-model="list.answer" v-else :disabled="!type" type="textarea" placeholder='请在此填写' :auto-height="true"  />
 						</view>
@@ -163,23 +177,44 @@
 							</view>
 						</view>
 					</view>
-					<view v-else class="wentiList  u-mar-r20 u-mar-t20 u-mar-l20  u-type-white-bg" v-for="(list, i) in fileList" :key="i">
-						<u-row>
-							<u-col span="12" class=" u-main-color u-type-white-bg u-padd-t10">
-								{{i+1}}.{{ list.title }}
-							</u-col>
-						</u-row>
-						<!-- {{list}} -->
-						<an-upload-img-url 
-							v-if="list.show"
-							style="padding: 20rpx"
-							class='u-type-white-bg' 
-							v-model="list.answer">
-						</an-upload-img-url >
-						<view class="u-fx" v-else>
+					<!-- 修改 -->
+					<view v-if="type===2" class="wentiList  u-mar-r20 u-mar-t20 u-mar-l20  u-type-white-bg" >
+						<view class="" v-for="(list, i) in fileList" :key="i">
+							<u-row>
+								<u-col span="12" class=" u-main-color u-type-white-bg u-padd-t10">
+									{{i+1}}.{{ list.title }}
+								</u-col>
+							</u-row>
+							{{list}}
+							<an-upload-img-url 
+								v-if="list.show"
+								style="padding: 20rpx"
+								class='u-type-white-bg' 
+								v-model="list.answers">
+							</an-upload-img-url >
+							<view class="u-fx" v-else>
+								<view class="">
 									<u-icon class="u-mar-l10 u-mar-r10" name="file-text-fill" color="#4d4cac" size="28" ></u-icon>附件
 									<span class="u-type-primary u-padd-l10" @click="exportClick(list.answers[0])">预览</span>
 									<u-icon  name="trash-fill" color="red" size="28" @click="delFile(list,i)"></u-icon>
+								</view>
+							</view>
+						</view>
+					</view>
+					<!-- 填报 -->
+					<view v-if="type===1" class="wentiList  u-mar-r20 u-mar-t20 u-mar-l20  u-type-white-bg" >
+						<view class="" v-for="(list, i) in fileList" :key="i">
+							<u-row>
+								<u-col span="12" class=" u-main-color u-type-white-bg u-padd-t10">
+									{{i+1}}.{{ list.title }}
+								</u-col>
+							</u-row>
+							<an-upload-img-url 
+								v-if="list.show"
+								style="padding: 20rpx"
+								class='u-type-white-bg' 
+								v-model="list.answer">
+							</an-upload-img-url >
 						</view>
 					</view>
 				</view>
@@ -215,6 +250,7 @@
 		data() {
 			return {
 				type: Number(this.$tools.getQuery().get('type')),
+				client:'',
 				customStyle: {
 					border: '1px dashed #ccc',
 				},
@@ -230,7 +266,9 @@
 			}
 		},
 		watch: {
-		
+		},
+		created() {
+			this.client = this.$tools.getClient()
 		},
 		mounted() {
 			//  new vConsole()
@@ -340,9 +378,15 @@
             item.answers = item.pointList.filter(v => v.disabled).map(i => i.content)
 					})
 					const arr = this.radioList.concat(this.checkList).concat(this.fillList).concat(this.fileList)
-           answers = arr.map(el => {
+					answers = arr.map(el => {
+						let result
+						if(el.questionType==='4'){
+							result =el.show ?el.answers.map(v=>v.url): el.answers
+						}else{
+							result =	Array.isArray(el.answers) ? el.answers : [el.answers]
+						}
             return {
-              answers:  el.answers,
+              answers:result,
               questionTemplateId: el.questionTemplateId,
               questionType: el.questionType
             }
@@ -354,15 +398,14 @@
 					})
 					const arr = this.radioList.concat(this.checkList).concat(this.fillList).concat(this.fileList)
           answers = arr.map(el => {
-						let answers
+						let result
 						if(el.questionType==='4'){
-							answers = el.answer.map(v=>v.url)
-							console.log(answers)
+							result = el.answer.map(v=>v.url)
 						}else{
-							answers =	Array.isArray(el.answer) ? el.answer : [el.answer]
+							result =	Array.isArray(el.answer) ? el.answer : [el.answer]
 						}
             return {
-              answers: answers,
+              answers: result,
               questionTemplateId: el.questionTemplateId,
               questionType: el.questionType
             }
@@ -371,12 +414,14 @@
 				let flag = true
 				answers.forEach(element => {
 					if(element.answers.length===0){
+						debugger
 						this.$tools.toast("请填写完整题目");
 						flag = false
 						return false
 					}
 					element.answers.forEach(el => {
 						if (!el||el.length===0) {
+							debugger
 							this.$tools.toast("请填写完整题目");
 							flag = false
 							return false
@@ -415,6 +460,7 @@
 			},
 			//修改附件
 			delFile(list,i) {
+				list.answers=[]
 				list.show = true
 				// this.fileList[i].docName = ''
     	},

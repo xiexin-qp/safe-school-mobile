@@ -880,6 +880,9 @@
 		},
 		{
 			"path": "pages/safety-task/seeCompletion"
+		},
+		{
+			"path": "pages/safety-task/taskStatus"
 		}
 	],
 	"globalStyle": {

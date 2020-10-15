@@ -4,14 +4,37 @@
       <view class="calendar">
         <uni-calendar @change="change" @monthSwitch="monthSwitch" :selected="selected"></uni-calendar>
       </view>
-      <view class="record-box u-padd-l40 u-padd-r40 u-padd-t20 u-padd-b10">
-        <view class="title u-fx-ac"> 
-          <u-icon name="/mobile-img/kq-shijian.png" size="32"></u-icon>
-          <view class="u-mar-l10">打卡记录</view> 
+      <view class="record-box">
+        <view class="work-box u-fx-jsb">
+          <view>
+            <view v-if="dayInfo && dayInfo.onWorkTime"> 上班打卡 {{ dayInfo.onWorkTime  | gmtToDate('time') }} </view>
+            <view v-else> 上班打卡 --:-- </view>
+            <view v-if="dayInfo && dayInfo.onState" 
+              :class ="[
+                { 'unnormal-title': dayInfo.onState === 1 || dayInfo.onState === 2},
+                { 'normal-title': dayInfo.onState === 5 },
+                { 'absence-title': dayInfo.onState === 3 || dayInfo.onState === 7 || dayInfo.onState === 4 }, 
+                'work-title']"> {{dayInfo.onState | getState}}</view>
+          </view>
+          <view>
+            <image :src="(dayInfo && dayInfo.onSnacpUrl) ? dayInfo.onSnacpUrl : '/mobile-img/child-auto-icon.png'"></image>
+          </view>
         </view>
-        <scroll-view scroll-y="true" class="scroll u-mar-t20">
-          <steps :studentCode="studentCode" :month="month"></steps>
-        </scroll-view>
+        <view class="work-box u-fx-jsb">
+          <view>
+            <view v-if="dayInfo && dayInfo.offWorkTime"> 下班打卡 {{ dayInfo.offWorkTime | gmtToDate('time') }} </view>
+            <view v-else> 下班打卡 --:-- </view>
+            <view v-if="dayInfo && dayInfo.offState" 
+              :class ="[
+                { 'unnormal-title': dayInfo.offState === 1 || dayInfo.offState === 2 },
+                { 'normal-title': dayInfo.offState === 5 },
+                { 'absence-title': dayInfo.offState === 6  || dayInfo.offState === 7 || dayInfo.offState === 4}, 
+                'work-title']"> {{dayInfo.offState | getState}}</view>
+          </view>
+          <view>
+            <image :src="(dayInfo && dayInfo.offSnacpUrl) ? dayInfo.offSnacpUrl : '/mobile-img/child-auto-icon.png'"></image>
+          </view>
+        </view>
       </view>
     </view>
   </view>
@@ -19,20 +42,13 @@
 
 <script>
 import { store, actions } from '../store/index.js'
-import steps from './steps.vue'
 export default {
-  components: {
-    steps
-  },
   data () {
     return {
       dayInfo: {},
       day: new Date(),
       mounth: new Date(),
-      selected: [],
-      studentCode: '',
-      studentName: '',
-      month: ''
+      selected: []
     }
   },
   mounted () {
@@ -111,8 +127,5 @@ export default {
       }
     }
   }
-}
-.scroll {
-  height: calc(100vh - 900rpx);
 }
 </style>

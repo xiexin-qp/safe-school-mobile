@@ -211,4 +211,7 @@ export default {
 		}
 	}
 }
+/deep/ .u-swipe-del{
+	width: 140rpx;
+}
 </style>
