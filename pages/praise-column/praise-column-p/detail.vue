@@ -44,7 +44,7 @@ export default {
 <style lang="scss" scoped>
 .scroll-h {
   height: calc(100vh);
-  margin-top: 20rpx;
+  
 }
 
 </style>
