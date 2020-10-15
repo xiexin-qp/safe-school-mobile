@@ -12,22 +12,15 @@
 						</view>
 					</u-col>
 					<u-col span="7">
-						<view v-if="client==='IOS'" class="demo-layout bg-purple-light">
-							发布于：{{(!type||type===2?detailInfo.publisherDate:detailInfo.publisherTime) | gmtToDate | iosReplace }}
-						</view>
-						<view v-else class="demo-layout bg-purple-light">
+						<view  class="demo-layout bg-purple-light">
 							发布于：{{(!type||type===2?detailInfo.publisherDate:detailInfo.publisherTime) | gmtToDate }}
 						</view>
 					</u-col>
 				</u-row>
 				<u-row class='u-mar-b10 u-font-02' justify="center">
 					<u-col span="9">
-						<view v-if="client==='IOS'" class="demo-layout bg-purple">
-							任务时间：{{(!type||type===2?detailInfo.startDate:detailInfo.beginTime) | gmtToDate('date')| iosReplace }}
-							至
-							{{ (!type||type===2?detailInfo.endDate:detailInfo.endTime) | gmtToDate('date')| iosReplace }}
-						</view>
-						<view v-else class="demo-layout bg-purple">
+					
+						<view  class="demo-layout bg-purple">
 							任务时间：{{(!type||type===2?detailInfo.startDate:detailInfo.beginTime) | gmtToDate('date') }}
 							至
 							{{ (!type||type===2?detailInfo.endDate:detailInfo.endTime) | gmtToDate('date') }}
@@ -86,7 +79,6 @@
 									{{i+1}}.{{ list.title }}
 								</u-col>
 							</u-row>
-							{{list}}
 							<u-radio-group  v-if='!type||type===2' :disabled="!type" v-model="list.answers[0]" class='u-wh' >
 								<u-cell-group class='u-wh' :border='true'>
 									<u-radio shape="circle" class="u-padd-15 u-bd-b" v-for="(element,index) in list.content" :key='index' :name="element">
@@ -118,7 +110,6 @@
 									{{i+1}}.{{ list.title }}	{{i+1}}.{{ list.title }}
 								</u-col>
 							</u-row>
-							{{list}}
 							<u-checkbox-group v-if='!type||type===2' :disabled="!type" class='u-wh' >
 								<u-cell-group class='u-wh' :border='true'>
 									<u-checkbox  v-model="element.disabled" class="u-padd-15 u-bd-b" v-for="(element,index) in list.pointList"
@@ -151,7 +142,6 @@
 										{{i+1}}.{{ list.title }}
 									</u-col>
 								</u-row >
-								<!-- {{list}} -->
 									<u-input class="u-mar-l20" v-model="list.answers[0]" v-if='!type||type===2' :disabled="!type" type="textarea"  :auto-height="true"  />
 									<u-input class="u-mar-l20" v-model="list.answer" v-else :disabled="!type" type="textarea" placeholder='请在此填写' :auto-height="true"  />
 						</view>
@@ -185,7 +175,6 @@
 									{{i+1}}.{{ list.title }}
 								</u-col>
 							</u-row>
-							{{list}}
 							<an-upload-img-url 
 								v-if="list.show"
 								style="padding: 20rpx"

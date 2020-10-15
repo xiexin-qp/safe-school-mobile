@@ -14,6 +14,7 @@
 				<slot v-if="$slots.default"></slot>
 				<block v-else>
 					<view class="list__option u-fx-ac" v-for="(item, index) in list" :key="index" @click="choose(item)">
+						{{item.text}}
 						<view>{{ item.text }}</view>
 						<icon v-if="item.value === value" type="success_no_circle" size="26" />
 					</view>
