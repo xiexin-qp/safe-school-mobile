@@ -5,13 +5,22 @@
         <uni-calendar @change="change" @monthSwitch="monthSwitch" :selected="selected"></uni-calendar>
       </view>
       <view class="record-box u-padd-l40 u-padd-r40 u-padd-t20 u-padd-b10">
-        <view class="title u-fx-ac"> 
-          <u-icon name="/mobile-img/kq-shijian.png" size="32"></u-icon>
-          <view class="u-mar-l10">打卡记录</view> 
+        <view v-for="(i,index) in tagList" :key="index">
+          <view class="title"> 
+            <u-tag :text="i.title" mode="dark" />
+          </view>
+          <view class="u-fx-ac u-mar-b20" v-for="(el,index) in classList" :key="index"> 
+            <text class="title">{{el.title}}</text>
+            <view class="u-fx-f1 u-fx-jsb u-padd-l40"> 
+              <view class="u-fx-f1" v-for="(item,i) in stateList" :key="i"> 
+                <view class="u-fx-ver u-fx-ac">
+                  <view >{{ (el.title === '下班' && item.key === '2') ? '早退' : item.title}}</view>
+                  <view class="u-mar-t10">3343人</view>
+                </view>
+              </view>
+            </view>
+          </view>
         </view>
-        <scroll-view scroll-y="true" class="scroll u-mar-t20">
-          <steps :studentCode="studentCode" :month="month"></steps>
-        </scroll-view>
       </view>
     </view>
   </view>
@@ -19,20 +28,43 @@
 
 <script>
 import { store, actions } from '../store/index.js'
-import steps from './steps.vue'
 export default {
-  components: {
-    steps
-  },
   data () {
     return {
       dayInfo: {},
       day: new Date(),
       mounth: new Date(),
       selected: [],
-      studentCode: '',
-      studentName: '',
-      month: ''
+      tagList: [
+        {
+          title: '上午'
+        },
+        {
+          title: '下午'
+        }
+      ],
+      classList: [
+        {
+          title: '上班'
+        },
+        {
+          title: '下班'
+        }
+      ],
+      stateList: [
+        {
+          key: '1',
+          title: '正常'
+        },
+        {
+          key: '2',
+          title: '迟到'
+        },
+        {
+          key: '3',
+          title: '缺卡'
+        }
+      ],
     }
   },
   mounted () {
@@ -87,6 +119,8 @@ export default {
 
 <style lang="scss" scoped>
 .attendance {
+  height: calc(100vh - 10rpx);
+  overflow-y: scroll;
   .record-box {
     margin-top: 20rpx;
     background-color: $uni-bg-color;
@@ -112,7 +146,9 @@ export default {
     }
   }
 }
-.scroll {
-  height: calc(100vh - 900rpx);
+.title {
+  width: 160rpx;
+  border: 1px solid #ccc;
+  text-align: right;
 }
 </style>
