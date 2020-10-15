@@ -153,7 +153,7 @@ export default {
 		},
 		async delImage(value) {
 			console.log(value);
-			await actions.delFile(value.id);
+			// await actions.delFile(value.id);
 			await actions.deleNewspaper(value.recordId)
 			this.$tools.toast('删除成功', 'success');
 			this.$tools.goNext(() => {

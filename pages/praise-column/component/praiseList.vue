@@ -3,6 +3,7 @@
     <noData msg="暂无数据~" v-if="dataList.length === 0"></noData>
     <view class="u-auto">
         <view
+				@click="goDetail(item.userCode)"
         class="u-padd-20  u-mar-l20 u-mar-r20 u-bg-fff u-border-radius"
         v-for="(item, i) in dataList"
         :key="i"
@@ -14,7 +15,7 @@
                 item.userName
               }}</view>
           </view>
-          <view class="tag" > <view class="rit-icon" @click="goDetail(item.userCode)"></view> 
+          <view class="tag" > <view class="rit-icon" ></view> 
           </view>
         </view>
             <view class="u-bd-x u-mar-t20 u-mar-b20"></view>

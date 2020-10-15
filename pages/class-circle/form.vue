@@ -85,7 +85,7 @@ export default {
 				});
 				this.formData.videoList.splice(index, 1);
 			}
-			actions.delFile(value.id);
+			// actions.delFile(value.id);
 		},
 		async confirm() {
 			if (!this.upLoadType) {

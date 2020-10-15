@@ -15,7 +15,6 @@
 				<text class="title u-content-color u-font-01">{{ enjoy.name.split('-')[0] }}</text>
 			</view>
 		</view>
-		<view class="todo" v-if="false">您还有5个待办事项需要处理, 请尽快处理...</view>
 		<view class="tab-list">
 			<view class="u-fx-jc">
 				<view class="tab-title u-fx">
@@ -98,7 +97,7 @@ export default {
 		}
 		// 初始化学年
 		this.$tools.getSchoolYear(this.userInfo, data => {
-			console.log('school', data)
+			console.log('school', data);
 			setStore({
 				key: 'schoolYear',
 				data: data

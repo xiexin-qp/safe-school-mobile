@@ -1,12 +1,15 @@
 <template>
 	<view class="u-page u-bg-fff">
-		<scroll-view scroll-y="true" class="scroll-h">
-			<no-data v-if="subjectList.length === 0" msg="暂无数据~"></no-data>
-			<u-collapse v-else @change="change" ref="collapse">
+		<no-data v-if="subjectList.length === 0" msg="暂无数据~"></no-data>
+		<view v-else class="u-bd-b u-bg-fff u-padd-20">
+			<u-alert-tips :show-icon="true" type="warning" description="提示：一门学科只能选择一个任课教师"></u-alert-tips>
+		</view>
+		<scroll-view v-if="subjectList.length !== 0" scroll-y="true" class="scroll-h">
+			<u-collapse @change="change" ref="collapse">
 				<u-collapse-item class="u-bd-b u-padd-l20 u-padd-r20 u-padd-t10 u-padd-b10" :title="item.subjectName" v-for="(item, index) in subjectList" :key="index">
 					<view class="collapse-item u-padd-b20">
 						<u-radio-group v-model="item.chooseTeacher" @change="radioGroupChange($event, item)" :wrap="true" width="100%">
-							<u-radio class="u-padd-10" v-for="(elem, index) in item.teacherList" :key="index" :name="elem.teacherCode">{{ elem.teacherName }}</u-radio>
+							<u-radio shape="circle" class="u-padd-10" v-for="(elem, index) in item.teacherList" :key="index" :name="elem.teacherCode">{{ elem.teacherName }}</u-radio>
 						</u-radio-group>
 					</view>
 				</u-collapse-item>
@@ -147,6 +150,17 @@ export default {
 
 <style lang="scss" scoped>
 .scroll-h {
-	height: calc(100vh - 100rpx);
+	height: calc(100vh - 220rpx);
+}
+/deep/ .u-radio{
+	position: relative;
+}
+/deep/ .u-radio__icon-wrap{
+	position: absolute;
+	right: 20rpx;
+	top: 10rpx;
+}
+/deep/ .u-radio__label{
+	width: 100%;
 }
 </style>

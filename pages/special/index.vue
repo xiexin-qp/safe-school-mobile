@@ -70,7 +70,7 @@
 		methods: {
 			detail(item) {
 				const url = 
-					item.state === '3' || item.state === '4' ||	!item.label
+					item.state === '3' || item.state === '4' ||	(!item.label && item.state === '2')
 				 	? `./detail?id=${item.id}&state=${item.state}` : `./submit?id=${item.id}&state=${item.state}`
 					this.$tools.navTo({
 						url: url

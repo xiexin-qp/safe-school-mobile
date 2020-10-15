@@ -186,7 +186,7 @@ export default {
 				return list === value.url;
 			});
 			this.photoList.splice(index, 1);
-			actions.delFile(value.id || this.photoList[0].id);
+			// actions.delFile(value.id || this.photoList[0].id);
 			this.submit()
 		},
 		changeMenu(item) {
