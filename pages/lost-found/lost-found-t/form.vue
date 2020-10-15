@@ -1,9 +1,9 @@
 <template>
-  <view class="add">
+  <view class="add u-bg-fff">
     <scroll-view scroll-y="true" class="scroll-h">
       <view class="u-bd-b item-list">
         <view class="tip">输入内容：</view>
-        <view class="u-fx-f1 u-bg-fff">
+        <view class="u-fx-f1 u-bd-1px u-border-radius u-mar-t20">
           <textarea
             class="item-text-area"
             maxlength="100"
