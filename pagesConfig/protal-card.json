@@ -281,6 +281,19 @@
 		}, {
 			"path": "pages/praise-column/praise-column-p/index",
 			"style": {}
+		},
+		 // 缴费模块
+		{
+			"path": "pages/campus-payment/campus-payment-p/detail"
+		},
+		{
+			"path": "pages/campus-payment/campus-payment-p/index"
+		},
+		{
+			"path": "pages/campus-payment/campus-payment-t/detail"
+		},
+		{
+			"path": "pages/campus-payment/campus-payment-t/index"
 		}
 	],
 	"globalStyle": {

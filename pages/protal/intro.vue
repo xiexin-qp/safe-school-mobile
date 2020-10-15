@@ -12,7 +12,6 @@
 			</view>
 		</view>
 		<view v-if="type === '0'" class="u-bg-fff">
-			<view class="float-add-btn" @click="btnClick"></view>
 			<no-data v-if="noDataTag" msg="暂无数据~"></no-data>
 			<view v-else class="">
 				<view class="u-fx-ac" v-if="photoList.length > 0">
@@ -24,7 +23,7 @@
 					<image class="line" src="http://canpointtest.com/mobile-img/line.png"></image>
 					<text class="mar-l20 u-font-01 u-bold">个人简介：</text>
 				</view>
-				<view class="u-bg-fff u-padd-b20 u-padd-l20 u-padd-r10">
+				<view class="u-bg-fff">
 					<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' ? 'scroll-h-0' : 'scroll-h'">
 						<view class="u-padd-l20 u-padd-r20">
 							<view class="content">{{ introduction }}</view>
@@ -32,6 +31,7 @@
 					</scroll-view>
 				</view>
 			</view>
+			<view :class="noDataTag ? 'footer-fixed footer-btn u-fx-ac' : 'footer-btn u-fx-ac'"><u-button @click="btnClick" type="primary" class="u-fx-f1 u-mar-l u-mar-r u-type-primary-dark-bg">编辑</u-button></view>
 		</view>
 		<view v-else class="">
 			<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' ? 'scroll-h-1' : 'scroll-h-2'">
@@ -182,7 +182,7 @@ export default {
 			this.photoList = res.data.outUserStyleDtoList.map(el => {
 				return {
 					url: el.photoUrl,
-					id: el.id,
+					photoId: el.id,
 					photoDes: el.photoDes === '' ? '添加描述' : el.photoDes
 				};
 			});
@@ -202,7 +202,7 @@ export default {
 			if (this.photoList.length > 0) {
 				req.inUserStyleDtoList = this.photoList.map(el => {
 					return {
-						id: el.id,
+						id: el.photoId,
 						photoDes: el.photoDes === '添加描述' ? '' : el.photoDes,
 						photoUrl: el.url
 					};
@@ -222,10 +222,10 @@ export default {
 
 <style lang="scss" scoped>
 .scroll-h {
-	height: calc(100vh - 590rpx);
+	height: calc(100vh - 668rpx);
 }
 .scroll-h-0 {
-	height: calc(100vh - 786rpx);
+	height: calc(100vh - 866rpx);
 }
 .scroll-h-1 {
 	height: calc(100vh - 300rpx);
@@ -275,5 +275,10 @@ export default {
 		color: $u-type-white;
 		border-radius: 60rpx;
 	}
+}
+.footer-fixed{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
 }
 </style>

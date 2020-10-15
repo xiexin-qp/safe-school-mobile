@@ -141,7 +141,6 @@ export default {
 								});
 							});
 						}
-						console.log(this.classInfo);
 						if (this.classInfo) {
 							const index = classList.findIndex(list => {
 								return list.value === this.classInfo.classCode;

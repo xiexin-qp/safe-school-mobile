@@ -61,11 +61,11 @@ export default {
 	},
 	methods: {
 		success(e) {
-			console.log(e.data);
+			console.log(e);
 			if (this.type === '1') {
-				this.formData.photoList.push(e.data.url);
+				this.formData.photoList.push(e.url);
 			} else {
-				this.formData.videoList.push(e.data.url);
+				this.formData.videoList.push(e.url);
 			}
 		},
 		progress(value) {

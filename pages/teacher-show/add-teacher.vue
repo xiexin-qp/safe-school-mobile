@@ -162,5 +162,6 @@ export default {
 }
 /deep/ .u-radio__label{
 	width: 100%;
+	text-indent: 36rpx;
 }
 </style>
