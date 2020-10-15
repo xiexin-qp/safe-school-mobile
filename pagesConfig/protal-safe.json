@@ -97,7 +97,7 @@
 			"path": "pages/safety-task/fillIn"
 		},
 		{
-			"path": "pages/safety-task/release"
+			"path": "pages/safety-task/release"  
 		},
 		{
 			"path": "pages/safety-task/postTask"
