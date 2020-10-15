@@ -12,7 +12,8 @@ let userApi = {
 	answerTask: '/safeTask/add/answer#post', // 任务填报
 	previewMyTask: '/safeTask/preview/#postWithQueryAndBody', //任务预览
 	submitMyTask: '/safeTask/submit#putWithQueryAndBody', // 提交或补交
-	getTaskIssued: '/safeTaskTemplate/query/user/publish/safetask#post', // 移动端查看发布的任务列表
+	// getTaskIssued: '/safeTaskTemplate/query/user/publish/safetask#post', // 移动端查看发布的任务列表
+	getTaskIssued: '/safeTaskTemplate/page#post', // 移动端查看发布的任务列表
 	getTaskDetail: '/safeTaskTemplate/info#getUrl', // 查看任务详情
 	postSchoolTask: '/safeTaskTemplate/school/publish#post', // 校端任务发布
 	planLists: '/safeTask/safetasktime/query/by/code#get', // 查询任务周期

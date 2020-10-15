@@ -16,11 +16,10 @@
 					<view class="cont-box  u-wh u-mar-l20">
 						<view class="cont-title u-font-1 u-mar-t20  u-fx">{{item.taskName}}
 							<view class="doorkeeper" v-if="item.taskType==='2'">
-								{{item.dataNum}}
-								({{item.year}}-{{item.dataNum}}周)
+								({{item.year}}-{{item.dateNum}}周)
 							</view>
 							<view class="doorkeeper" v-if="item.taskType==='3'">
-								({{item.year}}-{{item.dataNum}}月)
+								({{item.year}}-{{item.dateNum}}月)
 							</view>
 							<u-tag v-if="source==='2'" class="u-mar-l10" :text="item.completeStatus|getSafetyState" size='mini'
 							 :border-color='item.completeStatus|getSafetyState|safetyTaskToColor' :bg-color='item.completeStatus|getSafetyState|safetyTaskToColor'
@@ -34,13 +33,25 @@
 						<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
 							发布人：&nbsp;{{item.publisherName}}
 						</view>
-						<view class="time-text u-mar-t20 u-mar-b20 u-font-02" v-if="source==='3'?item.publishDate:item.publishTime">
-							发布于：&nbsp;{{(source==='3'?item.publishDate:item.publishTime)|gmtToDate}}
+						<view class="" v-if="client==='IOS'">
+								<view class="time-text u-mar-t20 u-mar-b20 u-font-02" v-if="source==='3'?item.publishDate:item.publishTime">
+									发布于：&nbsp;{{(source==='3'?item.publishDate:item.publishTime)|gmtToDate| iosReplace}}
+								</view>
+								<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
+									任务时间：{{(source==='3'?item.beginDate:item.startTime)|gmtToDate| iosReplace}}&nbsp;
+									至&nbsp;{{(source==='3'?item.endDate:item.endTime)|gmtToDate| iosReplace}}
+								</view>
 						</view>
-						<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
-							任务时间：{{(source==='3'?item.beginDate:item.startTime)|gmtToDate}}&nbsp;
-							至&nbsp;{{(source==='3'?item.endDate:item.endTime)|gmtToDate}}
+						<view  v-else>
+								<view class="time-text u-mar-t20 u-mar-b20 u-font-02" v-if="source==='3'?item.publishDate:item.publishTime">
+									发布于：&nbsp;{{(source==='3'?item.publishDate:item.publishTime)|gmtToDate}}
+								</view>
+								<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
+									任务时间：{{(source==='3'?item.beginDate:item.startTime)|gmtToDate}}&nbsp;
+									至&nbsp;{{(source==='3'?item.endDate:item.endTime)|gmtToDate}}
+								</view>
 						</view>
+						
 						<view class="cont-footer u-padd-t20 u-type-primary u-bd-t u-fx-jc u-font-02 ">
 							<view class="u-fx-f1 u-fx-ac-jc " @click="fillIn(1,item)" v-if="source!=='3'&&item.completeStatus==='1'&&!isTime(item.endTime)">
 								补填
@@ -48,10 +59,10 @@
 							<view class="u-fx-f1 u-fx-ac-jc " @click="fillIn(1,item)" v-if="source!=='3'&&item.completeStatus==='1'&& isTime(item.endTime)">
 								填报
 							</view>
-							<view @click="fillIn(2,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& item.completeStatus==='2'">
+							<view @click="fillIn(2,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& (item.completeStatus==='2'||item.completeStatus==='6')">
 								修改
 							</view>
-							<view @click="fillIn(0,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="(source==='2'&& item.completeStatus==='2')||(source==='1'&& (item.completeStatus==='3'||item.completeStatus==='4'))">
+							<view @click="fillIn(0,item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="(source==='2'&& item.completeStatus==='2'||item.completeStatus==='6'||item.completeStatus==='6'||item.completeStatus==='7')||(source==='1'&& (item.completeStatus==='3'||item.completeStatus==='4'))">
 								查看
 							</view>
 							<view @click="submit(item)" class="u-fx-f1 u-fx-ac-jc u-bd-r" v-if="source==='2'&& (item.completeStatus==='2'||item.completeStatus==='6')">
@@ -92,6 +103,7 @@
 			return {
 				current: 0,
 				state: 1,
+				client:'',
 				childIndex:0,//刷新子组件标记
 				states: '', //发布任务传给后台的任务状态
 				source: '2', //1校端，2局端
@@ -188,6 +200,9 @@
 			userInfo() {
 				return store.userInfo;
 			},
+		},
+		created() {
+			this.client = this.$tools.getClient()
 		},
 		mounted() {
 			let source = this.$tools.getQuery().get("source");
