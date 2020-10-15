@@ -28,7 +28,7 @@
 							types="image"
 							v-model="fileList"
 							:uploadCount="1"
-							:upload_max="1"
+							:upload_max="10"
 							@success="success"
 							@delImage="delImage"
 						></video-upload>
@@ -81,7 +81,7 @@ export default {
   methods: {
     success(e) {
       console.log(e);
-      this.photoId = e.data.id;
+      this.photoId = e.id;
     },
     delImage(value) {
       console.log(value);

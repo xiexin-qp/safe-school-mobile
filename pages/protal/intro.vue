@@ -182,7 +182,7 @@ export default {
 			this.photoList = res.data.outUserStyleDtoList.map(el => {
 				return {
 					url: el.photoUrl,
-					id: el.id,
+					photoId: el.id,
 					photoDes: el.photoDes === '' ? '添加描述' : el.photoDes
 				};
 			});
@@ -202,7 +202,7 @@ export default {
 			if (this.photoList.length > 0) {
 				req.inUserStyleDtoList = this.photoList.map(el => {
 					return {
-						id: el.id,
+						id: el.photoId,
 						photoDes: el.photoDes === '添加描述' ? '' : el.photoDes,
 						photoUrl: el.url
 					};

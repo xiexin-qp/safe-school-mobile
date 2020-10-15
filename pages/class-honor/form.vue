@@ -93,7 +93,7 @@ export default {
 		},
 		success(e) {
 			console.log(e);
-			this.photoId = e.data.id;
+			this.photoId = e.id;
 		},
 		delImage(value) {
 			console.log(value);
