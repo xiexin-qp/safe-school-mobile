@@ -63,6 +63,7 @@ export default {
 				this.$tools.toast('请先绑定孩子')
 				return
 			}
+			uni.setStorageSync('tabIndex', index)
       setStore({
         key: 'tabIndex',
         data: index

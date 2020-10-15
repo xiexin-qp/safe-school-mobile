@@ -461,10 +461,15 @@ const filters = {
     } else if (text === 4) {
       return '逾期填报'
     }
-  },
+	},
+	//时间戳转换为小时
 	getHour(data) {
 		return Math.ceil(data / 3600000)
-	}
+	},
+	//ios时间格式替换
+	iosReplace(time) {
+		return time.replace(/-/g, '/')
+	},
 }
 for (let key in filters) {
 	Vue.filter(key, filters[key])

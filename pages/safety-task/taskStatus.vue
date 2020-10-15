@@ -15,7 +15,12 @@
 				</u-row>
 				<u-row class='u-mar-b10 u-font-02' justify="center">
 					<u-col span="9">
-						<view class="demo-layout bg-purple">
+						<view v-if="client==='IOS'" class="demo-layout bg-purple">
+							任务时间：{{detailInfo.beginTime| gmtToDate('date')| iosReplace }}
+							至
+							{{detailInfo.endTime | gmtToDate('date')| iosReplace }}
+						</view>
+						<view v-else class="demo-layout bg-purple">
 							任务时间：{{detailInfo.beginTime| gmtToDate('date') }}
 							至
 							{{detailInfo.endTime | gmtToDate('date') }}
@@ -174,6 +179,7 @@
 		data() {
 			return {
 				type: Number(this.$tools.getQuery().get('type')),
+				client:'',
 				customStyle: {
 					border: '1px dashed #ccc',
 				},
@@ -191,6 +197,9 @@
 		},
 		watch: {
 		
+		},
+		created() {
+			this.client = this.$tools.getClient()
 		},
 		mounted() {
 				this.taskCode = this.$tools.getQuery().get('taskCode'),

@@ -134,7 +134,7 @@ export default {
 		},
 		async success(e) {
 			console.log(e);
-			this.photoId = e.data.id;
+			this.photoId = e.id;
 			const req = {
 				schoolCode: store.userInfo.schoolCode,
 				schoolYearId: store.schoolYear.schoolYearId,
@@ -142,8 +142,8 @@ export default {
 				gradeCode: this.gradeCode,
 				createUsercode: store.userInfo.userCode,
 				createUsername: store.userInfo.userName,
-				photoUrl: e.data.url,
-				photoId: e.data.id
+				photoUrl: e.url,
+				photoId: e.id
 			}
 			await actions.addNewspaper(req)
 			this.$tools.toast('添加成功', 'success');
@@ -153,7 +153,7 @@ export default {
 		},
 		async delImage(value) {
 			console.log(value);
-			await actions.delFile(value.id);
+			// await actions.delFile(value.id);
 			await actions.deleNewspaper(value.recordId)
 			this.$tools.toast('删除成功', 'success');
 			this.$tools.goNext(() => {

@@ -135,6 +135,7 @@ export default {
       }
       const req = {
         ...this.pageList,
+        schoolCodeList: [store.userInfo.schoolCode],
         accidentType: this.type === '0' ? '' : this.type,
         accidentNature: this.state === '0' ? '' : this.state,
         accidentLevel: this.level === '0' ? '' : this.level

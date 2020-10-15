@@ -28,10 +28,10 @@
 			"path": "pages/protal/messageDetail",
 			"style": {}
 		},
-		{
-		                        "path": "pages/protal/intro",
-		                        "style": {}
-		                },
+		// {
+		// 	"path": "pages/protal/intro",
+		// 	"style": {}
+		// },
 		// 课程表
 		{
 			"path": "pages/class-schedule/class-schedule-t/index",
@@ -398,37 +398,37 @@
 		},
 		// 个人德育
 		{
-		  "path": "pages/class-moral/index",
-		  "style": {}
+			"path": "pages/class-moral/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-moral/detail",
-		  "style": {}
+			"path": "pages/class-moral/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-moral/add",
-		  "style": {}
+			"path": "pages/class-moral/add",
+			"style": {}
 		},
 		{
-		  "path": "pages/class-moral/record",
-		  "style": {}
+			"path": "pages/class-moral/record",
+			"style": {}
 		},
 		// 行为评价
 		{
-		  "path": "pages/behavior/index",
-		  "style": {}
+			"path": "pages/behavior/index",
+			"style": {}
 		},
 		{
-		  "path": "pages/behavior/detail",
-		  "style": {}
+			"path": "pages/behavior/detail",
+			"style": {}
 		},
 		{
-		  "path": "pages/behavior/add",
-		  "style": {}
+			"path": "pages/behavior/add",
+			"style": {}
 		},
 		{
-		  "path": "pages/behavior/record",
-		  "style": {}
+			"path": "pages/behavior/record",
+			"style": {}
 		},
 		// 家长管理
 		{

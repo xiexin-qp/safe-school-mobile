@@ -5,10 +5,9 @@
 				{{ detailInfo.taskName }}
 			</view>
 			<view class="cont u-type-white-bg u-padd-l10 u-padd-r10 u-tips-color">
-
 				<u-row class='u-mar-b10 u-font-02' gutter="16" justify="center">
 					<u-col span="9">
-						<view class="demo-layout bg-purple">
+						<view  class="demo-layout bg-purple">
 							任务时间：{{ detailInfo.startTime | gmtToDate('date') }}
 							至
 							{{ detailInfo.endTime  | gmtToDate('date') }}
@@ -22,12 +21,12 @@
 				</u-row>
 				<u-row class='u-mar-b30 u-font-01' gutter="16" justify="start">
 					<u-col span="12">
-						<text class='u-line1' v-html= detailInfo.des></text>
+						<jyf-parser :html="detailInfo.des" ref="article"></jyf-parser>
 					</u-col>
 				</u-row>
 				<u-row class='u-mar-b10' justify="between">
 					<u-col span="12">
-						<u-line color='#ccc' />
+						<u-line color='#ccc'/>
 					</u-col>
 				</u-row>
 				<u-row class='u-mar-b10  u-main-color' justify="start">
@@ -159,6 +158,8 @@
 	import eventBus from '@u/eventBus'
 	import validateForm from '@u/validate';
 	import anUploadImgUrl from './component/an-uploadImg-url'
+	import jyfParser from "@/components/jyf-parser/jyf-parser";
+	// https://ext.dcloud.net.cn/plugin?id=805 //富文本插件文档
 	import anUploadImg from '@/components/an-uploadImg/an-uploadImg'
 	import {
 		store,
@@ -168,7 +169,9 @@
 	export default {
 		components: {
 			anUploadImg,
-			anUploadImgUrl
+			anUploadImgUrl,
+			jyfParser
+		  // uParse
 		},
 		data() {
 			this.uploadUrl = `${hostEnv.zk_school}/file/freeUpload?schoolCode=${this.schoolCode}`
@@ -177,6 +180,7 @@
 				customStyle: {
 					border: '1px dashed #ccc',
 				},
+				client:'',
 				detailInfo: {},
 				radioList: [],
 				checkList: [],
@@ -187,6 +191,9 @@
 				// u-radio-group的v-model绑定的值如果设置为某个radio的name，就会被默认选中
 				value: 'orange',
 			}
+		},
+		created() {
+			this.client = this.$tools.getClient()
 		},
 		mounted() {
 			this.taskId = this.$tools.getQuery().get('myTaskId'),

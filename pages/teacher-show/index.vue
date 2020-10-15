@@ -73,13 +73,18 @@ export default {
 			]
 		};
 	},
+	computed: {
+		userInfo: () => store.userInfo,
+		isBZR: () => store.isBZR,
+		childList: () => store.childList
+	},
 	watch: {
 		value0(val, oldval) {
 			if (this.userType === 3) {
 				return;
 			}
 			if (val !== oldval) {
-				if (store.isBZR && val === store.isBZR.classCode) {
+				if (this.isBZR && val === this.isBZR.classCode) {
 					this.userType = 1;
 				} else {
 					this.userType = 2;
@@ -98,7 +103,7 @@ export default {
 		}
 	},
 	async created() {
-		if (store.userInfo.typeCode === '4') {
+		if (this.userInfo.typeCode === '4') {
 			this.userType = 2;
 			this.classList = JSON.parse(uni.getStorageSync('protal')).teachClassList;
 			if (this.classList.length === 0) {
@@ -110,10 +115,10 @@ export default {
 			this.showClass = true;
 			this.defTitle = this.classList[0].text;
 			this.value0 = this.classList[0].value;
-		} else if (store.userInfo.typeCode === '16') {
+		} else if (this.userInfo.typeCode === '16') {
 			this.userType = 3;
-			this.classCode = store.childList[0].classCode;
-			this.classId = store.childList[0].classId;
+			this.classCode = this.childList[0].classCode;
+			this.classId = this.childList[0].classId;
 			this.showList();
 		}
 	},
@@ -130,7 +135,7 @@ export default {
 			const req = {
 				pageNum: 1,
 				pageSize: 999,
-				schoolCode: store.userInfo.schoolCode,
+				schoolCode: this.userInfo.schoolCode,
 				classId: this.classId
 			};
 			const classInfo = await actions.getClassInfo(this.classId);
@@ -205,5 +210,8 @@ export default {
 			height: 100rpx;
 		}
 	}
+}
+/deep/ .u-swipe-del{
+	width: 140rpx;
 }
 </style>

@@ -85,6 +85,13 @@
 			"https": false,
 			"port": "",
 			"proxy": {
+				"/oss_upload": {
+					"target": "http://canpoint-photo.oss-cn-beijing.aliyuncs.com", // 阿里云上传图片
+					"changeOrigin": true,
+					"pathRewrite": {
+						"^/oss_upload": ""
+					}
+				},
 				"/zx_mobile_user": {
 					"target": "http://192.168.2.242:10166/", // 朱旭-移动端用户系统
 					"changeOrigin": true,
@@ -306,12 +313,11 @@
 								"^/zl_uploadFile" : ""
 						}
 				},
-				'/ljj_user_teacher': {
-					"target": 'http://192.168.1.76:11002/', // 柳继杰-局端基础数据
-					// target: 'http://192.168.2.242:11002/', // 柳继杰-
+				"/ljj_user_teacher": {
+					"target": "http://192.168.1.76:11002/", // 柳继杰-局端基础数据
 					"changeOrigin": true,
 					"pathRewrite": {
-						'^/ljj_user_teacher': ''
+						"^/ljj_user_teacher": ""
 					}
 				}
 			}
