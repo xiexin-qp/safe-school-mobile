@@ -89,7 +89,7 @@ export default {
         return list === value.url;
       });
       this.fileList.splice(index, 1);
-      actions.delFile(value.id || this.fileList[0].id);
+      // actions.delFile(value.id || this.fileList[0].id);
     },
     async detailGet(id) {
       const res = await actions.getNewsDetail(id);

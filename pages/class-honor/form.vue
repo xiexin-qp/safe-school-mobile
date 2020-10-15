@@ -2,9 +2,9 @@
 	<view>
 		<u-picker @confirm="changeTime" v-model="dateTimeTag" mode="time"></u-picker>
 		<scroll-view scroll-y="true" class="scroll-h">
-			<view class="u-fx u-bd-b item-list input-area">
+			<view class="u-fx-f1 u-bd-b item-list input-area">
 				<view class="tip">荣誉名称：</view>
-				<view class="u-fx-f1 mar-r20">
+				<view class="u-fx-f1 u-mar u-mar-l0">
 					<textarea :disabled="userType !== 1" class="item-input u-content-color" maxlength="50" v-model="formData.name" placeholder="请输入荣誉名称" />
 				</view>
 			</view>
@@ -101,7 +101,7 @@ export default {
 				return list === value.url;
 			});
 			this.fileList.splice(index, 1);
-			actions.delFile(value.id || this.fileList[0].id);
+			// actions.delFile(value.id || this.fileList[0].id);
 		},
 		chooseTime(){
 			if(this.userType !== 1){
@@ -162,6 +162,9 @@ export default {
 	width: 10rpx;
 	height: 10rpx;
 }
+.u-mar-l0{
+	margin-left: 0;
+}
 .item-list {
 	padding: 25rpx 10rpx 25rpx 30rpx;
 	background: $uni-bg-color;
@@ -180,7 +183,6 @@ export default {
 /deep/ .uni-textarea-textarea {
 	border: 1rpx solid $u-border-color;
 	padding: 20rpx;
-	height: 350rpx;
 	line-height: 50rpx;
 	color: $u-content-color;
 }
