@@ -1,8 +1,8 @@
 <template>
 	<view class="container">
-		<no-data v-if="attandenceInfo.length === 0" msg="暂无数据"></no-data>
+		<no-data v-if="dayInfo.length === 0" msg="暂无数据"></no-data>
 		<view v-else>
-      <view class="set_box" v-for="list in attandenceInfo" :key="list.id">
+      <view class="set_box" v-for="list in dayInfo" :key="list.id">
         <view class="set_time u-tx-r">
           <view class="u-mar-l20 u-mar-t40">{{list.title}}</view>
         </view>
@@ -11,7 +11,14 @@
           <view class="set-2">
             <view class="right u-fx u-mar-l20">
               <view>
-                <u-icon name="/mobile-img/Default_touxiang@2x.png" size="100"></u-icon>
+                <u-icon 
+                  v-if="list.item[0].title === '上午班'"
+                  :name="list.item[0].morningOnSnacpUrl ? list.item[0].morningOnSnacpUrl : '/mobile-img/Default_touxiang@2x.png'"
+                  size="100"></u-icon>
+                <u-icon 
+                  v-if="list.item[0].title === '下午班'" 
+                  :name="list.item[0].noonOnSnacpUrl ? list.item[0].noonOnSnacpUrl : '/mobile-img/Default_touxiang@2x.png'"
+                  size="100"></u-icon>
               </view>
               <view class="u-fx-ver u-mar-l40">
                 <text class="detail">上班打卡
@@ -21,7 +28,12 @@
                 </text>
                 <text class="u-mar-t20">
                   <u-icon name="/mobile-img/kq-time.png" size="24"></u-icon>
-                  <text class="u-mar-l10"> 20:20 </text>
+                  <text v-if="list.item[0].title === '上午班'" class="u-mar-l10"> 
+                    {{list.item[0].morningOnRealTime ? list.item[0].morningOnRealTime : '--:--'}} 
+                  </text>
+                  <text v-if="list.item[0].title === '下午班'" class="u-mar-l10">
+                    {{list.item[0].noonOnRealTime ? list.item[0].noonOnRealTime : '--:--'}} 
+                  </text>
                 </text>
               </view>
             </view>
@@ -29,7 +41,14 @@
           <view class="set-2">
             <view class="right u-fx u-mar-l20 u-mar-t40">
               <view>
-                <u-icon name="/mobile-img/Default_touxiang@2x.png" size="100"></u-icon>
+                <u-icon 
+                  v-if="list.item[0].title === '上午班'" 
+                  :name="list.item[0].morningOffSnacpUrl ? list.item[0].morningOffSnacpUrl : '/mobile-img/Default_touxiang@2x.png'" 
+                  size="100"></u-icon>
+                <u-icon 
+                  v-if="list.item[0].title === '下午班'" 
+                  :name="list.item[0].noonOffSnacpUrl ? list.item[0].noonOffSnacpUrl : '/mobile-img/Default_touxiang@2x.png'" 
+                  size="100"></u-icon>
               </view>
               <view class="u-fx-ver u-mar-l40">
                 <text class="detail">下班打卡
@@ -39,7 +58,12 @@
                 </text>
                 <text class="u-mar-t20">
                   <u-icon name="/mobile-img/kq-time.png" size="24"></u-icon>
-                  <text class="u-mar-l10"> 20:20 </text>
+                  <text v-if="list.item[0].title === '上午班'" class="u-mar-l10"> 
+                    {{list.item[0].morningOffRealTime ? list.item[0].morningOffRealTime : '--:--'}} 
+                  </text>
+                  <text v-if="list.item[0].title === '下午班'" class="u-mar-l10"> 
+                    {{list.item[0].noonOffRealTime ? list.item[0].noonOffRealTime : '--:--'}} 
+                  </text>
                 </text>
               </view>
             </view>
@@ -53,40 +77,81 @@
 <script>
 import { store, actions } from '../store/index.js'
 	export default {
+    props:{
+      dayInfo: {
+        type: Array,
+        default: () => {
+          return [];
+        }
+      }
+    },
 		data() {
 			return {
 				talk: [],
-				attandenceInfo:[{
-          id:'1',
-          title: '上午班',
-          item:[{
+				attandenceInfo:[
+          {
             id:'1',
-          title: '上午班',
-          }]
-        },
+            title: '上午班',
+            item:[
+              {
+                id:'1',
+                title: '上午班',
+              }
+            ]
+        } ,
         {
           id:'2',
           title: '下午班'
-        }],
-				month: '',
-				studentCode: ''
+        }
+        ]
 			}
-		},
-		mounted() {
-			// this.studentCode =  this.$tools.getQuery().get('userCode') 
-    	// this.month = this.$tools.getQuery().get('month') 
-			// this.showList()
 		},
 		methods: {
 			async showList () {
-				const req = {
-					month: this.month,
-					studentCode: this.studentCode
-				}
-				const res = await actions.studentMonthRecord(req)
-				this.attandenceInfo = res.data
+				this.attandenceInfo = [
+          {
+            id:'1',
+            title: '上午班',
+            item:[
+              {
+                id:'1',
+                title: '上午班',
+                morningOnRealTime:dayInfo.morningOnRealTime,
+                morningOnSnacpUrl:dayInfo.morningOnSnacpUrl,
+                morningOnState:dayInfo.morningOnState
+              },
+              {
+                id:'1',
+                title: '上午班',
+                morningOffRealTime:dayInfo.morningOffRealTime,
+                morningOffSnacpUrl:dayInfo.morningOffSnacpUrl,
+                morningOffState:dayInfo.morningOffState
+              }
+            ]
+        } ,
+        {
+          id:'2',
+          title: '下午班',
+          item:[
+              {
+                id:'1',
+                title: '上午班',
+                noonOnRealTime:dayInfo.noonOnRealTime,
+                noonOnSnacpUrl:dayInfo.noonOnSnacpUrl,
+                noonOnState:dayInfo.noonOnState,
+              },
+              {
+                id:'1',
+                title: '上午班',
+                noonOffState:dayInfo.noonOffState,
+                noonOffSnacpUrl:dayInfo.noonOffSnacpUrl,
+                noonOffRealTime:dayInfo.noonOffRealTime
+              }
+            ]
+        }
+        ]
 			}
-		}
+    }
 	}
 </script>
 
