@@ -77,7 +77,7 @@ export default {
 		async searchMonth (month) {
       this.yearTitle = month
       const req = {
-				month: month,
+        month: month,
 				userCode: store.userInfo.userCode
 			}
       const res = await actions.getTeacherStatic(req)
@@ -158,17 +158,12 @@ export default {
       }
 		},
     async detail (item) {
-      this.num = item.num
-      // if ( item.num !== '0次' && item.num !== '0天' ) {
-        const req = {
-          month: this.yearTitle,
-          userCode: store.userInfo.userCode,
-          state: item.state,
-        }
-        const res = await actions.teacherStaticDetail(req)
-        this.dataList = res.data
-        this.$refs.popup.open()
-      // }
+      if ( item.num !== '0次' && item.num !== '0天' ) {
+        this.$tools.navTo({
+          url: `./detail?month=${this.yearTitle}&state=${item.state}`,
+          title: '新增请假单'
+        })
+      }
     },
     close () {
       this.$refs.popup.close()

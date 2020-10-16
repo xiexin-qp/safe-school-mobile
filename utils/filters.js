@@ -28,6 +28,8 @@ const filters = {
 			return time.substring(0, 10)
 		} else if (type === 'time') {
 			return time.substring(11, 16)
+		}else if (type === 'second') {
+			return time.substring(11, 19)
 		}
 	},
 	// 日期转化
