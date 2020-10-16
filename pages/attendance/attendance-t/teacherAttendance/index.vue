@@ -1,21 +1,36 @@
 <template>
   <view class="attendance u-page">
     <view>
-      <view class="calendar">
-        <uni-calendar @change="change" @monthSwitch="monthSwitch" :selected="selected"></uni-calendar>
+      <view class="calendar-bg">
+        <view class="calendar u-border-radius u-padd-l40 u-padd-r40 u-padd-t20 u-padd-b10 u-type-white-bg">
+          <uni-calendar :showMonth="false" @change="change" @monthSwitch="monthSwitch" :selected="selected"></uni-calendar>
+        </view>
       </view>
-      <view class="record-box u-padd-l40 u-padd-r40 u-padd-t20 u-padd-b10">
-        <view v-for="(i,index) in tagList" :key="index">
-          <view class="title"> 
-            <u-tag :text="i.title" mode="dark" />
+      <view class="record-box u-padd-l40 u-padd-r40 u-padd-t40 u-padd-b10 u-type-white-bg u-border-radius">
+        <view v-for="list in tagList" :key="list.key">
+          <view class="title u-tx-r u-fx-ac">
+            <u-icon class="u-mar-r20" :name="list.icon" size="44"></u-icon>
+            <u-tag v-if="list.key==='1'" type="success" :text="list.title" mode="dark" shape="circle"/>
+            <u-tag v-else type="warning" :text="list.title" mode="dark" shape="circle"/>
           </view>
-          <view class="u-fx-ac u-mar-b20" v-for="(el,index) in classList" :key="index"> 
-            <text class="title">{{el.title}}</text>
-            <view class="u-fx-f1 u-fx-jsb u-padd-l40"> 
+          <view class="time-box u-fx-ac u-mar-b20 u-padd-t40" v-for="(el,index) in classList" :key="index"> 
+            <text class="title u-tx-r u-padd-r20">{{el.title}}</text>
+            <view class="u-fx-f1 u-fx-jsb u-padd-l20"> 
               <view class="u-fx-f1" v-for="(item,i) in stateList" :key="i"> 
                 <view class="u-fx-ver u-fx-ac">
                   <view >{{ (el.title === '下班' && item.key === '2') ? '早退' : item.title}}</view>
-                  <view class="u-mar-t10">3343人</view>
+                  <view 
+                    :class="['u-mar-t10', i === 0 ? 'u-type-primary' : i === 1 ? 'u-type-warning-dark' : 'absence']"
+                    @click="detail(list.key, index, item.key)"
+                  >
+                    <text class="u-font-2 u-bold">
+                      {{ (list.key === '1' && index === 0) ? teacherTotal[i] :
+                       (list.key === '1' && index === 1) ? teacherTotal[i + 3] : 
+                       (list.key === '2' && index === 0) ? teacherTotal[i + 6] : 
+                       (list.key === '2' && index === 1) ? teacherTotal[i + 9] : ''}}
+                    </text>
+                    <text>人</text>
+                  </view>
                 </view>
               </view>
             </view>
@@ -37,9 +52,13 @@ export default {
       selected: [],
       tagList: [
         {
+          key: '1',
+          icon: '/mobile-img/attendance-am.png',
           title: '上午'
         },
         {
+          key: '2',
+          icon: '/mobile-img/attendance-pm.png',
           title: '下午'
         }
       ],
@@ -65,6 +84,7 @@ export default {
           title: '缺卡'
         }
       ],
+      teacherTotal: []
     }
   },
   mounted () {
@@ -83,10 +103,10 @@ export default {
     // 正常 迟到(早退) 缺卡 绿色 橙色 红色
     async showState () {
       const req = {
-        userCode: store.userInfo.userCode,
+        schoolCode: store.userInfo.schoolCode,
         month: this.mounth
       }
-      const res = await actions.teacherStaticState(req)
+      const res = await actions.teacherMonthState(req)
       res.data.forEach(ele => {
         if (!ele.staue) {
           this.selected.push({	
@@ -103,15 +123,50 @@ export default {
     },
     async showList () {
       const req ={
-        userCode: store.userInfo.userCode,
-        day: this.day
+        schoolCode: store.userInfo.schoolCode,
+        date: this.day
       }
-      const res = await actions.getTeacherAttendance(req)
+      const res = await actions.getTeaRecordStatic(req)
       this.dayInfo = res.data
+      this.teacherTotal.push(res.data.morningOnNormalCount || 0)
+      this.teacherTotal.push(res.data.morningOnLateCount || 0)
+      this.teacherTotal.push(res.data.morningOnNoRecordCount || 0)
+      this.teacherTotal.push(res.data.morningOffNormalCount || 0)
+      this.teacherTotal.push(res.data.morningOffEarlyCount || 0)
+      this.teacherTotal.push(res.data.morningOffNoRecordCount || 0)
+      this.teacherTotal.push(res.data.noonOnNormalCount || 0)
+      this.teacherTotal.push(res.data.noonOnLateCount || 0)
+      this.teacherTotal.push(res.data.noonOnNoRecordCount || 0)
+      this.teacherTotal.push(res.data.noonOffNormalCount || 0)
+      this.teacherTotal.push(res.data.noonOffEarlyCount || 0)
+      this.teacherTotal.push(res.data.noonOffNoRecordCount || 0)
     },
     change (data) {
       this.day = data.fulldate
       this.showList()
+    },
+    detail (key,index,item) {
+      let title = ''
+      const req = {
+        date: this.day
+      }
+      if(key === '1' && index === 0){
+        title = '上午上班'
+        req.morningOnState = item === '1' ? '5' : item === '2' ? '1' : item === '3' ? '3' : undefined
+      } else if(key === '1' && index === 1){
+         title = '上午下班'
+        req.morningOffState = item === '1' ? '5': item === '2' ? '2' : item === '3' ? '3' : undefined
+      } else if(key === '2' && index === 0){
+         title = '下午上班'
+        req.noonOnState = item === '1' ? '5': item === '2' ? '1' : item === '3' ? '6' : undefined
+      } else if(key === '2' && index === 1){
+         title = '下午下班'
+        req.noonOffState = item === '1' ? '5' :item === '2' ? '2' : item === '3' ? '6' : undefined
+      }
+      this.$tools.navTo({
+        url: `./detail?req=${JSON.stringify(req)}`,
+        title: title
+      })
     }
   }
 }
@@ -122,33 +177,57 @@ export default {
   height: calc(100vh - 10rpx);
   overflow-y: scroll;
   .record-box {
-    margin-top: 20rpx;
-    background-color: $uni-bg-color;
-    .work-box {
-      padding: 30rpx 40rpx;
-      border-bottom: 1rpx solid ￥u-border-color-dark;
-      image {
-        height: 80rpx;
-        width: 80rpx;
-      }
-      .work-title {
-        margin-top: 20rpx;
-      }
-      .normal-title {
-        color: $u-type-success;
-      }
-      .absence-title {
-        color: $u-tips-color;
-      }
-      .unnormal-title {
-        color: $u-type-warning;
-      }
-    }
+    margin-top: 570rpx;
+    width: 92%;
+    margin-left: 4%;
   }
 }
 .title {
   width: 160rpx;
-  border: 1px solid #ccc;
-  text-align: right;
+}
+.absence {
+  color: #F5B111;
+}
+.late {
+  color:#F5772D;
+}
+.time-box {
+  &:nth-of-type(3){
+    position: relative;
+    border-top: 1px #F2F2F2 solid;
+  }
+}
+.calendar-bg {
+  height: 268rpx;
+  background: url('/mobile-img/date-bg.png') no-repeat center; 
+  background-size: 100% 100%;
+  position: relative;
+  .calendar{
+    left: 4%;
+    width: 92%;
+    height: 750rpx;
+    position: absolute;
+    margin-top: 60rpx;
+  }
+}
+/deep/ .uni-calendar-item__weeks-box-item {
+  width: 88rpx;
+  height: 88rpx;
+}
+/deep/ .uni-calendar__header {
+  background-color: #fff;
+  color: #000;
+  border: none;
+}
+/deep/ .uni-calendar__weeks-day{
+  border: none;
+}
+/deep/ .uni-calendar-item--checked,
+/deep/ .uni-calendar-item--isDay {
+  border-radius: 50%;
+}
+/deep/ .uni-calendar-item__weeks-box-circle{
+  top: 70rpx;
+  right: 36rpx;
 }
 </style>

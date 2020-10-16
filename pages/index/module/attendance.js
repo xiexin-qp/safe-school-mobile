@@ -11,6 +11,10 @@ const attendance = [
 			  url: '/pages/attendance/attendance-t/attendance/index'
 			},
 			{
+				title: '教职工考勤',
+				url: '/pages/attendance/attendance-t/teacherAttendance/index'
+			  },
+			{
 			  title: '学生考勤-教职工',
 			  url: '/pages/attendance/attendance-t/studentAttendance/index'
 			},
