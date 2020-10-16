@@ -7,12 +7,7 @@
 			<view class="cont u-type-white-bg u-padd-l10 u-padd-r10 u-tips-color">
 				<u-row class='u-mar-b10 u-font-02' gutter="16" justify="center">
 					<u-col span="9">
-						<view v-if="client==='IOS'" class="demo-layout bg-purple" >
-							任务时间：{{ detailInfo.startTime | gmtToDate('date')| iosReplace }}
-							至
-							{{ detailInfo.endTime  | gmtToDate('date')| iosReplace }}
-						</view>
-						<view v-else class="demo-layout bg-purple">
+						<view  class="demo-layout bg-purple">
 							任务时间：{{ detailInfo.startTime | gmtToDate('date') }}
 							至
 							{{ detailInfo.endTime  | gmtToDate('date') }}

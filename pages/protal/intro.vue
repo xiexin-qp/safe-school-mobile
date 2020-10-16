@@ -1,11 +1,11 @@
 <template>
 	<view class="u-page u-fx-f1">
-		<view v-if="userInfo.typeCode === '16'" class="u-fx-ac u-mar-b10 u-border-radius u-padd child-list u-bd-b u-content-color u-bg-fff">
+		<view v-if="userInfo.typeCode === '16'" class="u-fx-ac u-mar-b10 u-border-radius u-padd-40 child-list u-bd-b u-content-color u-bg-fff" style="background: url('/mobile-img/intro-background.png') no-repeat; backgroundSize: contain">
 			<image class="img u-border-radius" :src="childInfo.photoUrl" alt="" />
-			<view class="u-fx-f1 u-line3 u-mar-l">
-				<view class="u-main-color">{{ childInfo.userName }}</view>
-				<view class="u-font-01">{{ childInfo.gradeName }}{{ childInfo.className }}</view>
-				<view class="u-font-01">{{ childInfo.workNo || '' }}</view>
+			<view class="u-fx-f1 u-line3 u-mar-l20">
+				<view class="u-type-white">{{ childInfo.userName }}</view>
+				<view class="u-font-01 u-type-white">{{ childInfo.gradeName }}{{ childInfo.className }}</view>
+				<view class="u-font-01 u-type-white">{{ childInfo.workNo || '' }}</view>
 			</view>
 			<view class="unbind-btn u-fx-ac-jc" @tap="_unbind(childInfo.userCode)">
 				解绑
@@ -213,6 +213,7 @@ export default {
 				this.$tools.goNext(() => {
 					// this.$tools.goBack();
 					this.type = '0'
+					this.showIntro()
 				});
 			});
 		}
@@ -225,10 +226,10 @@ export default {
 	height: calc(100vh - 668rpx);
 }
 .scroll-h-0 {
-	height: calc(100vh - 866rpx);
+	height: calc(100vh - 910rpx);
 }
 .scroll-h-1 {
-	height: calc(100vh - 300rpx);
+	height: calc(100vh - 340rpx);
 }
 .scroll-h-2 {
 	height: calc(100vh - 100rpx);
@@ -262,17 +263,18 @@ export default {
 	text-indent: 40rpx;
 }
 .child-list {
+	height: 230rpx;
 	.img {
 		width: 140rpx;
-		height: 160rpx;
+		height: 150rpx;
 		display: block;
 		background-color: #eee;
 	}
 	.unbind-btn {
 		width: 100rpx;
 		height: 50rpx;
-		background-color: $u-type-error-dark;
-		color: $u-type-white;
+		background-color: $u-type-white;
+		color: $u-type-primary;
 		border-radius: 60rpx;
 	}
 }

@@ -15,11 +15,11 @@
 				 :key="index">
 					<view class="cont-box  u-wh u-mar-l20">
 						<view class="cont-title u-font-1 u-mar-t20  u-fx">{{item.taskName}}
-							<view class="doorkeeper" v-if="item.taskType==='2'">
-								({{item.year}}-{{item.dateNum}}周)
+							<view class="doorkeeper" v-if="item.taskType==='2'&&source!=='3'">
+								({{item.year}}-{{item.dataNum}}周)
 							</view>
-							<view class="doorkeeper" v-if="item.taskType==='3'">
-								({{item.year}}-{{item.dateNum}}月)
+							<view class="doorkeeper" v-if="item.taskType==='3'&&source!=='3'">
+								({{item.year}}-{{item.dataNum}}月)
 							</view>
 							<u-tag v-if="source==='2'" class="u-mar-l10" :text="item.completeStatus|getSafetyState" size='mini'
 							 :border-color='item.completeStatus|getSafetyState|safetyTaskToColor' :bg-color='item.completeStatus|getSafetyState|safetyTaskToColor'
@@ -33,22 +33,22 @@
 						<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
 							发布人：&nbsp;{{item.publisherName}}
 						</view>
-						<view class="" v-if="client==='IOS'">
+						<view class="" v-if="source==='3'">
 								<view class="time-text u-mar-t20 u-mar-b20 u-font-02" v-if="source==='3'?item.publishDate:item.publishTime">
-									发布于：&nbsp;{{(source==='3'?item.publishDate:item.publishTime)|gmtToDate| iosReplace}}
+									发布于：&nbsp;{{item.publishDate|gmtToDate}}
 								</view>
 								<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
-									任务时间：{{(source==='3'?item.beginDate:item.startTime)|gmtToDate| iosReplace}}&nbsp;
-									至&nbsp;{{(source==='3'?item.endDate:item.endTime)|gmtToDate| iosReplace}}
+									任务时间：{{item.beginDate|gmtToDate}}&nbsp;
+									至&nbsp;{{item.endDate|gmtToDate}}
 								</view>
 						</view>
 						<view  v-else>
 								<view class="time-text u-mar-t20 u-mar-b20 u-font-02" v-if="source==='3'?item.publishDate:item.publishTime">
-									发布于：&nbsp;{{(source==='3'?item.publishDate:item.publishTime)|gmtToDate}}
+									发布于：&nbsp;{{item.publishTime}}
 								</view>
 								<view class="time-text u-mar-t20 u-mar-b20 u-font-02">
-									任务时间：{{(source==='3'?item.beginDate:item.startTime)|gmtToDate}}&nbsp;
-									至&nbsp;{{(source==='3'?item.endDate:item.endTime)|gmtToDate}}
+									任务时间：{{item.startTime}}&nbsp;
+									至&nbsp;{{item.endTime}}
 								</view>
 						</view>
 						
@@ -294,7 +294,6 @@
 				this.morePage = res.data.pages > res.data.current;
 			},
 			searchChange(val) {
-				console.log(val)
 			},
 			//填报
 			fillIn(type, record) {
@@ -327,7 +326,6 @@
 						query: '?' + 'id=' + myTaskId
 					}
 					actions.submitMyTask(req).then(res => {
-						console.log(res)
 						this.$tools.toast("操作成功", "success");
 						this.$tools.goNext(() => {
 							this.showList()
@@ -342,7 +340,6 @@
 					taskCode,
 					taskType
 				} = record
-				console.log(taskType)
 				this.$tools.navTo({
 					url: `./release?&myTaskId=${id}&taskTemplateCode=${taskCode}&taskType=${taskType}`,
 				});

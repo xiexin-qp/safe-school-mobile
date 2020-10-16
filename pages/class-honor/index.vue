@@ -82,6 +82,7 @@ export default {
 					return el.value === val;
 				})[0];
 				this.defTitle = choose.text;
+				console.log(this.defTitle)
 				this.gradeCode = choose.gradeCode;
 				this.classCode = val;
 				uni.setStorageSync('bindInfo', {
