@@ -2,7 +2,7 @@
 	<view class="">
 		<view class="u-padd-15  head">
 			<view v-if="taskType !== '1'" class="u-mar-r10">
-				<ms-dropdown-item v-model="dateNum"  :list="typeListTime"></ms-dropdown-item>
+				<ms-dropdown-item v-model="dateNum" v-if="planList.length>0"  :list="planList"></ms-dropdown-item>
 			</view>
 			<view class="">
 				(已完成数/总数：<text class="u-type-primary">{{ compNum }}</text>/{{ sum }})
@@ -31,7 +31,6 @@
 									:bg-color='el.state|completeStatusToText|safetyTaskToColor' color='#fff' />
 								</view>
 							</view>
-							
 						</view>
 					</view>
 				</u-collapse-item>
@@ -75,18 +74,17 @@
 				},
 				value1Change: '0',
 				dateNum: '0',
-				planList: [],
-				taskType: this.$tools.getQuery().get('taskType'),
-				typeListTime: [
-					{
-						text: '2020 - 52周',
-						value: '2020-52'
-					},
-					{
-						text: '2020 - 53周',
-						value: '2020-53'
-					},
+				planList: [
+					// {
+					// 	text: '2020 - 52周',
+					// 	value: '2020-52'
+					// },
+					// {
+					// 	text: '2020 - 53周',
+					// 	value: '2020-53'
+					// },
 				],
+				taskType: this.$tools.getQuery().get('taskType'),
 				compNum: '',
 				sum: '',
 				arrow: true,
@@ -117,11 +115,9 @@
 				this.planList = res.data.map(el=>{
 					return {
 						text: `${el.year} - ${el.dateNum}${el.taskType=== '2'? '周' : '月'}`,
-						value:`${el.year}-${el.dateNum}`
+						value: `${el.year}-${el.dateNum}`
 					}
 				})
-				console.log(this.planList)
-				this.dateNum = `${res.data[0].year}-${res.data[0].dateNum}`
 			},
 			async getUserList() {
 				const req = {

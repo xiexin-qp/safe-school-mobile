@@ -1,18 +1,17 @@
 <template>
 	<view class="u-page u-fx-f1">
-		<view v-if="userInfo.typeCode === '16'" class="u-fx-ac u-mar-b10 u-border-radius u-padd child-list u-bd-b u-content-color u-bg-fff">
+		<view v-if="userInfo.typeCode === '16'" class="u-fx-ac u-mar-b10 u-border-radius u-padd-40 child-list u-bd-b u-content-color u-bg-fff" style="background: url('/mobile-img/intro-background.png') no-repeat; backgroundSize: contain">
 			<image class="img u-border-radius" :src="childInfo.photoUrl" alt="" />
-			<view class="u-fx-f1 u-line3 u-mar-l">
-				<view class="u-main-color">{{ childInfo.userName }}</view>
-				<view class="u-font-01">{{ childInfo.gradeName }}{{ childInfo.className }}</view>
-				<view class="u-font-01">{{ childInfo.workNo || '' }}</view>
+			<view class="u-fx-f1 u-line3 u-mar-l20">
+				<view class="u-type-white">{{ childInfo.userName }}</view>
+				<view class="u-font-01 u-type-white">{{ childInfo.gradeName }}{{ childInfo.className }}</view>
+				<view class="u-font-01 u-type-white">{{ childInfo.workNo || '' }}</view>
 			</view>
 			<view class="unbind-btn u-fx-ac-jc" @tap="_unbind(childInfo.userCode)">
 				解绑
 			</view>
 		</view>
 		<view v-if="type === '0'" class="u-bg-fff">
-			<view class="float-add-btn" @click="btnClick"></view>
 			<no-data v-if="noDataTag" msg="暂无数据~"></no-data>
 			<view v-else class="">
 				<view class="u-fx-ac" v-if="photoList.length > 0">
@@ -24,7 +23,7 @@
 					<image class="line" src="http://canpointtest.com/mobile-img/line.png"></image>
 					<text class="mar-l20 u-font-01 u-bold">个人简介：</text>
 				</view>
-				<view class="u-bg-fff u-padd-b20 u-padd-l20 u-padd-r10">
+				<view class="u-bg-fff">
 					<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' ? 'scroll-h-0' : 'scroll-h'">
 						<view class="u-padd-l20 u-padd-r20">
 							<view class="content">{{ introduction }}</view>
@@ -32,6 +31,7 @@
 					</scroll-view>
 				</view>
 			</view>
+			<view :class="noDataTag ? 'footer-fixed footer-btn u-fx-ac' : 'footer-btn u-fx-ac'"><u-button @click="btnClick" type="primary" class="u-fx-f1 u-mar-l u-mar-r u-type-primary-dark-bg">编辑</u-button></view>
 		</view>
 		<view v-else class="">
 			<scroll-view scroll-y="true" :class="userInfo.typeCode === '16' ? 'scroll-h-1' : 'scroll-h-2'">
@@ -182,7 +182,7 @@ export default {
 			this.photoList = res.data.outUserStyleDtoList.map(el => {
 				return {
 					url: el.photoUrl,
-					id: el.id,
+					photoId: el.id,
 					photoDes: el.photoDes === '' ? '添加描述' : el.photoDes
 				};
 			});
@@ -202,7 +202,7 @@ export default {
 			if (this.photoList.length > 0) {
 				req.inUserStyleDtoList = this.photoList.map(el => {
 					return {
-						id: el.id,
+						id: el.photoId,
 						photoDes: el.photoDes === '添加描述' ? '' : el.photoDes,
 						photoUrl: el.url
 					};
@@ -213,6 +213,7 @@ export default {
 				this.$tools.goNext(() => {
 					// this.$tools.goBack();
 					this.type = '0'
+					this.showIntro()
 				});
 			});
 		}
@@ -222,13 +223,13 @@ export default {
 
 <style lang="scss" scoped>
 .scroll-h {
-	height: calc(100vh - 590rpx);
+	height: calc(100vh - 668rpx);
 }
 .scroll-h-0 {
-	height: calc(100vh - 786rpx);
+	height: calc(100vh - 910rpx);
 }
 .scroll-h-1 {
-	height: calc(100vh - 300rpx);
+	height: calc(100vh - 340rpx);
 }
 .scroll-h-2 {
 	height: calc(100vh - 100rpx);
@@ -262,18 +263,24 @@ export default {
 	text-indent: 40rpx;
 }
 .child-list {
+	height: 230rpx;
 	.img {
 		width: 140rpx;
-		height: 160rpx;
+		height: 150rpx;
 		display: block;
 		background-color: #eee;
 	}
 	.unbind-btn {
 		width: 100rpx;
 		height: 50rpx;
-		background-color: $u-type-error-dark;
-		color: $u-type-white;
+		background-color: $u-type-white;
+		color: $u-type-primary;
 		border-radius: 60rpx;
 	}
+}
+.footer-fixed{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
 }
 </style>

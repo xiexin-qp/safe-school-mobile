@@ -9,9 +9,7 @@
 					<u-col span="3">
 						<view class="demo-layout bg-purple">发布人:{{publisher }}</view>
 					</u-col>
-					<!-- <u-col span="7">
-						<view class="demo-layout bg-purple-light">发布于：{{ new Date()| gmtToDate }}</view>
-					</u-col> -->
+				
 				</u-row>
 				<u-row class='u-mar-b30 u-font-02' gutter="16" justify="center">
 					<u-col span="9">
@@ -31,7 +29,7 @@
 			<view class="problem u-padd-l10 u-mar-b30">
 				<u-row @click="teacherTag=true" class='u-mar-b10  u-mar-t20  u-main-color' justify="between">
 					<u-col span='4'>
-						要求上报内容:
+						接收人:
 					</u-col>
 					<u-col span='3' class="u-type-primary">
 						选择接收人:

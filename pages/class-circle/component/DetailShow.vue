@@ -185,6 +185,7 @@ export default {
 		},
 		//点击评论 唤出输入框和键盘
 		handleComment(item, comment) {
+			console.log(item)
 			this.$emit('handleComment', item, comment);
 		},
 		goNewList() {

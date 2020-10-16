@@ -53,7 +53,13 @@
           @click="tagClick(item, i)"
           @close="tagDel(item, i)"
         />
-        <u-button type="info" size="mini" class="add_p" @click="open">
+        <u-button
+          type="info"
+          size="mini"
+          :hair-line="false"
+          class="add_p"
+          @click="open"
+        >
           <u-icon
             name="plus
 "
@@ -288,11 +294,28 @@ export default {
   padding: 20rpx;
 }
 .add_p {
-  width: 124rpx;
-  height: 40rpx;
+  height: 50rpx;
   margin: 5px 10px;
+  color: #909399;
+  width: 93px;
+  text-align: center;
+  border: 1px solid #909399;
+  border-radius: 3px;
 }
+
 .u-mar-15 {
   margin: 5px 10px;
+}
+.u-mode-plain-info {
+  width: 93px;
+  height: 50rpx;
+  line-height: 32rpx;
+  text-align: center;
+}
+.u-mode-light-primary {
+  width: 93px;
+  height: 50rpx;
+  line-height: 32rpx;
+  text-align: center;
 }
 </style>
