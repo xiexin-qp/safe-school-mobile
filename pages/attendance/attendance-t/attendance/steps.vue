@@ -11,60 +11,60 @@
           <view class="set-2">
             <view class="right u-fx u-mar-l20">
               <view>
-                <u-icon 
+                <image 
                   v-if="list.item[0].title === '上午班'"
-                  :name="list.item[0].morningOnSnacpUrl ? list.item[0].morningOnSnacpUrl : '/mobile-img/Default_touxiang@2x.png'"
-                  size="100"></u-icon>
-                <u-icon 
+                  :src="list.item[0].morningOnSnacpUrl ? list.item[0].morningOnSnacpUrl : '/mobile-img/Default_touxiang@2x.png'"
+                  ></image>
+                <image 
                   v-if="list.item[0].title === '下午班'" 
-                  :name="list.item[0].noonOnSnacpUrl ? list.item[0].noonOnSnacpUrl : '/mobile-img/Default_touxiang@2x.png'"
-                  size="100"></u-icon>
+                  :src="list.item[0].noonOnSnacpUrl ? list.item[0].noonOnSnacpUrl : '/mobile-img/Default_touxiang@2x.png'"
+                  ></image>
               </view>
               <view class="u-fx-ver u-mar-l40">
-                <text class="detail">上班打卡
-                  <text class="state">
+                <view class="detail">上班打卡
+                  <view class="state">
                     <u-tag text="迟到" mode="dark" />
-                  </text>
-                </text>
-                <text class="u-mar-t20">
-                  <u-icon name="/mobile-img/kq-time.png" size="24"></u-icon>
-                  <text v-if="list.item[0].title === '上午班'" class="u-mar-l10"> 
+                  </view>
+                </view>
+                <view class="time u-mar-t20 u-fx-ac">
+                  <image src="/mobile-img/kq-time.png"></image>
+                  <view v-if="list.item[0].title === '上午班'" class="u-mar-l10"> 
                     {{list.item[0].morningOnRealTime ? list.item[0].morningOnRealTime : '--:--'}} 
-                  </text>
-                  <text v-if="list.item[0].title === '下午班'" class="u-mar-l10">
+                  </view>
+                  <view v-if="list.item[0].title === '下午班'" class="u-mar-l10">
                     {{list.item[0].noonOnRealTime ? list.item[0].noonOnRealTime : '--:--'}} 
-                  </text>
-                </text>
+                  </view>
+                </view>
               </view>
             </view>
           </view>
           <view class="set-2">
             <view class="right u-fx u-mar-l20 u-mar-t40">
               <view>
-                <u-icon 
+                <image 
                   v-if="list.item[0].title === '上午班'" 
-                  :name="list.item[0].morningOffSnacpUrl ? list.item[0].morningOffSnacpUrl : '/mobile-img/Default_touxiang@2x.png'" 
-                  size="100"></u-icon>
-                <u-icon 
+                  :src="list.item[0].morningOffSnacpUrl ? list.item[0].morningOffSnacpUrl : '/mobile-img/Default_touxiang@2x.png'" 
+                  ></image>
+                <image 
                   v-if="list.item[0].title === '下午班'" 
-                  :name="list.item[0].noonOffSnacpUrl ? list.item[0].noonOffSnacpUrl : '/mobile-img/Default_touxiang@2x.png'" 
-                  size="100"></u-icon>
+                  :src="list.item[0].noonOffSnacpUrl ? list.item[0].noonOffSnacpUrl : '/mobile-img/Default_touxiang@2x.png'" 
+                  ></image>
               </view>
               <view class="u-fx-ver u-mar-l40">
-                <text class="detail">下班打卡
-                  <text class="state">
+                <view class="detail">下班打卡
+                  <view class="state">
                     <u-tag text="迟到" mode="dark" />
-                  </text>
-                </text>
-                <text class="u-mar-t20">
-                  <u-icon name="/mobile-img/kq-time.png" size="24"></u-icon>
-                  <text v-if="list.item[0].title === '上午班'" class="u-mar-l10"> 
+                  </view>
+                </view>
+                <view class="time u-mar-t20 u-fx-ac">
+                  <image src="/mobile-img/kq-time.png"></image>
+                  <view v-if="list.item[0].title === '上午班'" class="u-mar-l10"> 
                     {{list.item[0].morningOffRealTime ? list.item[0].morningOffRealTime : '--:--'}} 
-                  </text>
-                  <text v-if="list.item[0].title === '下午班'" class="u-mar-l10"> 
+                  </view>
+                  <view v-if="list.item[0].title === '下午班'" class="u-mar-l10"> 
                     {{list.item[0].noonOffRealTime ? list.item[0].noonOffRealTime : '--:--'}} 
-                  </text>
-                </text>
+                  </view>
+                </view>
               </view>
             </view>
           </view>
@@ -272,6 +272,16 @@ import { store, actions } from '../store/index.js'
           border: none;
         }
       }
+    }
+  }
+  image {
+    width: 88rpx;
+    height: 88rpx;
+  }
+  .time {
+    image {
+      width: 20rpx;
+      height: 20rpx;
     }
   }
 </style>

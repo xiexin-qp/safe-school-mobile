@@ -2,7 +2,7 @@
   <view class="u-page u-type-white-bg">
     <image src="/mobile-img/kq-head.png" mode="" class="img"></image>
     <view class="list u-padd-t40 u-padd-l20 u-padd-r20 u-padd-b20">
-      <view class="th u-fx-ac u-padd u-type-primary u-border-radius u-type-white">
+      <view class="th u-fx-ac u-fx-ac">
         <text class="left">序号</text>
         <view class="right">日期</view>
         <text class="right">班次</text>
@@ -64,12 +64,16 @@ export default {
 <style lang="scss" scoped>
 .list {
   margin-top: -75rpx;
+  background-color: #fff;
   position: relative;
   z-index: 99;
   border-top-left-radius: 24rpx;
   border-top-right-radius: 24rpx;
   .th {
     background: #0084ff;
+    padding: 20rpx;
+    border-radius: 8rpx;
+    color: #fff;
   }
   .tbody {
     position: relative;

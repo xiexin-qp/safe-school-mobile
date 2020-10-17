@@ -2,7 +2,7 @@
   <view class="u-page u-type-white-bg">
     <image src="/mobile-img/kq-head.png" mode="" class="img"></image>
     <view class="list u-padd-t40 u-padd-l20 u-padd-r20 u-padd-b20">
-      <view class="th u-fx-ac u-padd u-type-primary u-border-radius u-type-white">
+      <view class="th u-fx-ac">
         <text class="left">教职工姓名</text>
         <text class="left">打卡时间</text>
       </view>
@@ -37,7 +37,8 @@ export default {
   },
   mounted() {
     this.req = JSON.parse(this.$tools.getQuery().get('req'))
-    this.req.schoolCode = store.userInfo.schoolCode
+    this.req.schoolCode = 'CANPOINTAI'
+    // this.req.schoolCode = store.userInfo.schoolCode
     this.showList()
   },
   methods: {
@@ -51,6 +52,7 @@ export default {
 
 <style lang="scss" scoped>
 .list {
+  background-color: #fff;
   margin-top: -75rpx;
   position: relative;
   z-index: 99;
@@ -58,6 +60,9 @@ export default {
   border-top-right-radius: 24rpx;
   .th {
     background: #0084ff;
+    padding: 20rpx;
+    border-radius: 8rpx;
+    color: #fff;
   }
   .tbody {
     position: relative;

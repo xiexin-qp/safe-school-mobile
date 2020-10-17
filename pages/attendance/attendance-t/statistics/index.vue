@@ -161,7 +161,7 @@ export default {
       if ( item.num !== '0次' && item.num !== '0天' ) {
         this.$tools.navTo({
           url: `./detail?month=${this.yearTitle}&state=${item.state}`,
-          title: '新增请假单'
+          title: `${item.title}详情`
         })
       }
     },

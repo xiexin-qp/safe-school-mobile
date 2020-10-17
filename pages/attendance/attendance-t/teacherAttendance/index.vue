@@ -9,7 +9,7 @@
       <view class="record-box u-padd-l40 u-padd-r40 u-padd-t40 u-padd-b10 u-type-white-bg u-border-radius">
         <view v-for="list in tagList" :key="list.key">
           <view class="title u-tx-r u-fx-ac">
-            <u-icon class="u-mar-r20" :name="list.icon" size="44"></u-icon>
+            <image :src="list.icon" class="u-mar-r20"></image>
             <u-tag v-if="list.key==='1'" type="success" :text="list.title" mode="dark" shape="circle"/>
             <u-tag v-else type="warning" :text="list.title" mode="dark" shape="circle"/>
           </view>
@@ -184,6 +184,10 @@ export default {
 }
 .title {
   width: 160rpx;
+  image {
+    width: 44rpx;
+    height: 44rpx;
+  }
 }
 .absence {
   color: #F5B111;

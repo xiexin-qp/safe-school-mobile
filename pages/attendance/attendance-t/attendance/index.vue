@@ -8,7 +8,7 @@
       </view>
       <view class="record-box u-padd-l40 u-padd-r40 u-padd-t20 u-padd-b10 u-type-white-bg u-border-radius">
         <view class="title u-fx-ac"> 
-          <u-icon name="/mobile-img/kq-shijian.png" size="32"></u-icon>
+          <image src="/mobile-img/kq-shijian.png"></image>
           <view class="u-mar-l10">打卡记录</view> 
         </view>
           <steps :dayInfo="dayInfo" :studentCode="studentCode" :month="month"></steps>
@@ -147,6 +147,12 @@ export default {
     height: 750rpx;
     position: absolute;
     margin-top: 60rpx;
+  }
+}
+.title {
+  image {
+    width: 32rpx;
+    height: 28rpx;
   }
 }
 /deep/ .uni-calendar-item__weeks-box-item {
