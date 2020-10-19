@@ -163,7 +163,7 @@ export default {
       line-height: 70rpx;
     }
     .scroll-h {
-      height: calc(100vh - 400rpx);
+      height: calc(100vh - 560rpx);
         .leave-box {
           border-bottom: 1px solid $u-border-color;
           height: 130rpx;
