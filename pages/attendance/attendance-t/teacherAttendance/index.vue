@@ -3,7 +3,8 @@
     <view>
       <view class="calendar-bg">
         <view class="calendar u-border-radius u-padd-l40 u-padd-r40 u-padd-t20 u-padd-b10 u-type-white-bg">
-          <uni-calendar :showMonth="false" @change="change" @monthSwitch="monthSwitch" :selected="selected"></uni-calendar>
+          <!-- <uni-calendar :showMonth="false" @change="change" @monthSwitch="monthSwitch" :selected="selected"></uni-calendar> -->
+          <uni-calendar :showMonth="false" @change="change" @monthSwitch="monthSwitch"></uni-calendar>
         </view>
       </view>
       <view class="record-box u-padd-l40 u-padd-r40 u-padd-t40 u-padd-b10 u-type-white-bg u-border-radius">
@@ -46,7 +47,6 @@ import { store, actions } from '../store/index.js'
 export default {
   data () {
     return {
-      dayInfo: {},
       day: new Date(),
       mounth: new Date(),
       selected: [],
@@ -96,12 +96,13 @@ export default {
     d = d < 10 ? ('0' + d) : d
     this.day = y + '-' + m + '-' + d
     this.mounth = y + '-' + m
-    this.showState()
+    // this.showState()
     this.showList()
   },
   methods: {
     // 正常 迟到(早退) 缺卡 绿色 橙色 红色
     async showState () {
+      this.selected = []
       const req = {
         schoolCode: store.userInfo.schoolCode,
         month: this.mounth
@@ -110,7 +111,8 @@ export default {
       res.data.forEach(ele => {
         if (!ele.staue) {
           this.selected.push({	
-            date: this.$tools.getDateTime(ele.date)
+            date: this.$tools.getDateTime(ele.date),
+            staue: false
           })
         }
       })
@@ -118,28 +120,28 @@ export default {
     monthSwitch (item) {
       this.mounth=`${item.year}-${ item.month < 10 ? ('0' + item.month) : item.month }`
       this.day = ''
-      this.showState()
+      // this.showState()
       this.showList()
     },
     async showList () {
+      this.teacherTotal = []
       const req ={
         schoolCode: store.userInfo.schoolCode,
         date: this.day
       }
       const res = await actions.getTeaRecordStatic(req)
-      this.dayInfo = res.data
-      this.teacherTotal.push(res.data.morningOnNormalCount || 0)
-      this.teacherTotal.push(res.data.morningOnLateCount || 0)
-      this.teacherTotal.push(res.data.morningOnNoRecordCount || 0)
-      this.teacherTotal.push(res.data.morningOffNormalCount || 0)
-      this.teacherTotal.push(res.data.morningOffEarlyCount || 0)
-      this.teacherTotal.push(res.data.morningOffNoRecordCount || 0)
-      this.teacherTotal.push(res.data.noonOnNormalCount || 0)
-      this.teacherTotal.push(res.data.noonOnLateCount || 0)
-      this.teacherTotal.push(res.data.noonOnNoRecordCount || 0)
-      this.teacherTotal.push(res.data.noonOffNormalCount || 0)
-      this.teacherTotal.push(res.data.noonOffEarlyCount || 0)
-      this.teacherTotal.push(res.data.noonOffNoRecordCount || 0)
+      this.teacherTotal.push(res.data[0].morningOnNormalCount || 0)
+      this.teacherTotal.push(res.data[0].morningOnLateCount || 0)
+      this.teacherTotal.push(res.data[0].morningOnNoRecordCount || 0)
+      this.teacherTotal.push(res.data[0].morningOffNormalCount || 0)
+      this.teacherTotal.push(res.data[0].morningOffEarlyCount || 0)
+      this.teacherTotal.push(res.data[0].morningOffNoRecordCount || 0)
+      this.teacherTotal.push(res.data[0].noonOnNormalCount || 0)
+      this.teacherTotal.push(res.data[0].noonOnLateCount || 0)
+      this.teacherTotal.push(res.data[0].noonOnNoRecordCount || 0)
+      this.teacherTotal.push(res.data[0].noonOffNormalCount || 0)
+      this.teacherTotal.push(res.data[0].noonOffEarlyCount || 0)
+      this.teacherTotal.push(res.data[0].noonOffNoRecordCount || 0)
     },
     change (data) {
       this.day = data.fulldate

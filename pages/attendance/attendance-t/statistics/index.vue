@@ -17,7 +17,7 @@
             <image :src="`/mobile-img/${item.img}.png`" mode=""></image>
             <view class="attandence-word u-fx-f1"> 
               <view> {{item.title}}</view>
-              <view class="attandence-num"> {{item.num}}</view>
+              <view class="attandence-num"> {{item.num}}次</view>
             </view>
           </view>
         </scroll-view>
@@ -85,80 +85,80 @@ export default {
         this.attandenceInfo = [{
           title: '正常',
           state: '5',
-          num: `${res.data.normalCount}天`,
+          num: res.data.normalCount,
           img: 'kq-zc-icon'
         },{
           title: '上班缺卡',
           state: '3',
-          num: `${res.data.onNoRecordCount}次`,
+          num: res.data.onNoRecordCount,
           img: 'kq-sbqk-icon'
         },{
           title: '迟到',
           state: '1',
-          num:  `${res.data.lateCount}次`,
+          num:  res.data.lateCount,
           img: 'kq-cd-icon'
         },{
           title: '早退',
           state: '2',
-          num:  `${res.data.earlyCount}次`,
+          num:  res.data.earlyCount,
           img: 'kq-zt-icon'
         },{
           title: '下班缺卡',
           state: '6',
-          num:  `${res.data.offNoRecordCount}次`,
+          num:  res.data.offNoRecordCount,
           img: 'kq-xbqk-icon'
         },{
           title: '缺勤',
           state: '7',
-          num:  `${res.data.noRecord}天`,
+          num:  res.data.noRecord,
           img: 'kq-qq-icon'
         },{
           title: '请假',
           state: '4',
-          num:  `${res.data.leaveCount}次`,
+          num:  res.data.leaveCount,
           img: 'kq-qj-icon'
         }]
       } else {
         this.attandenceInfo = [{
           title: '正常',
           state: '5',
-          num: '0天',
+          num: 0,
           img: 'kq-zc-icon'
         },{
           title: '上班缺卡',
           state: '3',
-          num: '0次',
+          num: 0,
           img: 'kq-qk-icon'
         },{
           title: '迟到',
           state: '1',
-          num:  '0次',
+          num:  0,
           img: 'kq-cd-icon'
         },{
           title: '早退',
           state: '2',
-          num:  '0次',
+          num:  0,
           img: 'kq-zt-icon'
         },{
           title: '下班缺卡',
           state: '6',
-          num:  '0次',
+          num:  0,
           img: 'kq-qk-icon'
         },{
           title: '缺勤',
           state: '7',
-          num:  '0天',
+          num:  0,
           img: 'kq-qq-icon'
         },{
           title: '请假',
           state: '4',
-          num: '0次',
+          num: 0,
           img: 'kq-qj-icon'
         }]
       }
 		},
     async detail (item) {
-      if ( item.num !== '0次' && item.num !== '0天' ) {
+      if ( item.num !== 0 ) {
         this.$tools.navTo({
           url: `./detail?month=${this.yearTitle}&state=${item.state}`,
           title: `${item.title}详情`
