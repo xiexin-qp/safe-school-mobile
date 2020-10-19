@@ -61,7 +61,7 @@ export default {
     }
   },
   async mounted() {
-    // wxApi.getConfig();
+    wxApi.getConfig();
     eventBus.$on('getList', () => {
     	this.showList()
     })
