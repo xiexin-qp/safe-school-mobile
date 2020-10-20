@@ -10,7 +10,7 @@
 		<scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
 			<y-refresh ref="mixPulldownRefresh" @refresh="onPulldownReresh" class="u-auto">
 				<no-data class="u-mar-t20" v-if="dataList.length === 0" msg="暂无数据,下拉刷新~"></no-data>
-				<detail-show :newsList="dataList" :unReadCommentInfo="unReadCommentInfo" @handleComment="handleComment" :userType="userType" @refresh="refresh"></detail-show>
+				<detail-show v-else ref="detailShow" :newsList="dataList" :unReadCommentInfo="unReadCommentInfo" @handleComment="handleComment" :userType="userType" @refresh="refresh"></detail-show>
 			</y-refresh>
 		</scroll-view>
 		<!-- 底部聊天输入框-->
@@ -139,6 +139,7 @@ export default {
 				this.relationship = item.relationship;
 				this.className = item.className;
 				this.gradeName = item.gradeName;
+				this.$refs.detailShow.userCode = item.userCode;
 				this.showList();
 				uni.setStorageSync('bindInfo', {
 					...item
@@ -208,11 +209,14 @@ export default {
 				req.replyPhotoUrl = this.commentInfo.createPhotoUrl
 				req.replyUsercode = this.commentInfo.createUsercode
 				req.replyUsername = this.commentInfo.createUsername
+				req.replyRelationship = this.commentInfo.createRelationship
+				req.replyChildrenName = this.commentInfo.childrenName
+				req.replyChildrenCode = this.commentInfo.childrenCode
 			}
 			if(this.userType === 3){
 				req.childrenCode = this.userCode,
 				req.childrenName = this.userName,
-				req.relationship = this.relationship
+				req.createRelationship = this.relationship
 			}
 			console.log(req);
 			const res = await actions.addComment(req);
@@ -224,6 +228,7 @@ export default {
 		},
 		//点击评论 唤出输入框和键盘
 		handleComment(item, comment) {
+			console.log(comment)
 			this.showInput = true;
 			this.momontInfo = item;
 			this.commentInfo = comment;

@@ -98,6 +98,7 @@
                     type="primary"
                     shape="square"
                     size="mini"
+                    @click="detail(1, item)"
                   >{{ item.state === '1' ? '已完成' : '待完成'}}</u-button>
                 </view>
               </view>
@@ -128,6 +129,7 @@
                     type="primary"
                     shape="square"
                     size="mini"
+                    @click="detail(1, item)"
                   >{{ item.state === '1' ? '已完成' : '待完成'}}</u-button>
                 </view>
               </view>

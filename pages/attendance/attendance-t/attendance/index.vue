@@ -3,15 +3,15 @@
     <view>
       <view class="calendar-bg">
         <view class="calendar u-border-radius u-padd-l40 u-padd-r40 u-padd-t20 u-padd-b10 u-type-white-bg">
-          <uni-calendar :showMonth="false" @change="change" @monthSwitch="monthSwitch" :selected="selected"></uni-calendar>
+          <uni-calendar :showMonth="false" @change="change" @monthSwitch="monthSwitch" :selected="selected" :choosed="choosed"></uni-calendar>
         </view>
       </view>
       <view class="record-box u-padd-l40 u-padd-r40 u-padd-t20 u-padd-b10 u-type-white-bg u-border-radius">
         <view class="title u-fx-ac"> 
-          <u-icon name="/mobile-img/kq-shijian.png" size="32"></u-icon>
+          <image src="/mobile-img/kq-shijian.png"></image>
           <view class="u-mar-l10">打卡记录</view> 
         </view>
-          <steps :dayInfo="dayInfo" :studentCode="studentCode" :month="month"></steps>
+          <steps ref="steps"></steps>
       </view>
     </view>
   </view>
@@ -26,13 +26,13 @@ export default {
   },
   data () {
     return {
-      dayInfo: [],
       day: new Date(),
       mounth: new Date(),
       selected: [],
       studentCode: '',
       studentName: '',
-      month: ''
+      month: '',
+      choosed: []
     }
   },
   mounted () {
@@ -50,17 +50,17 @@ export default {
   methods: {
     // 正常 迟到(早退) 缺卡 绿色 橙色 红色
     async showState () {
+      this.selected = []
       const req = {
         userCode: store.userInfo.userCode,
         month: this.mounth
       }
       const res = await actions.teacherStaticState(req)
       res.data.forEach(ele => {
-        if (!ele.staue) {
-          this.selected.push({	
-            date: this.$tools.getDateTime(ele.date)
-          })
-        }
+        this.selected.push({	
+          date: this.$tools.getDateTime(ele.date),
+          staue: !ele.staue
+        })
       })
     },
     monthSwitch (item) {
@@ -75,24 +75,24 @@ export default {
         day: this.day
       }
       const res = await actions.getTeacherAttendance(req)
-      this.dayInfo = [
+      this.$refs.steps.dayInfo = [
           {
             id:'1',
             title: '上午班',
             item:[
               {
                 id:'1',
-                title: '上午班',
+                title: '上班',
                 morningOnRealTime: res.data ? res.data.morningOnRealTime : 0,
-                morningOnSnacpUrl: res.data ? res.data.morningOnSnacpUrl : 0,
-                morningOnState: res.data ? res.data.morningOnState : 0
+                morningOnSnacpUrl: res.data ? res.data.morningOnSnacpUrl : '',
+                morningOnState: res.data ? res.data.morningOnState : ''
               },
               {
-                id:'1',
-                title: '上午班',
+                id:'2',
+                title: '下班',
                 morningOffRealTime: res.data ? res.data.morningOffRealTime : 0,
-                morningOffSnacpUrl: res.data ? res.data.morningOffSnacpUrl : 0,
-                morningOffState: res.data ? res.data.morningOffState : 0
+                morningOffSnacpUrl: res.data ? res.data.morningOffSnacpUrl : '',
+                morningOffState: res.data ? res.data.morningOffState : ''
               }
             ]
         } ,
@@ -102,21 +102,22 @@ export default {
           item:[
               {
                 id:'1',
-                title: '上午班',
+                title: '上班',
                 noonOnRealTime: res.data ? res.data.noonOnRealTime : 0,
-                noonOnSnacpUrl: res.data ? res.data.noonOnSnacpUrl : 0,
-                noonOnState: res.data ? res.data.noonOnState : 0
+                noonOnSnacpUrl: res.data ? res.data.noonOnSnacpUrl : '',
+                noonOnState: res.data ? res.data.noonOnState : ''
               },
               {
-                id:'1',
-                title: '上午班',
+                id:'2',
+                title: '下班',
                 noonOffState: res.data ? res.data.noonOffState : 0,
-                noonOffSnacpUrl: res.data ? res.data.noonOffSnacpUrl : 0,
-                noonOffRealTime: res.data ? res.data.noonOffRealTime : 0
+                noonOffSnacpUrl: res.data ? res.data.noonOffSnacpUrl : '',
+                noonOffRealTime: res.data ? res.data.noonOffRealTime : ''
               }
-            ]
+          ]
         }
-        ]
+      ]
+      console.log('this.$refs.steps.dayInfo',this.$refs.steps.dayInfo)
     },
     change (data) {
       this.day = data.fulldate
@@ -147,6 +148,12 @@ export default {
     height: 750rpx;
     position: absolute;
     margin-top: 60rpx;
+  }
+}
+.title {
+  image {
+    width: 32rpx;
+    height: 28rpx;
   }
 }
 /deep/ .uni-calendar-item__weeks-box-item {

@@ -197,7 +197,7 @@ const filters = {
 		} else if (val == 4) {
 			return '奶奶'
 		} else if (val == 5) {
-			return '其他'
+			return '家长'
 		}
 	},
 	// 调班 调舍审批状态

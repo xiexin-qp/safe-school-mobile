@@ -247,7 +247,7 @@
 				},
 				"/zq_class": {
 					// "target": "http://192.168.1.241:11006/", //张琦，班牌
-					"target": "http://192.168.2.242:11009/",
+					"target": "http://192.168.1.193:11009/",
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zq_class": ""

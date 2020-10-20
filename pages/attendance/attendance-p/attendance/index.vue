@@ -81,7 +81,8 @@ export default {
       res.data.forEach(ele => {
         if(!ele.staue){
           this.selected.push({	
-            date: this.$tools.getDateTime(ele.date)
+            date: this.$tools.getDateTime(ele.date),
+            staue: false
           })
         }
 			})

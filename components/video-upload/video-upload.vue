@@ -170,6 +170,10 @@ export default {
 													if (this.desTag) {
 														imgInfo.photoDes = '添加描述';
 													}
+													if (this.uploads.length >= this.uploadCount) {
+														this.$tools.toast(`图片数量不能超过${this.uploadCount}张`)
+														return
+													}
 													this.uploads.unshift(imgInfo);
 													this.$emit(
 														'success',
