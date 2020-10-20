@@ -5,7 +5,6 @@
     </scroll-view>
   </view>
 </template>
-
 <script>
 import eventBus from "@u/eventBus";
 import { store, actions } from "../store/index.js";
