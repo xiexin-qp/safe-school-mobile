@@ -91,8 +91,8 @@ export default {
 			if (!this.upLoadType) {
 				return;
 			}
-			if (this.formData.content === '') {
-				this.$tools.toast('请输入内容');
+			if (this.formData.content === '' && this.formData.photoList.length === 0) {
+				this.$tools.toast('请发布动态');
 				return;
 			}
 			if (!this.upLoadType) {
