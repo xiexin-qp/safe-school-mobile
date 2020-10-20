@@ -63,7 +63,7 @@ export default {
       actions.submitInspect(req).then((res) => {
         this.$tools.goNext(() => {
           this.$tools.navTo({
-            url: `./map?inspectId=${this.inspectId}`
+            url: `./map?id=${this.inspectId}`
           })
           uni.setStorageSync('dangerList', [])
         })

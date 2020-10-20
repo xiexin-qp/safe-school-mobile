@@ -47,9 +47,7 @@ export default {
         userCode: this.userCode,
       };
       const res = await actions.getParenttdutyList(req);
-      this.recordList = res.data.filter(item => {
-				return item.userCode === this.userCode
-			});
+      this.recordList = res.data
     },
   },
 };
