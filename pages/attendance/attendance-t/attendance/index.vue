@@ -1,17 +1,17 @@
 <template>
   <view class="attendance u-page">
     <view>
-      <view class="calendar">
-        <uni-calendar @change="change" @monthSwitch="monthSwitch" :selected="selected"></uni-calendar>
+      <view class="calendar-bg">
+        <view class="calendar u-border-radius u-padd-l40 u-padd-r40 u-padd-t20 u-padd-b10 u-type-white-bg">
+          <uni-calendar :showMonth="false" @change="change" @monthSwitch="monthSwitch" :selected="selected" :choosed="choosed"></uni-calendar>
+        </view>
       </view>
-      <view class="record-box u-padd-l40 u-padd-r40 u-padd-t20 u-padd-b10">
+      <view class="record-box u-padd-l40 u-padd-r40 u-padd-t20 u-padd-b10 u-type-white-bg u-border-radius">
         <view class="title u-fx-ac"> 
-          <u-icon name="/mobile-img/kq-shijian.png" size="32"></u-icon>
+          <image src="/mobile-img/kq-shijian.png"></image>
           <view class="u-mar-l10">打卡记录</view> 
         </view>
-        <scroll-view scroll-y="true" class="scroll u-mar-t20">
-          <steps :studentCode="studentCode" :month="month"></steps>
-        </scroll-view>
+          <steps ref="steps"></steps>
       </view>
     </view>
   </view>
@@ -26,13 +26,13 @@ export default {
   },
   data () {
     return {
-      dayInfo: {},
       day: new Date(),
       mounth: new Date(),
       selected: [],
       studentCode: '',
       studentName: '',
-      month: ''
+      month: '',
+      choosed: []
     }
   },
   mounted () {
@@ -50,17 +50,17 @@ export default {
   methods: {
     // 正常 迟到(早退) 缺卡 绿色 橙色 红色
     async showState () {
+      this.selected = []
       const req = {
         userCode: store.userInfo.userCode,
         month: this.mounth
       }
       const res = await actions.teacherStaticState(req)
       res.data.forEach(ele => {
-        if (!ele.staue) {
-          this.selected.push({	
-            date: this.$tools.getDateTime(ele.date)
-          })
-        }
+        this.selected.push({	
+          date: this.$tools.getDateTime(ele.date),
+          staue: !ele.staue
+        })
       })
     },
     monthSwitch (item) {
@@ -75,7 +75,49 @@ export default {
         day: this.day
       }
       const res = await actions.getTeacherAttendance(req)
-      this.dayInfo = res.data
+      this.$refs.steps.dayInfo = [
+          {
+            id:'1',
+            title: '上午班',
+            item:[
+              {
+                id:'1',
+                title: '上班',
+                morningOnRealTime: res.data ? res.data.morningOnRealTime : 0,
+                morningOnSnacpUrl: res.data ? res.data.morningOnSnacpUrl : '',
+                morningOnState: res.data ? res.data.morningOnState : ''
+              },
+              {
+                id:'2',
+                title: '下班',
+                morningOffRealTime: res.data ? res.data.morningOffRealTime : 0,
+                morningOffSnacpUrl: res.data ? res.data.morningOffSnacpUrl : '',
+                morningOffState: res.data ? res.data.morningOffState : ''
+              }
+            ]
+        } ,
+        {
+          id:'2',
+          title: '下午班',
+          item:[
+              {
+                id:'1',
+                title: '上班',
+                noonOnRealTime: res.data ? res.data.noonOnRealTime : 0,
+                noonOnSnacpUrl: res.data ? res.data.noonOnSnacpUrl : '',
+                noonOnState: res.data ? res.data.noonOnState : ''
+              },
+              {
+                id:'2',
+                title: '下班',
+                noonOffState: res.data ? res.data.noonOffState : 0,
+                noonOffSnacpUrl: res.data ? res.data.noonOffSnacpUrl : '',
+                noonOffRealTime: res.data ? res.data.noonOffRealTime : ''
+              }
+          ]
+        }
+      ]
+      console.log('this.$refs.steps.dayInfo',this.$refs.steps.dayInfo)
     },
     change (data) {
       this.day = data.fulldate
@@ -87,32 +129,55 @@ export default {
 
 <style lang="scss" scoped>
 .attendance {
+  height: calc(100vh - 10rpx);
+  overflow-y: scroll;
   .record-box {
-    margin-top: 20rpx;
-    background-color: $uni-bg-color;
-    .work-box {
-      padding: 30rpx 40rpx;
-      border-bottom: 1rpx solid ￥u-border-color-dark;
-      image {
-        height: 80rpx;
-        width: 80rpx;
-      }
-      .work-title {
-        margin-top: 20rpx;
-      }
-      .normal-title {
-        color: $u-type-success;
-      }
-      .absence-title {
-        color: $u-tips-color;
-      }
-      .unnormal-title {
-        color: $u-type-warning;
-      }
-    }
+    margin-top: 570rpx;
+    width: 92%;
+    margin-left: 4%;
   }
 }
-.scroll {
-  height: calc(100vh - 900rpx);
+.calendar-bg {
+  height: 268rpx;
+  background: url('/mobile-img/date-bg.png') no-repeat center; 
+  background-size: 100% 100%;
+  position: relative;
+  .calendar{
+    left: 4%;
+    width: 92%;
+    height: 750rpx;
+    position: absolute;
+    margin-top: 60rpx;
+  }
+}
+.title {
+  image {
+    width: 32rpx;
+    height: 28rpx;
+  }
+}
+/deep/ .uni-calendar-item__weeks-box-item {
+  width: 88rpx;
+  height: 88rpx;
+}
+/deep/ .uni-calendar__header {
+  background-color: #fff;
+  color: #000;
+}
+/deep/ .uni-calendar__weeks-day{
+  border: none;
+}
+/deep/ .uni-calendar-item--checked{
+  border-radius: 50%;
+}
+/deep/ .uni-calendar-item--isDay{
+  border-radius: 50%;
+}
+/deep/ .uni-calendar__header{
+  border: none;
+}
+/deep/ .uni-calendar-item__weeks-box-circle{
+  top: 70rpx;
+  right: 36rpx;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <view class="inspect u-pages">
     <scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h u-padd-t20">
-      <no-data v-if="dataList && dataList === 0" msg="暂无数据"></no-data>
+      <no-data v-if="dataList && dataList.length === 0" msg="暂无数据"></no-data>
       <view class="inspect-list u-mar-b20 u-mar-l20 u-mar-r20 u-border-radius" v-for="(item, i) in dataList" :key="i" v-else>
         <view class="detail u-fx u-padd-20 u-mar-b20">
           <view class="info u-fx-ac" @click="detail(item)">
@@ -17,11 +17,11 @@
                 <view>
                   <view class="u-mar-t10">
                     <text class="u-tips-color"> 开始时间： </text>
-                    {{ item.checkTime }}
+                    {{ item.startTime | gmtToDate }}
                   </view>
                   <view class="u-mar-t10">
                     <text class="u-tips-color"> 结束时间： </text>
-                    {{ item.teamLeaderName }}
+                    {{ item.endTime | gmtToDate }}
                   </view>
                 </view>
               </view>
@@ -61,7 +61,7 @@ export default {
     }
   },
   async mounted() {
-    // wxApi.getConfig();
+    wxApi.getConfig();
     eventBus.$on('getList', () => {
     	this.showList()
     })

@@ -6,9 +6,9 @@
 		</view>
 		<view class="task-content u-fx-f1 u-fx-ver u-shadow">
 			<scroll-view scroll-y="true" class="scroll-h">
-				<no-data msg="暂无数据~" v-if="scheduleList.dateSchedulings.length === 0 && scheduleList.timeSchedulings.length === 0"></no-data>
+				<no-data msg="暂无数据~" v-if="scheduleList && scheduleList.dateSchedulings && scheduleList.dateSchedulings.length === 0"></no-data>
 				<view class="u-padd-l20 u-padd-r20" v-else>
-					<view class="task-type u-font-1 u-main-color" v-if="scheduleList.dateSchedulings && scheduleList.dateSchedulings.length !== 0">全天</view>
+					<view class="task-type u-font-1 u-main-color" v-if="scheduleList && scheduleList.dateSchedulings && scheduleList.dateSchedulings.length !== 0">全天</view>
 					<view class="task-info u-padd-r20 u-padd-l20 u-mar-b20 u-fx-jsb u-shadow" v-for="item in scheduleList.dateSchedulings" :key="item.taskId" @click="detail(item)">
 						<view class="u-fx">
 							<view class="task-name u-mar-r20 u-padd-r20 u-padd-l20"> {{ detailInfo.taskType === '1' ? '日常巡查' : detailInfo.taskType === '2' ? '设备巡查' : '安全护导'  }} </view>
@@ -27,7 +27,7 @@
 							<u-button :class="['u-font-01','btn',item.state === '1' ? 'day-yes' : 'day-no' ]" type="primary" shape="square" size="mini">{{ item.state === '1' ? '已完成' : '待完成'}}</u-button>
 						</view>
 					</view>
-					<view class="task-type u-font-1 u-main-color" v-if="scheduleList.timeSchedulings && scheduleList.timeSchedulings.length !== 0">限时</view>
+					<view class="task-type u-font-1 u-main-color" v-if="scheduleList && scheduleList.timeSchedulings && scheduleList.timeSchedulings.length !== 0">限时</view>
 					<view class="task-info u-padd-r20 u-padd-l20 u-mar-b20 u-fx-jsb u-shadow" v-for="item in scheduleList.timeSchedulings" :key="item.taskId" @click="detail(item)">
 						<view class="u-fx">
 							<view class="task-name time-yes u-padd-r20 u-padd-l20 u-mar-r20"> {{ item.taskType === '1' ? '日常巡查' : item.taskType === '2' ? '设备巡查' : '安全护导'  }} </view>
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+  import vConsole from 'vconsole'
 	import eventBus from '@u/eventBus'
 	import { store, actions } from './store/index.js'
 	export default {
@@ -63,16 +64,18 @@
 				eduUser: false,
 				isShow: false,
 				num: 0,
-				morePage: false
+				morePage: false,
+				scheduleList: []
 			}
 		},
 		mounted() {
+      new vConsole()
 			eventBus.$on('getList', () => {
 				this.myScheduleGet()
 			})
 			this.schoolCode = this.$tools.getQuery().get("schoolCode")
-    	this.userCode= this.$tools.getQuery().get("userCode")
-    	this.date= this.$tools.getQuery().get("date")
+    	this.userCode= this.$tools.getQuery().get("code")
+      this.date= this.$tools.getQuery().get("date")
 			this.myScheduleGet()
 		},
 		methods: {

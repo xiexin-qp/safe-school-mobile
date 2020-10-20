@@ -83,15 +83,17 @@ export default {
 				category: this.userType
 			};
 			if (this.commentInfo && this.commentInfo.createUsercode !== this.userCode) {
-				req.replyPhotoUrl = this.commentInfo.createPhotoUrl;
-				req.replyUsercode = this.commentInfo.createUsercode;
-				req.replyUsername = this.commentInfo.createUsername;
+				req.replyPhotoUrl = this.commentInfo.createPhotoUrl
+				req.replyUsercode = this.commentInfo.createUsercode
+				req.replyUsername = this.commentInfo.createUsername
+				req.replyRelationship = this.commentInfo.createRelationship
+				req.replyChildrenName = this.commentInfo.childrenName
+				req.replyChildrenCode = this.commentInfo.childrenCode
 			}
 			if(this.userType === 3){
-				req.childrenCode = uni.getStorageSync('bindInfo').userCode,
-				req.childrenName = uni.getStorageSync('bindInfo').userName,
-				req.childrenPhotoUrl = uni.getStorageSync('bindInfo').photoUrl,
-				req.relationship = uni.getStorageSync('bindInfo').relationship
+				req.childrenCode = this.userCode,
+				req.childrenName = this.userName,
+				req.createRelationship = this.relationship
 			}
 			console.log(req);
 			const res = await actions.addComment(req);

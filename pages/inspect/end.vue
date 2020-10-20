@@ -111,13 +111,15 @@ export default {
             ...this.formData,
             track: this.track
           }
-          req.pictureList = this.formData.photoUrl.map((el) => {
-            if (el.indexOf('http') === -1) {
-              return el.split(',')[1]
-            } else {
-              return el
-            }
-          })
+          if(this.formData.photoUrl && this.formData.photoUrl.length > 0){
+            req.pictureList = this.formData.photoUrl.map((el) => {
+              if (el.indexOf('http') === -1) {
+                return el.split(',')[1]
+              } else {
+                return el
+              }
+            })
+          }
           actions.endInspect(req).then((res) => {
             this.$tools.toast('上报成功')
             this.$tools.goNext(() => {

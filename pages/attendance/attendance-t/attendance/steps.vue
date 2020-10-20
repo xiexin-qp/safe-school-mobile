@@ -1,8 +1,7 @@
 <template>
 	<view class="container">
-		<no-data v-if="attandenceInfo.length === 0" msg="暂无数据"></no-data>
-		<view v-else>
-      <view class="set_box" v-for="list in attandenceInfo" :key="list.id">
+		<view>
+      <view class="set_box" v-for="list in dayInfo" :key="list.id">
         <view class="set_time u-tx-r">
           <view class="u-mar-l20 u-mar-t40">{{list.title}}</view>
         </view>
@@ -11,36 +10,64 @@
           <view class="set-2">
             <view class="right u-fx u-mar-l20">
               <view>
-                <u-icon name="/mobile-img/Default_touxiang@2x.png" size="100"></u-icon>
+                <image 
+                  v-if="list.item[0].title === '上班'"
+                  :src="list.item[0].morningOnSnacpUrl ? list.item[0].morningOnSnacpUrl : '/mobile-img/Default_touxiang@2x.png'"
+                  ></image>
+                <image 
+                  v-if="list.item[0].title === '下班'" 
+                  :src="list.item[0].noonOnSnacpUrl ? list.item[0].noonOnSnacpUrl : '/mobile-img/Default_touxiang@2x.png'"
+                  ></image>
               </view>
               <view class="u-fx-ver u-mar-l40">
-                <text class="detail">上班打卡
-                  <text class="state">
+                <view class="detail">上班打卡
+                  <view class="state">
                     <u-tag text="迟到" mode="dark" />
-                  </text>
-                </text>
-                <text class="u-mar-t20">
-                  <u-icon name="/mobile-img/kq-time.png" size="24"></u-icon>
-                  <text class="u-mar-l10"> 20:20 </text>
-                </text>
+                  </view>
+                </view>
+                <view class="time u-mar-t20 u-fx-ac">
+                  <image src="/mobile-img/kq-time.png"></image>
+                  <view v-if="list.item[0].title === '上班'" class="u-mar-l10"> 
+                    <text v-if="list.item[1].morningOnRealTime"> {{list.item[1].morningOnRealTime | gmtToDate('time')}} </text>
+                    <text v-else> --:-- </text>
+                  </view>
+                  <view v-if="list.item[0].title === '下班'" class="u-mar-l10">
+                    <text v-if="list.item[1].noonOnRealTime"> {{list.item[1].noonOnRealTime | gmtToDate('time')}} </text>
+                    <text v-else> --:-- </text>
+                  </view>
+                </view>
               </view>
             </view>
           </view>
           <view class="set-2">
             <view class="right u-fx u-mar-l20 u-mar-t40">
               <view>
-                <u-icon name="/mobile-img/Default_touxiang@2x.png" size="100"></u-icon>
+                <image 
+                  v-if="list.item[1].title === '上班'" 
+                  :src="list.item[1].morningOffSnacpUrl ? list.item[1].morningOffSnacpUrl : '/mobile-img/Default_touxiang@2x.png'" 
+                  ></image>
+                <image 
+                  v-if="list.item[1].title === '下班'" 
+                  :src="list.item[1].noonOffSnacpUrl ? list.item[1].noonOffSnacpUrl : '/mobile-img/Default_touxiang@2x.png'" 
+                  ></image>
               </view>
               <view class="u-fx-ver u-mar-l40">
-                <text class="detail">下班打卡
-                  <text class="state">
+                <view class="detail">下班打卡
+                  <view class="state">
                     <u-tag text="迟到" mode="dark" />
-                  </text>
-                </text>
-                <text class="u-mar-t20">
-                  <u-icon name="/mobile-img/kq-time.png" size="24"></u-icon>
-                  <text class="u-mar-l10"> 20:20 </text>
-                </text>
+                  </view>
+                </view>
+                <view class="time u-mar-t20 u-fx-ac">
+                  <image src="/mobile-img/kq-time.png"></image>
+                  <view v-if="list.item[1].title === '上班'" class="u-mar-l10"> 
+                    <text v-if="list.item[1].morningOffRealTime"> {{list.item[1].morningOffRealTime | gmtToDate('time')}} </text>
+                    <text v-else> --:-- </text>
+                  </view>
+                  <view v-if="list.item[1].title === '下班'" class="u-mar-l10"> 
+                    <text v-if="list.item[1].noonOffRealTime"> {{list.item[1].noonOffRealTime | gmtToDate('time')}} </text>
+                    <text v-else> --:-- </text>
+                  </view>
+                </view>
               </view>
             </view>
           </view>
@@ -55,38 +82,12 @@ import { store, actions } from '../store/index.js'
 	export default {
 		data() {
 			return {
-				talk: [],
-				attandenceInfo:[{
-          id:'1',
-          title: '上午班',
-          item:[{
-            id:'1',
-          title: '上午班',
-          }]
-        },
-        {
-          id:'2',
-          title: '下午班'
-        }],
-				month: '',
-				studentCode: ''
+        dayInfo: []
 			}
-		},
-		mounted() {
-			// this.studentCode =  this.$tools.getQuery().get('userCode') 
-    	// this.month = this.$tools.getQuery().get('month') 
-			// this.showList()
-		},
-		methods: {
-			async showList () {
-				const req = {
-					month: this.month,
-					studentCode: this.studentCode
-				}
-				const res = await actions.studentMonthRecord(req)
-				this.attandenceInfo = res.data
-			}
-		}
+    },
+    methods: {
+      
+    }
 	}
 </script>
 
@@ -207,6 +208,17 @@ import { store, actions } from '../store/index.js'
           border: none;
         }
       }
+    }
+  }
+  image {
+    width: 88rpx;
+    height: 88rpx;
+    border-radius: 50%;
+  }
+  .time {
+    image {
+      width: 20rpx;
+      height: 20rpx;
     }
   }
 </style>

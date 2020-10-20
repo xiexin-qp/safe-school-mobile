@@ -63,12 +63,12 @@
 					</view>
 					<view class="u-padd-20 thumbinfo " v-if="item.commentList.length > 0">
 						<view class="u-padd-b10" v-for="(comment, index) in item.commentList" :key="index">
-							<text class="" v-if="!comment.replyUsercode">{{ comment.childrenName || comment.createUsername }}：</text>
+							<text class="" v-if="!comment.replyUsercode || comment.childrenName === comment.replyChildrenName">{{ comment.childrenCode ? (comment.childrenName + getParentType(comment.createRelationship)) : comment.createUsername }}：</text>
 							<text class="" v-else>
-								{{ comment.childrenName || comment.createUsername }}
+								{{ comment.childrenCode ? (comment.childrenName + getParentType(comment.createRelationship)) : comment.createUsername }}
 								<text class="u-type-info">回复</text>
 							</text>
-							<text v-if="comment.replyUsercode" class="">{{ comment.replyUsername }}：</text>
+							<text v-if="comment.replyUsercode && comment.childrenName !== comment.replyChildrenName" class="">{{ comment.replyChildrenCode ? (comment.replyChildrenName + getParentType(comment.replyRelationship)) : comment.replyUsername }}：</text>
 							<text class="u-content-color" @tap.stop="handleComment(item, comment)">{{ comment.msg }}</text>
 							<text v-if="userType === 1 || (comment.childrenCode ? comment.childrenCode === userCode : comment.createUsercode === userCode )" class="u-type-primary-dark u-mar-l10 u-font-02" @tap.stop="delComment(comment.id)">删除</text>
 						</view>
@@ -80,6 +80,7 @@
 </template>
 
 <script>
+import Tools from '../../../utils/tools.js'
 import { store, actions } from '../store/index.js';
 export default {
 	props: {
@@ -159,6 +160,30 @@ export default {
 				}
 			});
 		},
+		getParentType(type) {
+		  let msg = ''
+		  switch (parseInt(type)) {
+		    case 1:
+		      msg = '爸爸'
+		      break
+		    case 2:
+		      msg = '妈妈'
+		      break
+		    case 3:
+		      msg = '爷爷'
+		      break
+		    case 4:
+		      msg = '奶奶'
+		      break
+		    case 5:
+		      msg = '家长'
+		      break
+		    default:
+		      msg = '家长'
+		      break
+		  }
+		  return msg
+		},
 		clickThumb(item, index) {
 			if(item.isLike){
 				this.newsList[index].isLike = false
@@ -185,6 +210,7 @@ export default {
 		},
 		//点击评论 唤出输入框和键盘
 		handleComment(item, comment) {
+			console.log(item)
 			this.$emit('handleComment', item, comment);
 		},
 		goNewList() {
