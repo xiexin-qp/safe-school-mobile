@@ -6,48 +6,17 @@
 import hostEnv from '../../../../config/index.js'
 const baseData1Api = {
   // 场地管理
-  getSiteList: '/place/manage/getFirstStagePlaceList#get', // 查询场地信息列表
-  getChildSite: '/place/manage/getPlaceManageList#post', // 查询场地子节点列表
+  getbillInfo: '/billInfo/page#post', // 账单列表
+  getbillDetail: '/billInfo/info#getUrl', //  获取账单详细
+  getchargeTaskList: '/chargeTaskInfo/page#post', // 收费任务列表
+  getCharge: '/taskItemRelation/getChargeItemByCode#getUrl' // 收费项列表
 
-}
-const baseData2Api = {
-  // 组织机构
-  getOrgBySchool: '/school/org/getSchoolRoot#getUrl', // 查询组织机构
-  getOrgList: '/school/org/detail#getUrl', // 通过组织结构Id查询组织结构
-
-  // 年级管理
-  getSchoolYear: '/schoolYearSemester/list#postForm', // 查询学年列表
-  getGradeData: '/grade/manage/list#postForm', // 查询年级列表
-
-  // 班级管理
-  getClassData: '/classManage/list#post', // 查询班级列表
-
-  //教师管理
-  getTeacherList: '/userinfo/teacher/user/queryTeacherInfo#post', // 查询教职工列表
-  getNoneTeacher: '/userinfo/teacher/user/node/teachers#post', // 查询无组织机构教职工
-}
-let zkApi = {
-  //物品领用
-  getTypeList: '/material/type/getPage#post', // 物品分类列表
-  getNameList: '/material/name/getPage#post', // 物品分类列表
-  getcollectionList: '/collection/form/list#post', //列表查询
-  getcollectionDetail: '/collection/form/detail/#getUrl', //查询申请详情
-  addCollection: '/collection/form/saveOrUpdate#post', //新增领用
-  updateState: '/collection/form/updateState#get', //更新申请单状态
 }
 
 for (const val in baseData1Api) {
-  baseData1Api[val] = `${hostEnv.zk_school}${baseData1Api[val]}`
-}
-for (const val in baseData2Api) {
-  baseData2Api[val] = `${hostEnv.lz_user_center}${baseData2Api[val]}`
-}
-for (let val in zkApi) {
-  zkApi[val] = `${hostEnv.cl_oa}${zkApi[val]}`
+  baseData1Api[val] = `${hostEnv.wxz_pay}${baseData1Api[val]}`
 }
 
 export default {
   ...baseData1Api,
-  ...baseData2Api,
-  ...zkApi
 }

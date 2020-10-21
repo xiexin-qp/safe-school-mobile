@@ -279,10 +279,10 @@
 			"path": "pages/praise-column/praise-column-p/index",
 			"style": {}
 		}, {
-			"path": "pages/praise-column/praise-column-p/index",
+			"path": "pages/praise-column/praise-column-p/detail",
 			"style": {}
 		},
-		 // 缴费模块
+		// 缴费模块
 		{
 			"path": "pages/campus-payment/campus-payment-p/detail"
 		},
