@@ -3,7 +3,7 @@
     <view>
       <view class="calendar-bg">
         <view class="calendar u-border-radius u-padd-l40 u-padd-r40 u-padd-t20 u-padd-b10 u-type-white-bg">
-          <uni-calendar :showMonth="false" @change="change" @monthSwitch="monthSwitch" :selected="selected" :choosed="choosed"></uni-calendar>
+          <uni-calendar :showMonth="false" @change="change" @monthSwitch="monthSwitch" :selected="selected"></uni-calendar>
         </view>
       </view>
       <view class="record-box u-padd-l40 u-padd-r40 u-padd-t20 u-padd-b10 u-type-white-bg u-border-radius">
@@ -31,8 +31,7 @@ export default {
       selected: [],
       studentCode: '',
       studentName: '',
-      month: '',
-      choosed: []
+      month: ''
     }
   },
   mounted () {
@@ -59,7 +58,7 @@ export default {
       res.data.forEach(ele => {
         this.selected.push({	
           date: this.$tools.getDateTime(ele.date),
-          staue: !ele.staue
+          staue: ele.staue
         })
       })
     },
@@ -83,14 +82,14 @@ export default {
               {
                 id:'1',
                 title: '上班',
-                morningOnRealTime: res.data ? res.data.morningOnRealTime : 0,
+                morningOnRealTime: res.data ? res.data.morningOnRealTime : '',
                 morningOnSnacpUrl: res.data ? res.data.morningOnSnacpUrl : '',
                 morningOnState: res.data ? res.data.morningOnState : ''
               },
               {
                 id:'2',
                 title: '下班',
-                morningOffRealTime: res.data ? res.data.morningOffRealTime : 0,
+                morningOffRealTime: res.data ? res.data.morningOffRealTime : '',
                 morningOffSnacpUrl: res.data ? res.data.morningOffSnacpUrl : '',
                 morningOffState: res.data ? res.data.morningOffState : ''
               }
@@ -103,23 +102,26 @@ export default {
               {
                 id:'1',
                 title: '上班',
-                noonOnRealTime: res.data ? res.data.noonOnRealTime : 0,
+                noonOnRealTime: res.data ? res.data.noonOnRealTime : '',
                 noonOnSnacpUrl: res.data ? res.data.noonOnSnacpUrl : '',
                 noonOnState: res.data ? res.data.noonOnState : ''
               },
               {
                 id:'2',
                 title: '下班',
-                noonOffState: res.data ? res.data.noonOffState : 0,
+                noonOffState: res.data ? res.data.noonOffState : '',
                 noonOffSnacpUrl: res.data ? res.data.noonOffSnacpUrl : '',
                 noonOffRealTime: res.data ? res.data.noonOffRealTime : ''
               }
           ]
         }
       ]
-      console.log('this.$refs.steps.dayInfo',this.$refs.steps.dayInfo)
     },
     change (data) {
+      if(data.fulldate === this.$tools.getDateTime(new Date(),'date')){
+        this.mounth = data.fulldate.substring(0, 7)
+        this.showState()
+      }
       this.day = data.fulldate
       this.showList()
     }

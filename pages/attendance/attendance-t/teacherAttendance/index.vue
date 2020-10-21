@@ -157,10 +157,10 @@ export default {
         req.morningOnState = item === '1' ? '5' : item === '2' ? '1' : item === '3' ? '3' : undefined
       } else if(key === '1' && index === 1){
          title = '上午下班'
-        req.morningOffState = item === '1' ? '5': item === '2' ? '2' : item === '3' ? '3' : undefined
+        req.morningOffState = item === '1' ? '5': item === '2' ? '2' : item === '3' ? '6' : undefined
       } else if(key === '2' && index === 0){
          title = '下午上班'
-        req.noonOnState = item === '1' ? '5': item === '2' ? '1' : item === '3' ? '6' : undefined
+        req.noonOnState = item === '1' ? '5': item === '2' ? '1' : item === '3' ? '3' : undefined
       } else if(key === '2' && index === 1){
          title = '下午下班'
         req.noonOffState = item === '1' ? '5' :item === '2' ? '2' : item === '3' ? '6' : undefined
