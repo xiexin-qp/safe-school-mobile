@@ -33,10 +33,11 @@ let host = ''
 let lz_safe = ''
 let zx_subject = ''
 let cl_oa = ''
-let cl_class=''
+let cl_class = ''
 let zk_news = ''
 let zl_uploadFile = ''
 let ljj_user_teacher = ''
+let wxz_pay = ''
 
 if (ConfigEnv === 'production') {
   host = 'http://canpointlive.com'
@@ -67,10 +68,11 @@ if (ConfigEnv === 'production') {
   zk_oa = '/zk_oa'
   zx_subject = '/zx_subject'
   lz_safe = '/lz_safe'
-  cl_class='/cl_class'
-	zk_news='/zk_news'
-	zl_uploadFile='/zl_uploadFile'
-	ljj_user_teacher='/ljj_user_teacher'
+  cl_class = '/cl_class'
+  zk_news = '/zk_news'
+  zl_uploadFile = '/zl_uploadFile'
+  ljj_user_teacher = '/ljj_user_teacher'
+  wxz_pay = '/wxz_pay'
 } else if (ConfigEnv === 'development') {
   host = 'http://canpointlive.com'
   zx_mobile_user = '/zx_mobile_user'
@@ -99,11 +101,12 @@ if (ConfigEnv === 'production') {
   zk_oa = '/zk_oa'
   lz_safe = '/lz_safe'
   cl_oa = '/zk_oa'
-  cl_class='/cl_class'
-	zk_news='/zk_news'
-	zx_subject='/zx_subject'
-	zl_uploadFile='/zl_uploadFile'
-	ljj_user_teacher='/ljj_user_teacher'
+  cl_class = '/cl_class'
+  zk_news = '/zk_news'
+  zx_subject = '/zx_subject'
+  zl_uploadFile = '/zl_uploadFile'
+  ljj_user_teacher = '/ljj_user_teacher'
+  wxz_pay = '/wxz_pay'
 
 }
 
@@ -140,5 +143,6 @@ export default {
   cl_class,
   zl_uploadFile,
   zk_news,
-  ljj_user_teacher
+  ljj_user_teacher,
+  wxz_pay
 }

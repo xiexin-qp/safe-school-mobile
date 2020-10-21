@@ -1,26 +1,27 @@
 <template>
   <view class="site u-page">
+    <choose-child @change="childInfo"></choose-child>
     <tab-menu :data-list="list" @change="tabChange"></tab-menu>
     <no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
     <scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
       <view class="u-auto">
         <view
-          class="u-padd-20 u-bg-fff u-border-radius"
+          class="u-padd-40 u-bg-fff u-border-radius"
           v-for="(item, i) in dataList"
           :key="i"
-          @click="goDetail(item.id)"
+          @click="goDetail(item)"
         >
           <view class="u-fx-jsb u-fx-ac">
             <view class="u-fx-ver">
-              <view class="title u-main-color u-mar-b20 u-font-2">{{
-                item.name
+              <view class="u-main-color u-mar-b20 u-font-1">{{
+                item.billName
               }}</view>
               <view class="u-type-info-dark">{{
                 item.createTime | gmtToDate("dateTime")
               }}</view>
             </view>
             <view class="tag">
-              <view>{{ item.payMoney }}.00</view>
+              <view>{{ item.billMoney }}.00</view>
             </view>
           </view>
           <view class="u-bd-x u-mar-t20 u-mar-b20"></view>
@@ -33,9 +34,11 @@
 import eventBus from "@u/eventBus";
 import noData from "@/components/no-data/no-data.vue";
 import { store, actions } from "./store/index.js";
+import chooseChild from "@/components/choose-child/choose-child.vue";
 export default {
   components: {
     noData,
+    chooseChild,
   },
   data() {
     return {
@@ -44,57 +47,7 @@ export default {
         size: 15,
       },
       morePage: false,
-      dataList: [
-        {
-          name: "2020学费",
-          createTime: "2020-10-15",
-          payMoney: "2000",
-          id: "1",
-        },
-        {
-          name: "2020学费",
-          createTime: "2020-10-15",
-          payMoney: "2000",
-          id: "1",
-        },
-        {
-          name: "2020学费",
-          createTime: "2020-10-15",
-          payMoney: "2000",
-          id: "1",
-        },
-        {
-          name: "2020学费",
-          createTime: "2020-10-15",
-          payMoney: "2000",
-          id: "1",
-        },
-        {
-          name: "2020学费",
-          createTime: "2020-10-15",
-          payMoney: "2000",
-        },
-        {
-          name: "2020学费",
-          createTime: "2020-10-15",
-          payMoney: "2000",
-        },
-        {
-          name: "2020学费",
-          createTime: "2020-10-15",
-          payMoney: "2000",
-        },
-        {
-          name: "2020学费",
-          createTime: "2020-10-15",
-          payMoney: "2000",
-        },
-        {
-          name: "2020学费",
-          createTime: "2020-10-15",
-          payMoney: "2000",
-        },
-      ],
+      dataList: [],
       list: [
         {
           name: "待缴费",
@@ -110,11 +63,16 @@ export default {
     };
   },
   async mounted() {
-    //this.showList();
+    this.showList();
   },
   methods: {
+    childInfo(item) {
+      if (item.userCode !== this.userCode) {
+        this.userCode = item.userCode;
+        this.showList();
+      }
+    },
     tabChange(item) {
-      console.log(item);
       this.current = item;
       this.pageList.page = 1;
       this.showList();
@@ -126,20 +84,20 @@ export default {
         this.pageList.page = 1;
       }
       const req = {
-        ...this.pageList,
+        pageNum: this.pageList.page,
+        pageSize: this.pageList.size,
         schoolCode: store.userInfo.schoolCode,
-        userCode: store.userInfo.userCode,
-        queryType: this.current === 0 ? 1 : this.current === 1 ? 2 : 3,
-        state: this.value0,
+        userCode: this.userCode,
+        billStatus: this.current === 0 ? 1 : this.current === 1 ? 4 : 2,
       };
-      // const res = await actions.getcollectionList(req);
-      // this.total = res.data.total;
-      // if (tag) {
-      //   this.dataList = this.dataList.concat(res.data.list);
-      // } else {
-      //   this.dataList = res.data.list;
-      // }
-      // this.morePage = res.data.hasNextPage;
+      const res = await actions.getbillInfo(req);
+      this.total = res.data.total;
+      if (tag) {
+        this.dataList = this.dataList.concat(res.data.records);
+      } else {
+        this.dataList = res.data.records;
+      }
+      this.morePage = res.data.hasNextPage;
     },
     loadMore() {
       if (!this.morePage) {
@@ -148,9 +106,9 @@ export default {
       }
       this.showList(true);
     },
-    goDetail(id) {
+    goDetail(item) {
       this.$tools.navTo({
-        url: "./detail?id=" + id,
+        url: "./detail?id=" + item.id + "&taskCode=" + item.taskCode,
         title: "查看",
       });
     },
