@@ -37,8 +37,7 @@ export default {
   },
   mounted() {
     this.req = JSON.parse(this.$tools.getQuery().get('req'))
-    this.req.schoolCode = 'CANPOINTAI'
-    // this.req.schoolCode = store.userInfo.schoolCode
+    this.req.schoolCode = store.userInfo.schoolCode
     this.showList()
   },
   methods: {
