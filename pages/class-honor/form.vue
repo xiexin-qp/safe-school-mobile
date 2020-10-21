@@ -130,6 +130,8 @@ export default {
 				schoolCode: store.userInfo.schoolCode,
 				gradeCode: uni.getStorageSync('bindInfo').gradeCode,
 				classCode: uni.getStorageSync('bindInfo').classCode,
+				gradeName: uni.getStorageSync('bindInfo').gradeName,
+				className: uni.getStorageSync('bindInfo').className,
 				photoUrl: this.fileList.length > 0 ? this.fileList[0].url : '',
 				photoId: this.fileList.length > 0 ? this.photoId : ''
 			};

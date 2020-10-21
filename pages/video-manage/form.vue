@@ -40,7 +40,6 @@ export default {
 			id: '',
 			classCode: '',
 			schoolYearId: '',
-			uploadUrl: '',
 			fileName: '',
 			videoSrc: '',
 			percent: 0,
@@ -49,21 +48,43 @@ export default {
 	},
 	computed: {},
 	created() {
-		this.uploadUrl = `${hostEnv.zk_news}/school/media/uploadFile?schoolCode=${store.userInfo.schoolCode}&videoName=${this.fileName}`;
 	},
 	async mounted() {},
 	methods: {
 		chooseUploads() {
+			if(this.uploadTag){
+				this.uploadTag = false
+				this.percent = 0
+				this.$tools.closeUpload()
+			}
 			uni.chooseVideo({
 				sourceType: ['camera', 'album'],
 				success: res => {
 					console.log(res);
-					if (Math.ceil(res.size / 1024) < 100 * 1024) {
-						this.videoSrc = res.tempFilePath;
+					if (Math.ceil(res.size / 1024) < 500 * 1024) {
+						this.uploadTag = true
+						this.fileType = res.tempFile.name.split('.')[1];
+						this.$tools.ossUpload(
+							store.userInfo.schoolCode,
+							res.tempFile,
+							this.fileType,
+							res => {
+								console.log(res); // 直接返回路径
+								if (res.code === 200) {
+									this.uploadTag = false;
+									this.videoSrc = res.data.url
+								} else {
+									this.$tools.toast(res.data);
+								}
+							},
+							uploadPercent => {
+								this.percent = uploadPercent
+							}
+						);
 					} else {
 						uni.showModal({
 							title: '提示',
-							content: `限制视频大小100MB，该视频已超出`
+							content: `限制视频大小500MB，该视频已超出`
 						});
 					}
 				},
@@ -76,7 +97,7 @@ export default {
 		},
 		delImage() {
 			this.$tools.delTip('确定删除吗？', () => {
-				this.uploadTag = false
+				this.uploadTag = false;
 				this.videoSrc = '';
 				if (this.uploadTask) {
 					this.uploadTask.abort();
@@ -84,7 +105,7 @@ export default {
 			});
 		},
 		async confirm() {
-			if(this.uploadTag){
+			if (this.uploadTag) {
 				this.$tools.toast('正在上传中，请稍候');
 				return;
 			}
@@ -93,29 +114,19 @@ export default {
 				return;
 			}
 			if (this.videoSrc === '') {
-				this.$tools.toast('请选择视频');
+				this.$tools.toast('请上传视频');
 				return;
 			}
-			this.$emit('progress', false);
-			this.uploadTask = uni.uploadFile({
-				url: `${hostEnv.zk_news}/school/media/uploadFile?schoolCode=${store.userInfo.schoolCode}&videoName=${this.fileName}`,
-				filePath: this.videoSrc,
-				name: 'multipartFile',
-				success: uploadFileRes => {
-					this.uploadTag = false
-					this.$tools.toast('上传成功', 'success');
-					this.$tools.goNext(() => {
-						eventBus.$emit('getList');
-						this.$tools.goBack();
-					});
-				}
-			});
-			this.uploadTask.onProgressUpdate(res => {
-				/* console.log('上传进度' + res.progress);
-				console.log('已经上传的数据长度' + res.totalBytesSent);
-				console.log('预期需要上传的数据总长度' + res.totalBytesExpectedToSend); */
-				this.uploadTag = true
-				this.percent = res.progress
+			await actions.addNewVideo({
+				videoName: this.fileName,
+				videoUrl: this.videoSrc,
+				schoolCode: store.userInfo.schoolCode,
+				fileType: this.fileType
+			})
+			this.$tools.toast('提交成功', 'success');
+			this.$tools.goNext(() => {
+				eventBus.$emit('getList');
+				this.$tools.goBack();
 			});
 		}
 	}
@@ -190,7 +201,7 @@ export default {
 	right: -10rpx;
 	z-index: 9;
 }
-.progress{
+.progress {
 	position: fixed;
 	top: 50%;
 	left: 50%;

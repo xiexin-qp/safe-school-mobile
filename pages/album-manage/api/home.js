@@ -29,7 +29,7 @@ const zkApi = {
 }
 
 for (let val in zkApi) {
-  zkApi[val] = `${hostEnv.zk_news}${zkApi[val]}`
+  zkApi[val] = `${hostEnv.zq_news}${zkApi[val]}`
 }
 
 export default {

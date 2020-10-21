@@ -10,7 +10,7 @@
 						:schoolCode="userInfo.schoolCode"
 						:types="type === '1' ? 'image' : 'video'"
 						:uploadCount="type === '1' ? 9 : 1"
-						:upload_max="100"
+						:upload_max="500"
 						@success="success"
 						@delImage="delImage"
 						@progress="progress"

@@ -226,7 +226,7 @@
                     }
                 },
                 "/zq_news" : {
-                    "target" : "http://192.168.2.242:11011/", //张琦，信息发布
+                    "target" : "http://192.168.1.193:11011/", //张琦，信息发布
                     "changeOrigin" : true,
                     "pathRewrite" : {
                         "^/zq_news" : ""
