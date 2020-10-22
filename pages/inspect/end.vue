@@ -109,7 +109,8 @@ export default {
         this.$tools.confirm('确定上报巡查结果吗？', () => {
           let req = {
             ...this.formData,
-            track: this.track
+            track: this.track,
+            id: this.inspectId
           }
           if(this.formData.photoUrl && this.formData.photoUrl.length > 0){
             req.pictureList = this.formData.photoUrl.map((el) => {
