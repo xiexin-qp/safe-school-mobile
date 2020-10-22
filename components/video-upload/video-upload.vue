@@ -162,25 +162,26 @@ export default {
 											} else {
 												this.$emit('progress', false);
 												this.$tools.ossUpload(this.schoolCode, data, 'png', res => {
-													console.log(res) // 直接返回路径
-													uni.hideLoading();
-													this.successTag = true;
-													let imgInfo = {};
-													imgInfo = res;
-													if (this.desTag) {
-														imgInfo.photoDes = '添加描述';
+													console.log(res); // 直接返回路径
+													if (res.code === 200) {
+														uni.hideLoading();
+														this.successTag = true;
+														let imgInfo = {};
+														imgInfo = res.data;
+														if (this.desTag) {
+															imgInfo.photoDes = '添加描述';
+														}
+														if (this.uploads.length >= this.uploadCount) {
+															this.$tools.toast(`图片数量不能超过${this.uploadCount}张`);
+															return;
+														}
+														this.uploads.unshift(imgInfo);
+														this.$emit('success', res.data);
+														this.$emit('progress', true);
+													} else {
+														this.$tools.toast(res.data);
 													}
-													if (this.uploads.length >= this.uploadCount) {
-														this.$tools.toast(`图片数量不能超过${this.uploadCount}张`)
-														return
-													}
-													this.uploads.unshift(imgInfo);
-													this.$emit(
-														'success',
-														res
-													);
-													this.$emit('progress', true);
-												})
+												});
 												/* this.uploadTask = uni.uploadFile({
 													url: this.uploadUrl, //仅为示例，非真实的接口地址
 													filePath: data,
@@ -241,15 +242,19 @@ export default {
 								});
 								this.$emit('progress', false);
 								console.log(res.tempFile.type);
-								const fileType = res.tempFile.name.split('.')[1]
+								const fileType = res.tempFile.name.split('.')[1];
 								this.$tools.ossUpload(this.schoolCode, res.tempFile, fileType, res => {
-									console.log(res) // 直接返回路径
-									uni.hideLoading();
-									this.successTag = true;
-									this.uploads.unshift(res)
-									this.$emit('success', res);
-									this.$emit('progress', true);
-								})
+									console.log(res); // 直接返回路径
+									if (res.code === 200) {
+										uni.hideLoading();
+										this.successTag = true;
+										this.uploads.unshift(res.data);
+										this.$emit('success', res.data);
+										this.$emit('progress', true);
+									} else {
+										this.$tools.toast(res.data);
+									}
+								});
 								/* this.uploadTask = uni.uploadFile({
 									url: this.uploadUrl, //仅为示例，非真实的接口地址
 									filePath: res.tempFilePath,
