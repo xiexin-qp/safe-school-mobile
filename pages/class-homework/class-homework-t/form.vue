@@ -216,6 +216,7 @@ export default {
 					...this.formData,
 					...this.schoolInfo,
 					createUsercode: store.userInfo.userCode,
+					createUserName: store.userInfo.userName,
 					attachList: this.formData.attachList.map(el => {
 						return {
 							fileName: el.name,

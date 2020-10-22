@@ -40,21 +40,21 @@
 								<view class="td u-bd-1px u-fx-ac-jc">
 									<text>{{ elem.today ? elem.day : elem | chnNumChar() }}</text>
 								</view>
-								<view :id="'10' + 'w' + elem + 'n' + +(i + 1)" class="reset td u-bd-1px u-fx-ac-jc" v-for="(item, i) in classHourList.morningNum" :key="i + '1'"></view>
+								<view :id="'10' + 'w' + (elem.today ? elem.day : elem) + 'n' + +(i + 1)" class="reset td u-bd-1px u-fx-ac-jc" v-for="(item, i) in classHourList.morningNum" :key="i + '1'"></view>
 								<view
-									:id="'20' + 'w' + elem + 'n' + +(i + 1 + classHourList.morningNum)"
+									:id="'20' + 'w' + (elem.today ? elem.day : elem) + 'n' + +(i + 1 + classHourList.morningNum)"
 									class="reset td u-bd-1px u-fx-ac-jc"
 									v-for="(item, i) in classHourList.forenoonNum"
 									:key="i + '2'"
 								></view>
 								<view
-									:id="'30' + 'w' + elem + 'n' + +(i + 1 + classHourList.morningNum + classHourList.forenoonNum)"
+									:id="'30' + 'w' + (elem.today ? elem.day : elem) + 'n' + +(i + 1 + classHourList.morningNum + classHourList.forenoonNum)"
 									class="reset td u-bd-1px u-fx-ac-jc"
 									v-for="(item, i) in classHourList.afternoonNum"
 									:key="i + '3'"
 								></view>
 								<view
-									:id="'40' + 'w' + elem + 'n' + +(i + 1 + classHourList.morningNum + classHourList.forenoonNum + classHourList.afternoonNum)"
+									:id="'40' + 'w' + (elem.today ? elem.day : elem) + 'n' + +(i + 1 + classHourList.morningNum + classHourList.forenoonNum + classHourList.afternoonNum)"
 									class="reset td u-bd-1px u-fx-ac-jc"
 									v-for="(item, i) in classHourList.nightNum"
 									:key="i + '4'"
