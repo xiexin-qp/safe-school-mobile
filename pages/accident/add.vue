@@ -219,7 +219,9 @@ export default {
           schoolCode: store.userInfo.schoolCode,
           schoolName: store.userInfo.schoolName,
           status: this.addInfo.statusName === '新填报' ? '1' : this.addInfo.statusName === '处理中' ? '2' : '3',
-          happenTime: this.addInfo.happenTime.replace(/\//g, '-')
+          happenTime: this.addInfo.happenTime.replace(/\//g, '-'),
+          userCode: store.userInfo.userCode,
+          userName: store.userInfo.userName
         }
         actions
           .addAccident({

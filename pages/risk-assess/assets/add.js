@@ -115,6 +115,15 @@ const addData = {
       value: '4',
       label: '老师'
     }
-  ]
+  ],
+  list: [{
+    name: '警告类'
+  }, {
+    name: '禁止类'
+  }, {
+    name: '指令类'
+  }, {
+    name: '提示类'
+  }]
 }
 export default addData

@@ -15,9 +15,9 @@
             <input class="u-font-01" v-model="formData.address" placeholder="请填写您发现的隐患地点" />
           </view>
         </view>
-        <view class="u-fx-ac u-bd-b u-padd-20">
+        <view class="u-fx-ac u-bd-b u-padd-20" @click="userTag =  true">
           <view>负责人：</view>
-          <view class="u-fx-f1 u-fx-je u-light-color" @click="userTag =  true">
+          <view class="u-fx-f1 u-fx-je u-light-color">
             {{formData.leaderName}}
           </view>
           <view class="rit-icon"></view>

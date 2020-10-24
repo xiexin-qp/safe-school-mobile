@@ -9,14 +9,13 @@
         </view>
         <view class="rit-icon"></view>
       </view>
-    <scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h">
-       
+    <scroll-view scroll-y="true" @scrolltolower="loadMore" class="scroll-h u-padd-20">
       <no-data v-if="dataList.length === 0" msg="暂无数据"></no-data>
       <view
         class="approve-list u-border-radius u-type-white-bg"
         v-for="(item, i) in dataList"
         :key="i"
-        @click="goDetail(item.id)"
+        @click="goDetail(item)"
       >
         <view class="detail u-fx-ver u-padd u-mar-b20">
           <view class="u-fx-f1">
@@ -113,11 +112,17 @@ export default {
       }
         this.riskIAssessList_(true);
     },
-    goDetail(id) {
+    goDetail(record) {
+      const req = {
+        name: record.name,
+        checkObject: record.checkObject,
+        riskContent: record.riskContent,
+        accidentType: record.accidentType,
+        methodCode: record.methodCode,
+      }
       this.$tools.navTo({
-        url: "./add?id=" + id,
-        url: `./add?id=${id}&info=`,
-        title: "风险评估",
+        url: `./add?id=${record.id}&req=${JSON.stringify(req)}`,
+        title: "风险评估"
       })
     }
   },

@@ -19,7 +19,7 @@
       <view class="line" v-if="detailInfo.instructReports && detailInfo.instructReports.length > 0"></view>
       <view class="u-padd u-bg-fff" v-if="detailInfo.instructReports && detailInfo.instructReports.length > 0">
         <view class="u-mar-b20" v-for="item in detailInfo.instructReports" :key="item.id">
-          <view class="u-tips-color">{{ item.userName }} 批示 （{{ item.time | gmtToDate }}）:</view>
+          <view class="u-tips-color">{{ item.userName }} {{item.type === '1' ? '批示' : '续报'}} （{{ item.time | gmtToDate }}）:</view>
           <view class="u-mar-t10 u-main-color"> {{ item.content }} </view>
         </view>
       </view>
@@ -30,7 +30,7 @@
           <view class="u-mar-t10 u-main-color"> {{ detailInfo.finishInfo }} </view>
         </view>
       </view>
-      <view class="u-fx-jsb u-padd u-bg-fff" v-if="state === '处理中未批示' || state === '处理中已批示'">
+      <view class="u-fx-jsb u-padd u-bg-fff" v-if="state === '新填报未批示' ||state === '处理中未批示' || state === '处理中已批示'">
         <view class="u-fx-f1">
           <view>学校续报：</view>
           <textarea class="item-text-area u-padd-t20 u-font-02" v-model="content" placeholder="请填写续报内容" />
@@ -38,7 +38,7 @@
         <u-button class="custom-style" :hair-line="false" :loading="loading" @click="submit(1)">续报</u-button>
       </view>
       <view class="line"></view>
-      <view class="u-fx-jsb u-padd u-bg-fff" v-if="state === '处理中未批示' || state === '处理中已批示'">
+      <view class="u-fx-jsb u-padd u-bg-fff" v-if="state === '新填报未批示' || state === '处理中未批示' || state === '处理中已批示'">
         <view class="u-fx-f1">
           <view>结案报告：</view>
           <textarea class="item-text-area u-padd-t20 u-font-02" v-model="finishInfo" placeholder="请填写结案内容" />
@@ -114,7 +114,6 @@ export default {
         return
       }
       if (type === 1) {
-        this.loading = true
         const req = {
           accidentId: this.detailId,
           content: this.content,
@@ -123,10 +122,12 @@ export default {
           userName: store.userInfo.userName
         }
         this.$tools.confirm('确定进行续报吗？', () => {
+          this.loading = true
           actions
             .reportAccident(req)
             .then((res) => {
               this.$tools.toast('续报成功')
+              this.loading = false
               this.$tools.goNext(() => {
                 eventBus.$emit('getList')
                 this.$tools.navTo({
@@ -139,17 +140,20 @@ export default {
             })
         })
       } else {
-        this.conformLoading = true
         const req = {
           finishInfo: this.finishInfo,
-          id: this.detailId
+          id: this.detailId,
+          userCode: store.userInfo.userCode,
+          userName: store.userInfo.userName
         }
         this.$tools.confirm('确定进行结案吗？', () => {
+          this.conformLoading = true
           actions
             .finishAccident(req)
             .then((res) => {
               this.$tools.toast('结案成功')
               this.$tools.goNext(() => {
+                this.conformLoading = false
                 eventBus.$emit('getList')
                 this.$tools.navTo({
                   url: './index'

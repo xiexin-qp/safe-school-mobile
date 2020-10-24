@@ -63,7 +63,7 @@
                   <text>{{ item.nowStatus }} </text>
                 </view>
               </view>
-              <view class="check u-fx-jsb u-mar-t10 u-padd-t10" @click="goDetail(item)">
+              <view class="check u-fx-jsb u-mar-t10 u-padd-t10">
                 <view> 查看详情 </view>
                 <view class="u-tips-color"> > </view>
               </view>
@@ -167,8 +167,7 @@ export default {
         url: './add',
         title: '上报事故'
       })
-    },
-    goDetail() {}
+    }
   }
 }
 </script>

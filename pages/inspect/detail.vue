@@ -23,7 +23,7 @@
           </view>
         </view>
       </view>
-      <view v-if="formData.track && formData.track.length > 0">
+      <view>
         <view class="u-type-white-bg u-mar-t20">
           <view class="u-fx-ver u-bd-b u-padd">
             <view class="tip">值班轨迹：</view>
@@ -42,7 +42,8 @@
           <view class="u-fx-ver u-bd-b u-padd">
             <view class="u-mar-t10">内容上报：</view>
             <view>
-              <textarea class="item-text-area u-font-01" v-model="formData.reportContent" />
+              <view class="u-font-01"></view>
+              <image class="u-mar-t20 u-mar-r20" :src="img" v-for="(img,index) in formData.pictureList" :key="index"></image>
             </view>
           </view>
         </view>
@@ -52,6 +53,7 @@
 </template>
 
 <script>
+  import vConsole from 'vconsole'
   import { store, actions } from './store/index.js'
   export default {
     data () {
@@ -60,6 +62,7 @@
       }
     },
     mounted () {
+      new vConsole()
       this.inspectId = this.$tools.getQuery().get('id') 
 			this.inspectDetailGet()
     },
@@ -67,9 +70,10 @@
        async inspectDetailGet () {
         const res =await actions.getInspectDetail(this.inspectId)
         this.formData = res.data
+        console.log('res.data',this.formData.track.length>0)
         if(this.formData.track.length>0){
-          this.map = new qq.maps.Map(document.getElementById("container"), {
-            center: new qq.maps.LatLng(),
+          this.map = new qq.maps.Map(document.getElementById('container'), {
+            center: new qq.maps.LatLng(res.data.track[0].latitude, res.data.track[0].longitude),
             zoom: 16
           })
           const arr = res.data.track.map(item => {
@@ -94,5 +98,9 @@
 #container {
   width: 300rpx;
   height: 300rpx;
+}
+image {
+  width: 120rpx;
+  height: 120rpx;
 }
 </style>
