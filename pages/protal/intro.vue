@@ -77,12 +77,14 @@
 </template>
 
 <script>
+import chooseChild from '@/components/choose-child/choose-child.vue';
 import eventBus from '@u/eventBus'
 import noData from '@/components/no-data/no-data.vue';
 import { store, actions } from './store/index.js';
 export default {
 	name: 'school-intro',
 	components: {
+		chooseChild,
 		noData
 	},
 	computed: {

@@ -3,8 +3,6 @@
 		"^u-(.*)": "@/uview/components/u-$1/u-$1.vue"
 	},
 	"pages": [
-<<<<<<< HEAD
-=======
 		// 主页模块
 		{
 			"path": "pages/index/index",
@@ -56,7 +54,7 @@
 			"path": "pages/card-consume/billDetail",
 			"style": {}
 		},
-	  {
+		{
 			"path": "pages/card-consume/billStatistics",
 			"style": {}
 		},
@@ -694,19 +692,6 @@
 			"path": "pages/praise-column/praise-column-p/detail",
 			"style": {}
 		},
-/* 		// 缴费模块
-		{
-			"path": "pages/campus-payment/campus-payment-p/detail"
-		},
-		{
-			"path": "pages/campus-payment/campus-payment-p/index"
-		},
-		{
-			"path": "pages/campus-payment/campus-payment-t/detail"
-		},
-		{
-			"path": "pages/campus-payment/campus-payment-t/index"
-		}, */
 		//会议管理
 		{
 			"path": "pages/meet-booking/index",
@@ -814,7 +799,6 @@
 		{
 			"path": "pages/class-newspaper/index"
 		},
->>>>>>> bd02cd1d55d16c2569e4b6ad7c75aa034ad6c0da
 		// 安防系统-安全巡检
 		{
 			"path": "pages/safe/index"
@@ -901,36 +885,6 @@
 		{
 			"path": "pages/inspect/submit"
 		},
-		// 风险评估
-		{
-			"path": "pages/risk-assess/index",
-			"style": {}
-		},
-		{
-			"path": "pages/risk-assess/detail",
-			"style": {}
-		},
-		{
-			"path": "pages/risk-assess/add",
-			"style": {}
-		},
-		// 风险辨识
-		{
-			"path": "pages/risk-identify/index",
-			"style": {}
-		},
-		{
-			"path": "pages/risk-identify/detail",
-			"style": {}
-		},
-		{
-			"path": "pages/risk-identify/add",
-			"style": {}
-		},
-		{
-			"path": "pages/risk-identify/choose",
-			"style": {}
-		},
 		//安全任务
 		{
 			"path": "pages/safety-task/index"
@@ -939,7 +893,7 @@
 			"path": "pages/safety-task/fillIn"
 		},
 		{
-			"path": "pages/safety-task/release"  
+			"path": "pages/safety-task/release"
 		},
 		{
 			"path": "pages/safety-task/postTask"

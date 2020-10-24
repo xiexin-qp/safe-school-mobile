@@ -1,6 +1,8 @@
 <template>
 	<view class="statistics u-page">
-		<view>
+		<choose-child v-if="userType === 1" @change="childInfo"></choose-child>
+		<no-data v-if="noDatatag" msg="未开户，请联系相关人员开户~"></no-data>
+		<view v-else>
 			<view class="year-list">
 				<view class="title">{{ yearTitle.split('-')[0] }}年</view>
 				<view class="last-month u-fx u-fx-jsa">
@@ -14,14 +16,22 @@
 </template>
 
 <script>
+import chooseChild from '@/components/choose-child/choose-child.vue';
+import noData from '@/components/no-data/no-data.vue';
 import { store, actions } from './store/index.js';
 let echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/line');
 import 'echarts/lib/component/title'
 require('echarts/lib/component/tooltip');
 export default {
+	components: {
+		chooseChild,
+		noData
+	},
 	data() {
 		return {
+			noDatatag: false,
+			userType: 2, // 1.学生，2.教职工
 			dataList: [],
 			attandenceInfo: [],
 			lastMonth: this.lastFiveMonth(),
@@ -30,9 +40,37 @@ export default {
 		};
 	},
 	mounted() {
-		this.searchMonth(this.yearTitle);
+		if (store.userInfo.typeCode === '4') {
+			this.userType = 2;
+			this.userCode = store.userInfo.userCode;
+		} else if (store.userInfo.typeCode === '16') {
+			this.userType = 1;
+			this.userCode = store.childList[0].userCode;
+		}
+		this._getAccountInfo();
 	},
 	methods: {
+		// 家长切换学生
+		childInfo(item) {
+			if (item.userCode !== this.userCode) {
+				this.userCode = item.userCode;
+				this._getAccountInfo();
+			}
+		},
+		// 用户账户信息
+		async _getAccountInfo() {
+			const res = await actions.getAccountInfo({
+				schoolCode: store.userInfo.schoolCode,
+				userCode: this.userCode,
+				userType: this.userType
+			});
+			if (!res.data || res.data.length === 0) {
+				this.noDatatag = true;
+				return;
+			}
+			this.noDatatag = false;
+			this.searchMonth(this.yearTitle);
+		},
 		lastFiveMonth(num = 6) {
 			var monthArr = [];
 			var date = new Date();

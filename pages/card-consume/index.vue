@@ -129,8 +129,6 @@ export default {
 		childInfo(item) {
 			if (item.userCode !== this.userCode) {
 				this.userCode = item.userCode;
-				this.userName = item.userName;
-				this.photoUrl = item.photoUrl;
 				this._getAccountInfo();
 			}
 		},
@@ -153,6 +151,7 @@ export default {
 				this.noDatatag = true;
 				return;
 			}
+			this.noDatatag = false;
 			uni.setStorageSync('accountInfo', res.data);
 			this.accountInfo = res.data;
 			this.accountInfo.accountNo = this.plusXing(this.accountInfo.accountNo, 4, 4);
