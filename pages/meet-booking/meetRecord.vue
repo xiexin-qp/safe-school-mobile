@@ -1,34 +1,38 @@
 <template>
 	<view class="u-page u-bg-fff u-auto">
-		<view class="add" v-if="showTag === '1'">
-			<view class="u-fx u-bd-b item-list input-area">
-				<view class="tip">会议纪要：</view>
-				<view class="u-fx-f1 mar-r20"><textarea class="item-input u-content-color" maxlength="200" v-model="recordInfo.content" placeholder="请输入活动心得" /></view>
-			</view>
-			<view class="u-fx u-bd-b item-list">
-				<view>上传图片：</view>
-				<view class="u-fx-f1">
-					<view class="u-fx-f1"><an-upload-img showName total="9" v-model="recordInfo.attachList" class="upload"></an-upload-img></view>
+			<view class="add" v-if="showTag === '1'">
+				<scroll-view scroll-y="true" class="scroll-h">
+				<view class="u-fx u-bd-b item-list input-area">
+					<view class="tip">会议纪要：</view>
+					<view class="u-fx-f1 mar-r20"><textarea class="item-input u-content-color" maxlength="200" v-model="recordInfo.content" placeholder="请输入活动心得" /></view>
 				</view>
-			</view>
-			<view class="submit-btn"><u-button type="primary" @click="submit">提交</u-button></view>
-		</view>
-		<view class="edit" v-else>
-			<view class="u-fx u-bd-b item-list" v-if="recordInfo.attachList.length > 0">
-				<view>图片：</view>
-				<view class="u-fx-f1">
-					<view class="u-fx-f1"><an-upload-img disabled v-model="recordInfo.attachList" class="upload"></an-upload-img></view>
-				</view>
-			</view>
-			<view class="u-fx item-list" v-if="recordInfo.otherList.length > 0">
-				<view>附件：</view>
-				<view class="u-fx-f1">
-					<view v-for="(item, i) in recordInfo.otherList" :key="i">
-						{{ item.fileName }}
-						<u-button class="button mar-l10" type="primary" @click="goDownload(item.fileUrl)">查看</u-button>
+				<view class="u-fx u-bd-b item-list">
+					<view>上传图片：</view>
+					<view class="u-fx-f1">
+						<view class="u-fx-f1"><an-upload-img showName total="9" v-model="recordInfo.attachList" class="upload"></an-upload-img></view>
 					</view>
 				</view>
+				</scroll-view>
+				<view class="submit-btn"><u-button type="primary" @click="submit">提交</u-button></view>
 			</view>
+			<view class="edit" v-else>
+				<scroll-view scroll-y="true" class="scroll-h">
+				<view class="u-fx u-bd-b item-list" v-if="recordInfo.attachList.length > 0">
+					<view>图片：</view>
+					<view class="u-fx-f1">
+						<view class="u-fx-f1"><an-upload-img disabled v-model="recordInfo.attachList" class="upload"></an-upload-img></view>
+					</view>
+				</view>
+				<view class="u-fx item-list" v-if="recordInfo.otherList.length > 0">
+					<view>附件：</view>
+					<view class="u-fx-f1">
+						<view v-for="(item, i) in recordInfo.otherList" :key="i">
+							{{ item.fileName }}
+							<u-button class="button mar-l10" type="primary" @click="goDownload(item.fileUrl)">查看</u-button>
+						</view>
+					</view>
+				</view>
+			</scroll-view>
 			<view class="content u-padd-t u-content-color" v-html="recordInfo.content"></view>
 		</view>
 	</view>
@@ -173,7 +177,7 @@ export default {
 .add {
 	position: relative;
 	.scroll-h {
-		height: calc(100vh - 100rpx);
+		height: calc(100vh - 120rpx);
 	}
 	.scroll-y {
 		height: calc(100vh - 40rpx);

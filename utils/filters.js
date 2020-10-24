@@ -163,6 +163,42 @@ const filters = {
 		}
 		return num
 	},
+	// 交易类型
+	getTradeType: val => {
+		if (val == '1') {
+			return '消费'
+		} else if (val == '2') {
+			return '充值'
+		} else if (val == '3') {
+			return '补助'
+		} else if (val == '4') {
+			return '退款'
+		} else if (val == '5') {
+			return '余额清零'
+		}
+	},
+	// 消费
+	getTradeStatus: val => {
+		if (val == '0') {
+			return '已提交'
+		} else if (val == '1') {
+			return '处理中'
+		} else if (val == '2') {
+			return '已成功'
+		} else if (val == '3') {
+			return '已失败'
+		} else if (val == '4') {
+			return '已退款'
+		}
+	},
+	// 消费方式
+	getConsumeType: val => {
+		if (val == '1') {
+			return '刷卡'
+		} else if (val == '2') {
+			return '刷脸'
+		}
+	},
 	// 访客状态
 	visitState: val => {
 		if (val == '0') {

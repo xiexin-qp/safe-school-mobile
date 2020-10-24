@@ -31,6 +31,7 @@ import achievement from './achievement'
 import safetyTask from './safetyTask'
 import riskAssess from './riskAssess'
 import riskIdentify from './riskIdentify'
+import cardConsume from './cardConsume'
 
 const moduleList = [
   ...protal,
@@ -65,7 +66,8 @@ const moduleList = [
   ...lost,
   ...achievement,
   ...riskAssess,
-  ...riskIdentify
+  ...riskIdentify,
+	...cardConsume
 ]
 
 export default moduleList

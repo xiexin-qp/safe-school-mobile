@@ -238,7 +238,7 @@
 					}
 				},
 				"/zk_examplan": {
-					"target": "http://192.168.1.23:11013/", // 考试计划
+					"target": "http://192.168.2.242:11013/", // 考试计划
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zk_examplan": ""
@@ -277,7 +277,7 @@
 				},
 				"/zk_oa": {
 					"target": "http://192.168.2.242:11014/", //张坤-物品管理
-					// "target": "http://192.168.1.193:11009",
+					// "target": "http://192.168.2.242:11009",
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zk_oa": ""
@@ -285,7 +285,7 @@
 				},
 				"/cl_oa": {
 					// "target": "http://192.168.2.242:11014/", //陈琳-调代课
-					"target": "http://192.168.1.193:11009",
+					"target": "http://192.168.2.242:11009",
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/cl_oa": ""
@@ -299,7 +299,7 @@
 					}
 				},
 				"/cl_class": {
-					"target": "http://192.168.1.193:11009/", //陈琳-班牌
+					"target": "http://192.168.2.242:11009/", //陈琳-班牌
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/cl_class": ""
@@ -313,8 +313,7 @@
 					}
 				},
 				"/zl_uploadFile" : {
-					"target": "http://canpointtest.com:8090/ossApi/upload-oss-file/", //陈琳-调代课
-						// "target": "http://192.168.1.193:11009/", //陈琳-班牌
+					"target": "http://canpointtest.com:8090/ossApi/upload-oss-file/",
 						"changeOrigin" : true,
 						"pathRewrite" : {
 								"^/zl_uploadFile" : ""
@@ -326,6 +325,13 @@
 					"pathRewrite": {
 						"^/ljj_user_teacher": ""
 					}
+				},
+				"/hzz_ecard" : {
+					"target": "http://192.168.2.242:11031/", // 胡周志-一卡通消费
+						"changeOrigin" : true,
+						"pathRewrite" : {
+								"^/hzz_ecard" : ""
+						}
 				}
 			}
 		},

@@ -37,6 +37,7 @@ let cl_class = ''
 let zk_news = ''
 let zl_uploadFile = ''
 let ljj_user_teacher = ''
+let hzz_ecard = ''
 let wxz_pay = ''
 
 if (ConfigEnv === 'production') {
@@ -72,6 +73,7 @@ if (ConfigEnv === 'production') {
   zk_news = '/zk_news'
   zl_uploadFile = '/zl_uploadFile'
   ljj_user_teacher = '/ljj_user_teacher'
+	hzz_ecard = '/hzz_ecard'
   wxz_pay = '/wxz_pay'
 } else if (ConfigEnv === 'development') {
   host = 'http://canpointlive.com'
@@ -106,6 +108,7 @@ if (ConfigEnv === 'production') {
   zx_subject = '/zx_subject'
   zl_uploadFile = '/zl_uploadFile'
   ljj_user_teacher = '/ljj_user_teacher'
+	hzz_ecard = '/hzz_ecard'
   wxz_pay = '/wxz_pay'
 
 }
@@ -144,5 +147,6 @@ export default {
   zl_uploadFile,
   zk_news,
   ljj_user_teacher,
+	hzz_ecard,
   wxz_pay
 }

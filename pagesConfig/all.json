@@ -37,6 +37,27 @@
 			"path": "pages/protal/intro",
 			"style": {}
 		},
+		// 一卡通消费系统
+		{
+			"path": "pages/card-consume/index",
+			"style": {}
+		},
+		{
+			"path": "pages/card-consume/consumeRule",
+			"style": {}
+		},
+		{
+			"path": "pages/card-consume/recharge",
+			"style": {}
+		},
+		{
+			"path": "pages/card-consume/billDetail",
+			"style": {}
+		},
+		{
+			"path": "pages/card-consume/billStatistics",
+			"style": {}
+		},
 		// 课程表
 		{
 			"path": "pages/class-schedule/class-schedule-t/index",

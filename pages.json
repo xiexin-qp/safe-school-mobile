@@ -37,6 +37,27 @@
 			"path": "pages/protal/intro",
 			"style": {}
 		},
+		// 一卡通消费系统
+		{
+			"path": "pages/card-consume/index",
+			"style": {}
+		},
+		{
+			"path": "pages/card-consume/consumeRule",
+			"style": {}
+		},
+		{
+			"path": "pages/card-consume/recharge",
+			"style": {}
+		},
+		{
+			"path": "pages/card-consume/billDetail",
+			"style": {}
+		},
+		{
+			"path": "pages/card-consume/billStatistics",
+			"style": {}
+		},
 		// 课程表
 		{
 			"path": "pages/class-schedule/class-schedule-t/index",
@@ -671,19 +692,6 @@
 			"path": "pages/praise-column/praise-column-p/detail",
 			"style": {}
 		},
-/* 		// 缴费模块
-		{
-			"path": "pages/campus-payment/campus-payment-p/detail"
-		},
-		{
-			"path": "pages/campus-payment/campus-payment-p/index"
-		},
-		{
-			"path": "pages/campus-payment/campus-payment-t/detail"
-		},
-		{
-			"path": "pages/campus-payment/campus-payment-t/index"
-		}, */
 		//会议管理
 		{
 			"path": "pages/meet-booking/index",
