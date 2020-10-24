@@ -196,7 +196,6 @@
 			}
 		},
 		watch: {
-		
 		},
 		created() {
 			this.client = this.$tools.getClient()
@@ -217,7 +216,7 @@
 					this.detailInfo = res.data
 					let questions = []
 					questions = res.data.outUserAnswersDtoList.map((el, index) => {
-						console.log(el)
+						// console.log(el)
 						return {
 							...el,
 							key: index,
