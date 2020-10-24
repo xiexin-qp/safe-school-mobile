@@ -13,6 +13,7 @@ if (protal) {
 		uniRequest.defaults.headers.userCode = globalInfo.userInfo.userCode
 		uniRequest.defaults.headers.schoolCode = globalInfo.userInfo.schoolCode
 		uniRequest.defaults.headers.openId = globalInfo.openid
+		uniRequest.defaults.headers.operator = 'admin'
 		uniRequest.defaults.headers.channelId = 'WXPAY_NATIVE'
 	}
 }
@@ -212,6 +213,15 @@ const $ajax = {
       return responseRes(errMsg, obj)
     }
   },
+	async postJson(obj, tag = true) {
+	  if (tag) showToast()
+	  try {
+	    let res = await post(obj)
+	    return responseRes(res)
+	  } catch (err) {
+	    return responseRes(errMsg, obj)
+	  }
+	},
   async del(obj, tag = true) {
     if (tag) showToast()
     try {

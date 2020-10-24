@@ -124,6 +124,8 @@ const tools = {
 			return date.substring(11, 19)
 		} else if (type === 'month') {
 			return date.substring(0, 7)
+		} else if (type === 'day') {
+			return date.substring(5, 10)
 		}
 	},
 	getPhoneTime(t = new Date().getTime(), type = 'dateTime') {

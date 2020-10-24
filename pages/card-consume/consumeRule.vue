@@ -4,13 +4,13 @@
 			<view class="u-fx-ac u-bd-b item-list">
 				<view class="tip">每日消费限额：</view>
 				<view class="u-fx-f1 u-mar-r10">
-					<input type="digit" class="item-input" v-model="formData.everydayConsume" style="text-align: right;" placeholder="请输入每日消费限额" />
+					<input type="digit" @input="everydayConsumeInput" class="item-input" v-model="everydayConsume" style="text-align: right;" placeholder="请输入每日消费限额" />
 				</view>
 			</view>
 			<view class="u-fx-ac u-bd-b item-list">
 				<view class="tip">单次消费限额：</view>
 				<view class="u-fx-f1 u-mar-r10">
-					<input type="digit" @input="replaceInput" class="item-input" v-model="formData.singleConsume" style="text-align: right;" placeholder="请输入单次消费限额" />
+					<input type="digit" @input="singleConsumeInput" class="item-input" v-model="singleConsume" style="text-align: right;" placeholder="请输入单次消费限额" />
 				</view>
 			</view>
 		</scroll-view>
@@ -20,20 +20,38 @@
 
 <script>
 import eventBus from '@u/eventBus.js';
+import { actions } from './store/index.js';
 export default {
 	data() {
 		return {
-			formData: {}
+			everydayConsume: 0,
+			singleConsume: 0
 		};
 	},
 	components: {},
-	mounted() {},
+	mounted() {
+		this.singleConsume = uni.getStorageSync('accountInfo').singleConsume
+		this.everydayConsume = uni.getStorageSync('accountInfo').everydayConsume
+	},
 	methods: {
-		everydayConsumeInput(event) {
-			var value = event.target.value;
-			this.formData.everydayConsume = Math.floor(value * 100) / 100
+		singleConsumeInput(event) {
+			this.singleConsume = Math.floor(event.target.value * 100) / 100
 		},
-		confirm() {}
+		everydayConsumeInput(event) {
+			this.everydayConsume = Math.floor(event.target.value * 100) / 100
+		},
+		async confirm() {
+			await actions.updateConsumeRule({
+				everydayConsume: this.everydayConsume,
+				singleConsume: this.singleConsume,
+				userCode: uni.getStorageSync('accountInfo').userCode
+			})
+			this.$tools.toast('保存成功', 'success');
+			this.$tools.goNext(() => {
+				eventBus.$emit('getList');
+				this.$tools.goBack();
+			});
+		}
 	}
 };
 </script>

@@ -224,21 +224,21 @@
 					}
 				},
 				"/zq_news": {
-					"target": "http://192.168.1.193:11011/", //张琦，信息发布
+					"target": "http://192.168.2.242:11011/", //张琦，信息发布
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zq_news": ""
 					}
 				},
 				"/zk_news": {
-					"target": "http://192.168.1.193:11011/", //张琦，信息发布
+					"target": "http://192.168.2.242:11011/", //张琦，信息发布
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zk_news": ""
 					}
 				},
 				"/zk_examplan": {
-					"target": "http://192.168.1.193:11013/", // 考试计划
+					"target": "http://192.168.2.242:11013/", // 考试计划
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zk_examplan": ""
@@ -246,7 +246,7 @@
 				},
 				"/zk_moral": {
 					// "target": "http://192.168.1.23:11007/", //张坤-班级德育管理
-					"target": "http://192.168.1.193:11012/", // 张坤-个人德育管理
+					"target": "http://192.168.2.242:11012/", // 张坤-个人德育管理
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zk_moral": ""
@@ -254,7 +254,7 @@
 				},
 				"/zq_class": {
 					// "target": "http://192.168.1.241:11006/", //张琦，班牌
-					"target": "http://192.168.1.193:11009/",
+					"target": "http://192.168.2.242:11009/",
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zq_class": ""
@@ -262,22 +262,22 @@
 				},
 				"/zq_schedule": {
 					// "target": "http://192.168.1.241:11007/", //张琦，课程表
-					"target": "http://192.168.1.193:11010/",
+					"target": "http://192.168.2.242:11010/",
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zq_schedule": ""
 					}
 				},
 				"/zq_behavior": {
-					"target": "http://192.168.1.193:11012/", //张琦-行为评价
+					"target": "http://192.168.2.242:11012/", //张琦-行为评价
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zq_behavior": ""
 					}
 				},
 				"/zk_oa": {
-					"target": "http://192.168.1.193:11014/", //张坤-物品管理
-					// "target": "http://192.168.1.193:11009",
+					"target": "http://192.168.2.242:11014/", //张坤-物品管理
+					// "target": "http://192.168.2.242:11009",
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/zk_oa": ""
@@ -285,7 +285,7 @@
 				},
 				"/cl_oa": {
 					// "target": "http://192.168.2.242:11014/", //陈琳-调代课
-					"target": "http://192.168.1.193:11009",
+					"target": "http://192.168.2.242:11009",
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/cl_oa": ""
@@ -299,7 +299,7 @@
 					}
 				},
 				"/cl_class": {
-					"target": "http://192.168.1.193:11009/", //陈琳-班牌
+					"target": "http://192.168.2.242:11009/", //陈琳-班牌
 					"changeOrigin": true,
 					"pathRewrite": {
 						"^/cl_class": ""
@@ -325,6 +325,13 @@
 					"pathRewrite": {
 						"^/ljj_user_teacher": ""
 					}
+				},
+				"/hzz_ecard" : {
+					"target": "http://192.168.2.242:11031/", // 胡周志-一卡通消费
+						"changeOrigin" : true,
+						"pathRewrite" : {
+								"^/hzz_ecard" : ""
+						}
 				}
 			}
 		},

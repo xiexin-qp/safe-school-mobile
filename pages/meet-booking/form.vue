@@ -18,10 +18,10 @@
 			<view class="u-fx-ac u-bd-b item-list">
 				<view class="tip">会议主题：</view>
 				<view v-if="type !== '1'" class="u-fx-f1 mar-r20">
-					<input :disabled="type === '1'" class="item-input" maxlength="20" v-model="formData.remark" style="text-align: right;" placeholder="请输入" />
+					<input :disabled="type === '1'" class="item-input" maxlength="20" v-model="remark" style="text-align: right;" placeholder="请输入" />
 				</view>
 				<view v-else class="u-fx-f1 u-fx-je">
-					{{formData.remark}}
+					{{remark}}
 				</view>
 			</view>
 			<view class="u-fx-ac u-bd-b item-list">
@@ -142,8 +142,7 @@ const yzForm = {
 	room: '请选择房间',
 	floor: '请选择楼层',
 	building: '请选择场地',
-	type: '请选择场地类型',
-	remark: '请输入会议主题'
+	type: '请选择场地类型'
 };
 export default {
 	components: {
@@ -152,13 +151,13 @@ export default {
 	},
 	data() {
 		return {
+			remark: '',
 			canClick: true,
 			siteTag: false,
 			showTree: false,
 			showPopTag: false,
 			siteType: 1,
 			formData: {
-				remark: '',
 				site: '请选择',
 				type: '请选择',
 				typeCode: '',
@@ -304,7 +303,7 @@ export default {
 					endTime: res.data.endTime
 				}
 			];
-			this.formData.remark = res.data.description;
+			this.remark = res.data.description;
 			this.formData.content = res.data.content;
 			this.formData.isSign = res.data.openSign === '1';
 			this.teacherList = res.data.teacherList;
@@ -557,6 +556,10 @@ export default {
 				return;
 			}
 			validateForm(yzForm, this.formData, () => {
+				if (this.remark === '') {
+					this.$tools.toast('请输入预定说明');
+					return
+				}
 				this.canClick = false;
 				console.log(1, this.formData);
 				console.log(1, this.timeList);
@@ -623,7 +626,7 @@ export default {
 						placeId: this.formData.placeId,
 						placeType: this.formData.typeCode,
 						placeName: this.formData.placeName,
-						description: this.formData.remark,
+						description: this.remark,
 						content: this.formData.content,
 						placeReserveDateDtoList: dateList,
 						openSign: this.formData.isSign ? '1' : '2',
