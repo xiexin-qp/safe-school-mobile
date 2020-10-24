@@ -2,7 +2,7 @@
   <view class="attendance u-page">
     <view>
       <view class="calendar">
-        <uni-calendar @change="change" @monthSwitch="monthSwitch" :selected = "selected"></uni-calendar>
+        <uni-calendar :showMonth="false" @change="change" @monthSwitch="monthSwitch" :selected = "selected"></uni-calendar>
       </view>
       <view class="record-box">
         <view class="work-box u-fx-jsb">
@@ -81,7 +81,8 @@ export default {
       res.data.forEach(ele => {
         if(!ele.staue){
           this.selected.push({	
-            date: this.$tools.getDateTime(ele.date)
+            date: this.$tools.getDateTime(ele.date),
+            staue: false
           })
         }
 			})

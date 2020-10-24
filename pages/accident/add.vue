@@ -205,10 +205,12 @@ export default {
           }
         })
         if(this.addInfo.statusName === '处理中' && !this.addInfo.disposeInfo){
+          this.loading = false
           this.$tools.toast('请填写处理信息')
           return false
         }
          if(this.addInfo.statusName === '已结案' && !this.addInfo.finishInfo){
+          this.loading = false
           this.$tools.toast('请填写结案信息')
           return false
         }
@@ -219,7 +221,6 @@ export default {
           status: this.addInfo.statusName === '新填报' ? '1' : this.addInfo.statusName === '处理中' ? '2' : '3',
           happenTime: this.addInfo.happenTime.replace(/\//g, '-')
         }
-        
         actions
           .addAccident({
             ...this.addInfo,

@@ -20,6 +20,7 @@ const zkApi = {
 
   getVideoList: '/school/media/list#get', // 查询视频列表
   editVideo: '/school/media/update#post', // 更新视频
+	addNewVideo: '/school/media/uploadFile#postQuery', // 上传视频
   deleteVideo: '/school/media/delete#delWithQuery', // 删除视频
   addRelationData: '/school/media/class/addRelationData#post', // 保存发布对象
   getRelationData: '/school/media/class/getRelationData#getUrl', // 查询发布对象
@@ -29,7 +30,7 @@ const zkApi = {
 }
 
 for (let val in zkApi) {
-  zkApi[val] = `${hostEnv.zk_news}${zkApi[val]}`
+  zkApi[val] = `${hostEnv.zq_news}${zkApi[val]}`
 }
 
 export default {

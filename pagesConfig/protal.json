@@ -28,10 +28,10 @@
 			"path": "pages/protal/messageDetail",
 			"style": {}
 		},
-		// {
-		// 	"path": "pages/protal/intro",
-		// 	"style": {}
-		// },
+		{
+			"path": "pages/protal/intro",
+			"style": {}
+		},
 		// 课程表
 		{
 			"path": "pages/class-schedule/class-schedule-t/index",
@@ -310,6 +310,18 @@
 		},
 		{
 			"path": "pages/attendance/attendance-t/studentLeave/add",
+			"style": {}
+		},
+		{
+			"path": "pages/attendance/attendance-t/statistics/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/attendance/attendance-t/teacherAttendance/index",
+			"style": {}
+		},
+		{
+			"path": "pages/attendance/attendance-t/teacherAttendance/detail",
 			"style": {}
 		},
 		// 家长考勤管理

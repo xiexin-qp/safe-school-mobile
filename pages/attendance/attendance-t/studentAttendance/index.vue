@@ -1,7 +1,7 @@
 <template>
   <view class="student-attendance u-page">
       <view>
-        <uni-calendar @change="change"></uni-calendar>
+        <uni-calendar :showMonth="false" @change="change"></uni-calendar>
       </view>
       <view class="record-box">
         <view class="attandence-bgc"></view>

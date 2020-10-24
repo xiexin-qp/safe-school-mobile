@@ -75,6 +75,8 @@ export default {
 				this.defTitle = choose.text;
 				this.gradeCode = choose.gradeCode;
 				this.classCode = val;
+				this.className = choose.className;
+				this.gradeName = choose.gradeName;
 				this.showList();
 			}
 		}
@@ -89,6 +91,8 @@ export default {
 			}
 			this.classCode = this.classList[0].value;
 			this.gradeCode = this.classList[0].gradeCode;
+			this.className = this.classList[0].className;
+			this.gradeName = this.classList[0].gradeName;
 			this.showClass = true;
 			this.defTitle = this.classList[0].text;
 			this.value0 = this.classList[0].value;
@@ -140,6 +144,8 @@ export default {
 				schoolYearId: store.schoolYear.schoolYearId,
 				classCode: this.classCode,
 				gradeCode: this.gradeCode,
+				className: this.className,
+				gradeName: this.gradeName,
 				createUsercode: store.userInfo.userCode,
 				createUsername: store.userInfo.userName,
 				photoUrl: e.url,

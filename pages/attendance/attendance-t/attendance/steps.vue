@@ -1,8 +1,7 @@
 <template>
 	<view class="container">
-		<no-data v-if="attandenceInfo.length === 0" msg="暂无数据"></no-data>
-		<view v-else>
-      <view class="set_box" v-for="list in attandenceInfo" :key="list.id">
+		<view>
+      <view class="set_box" v-for="list in dayInfo" :key="list.id">
         <view class="set_time u-tx-r">
           <view class="u-mar-l20 u-mar-t40">{{list.title}}</view>
         </view>
@@ -11,36 +10,102 @@
           <view class="set-2">
             <view class="right u-fx u-mar-l20">
               <view>
-                <u-icon name="/mobile-img/Default_touxiang@2x.png" size="100"></u-icon>
+                <image 
+                  v-if="list.title === '上午班'"
+                  :src="list.item[0].morningOnSnacpUrl ? list.item[0].morningOnSnacpUrl : '/mobile-img/Default_touxiang@2x.png'"
+                  ></image>
+                <image 
+                  v-if="list.title === '下午班'" 
+                  :src="list.item[0].noonOnSnacpUrl ? list.item[0].noonOnSnacpUrl : '/mobile-img/Default_touxiang@2x.png'"
+                  ></image>
               </view>
               <view class="u-fx-ver u-mar-l40">
-                <text class="detail">上班打卡
-                  <text class="state">
-                    <u-tag text="迟到" mode="dark" />
-                  </text>
-                </text>
-                <text class="u-mar-t20">
-                  <u-icon name="/mobile-img/kq-time.png" size="24"></u-icon>
-                  <text class="u-mar-l10"> 20:20 </text>
-                </text>
+                <view class="detail">上班打卡
+                  <view class="state">
+                    <u-tag 
+                      :bg-color="(list.item[0].morningOnState === '3' || list.item[0].morningOnState === '6') ? '#ff5454' :
+                      list.item[0].morningOnState === '1' ? '#f5b111' :
+                      list.item[0].morningOnState === '2' ? '#ff9900' :
+                      list.item[0].morningOnState === '4' ? '#cccccc' :
+                      list.item[0].morningOnState === '5' ? '#0084ff' : ''" 
+                      v-if="list.title === '上午班' && list.item[0].morningOnState" 
+                      :text="$tools.getState(parseInt(list.item[0].morningOnState))" 
+                      mode="dark" 
+                    />
+                    <u-tag 
+                      :bg-color="(list.item[0].noonOnState === '3' || list.item[0].noonOnState === '6') ? '#ff5454' :
+                      list.item[0].noonOnState === '1' ? '#f5b111' :
+                      list.item[0].noonOnState === '2' ? '#ff9900' :
+                      list.item[0].noonOnState === '4' ? '#cccccc' :
+                      list.item[0].noonOnState === '5' ? '#0084ff' : ''" 
+                      v-if="list.title === '下午班' && list.item[0].noonOnState" 
+                      :text="$tools.getState(parseInt(list.item[0].noonOnState))" 
+                      mode="dark" 
+                    />
+                  </view>
+                </view>
+                <view class="time u-mar-t20 u-fx-ac">
+                  <image src="/mobile-img/kq-time.png"></image>
+                  <view v-if="list.title === '上午班'" class="u-mar-l10"> 
+                    <text v-if="list.item[0].morningOnRealTime"> {{list.item[0].morningOnRealTime | gmtToDate('time')}}</text>
+                    <text v-else> --:--</text>
+                  </view>
+                  <view v-if="list.title === '下午班'" class="u-mar-l10">
+                    <text v-if="list.item[0].noonOnRealTime"> {{list.item[0].noonOnRealTime | gmtToDate('time')}} </text>
+                    <text v-else> --:--</text>
+                  </view>
+                </view>
               </view>
             </view>
           </view>
           <view class="set-2">
             <view class="right u-fx u-mar-l20 u-mar-t40">
               <view>
-                <u-icon name="/mobile-img/Default_touxiang@2x.png" size="100"></u-icon>
+                <image 
+                  v-if="list.title === '上午班'" 
+                  :src="list.item[1].morningOffSnacpUrl ? list.item[1].morningOffSnacpUrl : '/mobile-img/Default_touxiang@2x.png'" 
+                  ></image>
+                <image 
+                  v-if="list.title === '下午班'" 
+                  :src="list.item[1].noonOffSnacpUrl ? list.item[1].noonOffSnacpUrl : '/mobile-img/Default_touxiang@2x.png'" 
+                  ></image>
               </view>
               <view class="u-fx-ver u-mar-l40">
-                <text class="detail">下班打卡
-                  <text class="state">
-                    <u-tag text="迟到" mode="dark" />
-                  </text>
-                </text>
-                <text class="u-mar-t20">
-                  <u-icon name="/mobile-img/kq-time.png" size="24"></u-icon>
-                  <text class="u-mar-l10"> 20:20 </text>
-                </text>
+                <view class="detail">下班打卡
+                  <view class="state">
+                    <u-tag 
+                      :bg-color="(list.item[1].morningOffState === '3' || list.item[1].morningOffState === '6') ? '#ff5454' :
+                      list.item[1].morningOffState === '1' ? '#f5b111' :
+                      list.item[1].morningOffState === '2' ? '#ff9900' :
+                      list.item[1].morningOffState === '4' ? '#cccccc' :
+                      list.item[1].morningOffState === '5' ? '#0084ff' : ''" 
+                      v-if="list.title === '上午班' && list.item[1].morningOffState"  
+                      :text="$tools.getState(parseInt(list.item[1].morningOffState))" 
+                      mode="dark" 
+                    />
+                    <u-tag 
+                      :bg-color="(list.item[1].noonOffState === '3' || list.item[1].noonOffState === '6') ? '#ff5454' :
+                      list.item[1].noonOffState === '1' ? '#f5b111' :
+                      list.item[1].noonOffState === '2' ? '#ff9900' :
+                      list.item[1].noonOffState === '4' ? '#cccccc' :
+                      list.item[1].noonOffState === '5' ? '#0084ff' : ''" 
+                      v-if="list.title === '下午班' && list.item[1].noonOffState"
+                      :text="$tools.getState(parseInt(list.item[1].noonOffState))" 
+                      mode="dark" 
+                    />
+                  </view>
+                </view>
+                <view class="time u-mar-t20 u-fx-ac">
+                  <image src="/mobile-img/kq-time.png"></image>
+                  <view v-if="list.title === '上午班'" class="u-mar-l10"> 
+                    <text v-if="list.item[1].morningOffRealTime"> {{list.item[1].morningOffRealTime | gmtToDate('time')}} </text>
+                    <text v-else> --:--</text>
+                  </view>
+                  <view v-if="list.title === '下午班'" class="u-mar-l10"> 
+                    <text v-if="list.item[1].noonOffRealTime"> {{list.item[1].noonOffRealTime | gmtToDate('time')}} </text>
+                    <text v-else> --:--</text>
+                  </view>
+                </view>
               </view>
             </view>
           </view>
@@ -55,38 +120,12 @@ import { store, actions } from '../store/index.js'
 	export default {
 		data() {
 			return {
-				talk: [],
-				attandenceInfo:[{
-          id:'1',
-          title: '上午班',
-          item:[{
-            id:'1',
-          title: '上午班',
-          }]
-        },
-        {
-          id:'2',
-          title: '下午班'
-        }],
-				month: '',
-				studentCode: ''
+        dayInfo: []
 			}
-		},
-		mounted() {
-			// this.studentCode =  this.$tools.getQuery().get('userCode') 
-    	// this.month = this.$tools.getQuery().get('month') 
-			// this.showList()
-		},
-		methods: {
-			async showList () {
-				const req = {
-					month: this.month,
-					studentCode: this.studentCode
-				}
-				const res = await actions.studentMonthRecord(req)
-				this.attandenceInfo = res.data
-			}
-		}
+    },
+    methods: {
+      
+    }
 	}
 </script>
 
@@ -124,8 +163,6 @@ import { store, actions } from '../store/index.js'
           }
         }
       }
-		
-
     }
     .set-2::after {
       content: '';
@@ -141,7 +178,6 @@ import { store, actions } from '../store/index.js'
       position: absolute;
       /* 定位 */
       }
-      
     }
 	.set-2::before {
 		content: "\e64d";
@@ -167,7 +203,6 @@ import { store, actions } from '../store/index.js'
 		/* 图标样式在复制的图标文件中复制相对应的图标样式必须存在 */
     z-index: 1;
 	}
-
 	@font-face {
 		font-family: "iconfont";
 		src: url('//at.alicdn.com/t/font_1337773_f06f5a7las.eot?t=1565581133395');
@@ -181,7 +216,6 @@ import { store, actions } from '../store/index.js'
 			url('//at.alicdn.com/t/font_1337773_f06f5a7las.svg?t=1565581133395#iconfont') format('svg');
 		/* iOS 4.1- */
 	}
-
 	.iconfont {
 		font-family: "iconfont" !important;
 		font-size: 16px;
@@ -189,11 +223,9 @@ import { store, actions } from '../store/index.js'
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 	}
-
 	.icon-yuandian:before {
 		content: "\e64d";
 	}
-
 	.icon-dingweiweizhi:before {
 		content: "\e619";
   }
@@ -207,6 +239,17 @@ import { store, actions } from '../store/index.js'
           border: none;
         }
       }
+    }
+  }
+  image {
+    width: 88rpx;
+    height: 88rpx;
+    border-radius: 50%;
+  }
+  .time {
+    image {
+      width: 20rpx;
+      height: 20rpx;
     }
   }
 </style>

@@ -3,6 +3,5 @@
 __MACOSX/
 node_modules
 /unpackage
-.history
-pages.json
 .prettierrc
+pages.json

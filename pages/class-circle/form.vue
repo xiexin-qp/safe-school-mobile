@@ -10,7 +10,7 @@
 						:schoolCode="userInfo.schoolCode"
 						:types="type === '1' ? 'image' : 'video'"
 						:uploadCount="type === '1' ? 9 : 1"
-						:upload_max="100"
+						:upload_max="500"
 						@success="success"
 						@delImage="delImage"
 						@progress="progress"
@@ -91,8 +91,8 @@ export default {
 			if (!this.upLoadType) {
 				return;
 			}
-			if (this.formData.content === '') {
-				this.$tools.toast('请输入内容');
+			if (this.formData.content === '' && this.formData.photoList.length === 0) {
+				this.$tools.toast('请发布动态');
 				return;
 			}
 			if (!this.upLoadType) {

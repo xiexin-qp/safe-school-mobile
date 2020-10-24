@@ -6,7 +6,8 @@
 		'uni-calendar-item--multiple': weeks.multiple
 		}" @click="choiceDate(weeks)">
 		<view class="uni-calendar-item__weeks-box-item">
-			<text v-if="selected&&weeks.extraInfo" :class="['uni-calendar-item__weeks-box-circle',weeks.staue?'uni-calendar-item__weeks-box-error':'uni-calendar-item__weeks-box-success']"></text>
+			<text v-if="selected&&weeks.extraInfo" :class="['uni-calendar-item__weeks-box-circle',weeks.extraInfo.staue?'uni-calendar-item__weeks-box-error':'uni-calendar-item__weeks-box-success']"></text>
+			<!-- <text v-if="selected&&weeks.extraInfo" :class="['uni-calendar-item__weeks-box-circle',weeks.staue?'uni-calendar-item__weeks-box-error':'uni-calendar-item__weeks-box-success']"></text> -->
 			<text class="uni-calendar-item__weeks-box-text" :class="{
 				'uni-calendar-item--isDay-text': weeks.isDay,
 				'uni-calendar-item--isDay':calendar.fullDate === weeks.fullDate && weeks.isDay,
@@ -55,6 +56,12 @@
 				}
 			},
 			selected: {
+				type: Array,
+				default: () => {
+					return []
+				}
+			},
+			choosed: {
 				type: Array,
 				default: () => {
 					return []
@@ -118,6 +125,9 @@
 	}
 	.uni-calendar-item__weeks-box-success{	
 		background-color: $u-type-error;
+	}
+	.uni-calendar-item__weeks-box-select{	
+		background-color: $u-type-success;
 	}
 	.uni-calendar-item__weeks-box-error{	
 		background-color: $u-type-success;

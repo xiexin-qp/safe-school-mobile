@@ -28,6 +28,8 @@ const filters = {
 			return time.substring(0, 10)
 		} else if (type === 'time') {
 			return time.substring(11, 16)
+		}else if (type === 'second') {
+			return time.substring(11, 19)
 		}
 	},
 	// 日期转化
@@ -195,7 +197,7 @@ const filters = {
 		} else if (val == 4) {
 			return '奶奶'
 		} else if (val == 5) {
-			return '其他'
+			return '家长'
 		}
 	},
 	// 调班 调舍审批状态

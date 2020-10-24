@@ -56,7 +56,7 @@ export default {
     submitForm() {
       let req = {
         id: this.inspectId,
-        code: this.code,
+        patrolPointCode: this.code,
         patrolPointName: this.patrolPointName,
         patrolResult: this.hasDispose
       }

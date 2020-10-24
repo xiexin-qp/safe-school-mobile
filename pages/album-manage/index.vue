@@ -27,8 +27,10 @@
 				</view>
 			</view>
 		</scroll-view>
-		<u-modal v-model="showTag" :show-title="false" show-cancel-button @confirm="addAlbum(0)">
-			<view class="u-fx-ver u-mar-t20 u-mar-r20 u-mar-l20"><u-input v-model="albumName" maxlength="10" type="text" :border="true" placeholder="请输入相册名称" /></view>
+		<u-modal v-model="showTag" ref="uModal" :async-close="true" :show-title="false" show-cancel-button @confirm="addAlbum(0)">
+			<view class="pop u-fx-ver u-mar-l20 u-mar-r20">
+				<input class="u-border-radius" v-model="albumName" placeholder="请输入相册名称" />
+			</view>
 		</u-modal>
 	</view>
 </template>
@@ -71,13 +73,20 @@ export default {
 			};
 			console.log(req);
 			const res = await actions.getAlbumList(req);
-			this.albumList = res.data.list;
+			this.albumList = res.data;
 		},
 		add() {
 			this.albumName = '';
 			this.showTag = true;
 		},
 		async addAlbum() {
+			if(!this.albumName){
+				this.$tools.toast('请输入相册名称');
+				setTimeout(() => {
+					this.$refs.uModal.clearLoading();
+				}, 500)
+				return
+			}
 			if (this.editTag) {
 				await actions.editAlbum({
 					albumName: this.albumName,
@@ -87,6 +96,7 @@ export default {
 				this.$tools.toast('编辑成功', 'success');
 				this.$tools.goNext(() => {
 					this.albumName = '';
+					this.showTag = false;
 					this.showList();
 				});
 			} else {
@@ -97,6 +107,7 @@ export default {
 				this.$tools.toast('新建成功', 'success');
 				this.$tools.goNext(() => {
 					this.albumName = '';
+					this.showTag = false;
 					this.showList();
 				});
 			}
@@ -192,5 +203,17 @@ export default {
 			}
 		}
 	}
+}
+.pop {
+  input {
+    border: 1rpx solid $u-border-color;
+    margin: 20rpx 0;
+		padding: 0 20rpx;
+  }
+}
+/deep/ uni-input {
+  line-height: 2.1em;
+  height: 2.1em;
+  min-height: 2.1em;
 }
 </style>

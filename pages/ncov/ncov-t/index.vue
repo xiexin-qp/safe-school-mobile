@@ -209,7 +209,8 @@ export default {
 			res.data.forEach(ele => {
 				this.selected.push({
 					date: ele,
-					info: '发热'
+					info: '发热',
+					staue: false
 				});
 			});
 		},

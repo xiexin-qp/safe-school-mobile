@@ -160,6 +160,9 @@ export default {
 	right: 20rpx;
 	top: 10rpx;
 }
+.u-radio-group{
+	width: 100%;
+}
 /deep/ .u-radio__label{
 	width: 100%;
 	text-indent: 36rpx;
