@@ -39,6 +39,8 @@
       @close="teacherTag = false"
       @confirm="teacherSelcet"
       :classChecked="[]"
+      ref="teacherTree"
+      isClear
     ></teacher-tree>
   </view>
 </template>

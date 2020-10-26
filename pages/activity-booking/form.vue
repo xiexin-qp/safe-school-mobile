@@ -18,7 +18,7 @@
 			<view class="u-fx-ac u-bd-b item-list">
 				<view class="tip">活动主题：</view>
 				<view class="u-fx-f1 mar-r20">
-					<input :disabled="type === '1'" class="item-input" maxlength="20" v-model="formData.remark" style="text-align: right;" placeholder="请输入活动主题" />
+					<input :disabled="type === '1'" class="item-input" maxlength="20" v-model="remark" style="text-align: right;" placeholder="请输入活动主题" />
 				</view>
 			</view>
 			<view class="u-fx-ac u-bd-b item-list">
@@ -127,13 +127,13 @@
 						:disabled="type === '1'"
 						class="item-input u-content-color"
 						maxlength="100"
-						v-model="formData.content"
+						v-model="content"
 						style="text-align: right;"
 						placeholder="请输入活动内容"
 					/>
 				</view>
 				<view v-else class="u-fx-f1 u-fx-je">
-					{{ formData.content }}
+					{{ content }}
 				</view>
 			</view>
 			<view v-show="formData.room !== '请选择' || formData.addressTag === 2" class="u-fx-ac u-bd-b item-list">
@@ -158,7 +158,6 @@ import TreeDrawer from '@/components/tree-drawer/tree-drawer.vue';
 import ChooseControl from '@/components/choose-control/choose-control.vue';
 import { store, actions } from './store/index.js';
 const yzForm = {
-	remark: '请输入活动主题'
 };
 export default {
 	components: {
@@ -172,6 +171,8 @@ export default {
 			showTree: false,
 			showPopTag: false,
 			siteType: 1,
+			remark: '',
+			content: '',
 			formData: {
 				remark: '',
 				addressTag: 1,
@@ -254,7 +255,8 @@ export default {
 	watch: {
 		formData:{
 			handler(newValue, oldValue) {
-				if (newValue.roomCode !== '') {
+				if (newValue.roomCode !== '' && newValue.addressTag === 1) {
+					console.log(123)
 					this.signList = []
 					this.dateList.map(el => {
 						this.showReserveList(el, value => {
@@ -335,8 +337,8 @@ export default {
 					endTime: res.data.endTime
 				}
 			];
-			this.formData.remark = res.data.description;
-			this.formData.content = res.data.content;
+			this.remark = res.data.description;
+			this.content = res.data.content;
 			this.formData.isSign = res.data.openSign === '1';
 			this.teacherList = res.data.teacherList;
 			this.classList = res.data.classList;
@@ -601,6 +603,10 @@ export default {
 					this.$tools.toast('请选择活动场地');
 					return;
 				}
+				if (this.remark === '') {
+					this.$tools.toast('请输入预定说明');
+					return
+				}
 				this.canClick = false;
 				console.log(1, this.formData);
 				console.log(1, this.timeList);
@@ -672,8 +678,8 @@ export default {
 						createName: store.userInfo.userName,
 						createCode: store.userInfo.userCode,
 						placeName: this.formData.placeName,
-						description: this.formData.remark,
-						content: this.formData.content,
+						description: this.remark,
+						content: this.content,
 						placeReserveDateDtoList: dateList,
 						openSign: this.formData.isSign ? '1' : '2',
 						teacherList: this.teacherList,

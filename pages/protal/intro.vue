@@ -14,7 +14,7 @@
 		<view v-if="type === '0'" class="u-bg-fff">
 			<no-data v-if="noDataTag" msg="暂无数据~"></no-data>
 			<view v-else class="">
-				<view class="u-fx-ac" v-if="photoList.length > 0">
+				<view class="u-fx-ac">
 					<image class="line u-mar-l20 mar-t20" src="http://canpointtest.com/mobile-img/line.png"></image>
 					<text class="mar-t20 mar-l20 u-font-01 u-bold">个人风采：</text>
 				</view>
@@ -77,12 +77,14 @@
 </template>
 
 <script>
+import chooseChild from '@/components/choose-child/choose-child.vue';
 import eventBus from '@u/eventBus'
 import noData from '@/components/no-data/no-data.vue';
 import { store, actions } from './store/index.js';
 export default {
 	name: 'school-intro',
 	components: {
+		chooseChild,
 		noData
 	},
 	computed: {
@@ -212,8 +214,11 @@ export default {
 				this.$tools.toast('编辑成功', 'success');
 				this.$tools.goNext(() => {
 					// this.$tools.goBack();
-					this.type = '0'
-					this.showIntro()
+					this.noDataTag = false;
+					this.$tools.goNext(() => {
+						this.type = '0'
+						this.showIntro()
+					})
 				});
 			});
 		}

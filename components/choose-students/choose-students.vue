@@ -15,7 +15,7 @@
 						<u-checkbox :disabled="type === '1'" @change="checkBox" v-model="item.checked" class="u-fx-jsb" :name="`${item.userName}^${item.userCode}^${item.workNo}^${item.photoUrl}`">
 							<image class="u-border-radius u-mar-l30" :src="item.photoUrl"></image>
 							<text class="u-fx-ac-jc">{{ item.userName }}</text>
-							<text class="u-fx-ac-jc">{{ item.workNo }}</text>
+							<text class="workNo u-fx-ac-jc">{{ item.workNo }}</text>
 						</u-checkbox>
 					</label>
 				</u-checkbox-group>
@@ -215,6 +215,10 @@ image {
 	}
 	text:nth-child(3) {
 		width: 40%;
+		max-width: 150rpx;
+		text-overflow: ellipsis;
+		white-space:nowrap;
+		overflow: hidden;
 	}
 }
 /deep/ .u-checkbox__icon-wrap {

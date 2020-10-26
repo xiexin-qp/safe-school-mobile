@@ -14,7 +14,8 @@ let homeApi = {
   riskIAssessList: '/riskAssessment/page/mobile#post', // 移动端-风险评估分页条件查询
   riskAssessDetail: '/riskAssessment/assess/info#getUrl', // 根据id查评估详情
   riskAssessAsign: '/riskAssessment/signs#get', // 获取警示标识图库
-  
+  lecRisk: '/riskAssessment/lec#post', // LEC计算风险等级
+  lsRisk: '/riskAssessment/ls#post' // LS计算风险等级
 }
 for (let val in homeApi) {
   homeApi[val] = `${hostEnv.lz_safe}${homeApi[val]}`

@@ -5,110 +5,110 @@
       <view class="u-type-white-bg">
         <view class="detail u-fx-ver u-padd">
           <view class="u-fx-f1">
-             <view>项目名称：{{ formData.name }} </view>
-            <view class="u-mar-t20">检查对象：{{ formData.checkObject }} </view>
-            <view class="u-mar-t20">潜在风险：{{ formData.riskContent }} </view>
-            <view class="u-mar-t20">事故类型：{{ formData.accidentType }} </view>
+            <view class="u-line2">项目名称：{{ obj.name }} </view>
+            <view class="u-mar-t20 u-line2">检查对象：{{ obj.checkObject }} </view>
+            <view class="u-mar-t20 u-line2">潜在风险：{{ obj.riskContent }} </view>
+            <view class="u-mar-t20 u-line2">事故类型：{{ obj.accidentType }} </view>
           </view>
         </view>
       </view>
       <view class="u-fx-ac u-padd-l20 u-padd-t10 u-padd-b10 u-font-1">
         <view class="left-tip u-mar-r20"></view>
-        <view> 风险评价（{{formData.checkObject}}）</view>
+        <view> 风险评价（{{obj.methodCode === '1' ? 'LEC' : 'LS'}}）</view>
       </view>
       <view class="u-type-white-bg">
-        <view>
-          <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
+        <view class="u-type-white-bg">
+          <view class="u-fx-ac u-bd-b u-padd u-padd-l40" v-if="obj.methodCode === '1'">
             <view class="tip">L(可能性):</view>
-            <view @click="choose('lsList', 'lValue')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
-              <text class="u-light-color" v-if="!formData.lsList">请选择</text>
-              <view>{{formData.lsList}}</view>
+            <view @click="choose('lList','lValue','lLable')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
+              <text class="u-light-color" v-if="!lValue">请选择</text>
+              <view>{{lLable}}</view>
             </view>
             <view class="rit-icon"></view>
           </view>
-          <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
-            <view class="tip">S(严重性):</view>
-            <view @click="choose('sList','sValue')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
-              <text class="u-light-color" v-if="!formData.sList">请选择</text>
-              <view>{{formData.sList}}</view>
+          <view class="u-fx-ac u-bd-b u-padd u-padd-l40" v-if="obj.methodCode === '1'">
+            <view class="tip">E(频繁程度):</view>
+            <view @click="choose('eList','eValue','eLable')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
+              <text class="u-light-color" v-if="!eValue">请选择</text>
+              <view>{{eLable}}</view>
+            </view>
+            <view class="rit-icon"></view>
+          </view>
+          <view class="u-fx-ac u-bd-b u-padd u-padd-l40" v-if="obj.methodCode === '1'">
+            <view class="tip">C(严重性):</view>
+            <view @click="choose('cList','cValue','cLable')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
+              <text class="u-light-color" v-if="!cValue">请选择</text>
+              <view>{{cLable}}</view>
             </view>
             <view class="rit-icon"></view>
           </view>
         </view>
-        <view class="u-type-white-bg">
-          <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
+        <view>
+          <view class="u-fx-ac u-bd-b u-padd u-padd-l40" v-if="obj.methodCode === '2'">
             <view class="tip">L(可能性):</view>
-            <view @click="choose('lList','lValue')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
-              <text class="u-light-color" v-if="!formData.lList">请选择</text>
-              <view>{{formData.lList}}</view>
+            <view @click="choose('lsList', 'lValue','lslLable')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
+              <text class="u-light-color" v-if="!lslValue">请选择</text>
+              <view>{{lslLable}}</view>
             </view>
             <view class="rit-icon"></view>
           </view>
-          <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
-            <view class="tip">E(频繁程度):</view>
-            <view @click="choose('eList','eValue')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
-              <text class="u-light-color" v-if="!formData.eList">请选择</text>
-              <view>{{formData.eList}}</view>
-            </view>
-            <view class="rit-icon"></view>
-          </view>
-          <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
-            <view class="tip">C(严重性):</view>
-            <view @click="choose('cList','cValue')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
-              <text class="u-light-color" v-if="!formData.cList">请选择</text>
-              <view>{{formData.cList}}</view>
+          <view class="u-fx-ac u-bd-b u-padd u-padd-l40" v-if="obj.methodCode === '2'">
+            <view class="tip">S(严重性):</view>
+            <view @click="choose('sList','sValue','slLable')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
+              <text class="u-light-color" v-if="!sValue">请选择</text>
+              <view>{{slLable}}</view>
             </view>
             <view class="rit-icon"></view>
           </view>
         </view>
         <view class="u-fx-jsb u-padd">
           <view class="u-fx-f1 u-tx-c u-bd-r"> 
-            <text class="u-padd-20"> 风险值：</text>
+            <text class="u-padd-20"> 风险值：{{ riskInfo.grade }}</text>
           </view>
           <view class="u-fx-f1 u-bd-r u-tx-c"> 
-            <text class="u-padd-20"> 风险等级：</text>
+            <text class="u-padd-20"> 风险等级：{{ riskInfo.level }}</text>
           </view>
           <view class="u-fx-f1 u-tx-c"> 
-            <text class="u-padd-20"> 安全色：</text>
+            <text class="u-padd-20"> 安全色：{{ riskInfo.color }}</text>
           </view>
         </view>
       </view>
       <view class="u-type-white-bg">
-      <view class="u-mar-t20 u-fx-ac u-bd-b u-padd u-padd-l40">
-        <view class="tip">管控层级:</view>
-        <view @click="choose('controlList','controlLevel')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
-          <text class="u-light-color" v-if="!formData.controlList">请选择</text>
-          <view>{{formData.controlList}}</view>
+        <view class="u-mar-t20 u-fx-ac u-bd-b u-padd u-padd-l40">
+          <view class="tip">管控层级:</view>
+          <view @click="choose('controlList','controlLevel','controlListLabel')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
+            <text class="u-light-color" v-if="!formData.controlLevel">请选择</text>
+            <view>{{formData.controlListLabel}}</view>
+          </view>
+          <view class="rit-icon"></view>
         </view>
-        <view class="rit-icon"></view>
-      </view>
-      <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
-        <view class="tip">责任岗位:</view>
-        <view @click="choose('postList','responsibilityPost')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
-          <text class="u-light-color" v-if="!formData.postList">请选择</text>
-          <view>{{formData.postList}}</view>
+        <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
+          <view class="tip">责任岗位:</view>
+          <view @click="choose('postList','responsibilityPost','postListLabel')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
+            <text class="u-light-color" v-if="!formData.responsibilityPost">请选择</text>
+            <view>{{formData.postListLabel}}</view>
+          </view>
+          <view class="rit-icon"></view>
         </view>
-        <view class="rit-icon"></view>
-      </view>
-      <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
-        <view class="tip">责任部门:</view>
-        <view @click="choose('section','responsibilityDept')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
-          <text class="u-light-color" v-if="!formData.section">请选择</text>
-          <view>{{formData.section}}</view>
+        <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
+          <view class="tip">责任部门:</view>
+          <view @click="choose('section','responsibilityDept','sectionLabel')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
+            <text class="u-light-color" v-if="!formData.responsibilityDept">请选择</text>
+            <view>{{formData.sectionLabel}}</view>
+          </view>
+          <view class="rit-icon"></view>
         </view>
-        <view class="rit-icon"></view>
-      </view>
-      <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
-        <view class="tip">责任人:</view>
-        <view @click="choose('responsibilityUserName','responsibilityUserCode')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
-          <text class="u-light-color" v-if="!formData.responsibilityUserName">请选择</text>
-          <view>{{formData.responsibilityUserName}}</view>
+        <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
+          <view class="tip">责任人:</view>
+          <view @click="choose('responsibilityUserName','responsibilityUserCode','responsibilityUserName')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
+            <text class="u-light-color" v-if="!formData.responsibilityUserCode">请选择</text>
+            <view>{{formData.responsibilityUserName}}</view>
+          </view>
+          <view class="rit-icon"></view>
         </view>
-        <view class="rit-icon"></view>
-      </view>
-      <view class="u-fx-ac u-bd-b u-padd">
-        <view>电话: {{formData.telephone}}</view>
-      </view>
+        <view class="u-fx-ac u-bd-b u-padd">
+          <view>电话: {{formData.telephone}}</view>
+        </view>
       </view>
       <view class="u-fx-ac u-padd-l20 u-padd-t10 u-padd-b10 u-font-1">
         <view class="left-tip u-mar-r20"></view>
@@ -159,62 +159,62 @@
       </view>
       <view class="u-fx-ac u-padd-l20 u-padd-t10 u-padd-b10 u-font-1">
         <view class="left-tip u-mar-r20"></view>
-        <view>剩余风险评价（）</view>
+        <view>剩余风险评价（{{obj.methodCode === '1' ? 'LEC' : 'LS'}}）</view>
       </view>
       <view class="u-type-white-bg">
-        <view>
-          <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
+        <view class="u-type-white-bg">
+          <view class="u-fx-ac u-bd-b u-padd u-padd-l40" v-if="obj.methodCode === '1'">
             <view class="tip">L(可能性):</view>
-            <view @click="choose('lsList','remainingLValue')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
-              <text class="u-light-color" v-if="!formData.lsList">请选择</text>
-              <view>{{formData.lsList}}</view>
+            <view @click="choose('lList','remainingLValue','remainingLLable')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
+              <text class="u-light-color" v-if="!remainingLValue">请选择</text>
+              <view>{{remainingLLable}}</view>
             </view>
             <view class="rit-icon"></view>
           </view>
-          <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
-            <view class="tip">S(严重性):</view>
-            <view @click="choose('sList','remainingSValue')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
-              <text class="u-light-color" v-if="!formData.sList">请选择</text>
-              <view>{{formData.sList}}</view>
+          <view class="u-fx-ac u-bd-b u-padd u-padd-l40" v-if="obj.methodCode === '1'">
+            <view class="tip">E(频繁程度):</view>
+            <view @click="choose('eList','remainingEValue','remainingELable')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
+              <text class="u-light-color" v-if="!remainingEValue">请选择</text>
+              <view>{{remainingELable}}</view>
+            </view>
+            <view class="rit-icon"></view>
+          </view>
+          <view class="u-fx-ac u-bd-b u-padd u-padd-l40" v-if="obj.methodCode === '1'">
+            <view class="tip">C(严重性):</view>
+            <view @click="choose('cList','remainingCValue','remainingCLable')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
+              <text class="u-light-color" v-if="!remainingCValue">请选择</text>
+              <view>{{remainingCLable}}</view>
             </view>
             <view class="rit-icon"></view>
           </view>
         </view>
-        <view class="u-type-white-bg">
-          <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
+        <view>
+          <view class="u-fx-ac u-bd-b u-padd u-padd-l40" v-if="obj.methodCode === '2'">
             <view class="tip">L(可能性):</view>
-            <view @click="choose('lList','remainingLValue')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
-              <text class="u-light-color" v-if="!formData.lList">请选择</text>
-              <view>{{formData.lList}}</view>
+            <view @click="choose('lsList','remainingLValue','remainingLsLable')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
+              <text class="u-light-color" v-if="!remainingLValue">请选择</text>
+              <view>{{remainingLsLable}}</view>
             </view>
             <view class="rit-icon"></view>
           </view>
-          <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
-            <view class="tip">E(频繁程度):</view>
-            <view @click="choose('eList','remainingEValue')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
-              <text class="u-light-color" v-if="!formData.eList">请选择</text>
-              <view>{{formData.eList}}</view>
-            </view>
-            <view class="rit-icon"></view>
-          </view>
-          <view class="u-fx-ac u-bd-b u-padd u-padd-l40">
-            <view class="tip">C(严重性):</view>
-            <view @click="choose('cList','remainingCValue')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
-              <text class="u-light-color" v-if="!formData.cList">请选择</text>
-              <view>{{formData.cList}}</view>
+          <view class="u-fx-ac u-bd-b u-padd u-padd-l40" v-if="obj.methodCode === '2'">
+            <view class="tip">S(严重性):</view>
+            <view @click="choose('sList','remainingSValue','remainingSLable')" class="u-fx-f1 u-fx-je u-content-color u-mar-l20">
+              <text class="u-light-color" v-if="!remainingSValue">请选择</text>
+              <view>{{remainingSLable}}</view>
             </view>
             <view class="rit-icon"></view>
           </view>
         </view>
         <view class="u-fx-jsb u-padd">
           <view class="u-fx-f1 u-tx-c u-bd-r"> 
-            <text class="u-padd-20"> 风险值：</text>
+            <text class="u-padd-20"> 风险值：{{ remainInfo.grade }}</text>
           </view>
           <view class="u-fx-f1 u-bd-r u-tx-c"> 
-            <text class="u-padd-20"> 风险等级：</text>
+            <text class="u-padd-20"> 风险等级：{{ remainInfo.level }}</text>
           </view>
           <view class="u-fx-f1 u-tx-c"> 
-            <text class="u-padd-20"> 安全色：</text>
+            <text class="u-padd-20"> 安全色：{{ remainInfo.color }}</text>
           </view>
         </view>
       </view>
@@ -236,7 +236,7 @@
           </view>
           <scroll-view scroll-y="true" class="scroll-w">
             <view>
-              <u-tabs :list="list" :is-scroll="false" :current="current" @change="tabChange"></u-tabs>
+              <u-tabs :list="addData.list" :is-scroll="false" :current="current" @change="tabChange"></u-tabs>
               <view class="u-fx-wp" v-if="allSignList[current]">
                 <view class="img-box u-mar-r10 u-mar-b10" v-for="(list,index) in allSignList[current].signList" :key="index" @click="chooseSign(list)">
                   <image :src="list.url" alt="">
@@ -251,22 +251,58 @@
   </view>
 </template>
 <script>
+import validateForm from '@u/validate'
 import { actions, store, setStore } from "./store/index"
 import eventBus from "@u/eventBus"
 import addData from "./assets/add.js"
 import noData from "@/components/no-data/no-data.vue"
+	const yzForm = {
+		controlLevel: '请选择管控层级',
+		responsibilityPost: '请选择责任岗位',
+		responsibilityDept: '请选择责任部门',
+		responsibilityUserCode: '请选择负责人'
+  }
+  const lecForm = {
+		lLable: '请进行风险评价',
+		eLable: '请进行风险评价',
+		cLable: '请进行风险评价',
+		remainingLValue: '请进行剩余风险评价',
+		remainingEValue: '请进行剩余风险评价',
+		remainingCValue: '请进行剩余风险评价'
+  }
+  const lsForm = {
+		lslValue: '请进行风险评价',
+		sValue: '请进行风险评价',
+		remainingLValue: '请进行剩余风险评价',
+		remainingSValue: '请进行剩余风险评价'
+	}
 export default {
   components: {
-    noData
+    noData,
+    validateForm
   },
   data() {
     return {
+      yzForm,
       addData,
       classList: [],
       siteTag: false,
       siteList: [],
       formData: {
-        name: ''
+        lLable: '',
+        eLable: '',
+        cLable: '',
+        remainingLValue: '',
+        remainingEValue: '',
+        remainingCValue: '',
+        lslValue: '',
+        sValue: '',
+        remainingLValue: '',
+        remainingSValue: '',
+        controlLevel: '',
+        responsibilityPost: '',
+        responsibilityDept: '',
+        responsibilityUserCode: ''
       },
       currentValue: '',
       currentLabel: '',
@@ -277,22 +313,89 @@ export default {
       sectionList: [],
       userList: [],
       show: false,
-      list: [{
-					name: '警告类'
-				}, {
-					name: '禁止类'
-				}, {
-					name: '指令类'
-				}, {
-					name: '提示类'
-				}],
       current: 0,
       allSignList: [],
-      warnings: []
+      warnings: [],
+      obj: {},
+      lValue: '',
+      cValue: '',
+      eValue: '',
+      sValue: '',
+      lslValue: '',
+      remainingCValue: '',
+      remainingEValue: '',
+      remainingLValue: '',
+      remainingSValue: '',
+      remainingLslValue: '',
+      lLable: '',
+      cLable: '',
+      eLable: '',
+      sLable: '',
+      lslLable: '',
+      remainingCLable: '',
+      remainingELable: '',
+      remainingLLable: '',
+      remainingSLable: '',
+      remainingLslLable: '',
+      riskInfo: {},
+      remainInfo: {},
     };
+  },
+   watch: {
+    lValue(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this._lecRisk(0)
+      }
+    },
+    cValue(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this._lecRisk(0)
+      }
+    },
+    eValue(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this._lecRisk(0)
+      }
+    },
+    sValue(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this._lsRisk(0)
+      }
+    },
+    lslValue(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this._lsRisk(0)
+      }
+    },
+    remainingCValue(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this._lecRisk(1)
+      }
+    },
+    remainingEValue(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this._lecRisk(1)
+      }
+    },
+    remainingLValue(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this._lecRisk(1)
+      }
+    },
+    remainingLslValue(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this._lsRisk(1)
+      }
+    },
+    remainingSValue(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this._lsRisk(1)
+      }
+    }
   },
   mounted() {
     this.detailId = this.$tools.getQuery().get("id")
+    this.obj = JSON.parse(this.$tools.getQuery().get("req"))
     // this.chooseAllList = uni.getStorageSync('chooseList')
     // eventBus.$on("getList", () => {
     //   this.chooseAllList = uni.getStorageSync('chooseList')
@@ -377,9 +480,9 @@ export default {
       this.formData.methodCode = '1'
       this.riskModelList_()
     },
-    choose(type,title){
+    choose(type,title,label){
       this.currentValue = title
-      this.currentLabel = type
+      this.currentLabel = label
       if(type === 'section'){
         this.siteList = this.sectionList
       } else if(type === 'responsibilityUserName'){
@@ -408,46 +511,88 @@ export default {
       })
     },
     confirm(e) {
+      console.log('currentValue',this.currentValue)
+      console.log('currentLabel',this.currentLabel)
       if (!e) {
         return;
       }
-      this.formData[this.currentValue] = e[0].value
-      this.formData[this.currentLabel] = e[0].label
-      if(this.currentLabel === 'section') {
+      if(this.currentLabel === 'sectionLabel') {
         this._getTeacherList()
       }
-    },
-    check(){
-      this.$tools.navTo({
-        url: './choose',
-        title: "已选择检查对象"
-      });
-    },
-    chooseImage(){
-
+      if(this.currentLabel === 'responsibilityUserName') {
+        if(e.length !== 0) {
+          this.formData.telephone = this.userList.filter(el => el.userCode === e[0].value)[0].mobile
+        }
+      }
+      this.formData[this.currentValue] = e[0].value
+      this.formData[this.currentLabel] = e[0].label
+      this[this.currentValue] = e[0].value
+      this[this.currentLabel] = e[0].label
     },
     tabChange(key){
       this.current = key
     },
-    submit() {
-      if (this.chooseAllList.length === 0) {
-        return this.$tools.toast('请选择检查对象')
-      }
-      this.$tools.confirm("确定提交风险辨识吗？", () => {
-          let req = {
-          ...this.formData,
-          schoolCode: store.userInfo.schoolCode,
-          ids: this.chooseAllList.map(el => el.id)
+    async _lecRisk (type) {
+      if (type) {
+        if (this.remainingCValue && this.remainingEValue && this.remainingLValue) {
+          const req = {
+            cValue: this.remainingCValue,
+            eValue: this.remainingEValue,
+            lValue: this.remainingLValue
+          }
+          const res = await actions.lecRisk(req)
+          this.remainInfo = res.data
         }
-        actions.addRiskIdentify(req).then(res => {
-          this.$tools.toast('上报成功')
-          uni.setStorageSync('chooseList', [])
-          this.$tools.goNext(() => {
-            eventBus.$emit('getList')
-            this.$tools.navTo({
-              url: "./index",
-              title: "风险辨识",
-            });
+      } else {
+        if (this.cValue && this.eValue && this.lValue) {
+          const req = {
+            cValue: this.cValue,
+            eValue: this.eValue,
+            lValue: this.lValue
+          }
+          const res = await actions.lecRisk(req)
+          this.riskInfo = res.data
+        }
+      }
+    },
+    async _lsRisk (type) {
+      if (type) {
+        if (this.remainingLslValue && this.remainingSValue) {
+          const req = {
+            lValue: this.remainingLslValue,
+            sValue: this.remainingSValue
+          }
+          const res = await actions.lsRisk(req)
+          this.remainInfo = res.data
+        }
+      } else {
+        if (this.lslValue && this.sValue) {
+          const req = {
+            lValue: this.lslValue,
+            sValue: this.sValue
+          }
+          const res = await actions.lsRisk(req)
+          this.riskInfo = res.data
+        }
+      }
+    },
+    submit() {
+      const form = this.obj.methodCode === '1' ? Object.assign(yzForm,lecForm) : Object.assign(yzForm,lsForm)
+      validateForm(form, this.formData, () => {
+        console.log(yzForm)
+        
+        this.formData.warnings = this.warnings.map(el => el.url)
+        this.$tools.confirm("确定提交风险辨识吗？", () => {
+          actions.addRiskIdentify(this.formData).then(res => {
+            this.$tools.toast('上报成功')
+            uni.setStorageSync('chooseList', [])
+            this.$tools.goNext(() => {
+              eventBus.$emit('getList')
+              this.$tools.navTo({
+                url: "./index",
+                title: "风险辨识",
+              });
+            })
           })
         })
       })
@@ -476,7 +621,7 @@ export default {
     color: $u-content-color;
   }
   .detail {
-    width: 100vw;
+    // width: 100vw;
   }
 }
 .left-tip {

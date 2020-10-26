@@ -36,7 +36,7 @@
           <view>巡查状态：</view>
           <view class="u-fx-f1 u-fx-je u-tx-r">
             <view>异常</view>
-            <u-switch size="40" class="u-mar-l10 u-mar-r10" v-model="formData.status"></u-switch>
+            <u-switch size="40" class="u-mar-l10 u-mar-r10" v-model="status"></u-switch>
             <view>正常</view>
           </view>
         </view>
@@ -49,7 +49,7 @@
               placeholder="请填写详细的问题描述"
             />
           </view>
-          <an-upload-img v-model="formData.photoUrl" total="9" style="margin: 20rpx"></an-upload-img>
+          <an-upload-img v-model="photoUrl" total="9" style="margin: 20rpx"></an-upload-img>
         </view>
       </view>
     </scroll-view>
@@ -73,7 +73,9 @@ export default {
   },
   data() {
     return {
-      formData: {}
+      formData: {},
+      status: false,
+      photoUrl: []
     }
   },
   mounted() {
@@ -106,21 +108,22 @@ export default {
         if (!this.formData.content) {
           return this.$tools.toast('请填写详细的问题描述')
         }
+        let req = {
+          ...this.formData,
+          track: this.track,
+          id: this.inspectId,
+          status: this.status ? '1' : '0'
+        }
+        if(this.photoUrl && this.photoUrl.length > 0){
+          req.pictureList = this.photoUrl.map((el) => {
+            if (el.indexOf('http') === -1) {
+              return el.split(',')[1]
+            } else {
+              return el
+            }
+          })
+        }
         this.$tools.confirm('确定上报巡查结果吗？', () => {
-          let req = {
-            ...this.formData,
-            track: this.track,
-            id: this.inspectId
-          }
-          if(this.formData.photoUrl && this.formData.photoUrl.length > 0){
-            req.pictureList = this.formData.photoUrl.map((el) => {
-              if (el.indexOf('http') === -1) {
-                return el.split(',')[1]
-              } else {
-                return el
-              }
-            })
-          }
           actions.endInspect(req).then((res) => {
             this.$tools.toast('上报成功')
             this.$tools.goNext(() => {
